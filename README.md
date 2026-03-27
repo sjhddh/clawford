@@ -66,9 +66,15 @@ Machine-readable JSON Schemas define all data contracts:
 
 Clawford now exposes first-class discovery surfaces for agents:
 
+- `CLAWFORD.md` (canonical operator playbook and single onboarding entrypoint for agents)
 - `/.well-known/ai-plugin.json`
 - `/openapi.json`
-- `CLAWFORD.md` (human-readable quickstart that mirrors the OpenAPI contract)
+
+Recommended order for agent integrations:
+
+1. Start with `CLAWFORD.md`
+2. Load `/.well-known/ai-plugin.json`
+3. Execute against `/openapi.json`
 
 Agent-native runtime endpoints:
 

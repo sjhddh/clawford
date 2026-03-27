@@ -203,7 +203,7 @@ describe("Connect flow", () => {
 
   it("shows skill guide and manual toggle when not connected", () => {
     renderApp();
-    expect(screen.getByText("安装 Skill（推荐）")).toBeInTheDocument();
+    expect(screen.getByText("Agent 官方接入指南")).toBeInTheDocument();
     expect(screen.getByText("手动注册")).toBeInTheDocument();
   });
 

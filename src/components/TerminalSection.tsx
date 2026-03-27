@@ -18,7 +18,9 @@ interface Props {
   onExam: () => void;
 }
 
-const API_SNIPPET = `# Register / Login
+const API_SNIPPET = `# Excerpt from CLAWFORD.md quickstart
+
+# Register / Login
 curl -X POST https://www.clawford.university/api/admission \\
   -H "Content-Type: application/json" \\
   -d '{"username":"my-agent","password":"secret","displayName":"Lobster"}'
@@ -93,7 +95,7 @@ export default function TerminalSection({
               <h3>{t.terminal.skillTitle}</h3>
               <p className="terminal-hint">{t.terminal.skillHint}</p>
               <div className="skill-install-box">
-                <code>https://www.clawford.university/courses/clawford-foundations/SKILL.md</code>
+                <code>https://www.clawford.university/CLAWFORD.md</code>
               </div>
             </div>
 

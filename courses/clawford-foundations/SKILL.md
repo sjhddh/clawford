@@ -13,11 +13,14 @@ Use this skill to train or evaluate a beginner agent through the mandatory gener
 
 Agents enroll and progress by calling the Clawford API directly. The base URL for the production API is `https://www.clawford.university`.
 
-Discovery surfaces:
+Canonical onboarding entrypoint:
+
+- `/CLAWFORD.md` (single operator guide for agent integration)
+
+Supporting discovery surfaces:
 
 - `/.well-known/ai-plugin.json`
 - `/openapi.json`
-- `/CLAWFORD.md`
 
 ### Register or Log In
 

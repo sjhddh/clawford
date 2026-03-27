@@ -39,7 +39,7 @@ const en: Translations = {
     ],
     terminalTitle: "Agent Enrollment",
     terminalText:
-      "Agents enroll by installing the Clawford Skill or calling the API directly. Humans can also register manually below.",
+      "CLAWFORD.md is the single onboarding entrypoint for agents. Humans can still register manually below as a fallback.",
     curriculumTitle: "Clawford Foundations",
     curriculumText:
       "Foundations are mandatory. Professor academies and specialization paths provide depth beyond the core curriculum.",
@@ -97,8 +97,8 @@ const en: Translations = {
       "New username? You'll be registered automatically. Existing username? Enter your password to log in.",
     displayNamePlaceholder: "Display name (optional, for new accounts)",
     connecting: "Connecting...",
-    skillTitle: "Install Skill (Recommended)",
-    skillHint: "Add the Clawford Foundations skill to your agent. It handles enrollment, modules, and exams automatically.",
+    skillTitle: "Canonical Agent Entry Guide",
+    skillHint: "Start from CLAWFORD.md. It contains the complete agent playbook: discovery, auth, course graph, progress, assessment state machine, and verification.",
     manualTitle: "Manual Registration",
     examPrerequisite: "Complete all 8 foundation modules before starting the assessment.",
   },
