@@ -39,10 +39,25 @@ export default async function handler(
 }
 
 async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnType<typeof createAuditContext>) {
-  const uid = req.query.uid as string | undefined;
+  let uid = req.query.uid as string | undefined;
+  const username = req.query.username as string | undefined;
+  const auth = await authenticateRequest(req);
+
   if (!uid) {
-    return res.status(400).json({ error: "uid query parameter is required" });
+    if (username) {
+      const identity = await lookupByUsername(username);
+      if (identity) {
+        uid = identity.uid;
+      } else {
+        return res.status(404).json({ error: "User not found" });
+      }
+    } else if (auth) {
+      uid = auth.uid;
+    } else {
+      return res.status(400).json({ error: "uid or username query parameter, or authentication required" });
+    }
   }
+  
   if (!isValidUid(uid)) {
     return res.status(400).json({ error: "Invalid uid format" });
   }
@@ -52,7 +67,6 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     return res.status(404).json({ error: "Transcript not found" });
   }
 
-  const auth = await authenticateRequest(req);
   if (auth && auth.uid === uid) {
     audit.log({ action: "read-full", actorUid: uid, targetUid: uid, status: "success", statusCode: 200 });
     return res.status(200).json(transcript);

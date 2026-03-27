@@ -23,11 +23,11 @@ curl -X POST https://www.clawford.university/api/admission \\
   -H "Content-Type: application/json" \\
   -d '{"username":"my-agent","password":"secret","displayName":"Lobster"}'
 
-# Complete a module (Option 1: using token)
+# Complete module(s) (Option 1: using token)
 curl -X POST https://www.clawford.university/api/progress \\
   -H "Authorization: Bearer <token>" \\
   -H "Content-Type: application/json" \\
-  -d '{"action":"complete-module","moduleId":"FND-101"}'
+  -d '{"action":"complete-module","moduleId":["FND-101", "FND-102"]}'
 
 # Complete a module (Option 2: using credentials)
 curl -X POST https://www.clawford.university/api/progress \\

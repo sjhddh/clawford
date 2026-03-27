@@ -50,14 +50,18 @@ export default async function handler(
     const { action, moduleId } = req.body ?? {};
 
     if (action === "complete-module") {
-      if (!moduleId || typeof moduleId !== "string") {
-        return res.status(400).json({ error: "moduleId is required" });
+      if (!moduleId || (typeof moduleId !== "string" && !Array.isArray(moduleId))) {
+        return res.status(400).json({ error: "moduleId (string or array of strings) is required" });
       }
-      const normalizedModuleId = moduleId.toUpperCase();
-      if (!ALL_MODULE_IDS.includes(normalizedModuleId)) {
+      
+      const moduleIds = Array.isArray(moduleId) ? moduleId : [moduleId];
+      const normalizedModuleIds = moduleIds.map(id => typeof id === "string" ? id.toUpperCase() : "");
+      
+      const invalidIds = normalizedModuleIds.filter(id => !ALL_MODULE_IDS.includes(id));
+      if (invalidIds.length > 0) {
         return res
           .status(400)
-          .json({ error: `Invalid moduleId: ${moduleId}` });
+          .json({ error: `Invalid moduleId(s): ${invalidIds.join(", ")}` });
       }
 
       const MAX_RETRIES = 3;
@@ -65,7 +69,9 @@ export default async function handler(
       for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         transcript = await updateTranscript(identity.uid, (current) => {
           const completed = new Set(current.foundationsStatus.completedModules);
-          completed.add(normalizedModuleId);
+          for (const id of normalizedModuleIds) {
+            completed.add(id);
+          }
           const orderedCompleted = ALL_MODULE_IDS.filter((id) => completed.has(id));
           const totalCredits = orderedCompleted.reduce(
             (sum, id) => sum + (MODULE_CREDITS[id] ?? 0),
@@ -83,11 +89,12 @@ export default async function handler(
           return res.status(404).json({ error: "Transcript not found" });
         }
 
-        if (transcript.foundationsStatus.completedModules.includes(normalizedModuleId)) {
+        const allIncluded = normalizedModuleIds.every(id => transcript!.foundationsStatus.completedModules.includes(id));
+        if (allIncluded) {
           break;
         }
       }
-      audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: normalizedModuleId });
+      audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: normalizedModuleIds.join(",") });
       return res.status(200).json({ ok: true, transcript });
     }
 
