@@ -1,5 +1,5 @@
-import { createAttemptStore, getAttemptKey, type AttemptRecord } from "./lib/attempt-store.js";
 import { gradeWithFlockModel } from "./lib/grading.js";
+import { canUseDailyResit, recordDailyResit } from "./_lib/security.js";
 
 type GradeExamRequest = {
   uid: string;
@@ -54,37 +54,17 @@ export default async function handler(req: any, res: any): Promise<void> {
     return;
   }
 
-  const store = createAttemptStore();
-  const attemptKey = getAttemptKey(uid, assessmentId);
-  const existing = (await store.get(attemptKey)) ?? {
-    initialTaken: false,
-    resitUsed: 0,
-    updatedAt: new Date().toISOString(),
-  };
-
-  if (attemptType === "initial" && existing.initialTaken) {
-    json(res, 429, {
-      error: "Initial exam attempt already used today. Use resit if available.",
-      code: "INITIAL_ALREADY_USED_TODAY",
-      attemptsToday: existing,
-    });
-    return;
-  }
-
   if (attemptType === "resit") {
-    if (!existing.initialTaken) {
-      json(res, 400, {
-        error: "Cannot resit before initial attempt.",
-        code: "RESIT_BEFORE_INITIAL",
-        attemptsToday: existing,
-      });
-      return;
-    }
-    if (existing.resitUsed >= 1) {
+    const policy = await canUseDailyResit(uid);
+    if (!policy.allowed) {
       json(res, 429, {
         error: "UID already used today's resit quota.",
         code: "RESIT_LIMIT_REACHED",
-        attemptsToday: existing,
+        dailyResit: {
+          used: policy.used ?? 1,
+          limit: 1,
+          retryAfter: policy.retryAfter,
+        },
       });
       return;
     }
@@ -98,12 +78,15 @@ export default async function handler(req: any, res: any): Promise<void> {
       submission,
     });
 
-    const nextRecord: AttemptRecord = {
-      initialTaken: existing.initialTaken || attemptType === "initial",
-      resitUsed: existing.resitUsed + (attemptType === "resit" ? 1 : 0),
-      updatedAt: new Date().toISOString(),
-    };
-    await store.set(attemptKey, nextRecord);
+    let dailyResit: { used: number; limit: number; date?: string } | undefined;
+    if (attemptType === "resit") {
+      const recorded = await recordDailyResit(uid);
+      dailyResit = {
+        used: recorded.used,
+        limit: 1,
+        date: recorded.date,
+      };
+    }
 
     json(res, 200, {
       uid,
@@ -115,7 +98,7 @@ export default async function handler(req: any, res: any): Promise<void> {
       categoryScores: graded.categoryScores,
       hardFail: graded.hardFail,
       feedback: graded.feedback,
-      attemptsToday: nextRecord,
+      ...(dailyResit ? { dailyResit } : {}),
       gradedAt: new Date().toISOString(),
     });
   } catch (error) {

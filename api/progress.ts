@@ -5,7 +5,7 @@ import {
   verifyPassword,
   MAX_USERNAME_LENGTH,
 } from "./_lib/identity.js";
-import { applyRateLimit } from "./_lib/security.js";
+import { applyRateLimit, canUseDailyResit, recordDailyResit } from "./_lib/security.js";
 
 const MODULE_CREDITS: Record<string, number> = {
   "FND-101": 2,
@@ -89,7 +89,7 @@ export default async function handler(
     if (action === "pass-exam") {
       const { score } = req.body ?? {};
       const examScore =
-        typeof score === "number" && score >= 0 && score <= 14 ? score : 12;
+        typeof score === "number" && score >= 0 && score <= 100 ? score : 80;
       const now = new Date().toISOString();
       let attempt = 1;
       let alreadyPassed = false;
@@ -97,10 +97,27 @@ export default async function handler(
       let bestScore = examScore;
       let latestScore = examScore;
 
+      let dailyResit = { used: 0, limit: 1, date: now.slice(0, 10), retryAfter: undefined as string | undefined };
+
       let transcript = null;
       try {
-        transcript = await updateTranscript(identity.uid, (current) => {
+        transcript = await updateTranscript(identity.uid, async (current) => {
           alreadyPassed = current.foundationsStatus.status === "completed";
+
+          if (alreadyPassed) {
+            const policy = await canUseDailyResit(current.uid);
+            dailyResit = {
+              used: policy.used ?? 0,
+              limit: 1,
+              date: now.slice(0, 10),
+              retryAfter: policy.retryAfter,
+            };
+            if (!policy.allowed) {
+              throw new ExamPrerequisiteError(
+                `Daily resit limit reached. Retry after ${policy.retryAfter}.`,
+              );
+            }
+          }
 
           const completedSet = new Set(
             current.foundationsStatus.completedModules.map((id) => id.toUpperCase()),
@@ -126,7 +143,7 @@ export default async function handler(
           current.foundationsStatus.assessmentResults.push({
             assessmentId: `exam-${Date.now()}-${attempt}`,
             score: examScore,
-            maxScore: 14,
+            maxScore: 100,
             decision: "pass",
             attempt,
             timestamp: now,
@@ -164,12 +181,26 @@ export default async function handler(
         });
       } catch (err) {
         if (err instanceof ExamPrerequisiteError) {
-          return res.status(400).json({ error: err.message });
+          const status = err.message.startsWith("Daily resit limit reached") ? 429 : 400;
+          return res.status(status).json({
+            error: err.message,
+            dailyResit,
+          });
         }
         throw err;
       }
       if (!transcript) {
         return res.status(404).json({ error: "Transcript not found" });
+      }
+
+      if (alreadyPassed) {
+        const recorded = await recordDailyResit(identity.uid);
+        dailyResit = {
+          used: recorded.used,
+          limit: 1,
+          date: recorded.date,
+          retryAfter: undefined,
+        };
       }
 
       return res.status(200).json({
@@ -180,6 +211,7 @@ export default async function handler(
         bestScore,
         latestScore,
         improved,
+        dailyResit,
       });
     }
 

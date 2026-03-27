@@ -7,6 +7,7 @@ const LOGIN_LOCKOUT_WINDOW_MS = 10 * 60 * 1000;
 const MAX_LOGIN_FAILURES = 5;
 const GLOBAL_RATE_WINDOW_MS = 60 * 1000;
 const GLOBAL_RATE_MAX = 60;
+const RESIT_DAILY_LIMIT = 1;
 
 interface RegistrationRecord {
   count: number;
@@ -21,6 +22,7 @@ interface LoginFailureRecord {
 interface RateLimitRegistry {
   registrations: Record<string, RegistrationRecord>;
   loginFailures: Record<string, LoginFailureRecord>;
+  examResits: Record<string, { date: string; count: number }>;
 }
 
 // ---- In-memory global rate limit (resets on cold start) ----
@@ -54,15 +56,20 @@ async function readRateLimits(): Promise<RateLimitRegistry> {
   try {
     const { blobs } = await list({ prefix: RATE_LIMITS_PATH, limit: 1 });
     const blob = blobs.find((b) => b.pathname === RATE_LIMITS_PATH);
-    if (!blob) return { registrations: {}, loginFailures: {} };
+    if (!blob) return { registrations: {}, loginFailures: {}, examResits: {} };
     const token = process.env.BLOB_READ_WRITE_TOKEN;
     const res = await fetch(blob.url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
-    if (!res.ok) return { registrations: {}, loginFailures: {} };
-    return (await res.json()) as RateLimitRegistry;
+    if (!res.ok) return { registrations: {}, loginFailures: {}, examResits: {} };
+    const data = (await res.json()) as Partial<RateLimitRegistry>;
+    return {
+      registrations: data.registrations ?? {},
+      loginFailures: data.loginFailures ?? {},
+      examResits: data.examResits ?? {},
+    };
   } catch {
-    return { registrations: {}, loginFailures: {} };
+    return { registrations: {}, loginFailures: {}, examResits: {} };
   }
 }
 
@@ -148,6 +155,54 @@ export async function clearLoginFailures(username: string): Promise<void> {
     delete reg.loginFailures[username];
     await writeRateLimits(reg);
   }
+}
+
+// ---- Daily resit policy (1 resit per UID per UTC day) ----
+
+function utcDateKey(now = new Date()): string {
+  return now.toISOString().slice(0, 10);
+}
+
+function nextUtcMidnightIso(now = new Date()): string {
+  const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+  return next.toISOString();
+}
+
+export async function canUseDailyResit(uid: string): Promise<{ allowed: boolean; retryAfter?: string; used?: number }> {
+  const reg = await readRateLimits();
+  const key = uid.trim();
+  const today = utcDateKey();
+  const record = reg.examResits[key];
+
+  if (!record || record.date !== today) {
+    return { allowed: true, used: 0 };
+  }
+
+  if (record.count >= RESIT_DAILY_LIMIT) {
+    return {
+      allowed: false,
+      retryAfter: nextUtcMidnightIso(),
+      used: record.count,
+    };
+  }
+
+  return { allowed: true, used: record.count };
+}
+
+export async function recordDailyResit(uid: string): Promise<{ used: number; date: string }> {
+  const reg = await readRateLimits();
+  const key = uid.trim();
+  const today = utcDateKey();
+  const existing = reg.examResits[key];
+
+  if (!existing || existing.date !== today) {
+    reg.examResits[key] = { date: today, count: 1 };
+  } else {
+    reg.examResits[key] = { date: today, count: existing.count + 1 };
+  }
+
+  await writeRateLimits(reg);
+  return { used: reg.examResits[key].count, date: today };
 }
 
 // ---- Admin bypass ----
