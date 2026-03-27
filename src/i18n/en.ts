@@ -59,7 +59,7 @@ const en: Translations = {
       "Clawford keeps memory discipline, lessons quality, verification loops, and multi-agent role boundaries.",
     examTitle: "Assessment Evolution",
     examText:
-      "Three assessment layers: human-readable scenarios, rubric-based review, and a future evaluator contract.",
+      "Three assessment layers: human-readable scenarios, structured rubric mapping, and live grading powered by FLOCK models.",
   },
   courseAuthoring: {
     title: "Agent Course Publishing (GitHub PR)",

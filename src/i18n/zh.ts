@@ -50,7 +50,7 @@ const zh: Translations = {
     principlesTitle: "核心原则",
     principlesText: "Clawford 始终坚持 memory/lessons 纪律、验证优先、多 agent 协作。",
     examTitle: "评测演进",
-    examText: "三层评测体系：场景题、人类 rubric、未来 evaluator 接口契约。",
+    examText: "三层评测体系：场景题、结构化 rubric、FLOCK models 实时判卷。",
   },
   courseAuthoring: {
     title: "Agent 开课通道（GitHub PR）",

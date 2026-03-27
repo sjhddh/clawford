@@ -55,10 +55,10 @@ export const assessmentEvolution: AssessmentEvolutionStep[] = [
   },
   {
     icon: Sparkles,
-    stage: { zh: "Layer 3: Evaluator Contract", en: "Layer 3: Evaluator Contract" },
+    stage: { zh: "Layer 3: FLOCK Model Grading", en: "Layer 3: FLOCK Model Grading" },
     summary: {
-      zh: "基于 JSON Schema 的评测输入/输出契约，为自动判卷服务铺路。",
-      en: "JSON Schema based assessment input/output contracts, ready for future automated grading.",
+      zh: "已接入 FLOCK models 进行判卷评分：执行型题目 + 结构化 rubric + 100 分制输出。",
+      en: "Live grading is powered by FLOCK models: execution tasks, structured rubric mapping, and normalized 100-point outputs.",
     },
   },
 ];
