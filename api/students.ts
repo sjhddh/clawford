@@ -9,7 +9,7 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-  if (!applyRateLimit(req, res)) return;
+  if (!applyRateLimit(req, res, "students")) return;
 
   try {
     const wall = await getWallIndex();

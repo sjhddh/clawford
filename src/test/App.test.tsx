@@ -110,6 +110,19 @@ function mockFetch(options: MockFetchOptions = {}) {
       });
     }
 
+    if (url === "/api/session") {
+      if (init?.method === "DELETE") {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ ok: true }),
+        });
+      }
+      return Promise.resolve({
+        ok: false,
+        json: () => Promise.resolve({ error: "No valid session" }),
+      });
+    }
+
     return Promise.resolve({ ok: false, json: () => Promise.resolve({}) });
   }) as unknown as typeof globalThis.fetch;
 }
@@ -163,7 +176,7 @@ describe("Connect flow", () => {
     fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
-    fireEvent.click(screen.getByText("注册 / 登录"));
+    fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
       expect(screen.getByText(/已接入/)).toBeInTheDocument();
@@ -185,7 +198,7 @@ describe("Module completion", () => {
     fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
-    fireEvent.click(screen.getByText("注册 / 登录"));
+    fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
       const buttons = screen.getAllByText("学习模块");
@@ -286,17 +299,50 @@ describe("Students page", () => {
   });
 });
 
-describe("Exam retake flow", () => {
-  it("shows retake action after first pass", async () => {
+describe("Exam gating", () => {
+  it("disables exam button when modules are incomplete", async () => {
     renderApp();
     fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
-    fireEvent.click(screen.getByText("注册 / 登录"));
+    fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
       expect(screen.getByText("开始评测")).toBeInTheDocument();
     });
+    expect(screen.getByText("开始评测").closest("button")).toBeDisabled();
+    expect(screen.getByText("请先完成全部 8 个通识模块，再开始评测。")).toBeInTheDocument();
+  });
+});
+
+describe("Exam retake flow", () => {
+  const ALL_MODULES = ["FND-101", "FND-102", "FND-103", "FND-104", "FND-105", "FND-106", "FND-107", "FND-108"];
+
+  it("shows retake action after first pass", async () => {
+    globalThis.fetch = mockFetch({
+      transcriptOverrides: {
+        foundationsStatus: {
+          courseId: "clawford-foundations",
+          status: "in-progress",
+          completedModules: ALL_MODULES,
+          totalCreditsEarned: 27,
+          assessmentResults: [],
+          enrolledAt: "2026-03-27T00:00:00.000Z",
+          completedAt: null,
+        },
+      },
+    });
+
+    renderApp();
+    fireEvent.click(screen.getByText("手动注册"));
+    fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
+    fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
+    fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
+
+    await waitFor(() => {
+      expect(screen.getByText("开始评测")).toBeInTheDocument();
+    });
+    expect(screen.getByText("开始评测").closest("button")).not.toBeDisabled();
 
     fireEvent.click(screen.getByText("开始评测"));
 

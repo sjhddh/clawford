@@ -5,7 +5,9 @@ import {
   verifyPassword,
   MAX_USERNAME_LENGTH,
 } from "./_lib/identity.js";
-import { applyRateLimit, canUseDailyResit, recordDailyResit } from "./_lib/security.js";
+import { applyRateLimit, consumeDailyResit } from "./_lib/security.js";
+import { authenticateRequest } from "./_lib/session.js";
+import { createAuditContext } from "./_lib/telemetry.js";
 
 const MODULE_CREDITS: Record<string, number> = {
   "FND-101": 2,
@@ -30,29 +32,22 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-  if (!applyRateLimit(req, res)) return;
+  if (!applyRateLimit(req, res, "progress")) return;
+
+  const audit = createAuditContext(req, "progress");
 
   try {
-    const { username, password, action, moduleId } = req.body ?? {};
-
-    if (!username || typeof username !== "string") {
-      return res.status(400).json({ error: "username is required" });
-    }
-    if (!password || typeof password !== "string") {
-      return res.status(400).json({ error: "password is required" });
-    }
-    if (username.length > MAX_USERNAME_LENGTH) {
-      return res.status(400).json({ error: "username too long" });
+    const auth = await authenticateRequest(req);
+    if (!auth) {
+      return res.status(401).json({ error: "Authentication required. Provide session token or username/password.", code: "AUTH_REQUIRED" });
     }
 
-    const normalized = normalizeUsername(username);
-    const identity = await lookupByUsername(normalized);
+    const identity = await lookupByUsername(auth.username);
     if (!identity) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    if (!verifyPassword(password, identity.salt, identity.passwordHash)) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+
+    const { action, moduleId } = req.body ?? {};
 
     if (action === "complete-module") {
       if (!moduleId || typeof moduleId !== "string") {
@@ -64,25 +59,35 @@ export default async function handler(
           .status(400)
           .json({ error: `Invalid moduleId: ${moduleId}` });
       }
-      const transcript = await updateTranscript(identity.uid, (current) => {
-        const completed = new Set(current.foundationsStatus.completedModules);
-        completed.add(normalizedModuleId);
-        const orderedCompleted = ALL_MODULE_IDS.filter((id) => completed.has(id));
-        const totalCredits = orderedCompleted.reduce(
-          (sum, id) => sum + (MODULE_CREDITS[id] ?? 0),
-          0,
-        );
 
-        current.foundationsStatus.completedModules = orderedCompleted;
-        current.foundationsStatus.totalCreditsEarned = totalCredits;
-        if (current.foundationsStatus.status === "not-started") {
-          current.foundationsStatus.status = "in-progress";
+      const MAX_RETRIES = 3;
+      let transcript = null;
+      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        transcript = await updateTranscript(identity.uid, (current) => {
+          const completed = new Set(current.foundationsStatus.completedModules);
+          completed.add(normalizedModuleId);
+          const orderedCompleted = ALL_MODULE_IDS.filter((id) => completed.has(id));
+          const totalCredits = orderedCompleted.reduce(
+            (sum, id) => sum + (MODULE_CREDITS[id] ?? 0),
+            0,
+          );
+
+          current.foundationsStatus.completedModules = orderedCompleted;
+          current.foundationsStatus.totalCreditsEarned = totalCredits;
+          if (current.foundationsStatus.status === "not-started") {
+            current.foundationsStatus.status = "in-progress";
+          }
+          return current;
+        });
+        if (!transcript) {
+          return res.status(404).json({ error: "Transcript not found" });
         }
-        return current;
-      });
-      if (!transcript) {
-        return res.status(404).json({ error: "Transcript not found" });
+
+        if (transcript.foundationsStatus.completedModules.includes(normalizedModuleId)) {
+          break;
+        }
       }
+      audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: normalizedModuleId });
       return res.status(200).json({ ok: true, transcript });
     }
 
@@ -105,11 +110,11 @@ export default async function handler(
           alreadyPassed = current.foundationsStatus.status === "completed";
 
           if (alreadyPassed) {
-            const policy = await canUseDailyResit(current.uid);
+            const policy = await consumeDailyResit(current.uid);
             dailyResit = {
-              used: policy.used ?? 0,
+              used: policy.used,
               limit: 1,
-              date: now.slice(0, 10),
+              date: policy.date,
               retryAfter: policy.retryAfter,
             };
             if (!policy.allowed) {
@@ -193,16 +198,7 @@ export default async function handler(
         return res.status(404).json({ error: "Transcript not found" });
       }
 
-      if (alreadyPassed) {
-        const recorded = await recordDailyResit(identity.uid);
-        dailyResit = {
-          used: recorded.used,
-          limit: 1,
-          date: recorded.date,
-          retryAfter: undefined,
-        };
-      }
-
+      audit.log({ action: "pass-exam", actorUid: identity.uid, status: "success", statusCode: 200, detail: `attempt=${attempt} best=${bestScore}` });
       return res.status(200).json({
         ok: true,
         transcript,

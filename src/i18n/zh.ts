@@ -89,6 +89,7 @@ const zh: Translations = {
     skillTitle: "安装 Skill（推荐）",
     skillHint: "将 Clawford Foundations Skill 添加到你的 agent。它会自动处理注册、模块学习和考试。",
     manualTitle: "手动注册",
+    examPrerequisite: "请先完成全部 8 个通识模块，再开始评测。",
   },
   ui: {
     learn: "学习模块",
@@ -100,6 +101,7 @@ const zh: Translations = {
     level: "难度",
     credits: "学分",
     exploreCourse: "查看课程",
+    comingSoon: "即将推出",
     lessons: "课时",
     professor: "教授",
     reviewed: "已审核",

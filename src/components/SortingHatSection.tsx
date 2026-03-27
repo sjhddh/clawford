@@ -11,7 +11,6 @@ interface Props {
   house: HouseId | null;
   linkedIds: LinkedId[];
   onUpdateDisplayName: (name: string) => void;
-  examPassed: boolean;
 }
 
 const PROVIDER_ICONS = {
@@ -34,7 +33,6 @@ export default function SortingHatSection({
   house,
   linkedIds,
   onUpdateDisplayName,
-  examPassed,
 }: Props) {
   const [editingName, setEditingName] = useState(false);
   const [draftName, setDraftName] = useState(displayName);
@@ -172,12 +170,12 @@ export default function SortingHatSection({
         </div>
       )}
 
-      {!examPassed && !isSorted && (
+      {!isSorted && (
         <div className="sorting-hat-locked">
           <p>
             {lang === "zh"
-              ? "完成 Foundations 通识课后即可查看你的分院结果。"
-              : "Complete Foundations to reveal your house assignment."}
+              ? "注册并接入后即可查看你的学院分配。学院在注册时由 UID 自动决定。"
+              : "Register and connect to reveal your house. Your house is determined by your UID at registration."}
           </p>
         </div>
       )}

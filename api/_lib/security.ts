@@ -2,6 +2,25 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { put, list } from "@vercel/blob";
 
 const RATE_LIMITS_PATH = "clawford/rate-limits.json";
+
+const rateLimitLocks = new Map<string, Promise<void>>();
+
+async function withRateLock<T>(fn: () => Promise<T>): Promise<T> {
+  const key = RATE_LIMITS_PATH;
+  const prev = rateLimitLocks.get(key) ?? Promise.resolve();
+  let release: () => void;
+  const next = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  rateLimitLocks.set(key, next);
+  await prev;
+  try {
+    return await fn();
+  } finally {
+    release!();
+    if (rateLimitLocks.get(key) === next) rateLimitLocks.delete(key);
+  }
+}
 const REGISTRATION_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
 const LOGIN_LOCKOUT_WINDOW_MS = 10 * 60 * 1000;
 const MAX_LOGIN_FAILURES = 5;
@@ -25,9 +44,36 @@ interface RateLimitRegistry {
   examResits: Record<string, { date: string; count: number }>;
 }
 
-// ---- In-memory global rate limit (resets on cold start) ----
+// ---- In-memory rate limit (resets on cold start) ----
 
-const globalHits = new Map<string, { count: number; windowStart: number }>();
+interface RateBucket {
+  count: number;
+  windowStart: number;
+}
+
+const globalHits = new Map<string, RateBucket>();
+const routeHits = new Map<string, Map<string, RateBucket>>();
+
+interface RouteRateConfig {
+  windowMs: number;
+  max: number;
+}
+
+function envInt(name: string, fallback: number): number {
+  const v = process.env[name];
+  if (v == null) return fallback;
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+const ROUTE_LIMITS: Record<string, RouteRateConfig> = {
+  "grade-exam": { windowMs: 60_000, max: envInt("RATE_LIMIT_GRADE_EXAM", 10) },
+  health: { windowMs: 60_000, max: envInt("RATE_LIMIT_HEALTH", 30) },
+  admission: { windowMs: 60_000, max: envInt("RATE_LIMIT_ADMISSION", 20) },
+  progress: { windowMs: 60_000, max: envInt("RATE_LIMIT_PROGRESS", 30) },
+  transcript: { windowMs: 60_000, max: envInt("RATE_LIMIT_TRANSCRIPT", 30) },
+  students: { windowMs: 60_000, max: envInt("RATE_LIMIT_STUDENTS", 30) },
+};
 
 export function checkGlobalRate(ip: string): boolean {
   const now = Date.now();
@@ -38,6 +84,24 @@ export function checkGlobalRate(ip: string): boolean {
   }
   entry.count++;
   return entry.count <= GLOBAL_RATE_MAX;
+}
+
+export function checkRouteRate(ip: string, route: string): boolean {
+  const config = ROUTE_LIMITS[route];
+  if (!config) return true;
+  const now = Date.now();
+  let ipMap = routeHits.get(route);
+  if (!ipMap) {
+    ipMap = new Map();
+    routeHits.set(route, ipMap);
+  }
+  const entry = ipMap.get(ip);
+  if (!entry || now - entry.windowStart > config.windowMs) {
+    ipMap.set(ip, { count: 1, windowStart: now });
+    return true;
+  }
+  entry.count++;
+  return entry.count <= config.max;
 }
 
 // ---- IP extraction ----
@@ -102,13 +166,15 @@ export async function canRegister(
 }
 
 export async function recordRegistration(ip: string): Promise<void> {
-  const reg = await readRateLimits();
-  const existing = reg.registrations[ip];
-  reg.registrations[ip] = {
-    count: (existing?.count ?? 0) + 1,
-    lastAt: new Date().toISOString(),
-  };
-  await writeRateLimits(reg);
+  await withRateLock(async () => {
+    const reg = await readRateLimits();
+    const existing = reg.registrations[ip];
+    reg.registrations[ip] = {
+      count: (existing?.count ?? 0) + 1,
+      lastAt: new Date().toISOString(),
+    };
+    await writeRateLimits(reg);
+  });
 }
 
 // ---- Login failure lockout (5 attempts per 10 min) ----
@@ -116,45 +182,51 @@ export async function recordRegistration(ip: string): Promise<void> {
 export async function canLogin(
   username: string,
 ): Promise<{ allowed: boolean; retryAfter?: string }> {
-  const reg = await readRateLimits();
-  const record = reg.loginFailures[username];
-  if (!record) return { allowed: true };
+  return withRateLock(async () => {
+    const reg = await readRateLimits();
+    const record = reg.loginFailures[username];
+    if (!record) return { allowed: true };
 
-  const elapsed = Date.now() - new Date(record.firstAt).getTime();
-  if (elapsed > LOGIN_LOCKOUT_WINDOW_MS) {
-    delete reg.loginFailures[username];
-    await writeRateLimits(reg);
+    const elapsed = Date.now() - new Date(record.firstAt).getTime();
+    if (elapsed > LOGIN_LOCKOUT_WINDOW_MS) {
+      delete reg.loginFailures[username];
+      await writeRateLimits(reg);
+      return { allowed: true };
+    }
+    if (record.count >= MAX_LOGIN_FAILURES) {
+      const retryAt = new Date(
+        new Date(record.firstAt).getTime() + LOGIN_LOCKOUT_WINDOW_MS,
+      );
+      return { allowed: false, retryAfter: retryAt.toISOString() };
+    }
     return { allowed: true };
-  }
-  if (record.count >= MAX_LOGIN_FAILURES) {
-    const retryAt = new Date(
-      new Date(record.firstAt).getTime() + LOGIN_LOCKOUT_WINDOW_MS,
-    );
-    return { allowed: false, retryAfter: retryAt.toISOString() };
-  }
-  return { allowed: true };
+  });
 }
 
 export async function recordLoginFailure(username: string): Promise<void> {
-  const reg = await readRateLimits();
-  const existing = reg.loginFailures[username];
-  if (!existing) {
-    reg.loginFailures[username] = {
-      count: 1,
-      firstAt: new Date().toISOString(),
-    };
-  } else {
-    existing.count++;
-  }
-  await writeRateLimits(reg);
+  await withRateLock(async () => {
+    const reg = await readRateLimits();
+    const existing = reg.loginFailures[username];
+    if (!existing) {
+      reg.loginFailures[username] = {
+        count: 1,
+        firstAt: new Date().toISOString(),
+      };
+    } else {
+      existing.count++;
+    }
+    await writeRateLimits(reg);
+  });
 }
 
 export async function clearLoginFailures(username: string): Promise<void> {
-  const reg = await readRateLimits();
-  if (reg.loginFailures[username]) {
-    delete reg.loginFailures[username];
-    await writeRateLimits(reg);
-  }
+  await withRateLock(async () => {
+    const reg = await readRateLimits();
+    if (reg.loginFailures[username]) {
+      delete reg.loginFailures[username];
+      await writeRateLimits(reg);
+    }
+  });
 }
 
 // ---- Daily resit policy (1 resit per UID per UTC day) ----
@@ -189,20 +261,52 @@ export async function canUseDailyResit(uid: string): Promise<{ allowed: boolean;
   return { allowed: true, used: record.count };
 }
 
-export async function recordDailyResit(uid: string): Promise<{ used: number; date: string }> {
-  const reg = await readRateLimits();
-  const key = uid.trim();
-  const today = utcDateKey();
-  const existing = reg.examResits[key];
+export async function consumeDailyResit(
+  uid: string,
+): Promise<{ allowed: boolean; retryAfter?: string; used: number; date: string }> {
+  return withRateLock(async () => {
+    const reg = await readRateLimits();
+    const key = uid.trim();
+    const today = utcDateKey();
+    const existing = reg.examResits[key];
 
-  if (!existing || existing.date !== today) {
-    reg.examResits[key] = { date: today, count: 1 };
-  } else {
+    if (!existing || existing.date !== today) {
+      reg.examResits[key] = { date: today, count: 1 };
+      await writeRateLimits(reg);
+      return { allowed: true, used: 1, date: today };
+    }
+
+    if (existing.count >= RESIT_DAILY_LIMIT) {
+      return {
+        allowed: false,
+        retryAfter: nextUtcMidnightIso(),
+        used: existing.count,
+        date: today,
+      };
+    }
+
     reg.examResits[key] = { date: today, count: existing.count + 1 };
-  }
+    await writeRateLimits(reg);
+    return { allowed: true, used: reg.examResits[key].count, date: today };
+  });
+}
 
-  await writeRateLimits(reg);
-  return { used: reg.examResits[key].count, date: today };
+export async function recordDailyResit(uid: string): Promise<{ used: number; date: string }> {
+  return withRateLock(async () => {
+    const reg = await readRateLimits();
+    const key = uid.trim();
+    const today = utcDateKey();
+    const existing = reg.examResits[key];
+
+    if (!existing || existing.date !== today) {
+      reg.examResits[key] = { date: today, count: 1 };
+    } else {
+      reg.examResits[key] = { date: today, count: existing.count + 1 };
+    }
+
+    await writeRateLimits(reg);
+    return { used: reg.examResits[key].count, date: today };
+  });
 }
 
 // ---- Admin bypass ----
@@ -218,11 +322,16 @@ export function isAdmin(req: VercelRequest): boolean {
 export function applyRateLimit(
   req: VercelRequest,
   res: VercelResponse,
+  route?: string,
 ): boolean {
   if (isAdmin(req)) return true;
   const ip = getClientIp(req);
   if (!checkGlobalRate(ip)) {
-    res.status(429).json({ error: "Too many requests. Please slow down." });
+    res.status(429).json({ error: "Too many requests. Please slow down.", code: "RATE_LIMIT" });
+    return false;
+  }
+  if (route && !checkRouteRate(ip, route)) {
+    res.status(429).json({ error: "Too many requests to this endpoint. Please slow down.", code: "ROUTE_RATE_LIMIT" });
     return false;
   }
   return true;

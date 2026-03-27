@@ -289,6 +289,15 @@ async function updateWallIndex(transcript: Transcript): Promise<void> {
 
   const idx = wall.students.findIndex((s) => s.uid === transcript.uid);
   if (idx >= 0) {
+    const existing = wall.students[idx];
+    // Prevent regression: keep higher credit/module counts if transcript is stale
+    entry.totalCredits = Math.max(entry.totalCredits, existing.totalCredits);
+    entry.completedModules = Math.max(entry.completedModules, existing.completedModules);
+    entry.examAttempts = Math.max(entry.examAttempts, existing.examAttempts);
+    if (existing.examPassed) entry.examPassed = true;
+    if (existing.bestExamScore != null) {
+      entry.bestExamScore = Math.max(entry.bestExamScore ?? 0, existing.bestExamScore);
+    }
     wall.students[idx] = entry;
   } else {
     wall.students.push(entry);

@@ -203,3 +203,71 @@ Code review fixes completed across all 4 phases.
 - `src/styles.css` now keeps full directory columns accessible on mobile via horizontal overflow instead of hiding house/exam fields
 - Added `docs/qa-backlog.md` to track prioritized fixes and acceptance criteria
 - Verification passed: `npm run test -- --run`, `npm run build`, and no linter errors in edited paths
+
+# QA Upgrade Plan Execution (Phase 0 + Phase 1 + Phase 2 Foundation)
+
+- [x] P0: Lock down GET /api/transcript — sanitized public view without auth, full transcript requires credentials
+- [x] P0: Lock down POST /api/grade-exam — require username/password, verify uid ownership (403 on mismatch)
+- [x] P0: Add route-specific rate limiting to all endpoints (grade-exam 10/min, health 30/min, others 20-30/min)
+- [x] P0: Add retry-on-verify loop to module completion for append-only guarantee under concurrent writes
+- [x] P0: Add withRateLock to all security.ts read-modify-write operations (registration, login failures, resits)
+- [x] P1: Standardize admission error codes (VALIDATION_ERROR, INVALID_CREDENTIALS, LOCKOUT, COOLDOWN)
+- [x] P1: Add monotonic-growth wall projection safety (never regress credits, modules, exam status)
+- [x] P1: Disable exam CTA until all 8 modules completed; show prerequisite message in EN/ZH
+- [x] P1: Fix Sorting Hat copy — house assigned at admission, not post-foundations; consistent EN/ZH
+- [x] P1: Label disabled electives Explore button as "Coming Soon" / "即将推出"
+- [x] P2: Add telemetry foundation — api/_lib/telemetry.ts with requestId, actor, target, action, status, duration
+- [x] P2: Wire audit logging to admission, progress, transcript, and grade-exam endpoints
+- [x] Add exam gating test; update retake test for new prerequisite flow
+- [x] Verification: 0 type errors, 0 lint errors, build succeeds, 39/39 tests pass
+
+## Review
+
+QA upgrade plan executed across Phase 0 (security stop-loss + data integrity), Phase 1 (reliability + UX alignment), and Phase 2 foundations (telemetry + audit trail).
+
+- `api/transcript.ts`: GET without auth returns sanitized public fields only; GET with username/password returns full transcript after ownership check
+- `api/grade-exam.ts`: Now requires username/password; enforces uid matches authenticated user (403 on mismatch); rate-limited at 10/min/IP
+- `api/_lib/security.ts`: Route-specific rate buckets alongside global limit; all blob-backed read-modify-write operations wrapped in withRateLock
+- `api/progress.ts`: Module completion uses retry-on-verify loop (up to 3 attempts) to guarantee append-only write succeeded
+- `api/_lib/blob.ts`: Wall projection now uses monotonic max for credits/modules/exam status to prevent stale write regression
+- `api/admission.ts`: Error responses include machine-readable `code` field (VALIDATION_ERROR, INVALID_CREDENTIALS, LOCKOUT, COOLDOWN)
+- `api/_lib/telemetry.ts`: New structured audit helper with requestId, actor/target UID, route, action, status, durationMs
+- `api/health.ts`: Now rate-limited at 30/min/IP
+- `src/components/TerminalSection.tsx`: Exam button disabled with prerequisite hint until all 8 modules completed
+- `src/components/SortingHatSection.tsx`: Lock message corrected — house assigned at registration, not post-foundations
+- `src/components/CourseCatalogSection.tsx`: Disabled Explore button relabeled to "Coming Soon" / "即将推出"
+- `src/types.ts`: Added examPrerequisite to TerminalTranslations, comingSoon to UiTranslations
+- `src/i18n/en.ts` + `src/i18n/zh.ts`: New strings for exam prerequisite and coming soon
+- `src/test/App.test.tsx`: Added exam gating test; retake test now provides all-modules-completed transcript
+
+# QA Upgrade Plan Phase 2: Architecture & Operations
+
+- [x] Session/token auth: JWT sign/verify in `api/_lib/session.ts` with HMAC-SHA256
+- [x] HttpOnly cookie-based session for browser flow (Secure, SameSite=Lax, 7d expiry)
+- [x] Authorization: Bearer <token> header for agent/CLI flow
+- [x] Session restore on refresh via `GET /api/session` with stored token
+- [x] `api/session.ts` endpoint: POST (login→token), GET (restore), DELETE (logout)
+- [x] `api/admission.ts` now issues session token on both login and registration
+- [x] `api/progress.ts`, `api/transcript.ts`, `api/grade-exam.ts` accept session token alongside password auth via `authenticateRequest`
+- [x] `src/contexts/SessionContext.tsx` upgraded: stores token in localStorage, auto-restores session, sends Bearer header on all API calls, graceful fallback to password auth
+- [x] Cost-sensitive grading metrics: `recordGradingCall` + `getGradingMetrics` in telemetry (hourly window, avg duration, success/error/rejected counts)
+- [x] Env-configurable rate limits: RATE_LIMIT_GRADE_EXAM, RATE_LIMIT_HEALTH, RATE_LIMIT_ADMISSION, etc.
+- [x] Contract tests: session sign/verify, expired/tampered token rejection, transcript auth boundary, module append-only, grading ownership, wall monotonic safety, rate limit env config, admission error codes
+- [x] E2E smoke tests: register → connect, exam gating, modules → exam → graduation, students directory
+- [x] Verification: 0 type errors, 0 lint errors, build succeeds, 55/55 tests pass
+
+## Review
+
+Full Phase 2 architecture hardening completed.
+
+- `api/_lib/session.ts`: JWT implementation using HMAC-SHA256 with SESSION_SECRET env var; sign, verify, issue, extract, cookie set/clear
+- `api/session.ts`: New endpoint for session management (POST login → token+cookie, GET restore, DELETE logout)
+- `api/admission.ts`: Issues session token on every successful login/registration; returned in both response body and HttpOnly cookie
+- `api/progress.ts`: Uses `authenticateRequest` — accepts session token OR password; no mandatory username/password in body for browser path
+- `api/transcript.ts`: GET accepts session token via Authorization header for full transcript; PATCH uses `authenticateRequest`
+- `api/grade-exam.ts`: Uses `authenticateRequest` for dual-mode auth; removed direct identity/password imports
+- `api/_lib/telemetry.ts`: Added `recordGradingCall`/`getGradingMetrics` for grading cost tracking (hourly rolling window)
+- `api/_lib/security.ts`: Rate limits now read from RATE_LIMIT_* env vars with sensible defaults
+- `src/contexts/SessionContext.tsx`: Full rewrite — stores JWT in localStorage, auto-restores session on mount, sends Bearer header, falls back to password for legacy compat
+- `src/test/api-contracts.test.ts`: 10 contract tests covering session tokens, transcript sanitization, module append-only, grading ownership, wall monotonicity, rate limit config, error codes
+- `src/test/e2e-smoke.test.tsx`: 4 E2E smoke tests covering register, exam gating, graduation flow, students directory

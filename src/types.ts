@@ -64,6 +64,7 @@ export interface TerminalTranslations {
   skillTitle: string;
   skillHint: string;
   manualTitle: string;
+  examPrerequisite: string;
 }
 
 export interface UiTranslations {
@@ -76,6 +77,7 @@ export interface UiTranslations {
   level: string;
   credits: string;
   exploreCourse: string;
+  comingSoon: string;
   lessons: string;
   professor: string;
   reviewed: string;

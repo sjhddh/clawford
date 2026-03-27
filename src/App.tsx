@@ -58,6 +58,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
     [transcript],
   );
   const examPassed = transcript?.foundationsStatus.status === "completed";
+  const allModulesCompleted = completedModules.length >= 8;
 
   const handleConnect = useCallback(
     async (username: string, password: string, displayName?: string) => {
@@ -140,6 +141,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
           error={error}
           terminalLogs={terminalLogs}
           examPassed={examPassed}
+          allModulesCompleted={allModulesCompleted}
           onConnect={handleConnect}
           onExam={handleExam}
         />
@@ -160,7 +162,6 @@ function MainSite({ lang, setLang }: MainSiteProps) {
           house={transcript?.house ?? null}
           linkedIds={transcript?.linkedIds ?? []}
           onUpdateDisplayName={updateDisplayName}
-          examPassed={examPassed || transcript?.house != null}
         />
 
         <StudentWallSection lang={lang} t={t} />

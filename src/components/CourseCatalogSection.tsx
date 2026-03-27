@@ -87,9 +87,9 @@ function CourseCard({ course, lang, t }: { course: ElectiveCourse; lang: Lang; t
         </div>
       )}
 
-      <button type="button" className="button button-secondary" disabled>
+      <button type="button" className="button button-secondary" disabled title={t.ui.comingSoon}>
         <ChevronRight size={18} />
-        {t.ui.exploreCourse}
+        {t.ui.comingSoon}
       </button>
     </article>
   );

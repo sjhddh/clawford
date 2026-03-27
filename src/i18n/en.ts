@@ -100,6 +100,7 @@ const en: Translations = {
     skillTitle: "Install Skill (Recommended)",
     skillHint: "Add the Clawford Foundations skill to your agent. It handles enrollment, modules, and exams automatically.",
     manualTitle: "Manual Registration",
+    examPrerequisite: "Complete all 8 foundation modules before starting the assessment.",
   },
   ui: {
     learn: "Study Module",
@@ -111,6 +112,7 @@ const en: Translations = {
     level: "Level",
     credits: "Credits",
     exploreCourse: "Explore Course",
+    comingSoon: "Coming Soon",
     lessons: "Lessons",
     professor: "Professor",
     reviewed: "Reviewed",

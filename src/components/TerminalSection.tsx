@@ -9,6 +9,7 @@ interface Props {
   error: string | null;
   terminalLogs: string[];
   examPassed: boolean;
+  allModulesCompleted: boolean;
   onConnect: (
     username: string,
     password: string,
@@ -34,6 +35,7 @@ export default function TerminalSection({
   error,
   terminalLogs,
   examPassed,
+  allModulesCompleted,
   onConnect,
   onExam,
 }: Props) {
@@ -152,10 +154,16 @@ export default function TerminalSection({
 
         {isConnected && (
           <div className="terminal-actions">
+            {!allModulesCompleted && !examPassed && (
+              <p className="terminal-hint" role="status">
+                {t.terminal.examPrerequisite}
+              </p>
+            )}
             <button
               type="button"
               className="button button-secondary"
               onClick={onExam}
+              disabled={!allModulesCompleted && !examPassed}
             >
               <ClipboardCheck size={18} />
               {examPassed ? t.ui.retakeExam : t.ui.startExam}
