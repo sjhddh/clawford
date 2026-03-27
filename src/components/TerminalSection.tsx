@@ -34,6 +34,13 @@ export default function TerminalSection({
   error,
   terminalLogs,
   examPassed,
+  uid,
+  examSubmission,
+  examStatus,
+  examError,
+  examResult,
+  onUidChange,
+  onExamSubmissionChange,
   onConnect,
   onExam,
 }: Props) {

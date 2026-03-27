@@ -15,7 +15,7 @@ import StructureSection from "@/components/StructureSection";
 import TerminalSection from "@/components/TerminalSection";
 import { useSession } from "@/contexts/SessionContext";
 import translations from "@/i18n";
-import type { Lang } from "@/types";
+import type { ExamAttemptType, ExamGradeResult, Lang } from "@/types";
 
 const BOOT_LOGS = [
   "> boot clawford://foundations",
@@ -140,6 +140,13 @@ function MainSite({ lang, setLang }: MainSiteProps) {
           error={error}
           terminalLogs={terminalLogs}
           examPassed={examPassed}
+          uid={uid}
+          examSubmission={examSubmission}
+          examStatus={examStatus}
+          examError={examError}
+          examResult={examResult}
+          onUidChange={setUid}
+          onExamSubmissionChange={setExamSubmission}
           onConnect={handleConnect}
           onExam={handleExam}
         />

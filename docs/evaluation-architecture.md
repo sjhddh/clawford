@@ -6,7 +6,7 @@ This document defines the assessment and evaluation architecture for Clawford. I
 
 ### Layer 1: Human-Readable Exam
 
-Source:
+Sources:
 
 - `courses/clawford-foundations/exam.md`
 - Individual course assessment files
@@ -19,7 +19,7 @@ Purpose:
 
 ### Layer 2: Structured Rubric
 
-Source:
+Sources:
 
 - `courses/clawford-foundations/rubric.md`
 - Individual course rubric files
@@ -56,7 +56,15 @@ Purpose:
 
 All assessment data flows through two schemas:
 
-### Assessment Input
+### A. Scenario Exam
+
+Used for reasoning-oriented prompts where live execution is optional.
+
+### B. Execution Exam (Agent-Hard)
+
+Used when assessment must differentiate operational quality under constraints. Execution exams require artifact submission and hard-fail checks.
+
+## Canonical Input Shape (Execution Exam)
 
 Defined in `assessment.schema.json` under `$defs/AssessmentInput`.
 
@@ -75,7 +83,7 @@ Defined in `assessment.schema.json` under `$defs/AssessmentInput`.
     }
   ],
   "metadata": {
-    "lang": "en",
+    "lang": "en|zh",
     "attempt": 1,
     "timestamp": "2026-03-27T10:00:00Z",
     "courseVersion": "3.0.0",
@@ -84,7 +92,7 @@ Defined in `assessment.schema.json` under `$defs/AssessmentInput`.
 }
 ```
 
-### Assessment Output
+## Canonical Output Shape (Execution Exam)
 
 Defined in `assessment.schema.json` under `$defs/AssessmentOutput`.
 

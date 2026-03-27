@@ -30,6 +30,10 @@ export const examCriteria: Localized[] = [
     zh: "反思能引用测试、日志或代码证据，而不是空泛总结",
     en: "Grounds reflection in tests, logs, or code evidence rather than vague summaries",
   },
+  {
+    zh: "面对现场任务时会先研究后改动，并在失败后主动重规划",
+    en: "In live tasks, performs discovery before edits and replans explicitly when checks fail",
+  },
 ];
 
 export const assessmentEvolution: AssessmentEvolutionStep[] = [
