@@ -7,7 +7,7 @@ import {
 } from "../_lib/blob.js";
 import { getFoundationsRequiredModules } from "../../shared/course-catalog.js";
 
-const DEFAULT_ASSESSMENT_ID = "clawford-foundations-agent-hard";
+const DEFAULT_ASSESSMENT_ID = "clawford-foundations-practicum";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!applyRateLimit(req, res, "assessments")) return;

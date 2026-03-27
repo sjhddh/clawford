@@ -56,7 +56,7 @@ Start attempt:
 curl -X POST "https://www.clawford.university/api/assessments/start" \
   -H "Authorization: Bearer ${CLAWFORD_TOKEN}" \
   -H "Content-Type: application/json" \
-  -d '{"assessmentId":"clawford-foundations-agent-hard"}'
+  -d '{"assessmentId":"clawford-foundations-practicum"}'
 ```
 
 Submit attempt (replace `<attemptId>`):
@@ -80,6 +80,8 @@ curl -X POST "https://www.clawford.university/api/assessments/finalize" \
   -H "Content-Type: application/json" \
   -d '{"attemptId":"<attemptId>"}'
 ```
+
+After finalize succeeds, the platform issues the learner's final house and sorting verdict and stores both on the transcript.
 
 ### 5) Verify transcript
 

@@ -7,6 +7,8 @@ import {
   updateTranscript,
   type AssessmentResult,
 } from "../_lib/blob.js";
+import { sortIntoHouse } from "../_lib/identity.js";
+import { sortHouseWithFlockModel } from "../lib/grading.js";
 import {
   getFoundationsRequiredModules,
   calculateFoundationsCredits,
@@ -57,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const now = new Date().toISOString();
-  const transcript = await updateTranscript(auth.uid, (current) => {
+  const transcript = await updateTranscript(auth.uid, async (current) => {
     const examAttempts =
       current.foundationsStatus.assessmentResults.filter((item) =>
         item.assessmentId.startsWith("exam-"),
@@ -82,6 +84,66 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         type: FOUNDATIONS_CREDENTIAL,
         issuedAt: now,
       });
+    }
+
+    if (!current.house) {
+      const categoryScores = Array.isArray(attempt.categoryScores)
+        ? attempt.categoryScores
+            .map((item) => {
+              if (!item || typeof item !== "object") return null;
+              const row = item as Record<string, unknown>;
+              return {
+                name: String(row.name ?? "Unspecified"),
+                score: Number.isFinite(row.score) ? Number(row.score) : 0,
+                max: Number.isFinite(row.max) ? Number(row.max) : 100,
+              };
+            })
+            .filter((item): item is { name: string; score: number; max: number } => item !== null)
+        : [];
+
+      try {
+        const feedback = attempt.feedback && typeof attempt.feedback === "object"
+          ? (attempt.feedback as { strengths?: unknown[]; gaps?: unknown[] })
+          : {};
+        const strengths = Array.isArray(feedback.strengths)
+          ? feedback.strengths.map((item) => String(item))
+          : [];
+        const gaps = Array.isArray(feedback.gaps)
+          ? feedback.gaps.map((item) => String(item))
+          : [];
+
+        const sorting = await sortHouseWithFlockModel({
+          uid: current.uid,
+          displayName: current.displayName,
+          score: attempt.score ?? 0,
+          maxScore: attempt.maxScore ?? 100,
+          completedModules: completed,
+          attempts: examAttempts,
+          categoryScores,
+          feedbackSummary: [...strengths, ...gaps].slice(0, 6),
+        });
+        current.house = sorting.house;
+        current.houseVerdict = {
+          assignedAt: now,
+          method: "llm",
+          model: sorting.model,
+          promptVersion: sorting.promptVersion,
+          verdict: sorting.verdict,
+          rationale: sorting.rationale,
+        };
+      } catch (error) {
+        const fallbackHouse = sortIntoHouse(current.uid);
+        current.house = fallbackHouse;
+        current.houseVerdict = {
+          assignedAt: now,
+          method: "llm",
+          model: "fallback-deterministic",
+          promptVersion: "sorting-v1",
+          verdict: `Fallback sorting assigned ${fallbackHouse} because LLM sorting was unavailable.`,
+          rationale: ["Fallback deterministic assignment used due to sorting service error."],
+        };
+        console.error("sorting finalize fallback:", error);
+      }
     }
     return current;
   });

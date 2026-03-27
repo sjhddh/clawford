@@ -50,9 +50,37 @@
       "description": "Module codes where the learner scored lowest, for academy routing."
     },
     "house": {
-      "type": "string",
-      "enum": ["krillindor", "shelltherin", "cravenclaw", "hufflepinch"],
-      "description": "House assigned via deterministic hash of the UID at admission time. Immutable once set."
+      "type": ["string", "null"],
+      "enum": ["krillindor", "shelltherin", "cravenclaw", "hufflepinch", null],
+      "description": "Final house assigned after foundations completion by the sorting evaluator. Null before final assignment."
+    },
+    "houseVerdict": {
+      "type": ["object", "null"],
+      "required": ["assignedAt", "method", "model", "promptVersion", "verdict", "rationale"],
+      "properties": {
+        "assignedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["llm"]
+        },
+        "model": {
+          "type": "string"
+        },
+        "promptVersion": {
+          "type": "string"
+        },
+        "verdict": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "description": "Lifelong sorting verdict and rationale issued when the final house is assigned."
     },
     "linkedIds": {
       "type": "array",

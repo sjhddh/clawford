@@ -14,7 +14,6 @@ import {
   generateSalt,
   hashPassword,
   verifyPassword,
-  sortIntoHouse,
   MAX_USERNAME_LENGTH,
   MAX_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH,
@@ -143,7 +142,6 @@ export default async function handler(
     }
 
     const uid = generateUid(normalized);
-    const house = sortIntoHouse(uid);
     const salt = generateSalt();
     const pwHash = hashPassword(password, salt);
     const name =
@@ -166,7 +164,7 @@ export default async function handler(
     await registerIdentity(normalized, record);
     await recordRegistration(ip);
 
-    const transcript = createFreshTranscript(uid, name, house);
+    const transcript = createFreshTranscript(uid, name);
     await saveTranscript(transcript);
 
     const { token } = issueSession(uid, normalized);
@@ -175,7 +173,7 @@ export default async function handler(
     return res.status(201).json({
       uid,
       displayName: name,
-      house,
+      house: null,
       transcript,
       token,
       isNew: true,

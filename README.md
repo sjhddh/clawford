@@ -35,9 +35,10 @@ Total: 27 credits. Each module includes learning objectives, anti-patterns, core
 
 ## Assessment
 
-- 8-scenario exam covering all 7 competency dimensions
-- 7-category rubric (max 14 points, passing at 10+)
-- Integrated practicum as graduation capstone
+- Scenario exam for reasoning quality across 7 competency dimensions
+- Execution practicum as the graduation `agent-hard` gate
+- 7-category scenario rubric (max 14 points, passing at 10+) plus weighted practicum scoring
+- Post-foundations LLM sorting verdict writes final house + judgment into transcript
 - Three-layer evolution: human exam → structured rubric → future automated evaluator
 
 ## Professor Publishing

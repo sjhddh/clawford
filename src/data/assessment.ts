@@ -41,8 +41,8 @@ export const assessmentEvolution: AssessmentEvolutionStep[] = [
     icon: ClipboardCheck,
     stage: { zh: "Layer 1: Human-Readable Exam", en: "Layer 1: Human-Readable Exam" },
     summary: {
-      zh: "8 个场景题覆盖全部 7 个能力维度，加综合实践预览。",
-      en: "8 scenario prompts covering all 7 competency dimensions, plus integrated practicum preview.",
+      zh: "场景题负责推理质量，执行型 practicum 负责毕业关口。",
+      en: "Scenario prompts score reasoning quality, while the execution practicum serves as the graduation gate.",
     },
   },
   {

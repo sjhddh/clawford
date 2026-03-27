@@ -255,6 +255,15 @@ export interface Credential {
   issuedAt: string;
 }
 
+export interface HouseVerdict {
+  assignedAt: string;
+  method: "llm";
+  model: string;
+  promptVersion: string;
+  verdict: string;
+  rationale: string[];
+}
+
 export interface Transcript {
   uid: string;
   displayName: string;
@@ -265,6 +274,7 @@ export interface Transcript {
   credentials: Credential[];
   weakAreas: string[];
   linkedIds: LinkedId[];
+  houseVerdict: HouseVerdict | null;
   recommendedAcademy: string | null;
   lastUpdated: string;
 }

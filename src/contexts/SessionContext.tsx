@@ -147,7 +147,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         "/api/assessments/start",
         {
           method: "POST",
-          body: JSON.stringify({ assessmentId: "clawford-foundations-agent-hard" }),
+          body: JSON.stringify({ assessmentId: "clawford-foundations-practicum" }),
         },
         token,
       );

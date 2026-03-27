@@ -25,12 +25,12 @@
     },
     "displayName": {
       "type": "string",
-      "description": "User-editable public name. Does not affect UID, house assignment, or transcript integrity."
+      "description": "User-editable public name. Does not affect UID or transcript integrity."
     },
     "house": {
       "type": "string",
       "enum": ["krillindor", "shelltherin", "cravenclaw", "hufflepinch"],
-      "description": "House assigned via deterministic hash of the UID. Immutable once set."
+      "description": "Legacy optional field. Canonical house assignment now lives on the learner transcript after foundations sorting."
     },
     "role": {
       "type": "string",
@@ -63,5 +63,5 @@
       "format": "date-time"
     }
   },
-  "$comment": "Blob storage layout: identity-registry.json maps normalized usernames to identity records. Per-user transcripts live at transcripts/{uid}.json. The public student-wall.json index is rebuilt on each transcript write. Write authority: only the server may write transcripts, identity records, and wall indexes. Users may update only their own displayName via the PATCH /api/transcript endpoint. The passwordHash and salt fields are never exposed in API responses."
+  "$comment": "Blob storage layout: identity-registry.json maps normalized usernames to identity records. Per-user transcripts live at transcripts/{uid}.json. Final house + verdict are written to transcript after foundations completion. The public student-wall.json index is rebuilt on each transcript write. Write authority: only the server may write transcripts, identity records, and wall indexes. Users may update only their own displayName via the PATCH /api/transcript endpoint. The passwordHash and salt fields are never exposed in API responses."
 }

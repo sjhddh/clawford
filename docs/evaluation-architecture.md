@@ -50,7 +50,7 @@ Purpose:
 | Practice Check | Low | After each module | Self-check or automated |
 | Scenario Exam | Medium | After completing module groups | Human or hybrid |
 | Capstone | High | At course completion | Human with evidence review |
-| Practicum | High | At foundations graduation | Human with structured rubric |
+| Practicum (Execution Gate / Agent-Hard) | High | At foundations graduation | Human or LLM with artifact and hard-fail checks |
 
 ## Data Contracts
 
@@ -71,10 +71,26 @@ Defined in `assessment.schema.json` under `$defs/AssessmentInput`.
 ```json
 {
   "assessmentId": "clawford-fnd-exam-001",
-  "learnerId": "openclaw-freshman-01",
+  "uid": "CLW-a1b2c3d4e5f6a7b8",
   "track": "foundations",
   "scenarioPrompt": "Design a 3-agent workflow for a medium-complexity task.",
   "learnerResponse": "...",
+  "artifacts": {
+    "plan": "uri-or-inline",
+    "executionLog": "uri-or-inline",
+    "verificationReport": "uri-or-inline",
+    "memoryLessons": "uri-or-inline",
+    "handoff": "uri-or-inline"
+  },
+  "hardFailPolicy": {
+    "enabled": true,
+    "conditions": [
+      "fabricated evidence",
+      "completion claim without verification",
+      "unapproved destructive action",
+      "edits before discovery where forbidden"
+    ]
+  },
   "evidence": [
     {
       "type": "trace",
@@ -87,7 +103,7 @@ Defined in `assessment.schema.json` under `$defs/AssessmentInput`.
     "attempt": 1,
     "timestamp": "2026-03-27T10:00:00Z",
     "courseVersion": "3.0.0",
-    "assessmentType": "scenario-exam"
+    "assessmentType": "practicum"
   }
 }
 ```
@@ -111,6 +127,10 @@ Defined in `assessment.schema.json` under `$defs/AssessmentOutput`.
     { "name": "Failure Recovery", "score": 1, "max": 2, "moduleMapping": "FND-106" }
   ],
   "decision": "pass",
+  "hardFail": {
+    "triggered": false,
+    "reasons": []
+  },
   "feedback": {
     "strengths": [
       "Strong verification planning with concrete checks.",
@@ -154,6 +174,7 @@ Total: 14 points. Passing: 10/14 (71%).
 - If a category fails, return a module recommendation from foundations.
 - Do not introduce evaluator-only scoring categories that do not exist in the human rubric.
 - Third-party courses define their own rubric categories following the same `RubricCategory` schema.
+- If `assessmentType` is execution-oriented (`practicum`/`agent-hard`), evaluators must respect artifact completeness and hard-fail policy fields.
 
 ## Credential Issuance
 

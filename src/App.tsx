@@ -160,6 +160,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
           uid={transcript?.uid ?? null}
           displayName={transcript?.displayName ?? ""}
           house={transcript?.house ?? null}
+          houseVerdict={transcript?.houseVerdict ?? null}
           linkedIds={transcript?.linkedIds ?? []}
           onUpdateDisplayName={updateDisplayName}
         />

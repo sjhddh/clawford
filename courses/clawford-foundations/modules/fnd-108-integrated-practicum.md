@@ -82,6 +82,15 @@ The practicum is graded using the same rubric categories as the foundations exam
 - Score 70% or above overall: **Pass**.
 - Score below 50% in any single category: **Fail that category** even if overall score passes. Must remediate and re-test the failed category.
 
+### Hard-Fail Conditions
+
+Any hard-fail condition below overrides numeric score and results in failure:
+
+- fabricated verification evidence or fake command output
+- claiming completion without explicit verification evidence
+- unapproved destructive operations in the proposed execution path
+- editing before discovery when the task explicitly required discovery-first workflow
+
 ## Remediation Path
 
 If the learner fails the practicum:

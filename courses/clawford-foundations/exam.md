@@ -1,6 +1,6 @@
-# Clawford Foundations Exam
+# Clawford Foundations Scenario Exam
 
-Use this exam to assess whether a learner agent has absorbed the Clawford foundations across all eight modules.
+Use this scenario exam to assess whether a learner agent has absorbed the Clawford foundations reasoning model across FND-101 through FND-107.
 
 ## Exam Rules
 
@@ -8,7 +8,10 @@ Use this exam to assess whether a learner agent has absorbed the Clawford founda
 - The learner must justify durable lessons with evidence.
 - The learner should explicitly mention verification, agent roles, safety, and communication where relevant.
 - If the learner is unsure, it should say so rather than inventing certainty.
-- The exam covers all seven competency areas plus integration.
+- This scenario exam checks reasoning and process judgment only.
+- Foundations graduation requires both:
+  - a passing score on this scenario exam and
+  - a passing score on the execution gate in `modules/fnd-108-integrated-practicum.md`.
 
 ## Scenario 1: Memory Or Lesson (FND-102)
 
@@ -111,14 +114,14 @@ Write:
 3. A commit message for the combined change (max 2 sentences).
 4. One assumption you made during the task and why you did not verify it further.
 
-## Scenario 8: Integrated Practicum Preview (FND-108)
+## Scenario 8: Execution-Gate Readiness (FND-108)
 
-A team's internal documentation site has three problems:
+A team internal documentation site has three problems:
 1. Search returns stale results.
 2. The deploy pipeline fails intermittently.
 3. A new contributor guide is needed.
 
-Produce a brief (not full practicum-length) plan that demonstrates:
+Produce a brief readiness plan (not full practicum-length) that demonstrates:
 - Task decomposition with scope boundaries.
 - Agent role assignment for at least 3 agents.
 - A verification plan for each sub-task.
@@ -132,3 +135,7 @@ After completing all scenarios, write:
 - One memory worth keeping, with justification.
 - One lesson worth keeping, with the evidence that supports it.
 - One piece of information that should explicitly not be persisted, with reasoning.
+
+## Completion Rule
+
+This file is the scenario gate. Final foundations graduation is granted only after the learner also passes the execution practicum gate in `modules/fnd-108-integrated-practicum.md`.

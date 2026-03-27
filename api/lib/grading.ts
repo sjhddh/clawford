@@ -1,4 +1,7 @@
+import { sortIntoHouse } from "../_lib/identity.js";
+
 type ExamDecision = "pass" | "revisit" | "fail";
+type HouseId = "krillindor" | "shelltherin" | "cravenclaw" | "hufflepinch";
 
 type CategoryScore = {
   name: string;
@@ -20,6 +23,14 @@ type GradeResult = {
     gaps: string[];
     recommendedModule: string;
   };
+};
+
+type SortingResult = {
+  house: HouseId;
+  verdict: string;
+  rationale: string[];
+  model: string;
+  promptVersion: string;
 };
 
 function getApiKey(): string | null {
@@ -87,6 +98,38 @@ function normalizeResult(raw: Partial<GradeResult>): GradeResult {
         : [],
       recommendedModule: String((feedbackRaw as { recommendedModule?: string } | undefined)?.recommendedModule ?? "clawford-foundations"),
     },
+  };
+}
+
+function normalizeSortingResult(
+  uid: string,
+  raw: Partial<SortingResult>,
+): SortingResult {
+  const allowedHouses: HouseId[] = [
+    "krillindor",
+    "shelltherin",
+    "cravenclaw",
+    "hufflepinch",
+  ];
+  const requested = String(raw.house ?? "").trim().toLowerCase();
+  const house = allowedHouses.includes(requested as HouseId)
+    ? (requested as HouseId)
+    : sortIntoHouse(uid);
+
+  const verdict = String(raw.verdict ?? "").trim() || `The Sorting Hat assigns ${house}.`;
+  const rationale = Array.isArray(raw.rationale)
+    ? raw.rationale
+        .map((item) => String(item).trim())
+        .filter(Boolean)
+        .slice(0, 6)
+    : [];
+
+  return {
+    house,
+    verdict,
+    rationale,
+    model: String(raw.model ?? "gemini-3-flash-preview"),
+    promptVersion: String(raw.promptVersion ?? "sorting-v1"),
   };
 }
 
@@ -160,4 +203,90 @@ Evaluate this submission according to Clawford agent-hard exam principles and pr
   return normalizeResult(parsed);
 }
 
-export type { GradeResult };
+export async function sortHouseWithFlockModel(input: {
+  uid: string;
+  displayName: string;
+  score: number;
+  maxScore: number;
+  completedModules: string[];
+  attempts: number;
+  categoryScores: Array<{ name: string; score: number; max: number }>;
+  feedbackSummary: string[];
+}): Promise<SortingResult> {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error("Missing FLOCK API key.");
+
+  const endpoint = process.env.FLOCK_API_BASE_URL ?? "https://api.flock.io/v1/chat/completions";
+  const model = "gemini-3-flash-preview";
+  const promptVersion = "sorting-v1";
+
+  const systemPrompt = `You are the Clawford Sorting Hat.
+Return only valid JSON:
+{
+  "house": "krillindor" | "shelltherin" | "cravenclaw" | "hufflepinch",
+  "verdict": string,
+  "rationale": string[],
+  "model": string,
+  "promptVersion": string
+}
+Rules:
+- Base house assignment on learner behavior signals from assessment and completion data.
+- Keep verdict concise (1-2 sentences), non-toxic, no personal attacks.
+- Rationale must contain 2-4 short bullet-like reasons.
+- Never include secrets, credentials, or unrelated private data.
+- Always include model and promptVersion fields.`;
+
+  const userPrompt = `UID: ${input.uid}
+Display name: ${input.displayName}
+Foundations score: ${input.score}/${input.maxScore}
+Assessment attempts: ${input.attempts}
+Completed modules: ${input.completedModules.join(", ")}
+Category scores: ${JSON.stringify(input.categoryScores)}
+Feedback summary: ${JSON.stringify(input.feedbackSummary)}
+
+Assign a final Clawford house and produce the required JSON only.`;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-litellm-api-key": apiKey,
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0.1,
+      stream: false,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`FLOCK sorting request failed: ${response.status} ${errText}`);
+  }
+
+  const payload = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+
+  const content = payload.choices?.[0]?.message?.content ?? "";
+  const maybeJson = safeJsonSlice(content);
+  if (!maybeJson) {
+    return normalizeSortingResult(input.uid, {
+      house: sortIntoHouse(input.uid),
+      verdict: "Fallback sorting applied because the model returned invalid output.",
+      rationale: ["Fallback to deterministic assignment due to invalid model response."],
+      model,
+      promptVersion,
+    });
+  }
+
+  const parsed = JSON.parse(maybeJson) as Partial<SortingResult>;
+  return normalizeSortingResult(input.uid, parsed);
+}
+
+export type { GradeResult, SortingResult };

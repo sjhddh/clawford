@@ -133,6 +133,15 @@ export interface LinkedId {
   linkedAt: string;
 }
 
+export interface HouseVerdict {
+  assignedAt: string;
+  method: "llm";
+  model: string;
+  promptVersion: string;
+  verdict: string;
+  rationale: string[];
+}
+
 export interface Transcript {
   uid: string;
   displayName: string;
@@ -148,6 +157,7 @@ export interface Transcript {
   credentials: Credential[];
   weakAreas: string[];
   linkedIds: LinkedId[];
+  houseVerdict: HouseVerdict | null;
   recommendedAcademy: string | null;
   lastUpdated: string;
 }
@@ -363,14 +373,13 @@ export async function saveAssessmentAttempt(attempt: AssessmentAttempt): Promise
 export function createFreshTranscript(
   uid: string,
   displayName: string,
-  house: HouseId,
 ): Transcript {
   const now = new Date().toISOString();
   return {
     uid,
     displayName,
     currentState: "freshman",
-    house,
+    house: null,
     foundationsStatus: {
       courseId: "clawford-foundations",
       status: "not-started",
@@ -384,6 +393,7 @@ export function createFreshTranscript(
     credentials: [],
     weakAreas: [],
     linkedIds: [],
+    houseVerdict: null,
     recommendedAcademy: null,
     lastUpdated: now,
   };

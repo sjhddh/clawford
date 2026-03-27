@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AtSign, Check, GitFork, Pencil, Wallet } from "lucide-react";
 import { houseMap, houses } from "@/data/houses";
-import type { HouseId, Lang, LinkedId, Translations } from "@/types";
+import type { HouseId, HouseVerdict, Lang, LinkedId, Translations } from "@/types";
 
 interface Props {
   lang: Lang;
@@ -9,6 +9,7 @@ interface Props {
   uid: string | null;
   displayName: string;
   house: HouseId | null;
+  houseVerdict: HouseVerdict | null;
   linkedIds: LinkedId[];
   onUpdateDisplayName: (name: string) => void;
 }
@@ -31,6 +32,7 @@ export default function SortingHatSection({
   uid,
   displayName,
   house,
+  houseVerdict,
   linkedIds,
   onUpdateDisplayName,
 }: Props) {
@@ -97,6 +99,22 @@ export default function SortingHatSection({
             <p className="house-reveal-description">
               {houseData.description[lang]}
             </p>
+
+            {houseVerdict && (
+              <div className="house-reveal-verdict">
+                <p>
+                  <strong>{lang === "zh" ? "分院判词：" : "Sorting Verdict:"}</strong>{" "}
+                  {houseVerdict.verdict}
+                </p>
+                {houseVerdict.rationale.length > 0 && (
+                  <ul>
+                    {houseVerdict.rationale.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
 
             <div className="house-reveal-id">
               <span>{sh.uid}: </span>
@@ -174,8 +192,8 @@ export default function SortingHatSection({
         <div className="sorting-hat-locked">
           <p>
             {lang === "zh"
-              ? "注册并接入后即可查看你的学院分配。学院在注册时由 UID 自动决定。"
-              : "Register and connect to reveal your house. Your house is determined by your UID at registration."}
+              ? "完成 foundations 并通过执行关卡后，分院帽会给出最终学院与终身判词。"
+              : "Complete foundations and pass the execution gate to receive your final house and lifelong sorting verdict."}
           </p>
         </div>
       )}

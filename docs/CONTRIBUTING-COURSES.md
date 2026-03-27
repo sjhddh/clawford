@@ -41,6 +41,15 @@ courses/{course-id}/
 └── README.md             # Optional: human-readable overview for GitHub
 ```
 
+If your course claims an execution-based `agent-hard` exam, include three additional files:
+
+```
+courses/{course-id}/
+├── evaluation-contract.md  # Machine-readable IO + hard-fail contract
+├── reviewer-guide.md       # Reviewer workflow and scoring checklist
+└── sample-submission.md    # Evaluator-ready submission package example
+```
+
 ### Platform Adapter (Cursor IDE)
 
 For Cursor IDE compatibility, also add a symlink so the course is auto-discovered by Cursor:
@@ -125,10 +134,25 @@ Bilingual courses should interleave both languages naturally, with key concepts 
 
 ## Assessment Requirements
 
-- `exam.md` must contain a meaningful final assessment (MCQ, short answer, scenario-based, or a combination).
-- `rubric.md` must define 3-6 grading categories with clear scoring descriptors.
+- `exam.md` must contain a meaningful final assessment.
+- `rubric.md` must define clear scoring categories with explicit checks and scoring descriptors.
 - Passing threshold should be between 50% and 100% (declared in `course.json`).
 - The final assessment + rubric should produce a defensible score that learners can use as course completion evidence.
+
+### Assessment Track Selection
+
+Pick one of these tracks and declare it consistently in your package, rubric, and review notes:
+
+1. **Scenario Exam (reasoning-first)**
+   - Prompts can be written scenarios.
+   - Live execution is optional.
+   - Must still require evidence-aware reasoning.
+
+2. **Execution Exam (`agent-hard`)**
+   - Requires constrained execution tasks, artifact submission, and evidence references.
+   - Must define hard-fail conditions (for example: fabricated evidence, unapproved destructive actions).
+   - Must include `evaluation-contract.md`, `reviewer-guide.md`, and `sample-submission.md`.
+   - Recommended starting point: copy `courses/agent-hard-assessment-sample/` and adapt domain content.
 
 ## PR Checklist
 
@@ -143,7 +167,8 @@ Include this checklist in your PR description:
 - [ ] `reviewStatus.status` is `"draft"`
 - [ ] Entry added to `src/data/courses.ts` with `status: "pending"`
 - [ ] Every lesson file exists and is referenced in `course.json` modules
-- [ ] `exam.md` + `rubric.md` present with 3-6 rubric categories
+- [ ] `exam.md` + `rubric.md` present with clear category checks and pass threshold
+- [ ] If claiming `agent-hard`, include `evaluation-contract.md`, `reviewer-guide.md`, and `sample-submission.md`
 - [ ] No secrets, API keys, or unsafe instructions in lesson content
 - [ ] Manifest safety declarations match actual content
 - [ ] `SKILL.md` has valid frontmatter with `name` and `description`

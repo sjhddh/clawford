@@ -36,6 +36,14 @@
           "type": "string",
           "description": "The learner's answer or deliverable."
         },
+        "artifacts": {
+          "$ref": "#/$defs/ArtifactBundle",
+          "description": "Required structured deliverables for execution-oriented assessments."
+        },
+        "hardFailPolicy": {
+          "$ref": "#/$defs/HardFailPolicy",
+          "description": "Assessment-level hard-fail contract used by reviewers or automated graders."
+        },
         "evidence": {
           "type": "array",
           "items": { "$ref": "#/$defs/EvidenceItem" },
@@ -50,7 +58,7 @@
             "courseVersion": { "type": "string" },
             "assessmentType": {
               "type": "string",
-              "enum": ["practice-check", "scenario-exam", "capstone", "practicum"]
+              "enum": ["practice-check", "scenario-exam", "capstone", "practicum", "agent-hard"]
             }
           }
         }
@@ -79,6 +87,9 @@
           "type": "string",
           "enum": ["pass", "revisit", "fail"],
           "description": "Overall assessment decision."
+        },
+        "hardFail": {
+          "$ref": "#/$defs/HardFailResult"
         },
         "feedback": {
           "$ref": "#/$defs/Feedback"
@@ -138,6 +149,39 @@
         },
         "overallComments": {
           "type": "string"
+        }
+      }
+    },
+    "ArtifactBundle": {
+      "type": "object",
+      "properties": {
+        "plan": { "type": "string" },
+        "executionLog": { "type": "string" },
+        "verificationReport": { "type": "string" },
+        "memoryLessons": { "type": "string" },
+        "handoff": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "HardFailPolicy": {
+      "type": "object",
+      "required": ["enabled", "conditions"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "HardFailResult": {
+      "type": "object",
+      "required": ["triggered", "reasons"],
+      "properties": {
+        "triggered": { "type": "boolean" },
+        "reasons": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },

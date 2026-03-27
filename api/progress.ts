@@ -8,6 +8,8 @@ import {
 import { applyRateLimit, consumeDailyResit } from "./_lib/security.js";
 import { authenticateRequest } from "./_lib/session.js";
 import { createAuditContext } from "./_lib/telemetry.js";
+import { sortIntoHouse } from "./_lib/identity.js";
+import { sortHouseWithFlockModel } from "./lib/grading.js";
 import {
   getFoundationsModuleMeta,
   getFoundationsRequiredModules,
@@ -169,6 +171,42 @@ export default async function handler(
               type: FOUNDATIONS_CREDENTIAL,
               issuedAt: now,
             });
+          }
+
+          if (!current.house) {
+            try {
+              const sorting = await sortHouseWithFlockModel({
+                uid: current.uid,
+                displayName: current.displayName,
+                score: examScore,
+                maxScore: 100,
+                completedModules: current.foundationsStatus.completedModules,
+                attempts: attempt,
+                categoryScores: [],
+                feedbackSummary: [],
+              });
+              current.house = sorting.house;
+              current.houseVerdict = {
+                assignedAt: now,
+                method: "llm",
+                model: sorting.model,
+                promptVersion: sorting.promptVersion,
+                verdict: sorting.verdict,
+                rationale: sorting.rationale,
+              };
+            } catch (error) {
+              const fallbackHouse = sortIntoHouse(current.uid);
+              current.house = fallbackHouse;
+              current.houseVerdict = {
+                assignedAt: now,
+                method: "llm",
+                model: "fallback-deterministic",
+                promptVersion: "sorting-v1",
+                verdict: `Fallback sorting assigned ${fallbackHouse} because LLM sorting was unavailable.`,
+                rationale: ["Fallback deterministic assignment used due to sorting service error."],
+              };
+              console.error("sorting progress fallback:", error);
+            }
           }
 
           const examResults = current.foundationsStatus.assessmentResults.filter(

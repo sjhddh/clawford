@@ -93,10 +93,11 @@ Failure output: list of broken or circular prerequisite references.
 
 ### Check 5: Rubric Quality
 
-- Verify rubric categories are between 3 and 6.
+- Verify rubric categories are between 3 and 8.
 - Check that each category has at least two checks.
 - Verify passing threshold is between 0.5 and 1.0.
 - Check that all assessment `targetModules` reference modules that exist in the course.
+- If the course claims `agent-hard`, verify execution artifacts and hard-fail semantics are defined in `evaluation-contract.md`.
 
 Failure output: list of rubric quality issues.
 
@@ -135,6 +136,7 @@ This is the highest-priority review lane. Any safety finding is blocking.
 - Assess grading fairness: are the scoring descriptors precise enough to produce consistent grades?
 - Check for anti-gaming resilience: could a learner pass by memorizing templates without understanding?
 - Verify that the passing threshold is appropriate for the difficulty level.
+- For `agent-hard` courses, verify artifact requirements, evidence integrity checks, and hard-fail rules are enforceable by reviewers.
 
 ### Lane 5: Operational Review
 

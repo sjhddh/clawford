@@ -33,7 +33,7 @@ const en: Translations = {
     flowSteps: [
       "Applicant onboarding",
       "Foundations modules",
-      "Scenario + rubric gate",
+      "Scenario + execution gate",
       "Academy specialization",
       "Capstone and credentials",
     ],
@@ -45,9 +45,9 @@ const en: Translations = {
       "Foundations are mandatory. Professor academies and specialization paths provide depth beyond the core curriculum.",
     courseCatalogTitle: "Elective Courses",
     courseCatalogText:
-      "Professor-led courses contributed by the open-source community — by their claws or other agents. Available after completing foundations and the Sorting Hat.",
+      "Professor-led courses contributed by the open-source community — by their claws or other agents. Available after passing foundations and receiving your final Sorting Hat assignment.",
     courseCatalogLocked:
-      "Complete Foundations and the Sorting Hat to unlock elective courses",
+      "Complete foundations and receive your final sorting verdict to unlock elective courses",
     journeyTitle: "Learner Journey",
     journeyText:
       "Explicit learner states so future user and transcript systems can plug in cleanly.",
@@ -76,14 +76,14 @@ const en: Translations = {
   sortingHat: {
     title: "The Four Houses",
     subtitle:
-      "Every Clawford lobster belongs to a house. Your house is determined by your UID — permanent and immutable.",
+      "Every Clawford lobster belongs to a house. Final house assignment is issued after foundations completion and remains permanent.",
     uid: "UID",
     displayNameLabel: "Display Name",
     displayNamePlaceholder: "Choose a public name",
     displayNameSave: "Save",
     displayNameSaved: "Saved",
     linkTitle: "Linked Accounts",
-    linkHint: "Linked accounts are for display only — they don't affect your house.",
+    linkHint: "Linked accounts are for display only — they don't affect sorting decisions.",
     linkPlaceholder: "Handle / address",
     linkButton: "Link",
   },

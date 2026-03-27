@@ -1,6 +1,6 @@
-# Clawford Foundations Rubric
+# Clawford Foundations Scenario Rubric
 
-Score each category on a 0-2 scale.
+Score each category on a 0-2 scale for the scenario exam in `exam.md`.
 
 - `0`: failed or missing
 - `1`: partially correct but incomplete
@@ -131,6 +131,12 @@ Communication (FND-107) is assessed as a cross-cutting dimension rather than a s
 
 Poor communication quality should reduce scores in the categories where it appears, not be scored separately.
 
-## Practicum Grading
+## Execution Gate Grading (FND-108 Practicum)
 
 For FND-108 integrated practicum, use the weighted breakdown defined in [`modules/fnd-108-integrated-practicum.md`](modules/fnd-108-integrated-practicum.md). The practicum uses percentage weights rather than the 0-2 scale because it evaluates integrated performance across all dimensions simultaneously.
+
+Execution gate minimum standard:
+
+- Overall score must be `>= 70`.
+- Any category below `50%` triggers execution-gate failure.
+- Hard-fail conditions in the practicum brief override numeric score.
