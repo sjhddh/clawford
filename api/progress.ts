@@ -127,13 +127,13 @@ export default async function handler(
           const completedSet = new Set(
             current.foundationsStatus.completedModules.map((id) => id.toUpperCase()),
           );
-          const hasCompletedAllModules = ALL_MODULE_IDS.every((id) =>
-            completedSet.has(id),
-          );
-          if (!alreadyPassed && !hasCompletedAllModules) {
-            throw new ExamPrerequisiteError(
+          const missingModules = ALL_MODULE_IDS.filter((id) => !completedSet.has(id));
+          if (!alreadyPassed && missingModules.length > 0) {
+            const err = new ExamPrerequisiteError(
               "Complete all modules before taking the exam.",
             );
+            (err as any).missingModules = missingModules;
+            throw err;
           }
 
           const previousBest = current.foundationsStatus.assessmentResults
@@ -189,6 +189,7 @@ export default async function handler(
           const status = err.message.startsWith("Daily resit limit reached") ? 429 : 400;
           return res.status(status).json({
             error: err.message,
+            missingModules: (err as any).missingModules,
             dailyResit,
           });
         }
