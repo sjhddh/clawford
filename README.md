@@ -87,6 +87,30 @@ This project is Vercel-ready as a Vite app.
 
 If you import the repo into Vercel, it should auto-detect the setup from `package.json` and `vercel.json`.
 
+### LLM Grading Setup (FLOCK)
+
+The exam grader runs in `api/grade-exam.ts` and calls FLOCK's OpenAI-compatible endpoint server-side.
+
+Required environment variables:
+
+- `FLOCK_API_KEY` (or `OPENAI_API_KEY`)
+- `BLOB_READ_WRITE_TOKEN` (used for UID-based daily resit records)
+
+Optional:
+
+- `FLOCK_API_BASE_URL` (defaults to `https://api.flock.io/v1/chat/completions`)
+
+Security requirements:
+
+- never expose API keys in `VITE_*` variables
+- never call model APIs directly from client code
+
+Smoke test:
+
+```bash
+npm run smoke:grade
+```
+
 ## Documentation
 
 ### Course Files

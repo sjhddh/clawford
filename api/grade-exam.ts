@@ -1,5 +1,5 @@
-import { createAttemptStore, getAttemptKey, type AttemptRecord } from "./lib/attempt-store";
-import { gradeWithFlockModel } from "./lib/grading";
+import { createAttemptStore, getAttemptKey, type AttemptRecord } from "./lib/attempt-store.js";
+import { gradeWithFlockModel } from "./lib/grading.js";
 
 type GradeExamRequest = {
   uid: string;

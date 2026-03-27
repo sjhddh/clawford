@@ -1,3 +1,5 @@
+import { list, put } from "@vercel/blob";
+
 type AttemptRecord = {
   initialTaken: boolean;
   resitUsed: number;
@@ -16,38 +18,37 @@ function utcDateBucket(date = new Date()): string {
 }
 
 function buildKey(uid: string, assessmentId: string, dateBucket: string): string {
-  return `exam-attempt:${assessmentId}:${uid}:${dateBucket}`;
+  return `clawford/exam-attempts/${assessmentId}/${dateBucket}/${uid}.json`;
 }
 
-function getKvConfig(): { url: string; token: string } | null {
-  const url = process.env.KV_REST_API_URL;
-  const token = process.env.KV_REST_API_TOKEN;
-  if (!url || !token) return null;
-  return { url, token };
+function hasBlobToken(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
-function createKvStore(url: string, token: string): AttemptStore {
+async function readBlobJson<T>(pathname: string): Promise<T | null> {
+  const { blobs } = await list({ prefix: pathname, limit: 1 });
+  const blob = blobs.find((entry) => entry.pathname === pathname);
+  if (!blob) return null;
+
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  const response = await fetch(blob.url, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (!response.ok) return null;
+  return (await response.json()) as T;
+}
+
+function createBlobStore(): AttemptStore {
   return {
     async get(key) {
-      const endpoint = `${url}/get/${encodeURIComponent(key)}`;
-      const response = await fetch(endpoint, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) return null;
-      const payload = (await response.json()) as { result?: string | null };
-      if (!payload.result) return null;
-      try {
-        return JSON.parse(payload.result) as AttemptRecord;
-      } catch {
-        return null;
-      }
+      return readBlobJson<AttemptRecord>(key);
     },
     async set(key, value) {
-      const serialized = JSON.stringify(value);
-      const endpoint = `${url}/set/${encodeURIComponent(key)}/${encodeURIComponent(serialized)}?EX=${60 * 60 * 72}`;
-      await fetch(endpoint, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+      await put(key, JSON.stringify(value, null, 2), {
+        access: "private",
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: "application/json",
       });
     },
   };
@@ -65,9 +66,8 @@ function createMemoryStore(): AttemptStore {
 }
 
 export function createAttemptStore(): AttemptStore {
-  const kv = getKvConfig();
-  if (!kv) return createMemoryStore();
-  return createKvStore(kv.url, kv.token);
+  if (!hasBlobToken()) return createMemoryStore();
+  return createBlobStore();
 }
 
 export function getAttemptKey(uid: string, assessmentId: string): string {
