@@ -1,11 +1,24 @@
 import { put, list } from "@vercel/blob";
 import type { HouseId } from "./identity.js";
+import {
+  getFoundationsRequiredModules,
+  calculateFoundationsCredits,
+  type CourseId,
+} from "../../shared/course-catalog.js";
 
 const REGISTRY_PATH = "clawford/identity-registry.json";
 const WALL_INDEX_PATH = "clawford/student-wall.json";
 
 function transcriptPath(uid: string): string {
   return `clawford/transcripts/${uid}.json`;
+}
+
+function moduleProgressPath(uid: string, moduleId: string): string {
+  return `clawford/progress/${uid}/modules/${moduleId.toUpperCase()}.json`;
+}
+
+function assessmentAttemptPath(uid: string, attemptId: string): string {
+  return `clawford/assessments/${uid}/${attemptId}.json`;
 }
 
 const locks = new Map<string, Promise<void>>();
@@ -161,6 +174,32 @@ export interface StudentWallIndex {
   lastUpdated: string;
 }
 
+export interface ModuleProgressRecord {
+  uid: string;
+  moduleId: string;
+  courseId: CourseId;
+  completedAt: string;
+}
+
+export interface AssessmentAttempt {
+  attemptId: string;
+  uid: string;
+  courseId: CourseId;
+  assessmentId: string;
+  status: "started" | "submitted" | "graded" | "finalized";
+  submission: string | null;
+  startedAt: string;
+  submittedAt: string | null;
+  gradedAt: string | null;
+  finalizedAt: string | null;
+  score: number | null;
+  maxScore: number | null;
+  decision: "pass" | "revisit" | "fail" | null;
+  categoryScores: unknown;
+  hardFail: unknown;
+  feedback: unknown;
+}
+
 // --------------- Registry ---------------
 
 export async function getRegistry(): Promise<IdentityRegistry> {
@@ -221,6 +260,104 @@ export async function updateTranscript(
     await saveTranscript(updated);
     return updated;
   });
+}
+
+export async function getFoundationsCompletedModules(uid: string): Promise<string[]> {
+  const prefix = `clawford/progress/${uid}/modules/`;
+  const { blobs } = await list({ prefix, limit: 200 });
+  const allowed = new Set(getFoundationsRequiredModules());
+  const ids = new Set<string>();
+  for (const blob of blobs) {
+    if (!blob.pathname.startsWith(prefix)) continue;
+    const suffix = blob.pathname.slice(prefix.length);
+    if (!suffix.endsWith(".json")) continue;
+    const code = suffix.slice(0, -5).toUpperCase();
+    if (allowed.has(code)) ids.add(code);
+  }
+  const order = getFoundationsRequiredModules();
+  const found = order.filter((item) => ids.has(item));
+  if (found.length > 0) return found;
+
+  // Backward compatibility: bootstrap from transcript if module records do not exist yet.
+  const transcript = await getTranscript(uid);
+  if (!transcript) return [];
+  const transcriptCompleted = new Set(
+    transcript.foundationsStatus.completedModules.map((item) => item.toUpperCase()),
+  );
+  return order.filter((item) => transcriptCompleted.has(item));
+}
+
+export async function markFoundationsModulesCompleted(
+  uid: string,
+  moduleIds: string[],
+): Promise<{ applied: string[]; alreadyCompleted: string[]; completedModules: string[]; totalCredits: number }> {
+  const normalized = moduleIds.map((id) => id.toUpperCase());
+  const applied: string[] = [];
+  const alreadyCompleted: string[] = [];
+  const unique = Array.from(new Set(normalized));
+  for (const moduleId of unique) {
+    const path = moduleProgressPath(uid, moduleId);
+    const existing = await readBlob<ModuleProgressRecord>(path);
+    if (existing) {
+      alreadyCompleted.push(moduleId);
+      continue;
+    }
+    const record: ModuleProgressRecord = {
+      uid,
+      moduleId,
+      courseId: "clawford-foundations",
+      completedAt: new Date().toISOString(),
+    };
+    await writeBlob(path, record);
+    applied.push(moduleId);
+  }
+
+  const completedModules = await getFoundationsCompletedModules(uid);
+  return {
+    applied,
+    alreadyCompleted,
+    completedModules,
+    totalCredits: calculateFoundationsCredits(completedModules),
+  };
+}
+
+export async function createAssessmentAttempt(
+  uid: string,
+  assessmentId: string,
+): Promise<AssessmentAttempt> {
+  const now = new Date().toISOString();
+  const attemptId = `assess-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const attempt: AssessmentAttempt = {
+    attemptId,
+    uid,
+    courseId: "clawford-foundations",
+    assessmentId,
+    status: "started",
+    submission: null,
+    startedAt: now,
+    submittedAt: null,
+    gradedAt: null,
+    finalizedAt: null,
+    score: null,
+    maxScore: null,
+    decision: null,
+    categoryScores: null,
+    hardFail: null,
+    feedback: null,
+  };
+  await writeBlob(assessmentAttemptPath(uid, attemptId), attempt);
+  return attempt;
+}
+
+export async function getAssessmentAttempt(
+  uid: string,
+  attemptId: string,
+): Promise<AssessmentAttempt | null> {
+  return readBlob<AssessmentAttempt>(assessmentAttemptPath(uid, attemptId));
+}
+
+export async function saveAssessmentAttempt(attempt: AssessmentAttempt): Promise<void> {
+  await writeBlob(assessmentAttemptPath(attempt.uid, attempt.attemptId), attempt);
 }
 
 export function createFreshTranscript(

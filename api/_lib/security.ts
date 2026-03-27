@@ -73,6 +73,9 @@ const ROUTE_LIMITS: Record<string, RouteRateConfig> = {
   progress: { windowMs: 60_000, max: envInt("RATE_LIMIT_PROGRESS", 30) },
   transcript: { windowMs: 60_000, max: envInt("RATE_LIMIT_TRANSCRIPT", 30) },
   students: { windowMs: 60_000, max: envInt("RATE_LIMIT_STUDENTS", 30) },
+  courses: { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSES", 60) },
+  "course-graph": { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSE_GRAPH", 60) },
+  assessments: { windowMs: 60_000, max: envInt("RATE_LIMIT_ASSESSMENTS", 20) },
 };
 
 export function checkGlobalRate(ip: string): boolean {

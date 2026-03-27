@@ -1,4 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
+import aiPlugin from "../../public/.well-known/ai-plugin.json";
+import openapi from "../../public/openapi.json";
+import { COURSE_CATALOG } from "../../shared/course-catalog";
 
 const MOCK_IDENTITY = {
   uid: "CLW-a1b2c3d4e5f6a7b8",
@@ -215,5 +218,35 @@ describe("Admission error code contract", () => {
       expect(typeof code).toBe("string");
       expect(code.length).toBeGreaterThan(0);
     });
+  });
+});
+
+describe("Agent discovery contract", () => {
+  it("publishes ai-plugin and OpenAPI endpoints", () => {
+    expect(aiPlugin.api.type).toBe("openapi");
+    expect(aiPlugin.api.url).toContain("/openapi.json");
+    expect((openapi as { paths: Record<string, unknown> }).paths).toHaveProperty("/api/courses");
+    expect((openapi as { paths: Record<string, unknown> }).paths).toHaveProperty("/api/course-graph");
+    expect((openapi as { paths: Record<string, unknown> }).paths).toHaveProperty("/api/assessments/start");
+    expect((openapi as { paths: Record<string, unknown> }).paths).toHaveProperty("/api/assessments/submit");
+    expect((openapi as { paths: Record<string, unknown> }).paths).toHaveProperty("/api/assessments/finalize");
+  });
+});
+
+describe("Course graph contract", () => {
+  it("exposes required modules and total credits", () => {
+    const foundations = COURSE_CATALOG.find((course) => course.id === "clawford-foundations");
+    expect(foundations).toBeTruthy();
+    expect(foundations!.requiredModuleIds).toEqual([
+      "FND-101",
+      "FND-102",
+      "FND-103",
+      "FND-104",
+      "FND-105",
+      "FND-106",
+      "FND-107",
+      "FND-108",
+    ]);
+    expect(foundations!.totalCredits).toBe(27);
   });
 });

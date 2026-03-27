@@ -3,6 +3,7 @@ import { gradeWithFlockModel } from "./lib/grading.js";
 import { applyRateLimit, consumeDailyResit } from "./_lib/security.js";
 import { authenticateRequest } from "./_lib/session.js";
 import { createAuditContext, recordGradingCall } from "./_lib/telemetry.js";
+import { getAssessmentAttempt, saveAssessmentAttempt } from "./_lib/blob.js";
 
 type GradeExamRequest = {
   uid: string;
@@ -11,6 +12,7 @@ type GradeExamRequest = {
   assessmentId?: string;
   attemptType: "initial" | "resit";
   submission: string;
+  attemptId?: string;
 };
 
 function json(res: VercelResponse, status: number, data: unknown): void {
@@ -54,6 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   const assessmentId = String(body.assessmentId ?? "clawford-foundations-agent-hard").trim();
   const attemptType = body.attemptType;
   const submission = String(body.submission ?? "").trim();
+  const attemptId = String(body.attemptId ?? "").trim() || undefined;
 
   if (!uid) {
     json(res, 400, { error: "UID is required" });
@@ -105,10 +108,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
     recordGradingCall("success", Date.now() - gradingStart);
     audit.log({ action: "grade", actorUid: uid, status: "success", statusCode: 200, detail: `score=${graded.score} decision=${graded.decision}` });
+    if (attemptId) {
+      const attempt = await getAssessmentAttempt(uid, attemptId);
+      if (attempt && attempt.uid === uid) {
+        attempt.status = "graded";
+        attempt.submission = submission;
+        attempt.submittedAt = new Date().toISOString();
+        attempt.gradedAt = new Date().toISOString();
+        attempt.score = graded.score;
+        attempt.maxScore = 100;
+        attempt.decision = graded.decision;
+        attempt.categoryScores = graded.categoryScores;
+        attempt.hardFail = graded.hardFail;
+        attempt.feedback = graded.feedback;
+        await saveAssessmentAttempt(attempt);
+      }
+    }
+
     json(res, 200, {
       uid,
       assessmentId,
       attemptType,
+      attemptId,
       score: graded.score,
       maxScore: 100,
       decision: graded.decision,
@@ -117,6 +138,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       feedback: graded.feedback,
       ...(dailyResit ? { dailyResit } : {}),
       gradedAt: new Date().toISOString(),
+      nextAction: attemptId ? "/api/assessments/finalize" : undefined,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown grading error";

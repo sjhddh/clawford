@@ -3,10 +3,11 @@ import {
   lookupByUsername,
   registerIdentity,
   getTranscript,
-  saveTranscript,
+  updateTranscript,
 } from "./_lib/blob.js";
 import {
   isValidUid,
+  normalizeUsername,
   MAX_USERNAME_LENGTH,
   MAX_DISPLAY_NAME_LENGTH,
 } from "./_lib/identity.js";
@@ -39,9 +40,21 @@ export default async function handler(
 }
 
 async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnType<typeof createAuditContext>) {
-  const uid = req.query.uid as string | undefined;
+  const auth = await authenticateRequest(req);
+  const uidQuery = req.query.uid as string | undefined;
+  const usernameQuery = req.query.username as string | undefined;
+
+  let uid = uidQuery;
+  if (!uid && usernameQuery) {
+    const normalized = normalizeUsername(usernameQuery);
+    const identity = await lookupByUsername(normalized);
+    uid = identity?.uid;
+  }
+  if (!uid && auth) {
+    uid = auth.uid;
+  }
   if (!uid) {
-    return res.status(400).json({ error: "uid query parameter is required" });
+    return res.status(400).json({ error: "Provide uid, username, or authenticated session." });
   }
   if (!isValidUid(uid)) {
     return res.status(400).json({ error: "Invalid uid format" });
@@ -52,7 +65,6 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     return res.status(404).json({ error: "Transcript not found" });
   }
 
-  const auth = await authenticateRequest(req);
   if (auth && auth.uid === uid) {
     audit.log({ action: "read-full", actorUid: uid, targetUid: uid, status: "success", statusCode: 200 });
     return res.status(200).json(transcript);
@@ -91,16 +103,17 @@ async function handlePatch(req: VercelRequest, res: VercelResponse, audit: Retur
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  const transcript = await getTranscript(identity.uid);
+  const trimmedName = displayName.trim();
+  const transcript = await updateTranscript(identity.uid, (current) => {
+    current.displayName = trimmedName;
+    return current;
+  });
   if (!transcript) {
     return res.status(404).json({ error: "Transcript not found" });
   }
 
-  const trimmedName = displayName.trim();
-  transcript.displayName = trimmedName;
   identity.displayName = trimmedName;
 
-  await saveTranscript(transcript);
   await registerIdentity(auth.username, identity);
 
   audit.log({ action: "update-name", actorUid: identity.uid, status: "success", statusCode: 200 });

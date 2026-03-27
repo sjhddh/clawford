@@ -59,9 +59,14 @@ function createSmokeFetch() {
     }
 
     if (url === "/api/progress") {
-      if (body.action === "complete-module" && body.moduleId) {
+      if ((body.action === "complete-module" || body.action === "complete-modules")) {
+        const ids = Array.isArray(body.moduleIds)
+          ? body.moduleIds
+          : body.moduleId
+            ? [body.moduleId]
+            : [];
         const completed = new Set(transcript.foundationsStatus.completedModules);
-        completed.add(body.moduleId);
+        ids.forEach((id: string) => completed.add(id));
         transcript.foundationsStatus.completedModules = ALL_MODULES.filter((id) => completed.has(id));
         transcript.foundationsStatus.status = "in-progress";
         transcript.foundationsStatus.totalCreditsEarned =
@@ -88,6 +93,45 @@ function createSmokeFetch() {
         transcript.currentState = "foundations-graduate";
         transcript.foundationsStatus.completedAt = new Date().toISOString();
       }
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ ok: true, transcript: structuredClone(transcript) }),
+      });
+    }
+
+    if (url === "/api/assessments/start") {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ ok: true, attempt: { attemptId: "attempt-smoke-1" } }),
+      });
+    }
+
+    if (url === "/api/assessments/submit") {
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            ok: true,
+            attempt: { attemptId: "attempt-smoke-1", decision: "pass" },
+          }),
+      });
+    }
+
+    if (url === "/api/assessments/finalize") {
+      const attempt = transcript.foundationsStatus.assessmentResults.length + 1;
+      transcript.foundationsStatus.status = "completed";
+      transcript.foundationsStatus.completedModules = [...ALL_MODULES];
+      transcript.foundationsStatus.totalCreditsEarned = 27;
+      transcript.foundationsStatus.assessmentResults.push({
+        assessmentId: `exam-smoke-${attempt}`,
+        score: 85,
+        maxScore: 100,
+        decision: "pass",
+        attempt,
+        timestamp: new Date().toISOString(),
+      });
+      transcript.currentState = "foundations-graduate";
+      transcript.foundationsStatus.completedAt = new Date().toISOString();
       return Promise.resolve({
         ok: true,
         json: () => Promise.resolve({ ok: true, transcript: structuredClone(transcript) }),

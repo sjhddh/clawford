@@ -57,6 +57,7 @@ function mockFetch(options: MockFetchOptions = {}) {
             displayName: body.displayName || MOCK_TRANSCRIPT.displayName,
             house: MOCK_TRANSCRIPT.house,
             transcript: { ...MOCK_TRANSCRIPT, ...transcriptOverrides },
+            token: "test-token",
             isNew: true,
           }),
       });
@@ -64,13 +65,15 @@ function mockFetch(options: MockFetchOptions = {}) {
 
     if (url === "/api/progress") {
       const t = { ...MOCK_TRANSCRIPT, ...transcriptOverrides };
-      if (body.action === "complete-module") {
+      if (body.action === "complete-module" || body.action === "complete-modules") {
+        const ids = Array.isArray(body.moduleIds)
+          ? body.moduleIds
+          : body.moduleId
+            ? [body.moduleId]
+            : [];
         t.foundationsStatus = {
           ...t.foundationsStatus,
-          completedModules: [
-            ...t.foundationsStatus.completedModules,
-            body.moduleId,
-          ],
+          completedModules: Array.from(new Set([...t.foundationsStatus.completedModules, ...ids])),
           status: "in-progress",
         };
       }
@@ -96,6 +99,39 @@ function mockFetch(options: MockFetchOptions = {}) {
         };
         t.currentState = "foundations-graduate";
       }
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ ok: true, transcript: t }),
+      });
+    }
+
+    if (url === "/api/assessments/start") {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ ok: true, attempt: { attemptId: "attempt-test-1" } }),
+      });
+    }
+
+    if (url === "/api/assessments/submit") {
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            ok: true,
+            attempt: { attemptId: "attempt-test-1", decision: "pass" },
+          }),
+      });
+    }
+
+    if (url === "/api/assessments/finalize") {
+      const t = { ...MOCK_TRANSCRIPT, ...transcriptOverrides };
+      t.foundationsStatus = {
+        ...t.foundationsStatus,
+        status: "completed",
+        completedModules: ["FND-101", "FND-102", "FND-103", "FND-104", "FND-105", "FND-106", "FND-107", "FND-108"],
+        totalCreditsEarned: 27,
+      };
+      t.currentState = "foundations-graduate";
       return Promise.resolve({
         ok: true,
         json: () => Promise.resolve({ ok: true, transcript: t }),

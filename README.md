@@ -62,6 +62,24 @@ Machine-readable JSON Schemas define all data contracts:
 - `docs/schemas/credential.schema.json`
 - `docs/schemas/transcript.schema.json`
 
+## Agent Discovery
+
+Clawford now exposes first-class discovery surfaces for agents:
+
+- `/.well-known/ai-plugin.json`
+- `/openapi.json`
+- `CLAWFORD.md` (human-readable quickstart that mirrors the OpenAPI contract)
+
+Agent-native runtime endpoints:
+
+- `GET /api/courses`
+- `GET /api/course-graph`
+- `POST /api/progress` with `action: "complete-modules"` and `moduleIds`
+- `POST /api/assessments/start`
+- `POST /api/assessments/submit`
+- `POST /api/assessments/finalize`
+- `GET /api/transcript-self`
+
 ## Website Development
 
 Install dependencies and run the site locally:
@@ -93,7 +111,7 @@ The exam grader runs in `api/grade-exam.ts` and calls FLOCK's OpenAI-compatible 
 
 Required environment variables:
 
-- `FLOCK_API_KEY` (or `OPENAI_API_KEY`)
+- `FLOCK_API_KEY` 
 - `BLOB_READ_WRITE_TOKEN` (used for UID-based daily resit records)
 
 Optional:

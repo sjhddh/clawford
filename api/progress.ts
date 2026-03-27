@@ -1,26 +1,20 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { lookupByUsername, updateTranscript } from "./_lib/blob.js";
 import {
-  normalizeUsername,
-  verifyPassword,
-  MAX_USERNAME_LENGTH,
-} from "./_lib/identity.js";
+  lookupByUsername,
+  updateTranscript,
+  markFoundationsModulesCompleted,
+  getFoundationsCompletedModules,
+} from "./_lib/blob.js";
 import { applyRateLimit, consumeDailyResit } from "./_lib/security.js";
 import { authenticateRequest } from "./_lib/session.js";
 import { createAuditContext } from "./_lib/telemetry.js";
+import {
+  getFoundationsModuleMeta,
+  getFoundationsRequiredModules,
+  calculateFoundationsCredits,
+} from "../shared/course-catalog.js";
 
-const MODULE_CREDITS: Record<string, number> = {
-  "FND-101": 2,
-  "FND-102": 4,
-  "FND-103": 3,
-  "FND-104": 5,
-  "FND-105": 3,
-  "FND-106": 3,
-  "FND-107": 2,
-  "FND-108": 5,
-};
-
-const ALL_MODULE_IDS = Object.keys(MODULE_CREDITS);
+const ALL_MODULE_IDS = getFoundationsRequiredModules();
 const FOUNDATIONS_CREDENTIAL = "foundation-certificate";
 
 class ExamPrerequisiteError extends Error {}
@@ -47,51 +41,56 @@ export default async function handler(
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const { action, moduleId } = req.body ?? {};
+    const { action } = req.body ?? {};
 
-    if (action === "complete-module") {
-      if (!moduleId || typeof moduleId !== "string") {
-        return res.status(400).json({ error: "moduleId is required" });
+    if (action === "complete-module" || action === "complete-modules") {
+      const moduleIdsRaw = req.body?.moduleIds ?? req.body?.moduleId;
+      const parsedIds = Array.isArray(moduleIdsRaw)
+        ? moduleIdsRaw
+        : typeof moduleIdsRaw === "string"
+          ? [moduleIdsRaw]
+          : [];
+      if (parsedIds.length === 0) {
+        return res.status(400).json({ error: "moduleId or moduleIds is required" });
       }
-      const normalizedModuleId = moduleId.toUpperCase();
-      if (!ALL_MODULE_IDS.includes(normalizedModuleId)) {
-        return res
-          .status(400)
-          .json({ error: `Invalid moduleId: ${moduleId}` });
+      const normalizedIds = parsedIds.map((item) => String(item).trim().toUpperCase()).filter(Boolean);
+      const uniqueIds = Array.from(new Set(normalizedIds));
+      const invalid = uniqueIds.filter((item) => !getFoundationsModuleMeta(item));
+      const valid = uniqueIds.filter((item) => !invalid.includes(item));
+
+      if (valid.length === 0) {
+        return res.status(400).json({ error: "No valid module IDs supplied", invalid });
       }
 
-      const MAX_RETRIES = 3;
-      let transcript = null;
-      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-        transcript = await updateTranscript(identity.uid, (current) => {
-          const completed = new Set(current.foundationsStatus.completedModules);
-          completed.add(normalizedModuleId);
-          const orderedCompleted = ALL_MODULE_IDS.filter((id) => completed.has(id));
-          const totalCredits = orderedCompleted.reduce(
-            (sum, id) => sum + (MODULE_CREDITS[id] ?? 0),
-            0,
-          );
-
-          current.foundationsStatus.completedModules = orderedCompleted;
-          current.foundationsStatus.totalCreditsEarned = totalCredits;
+      const batch = await markFoundationsModulesCompleted(identity.uid, valid);
+      const transcript = await updateTranscript(identity.uid, (current) => {
+          current.foundationsStatus.completedModules = batch.completedModules;
+          current.foundationsStatus.totalCreditsEarned = batch.totalCredits;
           if (current.foundationsStatus.status === "not-started") {
             current.foundationsStatus.status = "in-progress";
           }
           return current;
-        });
-        if (!transcript) {
-          return res.status(404).json({ error: "Transcript not found" });
-        }
-
-        if (transcript.foundationsStatus.completedModules.includes(normalizedModuleId)) {
-          break;
-        }
+      });
+      if (!transcript) {
+        return res.status(404).json({ error: "Transcript not found" });
       }
-      audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: normalizedModuleId });
-      return res.status(200).json({ ok: true, transcript });
+      audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: valid.join(",") });
+      return res.status(200).json({
+        ok: true,
+        transcript,
+        applied: batch.applied,
+        alreadyCompleted: batch.alreadyCompleted,
+        invalid,
+        authMethod: auth.method,
+        deprecation:
+          auth.method === "password"
+            ? "Password-in-body auth is deprecated. Switch to Authorization: Bearer <token>."
+            : undefined,
+      });
     }
 
     if (action === "pass-exam") {
+      // Compatibility shim: the canonical flow is /api/assessments/start -> submit -> finalize.
       const { score } = req.body ?? {};
       const examScore =
         typeof score === "number" && score >= 0 && score <= 100 ? score : 80;
@@ -124,16 +123,14 @@ export default async function handler(
             }
           }
 
-          const completedSet = new Set(
-            current.foundationsStatus.completedModules.map((id) => id.toUpperCase()),
-          );
-          const hasCompletedAllModules = ALL_MODULE_IDS.every((id) =>
-            completedSet.has(id),
-          );
+          const completedModules = await getFoundationsCompletedModules(current.uid);
+          const completedSet = new Set(completedModules);
+          const hasCompletedAllModules = ALL_MODULE_IDS.every((id) => completedSet.has(id));
+          const missingModules = ALL_MODULE_IDS.filter((id) => !completedSet.has(id));
           if (!alreadyPassed && !hasCompletedAllModules) {
-            throw new ExamPrerequisiteError(
-              "Complete all modules before taking the exam.",
-            );
+            const err = new ExamPrerequisiteError("Complete all modules before taking the exam.");
+            (err as Error & { missingModules?: string[] }).missingModules = missingModules;
+            throw err;
           }
 
           const previousBest = current.foundationsStatus.assessmentResults
@@ -158,9 +155,7 @@ export default async function handler(
             current.foundationsStatus.status = "completed";
             current.foundationsStatus.completedAt = now;
             current.foundationsStatus.completedModules = [...ALL_MODULE_IDS];
-            current.foundationsStatus.totalCreditsEarned = Object.values(
-              MODULE_CREDITS,
-            ).reduce((a, b) => a + b, 0);
+            current.foundationsStatus.totalCreditsEarned = calculateFoundationsCredits(ALL_MODULE_IDS);
             current.currentState = "foundations-graduate";
           }
 
@@ -187,9 +182,17 @@ export default async function handler(
       } catch (err) {
         if (err instanceof ExamPrerequisiteError) {
           const status = err.message.startsWith("Daily resit limit reached") ? 429 : 400;
+          const missingModules = (err as Error & { missingModules?: string[] }).missingModules ?? [];
           return res.status(status).json({
             error: err.message,
             dailyResit,
+            missingModules,
+            deprecated: true,
+            nextAction: {
+              start: "/api/assessments/start",
+              submit: "/api/assessments/submit",
+              finalize: "/api/assessments/finalize",
+            },
           });
         }
         throw err;
@@ -208,6 +211,12 @@ export default async function handler(
         latestScore,
         improved,
         dailyResit,
+        deprecated: true,
+        nextAction: {
+          start: "/api/assessments/start",
+          submit: "/api/assessments/submit",
+          finalize: "/api/assessments/finalize",
+        },
       });
     }
 
