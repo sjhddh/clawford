@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Award, BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { houseMap } from "@/data/houses";
-import type { Lang, StudentWallEntry, Translations } from "@/types";
+import type { HouseId, Lang, StudentWallEntry, Translations } from "@/types";
 
 interface Props {
   lang: Lang;
@@ -66,9 +66,10 @@ export default function StudentWallSection({ lang, t }: Props) {
                   ? `${s.bestExamScore}/${s.examMaxScore}`
                   : sw.noScore;
               return (
-                <div
+                <Link
+                  to={`/students/${s.uid}`}
                   key={s.uid}
-                  className="student-wall-card"
+                  className="student-wall-card student-wall-card-link"
                   style={
                     house
                       ? ({
@@ -101,7 +102,7 @@ export default function StudentWallSection({ lang, t }: Props) {
                       {s.examPassed ? sw.passed : sw.inProgress} · {bestScore}
                     </span>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

@@ -135,6 +135,38 @@ export interface StudentWallTranslations {
   pageTitle: string;
   pageSubtitle: string;
   backHome: string;
+  searchPlaceholder: string;
+  viewProfile: string;
+}
+
+export interface StudentProfileTranslations {
+  brandTitle: string;
+  slogan: string;
+  backToDirectory: string;
+  studentId: string;
+  officialTranscript: string;
+  status: string;
+  academy: string;
+  academyNone: string;
+  houseVerdict: string;
+  verdictNone: string;
+  examRecord: string;
+  examPassedLabel: string;
+  examNotPassed: string;
+  bestScoreLabel: string;
+  latestScoreLabel: string;
+  attemptsLabel: string;
+  academicStanding: string;
+  creditsEarned: string;
+  modulesCompleted: string;
+  credentialsEarned: string;
+  enrolledSince: string;
+  lastUpdated: string;
+  notFound: string;
+  notFoundHint: string;
+  loading: string;
+  verdictRationale: string;
+  shareHint: string;
 }
 
 export interface Translations {
@@ -146,6 +178,7 @@ export interface Translations {
   terminal: TerminalTranslations;
   ui: UiTranslations;
   studentWall: StudentWallTranslations;
+  studentProfile: StudentProfileTranslations;
   footer: string;
 }
 
@@ -299,6 +332,26 @@ export interface StudentWallEntry {
   lastExamAt: string | null;
   credentials: number;
   enrolledAt: string;
+}
+
+export interface PublicStudentProfile {
+  uid: string;
+  displayName: string;
+  house: HouseId | null;
+  currentState: string;
+  totalCredits: number;
+  completedModules: number;
+  examPassed: boolean;
+  examAttempts: number;
+  bestExamScore: number | null;
+  latestExamScore: number | null;
+  examMaxScore: number | null;
+  lastExamAt: string | null;
+  credentials: number;
+  enrolledAt: string;
+  houseVerdict: { verdict: string; rationale: string[] } | null;
+  recommendedAcademy: string | null;
+  lastUpdated: string;
 }
 
 // ---- Courses ----

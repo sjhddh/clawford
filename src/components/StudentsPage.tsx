@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Award, BookOpen, GraduationCap } from "lucide-react";
+import { ArrowLeft, Award, BookOpen, GraduationCap, Search } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { houseMap } from "@/data/houses";
@@ -16,6 +16,7 @@ export default function StudentsPage({ lang, setLang }: Props) {
   const [students, setStudents] = useState<StudentWallEntry[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [fetchError, setFetchError] = useState(false);
+  const [query, setQuery] = useState("");
 
   const t = translations[lang];
   const sw = t.studentWall;
@@ -42,6 +43,16 @@ export default function StudentsPage({ lang, setLang }: Props) {
     [students],
   );
 
+  const filtered = useMemo(() => {
+    if (!query.trim()) return sorted;
+    const q = query.trim().toLowerCase();
+    return sorted.filter(
+      (s) =>
+        s.displayName.toLowerCase().includes(q) ||
+        s.uid.toLowerCase().includes(q),
+    );
+  }, [sorted, query]);
+
   return (
     <div className="app-shell">
       <div className="backdrop-orb backdrop-orb-a" aria-hidden="true" />
@@ -59,6 +70,20 @@ export default function StudentsPage({ lang, setLang }: Props) {
           <p>{sw.pageSubtitle}</p>
         </div>
 
+        {loaded && sorted.length > 0 && (
+          <div className="students-search-bar">
+            <Search size={18} className="students-search-icon" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={sw.searchPlaceholder}
+              className="students-search-input"
+              aria-label={sw.searchPlaceholder}
+            />
+          </div>
+        )}
+
         {fetchError && (
           <div className="student-wall-empty">
             <p>{lang === "zh" ? "加载学生数据失败。" : "Failed to load student data."}</p>
@@ -72,7 +97,7 @@ export default function StudentsPage({ lang, setLang }: Props) {
           </div>
         )}
 
-        {sorted.length > 0 && (
+        {filtered.length > 0 && (
           <div className="students-page-table" role="table" aria-label={sw.pageTitle}>
             <div className="students-table-header" role="row">
               <span className="col-rank" role="columnheader">#</span>
@@ -89,7 +114,7 @@ export default function StudentsPage({ lang, setLang }: Props) {
               <span className="col-score" role="columnheader">{sw.bestScore}</span>
             </div>
 
-            {sorted.map((s, i) => {
+            {filtered.map((s, i) => {
               const house = s.house
                 ? houseMap[s.house as HouseId]
                 : null;
@@ -106,9 +131,10 @@ export default function StudentsPage({ lang, setLang }: Props) {
                 s.examAttempts > 0 ? ` · ${s.examAttempts} ${sw.attemptsSuffix}` : "";
 
               return (
-                <div
+                <Link
+                  to={`/students/${s.uid}`}
                   key={s.uid}
-                  className="students-table-row"
+                  className="students-table-row students-table-row-link"
                   role="row"
                   style={
                     house
@@ -155,9 +181,16 @@ export default function StudentsPage({ lang, setLang }: Props) {
                   <span className="col-score" role="cell">
                     {bestScore}
                   </span>
-                </div>
+                </Link>
               );
             })}
+          </div>
+        )}
+
+        {loaded && !fetchError && query.trim() && filtered.length === 0 && sorted.length > 0 && (
+          <div className="student-wall-empty">
+            <Search size={48} />
+            <p>{lang === "zh" ? "没有匹配的学生。" : "No matching students."}</p>
           </div>
         )}
       </main>

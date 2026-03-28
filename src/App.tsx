@@ -10,6 +10,7 @@ import JourneySection from "@/components/JourneySection";
 import PrinciplesSection from "@/components/PrinciplesSection";
 import SortingHatSection from "@/components/SortingHatSection";
 import StudentWallSection from "@/components/StudentWallSection";
+import StudentProfilePage from "@/components/StudentProfilePage";
 import StudentsPage from "@/components/StudentsPage";
 import StructureSection from "@/components/StructureSection";
 import TerminalSection from "@/components/TerminalSection";
@@ -189,6 +190,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/students/:uid" element={<StudentProfilePage lang={lang} setLang={setLang} />} />
       <Route path="/students" element={<StudentsPage lang={lang} setLang={setLang} />} />
       <Route path="*" element={<MainSite lang={lang} setLang={setLang} />} />
     </Routes>

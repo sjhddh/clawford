@@ -76,6 +76,15 @@ describe("Session token contract", () => {
 
 describe("Transcript auth boundary contract", () => {
   it("public transcript GET returns sanitized fields only", () => {
+    const examAttempts = MOCK_TRANSCRIPT.foundationsStatus.assessmentResults.filter(
+      (r: { assessmentId: string }) => r.assessmentId.startsWith("exam-"),
+    );
+    const latestExam = examAttempts.at(-1) ?? null;
+    const bestExam = examAttempts.reduce<typeof latestExam>((best, curr) => {
+      if (!best) return curr;
+      return curr.score > best.score ? curr : best;
+    }, null);
+
     const publicFields = {
       uid: MOCK_TRANSCRIPT.uid,
       displayName: MOCK_TRANSCRIPT.displayName,
@@ -84,8 +93,16 @@ describe("Transcript auth boundary contract", () => {
       totalCredits: MOCK_TRANSCRIPT.foundationsStatus.totalCreditsEarned,
       completedModules: MOCK_TRANSCRIPT.foundationsStatus.completedModules.length,
       examPassed: MOCK_TRANSCRIPT.foundationsStatus.status === "completed",
+      examAttempts: examAttempts.length,
+      bestExamScore: bestExam?.score ?? null,
+      latestExamScore: latestExam?.score ?? null,
+      examMaxScore: latestExam?.maxScore ?? bestExam?.maxScore ?? null,
+      lastExamAt: latestExam?.timestamp ?? null,
       credentials: MOCK_TRANSCRIPT.credentials.length,
       enrolledAt: MOCK_TRANSCRIPT.foundationsStatus.enrolledAt,
+      houseVerdict: null,
+      recommendedAcademy: MOCK_TRANSCRIPT.recommendedAcademy,
+      lastUpdated: MOCK_TRANSCRIPT.lastUpdated,
     };
 
     expect(publicFields).not.toHaveProperty("foundationsStatus");
@@ -95,6 +112,10 @@ describe("Transcript auth boundary contract", () => {
     expect(publicFields).toHaveProperty("uid");
     expect(publicFields).toHaveProperty("displayName");
     expect(publicFields).toHaveProperty("house");
+    expect(publicFields).toHaveProperty("houseVerdict");
+    expect(publicFields).toHaveProperty("recommendedAcademy");
+    expect(publicFields).toHaveProperty("examAttempts");
+    expect(publicFields).toHaveProperty("bestExamScore");
     expect(typeof publicFields.completedModules).toBe("number");
     expect(typeof publicFields.examPassed).toBe("boolean");
   });
