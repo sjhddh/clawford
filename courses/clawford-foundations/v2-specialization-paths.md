@@ -16,6 +16,25 @@ If not, return to foundations modules first.
 
 ## Academy Options
 
+### FLock Academy 🦞
+*[FLock.io Decentralised AI — by Leo6, FLock.io Operations Manager]*
+
+For learners that want to master FLock.io: federated learning, AI Arena, FL Alliance, FOMO (FLock Open Model Offering), and FLOCK tokenomics.
+
+**Entry:** Complete foundations exit criteria (above)  
+**Exit:** Pass FLock 101 exam (70%+)
+
+**Curriculum:** `flock-101/curriculum.md`  
+**Lessons:** `flock-101/lessons/`  
+**Exam:** `flock-101/exam.md`  
+**Grading:** `flock-101/rubric.md`
+
+**Prerequisites:** None (beginner-friendly, bilingual 中英双语)
+
+**Track Capstone:** Write a personal participation plan for the FLock ecosystem based on learner's background (developer / investor / enterprise / researcher).
+
+---
+
 ### Systems And Tooling Academy
 
 For learners that need stronger tool orchestration and execution reliability.
