@@ -13,10 +13,18 @@ export interface SessionPayload {
   exp: number;
 }
 
+let _ephemeralSecret: string | null = null;
+
 function getSecret(): string {
   const secret = process.env.SESSION_SECRET;
-  if (!secret) throw new Error("SESSION_SECRET must be set for session signing");
-  return secret;
+  if (secret) return secret;
+  if (!_ephemeralSecret) {
+    _ephemeralSecret = randomBytes(32).toString("hex");
+    console.warn(
+      "SESSION_SECRET is not set. Using ephemeral secret — sessions will not survive cold starts. Set SESSION_SECRET in environment variables for production.",
+    );
+  }
+  return _ephemeralSecret;
 }
 
 function base64url(buf: Buffer): string {

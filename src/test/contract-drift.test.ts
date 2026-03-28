@@ -56,18 +56,23 @@ describe("Public API contract coverage", () => {
 });
 
 describe("Session secret hardening", () => {
-  it("does not fall back to ADMIN_CODE for session signing", async () => {
+  it("uses ephemeral secret when SESSION_SECRET is missing (no crash)", async () => {
     vi.stubEnv("ADMIN_CODE", "admin-secret-only");
-    const { signSession } = await import("../../api/_lib/session.js");
+    const { signSession, verifySession } = await import("../../api/_lib/session.js");
 
-    expect(() =>
-      signSession({
-        uid: "CLW-hardening000001",
-        username: "hardening-user",
-        iat: Date.now(),
-        exp: Date.now() + 60_000,
-      }),
-    ).toThrow("SESSION_SECRET must be set for session signing");
+    const payload = {
+      uid: "CLW-hardening000001",
+      username: "hardening-user",
+      iat: Date.now(),
+      exp: Date.now() + 60_000,
+    };
+    const token = signSession(payload);
+    expect(typeof token).toBe("string");
+    expect(token.split(".")).toHaveLength(3);
+
+    const verified = verifySession(token);
+    expect(verified).not.toBeNull();
+    expect(verified!.uid).toBe("CLW-hardening000001");
   });
 });
 
