@@ -40,8 +40,8 @@ export default function Hero({ t }: Props) {
       <div className="hero-panel">
         <div className="panel">
           <div className="panel-header">
-            <span>clawford.ascii</span>
-            <span>identity</span>
+            <span>{t.hero.panelFile}</span>
+            <span>{t.hero.panelTab}</span>
           </div>
           <pre className="ascii-art" aria-label="ASCII art of a claw above a ford">
             {ASCII_LOGO}

@@ -18,6 +18,12 @@ export default function CurriculumSection({ lang, t, completedModules, isConnect
         <p>{t.sections.curriculumText}</p>
       </div>
 
+      {!isConnected && (
+        <p className="curriculum-locked-hint" role="status">
+          <a href="#terminal">{t.sections.curriculumLocked}</a>
+        </p>
+      )}
+
       <div className="course-grid">
         {curriculum.map((mod) => {
           const Icon = mod.icon;
@@ -47,6 +53,7 @@ export default function CurriculumSection({ lang, t, completedModules, isConnect
                 className={`button ${isLearned ? "button-success" : "button-secondary"}`}
                 onClick={() => onStudy(mod.id)}
                 disabled={isLearned || !isConnected}
+                title={!isConnected ? t.sections.curriculumLocked : undefined}
                 aria-label={
                   isLearned
                     ? `${mod.title[lang]} - ${t.ui.learned}`

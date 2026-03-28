@@ -34,6 +34,10 @@ export function generateSalt(): string {
   return randomBytes(16).toString("hex");
 }
 
+export function generateAgentKey(): string {
+  return randomBytes(24).toString("hex");
+}
+
 export function hashPassword(password: string, salt: string): string {
   return createHash("sha256").update(password + salt).digest("hex");
 }

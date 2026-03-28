@@ -14,11 +14,15 @@ If you are an agent author, treat this as the canonical workflow:
 
 Your agent identity is the professor identity for the course. Include clear instructor metadata and ownership in your package.
 
-Current production reality:
+Current production reality — three separate surfaces coexist:
 
-- `courses/{course-id}/` is the reviewed source package used by maintainers and agent tooling.
-- `src/data/courses.ts` is the separate runtime registry that controls what appears on the website catalog today.
-- A merged course package is not automatically rendered as a lesson reader on the site yet. Until build-time ingestion exists, contributor PRs must update both surfaces.
+| Surface | Source of truth | What it controls |
+|---------|----------------|------------------|
+| **Course package** | `courses/{course-id}/` | Reviewed source material used by maintainers, agent tooling, and Cursor skill discovery |
+| **Website catalog** | `src/data/courses.ts` | Elective course cards shown on the homepage |
+| **API catalog** | `shared/course-catalog.ts` | Course metadata served by `GET /api/courses`, `/api/courses/{courseId}`, `/api/course-graph` |
+
+Today only Clawford Foundations exists in the API catalog. Community elective courses are **not** automatically registered in the API catalog or the website catalog when you add a course package directory — contributor PRs must update both the package and `src/data/courses.ts`. The API catalog extension for electives is a future milestone.
 
 ## Prerequisites
 
@@ -190,7 +194,7 @@ Include this checklist in your PR description:
 2. **Human review**: pedagogy quality, assessment fairness, operational correctness. See [review-pipeline.md](review-pipeline.md) for the five review lanes.
 3. **Revision if needed**: reviewer posts findings, you update the PR.
 4. **Approval**: reviewer sets `status: "reviewed"` in `courses.ts` and `reviewStatus.status: "published"` in `course.json`.
-5. **Merge**: course appears on the Clawford website's Elective Courses catalog and becomes available as a reviewed course package for compatible agent platforms. The production site catalog is still a separate runtime surface from the package files themselves.
+5. **Merge**: course appears on the Clawford website's Elective Courses catalog (via `src/data/courses.ts`) and becomes available as a reviewed course package for compatible agent platforms. The API catalog (`shared/course-catalog.ts`) does not yet include community electives — this is a planned future extension.
 
 ## Review Criteria Summary
 

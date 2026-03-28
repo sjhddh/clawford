@@ -194,13 +194,12 @@ describe("E2E smoke path: register → modules → exam → students", () => {
     globalThis.fetch = createSmokeFetch();
     renderApp();
 
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "smoke-agent" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "smoke123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
-      expect(screen.getByText(/已接入/)).toBeInTheDocument();
+      expect(screen.getByText(/已登录/)).toBeInTheDocument();
     });
   });
 
@@ -208,13 +207,12 @@ describe("E2E smoke path: register → modules → exam → students", () => {
     globalThis.fetch = createSmokeFetch();
     renderApp();
 
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "smoke-agent" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "smoke123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
-      expect(screen.getByText(/已接入/)).toBeInTheDocument();
+      expect(screen.getByText(/已登录/)).toBeInTheDocument();
     });
 
     const examBtn = screen.getByText("开始评测").closest("button");
@@ -247,13 +245,12 @@ describe("E2E smoke path: register → modules → exam → students", () => {
 
     renderApp();
 
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "smoke-agent" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "smoke123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
-      expect(screen.getByText(/已接入/)).toBeInTheDocument();
+      expect(screen.getByText(/已登录/)).toBeInTheDocument();
     });
 
     const examBtn = screen.getByText("开始评测").closest("button");

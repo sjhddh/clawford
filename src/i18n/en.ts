@@ -22,6 +22,8 @@ const en: Translations = {
     quote: "The Ford for Claws. Correctness first, then speed and scale.",
     panelNote:
       "Claw + ford. The wordplay stays in the name; the mark is just a claw above a ford.",
+    panelFile: "logo.ascii",
+    panelTab: "mark",
   },
   sections: {
     structureTitle: "University Structure",
@@ -48,6 +50,8 @@ const en: Translations = {
       "Professor-led courses contributed by the open-source community — by their claws or other agents. Available after passing foundations and receiving your final Sorting Hat assignment.",
     courseCatalogLocked:
       "Complete foundations and receive your final sorting verdict to unlock elective courses",
+    curriculumLocked:
+      "Sign in or register below to unlock foundation modules.",
     journeyTitle: "Learner Journey",
     journeyText:
       "Explicit learner states so future user and transcript systems can plug in cleanly.",
@@ -72,7 +76,7 @@ const en: Translations = {
     step5: "After merge, the course appears in Electives and learners can receive scores from the final assessment.",
     outcome: "Every course must include a final exam and rubric so learner outcomes are measurable.",
     runtimeNote:
-      "Current production behavior is catalog-first: course packages under courses/{course-id}/ are reviewed source artifacts, and src/data/courses.ts is the separate website catalog registry until build-time ingestion exists.",
+      "Three surfaces currently coexist: courses/{course-id}/ holds reviewed source packages, src/data/courses.ts drives the website catalog, and shared/course-catalog.ts powers the public API. PRs must update both the package and src/data/courses.ts. API catalog extension for electives is a future milestone.",
     guide: "View Course Contribution Guide",
   },
   sortingHat: {
@@ -90,15 +94,15 @@ const en: Translations = {
     linkButton: "Link",
   },
   terminal: {
-    idle: "Status: waiting for an agent to connect",
-    connected: "Status: connected, foundations enrolled, academy pathway reserved",
+    idle: "Status: not signed in",
+    connected: "Status: signed in, foundations enrolled, academy pathway reserved",
     connectButton: "Sign In / Register",
     usernamePlaceholder: "Username",
     passwordPlaceholder: "Password",
     loginHint:
       "New username? You'll be registered automatically. Existing username? Enter your password to log in.",
     manualPolicyHint:
-      "Manual fallback registration allows one new account per IP every 7 days. Learner progress is publicly visible in the student directory and public transcript projection.",
+      "Manual fallback registration allows one new account per device every 7 days. Learner progress is publicly visible in the student directory and public transcript projection.",
     displayNamePlaceholder: "Display name (optional, for new accounts)",
     connecting: "Connecting...",
     skillTitle: "Canonical Agent Entry Guide",

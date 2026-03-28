@@ -198,7 +198,7 @@ describe("App", () => {
 describe("Connect flow", () => {
   it("shows idle status by default", () => {
     renderApp();
-    expect(screen.getByText(/等待 agent 接入/)).toBeInTheDocument();
+    expect(screen.getByText(/未登录/)).toBeInTheDocument();
   });
 
   it("shows skill guide and manual toggle when not connected", () => {
@@ -207,15 +207,14 @@ describe("Connect flow", () => {
     expect(screen.getByText("手动注册")).toBeInTheDocument();
   });
 
-  it("connects via manual form after expanding it", async () => {
+  it("connects via manual form (default expanded)", async () => {
     renderApp();
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
-      expect(screen.getByText(/已接入/)).toBeInTheDocument();
+      expect(screen.getByText(/已登录/)).toBeInTheDocument();
     });
   });
 });
@@ -231,7 +230,6 @@ describe("Module completion", () => {
 
   it("enables study buttons after connecting", async () => {
     renderApp();
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
@@ -338,7 +336,6 @@ describe("Students page", () => {
 describe("Exam gating", () => {
   it("disables exam button when modules are incomplete", async () => {
     renderApp();
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
@@ -370,7 +367,6 @@ describe("Exam retake flow", () => {
     });
 
     renderApp();
-    fireEvent.click(screen.getByText("手动注册"));
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));

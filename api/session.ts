@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { lookupByUsername, getTranscript } from "./_lib/blob.js";
+import { lookupByUsername, lookupByAgentKey, getTranscript } from "./_lib/blob.js";
 import {
   normalizeUsername,
   verifyPassword,
@@ -38,6 +38,27 @@ async function handleLogin(
   res: VercelResponse,
   audit: ReturnType<typeof createAuditContext>,
 ) {
+  // Agent-key login (passwordless)
+  const agentKeyHeader = req.headers["x-agent-key"];
+  if (typeof agentKeyHeader === "string" && agentKeyHeader.trim()) {
+    const identity = await lookupByAgentKey(agentKeyHeader.trim());
+    if (!identity) {
+      return res.status(401).json({ error: "Invalid agent key", code: "INVALID_CREDENTIALS" });
+    }
+    const { token } = issueSession(identity.uid, identity.username);
+    setSessionCookie(res, token);
+    const transcript = await getTranscript(identity.uid);
+    audit.log({ action: "session-login", actorUid: identity.uid, status: "success", statusCode: 200, detail: "agent-key" });
+    return res.status(200).json({
+      token,
+      uid: identity.uid,
+      displayName: identity.displayName,
+      house: transcript?.house ?? null,
+      transcript,
+    });
+  }
+
+  // Username + password login
   const { username, password } = req.body ?? {};
 
   if (!username || typeof username !== "string") {

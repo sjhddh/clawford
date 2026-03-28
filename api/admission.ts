@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   lookupByUsername,
+  lookupByAgentKey,
   registerIdentity,
   getTranscript,
   saveTranscript,
@@ -12,6 +13,7 @@ import {
   isValidUsername,
   generateUid,
   generateSalt,
+  generateAgentKey,
   hashPassword,
   verifyPassword,
   MAX_USERNAME_LENGTH,
@@ -22,7 +24,7 @@ import {
 import {
   applyRateLimit,
   isAdmin,
-  getClientIp,
+  registrationFingerprint,
   canRegister,
   recordRegistration,
   canLogin,
@@ -45,7 +47,33 @@ export default async function handler(
 
   try {
     const { username, password, displayName } = req.body ?? {};
+    const admin = isAdmin(req);
 
+    // ---- Agent-key login (passwordless) ----
+    const agentKeyHeader = req.headers["x-agent-key"];
+    if (typeof agentKeyHeader === "string" && agentKeyHeader.trim()) {
+      const identity = await lookupByAgentKey(agentKeyHeader.trim());
+      if (!identity) {
+        return res.status(401).json({ error: "Invalid agent key", code: "INVALID_CREDENTIALS" });
+      }
+      identity.lastSeen = new Date().toISOString();
+      await registerIdentity(identity.username, identity);
+      const transcript = await getTranscript(identity.uid);
+      const { token } = issueSession(identity.uid, identity.username);
+      setSessionCookie(res, token);
+      audit.log({ action: "login", actorUid: identity.uid, status: "success", statusCode: 200, detail: "agent-key" });
+      return res.status(200).json({
+        uid: identity.uid,
+        displayName: identity.displayName,
+        house: transcript?.house ?? null,
+        transcript,
+        token,
+        agentKey: identity.agentKey,
+        isNew: false,
+      });
+    }
+
+    // ---- Username + password flow ----
     if (!username || typeof username !== "string" || !username.trim()) {
       return res.status(400).json({ error: "username is required", code: "VALIDATION_ERROR" });
     }
@@ -78,7 +106,6 @@ export default async function handler(
         .json({ error: "username must contain only letters, numbers, hyphens, and underscores", code: "VALIDATION_ERROR" });
     }
 
-    const admin = isAdmin(req);
     const loginResponse = async (record: IdentityRecord) => {
       if (!admin) {
         const loginCheck = await canLogin(normalized);
@@ -111,6 +138,7 @@ export default async function handler(
         house: transcript?.house ?? null,
         transcript,
         token,
+        agentKey: record.agentKey ?? null,
         isNew: false,
       });
     };
@@ -123,18 +151,16 @@ export default async function handler(
     }
 
     // ---- Registration path ----
-    const ip = getClientIp(req);
+    const fpKey = registrationFingerprint(req);
     if (!admin) {
-      const regCheck = await canRegister(ip);
+      const regCheck = await canRegister(fpKey);
       if (!regCheck.allowed) {
-        // Blob index can be eventually consistent right after registration.
-        // Re-check identity before returning cooldown to avoid false negatives.
         const maybeExisting = await lookupByUsername(normalized);
         if (maybeExisting) {
           return loginResponse(maybeExisting);
         }
         return res.status(429).json({
-          error: "Registration cooldown active. One registration per IP every 7 days.",
+          error: "Registration cooldown active. One registration per device every 7 days.",
           code: "COOLDOWN",
           retryAfter: regCheck.retryAfter,
         });
@@ -144,6 +170,7 @@ export default async function handler(
     const uid = generateUid(normalized);
     const salt = generateSalt();
     const pwHash = hashPassword(password, salt);
+    const agentKey = generateAgentKey();
     const name =
       displayName && typeof displayName === "string" && displayName.trim()
         ? displayName.trim()
@@ -159,10 +186,11 @@ export default async function handler(
       role: "student",
       createdAt: now,
       lastSeen: now,
+      agentKey,
     };
 
     await registerIdentity(normalized, record);
-    await recordRegistration(ip);
+    await recordRegistration(fpKey);
 
     const transcript = createFreshTranscript(uid, name);
     await saveTranscript(transcript);
@@ -176,6 +204,7 @@ export default async function handler(
       house: null,
       transcript,
       token,
+      agentKey,
       isNew: true,
     });
   } catch (err) {

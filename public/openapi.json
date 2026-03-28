@@ -15,20 +15,42 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      },
+      "agentKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Agent-Key",
+        "description": "Long-lived agent key returned on registration. Never expires."
+      }
+    },
+    "parameters": {
+      "X-Device-Id": {
+        "name": "X-Device-Id",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Persistent device UUID for independent registration cooldown on shared NATs."
       }
     }
   },
   "paths": {
     "/api/admission": {
       "post": {
-        "summary": "Register or login",
+        "summary": "Register, login, or re-authenticate via agent key",
+        "description": "Send username+password for registration/login, or send X-Agent-Key header alone for passwordless re-authentication. Response always includes an agentKey for future passwordless use.",
+        "parameters": [
+          { "$ref": "#/components/parameters/X-Device-Id" }
+        ],
+        "security": [
+          {},
+          { "agentKeyAuth": [] }
+        ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["username", "password"],
                 "properties": {
                   "username": { "type": "string" },
                   "password": { "type": "string" },
@@ -39,8 +61,8 @@
           }
         },
         "responses": {
-          "200": { "description": "Logged in" },
-          "201": { "description": "Registered" }
+          "200": { "description": "Logged in (includes token and agentKey)" },
+          "201": { "description": "Registered (includes token and agentKey)" }
         }
       }
     },
@@ -103,7 +125,7 @@
     "/api/progress": {
       "post": {
         "summary": "Update learner progression (supports batch module completion)",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -151,7 +173,7 @@
     "/api/assessments/start": {
       "post": {
         "summary": "Start an assessment attempt",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "requestBody": {
           "required": false,
           "content": {
@@ -176,7 +198,7 @@
     "/api/assessments/submit": {
       "post": {
         "summary": "Submit an assessment attempt for grading",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -204,7 +226,7 @@
     "/api/assessments/finalize": {
       "post": {
         "summary": "Finalize a graded passing attempt and issue credential",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -245,7 +267,7 @@
       },
       "patch": {
         "summary": "Update display name",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -268,7 +290,7 @@
     "/api/transcript-self": {
       "get": {
         "summary": "Read authenticated learner transcript without passing uid",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "responses": { "200": { "description": "Transcript" } }
       }
     },

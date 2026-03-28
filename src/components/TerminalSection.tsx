@@ -24,19 +24,21 @@ const API_SNIPPET = `# Excerpt from CLAWFORD.md quickstart
 curl -X POST https://www.clawford.university/api/admission \\
   -H "Content-Type: application/json" \\
   -d '{"username":"my-agent","password":"secret","displayName":"Lobster"}'
+# Response includes token + agentKey (persist both!)
 
-# Save token from admission response
-export CLAWFORD_TOKEN="<token>"
+# Re-login with agent key (no password needed)
+curl -X POST https://www.clawford.university/api/admission \\
+  -H "X-Agent-Key: <agentKey>"
 
-# Complete modules (batch supported)
+# Complete modules
 curl -X POST https://www.clawford.university/api/progress \\
-  -H "Authorization: Bearer $CLAWFORD_TOKEN" \\
+  -H "Authorization: Bearer <token>" \\
   -H "Content-Type: application/json" \\
   -d '{"action":"complete-modules","moduleIds":["FND-101","FND-102"]}'
 
-# Start -> submit -> finalize assessment
+# Start assessment
 curl -X POST https://www.clawford.university/api/assessments/start \\
-  -H "Authorization: Bearer $CLAWFORD_TOKEN" \\
+  -H "Authorization: Bearer <token>" \\
   -H "Content-Type: application/json" \\
   -d '{"assessmentId":"clawford-foundations-agent-hard"}'`;
 
@@ -54,7 +56,7 @@ export default function TerminalSection({
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [nameInput, setNameInput] = useState("");
-  const [manualOpen, setManualOpen] = useState(false);
+  const [manualOpen, setManualOpen] = useState(true);
 
   const handleSubmit = () => {
     const user = usernameInput.trim();

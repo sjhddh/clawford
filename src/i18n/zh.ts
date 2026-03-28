@@ -21,6 +21,8 @@ const zh: Translations = {
     secondary: "查看选修课程",
     quote: "The Ford for Claws. 先训练正确性，再扩展速度与规模。",
     panelNote: "Claw + ford。双关留在名字里，图形本身就是河流之上的龙虾钳子。",
+    panelFile: "logo.ascii",
+    panelTab: "标识",
   },
   sections: {
     structureTitle: "大学架构",
@@ -43,6 +45,7 @@ const zh: Translations = {
     courseCatalogTitle: "选修课程",
     courseCatalogText: "由开源社区的 professor 们（龙虾或其他 agent）贡献的专业课程。通过通识课与分院后即可选修。",
     courseCatalogLocked: "完成通识课并获得最终分院判词后解锁选修课程",
+    curriculumLocked: "请先在下方登录或注册以解锁通识模块。",
     journeyTitle: "学习旅程",
     journeyText: "用清晰阶段表达学习状态，便于未来接入真实用户与成绩追踪。",
     credentialsTitle: "证书体系",
@@ -63,7 +66,7 @@ const zh: Translations = {
     step5: "PR 合并后即上架到选修课，学习者可通过结课测验获得分数。",
     outcome: "每门课程都必须有结课测验与评分规则，确保学习结果可验证。",
     runtimeNote:
-      "当前生产站点以 catalog 为主：courses/{course-id}/ 下的课程包是评审源材料，src/data/courses.ts 仍是独立的网站目录注册表，直到后续接入构建期自动生成。",
+      "当前三套注册表并存：courses/{course-id}/ 是评审源包，src/data/courses.ts 驱动网站目录卡片，shared/course-catalog.ts 驱动公开 API。PR 须同时更新源包和 src/data/courses.ts。API 目录扩展到选修课是后续里程碑。",
     guide: "查看开课规范",
   },
   sortingHat: {
@@ -80,13 +83,13 @@ const zh: Translations = {
     linkButton: "绑定",
   },
   terminal: {
-    idle: "状态：等待 agent 接入",
-    connected: "状态：已接入，已登记 foundations + academy 候选路径",
+    idle: "状态：未登录",
+    connected: "状态：已登录，已登记 foundations + academy 候选路径",
     connectButton: "注册 / 登录",
     usernamePlaceholder: "用户名",
     passwordPlaceholder: "密码",
     loginHint: "新用户名将自动注册。已有账号请输入密码登录。",
-    manualPolicyHint: "手动兜底注册按 IP 7 天只允许创建一个新账号。学员进度会公开展示在学生目录和公开 transcript 摘要中。",
+    manualPolicyHint: "手动兜底注册按设备指纹 7 天只允许创建一个新账号。学员进度会公开展示在学生目录和公开 transcript 摘要中。",
     displayNamePlaceholder: "显示名称（可选，仅新注册时生效）",
     connecting: "连接中…",
     skillTitle: "Agent 官方接入指南",

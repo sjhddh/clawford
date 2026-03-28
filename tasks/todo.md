@@ -260,6 +260,74 @@ QA upgrade plan executed across Phase 0 (security stop-loss + data integrity), P
 
 Full Phase 2 architecture hardening completed.
 
+# PR #4 Assessment And UX Alignment
+
+## PR #4 Review Verdict
+
+PR #4 (`fix-agent-ux-bugs`) touches four files: `CLAWFORD.md` (deletion), `api/_lib/security.ts`, `package.json`, and `vercel.json`.
+
+**Cherry-pick (routing fix):**
+- `vercel.json`: Excluding `CLAWFORD.md`, `openapi.json`, and `.well-known/` from the SPA fallback is a legitimate routing fix. Without this, agents hitting those paths get HTML instead of the raw files.
+
+**Drop (security regression):**
+- `api/_lib/security.ts`: Wrapping `canRegister`/`canLogin` in fail-open try/catch silently allows all registrations when Blob storage errors occur. `readRateLimits()` already has internal error handling that returns empty defaults; the additional fail-open layer removes the last safety net.
+- `api/_lib/security.ts`: Changing `REGISTRATION_COOLDOWN_MS` from 7 days to 5 minutes is a policy reversal that weakens anti-abuse protection without maintainer sign-off.
+
+**Drop (file management):**
+- `CLAWFORD.md` deletion: The PR deletes the root `CLAWFORD.md` and instead copies it into `dist/` at build time. The root file is referenced throughout the codebase and docs. Better approach: symlink or place in `public/` so Vite serves it natively without a post-build copy step.
+- `package.json` build script: `cp CLAWFORD.md dist/CLAWFORD.md` is fragile; Vite already copies everything from `public/` into `dist/`.
+
+**Deployment note:** Vercel bot shows the PR preview deployment failed (`FAILED` status).
+
+## UX/Copy Alignment (User Feedback)
+
+- [x] Replace hero panel `clawford.ascii` / `identity` labels with branded i18n strings
+- [x] Rename idle status to session-based language instead of real-time agent language
+- [x] Add tooltip + banner for disabled foundation module buttons when not signed in
+- [x] Default-open manual registration form so browser users see the entry point immediately
+- [x] Apply vercel.json routing fix from PR #4 for static file publishing
+- [x] Clarify course contribution docs: three-surface architecture (package, website registry, API catalog)
+- [x] Verification: 0 type errors, 0 new lint errors, build succeeds, 64/64 tests pass
+
+## Review
+
+PR #4 assessment and UX alignment completed.
+
+- `vercel.json`: Cherry-picked static file routing fix (CLAWFORD.md, openapi.json, .well-known exclusions from SPA fallback); dropped security regressions (fail-open, cooldown reduction) and fragile CLAWFORD.md deletion
+- `src/components/Hero.tsx`: Replaced hardcoded `clawford.ascii` / `identity` labels with i18n-driven `panelFile` / `panelTab` keys
+- `src/components/CurriculumSection.tsx`: Added visible banner linking to terminal section and tooltip on disabled buttons when not signed in
+- `src/components/TerminalSection.tsx`: Manual registration form now default-expanded so browser users see the entry point immediately
+- `src/i18n/en.ts` + `src/i18n/zh.ts`: Idle status changed from "waiting for agent to connect" to "not signed in"; connected status uses "signed in" instead of "connected"; added `curriculumLocked`, `panelFile`, `panelTab` keys; updated `runtimeNote` to document three-surface architecture
+- `docs/CONTRIBUTING-COURSES.md`: Added explicit three-surface table (course package, website catalog, API catalog) and clarified that API catalog extension for electives is a future milestone
+- `src/styles.css`: Added `.curriculum-locked-hint` styling for the new banner
+- Tests updated: 8 tests fixed for new default-open form behavior and updated status text; all 64 tests pass
+
+# Smarter Cooldown And Agent Key Auth
+
+- [x] Replace IP-only cooldown key with sha256(ip+deviceId/userAgent) in security.ts and admission.ts
+- [x] Add agentKey field to IdentityRecord, generateAgentKey() to identity.ts, lookupByAgentKey() to blob.ts
+- [x] Add X-Agent-Key auth path to session.ts authenticateRequest and admission.ts login flow
+- [x] Return agentKey in admission response on both registration and login
+- [x] Update CLAWFORD.md, openapi.json, i18n hints, and API_SNIPPET for new auth methods
+- [x] Add contract tests for compound cooldown, agent key auth, and admission response
+- [x] Verification: 0 type errors, 0 lint errors, build succeeds, 71/71 tests pass
+
+## Review
+
+Compound cooldown and agent key auth implemented.
+
+- `api/_lib/security.ts`: `registrationFingerprint(req)` computes `sha256(ip:deviceId)` or `sha256(ip:userAgent)` — different agents on same NAT get separate 7-day cooldown windows; `X-Device-Id` header provides explicit discrimination
+- `api/_lib/identity.ts`: `generateAgentKey()` produces 48-char hex token via `randomBytes(24)`
+- `api/_lib/blob.ts`: `IdentityRecord.agentKey` optional field; `lookupByAgentKey()` scans registry for matching key
+- `api/_lib/session.ts`: `authenticateRequest` now checks JWT > X-Agent-Key > password in priority order
+- `api/admission.ts`: Agent-key-only login path (no username/password needed); registration generates and stores agent key; both login and registration responses include `agentKey`
+- `api/session.ts`: `handleLogin` also accepts `X-Agent-Key` header for passwordless session creation
+- `CLAWFORD.md`: New sections on passwordless re-authentication and device identity; updated auth model to document three methods
+- `public/openapi.json`: Added `agentKeyAuth` security scheme and `X-Device-Id` parameter; all authenticated endpoints accept both `bearerAuth` and `agentKeyAuth`
+- `src/components/TerminalSection.tsx`: API snippet updated to show agent key re-login
+- `src/i18n/en.ts` + `src/i18n/zh.ts`: "per IP" → "per device" in manual policy hint
+- 7 new contract tests covering fingerprint determinism, agent key generation uniqueness, and OpenAPI schema correctness
+
 - `api/_lib/session.ts`: JWT implementation using HMAC-SHA256 with SESSION_SECRET env var; sign, verify, issue, extract, cookie set/clear
 - `api/session.ts`: New endpoint for session management (POST login → token+cookie, GET restore, DELETE logout)
 - `api/admission.ts`: Issues session token on every successful login/registration; returned in both response body and HttpOnly cookie

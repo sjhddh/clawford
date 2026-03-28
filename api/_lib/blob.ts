@@ -95,6 +95,7 @@ export interface IdentityRecord {
   role: "student" | "professor";
   createdAt: string;
   lastSeen: string;
+  agentKey?: string;
 }
 
 export interface IdentityRegistry {
@@ -232,6 +233,17 @@ export async function lookupByUsername(
 ): Promise<IdentityRecord | null> {
   const registry = await getRegistry();
   return registry.users[normalizedUsername] ?? null;
+}
+
+export async function lookupByAgentKey(
+  key: string,
+): Promise<IdentityRecord | null> {
+  if (!key) return null;
+  const registry = await getRegistry();
+  for (const record of Object.values(registry.users)) {
+    if (record.agentKey && record.agentKey === key) return record;
+  }
+  return null;
 }
 
 export async function registerIdentity(

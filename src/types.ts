@@ -27,6 +27,8 @@ export interface HeroTranslations {
   secondary: string;
   quote: string;
   panelNote: string;
+  panelFile: string;
+  panelTab: string;
 }
 
 export interface SectionTranslations {
@@ -42,6 +44,7 @@ export interface SectionTranslations {
   courseCatalogTitle: string;
   courseCatalogText: string;
   courseCatalogLocked: string;
+  curriculumLocked: string;
   journeyTitle: string;
   journeyText: string;
   credentialsTitle: string;

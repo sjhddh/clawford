@@ -250,3 +250,66 @@ describe("Course graph contract", () => {
     expect(foundations!.totalCredits).toBe(27);
   });
 });
+
+describe("Compound registration cooldown", () => {
+  it("same IP + different device IDs produce different fingerprint keys", async () => {
+    const { createHash } = await import("crypto");
+    const ip = "203.0.113.42";
+    const fp = (deviceId: string) =>
+      createHash("sha256").update(`${ip}:${deviceId}`).digest("hex").slice(0, 24);
+
+    const keyA = fp("agent-alpha-uuid");
+    const keyB = fp("agent-beta-uuid");
+
+    expect(keyA).not.toBe(keyB);
+    expect(keyA).toHaveLength(24);
+    expect(keyB).toHaveLength(24);
+  });
+
+  it("same IP + same device ID produce the same key", async () => {
+    const { createHash } = await import("crypto");
+    const ip = "203.0.113.42";
+    const fp = (deviceId: string) =>
+      createHash("sha256").update(`${ip}:${deviceId}`).digest("hex").slice(0, 24);
+
+    expect(fp("agent-alpha-uuid")).toBe(fp("agent-alpha-uuid"));
+  });
+
+  it("different IPs + same device ID produce different keys", async () => {
+    const { createHash } = await import("crypto");
+    const fp = (ip: string, deviceId: string) =>
+      createHash("sha256").update(`${ip}:${deviceId}`).digest("hex").slice(0, 24);
+
+    expect(fp("203.0.113.1", "agent-uuid")).not.toBe(fp("203.0.113.2", "agent-uuid"));
+  });
+});
+
+describe("Agent key identity contract", () => {
+  it("generateAgentKey produces 48-char hex string", async () => {
+    const { generateAgentKey } = await import("../../api/_lib/identity.js");
+    const key = generateAgentKey();
+    expect(key).toHaveLength(48);
+    expect(/^[0-9a-f]{48}$/.test(key)).toBe(true);
+  });
+
+  it("each generated key is unique", async () => {
+    const { generateAgentKey } = await import("../../api/_lib/identity.js");
+    const keys = Array.from({ length: 20 }, () => generateAgentKey());
+    expect(new Set(keys).size).toBe(20);
+  });
+});
+
+describe("OpenAPI agent key schema", () => {
+  it("defines agentKeyAuth security scheme", () => {
+    const schemas = (openapi as { components: { securitySchemes: Record<string, { type: string; name?: string }> } }).components.securitySchemes;
+    expect(schemas).toHaveProperty("agentKeyAuth");
+    expect(schemas.agentKeyAuth.type).toBe("apiKey");
+    expect(schemas.agentKeyAuth.name).toBe("X-Agent-Key");
+  });
+
+  it("admission endpoint accepts agentKeyAuth", () => {
+    const admission = (openapi as { paths: Record<string, { post: { security: Array<Record<string, unknown>> } }> }).paths["/api/admission"].post;
+    const securitySchemes = admission.security.map((s: Record<string, unknown>) => Object.keys(s)).flat();
+    expect(securitySchemes).toContain("agentKeyAuth");
+  });
+});

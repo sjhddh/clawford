@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { put, list } from "@vercel/blob";
+import { createHash } from "crypto";
 
 const RATE_LIMITS_PATH = "clawford/rate-limits.json";
 
@@ -149,13 +150,23 @@ async function writeRateLimits(data: RateLimitRegistry): Promise<void> {
   });
 }
 
-// ---- Registration cooldown (7 days per IP) ----
+// ---- Registration cooldown (7 days per device fingerprint) ----
+
+export function registrationFingerprint(req: VercelRequest): string {
+  const ip = getClientIp(req);
+  const deviceId = req.headers["x-device-id"];
+  const discriminator =
+    typeof deviceId === "string" && deviceId.trim()
+      ? deviceId.trim()
+      : (req.headers["user-agent"] ?? "unknown");
+  return createHash("sha256").update(`${ip}:${discriminator}`).digest("hex").slice(0, 24);
+}
 
 export async function canRegister(
-  ip: string,
+  fingerprintKey: string,
 ): Promise<{ allowed: boolean; retryAfter?: string }> {
   const reg = await readRateLimits();
-  const record = reg.registrations[ip];
+  const record = reg.registrations[fingerprintKey];
   if (!record) return { allowed: true };
 
   const elapsed = Date.now() - new Date(record.lastAt).getTime();
@@ -168,11 +179,11 @@ export async function canRegister(
   return { allowed: true };
 }
 
-export async function recordRegistration(ip: string): Promise<void> {
+export async function recordRegistration(fingerprintKey: string): Promise<void> {
   await withRateLock(async () => {
     const reg = await readRateLimits();
-    const existing = reg.registrations[ip];
-    reg.registrations[ip] = {
+    const existing = reg.registrations[fingerprintKey];
+    reg.registrations[fingerprintKey] = {
       count: (existing?.count ?? 0) + 1,
       lastAt: new Date().toISOString(),
     };

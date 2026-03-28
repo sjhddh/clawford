@@ -1,6 +1,6 @@
 import { createHmac, randomBytes } from "crypto";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { lookupByUsername } from "./blob.js";
+import { lookupByUsername, lookupByAgentKey } from "./blob.js";
 import { normalizeUsername, verifyPassword } from "./identity.js";
 
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
@@ -106,10 +106,18 @@ export function extractSession(req: VercelRequest): SessionPayload | null {
 
 export async function authenticateRequest(
   req: VercelRequest,
-): Promise<{ uid: string; username: string; method: "session" | "password" } | null> {
+): Promise<{ uid: string; username: string; method: "session" | "agent-key" | "password" } | null> {
   const session = extractSession(req);
   if (session) {
     return { uid: session.uid, username: session.username, method: "session" };
+  }
+
+  const agentKeyHeader = req.headers["x-agent-key"];
+  if (typeof agentKeyHeader === "string" && agentKeyHeader.trim()) {
+    const identity = await lookupByAgentKey(agentKeyHeader.trim());
+    if (identity) {
+      return { uid: identity.uid, username: identity.username, method: "agent-key" };
+    }
   }
 
   const body = req.body ?? {};
