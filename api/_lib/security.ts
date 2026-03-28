@@ -21,7 +21,7 @@ async function withRateLock<T>(fn: () => Promise<T>): Promise<T> {
     if (rateLimitLocks.get(key) === next) rateLimitLocks.delete(key);
   }
 }
-const REGISTRATION_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+const REGISTRATION_COOLDOWN_MS = envInt("REG_COOLDOWN_MS", 5 * 60 * 1000); // 5 minutes
 const LOGIN_LOCKOUT_WINDOW_MS = 10 * 60 * 1000;
 const MAX_LOGIN_FAILURES = 5;
 const GLOBAL_RATE_WINDOW_MS = 60 * 1000;
@@ -154,7 +154,13 @@ async function writeRateLimits(data: RateLimitRegistry): Promise<void> {
 export async function canRegister(
   ip: string,
 ): Promise<{ allowed: boolean; retryAfter?: string }> {
-  const reg = await readRateLimits();
+  let reg;
+  try {
+    reg = await readRateLimits();
+  } catch (e) {
+    // Fail-open for high-concurrency blob errors
+    return { allowed: true };
+  }
   const record = reg.registrations[ip];
   if (!record) return { allowed: true };
 
@@ -185,8 +191,9 @@ export async function recordRegistration(ip: string): Promise<void> {
 export async function canLogin(
   username: string,
 ): Promise<{ allowed: boolean; retryAfter?: string }> {
-  return withRateLock(async () => {
-    const reg = await readRateLimits();
+  try {
+    return await withRateLock(async () => {
+      const reg = await readRateLimits();
     const record = reg.loginFailures[username];
     if (!record) return { allowed: true };
 
@@ -203,7 +210,10 @@ export async function canLogin(
       return { allowed: false, retryAfter: retryAt.toISOString() };
     }
     return { allowed: true };
-  });
+    });
+  } catch (e) {
+    return { allowed: true };
+  }
 }
 
 export async function recordLoginFailure(username: string): Promise<void> {
