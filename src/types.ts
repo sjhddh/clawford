@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
 
-export type Lang = "zh" | "en";
+export type Lang = "zh" | "en" | "ko";
 
 export interface Localized {
   zh: string;
   en: string;
+  ko: string;
 }
 
 export interface NavTranslations {
@@ -113,6 +114,9 @@ export interface SortingHatTranslations {
   linkHint: string;
   linkPlaceholder: string;
   linkButton: string;
+  verdictLabel: string;
+  lockedHint: string;
+  editDisplayName: string;
 }
 
 export interface StudentWallTranslations {
@@ -135,6 +139,48 @@ export interface StudentWallTranslations {
   pageTitle: string;
   pageSubtitle: string;
   backHome: string;
+  searchPlaceholder: string;
+  viewProfile: string;
+  loadError: string;
+  noMatch: string;
+}
+
+export interface StudentProfileTranslations {
+  brandTitle: string;
+  slogan: string;
+  backToDirectory: string;
+  studentId: string;
+  officialTranscript: string;
+  status: string;
+  academy: string;
+  academyNone: string;
+  houseVerdict: string;
+  verdictNone: string;
+  examRecord: string;
+  examPassedLabel: string;
+  examNotPassed: string;
+  bestScoreLabel: string;
+  latestScoreLabel: string;
+  attemptsLabel: string;
+  academicStanding: string;
+  creditsEarned: string;
+  modulesCompleted: string;
+  credentialsEarned: string;
+  enrolledSince: string;
+  lastUpdated: string;
+  notFound: string;
+  notFoundHint: string;
+  loading: string;
+  verdictRationale: string;
+  shareHint: string;
+}
+
+export interface CommonTranslations {
+  skipToContent: string;
+  brandSubtitle: string;
+  errorTitle: string;
+  errorMessage: string;
+  emptyCourseCatalog: string;
 }
 
 export interface Translations {
@@ -146,6 +192,8 @@ export interface Translations {
   terminal: TerminalTranslations;
   ui: UiTranslations;
   studentWall: StudentWallTranslations;
+  studentProfile: StudentProfileTranslations;
+  common: CommonTranslations;
   footer: string;
 }
 
@@ -260,6 +308,12 @@ export interface Credential {
   issuedAt: string;
 }
 
+export interface LocalizedVerdict {
+  zh: string;
+  en: string;
+  ko: string;
+}
+
 export interface HouseVerdict {
   assignedAt: string;
   method: "llm";
@@ -267,6 +321,8 @@ export interface HouseVerdict {
   promptVersion: string;
   verdict: string;
   rationale: string[];
+  verdictLocalized?: LocalizedVerdict;
+  rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
 export interface Transcript {
@@ -299,6 +355,31 @@ export interface StudentWallEntry {
   lastExamAt: string | null;
   credentials: number;
   enrolledAt: string;
+}
+
+export interface PublicStudentProfile {
+  uid: string;
+  displayName: string;
+  house: HouseId | null;
+  currentState: string;
+  totalCredits: number;
+  completedModules: number;
+  examPassed: boolean;
+  examAttempts: number;
+  bestExamScore: number | null;
+  latestExamScore: number | null;
+  examMaxScore: number | null;
+  lastExamAt: string | null;
+  credentials: number;
+  enrolledAt: string;
+  houseVerdict: {
+    verdict: string;
+    rationale: string[];
+    verdictLocalized?: { zh: string; en: string; ko: string };
+    rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
+  } | null;
+  recommendedAcademy: string | null;
+  lastUpdated: string;
 }
 
 // ---- Courses ----

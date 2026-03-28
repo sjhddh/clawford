@@ -70,6 +70,15 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     return res.status(200).json(transcript);
   }
 
+  const examAttempts = transcript.foundationsStatus.assessmentResults.filter(
+    (r) => r.assessmentId.startsWith("exam-"),
+  );
+  const latestExam = examAttempts.at(-1) ?? null;
+  const bestExam = examAttempts.reduce<typeof latestExam>((best, curr) => {
+    if (!best) return curr;
+    return curr.score > best.score ? curr : best;
+  }, null);
+
   audit.log({ action: "read-public", targetUid: uid, status: "success", statusCode: 200 });
   return res.status(200).json({
     uid: transcript.uid,
@@ -79,8 +88,23 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     totalCredits: transcript.foundationsStatus.totalCreditsEarned,
     completedModules: transcript.foundationsStatus.completedModules.length,
     examPassed: transcript.foundationsStatus.status === "completed",
+    examAttempts: examAttempts.length,
+    bestExamScore: bestExam?.score ?? null,
+    latestExamScore: latestExam?.score ?? null,
+    examMaxScore: latestExam?.maxScore ?? bestExam?.maxScore ?? null,
+    lastExamAt: latestExam?.timestamp ?? null,
     credentials: transcript.credentials.length,
     enrolledAt: transcript.foundationsStatus.enrolledAt,
+    houseVerdict: transcript.houseVerdict
+      ? {
+          verdict: transcript.houseVerdict.verdict,
+          rationale: transcript.houseVerdict.rationale,
+          verdictLocalized: transcript.houseVerdict.verdictLocalized ?? undefined,
+          rationaleLocalized: transcript.houseVerdict.rationaleLocalized ?? undefined,
+        }
+      : null,
+    recommendedAcademy: transcript.recommendedAcademy,
+    lastUpdated: transcript.lastUpdated,
   });
 }
 

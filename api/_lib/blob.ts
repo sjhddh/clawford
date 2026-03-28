@@ -141,6 +141,8 @@ export interface HouseVerdict {
   promptVersion: string;
   verdict: string;
   rationale: string[];
+  verdictLocalized?: { zh: string; en: string; ko: string };
+  rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
 export interface Transcript {

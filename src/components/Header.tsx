@@ -36,11 +36,11 @@ export default function Header({ lang, setLang, t }: Props) {
         </div>
         <div>
           <div className="brand-title">Clawford</div>
-          <div className="brand-subtitle">University for Agents</div>
+          <div className="brand-subtitle">{t.common.brandSubtitle}</div>
         </div>
       </Link>
 
-      <nav className="topnav" role="navigation" aria-label="Main navigation">
+      <nav className="topnav" role="navigation" aria-label={t.nav.structure}>
         {!isStudentsPage &&
           NAV_ITEMS.map((item) => (
             <a key={item.href} href={item.href}>
@@ -54,19 +54,22 @@ export default function Header({ lang, setLang, t }: Props) {
 
       <div className="topbar-actions">
         <div className="lang-switcher" role="group" aria-label="Language switcher">
-          {(Object.keys(translations) as Lang[]).map((language) => (
-            <button
-              key={language}
-              type="button"
-              className={language === lang ? "active" : ""}
-              onClick={() => setLang(language)}
-              aria-label={`Switch to ${language.toUpperCase()}`}
-              aria-pressed={language === lang}
-            >
-              <Globe size={14} />
-              {language.toUpperCase()}
-            </button>
-          ))}
+          {(Object.keys(translations) as Lang[]).map((language) => {
+            const label: Record<Lang, string> = { zh: "中文", en: "EN", ko: "한국어" };
+            return (
+              <button
+                key={language}
+                type="button"
+                className={language === lang ? "active" : ""}
+                onClick={() => setLang(language)}
+                aria-label={label[language]}
+                aria-pressed={language === lang}
+              >
+                <Globe size={14} />
+                {label[language]}
+              </button>
+            );
+          })}
         </div>
 
         <a className="primary-link" href="/#terminal">
@@ -78,7 +81,7 @@ export default function Header({ lang, setLang, t }: Props) {
           type="button"
           className="mobile-nav-toggle"
           onClick={() => setMobileNavOpen((prev) => !prev)}
-          aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileNavOpen ? "✕" : "☰"}
           aria-expanded={mobileNavOpen}
         >
           {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}

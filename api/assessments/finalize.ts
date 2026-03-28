@@ -130,6 +130,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           promptVersion: sorting.promptVersion,
           verdict: sorting.verdict,
           rationale: sorting.rationale,
+          verdictLocalized: sorting.verdictLocalized,
+          rationaleLocalized: sorting.rationaleLocalized,
         };
       } catch (error) {
         const fallbackHouse = sortIntoHouse(current.uid);

@@ -25,10 +25,14 @@ type GradeResult = {
   };
 };
 
+type LocalizedText = { zh: string; en: string; ko: string };
+
 type SortingResult = {
   house: HouseId;
   verdict: string;
   rationale: string[];
+  verdictLocalized?: LocalizedText;
+  rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
   model: string;
   promptVersion: string;
 };
@@ -124,10 +128,28 @@ function normalizeSortingResult(
         .slice(0, 6)
     : [];
 
+  let verdictLocalized: LocalizedText | undefined;
+  const rawVL = raw.verdictLocalized as Partial<LocalizedText> | undefined;
+  if (rawVL && typeof rawVL.en === "string" && typeof rawVL.zh === "string" && typeof rawVL.ko === "string") {
+    verdictLocalized = { en: rawVL.en.trim(), zh: rawVL.zh.trim(), ko: rawVL.ko.trim() };
+  }
+
+  let rationaleLocalized: { zh: string[]; en: string[]; ko: string[] } | undefined;
+  const rawRL = raw.rationaleLocalized as Partial<{ zh: unknown[]; en: unknown[]; ko: unknown[] }> | undefined;
+  if (rawRL && Array.isArray(rawRL.en) && Array.isArray(rawRL.zh) && Array.isArray(rawRL.ko)) {
+    rationaleLocalized = {
+      en: rawRL.en.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+      zh: rawRL.zh.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+      ko: rawRL.ko.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+    };
+  }
+
   return {
     house,
     verdict,
     rationale,
+    verdictLocalized,
+    rationaleLocalized,
     model: String(raw.model ?? "gemini-3-flash-preview"),
     promptVersion: String(raw.promptVersion ?? "sorting-v1"),
   };
@@ -218,25 +240,38 @@ export async function sortHouseWithFlockModel(input: {
 
   const endpoint = process.env.FLOCK_API_BASE_URL ?? "https://api.flock.io/v1/chat/completions";
   const model = "gemini-3-flash-preview";
-  const promptVersion = "sorting-v1";
+  const promptVersion = "sorting-v2";
 
-  const systemPrompt = `You are the Clawford Sorting Hat.
+  const systemPrompt = `You are the Clawford Sorting Hat — an ancient, theatrical, wise lobster who has sorted thousands of crustaceans across the ages.
+
+The four houses and what they value:
+- Krillindor: courage, boldness, charging into the unknown, bias toward action, daring initiative, willingness to fail fast and try again
+- Shelltherin: strategy, ambition, patience, long-term planning, resourcefulness, competitive drive, tactical precision
+- Cravenclaw: intellect, curiosity, precision, love of learning and deep analysis, methodical rigor, creative problem-solving
+- Hufflepinch: loyalty, hard work, reliability, teamwork, steady perseverance, community building, humble consistency
+
+CRITICAL RULES:
+1. You MUST distribute learners roughly evenly across all four houses. Do NOT favor any single house — each is equally valid and desirable.
+2. Find a genuine, creative reason to assign this specific learner to the house you choose. Use their display name, score, attempt count, and any other signal as inspiration. Be imaginative.
+3. Write the verdict as a dramatic, theatrical 1-2 sentence sorting hat pronouncement — as if spoken aloud in a grand ceremony. The "verdict" field should be in English.
+4. Write rationale as 2-4 short bullet points explaining why this house fits this particular learner. The "rationale" field should be in English.
+5. IMPORTANT: You MUST also provide "verdictLocalized" with the verdict translated into all three languages (en, zh, ko), and "rationaleLocalized" with the rationale bullet points translated into all three languages. Each language's rationale array should have the same number of items.
+6. Never include secrets, credentials, or private data.
+
 Return only valid JSON:
 {
-  "house": "krillindor" | "shelltherin" | "cravenclaw" | "hufflepinch",
-  "verdict": string,
-  "rationale": string[],
-  "model": string,
-  "promptVersion": string
-}
-Rules:
-- Base house assignment on learner behavior signals from assessment and completion data.
-- Keep verdict concise (1-2 sentences), non-toxic, no personal attacks.
-- Rationale must contain 2-4 short bullet-like reasons.
-- Never include secrets, credentials, or unrelated private data.
-- Always include model and promptVersion fields.`;
+  "house": "krillindor|shelltherin|cravenclaw|hufflepinch",
+  "verdict": "English verdict string",
+  "rationale": ["English bullet 1", "English bullet 2"],
+  "verdictLocalized": { "en": "...", "zh": "...", "ko": "..." },
+  "rationaleLocalized": { "en": ["..."], "zh": ["..."], "ko": ["..."] },
+  "model": "...",
+  "promptVersion": "..."
+}`;
 
-  const userPrompt = `UID: ${input.uid}
+  const sortingSeed = Date.now() % 9973;
+  const userPrompt = `Sorting seed: ${sortingSeed}
+UID: ${input.uid}
 Display name: ${input.displayName}
 Foundations score: ${input.score}/${input.maxScore}
 Assessment attempts: ${input.attempts}
@@ -244,7 +279,7 @@ Completed modules: ${input.completedModules.join(", ")}
 Category scores: ${JSON.stringify(input.categoryScores)}
 Feedback summary: ${JSON.stringify(input.feedbackSummary)}
 
-Assign a final Clawford house and produce the required JSON only.`;
+Assign a final Clawford house for this learner. Remember: distribute evenly, be creative, be theatrical.`;
 
   const response = await fetch(endpoint, {
     method: "POST",
@@ -254,7 +289,7 @@ Assign a final Clawford house and produce the required JSON only.`;
     },
     body: JSON.stringify({
       model,
-      temperature: 0.1,
+      temperature: 0.9,
       stream: false,
       response_format: { type: "json_object" },
       messages: [
