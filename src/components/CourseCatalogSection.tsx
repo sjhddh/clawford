@@ -119,6 +119,7 @@ export default function CourseCatalogSection({ lang, t, examPassed, house }: Pro
           <li>{t.courseAuthoring.step5}</li>
         </ol>
         <p className="course-authoring-outcome">{t.courseAuthoring.outcome}</p>
+        <p className="terminal-hint">{t.courseAuthoring.runtimeNote}</p>
         <a className="button button-secondary" href={CONTRIBUTING_GUIDE_URL} target="_blank" rel="noreferrer">
           <ChevronRight size={18} />
           {t.courseAuthoring.guide}

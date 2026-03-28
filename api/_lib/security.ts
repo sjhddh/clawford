@@ -314,8 +314,18 @@ export async function recordDailyResit(uid: string): Promise<{ used: number; dat
 
 // ---- Admin bypass ----
 
+export function getAdminCode(req: VercelRequest): string | null {
+  const headerCode = req.headers["x-admin-code"];
+  if (typeof headerCode === "string" && headerCode.trim()) return headerCode.trim();
+
+  const bodyCode = req.body?.adminCode;
+  if (typeof bodyCode === "string" && bodyCode.trim()) return bodyCode.trim();
+
+  return null;
+}
+
 export function isAdmin(req: VercelRequest): boolean {
-  const code = req.body?.adminCode ?? req.query?.adminCode;
+  const code = getAdminCode(req);
   const secret = process.env.ADMIN_CODE;
   return !!secret && typeof code === "string" && code === secret;
 }

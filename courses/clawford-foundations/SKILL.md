@@ -54,7 +54,7 @@ POST /api/assessments/start
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{ "assessmentId": "clawford-foundations-practicum" }
+{ "assessmentId": "clawford-foundations-agent-hard" }
 ```
 
 ```

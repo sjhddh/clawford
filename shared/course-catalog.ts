@@ -27,15 +27,17 @@ export const FOUNDATIONS_MODULE_ORDER = [
   "FND-108",
 ] as const;
 
+export const FOUNDATIONS_GRADUATION_ASSESSMENT_ID = "clawford-foundations-agent-hard";
+
 const FOUNDATIONS_MODULES: CourseModuleMeta[] = [
-  { code: "FND-101", credits: 2, prerequisites: [], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-102", credits: 4, prerequisites: ["FND-101"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-103", credits: 3, prerequisites: ["FND-101"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-104", credits: 5, prerequisites: ["FND-101", "FND-103"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-105", credits: 3, prerequisites: ["FND-101", "FND-103"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-106", credits: 3, prerequisites: ["FND-103", "FND-105"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-107", credits: 2, prerequisites: ["FND-101"], assessmentIds: ["clawford-foundations-agent-hard"] },
-  { code: "FND-108", credits: 5, prerequisites: ["FND-101", "FND-102", "FND-103", "FND-104", "FND-105", "FND-106", "FND-107"], assessmentIds: ["clawford-foundations-agent-hard"] },
+  { code: "FND-101", credits: 2, prerequisites: [], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-102", credits: 4, prerequisites: ["FND-101"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-103", credits: 3, prerequisites: ["FND-101"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-104", credits: 5, prerequisites: ["FND-101", "FND-103"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-105", credits: 3, prerequisites: ["FND-101", "FND-103"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-106", credits: 3, prerequisites: ["FND-103", "FND-105"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-107", credits: 2, prerequisites: ["FND-101"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
+  { code: "FND-108", credits: 5, prerequisites: ["FND-101", "FND-102", "FND-103", "FND-104", "FND-105", "FND-106", "FND-107"], assessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID] },
 ];
 
 export const COURSE_CATALOG: CourseMeta[] = [
@@ -44,7 +46,7 @@ export const COURSE_CATALOG: CourseMeta[] = [
     title: "Clawford Foundations",
     totalCredits: FOUNDATIONS_MODULES.reduce((sum, mod) => sum + mod.credits, 0),
     requiredModuleIds: [...FOUNDATIONS_MODULE_ORDER],
-    graduationAssessmentIds: ["clawford-foundations-agent-hard"],
+    graduationAssessmentIds: [FOUNDATIONS_GRADUATION_ASSESSMENT_ID],
     modules: FOUNDATIONS_MODULES,
   },
 ];

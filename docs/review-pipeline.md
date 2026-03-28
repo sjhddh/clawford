@@ -2,6 +2,12 @@
 
 This document specifies the complete draft-to-publication workflow for third-party professor-authored courses. Every course must pass through this pipeline before becoming visible to learners.
 
+Status note:
+
+- This document describes the review lifecycle contract.
+- Current production submission still happens through the GitHub PR workflow in `docs/CONTRIBUTING-COURSES.md`.
+- Function names such as `submitCoursePackage()` and `uploadRevision()` describe the intended future interface, not a currently deployed public API.
+
 ## Principles
 
 - No course reaches learners without structured first-party approval.

@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import type { Transcript } from "@/types";
 
 const USERNAME_KEY = "clawford:username";
-const TOKEN_KEY = "clawford:token";
 
 interface SessionState {
   username: string | null;
@@ -27,19 +26,6 @@ function getStoredUsername(): string | null {
   try { return localStorage.getItem(USERNAME_KEY); } catch { return null; }
 }
 
-function getStoredToken(): string | null {
-  try { return localStorage.getItem(TOKEN_KEY); } catch { return null; }
-}
-
-function setStoredToken(token: string | null): void {
-  try {
-    if (!token) localStorage.removeItem(TOKEN_KEY);
-    else localStorage.setItem(TOKEN_KEY, token);
-  } catch {
-    // noop
-  }
-}
-
 async function api<T>(path: string, init?: RequestInit, token?: string | null): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -56,7 +42,7 @@ async function api<T>(path: string, init?: RequestInit, token?: string | null): 
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [username, setUsername] = useState<string | null>(getStoredUsername);
-  const [token, setToken] = useState<string | null>(getStoredToken);
+  const [token, setToken] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<Transcript | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +61,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         setUsername(null);
         setToken(null);
         try { localStorage.removeItem(USERNAME_KEY); } catch { /* noop */ }
-        setStoredToken(null);
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
@@ -95,7 +80,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         setUsername(u);
         if (data.token) {
           setToken(data.token);
-          setStoredToken(data.token);
         }
         setTranscript(data.transcript);
         try { localStorage.setItem(USERNAME_KEY, u); } catch { /* noop */ }
@@ -117,7 +101,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setTranscript(null);
     setError(null);
     try { localStorage.removeItem(USERNAME_KEY); } catch { /* noop */ }
-    setStoredToken(null);
   }, []);
 
   const studyModule = useCallback(
@@ -147,7 +130,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         "/api/assessments/start",
         {
           method: "POST",
-          body: JSON.stringify({ assessmentId: "clawford-foundations-practicum" }),
+          body: JSON.stringify({ assessmentId: "clawford-foundations-agent-hard" }),
         },
         token,
       );

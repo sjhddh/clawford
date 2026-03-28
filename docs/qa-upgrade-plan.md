@@ -140,6 +140,16 @@ Scope: Production hardening and learner journey reliability for [https://www.cla
 - [x] Turn on monitoring and CI policy gates.
 - [ ] Ship architecture hardening release.
 
+### Post-Phase Contract Repair
+
+- [x] Unify assessment contract naming across docs, UI snippets, API metadata, and server defaults.
+- [x] Document intentional public learner-visibility and manual-registration cooldown policies.
+- [x] Align OpenAPI/plugin metadata with browser/session/public directory surfaces.
+- [x] Remove session secret fallback to `ADMIN_CODE` and tighten admin-route handling.
+- [x] Align sample course package, schema, and contributor docs for execution-exam publishing.
+- [x] Add regression coverage for contract drift, schema/sample alignment, admin secret transport, and reset pagination.
+- [ ] Ship consolidated comprehensive repair release.
+
 ## Risk Register
 
 - [x] Breaking existing consumers when adding auth to previously open endpoints.
@@ -170,3 +180,4 @@ Scope: Production hardening and learner journey reliability for [https://www.cla
 - 2026-03-27: Plan document created from production QA execution and validated findings.
 - 2026-03-27: Phase 0 + Phase 1 implemented. Phase 2 telemetry/audit foundation added. 0 type errors, 0 lint errors, build succeeds, 39/39 tests pass.
 - 2026-03-27: Phase 2 complete. Session/token auth (JWT + HttpOnly cookie), grading metrics, contract tests, E2E smoke, env-config rate limits. 0 type errors, 0 lint errors, build succeeds, 55/55 tests pass.
+- 2026-03-28: Comprehensive repair follow-up complete. Assessment contract unified to `clawford-foundations-agent-hard`; OpenAPI and plugin metadata updated for session/public directory surfaces; public learner visibility and 7-day registration cooldown documented as intentional policy; session signing no longer falls back to `ADMIN_CODE`; admin query-string secret removed; `resetdb` now paginates through all blobs; schema/sample publishing drift aligned. 0 type errors, 0 lint errors, build succeeds, 64/64 tests pass.

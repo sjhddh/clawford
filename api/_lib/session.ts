@@ -14,8 +14,8 @@ export interface SessionPayload {
 }
 
 function getSecret(): string {
-  const secret = process.env.SESSION_SECRET ?? process.env.ADMIN_CODE;
-  if (!secret) throw new Error("SESSION_SECRET or ADMIN_CODE must be set for session signing");
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) throw new Error("SESSION_SECRET must be set for session signing");
   return secret;
 }
 

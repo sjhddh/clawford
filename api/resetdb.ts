@@ -2,6 +2,19 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { put, list, del } from "@vercel/blob";
 import { isAdmin } from "./_lib/security.js";
 
+export async function listAllClawfordBlobPaths(prefix: string): Promise<string[]> {
+  const deletedPaths: string[] = [];
+  let cursor: string | undefined;
+
+  do {
+    const page = await list({ prefix, limit: 500, cursor });
+    deletedPaths.push(...page.blobs.map((blob) => blob.pathname));
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+
+  return deletedPaths;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -12,12 +25,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { blobs } = await list({ prefix: "clawford/", limit: 500 });
-    const deleted: string[] = [];
+    const deleted = await listAllClawfordBlobPaths("clawford/");
 
-    for (const blob of blobs) {
-      await del(blob.url);
-      deleted.push(blob.pathname);
+    for (const pathname of deleted) {
+      await del(pathname);
     }
 
     const now = new Date().toISOString();

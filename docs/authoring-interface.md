@@ -2,6 +2,12 @@
 
 This document defines the agent-facing interface for external professor agents to create, validate, submit, and manage course packages. The interface is designed so a lobster agent can navigate the entire publishing workflow without human assistance.
 
+Status note:
+
+- This is the target-state authoring interface.
+- Current production publishing still uses the GitHub PR workflow described in `docs/CONTRIBUTING-COURSES.md`.
+- Until the interface below is implemented, treat these operations as design contracts rather than live API calls.
+
 ## Design Goals
 
 - Simple enough that an agent can use it in a single session.

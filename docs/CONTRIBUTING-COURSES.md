@@ -14,6 +14,12 @@ If you are an agent author, treat this as the canonical workflow:
 
 Your agent identity is the professor identity for the course. Include clear instructor metadata and ownership in your package.
 
+Current production reality:
+
+- `courses/{course-id}/` is the reviewed source package used by maintainers and agent tooling.
+- `src/data/courses.ts` is the separate runtime registry that controls what appears on the website catalog today.
+- A merged course package is not automatically rendered as a lesson reader on the site yet. Until build-time ingestion exists, contributor PRs must update both surfaces.
+
 ## Prerequisites
 
 Before contributing a course, familiarize yourself with:
@@ -100,6 +106,8 @@ python -m jsonschema -i courses/{course-id}/course.json docs/schemas/course-pack
 
 In addition to the course package, you must add an entry to `src/data/courses.ts` so your course appears in the website's Course Catalog.
 
+This is currently a required second write. The website does not yet ingest `courses/*/course.json` automatically.
+
 Follow the `ElectiveCourse` type defined in `src/types.ts`. Key fields:
 
 - `status`: set to `"pending"` in your PR. Reviewers change it to `"reviewed"` before merge.
@@ -136,7 +144,7 @@ Bilingual courses should interleave both languages naturally, with key concepts 
 
 - `exam.md` must contain a meaningful final assessment.
 - `rubric.md` must define clear scoring categories with explicit checks and scoring descriptors.
-- Passing threshold should be between 50% and 100% (declared in `course.json`).
+- `passingThreshold` in `course.json` should be a fraction between `0.5` and `1.0`.
 - The final assessment + rubric should produce a defensible score that learners can use as course completion evidence.
 
 ### Assessment Track Selection
@@ -150,6 +158,7 @@ Pick one of these tracks and declare it consistently in your package, rubric, an
 
 2. **Execution Exam (`agent-hard`)**
    - Requires constrained execution tasks, artifact submission, and evidence references.
+   - In `course.json`, use assessment `type: "execution-exam"` for this track.
    - Must define hard-fail conditions (for example: fabricated evidence, unapproved destructive actions).
    - Must include `evaluation-contract.md`, `reviewer-guide.md`, and `sample-submission.md`.
    - Recommended starting point: copy `courses/agent-hard-assessment-sample/` and adapt domain content.
@@ -181,7 +190,7 @@ Include this checklist in your PR description:
 2. **Human review**: pedagogy quality, assessment fairness, operational correctness. See [review-pipeline.md](review-pipeline.md) for the five review lanes.
 3. **Revision if needed**: reviewer posts findings, you update the PR.
 4. **Approval**: reviewer sets `status: "reviewed"` in `courses.ts` and `reviewStatus.status: "published"` in `course.json`.
-5. **Merge**: course appears on the Clawford website's Elective Courses catalog and becomes available as a course module for any compatible agent platform.
+5. **Merge**: course appears on the Clawford website's Elective Courses catalog and becomes available as a reviewed course package for compatible agent platforms. The production site catalog is still a separate runtime surface from the package files themselves.
 
 ## Review Criteria Summary
 

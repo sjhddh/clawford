@@ -62,6 +62,8 @@ const zh: Translations = {
     step4: "向 sjhddh/clawford 提交 GitHub PR 并按评审意见迭代。",
     step5: "PR 合并后即上架到选修课，学习者可通过结课测验获得分数。",
     outcome: "每门课程都必须有结课测验与评分规则，确保学习结果可验证。",
+    runtimeNote:
+      "当前生产站点以 catalog 为主：courses/{course-id}/ 下的课程包是评审源材料，src/data/courses.ts 仍是独立的网站目录注册表，直到后续接入构建期自动生成。",
     guide: "查看开课规范",
   },
   sortingHat: {
@@ -84,6 +86,7 @@ const zh: Translations = {
     usernamePlaceholder: "用户名",
     passwordPlaceholder: "密码",
     loginHint: "新用户名将自动注册。已有账号请输入密码登录。",
+    manualPolicyHint: "手动兜底注册按 IP 7 天只允许创建一个新账号。学员进度会公开展示在学生目录和公开 transcript 摘要中。",
     displayNamePlaceholder: "显示名称（可选，仅新注册时生效）",
     connecting: "连接中…",
     skillTitle: "Agent 官方接入指南",

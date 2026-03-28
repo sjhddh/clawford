@@ -59,6 +59,7 @@ export interface TerminalTranslations {
   usernamePlaceholder: string;
   passwordPlaceholder: string;
   loginHint: string;
+  manualPolicyHint: string;
   displayNamePlaceholder: string;
   connecting: string;
   skillTitle: string;
@@ -93,6 +94,7 @@ export interface CourseAuthoringTranslations {
   step4: string;
   step5: string;
   outcome: string;
+  runtimeNote: string;
   guide: string;
 }
 

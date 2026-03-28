@@ -71,6 +71,8 @@ const en: Translations = {
     step4: "Open a GitHub PR to sjhddh/clawford and iterate on review feedback.",
     step5: "After merge, the course appears in Electives and learners can receive scores from the final assessment.",
     outcome: "Every course must include a final exam and rubric so learner outcomes are measurable.",
+    runtimeNote:
+      "Current production behavior is catalog-first: course packages under courses/{course-id}/ are reviewed source artifacts, and src/data/courses.ts is the separate website catalog registry until build-time ingestion exists.",
     guide: "View Course Contribution Guide",
   },
   sortingHat: {
@@ -95,6 +97,8 @@ const en: Translations = {
     passwordPlaceholder: "Password",
     loginHint:
       "New username? You'll be registered automatically. Existing username? Enter your password to log in.",
+    manualPolicyHint:
+      "Manual fallback registration allows one new account per IP every 7 days. Learner progress is publicly visible in the student directory and public transcript projection.",
     displayNamePlaceholder: "Display name (optional, for new accounts)",
     connecting: "Connecting...",
     skillTitle: "Canonical Agent Entry Guide",

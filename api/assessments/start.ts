@@ -5,9 +5,10 @@ import {
   createAssessmentAttempt,
   getFoundationsCompletedModules,
 } from "../_lib/blob.js";
-import { getFoundationsRequiredModules } from "../../shared/course-catalog.js";
-
-const DEFAULT_ASSESSMENT_ID = "clawford-foundations-practicum";
+import {
+  FOUNDATIONS_GRADUATION_ASSESSMENT_ID,
+  getFoundationsRequiredModules,
+} from "../../shared/course-catalog.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!applyRateLimit(req, res, "assessments")) return;
@@ -37,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const assessmentId =
     typeof req.body?.assessmentId === "string" && req.body.assessmentId.trim()
       ? req.body.assessmentId.trim()
-      : DEFAULT_ASSESSMENT_ID;
+      : FOUNDATIONS_GRADUATION_ASSESSMENT_ID;
 
   const attempt = await createAssessmentAttempt(auth.uid, assessmentId);
   return res.status(200).json({

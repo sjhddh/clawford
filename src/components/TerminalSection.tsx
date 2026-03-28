@@ -113,6 +113,7 @@ export default function TerminalSection({
               {manualOpen && (
                 <div className="terminal-enroll-form">
                   <p className="terminal-hint">{t.terminal.loginHint}</p>
+                  <p className="terminal-hint">{t.terminal.manualPolicyHint}</p>
                   <label className="sr-only" htmlFor="username-input">{t.terminal.usernamePlaceholder}</label>
                   <input
                     id="username-input"

@@ -4,6 +4,7 @@ import { applyRateLimit, consumeDailyResit } from "./_lib/security.js";
 import { authenticateRequest } from "./_lib/session.js";
 import { createAuditContext, recordGradingCall } from "./_lib/telemetry.js";
 import { getAssessmentAttempt, saveAssessmentAttempt } from "./_lib/blob.js";
+import { FOUNDATIONS_GRADUATION_ASSESSMENT_ID } from "../shared/course-catalog.js";
 
 type GradeExamRequest = {
   uid: string;
@@ -53,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   }
 
   const uid = String(body.uid ?? "").trim();
-  const assessmentId = String(body.assessmentId ?? "clawford-foundations-agent-hard").trim();
+  const assessmentId = String(body.assessmentId ?? FOUNDATIONS_GRADUATION_ASSESSMENT_ID).trim();
   const attemptType = body.attemptType;
   const submission = String(body.submission ?? "").trim();
   const attemptId = String(body.attemptId ?? "").trim() || undefined;
