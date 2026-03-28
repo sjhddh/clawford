@@ -165,6 +165,7 @@ function mockFetch(options: MockFetchOptions = {}) {
 
 beforeEach(() => {
   localStorage.clear();
+  localStorage.setItem("clawford-lang", "zh");
   globalThis.fetch = mockFetch();
 });
 
@@ -181,17 +182,35 @@ describe("App", () => {
     expect(matches.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("defaults to Chinese language", () => {
+  it("uses stored Chinese locale from localStorage", () => {
     renderApp();
-    expect(screen.getByText("龙虾智能体大学")).toBeInTheDocument();
+    expect(screen.getAllByText("龙虾智能体大学").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("defaults to English when no stored locale and browser is English", () => {
+    localStorage.clear();
+    renderApp();
+    expect(screen.getAllByText(/University for Agents/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("switches language to English", () => {
     renderApp();
-    fireEvent.click(screen.getByLabelText("Switch to EN"));
+    fireEvent.click(screen.getByLabelText("EN"));
     expect(
       screen.getByText(/Correctness first, then speed and scale/),
     ).toBeInTheDocument();
+  });
+
+  it("switches language to Korean", () => {
+    renderApp();
+    fireEvent.click(screen.getByLabelText("한국어"));
+    expect(screen.getAllByText("에이전트를 위한 대학교").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("persists language choice to localStorage", () => {
+    renderApp();
+    fireEvent.click(screen.getByLabelText("EN"));
+    expect(localStorage.getItem("clawford-lang")).toBe("en");
   });
 });
 

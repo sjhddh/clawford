@@ -1,4 +1,6 @@
 import { Component, type ReactNode } from "react";
+import translations from "@/i18n";
+import { getInitialLang } from "@/i18n/locale";
 
 interface Props {
   children: ReactNode;
@@ -7,8 +9,6 @@ interface Props {
 interface State {
   hasError: boolean;
 }
-
-const isZh = typeof navigator !== "undefined" && navigator.language.startsWith("zh");
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
@@ -22,6 +22,8 @@ class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      const lang = getInitialLang();
+      const t = translations[lang];
       return (
         <div
           style={{
@@ -36,9 +38,9 @@ class ErrorBoundary extends Component<Props, State> {
         >
           <div>
             <h1 style={{ color: "#ebf4ff", marginBottom: "0.5rem" }}>
-              {isZh ? "页面出了点问题" : "Something went wrong"}
+              {t.common.errorTitle}
             </h1>
-            <p>{isZh ? "请刷新页面重试。" : "Please refresh the page to try again."}</p>
+            <p>{t.common.errorMessage}</p>
           </div>
         </div>
       );

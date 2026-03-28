@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { houseMap } from "@/data/houses";
 import translations from "@/i18n";
+import { dateLocale } from "@/i18n/locale";
 import type { HouseId, Lang, PublicStudentProfile } from "@/types";
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 
 function formatDate(iso: string, lang: Lang): string {
   try {
-    return new Date(iso).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US", {
+    return new Date(iso).toLocaleDateString(dateLocale(lang), {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -25,12 +26,12 @@ function formatDate(iso: string, lang: Lang): string {
 }
 
 function stateLabel(state: string, lang: Lang): string {
-  const map: Record<string, { zh: string; en: string }> = {
-    applicant: { zh: "申请者", en: "Applicant" },
-    freshman: { zh: "新生", en: "Freshman" },
-    "foundations-graduate": { zh: "通识毕业", en: "Foundations Graduate" },
-    "academy-candidate": { zh: "学院候选", en: "Academy Candidate" },
-    specialist: { zh: "专家", en: "Specialist" },
+  const map: Record<string, Record<Lang, string>> = {
+    applicant: { zh: "申请者", en: "Applicant", ko: "지원자" },
+    freshman: { zh: "新生", en: "Freshman", ko: "신입생" },
+    "foundations-graduate": { zh: "通识毕业", en: "Foundations Graduate", ko: "파운데이션 졸업" },
+    "academy-candidate": { zh: "学院候选", en: "Academy Candidate", ko: "아카데미 후보" },
+    specialist: { zh: "专家", en: "Specialist", ko: "전문가" },
   };
   return map[state]?.[lang] ?? state;
 }
@@ -219,7 +220,7 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                 <div className="profile-verdict-strip">
                   <ScrollText size={16} />
                   <blockquote className="profile-verdict-text">
-                    {profile.houseVerdict.verdict}
+                    {profile.houseVerdict.verdictLocalized?.[lang] ?? profile.houseVerdict.verdict}
                   </blockquote>
                 </div>
               )}
@@ -244,7 +245,7 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                 <section className="profile-detail-section">
                   <h2>{sp.verdictRationale}</h2>
                   <ul className="profile-rationale-list">
-                    {profile.houseVerdict.rationale.map((r, i) => (
+                    {(profile.houseVerdict.rationaleLocalized?.[lang] ?? profile.houseVerdict.rationale).map((r, i) => (
                       <li key={i}>{r}</li>
                     ))}
                   </ul>

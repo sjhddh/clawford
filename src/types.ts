@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
 
-export type Lang = "zh" | "en";
+export type Lang = "zh" | "en" | "ko";
 
 export interface Localized {
   zh: string;
   en: string;
+  ko: string;
 }
 
 export interface NavTranslations {
@@ -113,6 +114,9 @@ export interface SortingHatTranslations {
   linkHint: string;
   linkPlaceholder: string;
   linkButton: string;
+  verdictLabel: string;
+  lockedHint: string;
+  editDisplayName: string;
 }
 
 export interface StudentWallTranslations {
@@ -137,6 +141,8 @@ export interface StudentWallTranslations {
   backHome: string;
   searchPlaceholder: string;
   viewProfile: string;
+  loadError: string;
+  noMatch: string;
 }
 
 export interface StudentProfileTranslations {
@@ -169,6 +175,14 @@ export interface StudentProfileTranslations {
   shareHint: string;
 }
 
+export interface CommonTranslations {
+  skipToContent: string;
+  brandSubtitle: string;
+  errorTitle: string;
+  errorMessage: string;
+  emptyCourseCatalog: string;
+}
+
 export interface Translations {
   nav: NavTranslations;
   hero: HeroTranslations;
@@ -179,6 +193,7 @@ export interface Translations {
   ui: UiTranslations;
   studentWall: StudentWallTranslations;
   studentProfile: StudentProfileTranslations;
+  common: CommonTranslations;
   footer: string;
 }
 
@@ -293,6 +308,12 @@ export interface Credential {
   issuedAt: string;
 }
 
+export interface LocalizedVerdict {
+  zh: string;
+  en: string;
+  ko: string;
+}
+
 export interface HouseVerdict {
   assignedAt: string;
   method: "llm";
@@ -300,6 +321,8 @@ export interface HouseVerdict {
   promptVersion: string;
   verdict: string;
   rationale: string[];
+  verdictLocalized?: LocalizedVerdict;
+  rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
 export interface Transcript {
@@ -349,7 +372,12 @@ export interface PublicStudentProfile {
   lastExamAt: string | null;
   credentials: number;
   enrolledAt: string;
-  houseVerdict: { verdict: string; rationale: string[] } | null;
+  houseVerdict: {
+    verdict: string;
+    rationale: string[];
+    verdictLocalized?: { zh: string; en: string; ko: string };
+    rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
+  } | null;
   recommendedAcademy: string | null;
   lastUpdated: string;
 }

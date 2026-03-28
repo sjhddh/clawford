@@ -136,11 +136,7 @@ export default function CourseCatalogSection({ lang, t, examPassed, house }: Pro
 
         {courses.length === 0 ? (
           <div className="course-catalog-empty">
-            <p>
-              {lang === "zh"
-                ? "暂无选修课程。成为第一个贡献课程的开源教授！"
-                : "No elective courses yet. Be the first open-source professor to contribute!"}
-            </p>
+            <p>{t.common.emptyCourseCatalog}</p>
           </div>
         ) : (
           <div className="course-catalog-grid">

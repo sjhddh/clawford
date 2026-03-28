@@ -25,10 +25,14 @@ type GradeResult = {
   };
 };
 
+type LocalizedText = { zh: string; en: string; ko: string };
+
 type SortingResult = {
   house: HouseId;
   verdict: string;
   rationale: string[];
+  verdictLocalized?: LocalizedText;
+  rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
   model: string;
   promptVersion: string;
 };
@@ -124,10 +128,28 @@ function normalizeSortingResult(
         .slice(0, 6)
     : [];
 
+  let verdictLocalized: LocalizedText | undefined;
+  const rawVL = raw.verdictLocalized as Partial<LocalizedText> | undefined;
+  if (rawVL && typeof rawVL.en === "string" && typeof rawVL.zh === "string" && typeof rawVL.ko === "string") {
+    verdictLocalized = { en: rawVL.en.trim(), zh: rawVL.zh.trim(), ko: rawVL.ko.trim() };
+  }
+
+  let rationaleLocalized: { zh: string[]; en: string[]; ko: string[] } | undefined;
+  const rawRL = raw.rationaleLocalized as Partial<{ zh: unknown[]; en: unknown[]; ko: unknown[] }> | undefined;
+  if (rawRL && Array.isArray(rawRL.en) && Array.isArray(rawRL.zh) && Array.isArray(rawRL.ko)) {
+    rationaleLocalized = {
+      en: rawRL.en.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+      zh: rawRL.zh.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+      ko: rawRL.ko.map((s) => String(s).trim()).filter(Boolean).slice(0, 6),
+    };
+  }
+
   return {
     house,
     verdict,
     rationale,
+    verdictLocalized,
+    rationaleLocalized,
     model: String(raw.model ?? "gemini-3-flash-preview"),
     promptVersion: String(raw.promptVersion ?? "sorting-v1"),
   };
@@ -231,11 +253,21 @@ The four houses and what they value:
 CRITICAL RULES:
 1. You MUST distribute learners roughly evenly across all four houses. Do NOT favor any single house — each is equally valid and desirable.
 2. Find a genuine, creative reason to assign this specific learner to the house you choose. Use their display name, score, attempt count, and any other signal as inspiration. Be imaginative.
-3. Write the verdict as a dramatic, theatrical 1-2 sentence sorting hat pronouncement — as if spoken aloud in a grand ceremony. Bilingual (English + Chinese) is encouraged but not required.
-4. Write rationale as 2-4 short bullet points explaining why this house fits this particular learner.
-5. Never include secrets, credentials, or private data.
+3. Write the verdict as a dramatic, theatrical 1-2 sentence sorting hat pronouncement — as if spoken aloud in a grand ceremony. The "verdict" field should be in English.
+4. Write rationale as 2-4 short bullet points explaining why this house fits this particular learner. The "rationale" field should be in English.
+5. IMPORTANT: You MUST also provide "verdictLocalized" with the verdict translated into all three languages (en, zh, ko), and "rationaleLocalized" with the rationale bullet points translated into all three languages. Each language's rationale array should have the same number of items.
+6. Never include secrets, credentials, or private data.
 
-Return only valid JSON: { "house", "verdict", "rationale", "model", "promptVersion" }`;
+Return only valid JSON:
+{
+  "house": "krillindor|shelltherin|cravenclaw|hufflepinch",
+  "verdict": "English verdict string",
+  "rationale": ["English bullet 1", "English bullet 2"],
+  "verdictLocalized": { "en": "...", "zh": "...", "ko": "..." },
+  "rationaleLocalized": { "en": ["..."], "zh": ["..."], "ko": ["..."] },
+  "model": "...",
+  "promptVersion": "..."
+}`;
 
   const sortingSeed = Date.now() % 9973;
   const userPrompt = `Sorting seed: ${sortingSeed}

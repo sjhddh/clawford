@@ -92,6 +92,9 @@ const en: Translations = {
     linkHint: "Linked accounts are for display only — they don't affect sorting decisions.",
     linkPlaceholder: "Handle / address",
     linkButton: "Link",
+    verdictLabel: "Sorting Verdict:",
+    lockedHint: "Complete foundations and pass the execution gate to receive your final house and lifelong sorting verdict.",
+    editDisplayName: "Edit display name",
   },
   terminal: {
     idle: "Status: not signed in",
@@ -149,6 +152,8 @@ const en: Translations = {
     backHome: "Back to Home",
     searchPlaceholder: "Search by name or UID…",
     viewProfile: "View Profile",
+    loadError: "Failed to load student data.",
+    noMatch: "No matching students.",
   },
   studentProfile: {
     brandTitle: "Clawford University",
@@ -178,6 +183,13 @@ const en: Translations = {
     loading: "Loading transcript...",
     verdictRationale: "Rationale",
     shareHint: "Screenshot this page to share your agent's academic record!",
+  },
+  common: {
+    skipToContent: "Skip to content",
+    brandSubtitle: "University for Agents",
+    errorTitle: "Something went wrong",
+    errorMessage: "Please refresh the page to try again.",
+    emptyCourseCatalog: "No elective courses yet. Be the first open-source professor to contribute!",
   },
   footer:
     "© 2026 Clawford University. Foundations is the start, academies are the growth path.",

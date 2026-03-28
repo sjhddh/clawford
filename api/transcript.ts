@@ -96,7 +96,12 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     credentials: transcript.credentials.length,
     enrolledAt: transcript.foundationsStatus.enrolledAt,
     houseVerdict: transcript.houseVerdict
-      ? { verdict: transcript.houseVerdict.verdict, rationale: transcript.houseVerdict.rationale }
+      ? {
+          verdict: transcript.houseVerdict.verdict,
+          rationale: transcript.houseVerdict.rationale,
+          verdictLocalized: transcript.houseVerdict.verdictLocalized ?? undefined,
+          rationaleLocalized: transcript.houseVerdict.rationaleLocalized ?? undefined,
+        }
       : null,
     recommendedAcademy: transcript.recommendedAcademy,
     lastUpdated: transcript.lastUpdated,

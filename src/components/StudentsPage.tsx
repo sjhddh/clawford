@@ -86,7 +86,7 @@ export default function StudentsPage({ lang, setLang }: Props) {
 
         {fetchError && (
           <div className="student-wall-empty">
-            <p>{lang === "zh" ? "加载学生数据失败。" : "Failed to load student data."}</p>
+            <p>{sw.loadError}</p>
           </div>
         )}
 
@@ -190,7 +190,7 @@ export default function StudentsPage({ lang, setLang }: Props) {
         {loaded && !fetchError && query.trim() && filtered.length === 0 && sorted.length > 0 && (
           <div className="student-wall-empty">
             <Search size={48} />
-            <p>{lang === "zh" ? "没有匹配的学生。" : "No matching students."}</p>
+            <p>{sw.noMatch}</p>
           </div>
         )}
       </main>

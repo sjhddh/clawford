@@ -40,7 +40,7 @@ export default function StudentWallSection({ lang, t }: Props) {
 
       {fetchError && (
         <div className="student-wall-empty">
-          <p>{lang === "zh" ? "加载学生数据失败。" : "Failed to load student data."}</p>
+          <p>{sw.loadError}</p>
         </div>
       )}
 

@@ -90,7 +90,7 @@ export default function SortingHatSection({
               <div>
                 <h3 className="house-reveal-name">{houseData.name[lang]}</h3>
                 <span className="house-reveal-name-alt">
-                  {lang === "zh" ? houseData.name.en : houseData.name.zh}
+                  {lang !== "en" ? houseData.name.en : houseData.name.zh}
                 </span>
               </div>
             </div>
@@ -103,13 +103,13 @@ export default function SortingHatSection({
             {houseVerdict && (
               <div className="house-reveal-verdict">
                 <p>
-                  <strong>{lang === "zh" ? "分院判词：" : "Sorting Verdict:"}</strong>{" "}
-                  {houseVerdict.verdict}
+                  <strong>{sh.verdictLabel}</strong>{" "}
+                  {houseVerdict.verdictLocalized?.[lang] ?? houseVerdict.verdict}
                 </p>
                 {houseVerdict.rationale.length > 0 && (
                   <ul>
-                    {houseVerdict.rationale.map((item) => (
-                      <li key={item}>{item}</li>
+                    {(houseVerdict.rationaleLocalized?.[lang] ?? houseVerdict.rationale).map((item, i) => (
+                      <li key={i}>{item}</li>
                     ))}
                   </ul>
                 )}
@@ -151,7 +151,7 @@ export default function SortingHatSection({
                       setDraftName(displayName);
                       setEditingName(true);
                     }}
-                    aria-label="Edit display name"
+                    aria-label={sh.editDisplayName}
                   >
                     <Pencil size={14} />
                   </button>
@@ -190,11 +190,7 @@ export default function SortingHatSection({
 
       {!isSorted && (
         <div className="sorting-hat-locked">
-          <p>
-            {lang === "zh"
-              ? "完成 foundations 并通过执行关卡后，分院帽会给出最终学院与终身判词。"
-              : "Complete foundations and pass the execution gate to receive your final house and lifelong sorting verdict."}
-          </p>
+          <p>{sh.lockedHint}</p>
         </div>
       )}
 

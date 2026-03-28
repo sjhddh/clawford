@@ -181,6 +181,7 @@ function createSmokeFetch() {
 
 beforeEach(() => {
   localStorage.clear();
+  localStorage.setItem("clawford-lang", "zh");
 });
 
 afterEach(() => {

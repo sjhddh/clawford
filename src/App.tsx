@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import AssessmentSection from "@/components/AssessmentSection";
 import CourseCatalogSection from "@/components/CourseCatalogSection";
@@ -16,6 +16,7 @@ import StructureSection from "@/components/StructureSection";
 import TerminalSection from "@/components/TerminalSection";
 import { useSession } from "@/contexts/SessionContext";
 import translations from "@/i18n";
+import { getInitialLang, persistLang, syncDocumentLang } from "@/i18n/locale";
 import type { Lang } from "@/types";
 
 const BOOT_LOGS = [
@@ -126,7 +127,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
       <div className="backdrop-orb backdrop-orb-b" aria-hidden="true" />
 
       <a href="#main-content" className="skip-link">
-        Skip to content
+        {t.common.skipToContent}
       </a>
 
       <Header lang={lang} setLang={setLang} t={t} />
@@ -186,13 +187,23 @@ function MainSite({ lang, setLang }: MainSiteProps) {
 }
 
 function App() {
-  const [lang, setLang] = useState<Lang>("zh");
+  const [lang, setLang] = useState<Lang>(getInitialLang);
+
+  const handleSetLang = useCallback((next: Lang) => {
+    setLang(next);
+    persistLang(next);
+    syncDocumentLang(next);
+  }, []);
+
+  useEffect(() => {
+    syncDocumentLang(lang);
+  }, [lang]);
 
   return (
     <Routes>
-      <Route path="/students/:uid" element={<StudentProfilePage lang={lang} setLang={setLang} />} />
-      <Route path="/students" element={<StudentsPage lang={lang} setLang={setLang} />} />
-      <Route path="*" element={<MainSite lang={lang} setLang={setLang} />} />
+      <Route path="/students/:uid" element={<StudentProfilePage lang={lang} setLang={handleSetLang} />} />
+      <Route path="/students" element={<StudentsPage lang={lang} setLang={handleSetLang} />} />
+      <Route path="*" element={<MainSite lang={lang} setLang={handleSetLang} />} />
     </Routes>
   );
 }
