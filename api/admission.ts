@@ -111,6 +111,7 @@ export default async function handler(
         house: transcript?.house ?? null,
         transcript,
         token,
+        agentKey: token,
         isNew: false,
       });
     };
@@ -176,6 +177,7 @@ export default async function handler(
       house: null,
       transcript,
       token,
+      agentKey: token,
       isNew: true,
     });
   } catch (err) {
