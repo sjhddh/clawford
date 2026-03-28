@@ -53,7 +53,7 @@ const courses: ElectiveCourse[] = [
     ],
     examIncluded: true,
     coursePath: "courses/openclaw-operations",
-    status: "pending"
+    status: "reviewed"
   },
   // Each entry must correspond to a course package under courses/{course-id}/.
   // See docs/templates/course.json.template for the schema-conformant package format.
