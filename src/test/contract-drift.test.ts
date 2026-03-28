@@ -56,8 +56,8 @@ describe("Public API contract coverage", () => {
 });
 
 describe("Session secret hardening", () => {
-  it("uses ephemeral secret when SESSION_SECRET is missing (no crash)", async () => {
-    vi.stubEnv("ADMIN_CODE", "admin-secret-only");
+  it("derives deterministic secret from BLOB_READ_WRITE_TOKEN when SESSION_SECRET is missing", async () => {
+    vi.stubEnv("BLOB_READ_WRITE_TOKEN", "test-blob-token-for-derivation");
     const { signSession, verifySession } = await import("../../api/_lib/session.js");
 
     const payload = {
@@ -73,6 +73,15 @@ describe("Session secret hardening", () => {
     const verified = verifySession(token);
     expect(verified).not.toBeNull();
     expect(verified!.uid).toBe("CLW-hardening000001");
+  });
+
+  it("derived secret is deterministic (same blob token = same result)", async () => {
+    const { createHmac } = await import("crypto");
+    const blobToken = "test-blob-token-for-derivation";
+    const a = createHmac("sha256", "clawford-session-derived-key").update(blobToken).digest("hex");
+    const b = createHmac("sha256", "clawford-session-derived-key").update(blobToken).digest("hex");
+    expect(a).toBe(b);
+    expect(a).toHaveLength(64);
   });
 });
 

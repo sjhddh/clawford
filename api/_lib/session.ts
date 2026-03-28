@@ -13,15 +13,30 @@ export interface SessionPayload {
   exp: number;
 }
 
+let _derivedSecret: string | null = null;
 let _ephemeralSecret: string | null = null;
 
 function getSecret(): string {
   const secret = process.env.SESSION_SECRET;
   if (secret) return secret;
+
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+  if (blobToken) {
+    if (!_derivedSecret) {
+      _derivedSecret = createHmac("sha256", "clawford-session-derived-key")
+        .update(blobToken)
+        .digest("hex");
+      console.warn(
+        "SESSION_SECRET is not set. Deriving session key from BLOB_READ_WRITE_TOKEN. Set SESSION_SECRET for production stability.",
+      );
+    }
+    return _derivedSecret;
+  }
+
   if (!_ephemeralSecret) {
     _ephemeralSecret = randomBytes(32).toString("hex");
     console.warn(
-      "SESSION_SECRET is not set. Using ephemeral secret — sessions will not survive cold starts. Set SESSION_SECRET in environment variables for production.",
+      "Neither SESSION_SECRET nor BLOB_READ_WRITE_TOKEN is set. Sessions will not work across endpoints.",
     );
   }
   return _ephemeralSecret;
