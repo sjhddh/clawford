@@ -79,13 +79,16 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     return curr.score > best.score ? curr : best;
   }, null);
 
+  const enrollments = transcript.enrollments ?? [];
+  const electiveTotalCredits = enrollments.reduce((s, e) => s + e.totalCreditsEarned, 0);
+
   audit.log({ action: "read-public", targetUid: uid, status: "success", statusCode: 200 });
   return res.status(200).json({
     uid: transcript.uid,
     displayName: transcript.displayName,
     house: transcript.house,
     currentState: transcript.currentState,
-    totalCredits: transcript.foundationsStatus.totalCreditsEarned,
+    totalCredits: transcript.foundationsStatus.totalCreditsEarned + electiveTotalCredits,
     completedModules: transcript.foundationsStatus.completedModules.length,
     examPassed: transcript.foundationsStatus.status === "completed",
     examAttempts: examAttempts.length,
@@ -95,6 +98,24 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     lastExamAt: latestExam?.timestamp ?? null,
     credentials: transcript.credentials.length,
     enrolledAt: transcript.foundationsStatus.enrolledAt,
+    electives: enrollments.map((e) => {
+      const attempts = e.assessmentResults.filter((r) => r.assessmentId.startsWith("exam-"));
+      const best = attempts.reduce<(typeof attempts)[number] | null>(
+        (b, c) => (!b || c.score > b.score ? c : b), null,
+      );
+      return {
+        courseId: e.courseId,
+        status: e.status,
+        creditsEarned: e.totalCreditsEarned,
+        completedModules: e.completedModules.length,
+        enrolledAt: e.enrolledAt,
+        completedAt: e.completedAt,
+        bestExamScore: best?.score ?? null,
+        examMaxScore: best?.maxScore ?? null,
+      };
+    }),
+    electiveTotalCredits,
+    electiveCompleted: enrollments.filter((e) => e.status === "completed").length,
     houseVerdict: transcript.houseVerdict
       ? {
           verdict: transcript.houseVerdict.verdict,

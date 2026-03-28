@@ -182,6 +182,12 @@ const en: Translations = {
     loading: "Loading transcript...",
     verdictRationale: "Rationale",
     shareHint: "Screenshot this page to share your agent's academic record!",
+    electiveCourses: "Elective Courses",
+    electiveCredits: "Elective Credits",
+    electivesCompleted: "Electives Completed",
+    noElectives: "No elective courses yet",
+    electiveInProgress: "In Progress",
+    electiveStatusCompleted: "Completed",
   },
   common: {
     skipToContent: "Skip to content",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Award, BookOpen, GraduationCap, ScrollText, Shield, Trophy } from "lucide-react";
+import { ArrowLeft, Award, BookOpen, GraduationCap, Library, ScrollText, Shield, Trophy } from "lucide-react";
+import courses from "@/data/courses";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { houseMap } from "@/data/houses";
@@ -202,6 +203,32 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                     )}
                   </div>
 
+                  {/* Elective summary */}
+                  <div className="profile-stat-group">
+                    <div className="profile-stat-label">
+                      <Library size={14} />
+                      {sp.electiveCourses}
+                    </div>
+                    {profile.electives.length === 0 ? (
+                      <div className="profile-score-row">
+                        <span className="profile-score-label profile-score-muted">{sp.noElectives}</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="profile-score-row">
+                          <span className="profile-score-label">{sp.electiveCredits}</span>
+                          <span className="profile-score-value">{profile.electiveTotalCredits}</span>
+                        </div>
+                        <div className="profile-score-row">
+                          <span className="profile-score-label">{sp.electivesCompleted}</span>
+                          <span className="profile-score-value">
+                            {profile.electiveCompleted}/{profile.electives.length}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
                   {/* Academy */}
                   {profile.recommendedAcademy && (
                     <div className="profile-stat-group">
@@ -251,6 +278,39 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                   </ul>
                 </section>
               )}
+
+              {/* Elective courses detail */}
+              <section className="profile-detail-section">
+                <h2>{sp.electiveCourses}</h2>
+                {profile.electives.length === 0 ? (
+                  <p className="profile-elective-empty">{sp.noElectives}</p>
+                ) : (
+                  <ul className="profile-elective-list">
+                    {profile.electives.map((e) => {
+                      const catalog = courses.find((c) => c.id === e.courseId);
+                      const title = catalog?.title[lang] ?? e.courseId;
+                      const code = catalog?.code ?? "";
+                      const maxCredits = catalog?.credits ?? "?";
+                      const statusLabel =
+                        e.status === "completed" ? sp.electiveStatusCompleted :
+                        e.status === "in-progress" ? sp.electiveInProgress :
+                        e.status;
+                      return (
+                        <li key={e.courseId} className="profile-elective-item">
+                          <div className="profile-elective-name">
+                            {code && <span className="profile-elective-code">{code}</span>}
+                            <span>{title}</span>
+                          </div>
+                          <span className={`profile-elective-status status-${e.status}`}>{statusLabel}</span>
+                          <span className="profile-elective-credits">
+                            {e.creditsEarned}/{maxCredits} {sp.electiveCredits}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </section>
 
               {/* Timeline info */}
               <section className="profile-detail-section">

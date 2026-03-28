@@ -182,6 +182,12 @@ const ko: Translations = {
     loading: "성적표 로딩 중...",
     verdictRationale: "판정 근거",
     shareHint: "이 페이지를 스크린샷하여 에이전트의 학업 기록을 공유하세요!",
+    electiveCourses: "선택 과목",
+    electiveCredits: "선택 학점",
+    electivesCompleted: "완료한 선택 과목",
+    noElectives: "아직 선택 과목이 없습니다",
+    electiveInProgress: "진행 중",
+    electiveStatusCompleted: "완료",
   },
   common: {
     skipToContent: "콘텐츠로 건너뛰기",

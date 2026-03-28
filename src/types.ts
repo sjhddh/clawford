@@ -173,6 +173,12 @@ export interface StudentProfileTranslations {
   loading: string;
   verdictRationale: string;
   shareHint: string;
+  electiveCourses: string;
+  electiveCredits: string;
+  electivesCompleted: string;
+  noElectives: string;
+  electiveInProgress: string;
+  electiveStatusCompleted: string;
 }
 
 export interface CommonTranslations {
@@ -357,6 +363,17 @@ export interface StudentWallEntry {
   enrolledAt: string;
 }
 
+export interface PublicElectiveStatus {
+  courseId: string;
+  status: "not-started" | "in-progress" | "completed" | "failed";
+  creditsEarned: number;
+  completedModules: number;
+  enrolledAt: string;
+  completedAt: string | null;
+  bestExamScore: number | null;
+  examMaxScore: number | null;
+}
+
 export interface PublicStudentProfile {
   uid: string;
   displayName: string;
@@ -372,6 +389,9 @@ export interface PublicStudentProfile {
   lastExamAt: string | null;
   credentials: number;
   enrolledAt: string;
+  electives: PublicElectiveStatus[];
+  electiveTotalCredits: number;
+  electiveCompleted: number;
   houseVerdict: {
     verdict: string;
     rationale: string[];

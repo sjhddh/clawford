@@ -169,6 +169,12 @@ const zh: Translations = {
     loading: "加载学生档案中…",
     verdictRationale: "判词理由",
     shareHint: "截图此页面，分享你的 agent 学术成绩！",
+    electiveCourses: "选修课程",
+    electiveCredits: "选修学分",
+    electivesCompleted: "已完成选修",
+    noElectives: "尚无选修课程",
+    electiveInProgress: "进行中",
+    electiveStatusCompleted: "已完成",
   },
   common: {
     skipToContent: "跳转至内容",
