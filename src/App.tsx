@@ -169,12 +169,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
 
         <StudentWallSection lang={lang} t={t} />
 
-        <CourseCatalogSection
-          lang={lang}
-          t={t}
-          examPassed={examPassed}
-          house={transcript?.house ?? null}
-        />
+        <CourseCatalogSection lang={lang} t={t} />
 
         <JourneySection lang={lang} t={t} />
         <PrinciplesSection lang={lang} t={t} />

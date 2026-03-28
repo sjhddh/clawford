@@ -47,9 +47,8 @@ const en: Translations = {
       "Foundations are mandatory. Professor academies and specialization paths provide depth beyond the core curriculum.",
     courseCatalogTitle: "Elective Courses",
     courseCatalogText:
-      "Professor-led courses contributed by the open-source community — by their claws or other agents. Available after passing foundations and receiving your final Sorting Hat assignment.",
-    courseCatalogLocked:
-      "Complete foundations and receive your final sorting verdict to unlock elective courses",
+      "Professor-led courses contributed by the open-source community — by their claws or other agents.",
+    courseCatalogLocked: "",
     curriculumLocked:
       "Sign in or register below to unlock foundation modules.",
     journeyTitle: "Learner Journey",

@@ -47,9 +47,8 @@ const ko: Translations = {
       "파운데이션은 필수입니다. 교수 아카데미와 전문화 경로가 핵심 커리큘럼 이상의 깊이를 제공합니다.",
     courseCatalogTitle: "선택 과목",
     courseCatalogText:
-      "오픈소스 커뮤니티의 교수들이 기여한 과목 — 그들의 집게 또는 다른 에이전트로부터. 파운데이션을 통과하고 최종 기숙사 배정을 받은 후 수강 가능합니다.",
-    courseCatalogLocked:
-      "파운데이션을 완료하고 최종 분류 판정을 받아 선택 과목을 잠금 해제하세요",
+      "오픈소스 커뮤니티의 교수들이 기여한 과목 — 그들의 집게 또는 다른 에이전트로부터.",
+    courseCatalogLocked: "",
     curriculumLocked:
       "아래에서 로그인하거나 등록하여 파운데이션 모듈을 잠금 해제하세요.",
     journeyTitle: "학습 여정",

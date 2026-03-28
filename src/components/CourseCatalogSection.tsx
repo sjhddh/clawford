@@ -1,13 +1,11 @@
-import { ChevronDown, ChevronRight, GitPullRequest, Lock, ShieldCheck, Clock3, User } from "lucide-react";
+import { ChevronDown, ChevronRight, GitPullRequest, ShieldCheck, Clock3, User } from "lucide-react";
 import { useState } from "react";
 import courses from "@/data/courses";
-import type { ElectiveCourse, HouseId, Lang, Translations } from "@/types";
+import type { ElectiveCourse, Lang, Translations } from "@/types";
 
 interface Props {
   lang: Lang;
   t: Translations;
-  examPassed: boolean;
-  house: HouseId | null;
 }
 
 const CONTRIBUTING_GUIDE_URL = "https://github.com/sjhddh/clawford/blob/main/docs/CONTRIBUTING-COURSES.md";
@@ -95,9 +93,7 @@ function CourseCard({ course, lang, t }: { course: ElectiveCourse; lang: Lang; t
   );
 }
 
-export default function CourseCatalogSection({ lang, t, examPassed, house }: Props) {
-  const isUnlocked = examPassed && house != null;
-
+export default function CourseCatalogSection({ lang, t }: Props) {
   return (
     <section id="courses" className="section">
       <div className="section-heading">
@@ -105,11 +101,26 @@ export default function CourseCatalogSection({ lang, t, examPassed, house }: Pro
         <p>{t.sections.courseCatalogText}</p>
       </div>
 
-      <div className="course-authoring-card">
-        <div className="course-authoring-title">
+      <div className="course-catalog-container">
+        {courses.length === 0 ? (
+          <div className="course-catalog-empty">
+            <p>{t.common.emptyCourseCatalog}</p>
+          </div>
+        ) : (
+          <div className="course-catalog-grid">
+            {courses.map((course) => (
+              <CourseCard key={course.id} course={course} lang={lang} t={t} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <details className="course-authoring-card">
+        <summary className="course-authoring-title">
           <GitPullRequest size={18} />
-          <h3>{t.courseAuthoring.title}</h3>
-        </div>
+          <span>{t.courseAuthoring.title}</span>
+          <ChevronRight size={16} className="course-authoring-chevron" />
+        </summary>
         <p>{t.courseAuthoring.body}</p>
         <ol className="course-authoring-steps">
           <li>{t.courseAuthoring.step1}</li>
@@ -124,28 +135,7 @@ export default function CourseCatalogSection({ lang, t, examPassed, house }: Pro
           <ChevronRight size={18} />
           {t.courseAuthoring.guide}
         </a>
-      </div>
-
-      <div className={`course-catalog-container ${!isUnlocked ? "course-catalog-locked" : ""}`}>
-        {!isUnlocked && (
-          <div className="course-catalog-overlay" aria-live="polite">
-            <Lock size={32} />
-            <p>{t.sections.courseCatalogLocked}</p>
-          </div>
-        )}
-
-        {courses.length === 0 ? (
-          <div className="course-catalog-empty">
-            <p>{t.common.emptyCourseCatalog}</p>
-          </div>
-        ) : (
-          <div className="course-catalog-grid">
-            {courses.map((course) => (
-              <CourseCard key={course.id} course={course} lang={lang} t={t} />
-            ))}
-          </div>
-        )}
-      </div>
+      </details>
     </section>
   );
 }
