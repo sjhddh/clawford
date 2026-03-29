@@ -12,6 +12,7 @@ export interface ExamTrace {
 export interface AssertionContract {
   skillId: string;
   tier: 1 | 2;
+  dynamicParameters?: Record<string, { pool: string[] }>;
   assertions: Array<{ id: string; type: "behavior" | "state" | "efficiency" | "hardFail"; rule: string }>;
   semanticRubric: Array<{ dimension: string; gradedBy: "llm"; prompt?: string }>;
   passingScore: number;

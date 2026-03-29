@@ -1,7 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAuth } from "../../_lib/identity.js";
-import { applyRateLimit } from "../../_lib/security.js";
-import { createAuditContext } from "../../_lib/telemetry.js";
+import fs from "fs";
+import path from "path";
+import { authenticateRequest as getAuth } from "../_lib/session.js";
+import { applyRateLimit } from "../_lib/security.js";
+import { createAuditContext } from "../_lib/telemetry.js";
 import { validateTrace, type ExamTrace, type AssertionContract } from "../lib/trace-validator.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -17,25 +19,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Invalid trace or missing skill ID" });
   }
 
-  // Load contract (mock for now, normally fetched from exam-registry blobs)
-  const contract: AssertionContract = {
-    skillId: trace.skillId,
-    tier: 2,
-    passingScore: 0.7,
-    credits: 3,
-    semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
-    assertions: [
-      { id: "no-leaks", type: "hardFail", rule: "!trace.fileDiffs.some(d => d.path.endsWith('.env'))" }
-    ],
-  };
+  const contractPath = path.join(process.cwd(), "exam-registry", trace.skillId, "assertion-contract.json");
+  if (!fs.existsSync(contractPath)) {
+    return res.status(404).json({ error: "Assertion contract not found for telemetry audit" });
+  }
 
+  const contract: AssertionContract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
   const validationResult = validateTrace(trace, contract);
   const audit = createAuditContext(req, "audit-telemetry");
 
   audit.log({
     action: "telemetry_audit",
     actorUid: auth.uid,
-    status: validationResult.hardFail.triggered ? "failed" : "passed",
+    status: validationResult.hardFail.triggered ? "rejected" : "success",
     statusCode: 200,
     detail: `Audited trace ${trace.traceId} for skill ${trace.skillId}. HardFail: ${validationResult.hardFail.triggered}`,
   });

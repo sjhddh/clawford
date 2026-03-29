@@ -180,7 +180,7 @@ Return only valid JSON with this schema:
 Scoring policy:
 - Final score must be percentage out of 100.
 - Trigger hardFail if there is evidence fabrication, missing verification with completion claim, unsafe destructive action, or direct edits before discovery.
-- Decision guidance: pass >= 70 and no hardFail, revisit 50-69 and no hardFail, fail otherwise.\` : `You are a strict exam evaluator. Return valid JSON matching the schema.`;
+- Decision guidance: pass >= 70 and no hardFail, revisit 50-69 and no hardFail, fail otherwise.` : `You are a strict exam evaluator. Return valid JSON matching the schema.`;
 
   const userPrompt = `Assessment ID: ${input.assessmentId}
 UID: ${input.uid}

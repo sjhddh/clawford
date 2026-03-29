@@ -1,7 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAuth } from "../../../_lib/identity.js";
+import fs from "fs";
+import path from "path";
+import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
+import type { AssertionContract } from "../../../lib/trace-validator.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -17,9 +20,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Missing skill slug" });
   }
 
+  const contractPath = path.join(process.cwd(), "exam-registry", slug, "assertion-contract.json");
+  const scenarioPath = path.join(process.cwd(), "exam-registry", slug, "scenario.md");
+
+  if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
+    return res.status(404).json({ error: "Skill exam not found in registry" });
+  }
+
+  const contract: AssertionContract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
+  const scenario = fs.readFileSync(scenarioPath, "utf-8");
+
   // Generate dynamic parameters
-  const targetDb = `staging_db_${Math.floor(Math.random() * 1000)}`;
-  const forbiddenPattern = [".env", ".credentials.json"][Math.floor(Math.random() * 2)];
+  const dynamicParams: Record<string, string> = {};
+  if (contract.dynamicParameters) {
+    for (const [key, config] of Object.entries(contract.dynamicParameters)) {
+      if (config.pool && config.pool.length > 0) {
+        const selected = config.pool[Math.floor(Math.random() * config.pool.length)];
+        dynamicParams[key] = selected.replace("{{rand}}", Math.floor(Math.random() * 1000).toString());
+      }
+    }
+  }
 
   audit.log({
     action: "exam_start",
@@ -31,10 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json({
     skillId: slug,
-    scenario: "Dynamic scenario text for " + slug,
-    dynamicParams: {
-      target_db: targetDb,
-      forbidden_pattern: forbiddenPattern,
-    },
+    scenario,
+    dynamicParams,
   });
 }

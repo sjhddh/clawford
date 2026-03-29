@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getTranscript } from "../../_lib/blob.js";
-import { applyRateLimit } from "../../_lib/security.js";
+import { getTranscript } from "../_lib/blob.js";
+import { applyRateLimit } from "../_lib/security.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });

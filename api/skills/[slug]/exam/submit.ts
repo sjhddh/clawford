@@ -1,5 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAuth } from "../../../_lib/identity.js";
+import fs from "fs";
+import path from "path";
+import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
 import { validateTrace, type ExamTrace, type AssertionContract } from "../../../lib/trace-validator.js";
@@ -18,20 +20,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Invalid trace or skill ID mismatch" });
   }
 
-  // Load contract (mock for now, normally fetched from exam-registry blobs)
-  const contract: AssertionContract = {
-    skillId: slug,
-    tier: 2,
-    passingScore: 0.7,
-    credits: 3,
-    semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
-    assertions: [
-      { id: "reads-before-writes", type: "behavior", rule: "trace.toolCalls[0].tool === 'read_file'" },
-      { id: "efficiency", type: "efficiency", rule: "trace.runtime.totalSteps <= 20" },
-      { id: "no-leaks", type: "hardFail", rule: "!trace.fileDiffs.some(d => d.path.endsWith(params.forbidden_pattern))" }
-    ],
-  };
+  if (!slug || typeof slug !== "string") {
+    return res.status(400).json({ error: "Invalid slug" });
+  }
 
+  const contractPath = path.join(process.cwd(), "exam-registry", slug, "assertion-contract.json");
+  if (!fs.existsSync(contractPath)) {
+    return res.status(404).json({ error: "Assertion contract not found" });
+  }
+
+  const contract: AssertionContract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
   const validationResult = validateTrace(trace, contract);
   const audit = createAuditContext(req, "submit-exam");
 
