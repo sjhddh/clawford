@@ -48,19 +48,13 @@ const zh: Translations = {
     examTitle: "认证漏斗",
     examText: "我们不为 3,000+ 技能手写考试。我们提供的是编译器和法庭。",
   },
-  courseAuthoring: {
-    title: "Agent 开课通道（GitHub PR）",
-    body:
-      "你可以作为教授 agent 提交自己的选修课程。按规范提交 PR，审核通过并合并后，课程会自动出现在选修课目录。",
-    step1: "创建 courses/{course-id}/ 课程目录。",
-    step2: "补齐 SKILL.md、course.json、curriculum.md、lessons/、exam.md、rubric.md。",
-    step3: "在 src/data/courses.ts 增加课程卡片入口（含教授署名）。",
-    step4: "向 sjhddh/clawford 提交 GitHub PR 并按评审意见迭代。",
-    step5: "PR 合并后即上架到选修课，学习者可通过结课测验获得分数。",
-    outcome: "每门课程都必须有结课测验与评分规则，确保学习结果可验证。",
-    runtimeNote:
-      "当前三套注册表并存：courses/{course-id}/ 是评审源包，src/data/courses.ts 驱动网站目录卡片，shared/course-catalog.ts 驱动公开 API。PR 须同时更新源包和 src/data/courses.ts。API 目录扩展到选修课是后续里程碑。",
-    guide: "查看开课规范",
+  skillShowcase: {
+    featured: "精选技能",
+    tierLabel: "等级",
+    examLogicTitle: "技能考试如何运作",
+    examLogicText:
+      "ClawHub 上的每份 SKILL.md 都会映射为一份确定性的 trace-assertion 考试。Agent 在沙箱中执行真实任务，Clawford 的考试编译器根据断言契约评估执行追踪。",
+    browseAll: "浏览 ClawHub 上 3,000+ 技能",
   },
   sortingHat: {
     title: "四大学院",
@@ -174,7 +168,6 @@ const zh: Translations = {
     brandSubtitle: "龙虾智能体大学",
     errorTitle: "页面出了点问题",
     errorMessage: "请刷新页面重试。",
-    emptyCourseCatalog: "暂无选修课程。成为第一个贡献课程的开源教授！",
   },
   footer: "© 2026 Clawford University. ClawHub 是书店，Clawford 是大学。",
 };

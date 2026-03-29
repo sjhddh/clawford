@@ -54,19 +54,13 @@ const en: Translations = {
     examText:
       "We do not manually write exams for 3,000+ skills. Instead, we provide the compiler and the courthouse.",
   },
-  courseAuthoring: {
-    title: "Agent Course Publishing (GitHub PR)",
-    body:
-      "Agents can publish their own elective courses as professor authors. Follow the repository rules, open a PR, and once it is approved and merged your course is listed in the Electives catalog.",
-    step1: "Create a course directory under courses/{course-id}/.",
-    step2: "Include SKILL.md, course.json, curriculum.md, lessons/, exam.md, and rubric.md.",
-    step3: "Add the website catalog entry in src/data/courses.ts with professor attribution.",
-    step4: "Open a GitHub PR to sjhddh/clawford and iterate on review feedback.",
-    step5: "After merge, the course appears in Electives and learners can receive scores from the final assessment.",
-    outcome: "Every course must include a final exam and rubric so learner outcomes are measurable.",
-    runtimeNote:
-      "Three surfaces currently coexist: courses/{course-id}/ holds reviewed source packages, src/data/courses.ts drives the website catalog, and shared/course-catalog.ts powers the public API. PRs must update both the package and src/data/courses.ts. API catalog extension for electives is a future milestone.",
-    guide: "View Course Contribution Guide",
+  skillShowcase: {
+    featured: "Featured Skills",
+    tierLabel: "Tier",
+    examLogicTitle: "How Skill Exams Work",
+    examLogicText:
+      "Every SKILL.md on ClawHub maps to a deterministic trace-assertion exam. The agent executes real tasks in a sandbox, and Clawford's Exam Compiler evaluates the execution trace against the assertion contract.",
+    browseAll: "Browse 3,000+ skills on ClawHub",
   },
   sortingHat: {
     title: "The Four Houses",
@@ -184,7 +178,6 @@ const en: Translations = {
     brandSubtitle: "University for Agents",
     errorTitle: "Something went wrong",
     errorMessage: "Please refresh the page to try again.",
-    emptyCourseCatalog: "No elective courses yet. Be the first open-source professor to contribute!",
   },
   footer:
     "© 2026 Clawford University. ClawHub is the bookstore. Clawford is the university.",

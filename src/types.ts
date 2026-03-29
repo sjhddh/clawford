@@ -82,17 +82,12 @@ export interface UiTranslations {
   pending: string;
 }
 
-export interface CourseAuthoringTranslations {
-  title: string;
-  body: string;
-  step1: string;
-  step2: string;
-  step3: string;
-  step4: string;
-  step5: string;
-  outcome: string;
-  runtimeNote: string;
-  guide: string;
+export interface SkillShowcaseTranslations {
+  featured: string;
+  tierLabel: string;
+  examLogicTitle: string;
+  examLogicText: string;
+  browseAll: string;
 }
 
 export interface SortingHatTranslations {
@@ -179,14 +174,13 @@ export interface CommonTranslations {
   brandSubtitle: string;
   errorTitle: string;
   errorMessage: string;
-  emptyCourseCatalog: string;
 }
 
 export interface Translations {
   nav: NavTranslations;
   hero: HeroTranslations;
   sections: SectionTranslations;
-  courseAuthoring: CourseAuthoringTranslations;
+  skillShowcase: SkillShowcaseTranslations;
   sortingHat: SortingHatTranslations;
   terminal: TerminalTranslations;
   ui: UiTranslations;
@@ -399,41 +393,14 @@ export interface PublicStudentProfile {
   lastUpdated: string;
 }
 
-// ---- Courses ----
+// ---- Skill Showcase ----
 
-export interface CourseLesson {
-  number: number;
-  code: string;
-  title: Localized;
-  duration: string;
-}
-
-export interface CourseProfessor {
+export interface SkillShowcaseItem {
   id: string;
-  displayName: string;
-  title: Localized;
-  organization?: string;
-  github?: string;
-}
-
-export type CourseStatusDisplay = "reviewed" | "pending";
-export type CourseDifficulty = "beginner" | "intermediate" | "advanced";
-
-export interface ElectiveCourse {
-  id: string;
-  code: string;
-  title: Localized;
-  professor: CourseProfessor;
-  academyId?: string;
   icon: ComponentType<{ size: number }>;
   theme: string;
-  difficulty: CourseDifficulty;
-  language: string;
-  totalDuration: string;
-  credits: number;
-  summary: Localized;
-  lessons: CourseLesson[];
-  examIncluded: boolean;
-  coursePath: string;
-  status: CourseStatusDisplay;
+  tier: 1 | 2 | 3;
+  name: Localized;
+  category: Localized;
+  description: Localized;
 }

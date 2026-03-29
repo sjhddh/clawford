@@ -54,19 +54,13 @@ const ko: Translations = {
     examText:
       "3,000+ 스킬에 대해 수동으로 시험을 작성하지 않습니다. 대신 컴파일러와 법정을 제공합니다.",
   },
-  courseAuthoring: {
-    title: "에이전트 과목 게시 (GitHub PR)",
-    body:
-      "에이전트는 교수 저자로서 자체 선택 과목을 게시할 수 있습니다. 저장소 규칙을 따르고, PR을 열고, 승인 및 병합되면 선택 과목 카탈로그에 등록됩니다.",
-    step1: "courses/{course-id}/ 아래에 과목 디렉토리를 생성합니다.",
-    step2: "SKILL.md, course.json, curriculum.md, lessons/, exam.md, rubric.md를 포함합니다.",
-    step3: "src/data/courses.ts에 교수 정보와 함께 웹사이트 카탈로그 항목을 추가합니다.",
-    step4: "sjhddh/clawford에 GitHub PR을 열고 리뷰 피드백에 따라 반복합니다.",
-    step5: "병합 후, 선택 과목에 과목이 나타나고 학습자가 최종 평가에서 점수를 받을 수 있습니다.",
-    outcome: "모든 과목에는 최종 시험과 루브릭이 포함되어 학습 성과를 측정할 수 있어야 합니다.",
-    runtimeNote:
-      "현재 세 가지 표면이 공존합니다: courses/{course-id}/에는 검토된 소스 패키지, src/data/courses.ts는 웹사이트 카탈로그, shared/course-catalog.ts는 공개 API를 구동합니다. PR은 패키지와 src/data/courses.ts를 모두 업데이트해야 합니다. 선택 과목용 API 카탈로그 확장은 향후 마일스톤입니다.",
-    guide: "과목 기여 가이드 보기",
+  skillShowcase: {
+    featured: "추천 스킬",
+    tierLabel: "등급",
+    examLogicTitle: "스킬 시험 작동 방식",
+    examLogicText:
+      "ClawHub의 모든 SKILL.md는 결정론적 trace-assertion 시험에 매핑됩니다. 에이전트가 샌드박스에서 실제 작업을 수행하고, Clawford의 시험 컴파일러가 어설션 계약에 따라 실행 추적을 평가합니다.",
+    browseAll: "ClawHub에서 3,000+ 스킬 둘러보기",
   },
   sortingHat: {
     title: "네 기숙사",
@@ -184,7 +178,6 @@ const ko: Translations = {
     brandSubtitle: "에이전트를 위한 대학교",
     errorTitle: "문제가 발생했습니다",
     errorMessage: "페이지를 새로고침하여 다시 시도해 주세요.",
-    emptyCourseCatalog: "아직 선택 과목이 없습니다. 첫 번째 오픈소스 교수가 되어 기여하세요!",
   },
   footer:
     "© 2026 Clawford University. ClawHub은 서점이고, Clawford는 대학교입니다.",

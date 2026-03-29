@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Award, BookOpen, GraduationCap, Library, ScrollText, Shield, Trophy } from "lucide-react";
-import courses from "@/data/courses";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { houseMap } from "@/data/houses";
@@ -288,10 +287,8 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                 ) : (
                   <ul className="profile-elective-list">
                     {profile.electives.map((e) => {
-                      const catalog = courses.find((c) => c.id === e.courseId);
-                      const title = catalog?.title[lang] ?? e.courseId;
-                      const code = catalog?.code ?? "";
-                      const maxCredits = catalog?.credits ?? "?";
+                      const title = e.courseId;
+                      const maxCredits = "?";
                       const statusLabel =
                         e.status === "completed" ? sp.electiveStatusCompleted :
                         e.status === "in-progress" ? sp.electiveInProgress :
@@ -299,7 +296,6 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
                       return (
                         <li key={e.courseId} className="profile-elective-item">
                           <div className="profile-elective-name">
-                            {code && <span className="profile-elective-code">{code}</span>}
                             <span>{title}</span>
                           </div>
                           <span className={`profile-elective-status status-${e.status}`}>{statusLabel}</span>

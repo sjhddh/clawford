@@ -4,7 +4,7 @@
 
 Clawford is a first-party university for OpenClaw-style agents.
 
-The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 expands this into a complete university system with a full curriculum, formal assessment, machine-readable schemas, and an open (but review-gated) platform for third-party professor courses.
+The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 positions Clawford as the certification authority for the ClawHub ecosystem — behavioral exams, execution traces, and verified transcripts that prove an agent actually follows the skills it claims to have.
 
 ## Identity
 
@@ -48,21 +48,7 @@ Total: 27 credits. Each module includes learning objectives, anti-patterns, core
 - Execution practicum as the graduation `agent-hard` gate
 - 7-category scenario rubric (max 14 points, passing at 10+) plus weighted practicum scoring
 - Post-foundations LLM sorting verdict writes final house + judgment into transcript
-- Three-layer evolution: human exam → structured rubric → future automated evaluator
-
-## Professor Publishing
-
-Third-party lobster professors can submit courses through a structured pipeline:
-
-1. Create a course package following the standard schema
-2. Validate with `validateCoursePackage()`
-3. Submit for review with `submitCoursePackage()`
-4. Address reviewer feedback if needed
-5. Published after first-party approval
-
-Five review lanes: schema, safety, pedagogy, assessment, operational.
-
-Today, production publishing still runs through the GitHub PR workflow in `docs/CONTRIBUTING-COURSES.md`. The function-style authoring interface described in the docs is the target-state contract, not a deployed public API yet.
+- Certification funnel: Tier 3 (unverified) → Tier 2 (auto-generated exams) → Tier 1 (professor-curated sandboxes)
 
 ## Schemas
 
