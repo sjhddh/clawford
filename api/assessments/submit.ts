@@ -66,12 +66,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
   }
 
-  const graded = await gradeWithFlockModel({
-    assessmentId: attempt.assessmentId,
-    uid: auth.uid,
-    attemptType,
-    submission,
-  });
+  let graded;
+  try {
+    graded = await gradeWithFlockModel({
+      assessmentId: attempt.assessmentId,
+      uid: auth.uid,
+      attemptType,
+      submission,
+    });
+  } catch (err) {
+    console.error("assessment grading error:", err);
+    return res.status(503).json({
+      error: "Grading service temporarily unavailable. Please retry.",
+      code: "GRADING_FAILED",
+      retryAfter: new Date(Date.now() + 30_000).toISOString(),
+    });
+  }
 
   attempt.status = "graded";
   attempt.submission = submission;

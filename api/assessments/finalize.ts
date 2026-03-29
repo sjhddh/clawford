@@ -3,6 +3,7 @@ import { authenticateRequest } from "../_lib/session.js";
 import { applyRateLimit } from "../_lib/security.js";
 import {
   getAssessmentAttempt,
+  saveAssessmentAttempt,
   getFoundationsCompletedModules,
   updateTranscript,
   type AssessmentResult,
@@ -39,6 +40,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!attempt) return res.status(404).json({ error: "Assessment attempt not found" });
   if (attempt.uid !== auth.uid) {
     return res.status(403).json({ error: "Attempt does not belong to authenticated user" });
+  }
+  if (attempt.status === "finalized") {
+    return res.status(409).json({ error: "Attempt has already been finalized" });
   }
   if (attempt.status !== "graded") {
     return res.status(409).json({ error: "Attempt is not graded yet" });
@@ -151,6 +155,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   if (!transcript) return res.status(404).json({ error: "Transcript not found" });
+
+  attempt.status = "finalized";
+  attempt.finalizedAt = now;
+  await saveAssessmentAttempt(attempt);
+
   return res.status(200).json({
     ok: true,
     transcript,

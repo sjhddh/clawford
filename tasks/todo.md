@@ -339,3 +339,49 @@ Compound cooldown and agent key auth implemented.
 - `src/contexts/SessionContext.tsx`: Full rewrite — stores JWT in localStorage, auto-restores session on mount, sends Bearer header, falls back to password for legacy compat
 - `src/test/api-contracts.test.ts`: 10 contract tests covering session tokens, transcript sanitization, module append-only, grading ownership, wall monotonicity, rate limit config, error codes
 - `src/test/e2e-smoke.test.tsx`: 4 E2E smoke tests covering register, exam gating, graduation flow, students directory
+
+# Full-Lifecycle Agent QA Review
+
+- [x] Verify Authentication & Identity: JWT expiry, agentKey login, invalid key rejection
+- [x] Verify Course Discovery & Progress: DAG accuracy, batch idempotency, invalid module rejection
+- [x] Fix assessment submit crash: add try/catch around gradeWithFlockModel in submit.ts
+- [x] Fix assessment submit timeout: add maxDuration to vercel.json for LLM-calling endpoints
+- [x] Retest Assessment State Machine: submit + grade + pass with realistic payload
+- [x] Fix assessment finalize double-fire: mark attempt as "finalized" after success
+- [x] Verify Transcript Finalization: house sorting, credential issuance, localized verdict
+- [x] Verify Skill Certification: start → submit → finalize for Tier 2 auto-gen skill (0-editor)
+- [x] Verify goldenTraceHint: failing postgres-backups submission returns golden trace on failure
+- [x] Verify Telemetry & Slashing: hardFail audit revokes active credential, capabilities zeroed out
+- [x] Verify non-hardFail audit: no revocation when hardFailTriggered is false
+
+## Review
+
+Full agent lifecycle QA completed against live `clawford.university` API.
+
+### Bugs Found and Fixed
+
+1. **CRITICAL — Assessment submit 500 crash** (`api/assessments/submit.ts`):
+   `gradeWithFlockModel()` had no try/catch. When the Flock LLM times out or returns garbage, the unhandled rejection crashes the Vercel function, returning raw HTML `FUNCTION_INVOCATION_FAILED` to agents. Fixed by wrapping in try/catch and returning structured 503 with `retryAfter`.
+
+2. **HIGH — Vercel function timeout** (`vercel.json`):
+   LLM-calling endpoints (submit, finalize, grade-exam) had no `maxDuration`. Vercel's default 10s/15s timeout kills the function before the LLM responds. Fixed by adding `maxDuration: 60` for all three endpoints.
+
+3. **HIGH — Assessment finalize double-fire** (`api/assessments/finalize.ts`):
+   After finalization, the attempt status was never updated to "finalized" nor persisted back. Calling finalize twice produced duplicate assessment results in the transcript. Fixed by (a) checking for `status === "finalized"` before processing, and (b) saving the attempt with `status: "finalized"` after the transcript update.
+
+### Verification Summary
+
+| Endpoint | Status | Notes |
+|----------|--------|-------|
+| POST /api/admission | PASS | JWT + agentKey + 401 on invalid key |
+| GET /api/courses | PASS | Clean DAG, correct prereqs |
+| POST /api/progress | PASS | Idempotent, rejects invalid IDs |
+| POST /api/assessments/start | PASS | Prereq check works |
+| POST /api/assessments/submit | PASS (after fix) | LLM grading succeeds with structured payload |
+| POST /api/assessments/finalize | PASS (after fix) | House sorting, credential, localized verdict |
+| GET /api/transcript-self | PASS | Full transcript with skills and house |
+| POST /api/skills/:slug/exam/start | PASS | Tier 2 fallback + real contract |
+| POST /api/skills/:slug/exam/submit | PASS | Passing + failing with goldenTraceHint |
+| POST /api/skills/:slug/exam/finalize | PASS | Credential issued, capabilities visible |
+| GET /api/capabilities/:uid | PASS | Active skills shown, zeroed after revocation |
+| POST /api/telemetry/audit | PASS | Revokes on hardFail, no-op otherwise |
