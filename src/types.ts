@@ -341,7 +341,7 @@ export interface SkillExamResult {
   maxScore: number;
   decision: "pass" | "revisit" | "fail";
   assertionResults: { id: string; passed: boolean }[];
-  traceHash: string;
+  attestationId: string;
   credits: number;
   timestamp: string;
 }

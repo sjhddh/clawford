@@ -1,11 +1,13 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createHash, randomBytes } from "crypto";
+import { createHash, randomBytes, randomInt } from "crypto";
 import fs from "fs";
 import path from "path";
 import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
 import { saveSkillExamAttempt } from "../../../_lib/blob.js";
+
+const SKILL_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
 
 /**
  * Assertion contracts define the grading rules for a skill exam.
@@ -37,9 +39,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!slug || typeof slug !== "string") {
     return res.status(400).json({ error: "Missing skill slug" });
   }
+  if (!SKILL_SLUG_PATTERN.test(slug)) {
+    return res.status(400).json({ error: "Invalid skill slug format" });
+  }
 
-  const contractPath = path.join(process.cwd(), "exam-registry", slug, "assertion-contract.json");
-  const scenarioPath = path.join(process.cwd(), "exam-registry", slug, "scenario.md");
+  const examRegistryRoot = path.resolve(process.cwd(), "exam-registry");
+  const skillDir = path.resolve(examRegistryRoot, slug);
+  if (skillDir !== path.join(examRegistryRoot, slug)) {
+    return res.status(400).json({ error: "Invalid skill slug" });
+  }
+  const contractPath = path.resolve(skillDir, "assertion-contract.json");
+  const scenarioPath = path.resolve(skillDir, "scenario.md");
 
   let contract: AssertionContract;
   let scenario: string;
@@ -76,8 +86,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (contract.dynamicParameters) {
     for (const [key, config] of Object.entries(contract.dynamicParameters)) {
       if (config.pool && config.pool.length > 0) {
-        const selected = config.pool[Math.floor(Math.random() * config.pool.length)];
-        dynamicParams[key] = selected.replace("{{rand}}", Math.floor(Math.random() * 1000).toString());
+        const selected = config.pool[randomInt(config.pool.length)];
+        dynamicParams[key] = selected.replace("{{rand}}", randomInt(1000).toString());
       }
     }
   }
@@ -91,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const contractHash = createHash("sha256")
     .update(JSON.stringify({ contract: contractForTEE, dynamicParams, scenario }))
     .digest("hex");
-  const examAttemptId = `skill-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const examAttemptId = `skill-${Date.now()}-${randomBytes(6).toString("hex")}`;
   const challengeNonce = randomBytes(16).toString("hex");
   const startedAt = new Date();
   const expiresAt = new Date(startedAt.getTime() + 15 * 60_000).toISOString();

@@ -34,16 +34,20 @@ interface VerifyAttestationOptions {
 /**
  * Computes the expected HMAC-SHA256 signature for an attestation payload.
  * The sandbox TEE must sign the same canonical payload with the shared secret.
+ * Canonicalization rules:
+ * - Property order is fixed by this function.
+ * - Optional binding fields are normalized to null (never undefined).
+ * - assertionResults defaults to [].
  */
-function computeExpectedSignature(attestation: ExamAttestation, secret: string): string {
-  const payload = JSON.stringify({
-    examAttemptId: attestation.examAttemptId,
+export function buildCanonicalAttestationPayload(attestation: ExamAttestation): string {
+  return JSON.stringify({
+    examAttemptId: attestation.examAttemptId ?? null,
     attestationId: attestation.attestationId,
     skillId: attestation.skillId,
-    challengeNonce: attestation.challengeNonce,
-    contractHash: attestation.contractHash,
-    skillVersion: attestation.skillVersion,
-    skillHash: attestation.skillHash,
+    challengeNonce: attestation.challengeNonce ?? null,
+    contractHash: attestation.contractHash ?? null,
+    skillVersion: attestation.skillVersion ?? null,
+    skillHash: attestation.skillHash ?? null,
     score: attestation.score,
     passed: attestation.passed,
     hardFailTriggered: attestation.hardFailTriggered,
@@ -51,6 +55,10 @@ function computeExpectedSignature(attestation: ExamAttestation, secret: string):
     assertionResults: attestation.assertionResults ?? [],
     sandboxId: attestation.sandboxId,
   });
+}
+
+function computeExpectedSignature(attestation: ExamAttestation, secret: string): string {
+  const payload = buildCanonicalAttestationPayload(attestation);
   return createHmac("sha256", secret).update(payload).digest("hex");
 }
 
@@ -192,7 +200,7 @@ export function verifyAttestation(
     decision,
     hardFail: {
       triggered: attestation.hardFailTriggered,
-      reasons: attestation.hardFailReasons || [],
+      reasons: attestation.hardFailReasons ?? [],
     },
   };
 }

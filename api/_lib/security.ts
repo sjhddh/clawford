@@ -77,6 +77,11 @@ const ROUTE_LIMITS: Record<string, RouteRateConfig> = {
   courses: { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSES", 60) },
   "course-graph": { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSE_GRAPH", 60) },
   assessments: { windowMs: 60_000, max: envInt("RATE_LIMIT_ASSESSMENTS", 20) },
+  "start-exam": { windowMs: 60_000, max: envInt("RATE_LIMIT_START_EXAM", 20) },
+  "submit-exam": { windowMs: 60_000, max: envInt("RATE_LIMIT_SUBMIT_EXAM", 20) },
+  "finalize-exam": { windowMs: 60_000, max: envInt("RATE_LIMIT_FINALIZE_EXAM", 20) },
+  "audit-telemetry": { windowMs: 60_000, max: envInt("RATE_LIMIT_AUDIT_TELEMETRY", 20) },
+  "get-capabilities": { windowMs: 60_000, max: envInt("RATE_LIMIT_GET_CAPABILITIES", 30) },
 };
 
 export function checkGlobalRate(ip: string): boolean {

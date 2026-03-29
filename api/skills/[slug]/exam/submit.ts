@@ -15,6 +15,8 @@ import {
   type AttestationValidationResult,
 } from "../../../lib/attestation-validator.js";
 
+const SKILL_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!applyRateLimit(req, res, "submit-exam")) return;
@@ -27,6 +29,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!slug || typeof slug !== "string") {
     return res.status(400).json({ error: "Invalid slug" });
+  }
+  if (!SKILL_SLUG_PATTERN.test(slug)) {
+    return res.status(400).json({ error: "Invalid skill slug format" });
   }
 
   if (!body || typeof body !== "object") {
@@ -101,7 +106,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     score: body.score,
     passed: body.passed,
     hardFailTriggered: body.hardFailTriggered,
-    hardFailReasons: Array.isArray(body.hardFailReasons) ? body.hardFailReasons : [],
+    hardFailReasons: Array.isArray(body.hardFailReasons)
+      ? body.hardFailReasons.filter((value: unknown): value is string => typeof value === "string")
+      : [],
     assertionResults,
     sandboxSignature: body.sandboxSignature,
     sandboxId: body.sandboxId,
@@ -153,7 +160,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Golden Trace Injection for Few-Shot Learning on failure
   if (validationResult.decision === "fail") {
     try {
-      const goldenTracePath = path.join(process.cwd(), "exam-registry", slug, "golden-trace.json");
+      const examRegistryRoot = path.resolve(process.cwd(), "exam-registry");
+      const skillDir = path.resolve(examRegistryRoot, slug);
+      if (skillDir !== path.join(examRegistryRoot, slug)) {
+        throw new Error("Invalid skill slug");
+      }
+      const goldenTracePath = path.resolve(skillDir, "golden-trace.json");
       if (fs.existsSync(goldenTracePath)) {
         validationResult.goldenTraceHint = JSON.parse(fs.readFileSync(goldenTracePath, "utf-8"));
       }

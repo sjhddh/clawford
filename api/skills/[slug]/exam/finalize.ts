@@ -9,6 +9,8 @@ import {
   updateTranscript,
 } from "../../../_lib/blob.js";
 
+const SKILL_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!applyRateLimit(req, res, "finalize-exam")) return;
@@ -21,6 +23,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!slug || typeof slug !== "string") {
     return res.status(400).json({ error: "Missing slug" });
+  }
+  if (!SKILL_SLUG_PATTERN.test(slug)) {
+    return res.status(400).json({ error: "Invalid skill slug format" });
   }
 
   if (!attestationId || typeof attestationId !== "string") {
@@ -51,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!transcript.skillExamResults) transcript.skillExamResults = [];
 
     const alreadyFinalized = transcript.skillExamResults.some(
-      (r) => r.traceHash === attestationId,
+      (r) => r.attestationId === attestationId || (r as { traceHash?: string }).traceHash === attestationId,
     );
     if (alreadyFinalized) return transcript;
 
@@ -75,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       maxScore: verification.maxScore,
       decision: verification.decision,
       assertionResults: verification.assertionResults,
-      traceHash: attestationId,
+      attestationId,
       credits: creditsEarned,
       timestamp: new Date().toISOString(),
     });

@@ -1,26 +1,13 @@
 import { createHmac } from "crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  buildCanonicalAttestationPayload,
   verifyAttestation,
   type ExamAttestation,
 } from "../../api/lib/attestation-validator.js";
 
 function signAttestation(attestation: ExamAttestation, secret: string): string {
-  const payload = JSON.stringify({
-    examAttemptId: attestation.examAttemptId,
-    attestationId: attestation.attestationId,
-    skillId: attestation.skillId,
-    challengeNonce: attestation.challengeNonce,
-    contractHash: attestation.contractHash,
-    skillVersion: attestation.skillVersion,
-    skillHash: attestation.skillHash,
-    score: attestation.score,
-    passed: attestation.passed,
-    hardFailTriggered: attestation.hardFailTriggered,
-    hardFailReasons: attestation.hardFailReasons,
-    assertionResults: attestation.assertionResults ?? [],
-    sandboxId: attestation.sandboxId,
-  });
+  const payload = buildCanonicalAttestationPayload(attestation);
   return createHmac("sha256", secret).update(payload).digest("hex");
 }
 
@@ -118,5 +105,35 @@ describe("attestation-validator", () => {
     expect(() => verifyAttestation(attestation, { passingScore: 70 })).toThrow(
       "Attestation passed flag does not match score threshold",
     );
+  });
+
+  it("fails decision when hard fail is triggered even with passing score", () => {
+    const secret = "test-tee-secret";
+    vi.stubEnv("TEE_SHARED_SECRET", secret);
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
+    const attestation = makeAttestation();
+    attestation.score = 99;
+    attestation.passed = true;
+    attestation.hardFailTriggered = true;
+    attestation.hardFailReasons = ["secret-leak"];
+    attestation.sandboxSignature = signAttestation(attestation, secret);
+
+    const result = verifyAttestation(attestation, { passingScore: 70 });
+    expect(result.decision).toBe("fail");
+    expect(result.hardFail.triggered).toBe(true);
+    expect(result.hardFail.reasons).toEqual(["secret-leak"]);
+  });
+
+  it("verifies attestations with per-sandbox secrets", () => {
+    vi.stubEnv("TEE_SANDBOX_SECRETS_JSON", JSON.stringify({
+      "tee-sandbox-a": "sandbox-a-secret",
+    }));
+    vi.stubEnv("TEE_SHARED_SECRET", "");
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "");
+
+    const attestation = makeAttestation();
+    attestation.sandboxSignature = signAttestation(attestation, "sandbox-a-secret");
+    const result = verifyAttestation(attestation, { requireBindingFields: true });
+    expect(result.decision).toBe("pass");
   });
 });

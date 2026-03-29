@@ -129,4 +129,48 @@ describe("POST /api/telemetry/audit", () => {
     expect((res.body as any).credentialRevoked).toBe(true);
     expect((res.body as any).revokedCredentials).toBe(1);
   });
+
+  it("does not revoke credentials when hard fail is not triggered", async () => {
+    vi.stubEnv("TEE_TELEMETRY_REQUIRE_BINDING", "false");
+    vi.stubEnv("TEE_DEFAULT_PASSING_SCORE", "70");
+
+    const updateTranscriptMock = vi.fn();
+    vi.doMock("../../api/_lib/session.js", () => ({
+      authenticateRequest: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
+    }));
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    vi.doMock("../../api/_lib/telemetry.js", () => ({
+      createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
+    }));
+    vi.doMock("../../api/_lib/blob.js", () => ({
+      updateTranscript: updateTranscriptMock,
+    }));
+    vi.doMock("../../api/lib/attestation-validator.js", () => ({
+      verifyAttestation: vi.fn().mockReturnValue({
+        score: 55,
+        maxScore: 100,
+        decision: "revisit",
+        hardFail: { triggered: false, reasons: [] },
+      }),
+    }));
+
+    const { default: handler } = await import("../../api/telemetry/audit.js");
+    const req = {
+      method: "POST",
+      body: {
+        ...baseBody(),
+        hardFailTriggered: false,
+        hardFailReasons: [],
+      },
+    } as any;
+    const res = createRes();
+
+    await handler(req, res as any);
+    expect(res.statusCode).toBe(200);
+    expect(updateTranscriptMock).not.toHaveBeenCalled();
+    expect((res.body as any).credentialRevoked).toBe(false);
+    expect((res.body as any).revokedCredentials).toBe(0);
+  });
 });
