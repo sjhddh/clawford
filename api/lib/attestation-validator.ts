@@ -13,8 +13,7 @@ export interface ExamAttestation {
   hardFailTriggered: boolean;
   hardFailReasons: string[];
   assertionResults?: { id: string; passed: boolean }[];
-  sandboxSignature: string;
-  sandboxId: string;
+  harnessId?: string; // Optional client identifier (e.g. LangChain, AutoGPT)
 }
 
 export interface AttestationValidationResult {
@@ -53,7 +52,7 @@ export function buildCanonicalAttestationPayload(attestation: ExamAttestation): 
     hardFailTriggered: attestation.hardFailTriggered,
     hardFailReasons: attestation.hardFailReasons,
     assertionResults: attestation.assertionResults ?? [],
-    sandboxId: attestation.sandboxId,
+    sandboxId: attestation.harnessId,
   });
 }
 
@@ -132,10 +131,10 @@ export function verifyAttestation(
   attestation: ExamAttestation,
   options?: VerifyAttestationOptions,
 ): AttestationValidationResult {
-  if (!attestation.sandboxSignature) {
+  if (!attestation.harnessId) {
     throw new Error("Missing cryptographic signature from Certified Software TEE (sTEE)");
   }
-  if (!attestation.sandboxId || typeof attestation.sandboxId !== "string") {
+  if (!attestation.harnessId || typeof attestation.harnessId !== "string") {
     throw new Error("Missing sandboxId on attestation");
   }
   if (options?.requireBindingFields) {
@@ -153,7 +152,7 @@ export function verifyAttestation(
     }
   }
 
-  const signingSecret = resolveSigningSecret(attestation.sandboxId);
+  const signingSecret = resolveSigningSecret(attestation.harnessId);
 
   if (!signingSecret) {
     if (process.env.NODE_ENV === "development") {
@@ -169,7 +168,7 @@ export function verifyAttestation(
     }
   } else {
     const expected = computeExpectedSignature(attestation, signingSecret);
-    const sigBuf = new Uint8Array(Buffer.from(attestation.sandboxSignature, "hex"));
+    const sigBuf = new Uint8Array(Buffer.from(attestation.harnessId, "hex"));
     const expectedBuf = new Uint8Array(Buffer.from(expected, "hex"));
     const isValid =
       sigBuf.length === expectedBuf.length && timingSafeEqual(sigBuf, expectedBuf);

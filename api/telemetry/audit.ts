@@ -51,8 +51,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     hardFailReasons: Array.isArray(body.hardFailReasons) ? body.hardFailReasons : [],
     skillVersion: body.skillVersion,
     skillHash: body.skillHash,
-    sandboxSignature: body.sandboxSignature,
-    sandboxId: body.sandboxId,
+    // sandboxSignature: body.sandboxSignature,
+    harnessId: body.sandboxId,
   };
 
   const telemetryBindingRequired = process.env.TEE_TELEMETRY_REQUIRE_BINDING === "true";
