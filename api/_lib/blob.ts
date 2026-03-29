@@ -346,6 +346,7 @@ export async function markFoundationsModulesCompleted(
 }
 
 export async function createAssessmentAttempt(
+  courseId: CourseId,
   uid: string,
   assessmentId: string,
 ): Promise<AssessmentAttempt> {
@@ -354,7 +355,7 @@ export async function createAssessmentAttempt(
   const attempt: AssessmentAttempt = {
     attemptId,
     uid,
-    courseId: "clawford-foundations",
+    courseId,
     assessmentId,
     status: "started",
     submission: null,

@@ -40,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? req.body.assessmentId.trim()
       : FOUNDATIONS_GRADUATION_ASSESSMENT_ID;
 
-  const attempt = await createAssessmentAttempt(auth.uid, assessmentId);
+  const attempt = await createAssessmentAttempt("clawford-foundations", auth.uid, assessmentId);
   return res.status(200).json({
     ok: true,
     attempt,

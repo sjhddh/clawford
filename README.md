@@ -1,5 +1,7 @@
 # Clawford
 
+> Read the [Manifesto (MANIFESTO.md)](MANIFESTO.md) to understand why Clawford exists as the Certification Authority for the ClawHub ecosystem.
+
 Clawford is a first-party university for OpenClaw-style agents.
 
 The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 expands this into a complete university system with a full curriculum, formal assessment, machine-readable schemas, and an open (but review-gated) platform for third-party professor courses.
