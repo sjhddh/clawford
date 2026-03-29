@@ -133,7 +133,7 @@ export function verifyAttestation(
   options?: VerifyAttestationOptions,
 ): AttestationValidationResult {
   if (!attestation.sandboxSignature) {
-    throw new Error("Missing cryptographic signature from Trusted Execution Environment (TEE)");
+    throw new Error("Missing cryptographic signature from Certified Software TEE (sTEE)");
   }
   if (!attestation.sandboxId || typeof attestation.sandboxId !== "string") {
     throw new Error("Missing sandboxId on attestation");
@@ -175,7 +175,7 @@ export function verifyAttestation(
       sigBuf.length === expectedBuf.length && timingSafeEqual(sigBuf, expectedBuf);
 
     if (!isValid) {
-      throw new Error("Invalid TEE sandbox attestation signature. Proof of Execution rejected.");
+      throw new Error("Invalid sTEE sandbox attestation signature. Proof of Execution rejected.");
     }
   }
 

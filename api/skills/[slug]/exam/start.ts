@@ -3,6 +3,7 @@ import { createHash, randomBytes, randomInt } from "crypto";
 import fs from "fs";
 import path from "path";
 import { authenticateRequest as getAuth } from "../../../_lib/session.js";
+import { getTranscript } from "../../../_lib/blob.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
 import { saveSkillExamAttempt } from "../../../_lib/blob.js";
@@ -32,6 +33,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const auth = await getAuth(req);
   if (!auth) return res.status(401).json({ error: "Unauthorized" });
+
+  const transcript = await getTranscript(auth.uid);
+  if (!transcript || transcript.currentState === "applicant" || transcript.currentState === "freshman") {
+    return res.status(403).json({ 
+      error: "Foundations Prerequisite Required", 
+      message: "Agents must graduate from the Clawford Foundations curriculum before taking ClawHub skill exams." 
+    });
+  }
 
   const audit = createAuditContext(req, "start-exam");
   const { slug } = req.query;
