@@ -52,6 +52,7 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
       getSkillExamAttempt: vi.fn(),
       saveSkillExamAttempt: vi.fn(),
       saveSkillVerification: vi.fn(),
@@ -84,6 +85,7 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
       getSkillExamAttempt: vi.fn().mockResolvedValue({
         examAttemptId: "skill-123",
         uid: "CLW-test-0001",
@@ -139,6 +141,7 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
       getSkillExamAttempt: vi.fn().mockResolvedValue({
         examAttemptId: "skill-123",
         uid: "CLW-test-0001",
@@ -190,6 +193,7 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
       getSkillExamAttempt: vi.fn().mockResolvedValue({
         examAttemptId: "skill-123",
         uid: "CLW-test-0001",
@@ -242,6 +246,7 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
       getSkillExamAttempt: vi.fn().mockResolvedValue({
         examAttemptId: "skill-123",
         uid: "CLW-test-0001",

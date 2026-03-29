@@ -119,8 +119,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? body.hardFailReasons.filter((value: unknown): value is string => typeof value === "string")
       : [],
     assertionResults,
-    // sandboxSignature: body.sandboxSignature,
-    harnessId: body.sandboxId,
+    sandboxSignature: body.sandboxSignature,
+    sandboxId: body.sandboxId,
   };
 
   if (attestation.skillId !== slug) {

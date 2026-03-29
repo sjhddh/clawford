@@ -13,7 +13,8 @@ export interface ExamAttestation {
   hardFailTriggered: boolean;
   hardFailReasons: string[];
   assertionResults?: { id: string; passed: boolean }[];
-  harnessId?: string; // Optional client identifier (e.g. LangChain, AutoGPT)
+  sandboxSignature: string;
+  sandboxId: string;
 }
 
 export interface AttestationValidationResult {
@@ -52,7 +53,7 @@ export function buildCanonicalAttestationPayload(attestation: ExamAttestation): 
     hardFailTriggered: attestation.hardFailTriggered,
     hardFailReasons: attestation.hardFailReasons,
     assertionResults: attestation.assertionResults ?? [],
-    sandboxId: attestation.harnessId,
+    sandboxId: attestation.sandboxId,
   });
 }
 
@@ -131,11 +132,12 @@ export function verifyAttestation(
   attestation: ExamAttestation,
   options?: VerifyAttestationOptions,
 ): AttestationValidationResult {
-  // Optimistic Attestation (Fraud-Proof Model)
-  // Clawford accepts JSON traces from ANY harness (LangChain, AutoGPT, OpenClaw).
-  // We do not require a cryptographic sandbox signature, achieving zero-friction enrollment.
-  // Security relies on Phase 11 Production Telemetry Slashing: if an agent fakes this attestation,
-  // and later fails in a production audit, their credential is revoked and their UID is slashed.
+  if (!attestation.sandboxSignature) {
+    throw new Error("Missing cryptographic signature from Trusted Execution Environment (TEE)");
+  }
+  if (!attestation.sandboxId || typeof attestation.sandboxId !== "string") {
+    throw new Error("Missing sandboxId on attestation");
+  }
   if (options?.requireBindingFields) {
     const required = [
       "examAttemptId",
@@ -151,9 +153,31 @@ export function verifyAttestation(
     }
   }
 
-  // Optimistic Issuance: We explicitly DO NOT verify ECDSA/ZKP signatures here.
-  // The backend assumes the JSON payload is truthful, achieving zero-install virality.
-  // Any fraudulent attestations will be slashed in Phase 11 Production Telemetry Auditing.
+  const signingSecret = resolveSigningSecret(attestation.sandboxId);
+
+  if (!signingSecret) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[attestation-validator] TEE_SHARED_SECRET not set — accepting attestation without cryptographic verification. " +
+        "This is ONLY acceptable in local development.",
+      );
+    } else {
+      throw new Error(
+        "TEE_SHARED_SECRET is not configured. Cannot verify attestation signatures. " +
+        "Set this environment variable in your deployment.",
+      );
+    }
+  } else {
+    const expected = computeExpectedSignature(attestation, signingSecret);
+    const sigBuf = new Uint8Array(Buffer.from(attestation.sandboxSignature, "hex"));
+    const expectedBuf = new Uint8Array(Buffer.from(expected, "hex"));
+    const isValid =
+      sigBuf.length === expectedBuf.length && timingSafeEqual(sigBuf, expectedBuf);
+
+    if (!isValid) {
+      throw new Error("Invalid TEE sandbox attestation signature. Proof of Execution rejected.");
+    }
+  }
 
   const passingScore = options?.passingScore ?? 70;
   const revisitScore = options?.revisitScore ?? 50;
