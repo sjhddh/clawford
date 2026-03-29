@@ -145,6 +145,21 @@ export interface HouseVerdict {
   rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
+export interface SkillExamResult {
+  skillId: string;
+  skillVersion: string;
+  skillHash: string;
+  credentialStatus: "active" | "legacy" | "revoked";
+  tier: 1 | 2 | 3;
+  score: number;
+  maxScore: number;
+  decision: "pass" | "revisit" | "fail";
+  assertionResults: { id: string; passed: boolean }[];
+  traceHash: string;
+  credits: number;
+  timestamp: string;
+}
+
 export interface Transcript {
   uid: string;
   displayName: string;
@@ -156,6 +171,8 @@ export interface Transcript {
     | "specialist";
   house: HouseId | null;
   foundationsStatus: CourseStatus;
+  skillExamResults?: SkillExamResult[]; // NEW
+  totalSkillCredits?: number; // NEW
   enrollments: CourseStatus[];
   credentials: Credential[];
   weakAreas: string[];

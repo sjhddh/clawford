@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AssertionContract",
+  "description": "Deterministic rules and semantic rubric for evaluating an ExamTrace.",
+  "type": "object",
+  "required": ["skillId", "tier", "assertions", "semanticRubric", "passingScore", "credits"],
+  "properties": {
+    "skillId": { "type": "string" },
+    "tier": { "type": "integer", "enum": [1, 2] },
+    "dynamicParameters": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": { "pool": { "type": "array", "items": { "type": "string" } } }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "rule"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["behavior", "state", "efficiency", "hardFail"] },
+          "rule": { "type": "string", "description": "JS evaluation string executed against trace" }
+        }
+      }
+    },
+    "semanticRubric": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "gradedBy"],
+        "properties": {
+          "dimension": { "type": "string" },
+          "gradedBy": { "type": "string", "enum": ["llm"] },
+          "prompt": { "type": "string" }
+        }
+      }
+    },
+    "passingScore": { "type": "number" },
+    "credits": { "type": "integer" }
+  }
+}
