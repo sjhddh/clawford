@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it, vi, afterEach } from "vitest";

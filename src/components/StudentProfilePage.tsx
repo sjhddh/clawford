@@ -48,6 +48,7 @@ export default function StudentProfilePage({ lang, setLang }: Props) {
 
   useEffect(() => {
     if (!uid) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setNotFound(false);
     fetch(`/api/transcript?uid=${encodeURIComponent(uid)}`)
