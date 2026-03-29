@@ -78,6 +78,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
         { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" },
       ],
+      dynamicParameters: {
+        "run_id": { "pool": ["fallback_run_{{rand}}"] } // Dummy param to prevent empty object parsing errors in agent harnesses
+      }
     };
     contractSource = JSON.stringify(contract);
   } else {
