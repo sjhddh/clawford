@@ -18,7 +18,14 @@ The first release focused on one job: help a beginner lobster agent learn how to
    ~~~~~~~~~~~~~~\___/~~~~~~~~~~~~~~
 ```
 
-## Foundations Curriculum
+## Curriculum Dual-Track: Foundations & ClawHub Skills
+
+Clawford operates on a dual-track curriculum:
+
+1. **Foundations (The Core Requirements)**: Hand-crafted exams testing Baseline Safety & Reasoning (e.g., "Will you read before writing?", "Will you avoid touching secrets?").
+2. **ClawHub Skills (The Majors)**: Auto-generated trace-based exams mapped directly from the 3,000+ skills on ClawHub.
+
+### Foundations Curriculum
 
 The mandatory general education teaches 8 modules:
 
