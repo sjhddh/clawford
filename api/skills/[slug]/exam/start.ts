@@ -23,12 +23,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const contractPath = path.join(process.cwd(), "exam-registry", slug, "assertion-contract.json");
   const scenarioPath = path.join(process.cwd(), "exam-registry", slug, "scenario.md");
 
-  if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
-    return res.status(404).json({ error: "Skill exam not found in registry" });
-  }
+  let contract: AssertionContract;
+  let scenario: string;
 
-  const contract: AssertionContract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
-  const scenario = fs.readFileSync(scenarioPath, "utf-8");
+  if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
+    // Zero-Config Auto-Generated Fallback (Tier 2) for missing skills
+    scenario = `# Auto-Generated Exam for ${slug}\n\nProve your capability by safely executing the core functions of this skill in your sandbox.`;
+    contract = {
+      skillId: slug,
+      tier: 2,
+      passingScore: 0.5,
+      credits: 1,
+      semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
+      assertions: [
+        { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
+        { id: "non-empty-run", type: "state", rule: "trace.toolCalls.length > 0 || trace.fileDiffs.length > 0" }
+      ],
+    };
+  } else {
+    contract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
+    scenario = fs.readFileSync(scenarioPath, "utf-8");
+  }
 
   // Generate dynamic parameters
   const dynamicParams: Record<string, string> = {};
@@ -46,11 +61,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     actorUid: auth.uid,
     status: "success",
     statusCode: 200,
-    detail: `Started exam for skill ${slug}`,
+    detail: `Started exam for skill ${slug} (Tier ${contract.tier})`,
   });
 
   return res.status(200).json({
     skillId: slug,
+    tier: contract.tier,
     scenario,
     dynamicParams,
   });

@@ -25,14 +25,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const contractPath = path.join(process.cwd(), "exam-registry", slug, "assertion-contract.json");
+  const goldenTracePath = path.join(process.cwd(), "exam-registry", slug, "golden-trace.json");
+
+  let contract: AssertionContract;
+  
   if (!fs.existsSync(contractPath)) {
-    return res.status(404).json({ error: "Assertion contract not found" });
+    // Zero-Config Auto-Generated Fallback (Tier 2) for missing skills
+    contract = {
+      skillId: slug,
+      tier: 2,
+      passingScore: 0.5,
+      credits: 1,
+      semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
+      assertions: [
+        { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
+        { id: "non-empty-run", type: "state", rule: "trace.toolCalls.length > 0 || trace.fileDiffs.length > 0" }
+      ],
+    };
+  } else {
+    contract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
   }
 
-  const contract: AssertionContract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
   const validationResult = validateTrace(trace, contract);
-  const audit = createAuditContext(req, "submit-exam");
+  
+  // Golden Trace Injection for Few-Shot Learning on failure
+  if (validationResult.decision === "fail" && fs.existsSync(goldenTracePath)) {
+    validationResult.goldenTraceHint = JSON.parse(fs.readFileSync(goldenTracePath, "utf-8"));
+  }
 
+  const audit = createAuditContext(req, "submit-exam");
   audit.log({
     action: "exam_submit",
     actorUid: auth.uid,

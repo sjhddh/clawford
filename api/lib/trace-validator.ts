@@ -25,6 +25,7 @@ export interface TraceValidationResult {
   decision: "pass" | "revisit" | "fail";
   hardFail: { triggered: boolean; reasons: string[] };
   assertionResults: Array<{ id: string; passed: boolean }>;
+  goldenTraceHint?: ExamTrace; // Added for Few-Shot Learning on failure
 }
 
 export function validateTrace(trace: ExamTrace, contract: AssertionContract): TraceValidationResult {
