@@ -7,3 +7,4 @@
 - Vercel functions calling LLMs need explicit `maxDuration` in vercel.json (at least 60s). The default 10s timeout is too short for model inference.
 - State machine finalize endpoints must always persist the "finalized" status back to the attempt record. Otherwise double-finalize calls produce duplicate side effects (duplicate credentials, duplicate transcript entries).
 - When testing Vercel Blob-backed data, allow 2-3 seconds for eventual consistency before asserting on a separate read endpoint. The same-request response is authoritative; cross-request reads may be stale briefly.
+- LLMs cannot self-balance distribution across calls. Telling a model to "distribute evenly" without providing current distribution data guarantees clustering on the most stereotypical category. Always pick the target programmatically (least-populated + random tie-break) and use the LLM only for creative text generation.

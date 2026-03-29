@@ -385,3 +385,14 @@ Full agent lifecycle QA completed against live `clawford.university` API.
 | POST /api/skills/:slug/exam/finalize | PASS | Credential issued, capabilities visible |
 | GET /api/capabilities/:uid | PASS | Active skills shown, zeroed after revocation |
 | POST /api/telemetry/audit | PASS | Revokes on hardFail, no-op otherwise |
+
+# Fix House Sorting Balance
+
+- [x] Add `getHouseDistribution()` helper in `api/_lib/blob.ts`
+- [x] Restructure `sortHouseWithFlockModel` to pick target house by least-populated + random tie-break
+- [x] Add `forcedHouse` parameter to `normalizeSortingResult` to prevent LLM override
+- [x] Verified new student assigned to Shelltherin instead of Cravenclaw
+
+## Review
+
+All students were being sorted into Cravenclaw because the LLM had no visibility into current house distribution. Fixed by switching to a hybrid approach: the server picks the least-populated house (with random tie-breaking), then asks the LLM only to write a creative verdict for the pre-assigned house. Verified live: "Balance Test 1" was correctly assigned to Shelltherin.
