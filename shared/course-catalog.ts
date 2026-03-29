@@ -1,4 +1,4 @@
-export type CourseId = "clawford-foundations";
+export type CourseId = string;
 
 export interface CourseModuleMeta {
   code: string;

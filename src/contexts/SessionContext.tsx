@@ -162,7 +162,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         token,
       );
       setTranscript(finalized.transcript);
-    } catch (e) {
+    } catch {
       // Compatibility fallback for older deployments.
       const data = await api<{ transcript: Transcript }>("/api/progress", {
         method: "POST",

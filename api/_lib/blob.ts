@@ -21,6 +21,14 @@ function assessmentAttemptPath(uid: string, attemptId: string): string {
   return `clawford/assessments/${uid}/${attemptId}.json`;
 }
 
+function skillVerificationPath(uid: string, attestationId: string): string {
+  return `clawford/skill-verifications/${uid}/${attestationId}.json`;
+}
+
+function skillExamAttemptPath(uid: string, examAttemptId: string): string {
+  return `clawford/skill-exam-attempts/${uid}/${examAttemptId}.json`;
+}
+
 const locks = new Map<string, Promise<void>>();
 
 async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
@@ -145,6 +153,21 @@ export interface HouseVerdict {
   rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
+export interface SkillExamResult {
+  skillId: string;
+  skillVersion: string;
+  skillHash: string;
+  credentialStatus: "active" | "legacy" | "revoked";
+  tier: 1 | 2 | 3;
+  score: number;
+  maxScore: number;
+  decision: "pass" | "revisit" | "fail";
+  assertionResults: { id: string; passed: boolean }[];
+  attestationId: string;
+  credits: number;
+  timestamp: string;
+}
+
 export interface Transcript {
   uid: string;
   displayName: string;
@@ -156,6 +179,8 @@ export interface Transcript {
     | "specialist";
   house: HouseId | null;
   foundationsStatus: CourseStatus;
+  skillExamResults?: SkillExamResult[]; // NEW
+  totalSkillCredits?: number; // NEW
   enrollments: CourseStatus[];
   credentials: Credential[];
   weakAreas: string[];
@@ -346,6 +371,7 @@ export async function markFoundationsModulesCompleted(
 }
 
 export async function createAssessmentAttempt(
+  courseId: CourseId,
   uid: string,
   assessmentId: string,
 ): Promise<AssessmentAttempt> {
@@ -354,7 +380,7 @@ export async function createAssessmentAttempt(
   const attempt: AssessmentAttempt = {
     attemptId,
     uid,
-    courseId: "clawford-foundations",
+    courseId,
     assessmentId,
     status: "started",
     submission: null,
@@ -465,4 +491,74 @@ async function updateWallIndex(transcript: Transcript): Promise<void> {
   }
   wall.lastUpdated = new Date().toISOString();
   await writeBlob(WALL_INDEX_PATH, wall);
+}
+
+// --------------- Skill Exam Verifications ---------------
+
+export interface StoredSkillVerification {
+  examAttemptId: string;
+  attestationId: string;
+  uid: string;
+  skillId: string;
+  challengeNonce: string;
+  contractHash: string;
+  skillVersion: string;
+  skillHash: string;
+  tier: 1 | 2 | 3;
+  credits: number;
+  score: number;
+  maxScore: number;
+  decision: "pass" | "revisit" | "fail";
+  assertionResults: { id: string; passed: boolean }[];
+  hardFail: { triggered: boolean; reasons: string[] };
+  createdAt: string;
+}
+
+export interface SkillExamAttempt {
+  examAttemptId: string;
+  uid: string;
+  skillId: string;
+  challengeNonce: string;
+  contractHash: string;
+  skillVersion: string;
+  skillHash: string;
+  tier: 1 | 2 | 3;
+  credits: number;
+  passingScore: number;
+  assertionIds: string[];
+  dynamicParams: Record<string, string>;
+  startedAt: string;
+  expiresAt: string;
+  status: "started" | "submitted" | "finalized";
+  submittedAt?: string;
+  finalizedAt?: string;
+  attestationId?: string;
+}
+
+export async function saveSkillVerification(
+  uid: string,
+  verification: StoredSkillVerification,
+): Promise<void> {
+  await writeBlob(skillVerificationPath(uid, verification.attestationId), verification);
+}
+
+export async function getSkillVerification(
+  uid: string,
+  attestationId: string,
+): Promise<StoredSkillVerification | null> {
+  return readBlob<StoredSkillVerification>(skillVerificationPath(uid, attestationId));
+}
+
+export async function saveSkillExamAttempt(
+  uid: string,
+  attempt: SkillExamAttempt,
+): Promise<void> {
+  await writeBlob(skillExamAttemptPath(uid, attempt.examAttemptId), attempt);
+}
+
+export async function getSkillExamAttempt(
+  uid: string,
+  examAttemptId: string,
+): Promise<SkillExamAttempt | null> {
+  return readBlob<SkillExamAttempt>(skillExamAttemptPath(uid, examAttemptId));
 }

@@ -28,6 +28,16 @@
       "items": { "$ref": "#/$defs/CourseStatus" },
       "description": "All course enrollments including foundations and academy courses."
     },
+    "skillExamResults": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SkillExamResult" },
+      "description": "Verified skill-exam credentials earned through attestation-based exams."
+    },
+    "totalSkillCredits": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total credits from active, passing skill exam credentials."
+    },
     "credentials": {
       "type": "array",
       "items": {
@@ -161,6 +171,50 @@
           "type": "string",
           "format": "date-time"
         }
+      }
+    },
+    "SkillExamResult": {
+      "type": "object",
+      "required": [
+        "skillId",
+        "skillVersion",
+        "skillHash",
+        "credentialStatus",
+        "tier",
+        "score",
+        "maxScore",
+        "decision",
+        "assertionResults",
+        "attestationId",
+        "credits",
+        "timestamp"
+      ],
+      "properties": {
+        "skillId": { "type": "string" },
+        "skillVersion": { "type": "string" },
+        "skillHash": { "type": "string" },
+        "credentialStatus": {
+          "type": "string",
+          "enum": ["active", "legacy", "revoked"]
+        },
+        "tier": { "type": "integer", "enum": [1, 2, 3] },
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "maxScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "decision": { "type": "string", "enum": ["pass", "revisit", "fail"] },
+        "assertionResults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "passed"],
+            "properties": {
+              "id": { "type": "string" },
+              "passed": { "type": "boolean" }
+            }
+          }
+        },
+        "attestationId": { "type": "string" },
+        "credits": { "type": "integer", "minimum": 0 },
+        "timestamp": { "type": "string", "format": "date-time" }
       }
     }
   }

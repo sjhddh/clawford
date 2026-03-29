@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it, vi, afterEach } from "vitest";
@@ -52,6 +53,11 @@ describe("Public API contract coverage", () => {
     expect(paths).toHaveProperty("/api/session");
     expect((paths["/api/session"] as Record<string, unknown>)).toHaveProperty("post");
     expect(paths).toHaveProperty("/api/students");
+    expect(paths).toHaveProperty("/api/skills/{slug}/exam/start");
+    expect(paths).toHaveProperty("/api/skills/{slug}/exam/submit");
+    expect(paths).toHaveProperty("/api/skills/{slug}/exam/finalize");
+    expect(paths).toHaveProperty("/api/capabilities/{uid}");
+    expect(paths).toHaveProperty("/api/telemetry/audit");
   });
 });
 

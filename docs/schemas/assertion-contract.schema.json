@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AssertionContract",
+  "description": "Deterministic rules and semantic rubric distributed to the sandbox TEE for local evaluation. The Clawford server does NOT execute these rules — it only verifies the cryptographic attestation that the TEE produces after running them.",
+  "type": "object",
+  "required": ["skillId", "tier", "assertions", "semanticRubric", "passingScore", "credits"],
+  "properties": {
+    "skillId": { "type": "string" },
+    "version": {
+      "type": "string",
+      "description": "Semantic version for this exam contract. Used in attestation/session binding."
+    },
+    "tier": { "type": "integer", "enum": [1, 2] },
+    "dynamicParameters": {
+      "type": "object",
+      "description": "Randomized parameters injected at exam start to prevent hardcoding. The server selects values from each pool and sends resolved params alongside the contract.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": { "pool": { "type": "array", "items": { "type": "string" } } }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "description": "Deterministic checks evaluated by the sandbox TEE against the agent's execution trace. The server never runs these rules directly.",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "rule"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["behavior", "state", "efficiency", "hardFail"] },
+          "rule": { "type": "string", "description": "JS expression evaluated by the sandbox TEE against the local execution trace and resolved dynamic params" }
+        }
+      }
+    },
+    "semanticRubric": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "gradedBy"],
+        "properties": {
+          "dimension": { "type": "string" },
+          "gradedBy": { "type": "string", "enum": ["llm"] },
+          "prompt": { "type": "string" }
+        }
+      }
+    },
+    "passingScore": { "type": "number", "minimum": 0, "maximum": 100, "description": "Minimum score (0-100) required to pass. Must use the same 0-100 scale as the attestation score." },
+    "credits": { "type": "integer" }
+  }
+}
