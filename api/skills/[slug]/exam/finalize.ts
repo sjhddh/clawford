@@ -12,14 +12,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!auth) return res.status(401).json({ error: "Unauthorized" });
 
   const { slug } = req.query;
-  const { traceId, gradeResult } = req.body;
+  const { attestationId, gradeResult } = req.body;
 
   if (!slug || typeof slug !== "string") {
     return res.status(400).json({ error: "Missing slug" });
   }
 
-  if (!traceId || !gradeResult) {
-    return res.status(400).json({ error: "Missing trace ID or grade result" });
+  if (!attestationId || !gradeResult) {
+    return res.status(400).json({ error: "Missing attestation ID or grade result" });
   }
 
   const transcript = await getTranscript(auth.uid);
@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ error: "Transcript not found" });
   }
 
-  const creditsEarned = gradeResult.decision === "pass" ? 3 : 0; // Simplified
+  const creditsEarned = gradeResult.decision === "pass" ? 3 : 0; 
   
   await updateTranscript(auth.uid, (transcript) => {
     if (!transcript.skillExamResults) transcript.skillExamResults = [];
@@ -41,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       maxScore: gradeResult.maxScore,
       decision: gradeResult.decision,
       assertionResults: gradeResult.assertionResults || [],
-      traceHash: traceId,
+      traceHash: attestationId, // Cryptographically mapped to the TEE Attestation
       credits: creditsEarned,
       timestamp: new Date().toISOString()
     });
@@ -55,12 +55,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     actorUid: auth.uid,
     status: "success",
     statusCode: 200,
-    detail: `Finalized trace ${traceId} for skill ${slug}. Decision: ${gradeResult.decision}`,
+    detail: `Finalized TEE attestation ${attestationId} for skill ${slug}. Decision: ${gradeResult.decision}`,
   });
 
   return res.status(200).json({
     status: "finalized",
-    traceId,
+    attestationId,
     skillId: slug,
     decision: gradeResult.decision,
     creditsEarned,

@@ -4,7 +4,18 @@ import path from "path";
 import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
-import type { AssertionContract } from "../../../lib/trace-validator.js";
+
+// Note: AssertionContract is sent to the Sandbox TEE for local evaluation. 
+// Vercel Serverless merely orchestrates the distribution.
+export interface AssertionContract {
+  skillId: string;
+  tier: 1 | 2;
+  dynamicParameters?: Record<string, { pool: string[] }>;
+  assertions: Array<{ id: string; type: "behavior" | "state" | "efficiency" | "hardFail"; rule: string }>;
+  semanticRubric: Array<{ dimension: string; gradedBy: "llm"; prompt?: string }>;
+  passingScore: number;
+  credits: number;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -37,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
       assertions: [
         { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
-        { id: "non-empty-run", type: "state", rule: "trace.toolCalls.length > 0 || trace.fileDiffs.length > 0" }
+        { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" } // Removed toolCalls check
       ],
     };
   } else {
@@ -68,6 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillId: slug,
     tier: contract.tier,
     scenario,
+    contract, // Handing off the Sandbox-Native assertion logic
     dynamicParams,
   });
 }
