@@ -113,7 +113,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   let validationResult: AttestationValidationResult;
   try {
-    validationResult = verifyAttestation(attestation, { requireBindingFields: true });
+    validationResult = verifyAttestation(attestation, {
+      requireBindingFields: true,
+      passingScore: examAttempt.passingScore ?? 70,
+    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Attestation verification failed";
     return res.status(403).json({ error: message });

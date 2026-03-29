@@ -35,6 +35,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (typeof body.passed !== "boolean" || typeof body.hardFailTriggered !== "boolean") {
     return res.status(400).json({ error: "passed and hardFailTriggered must be booleans" });
   }
+  if (body.skillVersion !== undefined && typeof body.skillVersion !== "string") {
+    return res.status(400).json({ error: "skillVersion must be a string when provided" });
+  }
+  if (body.skillHash !== undefined && typeof body.skillHash !== "string") {
+    return res.status(400).json({ error: "skillHash must be a string when provided" });
+  }
 
   const attestation: ExamAttestation = {
     attestationId: body.attestationId,
@@ -43,13 +49,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     passed: body.passed,
     hardFailTriggered: body.hardFailTriggered,
     hardFailReasons: Array.isArray(body.hardFailReasons) ? body.hardFailReasons : [],
+    skillVersion: body.skillVersion,
+    skillHash: body.skillHash,
     sandboxSignature: body.sandboxSignature,
     sandboxId: body.sandboxId,
   };
 
+  const telemetryBindingRequired = process.env.TEE_TELEMETRY_REQUIRE_BINDING === "true";
+  if (telemetryBindingRequired && (!attestation.skillVersion || !attestation.skillHash)) {
+    return res.status(400).json({
+      error: "skillVersion and skillHash are required when TEE_TELEMETRY_REQUIRE_BINDING=true",
+    });
+  }
+
+  const passThresholdRaw = process.env.TEE_DEFAULT_PASSING_SCORE;
+  const passThreshold = passThresholdRaw ? Number(passThresholdRaw) : 70;
+  if (!Number.isFinite(passThreshold) || passThreshold < 0 || passThreshold > 100) {
+    return res.status(500).json({
+      error: "TEE_DEFAULT_PASSING_SCORE must be a number between 0 and 100",
+    });
+  }
+
   let validationResult: AttestationValidationResult;
   try {
-    validationResult = verifyAttestation(attestation);
+    validationResult = verifyAttestation(attestation, { passingScore: passThreshold });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Attestation verification failed";
     return res.status(403).json({ error: message });
@@ -65,7 +88,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       let changed = false;
       for (const exam of transcript.skillExamResults) {
-        if (exam.skillId === attestation.skillId && exam.credentialStatus === "active") {
+        const versionMatches = !telemetryBindingRequired
+          || (
+            attestation.skillVersion
+            && attestation.skillHash
+            && exam.skillVersion === attestation.skillVersion
+            && exam.skillHash === attestation.skillHash
+          );
+        if (
+          exam.skillId === attestation.skillId
+          && exam.credentialStatus === "active"
+          && versionMatches
+        ) {
           exam.credentialStatus = "revoked";
           changed = true;
         }

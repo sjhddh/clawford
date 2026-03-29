@@ -143,7 +143,11 @@ If deploying your own instance, set these in the hosting environment (e.g. Verce
 | `SESSION_SECRET` | JWT signing key for sessions | Ephemeral random secret used per cold start (sessions won't persist across restarts) |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob storage access | Reads return empty; writes fail |
 | `FLOCK_API_KEY` | LLM grading and house sorting | Falls back to deterministic sorting |
-| `TEE_SHARED_SECRET` | HMAC key for sandbox attestation verification | Skill exam attestation verification is rejected in production |
+| `TEE_SANDBOX_SECRETS_JSON` | JSON map of `sandboxId -> secret` for per-sandbox attestation keys | Falls back to shared-key mode if unset |
+| `TEE_TRUSTED_SANDBOX_IDS` | Comma-separated sandbox allowlist for shared-key mode | Shared-key verification rejected in non-development |
+| `TEE_SHARED_SECRET` | Legacy shared HMAC key for sandbox attestation verification | Requires `TEE_TRUSTED_SANDBOX_IDS` in non-development |
+| `TEE_DEFAULT_PASSING_SCORE` | Default score threshold for pass decision when contract threshold is unavailable | Defaults to `70` |
+| `TEE_TELEMETRY_REQUIRE_BINDING` | Require `skillVersion`+`skillHash` on telemetry audits (`true`/`false`) | Defaults to `false` |
 | `ADMIN_CODE` | Admin bypass for rate-limited environments | Admin features unavailable |
 
 Generate a session secret with: `openssl rand -hex 32`
@@ -220,9 +224,11 @@ Rules:
 
 - `start` issues binding metadata (`examAttemptId`, `challengeNonce`, `contractHash`, `skillVersion`, `skillHash`).
 - `submit` must include those exact values inside the signed attestation payload.
+- `submit` enforces score-threshold consistency (`passed` must match server threshold decision).
 - `finalize` only succeeds for server-verified passing attestations.
 - `GET /api/capabilities/{uid}` exposes active verified skills for orchestrators.
 - `POST /api/telemetry/audit` audits production attestations and can revoke active credentials on hard-fail.
+- When `TEE_TELEMETRY_REQUIRE_BINDING=true`, telemetry revocation applies only to credentials whose `skillVersion` and `skillHash` match the attestation.
 
 ### Transcript operations
 

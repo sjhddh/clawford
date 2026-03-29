@@ -51,6 +51,7 @@ describe("attestation-validator", () => {
   it("verifies signed attestations when binding fields are required", () => {
     const secret = "test-tee-secret";
     vi.stubEnv("TEE_SHARED_SECRET", secret);
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
 
     const attestation = makeAttestation();
     attestation.sandboxSignature = signAttestation(attestation, secret);
@@ -62,6 +63,7 @@ describe("attestation-validator", () => {
 
   it("rejects attestations missing required binding fields", () => {
     vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
     const attestation = makeAttestation();
     attestation.challengeNonce = undefined;
     attestation.sandboxSignature = "00";
@@ -73,6 +75,7 @@ describe("attestation-validator", () => {
 
   it("rejects invalid signatures", () => {
     vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
     const attestation = makeAttestation();
     attestation.sandboxSignature = "deadbeef";
 
@@ -89,6 +92,31 @@ describe("attestation-validator", () => {
 
     expect(() => verifyAttestation(attestation)).toThrow(
       "TEE_SHARED_SECRET is not configured",
+    );
+  });
+
+  it("rejects sandbox IDs that are not allowlisted in shared-key mode", () => {
+    vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-other");
+    const attestation = makeAttestation();
+    attestation.sandboxSignature = "deadbeef";
+
+    expect(() => verifyAttestation(attestation, { requireBindingFields: true })).toThrow(
+      "Untrusted sandboxId",
+    );
+  });
+
+  it("rejects passed=true when score is below passing threshold", () => {
+    const secret = "test-tee-secret";
+    vi.stubEnv("TEE_SHARED_SECRET", secret);
+    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
+    const attestation = makeAttestation();
+    attestation.score = 40;
+    attestation.passed = true;
+    attestation.sandboxSignature = signAttestation(attestation, secret);
+
+    expect(() => verifyAttestation(attestation, { passingScore: 70 })).toThrow(
+      "Attestation passed flag does not match score threshold",
     );
   });
 });

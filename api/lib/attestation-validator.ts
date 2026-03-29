@@ -25,6 +25,12 @@ export interface AttestationValidationResult {
   goldenTraceHint?: Record<string, unknown>;
 }
 
+interface VerifyAttestationOptions {
+  requireBindingFields?: boolean;
+  passingScore?: number;
+  revisitScore?: number;
+}
+
 /**
  * Computes the expected HMAC-SHA256 signature for an attestation payload.
  * The sandbox TEE must sign the same canonical payload with the shared secret.
@@ -48,12 +54,81 @@ function computeExpectedSignature(attestation: ExamAttestation, secret: string):
   return createHmac("sha256", secret).update(payload).digest("hex");
 }
 
+function parseSandboxSecrets(): Record<string, string> | null {
+  const raw = process.env.TEE_SANDBOX_SECRETS_JSON;
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      throw new Error("TEE_SANDBOX_SECRETS_JSON must be a JSON object map");
+    }
+    const entries = Object.entries(parsed as Record<string, unknown>);
+    const cleaned: Record<string, string> = {};
+    for (const [sandboxId, secret] of entries) {
+      if (typeof sandboxId !== "string" || sandboxId.trim() === "") continue;
+      if (typeof secret === "string" && secret.trim() !== "") {
+        cleaned[sandboxId.trim()] = secret;
+      }
+    }
+    return cleaned;
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "invalid JSON";
+    throw new Error(`Invalid TEE_SANDBOX_SECRETS_JSON configuration: ${message}`);
+  }
+}
+
+function parseTrustedSandboxIds(): Set<string> {
+  const raw = process.env.TEE_TRUSTED_SANDBOX_IDS;
+  if (!raw) return new Set<string>();
+  return new Set(
+    raw
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean),
+  );
+}
+
+function resolveSigningSecret(sandboxId: string): string | null {
+  const sandboxSecrets = parseSandboxSecrets();
+  if (sandboxSecrets) {
+    const sandboxSecret = sandboxSecrets[sandboxId];
+    if (!sandboxSecret) {
+      throw new Error(`Untrusted sandboxId: ${sandboxId}. No per-sandbox secret configured.`);
+    }
+    return sandboxSecret;
+  }
+
+  const sharedSecret = process.env.TEE_SHARED_SECRET;
+  if (!sharedSecret) return null;
+
+  const trustedSandboxIds = parseTrustedSandboxIds();
+  if (trustedSandboxIds.size === 0) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[attestation-validator] TEE_TRUSTED_SANDBOX_IDS not set while using TEE_SHARED_SECRET. " +
+        "This is ONLY acceptable in local development.",
+      );
+    } else {
+      throw new Error(
+        "TEE_TRUSTED_SANDBOX_IDS is required in non-development environments when using TEE_SHARED_SECRET.",
+      );
+    }
+  } else if (!trustedSandboxIds.has(sandboxId)) {
+    throw new Error(`Untrusted sandboxId: ${sandboxId}. Add it to TEE_TRUSTED_SANDBOX_IDS.`);
+  }
+
+  return sharedSecret;
+}
+
 export function verifyAttestation(
   attestation: ExamAttestation,
-  options?: { requireBindingFields?: boolean },
+  options?: VerifyAttestationOptions,
 ): AttestationValidationResult {
   if (!attestation.sandboxSignature) {
     throw new Error("Missing cryptographic signature from Trusted Execution Environment (TEE)");
+  }
+  if (!attestation.sandboxId || typeof attestation.sandboxId !== "string") {
+    throw new Error("Missing sandboxId on attestation");
   }
   if (options?.requireBindingFields) {
     const required = [
@@ -70,9 +145,9 @@ export function verifyAttestation(
     }
   }
 
-  const sharedSecret = process.env.TEE_SHARED_SECRET;
+  const signingSecret = resolveSigningSecret(attestation.sandboxId);
 
-  if (!sharedSecret) {
+  if (!signingSecret) {
     if (process.env.NODE_ENV === "development") {
       console.warn(
         "[attestation-validator] TEE_SHARED_SECRET not set — accepting attestation without cryptographic verification. " +
@@ -85,7 +160,7 @@ export function verifyAttestation(
       );
     }
   } else {
-    const expected = computeExpectedSignature(attestation, sharedSecret);
+    const expected = computeExpectedSignature(attestation, signingSecret);
     const sigBuf = new Uint8Array(Buffer.from(attestation.sandboxSignature, "hex"));
     const expectedBuf = new Uint8Array(Buffer.from(expected, "hex"));
     const isValid =
@@ -96,10 +171,19 @@ export function verifyAttestation(
     }
   }
 
+  const passingScore = options?.passingScore ?? 70;
+  const revisitScore = options?.revisitScore ?? 50;
+  const shouldPass = attestation.score >= passingScore;
+  if (!attestation.hardFailTriggered && attestation.passed !== shouldPass) {
+    throw new Error(
+      `Attestation passed flag does not match score threshold. score=${attestation.score}, passingScore=${passingScore}, passed=${attestation.passed}`,
+    );
+  }
+
   let decision: "pass" | "revisit" | "fail" = "fail";
   if (!attestation.hardFailTriggered) {
-    if (attestation.passed) decision = "pass";
-    else if (attestation.score >= 50) decision = "revisit";
+    if (shouldPass) decision = "pass";
+    else if (attestation.score >= revisitScore) decision = "revisit";
   }
 
   return {

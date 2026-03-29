@@ -106,6 +106,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillHash,
     tier: contract.tier,
     credits: contract.credits,
+    passingScore: contract.passingScore,
     assertionIds: contract.assertions.map((item) => item.id),
     dynamicParams,
     startedAt: startedAt.toISOString(),

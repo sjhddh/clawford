@@ -524,6 +524,7 @@ export interface SkillExamAttempt {
   skillHash: string;
   tier: 1 | 2 | 3;
   credits: number;
+  passingScore: number;
   assertionIds: string[];
   dynamicParams: Record<string, string>;
   startedAt: string;
