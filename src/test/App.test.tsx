@@ -197,8 +197,8 @@ describe("App", () => {
     renderApp();
     fireEvent.click(screen.getByLabelText("EN"));
     expect(
-      screen.getByText(/Correctness first, then speed and scale/),
-    ).toBeInTheDocument();
+      screen.getAllByText(/ClawHub is the bookstore/).length,
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it("switches language to Korean", () => {

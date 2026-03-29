@@ -6,8 +6,6 @@ import CurriculumSection from "@/components/CurriculumSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import JourneySection from "@/components/JourneySection";
-import PrinciplesSection from "@/components/PrinciplesSection";
 import SortingHatSection from "@/components/SortingHatSection";
 import StudentWallSection from "@/components/StudentWallSection";
 import StudentProfilePage from "@/components/StudentProfilePage";
@@ -171,8 +169,6 @@ function MainSite({ lang, setLang }: MainSiteProps) {
 
         <CourseCatalogSection lang={lang} t={t} />
 
-        <JourneySection lang={lang} t={t} />
-        <PrinciplesSection lang={lang} t={t} />
         <AssessmentSection lang={lang} t={t} />
       </main>
 

@@ -1,5 +1,4 @@
-import { CheckCircle2 } from "lucide-react";
-import { assessmentEvolution, examCriteria } from "@/data/assessment";
+import { certificationFunnel } from "@/data/assessment";
 import type { Lang, Translations } from "@/types";
 
 interface Props {
@@ -16,27 +15,19 @@ export default function AssessmentSection({ lang, t }: Props) {
           <p>{t.sections.examText}</p>
         </div>
         <div className="evolution-list">
-          {assessmentEvolution.map((step) => {
-            const Icon = step.icon;
+          {certificationFunnel.map((tier) => {
+            const Icon = tier.icon;
             return (
-              <div key={step.stage.en} className="evolution-item">
+              <div key={tier.tier.en} className="evolution-item">
                 <Icon size={16} />
                 <div>
-                  <strong>{step.stage[lang]}</strong>
-                  <p>{step.summary[lang]}</p>
+                  <strong>{tier.tier[lang]}</strong>
+                  <p>{tier.summary[lang]}</p>
                 </div>
               </div>
             );
           })}
         </div>
-        <ul className="criteria-list">
-          {examCriteria.map((criterion) => (
-            <li key={criterion.en}>
-              <CheckCircle2 size={16} />
-              <span>{criterion[lang]}</span>
-            </li>
-          ))}
-        </ul>
       </article>
     </section>
   );

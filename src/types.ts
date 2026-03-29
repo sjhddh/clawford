@@ -12,7 +12,6 @@ export interface NavTranslations {
   structure: string;
   houses: string;
   courses: string;
-  journey: string;
   assessment: string;
   connect: string;
   connectAction: string;
@@ -46,12 +45,6 @@ export interface SectionTranslations {
   courseCatalogText: string;
   courseCatalogLocked: string;
   curriculumLocked: string;
-  journeyTitle: string;
-  journeyText: string;
-  credentialsTitle: string;
-  credentialsText: string;
-  principlesTitle: string;
-  principlesText: string;
   examTitle: string;
   examText: string;
 }
@@ -218,16 +211,16 @@ export interface CurriculumModule {
   prerequisites: string[];
 }
 
-export interface Principle {
+export interface Pillar {
   icon: ComponentType<{ size: number }>;
   title: Localized;
   body: Localized;
 }
 
-export interface UniversityLayer {
+export interface CertificationTier {
   icon: ComponentType<{ size: number }>;
-  title: Localized;
-  body: Localized;
+  tier: Localized;
+  summary: Localized;
 }
 
 export interface Professor {
@@ -244,21 +237,6 @@ export interface Academy {
   professors: Professor[];
 }
 
-export interface JourneyStep {
-  state: Localized;
-  checkpoint: Localized;
-}
-
-export interface CredentialTier {
-  tier: Localized;
-  rule: Localized;
-}
-
-export interface AssessmentEvolutionStep {
-  icon: ComponentType<{ size: number }>;
-  stage: Localized;
-  summary: Localized;
-}
 
 // ---- Houses ----
 

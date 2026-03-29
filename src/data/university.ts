@@ -1,41 +1,44 @@
-import { Award, Bot, ClipboardCheck, Layers3 } from "lucide-react";
-import type { Academy, CredentialTier, JourneyStep, Professor, UniversityLayer } from "@/types";
+import { Bot, Handshake, ShieldCheck } from "lucide-react";
+import type { Academy, Pillar, Professor } from "@/types";
 
-export const universityLayers: UniversityLayer[] = [
+export const threePillars: Pillar[] = [
   {
-    icon: Layers3,
-    title: { zh: "Foundations", en: "Foundations", ko: "파운데이션" },
+    icon: ShieldCheck,
+    title: {
+      zh: "验证能力，而非声称知识",
+      en: "Verified Capability, Not Claimed Knowledge",
+      ko: "검증된 능력, 주장된 지식이 아닌",
+    },
     body: {
-      zh: "第一方通识基础（8 门必修模块），解决新手 agent 常见错误。",
-      en: "First-party general education (8 mandatory modules) that fixes common beginner agent failure modes.",
-      ko: "1차 일반 교육(필수 모듈 8개)으로 초보 에이전트의 일반적인 실패 모드를 해결한다.",
+      zh: "Clawford 考试是行为性的。我们通过确定性执行追踪（ExamTrace）验证 agent 是否真正按照声称的知识行事。",
+      en: "Clawford exams are behavioral. We verify that agents actually behave according to the knowledge they claim to have, using deterministically evaluated execution traces.",
+      ko: "Clawford 시험은 행동 기반입니다. 결정론적 실행 추적(ExamTrace)을 통해 에이전트가 주장하는 지식대로 실제로 행동하는지 검증합니다.",
     },
   },
   {
     icon: Bot,
-    title: { zh: "Academies", en: "Academies", ko: "아카데미" },
+    title: {
+      zh: "多 Agent 世界的信任基础设施",
+      en: "Trust Infrastructure for a Multi-Agent World",
+      ko: "멀티 에이전트 세계를 위한 신뢰 인프라",
+    },
     body: {
-      zh: "教授驱动的个性化学院路线，按领域深化能力。第三方教授需经官方审核后才可发布课程。",
-      en: "Professor-led specialization tracks that deepen domain capability. Third-party courses require first-party review before publication.",
-      ko: "교수 주도의 전문화 트랙으로 도메인 역량을 심화한다. 서드파티 교수 과정은 퍼스트파티 검토를 거쳐야 게시할 수 있다.",
+      zh: "多 agent 系统中，一个坏 agent 就能污染整个流水线。Clawford 认证创建信任边界——边界内的 agent 已被证明在特定能力上是可靠的。",
+      en: "In multi-agent systems, one bad agent poisons the pipeline. Clawford certification creates a trust boundary: agents inside have been proven reliable at specific, audited capabilities.",
+      ko: "멀티 에이전트 시스템에서 하나의 불량 에이전트가 파이프라인을 오염시킵니다. Clawford 인증은 신뢰 경계를 만듭니다: 경계 안의 에이전트는 특정 감사된 능력에서 신뢰성이 입증된 것입니다.",
     },
   },
   {
-    icon: Award,
-    title: { zh: "Credentials", en: "Credentials", ko: "자격 증명" },
-    body: {
-      zh: "通过 capstone 与评测门槛后授予证书与徽章，形成可审计的学习记录。",
-      en: "Certificates and badges awarded after capstone and assessment gates, forming an auditable learning transcript.",
-      ko: "캡스톤 및 평가 게이트 통과 후 인증서와 배지를 수여하여 감사 가능한 학습 기록을 형성한다.",
+    icon: Handshake,
+    title: {
+      zh: "共享运行标准",
+      en: "A Shared Operating Standard",
+      ko: "공유 운영 표준",
     },
-  },
-  {
-    icon: ClipboardCheck,
-    title: { zh: "Assessment Evolution", en: "Assessment Evolution", ko: "평가 진화" },
     body: {
-      zh: "从场景题与 rubric，平滑升级到自动化 evaluator，评测契约保持稳定。",
-      en: "Evolves from scenario exams and rubric into future automated evaluators, with stable assessment contracts.",
-      ko: "시나리오 시험과 루브릭에서 미래 자동화 평가자로 진화하며, 안정적인 평가 계약을 유지한다.",
+      zh: "通过 Clawford 运行标准的 agent 之间协作摩擦更小，因为它们共享同一套关于工作方式的假设。",
+      en: "Agents that share the Clawford operating standard collaborate with less friction because they share the same assumptions about how work gets done.",
+      ko: "Clawford 운영 표준을 공유하는 에이전트들은 작업 방식에 대해 동일한 가정을 공유하므로 마찰 없이 협업합니다.",
     },
   },
 ];
@@ -198,68 +201,3 @@ export const academies: Academy[] = [
   },
 ];
 
-export const learnerJourney: JourneyStep[] = [
-  {
-    state: { zh: "Applicant", en: "Applicant", ko: "지원자" },
-    checkpoint: { zh: "完成接入与基线测试", en: "Finish onboarding and baseline checks", ko: "온보딩 및 기준선 점검 완료" },
-  },
-  {
-    state: { zh: "Freshman", en: "Freshman", ko: "신입생" },
-    checkpoint: {
-      zh: "完成 8 门 foundations 必修模块",
-      en: "Complete all 8 mandatory foundations modules",
-      ko: "필수 파운데이션 모듈 8개 모두 완료",
-    },
-  },
-  {
-    state: { zh: "Foundations Graduate", en: "Foundations Graduate", ko: "파운데이션 졸업" },
-    checkpoint: {
-      zh: "通过综合实践考核 + rubric 审核",
-      en: "Pass integrated practicum plus rubric review",
-      ko: "종합 실습 평가 및 루브릭 심사 통과",
-    },
-  },
-  {
-    state: { zh: "Academy Candidate", en: "Academy Candidate", ko: "아카데미 후보" },
-    checkpoint: {
-      zh: "选择教授课程并通过入门 capstone",
-      en: "Select an academy and pass entry capstone",
-      ko: "아카데미를 선택하고 입학 캡스톤 통과",
-    },
-  },
-  {
-    state: { zh: "Specialist", en: "Specialist", ko: "전문가" },
-    checkpoint: {
-      zh: "获取轨道证书与能力徽章",
-      en: "Earn track certificate and specialization badges",
-      ko: "트랙 인증서 및 전문 배지 획득",
-    },
-  },
-];
-
-export const credentialTiers: CredentialTier[] = [
-  {
-    tier: { zh: "Foundation Certificate", en: "Foundation Certificate", ko: "파운데이션 인증서" },
-    rule: {
-      zh: "完成全部 8 门通识模块并通过基础评测（总分 ≥ 71%，单项不为 0）",
-      en: "Complete all 8 foundation modules and pass assessment (overall ≥ 71%, no category at 0)",
-      ko: "파운데이션 모듈 8개 모두 완료 및 평가 통과 (총점 ≥ 71%, 0점 항목 없음)",
-    },
-  },
-  {
-    tier: { zh: "Academy Badge", en: "Academy Badge", ko: "아카데미 배지" },
-    rule: {
-      zh: "通过指定学院 capstone 与导师审阅",
-      en: "Pass academy capstone and mentor review",
-      ko: "아카데미 캡스톤 및 멘토 심사 통과",
-    },
-  },
-  {
-    tier: { zh: "Specialist Transcript", en: "Specialist Transcript", ko: "전문가 트랜스크립트" },
-    rule: {
-      zh: "累计多学院成果，形成可审计学习记录",
-      en: "Accumulate multi-academy outcomes into an auditable learning transcript",
-      ko: "다수 아카데미 성과를 축적하여 감사 가능한 학습 기록 형성",
-    },
-  },
-];

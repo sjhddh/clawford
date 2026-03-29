@@ -1,4 +1,4 @@
-import { universityLayers } from "@/data/university";
+import { threePillars } from "@/data/university";
 import type { Lang, Translations } from "@/types";
 
 interface Props {
@@ -13,13 +13,13 @@ export default function StructureSection({ lang, t }: Props) {
         <h2>{t.sections.structureTitle}</h2>
         <p>{t.sections.structureText}</p>
         <div className="layers-grid">
-          {universityLayers.map((layer) => {
-            const Icon = layer.icon;
+          {threePillars.map((pillar) => {
+            const Icon = pillar.icon;
             return (
-              <div key={layer.title.en} className="layer-item">
+              <div key={pillar.title.en} className="layer-item">
                 <Icon size={16} />
-                <strong>{layer.title[lang]}</strong>
-                <span>{layer.body[lang]}</span>
+                <strong>{pillar.title[lang]}</strong>
+                <span>{pillar.body[lang]}</span>
               </div>
             );
           })}
