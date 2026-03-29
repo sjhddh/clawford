@@ -21,6 +21,10 @@ function assessmentAttemptPath(uid: string, attemptId: string): string {
   return `clawford/assessments/${uid}/${attemptId}.json`;
 }
 
+function skillVerificationPath(uid: string, attestationId: string): string {
+  return `clawford/skill-verifications/${uid}/${attestationId}.json`;
+}
+
 const locks = new Map<string, Promise<void>>();
 
 async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
@@ -483,4 +487,31 @@ async function updateWallIndex(transcript: Transcript): Promise<void> {
   }
   wall.lastUpdated = new Date().toISOString();
   await writeBlob(WALL_INDEX_PATH, wall);
+}
+
+// --------------- Skill Exam Verifications ---------------
+
+export interface StoredSkillVerification {
+  attestationId: string;
+  uid: string;
+  skillId: string;
+  score: number;
+  maxScore: number;
+  decision: "pass" | "revisit" | "fail";
+  hardFail: { triggered: boolean; reasons: string[] };
+  createdAt: string;
+}
+
+export async function saveSkillVerification(
+  uid: string,
+  verification: StoredSkillVerification,
+): Promise<void> {
+  await writeBlob(skillVerificationPath(uid, verification.attestationId), verification);
+}
+
+export async function getSkillVerification(
+  uid: string,
+  attestationId: string,
+): Promise<StoredSkillVerification | null> {
+  return readBlob<StoredSkillVerification>(skillVerificationPath(uid, attestationId));
 }

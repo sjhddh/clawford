@@ -5,8 +5,12 @@ import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
 
-// Note: AssertionContract is sent to the Sandbox TEE for local evaluation. 
-// Vercel Serverless merely orchestrates the distribution.
+/**
+ * Assertion contracts define the grading rules for a skill exam.
+ * They are distributed to the sandbox TEE which evaluates them locally
+ * against the agent's execution trace. Clawford's server never executes
+ * these rules — it only verifies the signed attestation the TEE produces.
+ */
 export interface AssertionContract {
   skillId: string;
   tier: 1 | 2;
@@ -67,6 +71,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
+  // Strip dynamic parameter pools from the contract sent to the TEE —
+  // only the resolved values are needed for evaluation.
+  const contractForTEE = { ...contract };
+  delete contractForTEE.dynamicParameters;
+
   audit.log({
     action: "exam_start",
     actorUid: auth.uid,
@@ -79,7 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillId: slug,
     tier: contract.tier,
     scenario,
-    contract, // Handing off the Sandbox-Native assertion logic
+    contract: contractForTEE,
     dynamicParams,
   });
 }

@@ -83,7 +83,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         }
         setTranscript(data.transcript);
         try { localStorage.setItem(USERNAME_KEY, u); } catch { /* noop */ }
-      } catch (_e) {
+      } catch (e) {
         const msg = e instanceof Error ? e.message : "Failed to connect";
         setError(msg);
         throw e;
@@ -113,7 +113,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify({ action: "complete-modules", moduleIds: [moduleId] }),
         }, token);
         setTranscript(data.transcript);
-      } catch (_e) {
+      } catch (e) {
         const msg = e instanceof Error ? e.message : "Failed to update progress";
         setError(msg);
         throw e;
@@ -182,7 +182,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify({ displayName: name }),
         }, token);
         setTranscript(data.transcript);
-      } catch (_e) {
+      } catch (e) {
         setError(e instanceof Error ? e.message : "Failed to update name");
       }
     },
