@@ -446,6 +446,20 @@ export async function getWallIndex(): Promise<StudentWallIndex> {
   return data ?? { students: [], lastUpdated: new Date().toISOString() };
 }
 
+export async function getHouseDistribution(): Promise<Record<HouseId, number>> {
+  const wall = await getWallIndex();
+  const counts: Record<string, number> = {
+    krillindor: 0,
+    shelltherin: 0,
+    cravenclaw: 0,
+    hufflepinch: 0,
+  };
+  for (const s of wall.students) {
+    if (s.house && s.house in counts) counts[s.house]++;
+  }
+  return counts as Record<HouseId, number>;
+}
+
 async function updateWallIndex(transcript: Transcript): Promise<void> {
   const wall = await getWallIndex();
   const examAttempts = transcript.foundationsStatus.assessmentResults.filter(
