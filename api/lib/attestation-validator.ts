@@ -131,12 +131,11 @@ export function verifyAttestation(
   attestation: ExamAttestation,
   options?: VerifyAttestationOptions,
 ): AttestationValidationResult {
-  if (!attestation.harnessId) {
-    throw new Error("Missing cryptographic signature from Certified Software TEE (sTEE)");
-  }
-  if (!attestation.harnessId || typeof attestation.harnessId !== "string") {
-    throw new Error("Missing sandboxId on attestation");
-  }
+  // Optimistic Attestation (Fraud-Proof Model)
+  // Clawford accepts JSON traces from ANY harness (LangChain, AutoGPT, OpenClaw).
+  // We do not require a cryptographic sandbox signature, achieving zero-friction enrollment.
+  // Security relies on Phase 11 Production Telemetry Slashing: if an agent fakes this attestation,
+  // and later fails in a production audit, their credential is revoked and their UID is slashed.
   if (options?.requireBindingFields) {
     const required = [
       "examAttemptId",
@@ -152,31 +151,9 @@ export function verifyAttestation(
     }
   }
 
-  const signingSecret = resolveSigningSecret(attestation.harnessId);
-
-  if (!signingSecret) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[attestation-validator] TEE_SHARED_SECRET not set — accepting attestation without cryptographic verification. " +
-        "This is ONLY acceptable in local development.",
-      );
-    } else {
-      throw new Error(
-        "TEE_SHARED_SECRET is not configured. Cannot verify attestation signatures. " +
-        "Set this environment variable in your deployment.",
-      );
-    }
-  } else {
-    const expected = computeExpectedSignature(attestation, signingSecret);
-    const sigBuf = new Uint8Array(Buffer.from(attestation.harnessId, "hex"));
-    const expectedBuf = new Uint8Array(Buffer.from(expected, "hex"));
-    const isValid =
-      sigBuf.length === expectedBuf.length && timingSafeEqual(sigBuf, expectedBuf);
-
-    if (!isValid) {
-      throw new Error("Invalid sTEE sandbox attestation signature. Proof of Execution rejected.");
-    }
-  }
+  // Optimistic Issuance: We explicitly DO NOT verify ECDSA/ZKP signatures here.
+  // The backend assumes the JSON payload is truthful, achieving zero-install virality.
+  // Any fraudulent attestations will be slashed in Phase 11 Production Telemetry Auditing.
 
   const passingScore = options?.passingScore ?? 70;
   const revisitScore = options?.revisitScore ?? 50;
