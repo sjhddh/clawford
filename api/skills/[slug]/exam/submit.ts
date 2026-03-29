@@ -47,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Missing request body" });
   }
 
-  const requiredFields = ["attestationId", "skillId", "score", "passed", "hardFailTriggered", "sandboxSignature", "sandboxId"] as const;
+  const requiredFields = ["attestationId", "skillId", "score", "passed", "hardFailTriggered"] as const;
   const sessionBoundFields = ["examAttemptId", "challengeNonce", "contractHash", "skillVersion", "skillHash"] as const;
   for (const field of requiredFields) {
     if (body[field] === undefined || body[field] === null) {
@@ -65,9 +65,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
   if (typeof body.passed !== "boolean" || typeof body.hardFailTriggered !== "boolean") {
     return res.status(400).json({ error: "passed and hardFailTriggered must be booleans" });
-  }
-  if (typeof body.sandboxSignature !== "string" || typeof body.sandboxId !== "string") {
-    return res.status(400).json({ error: "sandboxSignature and sandboxId must be strings" });
   }
   if (typeof body.attestationId !== "string" || body.attestationId.length === 0) {
     return res.status(400).json({ error: "attestationId must be a non-empty string" });
@@ -119,8 +116,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? body.hardFailReasons.filter((value: unknown): value is string => typeof value === "string")
       : [],
     assertionResults,
-    sandboxSignature: body.sandboxSignature,
-    sandboxId: body.sandboxId,
+    harnessId: typeof body.harnessId === "string" ? body.harnessId : undefined,
   };
 
   if (attestation.skillId !== slug) {
@@ -189,7 +185,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     actorUid: auth.uid,
     status: "success",
     statusCode: 200,
-    detail: `Verified TEE attestation ${attestation.attestationId} for skill ${slug}. Score: ${validationResult.score}`,
+    detail: `Verified attestation ${attestation.attestationId} for skill ${slug}. Score: ${validationResult.score}`,
   });
 
   return res.status(200).json(validationResult);
