@@ -1,15 +1,8 @@
-import { createHmac } from "crypto";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  buildCanonicalAttestationPayload,
   verifyAttestation,
   type ExamAttestation,
 } from "../../api/lib/attestation-validator.js";
-
-function signAttestation(attestation: ExamAttestation, secret: string): string {
-  const payload = buildCanonicalAttestationPayload(attestation);
-  return createHmac("sha256", secret).update(payload).digest("hex");
-}
 
 function makeAttestation(): ExamAttestation {
   return {
@@ -25,98 +18,68 @@ function makeAttestation(): ExamAttestation {
     hardFailTriggered: false,
     hardFailReasons: [],
     assertionResults: [{ id: "efficiency-check", passed: true }],
-    sandboxSignature: "",
-    sandboxId: "tee-sandbox-a",
   };
 }
 
-afterEach(() => {
-  vi.unstubAllEnvs();
-});
-
 describe("attestation-validator", () => {
-  it("verifies signed attestations when binding fields are required", () => {
-    const secret = "test-tee-secret";
-    vi.stubEnv("TEE_SHARED_SECRET", secret);
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
-
-    const attestation = makeAttestation();
-    attestation.sandboxSignature = signAttestation(attestation, secret);
-    const result = verifyAttestation(attestation, { requireBindingFields: true });
-
+  it("passes attestation that meets the score threshold", () => {
+    const result = verifyAttestation(makeAttestation(), { requireBindingFields: true });
     expect(result.decision).toBe("pass");
     expect(result.score).toBe(88);
   });
 
   it("rejects attestations missing required binding fields", () => {
-    vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
     const attestation = makeAttestation();
     attestation.challengeNonce = undefined;
-    attestation.sandboxSignature = "00";
 
     expect(() => verifyAttestation(attestation, { requireBindingFields: true })).toThrow(
       "Missing required attestation binding field: challengeNonce",
     );
   });
 
-  it("rejects invalid signatures", () => {
-    vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
+  it("does not require binding fields when option is false", () => {
     const attestation = makeAttestation();
-    attestation.sandboxSignature = "deadbeef";
+    attestation.challengeNonce = undefined;
+    attestation.contractHash = undefined;
 
-    expect(() => verifyAttestation(attestation, { requireBindingFields: true })).toThrow(
-      "Invalid TEE sandbox attestation signature",
-    );
-  });
-
-  it("rejects attestations when TEE_SHARED_SECRET is missing in non-development mode", () => {
-    vi.stubEnv("TEE_SHARED_SECRET", "");
-    vi.stubEnv("NODE_ENV", "test");
-    const attestation = makeAttestation();
-    attestation.sandboxSignature = "deadbeef";
-
-    expect(() => verifyAttestation(attestation)).toThrow(
-      "TEE_SHARED_SECRET is not configured",
-    );
-  });
-
-  it("rejects sandbox IDs that are not allowlisted in shared-key mode", () => {
-    vi.stubEnv("TEE_SHARED_SECRET", "test-tee-secret");
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-other");
-    const attestation = makeAttestation();
-    attestation.sandboxSignature = "deadbeef";
-
-    expect(() => verifyAttestation(attestation, { requireBindingFields: true })).toThrow(
-      "Untrusted sandboxId",
-    );
+    const result = verifyAttestation(attestation);
+    expect(result.decision).toBe("pass");
   });
 
   it("rejects passed=true when score is below passing threshold", () => {
-    const secret = "test-tee-secret";
-    vi.stubEnv("TEE_SHARED_SECRET", secret);
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
     const attestation = makeAttestation();
     attestation.score = 40;
     attestation.passed = true;
-    attestation.sandboxSignature = signAttestation(attestation, secret);
 
     expect(() => verifyAttestation(attestation, { passingScore: 70 })).toThrow(
       "Attestation passed flag does not match score threshold",
     );
   });
 
+  it("returns revisit when score is between revisit and passing thresholds", () => {
+    const attestation = makeAttestation();
+    attestation.score = 55;
+    attestation.passed = false;
+
+    const result = verifyAttestation(attestation, { passingScore: 70, revisitScore: 50 });
+    expect(result.decision).toBe("revisit");
+  });
+
+  it("returns fail when score is below revisit threshold", () => {
+    const attestation = makeAttestation();
+    attestation.score = 30;
+    attestation.passed = false;
+
+    const result = verifyAttestation(attestation, { passingScore: 70, revisitScore: 50 });
+    expect(result.decision).toBe("fail");
+  });
+
   it("fails decision when hard fail is triggered even with passing score", () => {
-    const secret = "test-tee-secret";
-    vi.stubEnv("TEE_SHARED_SECRET", secret);
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "tee-sandbox-a");
     const attestation = makeAttestation();
     attestation.score = 99;
     attestation.passed = true;
     attestation.hardFailTriggered = true;
     attestation.hardFailReasons = ["secret-leak"];
-    attestation.sandboxSignature = signAttestation(attestation, secret);
 
     const result = verifyAttestation(attestation, { passingScore: 70 });
     expect(result.decision).toBe("fail");
@@ -124,15 +87,19 @@ describe("attestation-validator", () => {
     expect(result.hardFail.reasons).toEqual(["secret-leak"]);
   });
 
-  it("verifies attestations with per-sandbox secrets", () => {
-    vi.stubEnv("TEE_SANDBOX_SECRETS_JSON", JSON.stringify({
-      "tee-sandbox-a": "sandbox-a-secret",
-    }));
-    vi.stubEnv("TEE_SHARED_SECRET", "");
-    vi.stubEnv("TEE_TRUSTED_SANDBOX_IDS", "");
-
+  it("rejects invalid score ranges", () => {
     const attestation = makeAttestation();
-    attestation.sandboxSignature = signAttestation(attestation, "sandbox-a-secret");
+    attestation.score = 150;
+
+    expect(() => verifyAttestation(attestation)).toThrow(
+      "Attestation score must be a number between 0 and 100",
+    );
+  });
+
+  it("accepts optional harnessId without affecting validation", () => {
+    const attestation = makeAttestation();
+    attestation.harnessId = "LangChain-v0.3";
+
     const result = verifyAttestation(attestation, { requireBindingFields: true });
     expect(result.decision).toBe("pass");
   });

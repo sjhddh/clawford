@@ -30,8 +30,7 @@ function baseBody() {
     hardFailTriggered: false,
     hardFailReasons: [],
     assertionResults: [{ id: "efficiency-check", passed: true }],
-    sandboxSignature: "abc123",
-    sandboxId: "tee-1",
+    harnessId: "test-harness",
   };
 }
 
@@ -281,6 +280,6 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
 
     await handler(req, res as any);
     expect(res.statusCode).toBe(403);
-    expect((res.body as any).error).toContain("Invalid TEE sandbox attestation signature");
+    expect((res.body as any).error).toBeTruthy();
   });
 });

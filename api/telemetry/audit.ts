@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Missing request body" });
   }
 
-  const requiredFields = ["attestationId", "skillId", "score", "passed", "hardFailTriggered", "sandboxSignature", "sandboxId"] as const;
+  const requiredFields = ["attestationId", "skillId", "score", "passed", "hardFailTriggered"] as const;
   for (const field of requiredFields) {
     if (body[field] === undefined || body[field] === null) {
       return res.status(400).json({ error: `Missing required field: ${field}` });
@@ -51,8 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     hardFailReasons: Array.isArray(body.hardFailReasons) ? body.hardFailReasons : [],
     skillVersion: body.skillVersion,
     skillHash: body.skillHash,
-    sandboxSignature: body.sandboxSignature,
-    sandboxId: body.sandboxId,
+    harnessId: typeof body.harnessId === "string" ? body.harnessId : undefined,
   };
 
   const telemetryBindingRequired = process.env.TEE_TELEMETRY_REQUIRE_BINDING === "true";
@@ -124,7 +123,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     actorUid: auth.uid,
     status: validationResult.hardFail.triggered ? "rejected" : "success",
     statusCode: 200,
-    detail: `Audited TEE production attestation ${attestation.attestationId} for skill ${attestation.skillId}. HardFail: ${validationResult.hardFail.triggered}. Revoked: ${credentialRevoked}`,
+    detail: `Audited production attestation ${attestation.attestationId} for skill ${attestation.skillId}. HardFail: ${validationResult.hardFail.triggered}. Revoked: ${credentialRevoked}`,
   });
 
   return res.status(200).json({

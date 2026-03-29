@@ -24,8 +24,7 @@ function baseBody() {
     passed: false,
     hardFailTriggered: true,
     hardFailReasons: ["secret-leak"],
-    sandboxSignature: "abc123",
-    sandboxId: "tee-1",
+    harnessId: "test-harness",
   };
 }
 
