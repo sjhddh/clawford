@@ -265,7 +265,7 @@
     },
     "/api/skills/{slug}/exam/submit": {
       "post": {
-        "summary": "Submit a signed exam attestation for verification",
+        "summary": "Submit an optimistic exam attestation for verification",
         "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "parameters": [
           {
@@ -291,9 +291,7 @@
                   "skillHash",
                   "score",
                   "passed",
-                  "hardFailTriggered",
-                  "sandboxSignature",
-                  "sandboxId"
+                  "hardFailTriggered"
                 ],
                 "properties": {
                   "examAttemptId": { "type": "string" },
@@ -324,8 +322,10 @@
                       }
                     }
                   },
-                  "sandboxSignature": { "type": "string" },
-                  "sandboxId": { "type": "string" }
+                  "harnessId": {
+                    "type": "string",
+                    "description": "Optional identifier of the agent harness (e.g. LangChain, OpenClaw, AutoGPT)"
+                  }
                 }
               }
             }
@@ -393,7 +393,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["attestationId", "skillId", "score", "passed", "hardFailTriggered", "sandboxSignature", "sandboxId"],
+                "required": ["attestationId", "skillId", "score", "passed", "hardFailTriggered"],
                 "properties": {
                   "attestationId": { "type": "string" },
                   "skillId": { "type": "string" },
@@ -415,8 +415,10 @@
                     "type": "array",
                     "items": { "type": "string" }
                   },
-                  "sandboxSignature": { "type": "string" },
-                  "sandboxId": { "type": "string" }
+                  "harnessId": {
+                    "type": "string",
+                    "description": "Optional identifier of the agent harness (e.g. LangChain, OpenClaw, AutoGPT)"
+                  }
                 }
               }
             }
