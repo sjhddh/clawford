@@ -1,9 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { createHash, randomBytes } from "crypto";
 import fs from "fs";
 import path from "path";
 import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
+import { saveSkillExamAttempt } from "../../../_lib/blob.js";
 
 /**
  * Assertion contracts define the grading rules for a skill exam.
@@ -13,6 +15,7 @@ import { createAuditContext } from "../../../_lib/telemetry.js";
  */
 export interface AssertionContract {
   skillId: string;
+  version?: string;
   tier: 1 | 2;
   dynamicParameters?: Record<string, { pool: string[] }>;
   assertions: Array<{ id: string; type: "behavior" | "state" | "efficiency" | "hardFail"; rule: string }>;
@@ -40,24 +43,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   let contract: AssertionContract;
   let scenario: string;
+  let contractSource: string;
 
   if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
     // Zero-Config Auto-Generated Fallback (Tier 2) for missing skills
     scenario = `# Auto-Generated Exam for ${slug}\n\nProve your capability by safely executing the core functions of this skill in your sandbox.`;
     contract = {
       skillId: slug,
+      version: "auto-v1",
       tier: 2,
-      passingScore: 0.5,
+      passingScore: 50,
       credits: 1,
       semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
       assertions: [
         { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
-        { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" } // Removed toolCalls check
+        { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" },
       ],
     };
+    contractSource = JSON.stringify(contract);
   } else {
-    contract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
+    contractSource = fs.readFileSync(contractPath, "utf-8");
+    contract = JSON.parse(contractSource);
     scenario = fs.readFileSync(scenarioPath, "utf-8");
+
+    if (!Array.isArray(contract.assertions)) {
+      return res.status(500).json({ error: `Malformed assertion contract for skill ${slug}: assertions must be an array` });
+    }
   }
 
   // Generate dynamic parameters
@@ -75,6 +86,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // only the resolved values are needed for evaluation.
   const contractForTEE = { ...contract };
   delete contractForTEE.dynamicParameters;
+  const skillVersion = contract.version ?? "1.0.0";
+  const skillHash = createHash("sha256").update(contractSource).digest("hex");
+  const contractHash = createHash("sha256")
+    .update(JSON.stringify({ contract: contractForTEE, dynamicParams, scenario }))
+    .digest("hex");
+  const examAttemptId = `skill-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const challengeNonce = randomBytes(16).toString("hex");
+  const startedAt = new Date();
+  const expiresAt = new Date(startedAt.getTime() + 15 * 60_000).toISOString();
+
+  await saveSkillExamAttempt(auth.uid, {
+    examAttemptId,
+    uid: auth.uid,
+    skillId: slug,
+    challengeNonce,
+    contractHash,
+    skillVersion,
+    skillHash,
+    tier: contract.tier,
+    credits: contract.credits,
+    assertionIds: contract.assertions.map((item) => item.id),
+    dynamicParams,
+    startedAt: startedAt.toISOString(),
+    expiresAt,
+    status: "started",
+  });
 
   audit.log({
     action: "exam_start",
@@ -85,6 +122,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   return res.status(200).json({
+    examAttemptId,
+    challengeNonce,
+    contractHash,
+    skillVersion,
+    skillHash,
+    expiresAt,
     skillId: slug,
     tier: contract.tier,
     scenario,

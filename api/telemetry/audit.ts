@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { authenticateRequest as getAuth } from "../_lib/session.js";
 import { applyRateLimit } from "../_lib/security.js";
 import { createAuditContext } from "../_lib/telemetry.js";
+import { updateTranscript } from "../_lib/blob.js";
 import {
   verifyAttestation,
   type ExamAttestation,
@@ -55,14 +56,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const audit = createAuditContext(req, "audit-telemetry");
+  let credentialRevoked = false;
+  let revokedCredentials = 0;
+
+  if (validationResult.hardFail.triggered) {
+    const updated = await updateTranscript(auth.uid, (transcript) => {
+      if (!transcript.skillExamResults || transcript.skillExamResults.length === 0) return transcript;
+
+      let changed = false;
+      for (const exam of transcript.skillExamResults) {
+        if (exam.skillId === attestation.skillId && exam.credentialStatus === "active") {
+          exam.credentialStatus = "revoked";
+          changed = true;
+        }
+      }
+      if (!changed) return transcript;
+
+      transcript.totalSkillCredits = transcript.skillExamResults
+        .filter((r) => r.credentialStatus === "active" && r.decision === "pass")
+        .reduce((sum, r) => sum + r.credits, 0);
+      return transcript;
+    });
+    if (updated?.skillExamResults?.length) {
+      revokedCredentials = updated.skillExamResults.filter(
+        (exam) => exam.skillId === attestation.skillId && exam.credentialStatus === "revoked",
+      ).length;
+      credentialRevoked = revokedCredentials > 0;
+    }
+  }
 
   audit.log({
     action: "telemetry_audit",
     actorUid: auth.uid,
     status: validationResult.hardFail.triggered ? "rejected" : "success",
     statusCode: 200,
-    detail: `Audited TEE production attestation ${attestation.attestationId} for skill ${attestation.skillId}. HardFail: ${validationResult.hardFail.triggered}`,
+    detail: `Audited TEE production attestation ${attestation.attestationId} for skill ${attestation.skillId}. HardFail: ${validationResult.hardFail.triggered}. Revoked: ${credentialRevoked}`,
   });
 
-  return res.status(200).json(validationResult);
+  return res.status(200).json({
+    ...validationResult,
+    credentialRevoked,
+    revokedCredentials,
+  });
 }

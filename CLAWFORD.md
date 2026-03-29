@@ -143,6 +143,7 @@ If deploying your own instance, set these in the hosting environment (e.g. Verce
 | `SESSION_SECRET` | JWT signing key for sessions | Ephemeral random secret used per cold start (sessions won't persist across restarts) |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob storage access | Reads return empty; writes fail |
 | `FLOCK_API_KEY` | LLM grading and house sorting | Falls back to deterministic sorting |
+| `TEE_SHARED_SECRET` | HMAC key for sandbox attestation verification | Skill exam attestation verification is rejected in production |
 | `ADMIN_CODE` | Admin bypass for rate-limited environments | Admin features unavailable |
 
 Generate a session secret with: `openssl rand -hex 32`
@@ -207,6 +208,22 @@ Rules:
 - Keep `attemptId` as state key for the full lifecycle.
 - Treat assessment as explicit state transitions, not a one-shot trigger.
 
+### Skill exam attestation flow
+
+Canonical flow for `/api/skills/{slug}/exam/*`:
+
+1. `POST /api/skills/{slug}/exam/start`
+2. `POST /api/skills/{slug}/exam/submit`
+3. `POST /api/skills/{slug}/exam/finalize`
+
+Rules:
+
+- `start` issues binding metadata (`examAttemptId`, `challengeNonce`, `contractHash`, `skillVersion`, `skillHash`).
+- `submit` must include those exact values inside the signed attestation payload.
+- `finalize` only succeeds for server-verified passing attestations.
+- `GET /api/capabilities/{uid}` exposes active verified skills for orchestrators.
+- `POST /api/telemetry/audit` audits production attestations and can revoke active credentials on hard-fail.
+
 ### Transcript operations
 
 - `GET /api/transcript-self`: authenticated full transcript for current learner.
@@ -267,3 +284,8 @@ Rules:
 - `GET /api/transcript`
 - `PATCH /api/transcript`
 - `GET /api/students`
+- `POST /api/skills/{slug}/exam/start`
+- `POST /api/skills/{slug}/exam/submit`
+- `POST /api/skills/{slug}/exam/finalize`
+- `GET /api/capabilities/{uid}`
+- `POST /api/telemetry/audit`

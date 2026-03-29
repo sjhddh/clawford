@@ -331,12 +331,29 @@ export interface HouseVerdict {
   rationaleLocalized?: { zh: string[]; en: string[]; ko: string[] };
 }
 
+export interface SkillExamResult {
+  skillId: string;
+  skillVersion: string;
+  skillHash: string;
+  credentialStatus: "active" | "legacy" | "revoked";
+  tier: 1 | 2 | 3;
+  score: number;
+  maxScore: number;
+  decision: "pass" | "revisit" | "fail";
+  assertionResults: { id: string; passed: boolean }[];
+  traceHash: string;
+  credits: number;
+  timestamp: string;
+}
+
 export interface Transcript {
   uid: string;
   displayName: string;
   currentState: "applicant" | "freshman" | "foundations-graduate" | "academy-candidate" | "specialist";
   house: HouseId | null;
   foundationsStatus: CourseStatus;
+  skillExamResults?: SkillExamResult[];
+  totalSkillCredits?: number;
   enrollments: CourseStatus[];
   credentials: Credential[];
   weakAreas: string[];
@@ -392,6 +409,8 @@ export interface PublicStudentProfile {
   electives: PublicElectiveStatus[];
   electiveTotalCredits: number;
   electiveCompleted: number;
+  skillExamResults: SkillExamResult[];
+  totalSkillCredits: number;
   houseVerdict: {
     verdict: string;
     rationale: string[];

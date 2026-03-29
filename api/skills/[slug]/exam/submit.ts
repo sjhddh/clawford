@@ -4,7 +4,11 @@ import path from "path";
 import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
-import { saveSkillVerification } from "../../../_lib/blob.js";
+import {
+  getSkillExamAttempt,
+  saveSkillExamAttempt,
+  saveSkillVerification,
+} from "../../../_lib/blob.js";
 import {
   verifyAttestation,
   type ExamAttestation,
@@ -30,8 +34,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const requiredFields = ["attestationId", "skillId", "score", "passed", "hardFailTriggered", "sandboxSignature", "sandboxId"] as const;
+  const sessionBoundFields = ["examAttemptId", "challengeNonce", "contractHash", "skillVersion", "skillHash"] as const;
   for (const field of requiredFields) {
     if (body[field] === undefined || body[field] === null) {
+      return res.status(400).json({ error: `Missing required field: ${field}` });
+    }
+  }
+  for (const field of sessionBoundFields) {
+    if (typeof body[field] !== "string" || body[field].length === 0) {
       return res.status(400).json({ error: `Missing required field: ${field}` });
     }
   }
@@ -48,14 +58,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (typeof body.attestationId !== "string" || body.attestationId.length === 0) {
     return res.status(400).json({ error: "attestationId must be a non-empty string" });
   }
+  const assertionResults = Array.isArray(body.assertionResults)
+    ? body.assertionResults.filter(
+      (item: unknown): item is { id: string; passed: boolean } => {
+        if (!item || typeof item !== "object") return false;
+        const candidate = item as { id?: unknown; passed?: unknown };
+        return typeof candidate.id === "string" && typeof candidate.passed === "boolean";
+      },
+    )
+    : [];
+
+  const examAttempt = await getSkillExamAttempt(auth.uid, body.examAttemptId);
+  if (!examAttempt) {
+    return res.status(404).json({ error: "Exam attempt not found. Call start first." });
+  }
+  if (examAttempt.status !== "started") {
+    return res.status(409).json({ error: "Exam attempt has already been submitted or finalized." });
+  }
+  if (new Date(examAttempt.expiresAt).getTime() < Date.now()) {
+    return res.status(410).json({ error: "Exam attempt expired. Start a new attempt." });
+  }
+  if (examAttempt.skillId !== slug) {
+    return res.status(400).json({ error: "Exam attempt skill does not match the URL slug" });
+  }
+  if (
+    body.challengeNonce !== examAttempt.challengeNonce
+    || body.contractHash !== examAttempt.contractHash
+    || body.skillVersion !== examAttempt.skillVersion
+    || body.skillHash !== examAttempt.skillHash
+  ) {
+    return res.status(400).json({ error: "Attestation binding fields do not match the issued exam attempt" });
+  }
 
   const attestation: ExamAttestation = {
+    examAttemptId: body.examAttemptId,
     attestationId: body.attestationId,
     skillId: body.skillId,
+    challengeNonce: body.challengeNonce,
+    contractHash: body.contractHash,
+    skillVersion: body.skillVersion,
+    skillHash: body.skillHash,
     score: body.score,
     passed: body.passed,
     hardFailTriggered: body.hardFailTriggered,
     hardFailReasons: Array.isArray(body.hardFailReasons) ? body.hardFailReasons : [],
+    assertionResults,
     sandboxSignature: body.sandboxSignature,
     sandboxId: body.sandboxId,
   };
@@ -66,7 +113,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   let validationResult: AttestationValidationResult;
   try {
-    validationResult = verifyAttestation(attestation);
+    validationResult = verifyAttestation(attestation, { requireBindingFields: true });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Attestation verification failed";
     return res.status(403).json({ error: message });
@@ -74,20 +121,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Persist the server-verified grade so finalize can trust it
   await saveSkillVerification(auth.uid, {
+    examAttemptId: body.examAttemptId,
     attestationId: attestation.attestationId,
     uid: auth.uid,
     skillId: slug,
+    challengeNonce: body.challengeNonce,
+    contractHash: body.contractHash,
+    skillVersion: body.skillVersion,
+    skillHash: body.skillHash,
+    tier: examAttempt.tier,
+    credits: examAttempt.credits,
     score: validationResult.score,
     maxScore: validationResult.maxScore,
     decision: validationResult.decision,
+    assertionResults: assertionResults.filter(
+      (item: { id: string; passed: boolean }) => examAttempt.assertionIds.includes(item.id),
+    ),
     hardFail: validationResult.hardFail,
     createdAt: new Date().toISOString(),
   });
+  await saveSkillExamAttempt(auth.uid, {
+    ...examAttempt,
+    status: "submitted",
+    submittedAt: new Date().toISOString(),
+    attestationId: attestation.attestationId,
+  });
 
   // Golden Trace Injection for Few-Shot Learning on failure
-  const goldenTracePath = path.join(process.cwd(), "exam-registry", slug, "golden-trace.json");
-  if (validationResult.decision === "fail" && fs.existsSync(goldenTracePath)) {
-    validationResult.goldenTraceHint = JSON.parse(fs.readFileSync(goldenTracePath, "utf-8"));
+  if (validationResult.decision === "fail") {
+    try {
+      const goldenTracePath = path.join(process.cwd(), "exam-registry", slug, "golden-trace.json");
+      if (fs.existsSync(goldenTracePath)) {
+        validationResult.goldenTraceHint = JSON.parse(fs.readFileSync(goldenTracePath, "utf-8"));
+      }
+    } catch {
+      // Corrupt golden-trace.json should not crash the failure response
+    }
   }
 
   const audit = createAuditContext(req, "submit-exam");

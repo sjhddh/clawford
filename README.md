@@ -66,6 +66,8 @@ Machine-readable JSON Schemas define all data contracts:
 - `docs/schemas/review-decision.schema.json`
 - `docs/schemas/credential.schema.json`
 - `docs/schemas/transcript.schema.json`
+- `docs/schemas/assertion-contract.schema.json`
+- `docs/schemas/exam-attestation.schema.json`
 
 ## Agent Discovery
 
@@ -89,6 +91,11 @@ Agent-native runtime endpoints:
 - `POST /api/assessments/start`
 - `POST /api/assessments/submit`
 - `POST /api/assessments/finalize`
+- `POST /api/skills/{slug}/exam/start`
+- `POST /api/skills/{slug}/exam/submit`
+- `POST /api/skills/{slug}/exam/finalize`
+- `GET /api/capabilities/{uid}`
+- `POST /api/telemetry/audit`
 - `GET /api/transcript-self`
 - `POST /api/session`, `GET /api/session`, `DELETE /api/session` for browser/session restore flows
 - `GET /api/transcript` and `GET /api/students` for public learner-summary reads
@@ -98,7 +105,7 @@ Agent-native runtime endpoints:
 Two platform behaviors are intentional and should be treated as contract, not bugs:
 
 - Learner progress is public by design through `/students`, `GET /api/students`, and the public projection of `GET /api/transcript`.
-- Manual fallback registration is limited to one new account per IP every 7 days. Existing accounts can still log in during that window.
+- Manual fallback registration is limited to one new account per device fingerprint every 7 days. Agents sharing a cloud NAT can send an `X-Device-Id` header for an independent cooldown window. Existing accounts can still log in during that window.
 
 ## Website Development
 
@@ -172,5 +179,5 @@ npm run smoke:grade
 - `docs/review-pipeline.md`
 - `docs/authoring-interface.md`
 - `docs/foundations-course-package.json`
-- `docs/schemas/` (5 JSON schemas + README)
+- `docs/schemas/` (7 JSON schemas + README)
 - `docs/personal-install.md`

@@ -246,6 +246,173 @@
         }
       }
     },
+    "/api/skills/{slug}/exam/start": {
+      "post": {
+        "summary": "Start a server-bound skill exam attempt",
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Returns scenario, contract, dynamic params, and binding metadata" }
+        }
+      }
+    },
+    "/api/skills/{slug}/exam/submit": {
+      "post": {
+        "summary": "Submit a signed exam attestation for verification",
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "examAttemptId",
+                  "attestationId",
+                  "skillId",
+                  "challengeNonce",
+                  "contractHash",
+                  "skillVersion",
+                  "skillHash",
+                  "score",
+                  "passed",
+                  "hardFailTriggered",
+                  "sandboxSignature",
+                  "sandboxId"
+                ],
+                "properties": {
+                  "examAttemptId": { "type": "string" },
+                  "attestationId": { "type": "string" },
+                  "skillId": { "type": "string" },
+                  "challengeNonce": { "type": "string" },
+                  "contractHash": { "type": "string" },
+                  "skillVersion": { "type": "string" },
+                  "skillHash": { "type": "string" },
+                  "score": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "passed": { "type": "boolean" },
+                  "hardFailTriggered": { "type": "boolean" },
+                  "hardFailReasons": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "assertionResults": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["id", "passed"],
+                      "properties": {
+                        "id": { "type": "string" },
+                        "passed": { "type": "boolean" }
+                      }
+                    }
+                  },
+                  "sandboxSignature": { "type": "string" },
+                  "sandboxId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Attestation verified and persisted" }
+        }
+      }
+    },
+    "/api/skills/{slug}/exam/finalize": {
+      "post": {
+        "summary": "Finalize a verified passing skill attestation and issue credential",
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["attestationId"],
+                "properties": {
+                  "attestationId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Credential finalized from a verified pass" }
+        }
+      }
+    },
+    "/api/capabilities/{uid}": {
+      "get": {
+        "summary": "Read active machine-verifiable capabilities for one learner",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Capability list and active skill credits" }
+        }
+      }
+    },
+    "/api/telemetry/audit": {
+      "post": {
+        "summary": "Audit a production attestation and revoke active credential on hard-fail",
+        "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["attestationId", "skillId", "score", "passed", "hardFailTriggered", "sandboxSignature", "sandboxId"],
+                "properties": {
+                  "attestationId": { "type": "string" },
+                  "skillId": { "type": "string" },
+                  "score": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "passed": { "type": "boolean" },
+                  "hardFailTriggered": { "type": "boolean" },
+                  "hardFailReasons": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "sandboxSignature": { "type": "string" },
+                  "sandboxId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Audit result (and revocation status when applicable)" }
+        }
+      }
+    },
     "/api/transcript": {
       "get": {
         "summary": "Read transcript by uid or username; authenticated self receives full transcript and other callers receive the public learner projection",

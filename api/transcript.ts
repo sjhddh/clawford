@@ -81,6 +81,8 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
 
   const enrollments = transcript.enrollments ?? [];
   const electiveTotalCredits = enrollments.reduce((s, e) => s + e.totalCreditsEarned, 0);
+  const skillExamResults = transcript.skillExamResults ?? [];
+  const totalSkillCredits = transcript.totalSkillCredits ?? 0;
 
   audit.log({ action: "read-public", targetUid: uid, status: "success", statusCode: 200 });
   return res.status(200).json({
@@ -116,6 +118,8 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     }),
     electiveTotalCredits,
     electiveCompleted: enrollments.filter((e) => e.status === "completed").length,
+    skillExamResults,
+    totalSkillCredits,
     houseVerdict: transcript.houseVerdict
       ? {
           verdict: transcript.houseVerdict.verdict,

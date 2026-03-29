@@ -18,16 +18,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const activeSkills = (transcript.skillExamResults ?? [])
     .filter((s) => s.credentialStatus === "active" && s.decision === "pass");
 
+  // Public projection only: expose skill/tier/version for trust decisions.
+  // Scores, timestamps, and attestation IDs are omitted — use
+  // /api/transcript-self with auth for the full record.
   return res.status(200).json({
     uid,
     capabilities: activeSkills.map((s) => ({
       skillId: s.skillId,
       version: s.skillVersion,
       tier: s.tier,
-      score: s.score,
-      maxScore: s.maxScore,
-      timestamp: s.timestamp,
-      traceHash: s.traceHash,
     })),
     totalSkillCredits: transcript.totalSkillCredits ?? 0,
   });

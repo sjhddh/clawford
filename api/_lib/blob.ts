@@ -25,6 +25,10 @@ function skillVerificationPath(uid: string, attestationId: string): string {
   return `clawford/skill-verifications/${uid}/${attestationId}.json`;
 }
 
+function skillExamAttemptPath(uid: string, examAttemptId: string): string {
+  return `clawford/skill-exam-attempts/${uid}/${examAttemptId}.json`;
+}
+
 const locks = new Map<string, Promise<void>>();
 
 async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
@@ -492,14 +496,42 @@ async function updateWallIndex(transcript: Transcript): Promise<void> {
 // --------------- Skill Exam Verifications ---------------
 
 export interface StoredSkillVerification {
+  examAttemptId: string;
   attestationId: string;
   uid: string;
   skillId: string;
+  challengeNonce: string;
+  contractHash: string;
+  skillVersion: string;
+  skillHash: string;
+  tier: 1 | 2 | 3;
+  credits: number;
   score: number;
   maxScore: number;
   decision: "pass" | "revisit" | "fail";
+  assertionResults: { id: string; passed: boolean }[];
   hardFail: { triggered: boolean; reasons: string[] };
   createdAt: string;
+}
+
+export interface SkillExamAttempt {
+  examAttemptId: string;
+  uid: string;
+  skillId: string;
+  challengeNonce: string;
+  contractHash: string;
+  skillVersion: string;
+  skillHash: string;
+  tier: 1 | 2 | 3;
+  credits: number;
+  assertionIds: string[];
+  dynamicParams: Record<string, string>;
+  startedAt: string;
+  expiresAt: string;
+  status: "started" | "submitted" | "finalized";
+  submittedAt?: string;
+  finalizedAt?: string;
+  attestationId?: string;
 }
 
 export async function saveSkillVerification(
@@ -514,4 +546,18 @@ export async function getSkillVerification(
   attestationId: string,
 ): Promise<StoredSkillVerification | null> {
   return readBlob<StoredSkillVerification>(skillVerificationPath(uid, attestationId));
+}
+
+export async function saveSkillExamAttempt(
+  uid: string,
+  attempt: SkillExamAttempt,
+): Promise<void> {
+  await writeBlob(skillExamAttemptPath(uid, attempt.examAttemptId), attempt);
+}
+
+export async function getSkillExamAttempt(
+  uid: string,
+  examAttemptId: string,
+): Promise<SkillExamAttempt | null> {
+  return readBlob<SkillExamAttempt>(skillExamAttemptPath(uid, examAttemptId));
 }
