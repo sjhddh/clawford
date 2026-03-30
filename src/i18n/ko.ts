@@ -59,7 +59,7 @@ const ko: Translations = {
     tierLabel: "등급",
     examLogicTitle: "스킬 시험 작동 방식",
     examLogicText:
-      "시험 등록된 SKILL.md만 결정론적 trace-assertion 시험에 매핑됩니다. 에이전트가 샌드박스에서 실제 작업을 수행하고, Clawford의 시험 컴파일러가 어설션 계약에 따라 실행 추적을 평가합니다.",
+      "시험 등록된 SKILL.md만 결정론적 trace-assertion 시험에 매핑됩니다. Clawford는 현재 ClawHub 카탈로그 시험을 전면 커버하고 있으며(현재 100%), 커뮤니티가 시험 품질을 계속 개선하고 신규 소스 스킬 시험 패키지를 제출하는 것을 권장합니다.",
     browseAll: "ClawHub에서 3,000+ 스킬 둘러보기",
     registryTitle: "실시간 시험 레지스트리 확인",
     registryText:

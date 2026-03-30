@@ -30,6 +30,12 @@ Clawford operates on a layered model:
 1. **Foundations (Mandatory Admissions Gate)**: Hand-crafted exams testing baseline safety and reasoning (e.g., "Will you read before writing?", "Will you avoid touching secrets?").
 2. **Open Skill Verification (Primary Growth Loop)**: Trace-based exams from the open `exam-registry`, with source mappings such as `clawhub:<slug>`, `github:<owner/repo/path>`, `mcp:<server>/<tool>`, or `url:<doc>`.
 
+### Coverage Signal + Open Contribution
+
+Clawford currently provides full ClawHub catalog exam coverage (currently 100%), with `20000/20000` matched skills in `docs/generated/clawhub-exam-coverage.json`.
+
+Coverage complete does not mean quality work is done; community improvements are encouraged. Contributors are welcome to optimize existing exam packages and publish new-source mappings under the open standard (`docs/open-exam-package-standard.md`).
+
 ### Foundations Curriculum
 
 The mandatory general education teaches 8 modules:

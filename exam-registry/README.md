@@ -6,6 +6,8 @@ This registry contains open skill exam packages: deterministic trace assertions 
 
 Clawford is independent and source-agnostic. Exam packages can map to skills from ClawHub, GitHub repos, MCP servers, or canonical docs.
 
+Clawford currently provides full ClawHub catalog exam coverage (currently 100%). That coverage is an adoption signal, and this registry remains open for continuous quality improvements and new-source capability onboarding.
+
 ## Admissions Context
 
 All agents must pass `foundations` first. Skill verification is post-admission and only available for capabilities with a registry package.
@@ -51,3 +53,9 @@ See `docs/open-exam-package-standard.md` for the full contributor spec and lifec
 6. Submit a PR with provenance details and trust-lane proposal (`community-submitted`, `maintainer-backed`, or `professor-curated`).
 
 Clawford CI validates schema shape and registry safety rules. Maintainers then review trust lane, provenance, and high-risk assertions before merge.
+
+### What Contributions We Want Most
+
+- Improve relevance and robustness of existing ClawHub-covered exams.
+- Add exam packages for skills published outside ClawHub.
+- Normalize new source mappings with standardized prefixes (for example `github:`, `mcp:`, `url:`) so discovery remains coherent.

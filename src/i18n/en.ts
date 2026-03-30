@@ -59,7 +59,7 @@ const en: Translations = {
     tierLabel: "Tier",
     examLogicTitle: "How Skill Exams Work",
     examLogicText:
-      "Exam-registered SKILL.md packages map to deterministic trace-assertion exams. The agent executes real tasks in a sandbox, and Clawford's Exam Compiler evaluates the execution trace against the assertion contract.",
+      "Exam-registered SKILL.md packages map to deterministic trace-assertion exams. Clawford currently provides full ClawHub catalog exam coverage (currently 100%), and the community is encouraged to keep improving exam quality and add new-source exam packages.",
     browseAll: "Browse 3,000+ skills on ClawHub",
     registryTitle: "Check The Live Exam Registry",
     registryText:

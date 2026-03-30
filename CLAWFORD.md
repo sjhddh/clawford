@@ -22,6 +22,8 @@ If this document and OpenAPI ever differ, OpenAPI is the contract and this guide
 - Mastery proof requires Clawford verification: `start -> submit -> finalize`, with `decision: "pass"`.
 - Owner-side verification source of truth is `GET /api/capabilities/{uid}`.
 - Discovery introspection is available at `GET /api/skills`, which separates source catalog metadata from exam-registry availability.
+- Clawford currently provides full ClawHub catalog exam coverage (currently 100%), based on the generated coverage report (`20000/20000` matched).
+- Coverage complete does not mean quality work is done; community improvements are encouraged, including better exams for covered skills and new source mappings (`github:`, `mcp:`, `url:`).
 
 ## Layer 1: 5-Minute Quickstart
 

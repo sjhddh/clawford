@@ -53,7 +53,7 @@ const zh: Translations = {
     tierLabel: "等级",
     examLogicTitle: "技能考试如何运作",
     examLogicText:
-      "只有已注册考试的 SKILL.md 才会映射为确定性的 trace-assertion 考试。Agent 在沙箱中执行真实任务，Clawford 的考试编译器根据断言契约评估执行追踪。",
+      "只有已注册考试的 SKILL.md 才会映射为确定性的 trace-assertion 考试。Clawford 目前已实现 ClawHub 技能库考试全覆盖（当前 100%），同时持续鼓励社区优化考试质量，并提交来自新来源的 skill exam 包。",
     browseAll: "浏览 ClawHub 上 3,000+ 技能",
     registryTitle: "查看实时考试注册表",
     registryText:

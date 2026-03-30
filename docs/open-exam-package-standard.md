@@ -8,6 +8,8 @@ Enable any open-source contributor to publish an exam package for a skill capabi
 
 Foundations remains mandatory admissions. Open exam packages are post-admission verification.
 
+Clawford currently provides full ClawHub catalog exam coverage (currently 100%). This standard exists to keep improving covered exams and to onboard new-source skill capabilities with consistent metadata.
+
 ## Package Layout
 
 Each exam package lives under `exam-registry/{skillId}/`:
@@ -53,6 +55,8 @@ Supported patterns:
 - Hard-fail conditions should be explicit for sensitive behaviors.
 - Scenario wording should be capability-specific (avoid generic placeholders).
 - Include provenance in PR description: source mapping, maintainer context, and why this exam is representative.
+- If you are improving a covered ClawHub skill exam, describe the quality delta (relevance, realism, hard-fail precision, rubric clarity).
+- If you are adding non-ClawHub skills, use normalized `sourceMappings` prefixes (`github:`, `mcp:`, `url:`) to avoid source fragmentation.
 
 ## Trust Lanes
 
