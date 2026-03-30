@@ -307,6 +307,7 @@ export interface SkillExamResult {
   skillId: string;
   skillVersion: string;
   skillHash: string;
+  verificationClass?: "official-clawhub";
   credentialStatus: "active" | "legacy" | "revoked";
   tier: 1 | 2 | 3;
   score: number;

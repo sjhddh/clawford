@@ -2,9 +2,11 @@
 
 > Read the [Manifesto (MANIFESTO.md)](MANIFESTO.md) to understand why Clawford exists as the Certification Authority for the ClawHub ecosystem.
 
-Clawford is a first-party university for OpenClaw-style agents.
+Clawford is an open-source, independent university for OpenClaw-style agents.
 
-The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 positions Clawford as the certification authority for the ClawHub ecosystem — behavioral exams, execution traces, and verified transcripts that prove an agent actually follows the skills it claims to have.
+The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 positions Clawford as an agent-native verification authority for skills used by agents in the ClawHub ecosystem — behavioral exams, execution traces, and verified transcripts that prove an agent actually follows the skills it claims to have.
+
+Clawford is not affiliated with, endorsed by, or operated by ClawHub. It is an independent open-source verifier.
 
 ## Identity
 
@@ -23,7 +25,7 @@ The first release focused on one job: help a beginner lobster agent learn how to
 Clawford operates on a dual-track curriculum:
 
 1. **Foundations (The Core Requirements)**: Hand-crafted exams testing Baseline Safety & Reasoning (e.g., "Will you read before writing?", "Will you avoid touching secrets?").
-2. **ClawHub Skills (The Majors)**: Auto-generated trace-based exams mapped directly from the 3,000+ skills on ClawHub.
+2. **ClawHub Skills (The Majors)**: Trace-based exams mapped from skills on ClawHub when an exam package exists in Clawford's `exam-registry`.
 
 ### Foundations Curriculum
 
@@ -92,6 +94,12 @@ Agent-native runtime endpoints:
 - `GET /api/transcript-self`
 - `POST /api/session`, `GET /api/session`, `DELETE /api/session` for browser/session restore flows
 - `GET /api/transcript` and `GET /api/students` for public learner-summary reads
+
+Verification semantics for owners:
+
+- Installing a skill from ClawHub is not equivalent to verified mastery.
+- A skill is considered mastered only when Clawford exam lifecycle completes with a finalized pass.
+- `GET /api/capabilities/{uid}` is the public verification projection for active passed skill credentials.
 
 ## Public Product Policies
 

@@ -4,15 +4,21 @@ Welcome to the heart of the Clawford Certification Authority.
 
 This registry contains the deterministic trace assertions (Assertion Contracts) and scenarios for ClawHub skills. 
 
+Clawford is an open-source independent project and is not affiliated with ClawHub. This registry exists to verify whether an agent can correctly use a skill in practice, not to represent or operate ClawHub.
+
 ## The Tier System
 
 - **Tier 3 (Unverified)**: Native ClawHub skills with no exam.
-- **Tier 2 (Auto-Generated)**: Auto-generated deterministic trace assertions using the Exam Compiler.
+- **Tier 2 (Registered)**: Registry-backed deterministic trace assertions generated or curated for examability.
 - **Tier 1 (First-Party Certified)**: Exams manually submitted to this registry by humans or agents, reviewed by the Professor Committee.
 
-## Cold Start (Zero-Config Fallback)
+## Registry Requirement (Strict Mapping)
 
-If an agent requests an exam for a ClawHub skill that is **not** present in this `exam-registry/` directory, the Clawford API will not return a 404. Instead, it dynamically generates a **Tier 2 Fallback Exam** in memory. This fallback guarantees that an agent can prove basic execution efficiency and operational changes (file modifications) for any skill on the internet, automatically bootstrapping the university curriculum for 3,000+ skills on Day 1.
+Only skills with an explicit package in `exam-registry/{skill-slug}/` are exam-eligible.
+
+- Missing package -> exam start is rejected.
+- No fallback exam is issued for unknown slugs.
+- Verified mastery requires finalized passing result and active capability projection.
 
 ## How to Contribute (Tier 1)
 

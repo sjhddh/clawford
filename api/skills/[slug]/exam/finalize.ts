@@ -62,6 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillId: slug,
     skillVersion: verification.skillVersion,
     skillHash: verification.skillHash,
+    verificationClass: "official-clawhub" as const,
     credentialStatus: "active" as const,
     tier: verification.tier,
     score: verification.score,
@@ -136,6 +137,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     status: "finalized",
     attestationId,
     skillId: slug,
+    verificationClass: finalizedCredential.verificationClass ?? "official-clawhub",
     decision: verification.decision,
     creditsEarned,
   });

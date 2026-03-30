@@ -161,6 +161,7 @@ export interface SkillExamResult {
   skillId: string;
   skillVersion: string;
   skillHash: string;
+  verificationClass?: "official-clawhub";
   credentialStatus: "active" | "legacy" | "revoked";
   tier: 1 | 2 | 3;
   score: number;
@@ -557,7 +558,7 @@ export interface StoredSkillCredential extends SkillExamResult {}
 
 export function calculateActiveSkillCredits(results: SkillExamResult[]): number {
   return results
-    .filter((r) => r.credentialStatus === "active" && r.decision === "pass")
+    .filter((r) => r.verificationClass === "official-clawhub" && r.credentialStatus === "active" && r.decision === "pass")
     .reduce((sum, r) => sum + r.credits, 0);
 }
 

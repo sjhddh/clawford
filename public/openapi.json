@@ -249,6 +249,7 @@
     "/api/skills/{slug}/exam/start": {
       "post": {
         "summary": "Start a server-bound skill exam attempt",
+        "description": "Clawford is an independent open-source verifier and is not affiliated with ClawHub. Exam start is allowed only for skill slugs that are explicitly registered in Clawford's exam registry.",
         "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "parameters": [
           {
@@ -259,13 +260,15 @@
           }
         ],
         "responses": {
-          "200": { "description": "Returns scenario, contract, dynamic params, and binding metadata" }
+          "200": { "description": "Returns scenario, contract, dynamic params, and binding metadata" },
+          "404": { "description": "Skill exam not found in Clawford registry; unknown slugs are not exam-eligible" }
         }
       }
     },
     "/api/skills/{slug}/exam/submit": {
       "post": {
         "summary": "Submit an optimistic exam attestation for verification",
+        "description": "Submission verifies agent execution against the server-issued exam binding. Installing a skill is not proof of mastery; only verified and finalized pass establishes capability.",
         "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "parameters": [
           {
@@ -339,6 +342,7 @@
     "/api/skills/{slug}/exam/finalize": {
       "post": {
         "summary": "Finalize a verified passing skill attestation and issue credential",
+        "description": "Only server-verified passing submissions can be finalized into active official credentials.",
         "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "parameters": [
           {
@@ -363,13 +367,15 @@
           }
         },
         "responses": {
-          "200": { "description": "Credential finalized from a verified pass" }
+          "200": { "description": "Credential finalized from a verified pass and marked as official-clawhub verification class" },
+          "409": { "description": "Attestation exists but is not a pass, so no credential can be issued" }
         }
       }
     },
     "/api/capabilities/{uid}": {
       "get": {
         "summary": "Read active machine-verifiable capabilities for one learner",
+        "description": "Public verification projection. Returns only active passed credentials in the official-clawhub verification class.",
         "parameters": [
           {
             "name": "uid",
@@ -379,7 +385,7 @@
           }
         ],
         "responses": {
-          "200": { "description": "Capability list and active skill credits" }
+          "200": { "description": "Capability list and active skill credits for official-clawhub verified skills only" }
         }
       }
     },

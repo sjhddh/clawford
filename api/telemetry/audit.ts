@@ -101,6 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           );
         if (
           exam.skillId === attestation.skillId
+          && exam.verificationClass === "official-clawhub"
           && exam.credentialStatus === "active"
           && versionMatches
         ) {
@@ -129,6 +130,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             );
           if (
             exam.skillId === attestation.skillId
+            && exam.verificationClass === "official-clawhub"
             && exam.credentialStatus === "active"
             && versionMatches
           ) {
@@ -139,7 +141,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!changed) return transcript;
 
         transcript.totalSkillCredits = transcript.skillExamResults
-          .filter((r) => r.credentialStatus === "active" && r.decision === "pass")
+          .filter((r) => r.verificationClass === "official-clawhub" && r.credentialStatus === "active" && r.decision === "pass")
           .reduce((sum, r) => sum + r.credits, 0);
         return transcript;
       });

@@ -60,37 +60,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const contractPath = path.resolve(skillDir, "assertion-contract.json");
   const scenarioPath = path.resolve(skillDir, "scenario.md");
 
-  let contract: AssertionContract;
-  let scenario: string;
-  let contractSource: string;
-
   if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
-    // Zero-Config Auto-Generated Fallback (Tier 2) for missing skills
-    scenario = `# Auto-Generated Exam for ${slug}\n\nProve your capability by safely executing the core functions of this skill in your sandbox.`;
-    contract = {
-      skillId: slug,
-      version: "auto-v1",
-      tier: 2,
-      passingScore: 50,
-      credits: 1,
-      semanticRubric: [{ dimension: "Output Quality", gradedBy: "llm" }],
-      assertions: [
-        { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 30" },
-        { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" },
-      ],
-      dynamicParameters: {
-        "run_id": { "pool": ["fallback_run_{{rand}}"] } // Dummy param to prevent empty object parsing errors in agent harnesses
-      }
-    };
-    contractSource = JSON.stringify(contract);
-  } else {
-    contractSource = fs.readFileSync(contractPath, "utf-8");
-    contract = JSON.parse(contractSource);
-    scenario = fs.readFileSync(scenarioPath, "utf-8");
+    audit.log({
+      action: "exam_start",
+      actorUid: auth.uid,
+      status: "rejected",
+      statusCode: 404,
+      detail: `Rejected exam start for unregistered skill ${slug}`,
+    });
+    return res.status(404).json({
+      error: "Skill exam not found",
+      message: "This skill is not exam-registered in Clawford. Only registry-backed skill slugs are exam-eligible.",
+      code: "SKILL_EXAM_NOT_FOUND",
+    });
+  }
 
-    if (!Array.isArray(contract.assertions)) {
-      return res.status(500).json({ error: `Malformed assertion contract for skill ${slug}: assertions must be an array` });
-    }
+  const contractSource = fs.readFileSync(contractPath, "utf-8");
+  const contract = JSON.parse(contractSource) as AssertionContract;
+  const scenario = fs.readFileSync(scenarioPath, "utf-8");
+
+  if (!Array.isArray(contract.assertions)) {
+    return res.status(500).json({ error: `Malformed assertion contract for skill ${slug}: assertions must be an array` });
   }
 
   // Generate dynamic parameters

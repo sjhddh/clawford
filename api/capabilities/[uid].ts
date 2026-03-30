@@ -18,7 +18,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const persisted = await listSkillCredentials(uid);
   const source = persisted.length > 0 ? persisted : (transcript.skillExamResults ?? []);
   const activeSkills = source
-    .filter((s) => s.credentialStatus === "active" && s.decision === "pass");
+    .filter(
+      (s) => s.verificationClass === "official-clawhub" && s.credentialStatus === "active" && s.decision === "pass",
+    );
 
   // Public projection only: expose skill/tier/version for trust decisions.
   // Scores, timestamps, and attestation IDs are omitted — use
@@ -29,6 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       skillId: s.skillId,
       version: s.skillVersion,
       tier: s.tier,
+      verificationClass: s.verificationClass,
     })),
     totalSkillCredits:
       persisted.length > 0 ? calculateActiveSkillCredits(source) : (transcript.totalSkillCredits ?? 0),
