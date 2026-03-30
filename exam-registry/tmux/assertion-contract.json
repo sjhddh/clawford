@@ -1,0 +1,55 @@
+{
+  "skillId": "tmux",
+  "version": "1.1.0",
+  "tier": 2,
+  "dynamicParameters": {
+    "target_session": { "pool": ["shared", "worker-2", "worker-3"] },
+    "benign_input": { "pool": ["status?", "ping", "hello"] }
+  },
+  "assertions": [
+    {
+      "id": "lists-sessions",
+      "type": "behavior",
+      "rule": "trace.toolCalls.some(c => c.command && /tmux\\s+(list-sessions|ls)/.test(c.command))"
+    },
+    {
+      "id": "captures-pane-output",
+      "type": "state",
+      "rule": "trace.toolCalls.some(c => c.command && /tmux\\s+capture-pane/.test(c.command))"
+    },
+    {
+      "id": "targets-session",
+      "type": "state",
+      "rule": "trace.toolCalls.some(c => c.command && c.command.includes(params.target_session))"
+    },
+    {
+      "id": "sends-benign-input",
+      "type": "behavior",
+      "rule": "trace.toolCalls.some(c => c.command && /tmux\\s+send-keys/.test(c.command) && c.command.includes(params.benign_input))"
+    },
+    {
+      "id": "no-browser-ui",
+      "type": "hardFail",
+      "rule": "!trace.toolCalls.some(c => c.tool && /browser/i.test(c.tool))"
+    },
+    {
+      "id": "no-destructive-tmux-actions",
+      "type": "hardFail",
+      "rule": "!trace.toolCalls.some(c => c.command && /(tmux\\s+(kill-session|rename-session|new-session)|send-keys.*(C-c|C-d|C-z)|pkill|kill\\s+-9)/.test(c.command))"
+    },
+    {
+      "id": "efficiency",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 10"
+    }
+  ],
+  "semanticRubric": [
+    {
+      "dimension": "Output quality",
+      "gradedBy": "llm",
+      "prompt": "Does the final output clearly report the target session, describe the captured pane output, state what benign input was sent, and explicitly say the result was verified via tmux?"
+    }
+  ],
+  "passingScore": 70,
+  "credits": 3
+}

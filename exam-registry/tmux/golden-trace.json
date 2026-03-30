@@ -1,0 +1,41 @@
+{
+  "traceId": "trace-tmux-golden-001",
+  "skillId": "tmux",
+  "signature": "sha256:1a6af8bd7d23789f0e6790fc7ce6dd98e785483321ac00dff0fb7f3d2aa67d14",
+  "dynamicParams": {
+    "target_session": "shared",
+    "benign_input": "status?"
+  },
+  "runtime": {
+    "platform": "openclaw-v2.1",
+    "totalSteps": 3
+  },
+  "toolCalls": [
+    {
+      "seq": 1,
+      "tool": "shell",
+      "command": "tmux list-sessions",
+      "exitCode": 0
+    },
+    {
+      "seq": 2,
+      "tool": "shell",
+      "command": "tmux capture-pane -t shared -p | tail -20",
+      "exitCode": 0
+    },
+    {
+      "seq": 3,
+      "tool": "shell",
+      "command": "tmux send-keys -t shared 'status?' Enter",
+      "exitCode": 0
+    }
+  ],
+  "fileDiffs": [
+    {
+      "path": "tmux-report.md",
+      "action": "created",
+      "contentHash": "sha256:86bcb4aa0b355c956aa8f55d7fd6f4034225f0e01f8482b2db4b1ba4ea7714df"
+    }
+  ],
+  "finalOutput": "Target session: shared. Captured recent pane output successfully and sent benign input 'status?'. Verified via tmux commands."
+}
