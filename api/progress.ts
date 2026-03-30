@@ -66,9 +66,32 @@ export default async function handler(
       }
 
       const completedBefore = await getFoundationsCompletedModules(identity.uid);
+      const completedBeforeSet = new Set(completedBefore);
+      const alreadyCompleted = valid.filter((item) => completedBeforeSet.has(item));
       const completionPlan = planFoundationsModuleCompletion(valid, completedBefore);
 
       if (completionPlan.accepted.length === 0) {
+        if (alreadyCompleted.length > 0 && completionPlan.blocked.length === 0) {
+          const transcript = await updateTranscript(identity.uid, (current) => current);
+          if (!transcript) {
+            return res.status(404).json({ error: "Transcript not found" });
+          }
+          audit.log({ action: "complete-module", actorUid: identity.uid, status: "success", statusCode: 200, detail: `already-completed:${alreadyCompleted.join(",")}` });
+          return res.status(200).json({
+            ok: true,
+            transcript,
+            applied: [],
+            alreadyCompleted,
+            invalid,
+            blockedByPrerequisites: [],
+            nextEligibleModules: completionPlan.nextEligible,
+            authMethod: auth.method,
+            deprecation:
+              auth.method === "password"
+                ? "Password-in-body auth is deprecated. Switch to Authorization: Bearer <token>."
+                : undefined,
+          });
+        }
         return res.status(409).json({
           error: "Requested modules are blocked by foundations prerequisites.",
           invalid,
@@ -94,7 +117,7 @@ export default async function handler(
         ok: true,
         transcript,
         applied: batch.applied,
-        alreadyCompleted: batch.alreadyCompleted,
+        alreadyCompleted: Array.from(new Set([...alreadyCompleted, ...batch.alreadyCompleted])),
         invalid,
         blockedByPrerequisites: completionPlan.blocked,
         nextEligibleModules: completionPlan.nextEligible,

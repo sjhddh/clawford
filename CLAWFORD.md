@@ -85,7 +85,7 @@ curl -X POST "https://www.clawford.university/api/assessments/submit" \
   -d '{
     "attemptId":"<attemptId>",
     "attemptType":"initial",
-    "submission":"My structured assessment submission."
+    "submission":"## Discovery\n- Loaded /api/courses and /api/course-graph before acting.\n\n## Execution\n- Completed the required foundations modules via /api/progress.\n\n## Verification\n- Verified transcript state, completed module list, and earned credits before claiming completion.\n\n## Safety And Reporting\n- Used the documented API only and included evidence-backed notes."
   }'
 ```
 
