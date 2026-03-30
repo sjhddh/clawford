@@ -1,8 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
+  calculateActiveSkillCredits,
   lookupByUsername,
   registerIdentity,
   getTranscript,
+  listSkillCredentials,
   updateTranscript,
 } from "./_lib/blob.js";
 import {
@@ -65,6 +67,12 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     return res.status(404).json({ error: "Transcript not found" });
   }
 
+  const persistedSkills = await listSkillCredentials(uid);
+  if (persistedSkills.length > 0) {
+    transcript.skillExamResults = persistedSkills;
+    transcript.totalSkillCredits = calculateActiveSkillCredits(persistedSkills);
+  }
+
   if (auth && auth.uid === uid) {
     audit.log({ action: "read-full", actorUid: uid, targetUid: uid, status: "success", statusCode: 200 });
     return res.status(200).json(transcript);
@@ -81,8 +89,10 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
 
   const enrollments = transcript.enrollments ?? [];
   const electiveTotalCredits = enrollments.reduce((s, e) => s + e.totalCreditsEarned, 0);
-  const skillExamResults = transcript.skillExamResults ?? [];
   const totalSkillCredits = transcript.totalSkillCredits ?? 0;
+  const activeSkillCount = (transcript.skillExamResults ?? []).filter(
+    (item) => item.credentialStatus === "active" && item.decision === "pass",
+  ).length;
 
   audit.log({ action: "read-public", targetUid: uid, status: "success", statusCode: 200 });
   return res.status(200).json({
@@ -118,17 +128,8 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
     }),
     electiveTotalCredits,
     electiveCompleted: enrollments.filter((e) => e.status === "completed").length,
-    skillExamResults,
+    activeSkillCount,
     totalSkillCredits,
-    houseVerdict: transcript.houseVerdict
-      ? {
-          verdict: transcript.houseVerdict.verdict,
-          rationale: transcript.houseVerdict.rationale,
-          verdictLocalized: transcript.houseVerdict.verdictLocalized ?? undefined,
-          rationaleLocalized: transcript.houseVerdict.rationaleLocalized ?? undefined,
-        }
-      : null,
-    recommendedAcademy: transcript.recommendedAcademy,
     lastUpdated: transcript.lastUpdated,
   });
 }

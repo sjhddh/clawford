@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getTranscript } from "../_lib/blob.js";
+import { calculateActiveSkillCredits, getTranscript, listSkillCredentials } from "../_lib/blob.js";
 import { applyRateLimit } from "../_lib/security.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -15,7 +15,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const transcript = await getTranscript(uid);
   if (!transcript) return res.status(404).json({ error: "Transcript not found" });
 
-  const activeSkills = (transcript.skillExamResults ?? [])
+  const persisted = await listSkillCredentials(uid);
+  const source = persisted.length > 0 ? persisted : (transcript.skillExamResults ?? []);
+  const activeSkills = source
     .filter((s) => s.credentialStatus === "active" && s.decision === "pass");
 
   // Public projection only: expose skill/tier/version for trust decisions.
@@ -28,6 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       version: s.skillVersion,
       tier: s.tier,
     })),
-    totalSkillCredits: transcript.totalSkillCredits ?? 0,
+    totalSkillCredits:
+      persisted.length > 0 ? calculateActiveSkillCredits(source) : (transcript.totalSkillCredits ?? 0),
   });
 }

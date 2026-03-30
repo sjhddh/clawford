@@ -47,6 +47,9 @@ describe("POST /api/telemetry/audit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      calculateActiveSkillCredits: vi.fn().mockReturnValue(0),
+      listSkillCredentials: vi.fn().mockResolvedValue([]),
+      saveSkillCredential: vi.fn(),
       updateTranscript: vi.fn(),
     }));
     vi.doMock("../../api/lib/attestation-validator.js", () => ({
@@ -67,29 +70,39 @@ describe("POST /api/telemetry/audit", () => {
     vi.stubEnv("TEE_DEFAULT_PASSING_SCORE", "70");
 
     const updateTranscriptMock = vi.fn().mockImplementation(async (_uid: string, updater: (t: any) => any) => {
-      const transcript = {
-        skillExamResults: [
-          {
-            skillId: "postgres-backups",
-            skillVersion: "1.0.0",
-            skillHash: "hash-a",
-            credentialStatus: "active",
-            decision: "pass",
-            credits: 3,
-          },
-          {
-            skillId: "postgres-backups",
-            skillVersion: "2.0.0",
-            skillHash: "hash-b",
-            credentialStatus: "active",
-            decision: "pass",
-            credits: 5,
-          },
-        ],
-        totalSkillCredits: 8,
-      };
+      const transcript = { skillExamResults: [], totalSkillCredits: 0 };
       return updater(transcript);
     });
+    const listSkillCredentialsMock = vi.fn().mockResolvedValue([
+      {
+        skillId: "postgres-backups",
+        skillVersion: "1.0.0",
+        skillHash: "hash-a",
+        credentialStatus: "active",
+        decision: "pass",
+        credits: 3,
+        attestationId: "a",
+        assertionResults: [],
+        tier: 2,
+        score: 90,
+        maxScore: 100,
+        timestamp: "2026-01-01T00:00:00.000Z",
+      },
+      {
+        skillId: "postgres-backups",
+        skillVersion: "2.0.0",
+        skillHash: "hash-b",
+        credentialStatus: "active",
+        decision: "pass",
+        credits: 5,
+        attestationId: "b",
+        assertionResults: [],
+        tier: 2,
+        score: 95,
+        maxScore: 100,
+        timestamp: "2026-01-02T00:00:00.000Z",
+      },
+    ]);
 
     vi.doMock("../../api/_lib/session.js", () => ({
       authenticateRequest: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
@@ -101,6 +114,9 @@ describe("POST /api/telemetry/audit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      calculateActiveSkillCredits: vi.fn().mockReturnValue(3),
+      listSkillCredentials: listSkillCredentialsMock,
+      saveSkillCredential: vi.fn(),
       updateTranscript: updateTranscriptMock,
     }));
     vi.doMock("../../api/lib/attestation-validator.js", () => ({
@@ -144,6 +160,9 @@ describe("POST /api/telemetry/audit", () => {
       createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
+      calculateActiveSkillCredits: vi.fn().mockReturnValue(0),
+      listSkillCredentials: vi.fn().mockResolvedValue([]),
+      saveSkillCredential: vi.fn(),
       updateTranscript: updateTranscriptMock,
     }));
     vi.doMock("../../api/lib/attestation-validator.js", () => ({

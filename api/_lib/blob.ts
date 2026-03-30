@@ -29,6 +29,10 @@ function skillExamAttemptPath(uid: string, examAttemptId: string): string {
   return `clawford/skill-exam-attempts/${uid}/${examAttemptId}.json`;
 }
 
+function skillCredentialPath(uid: string, attestationId: string): string {
+  return `clawford/skill-credentials/${uid}/${attestationId}.json`;
+}
+
 const locks = new Map<string, Promise<void>>();
 
 async function withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
@@ -547,6 +551,48 @@ export interface SkillExamAttempt {
   submittedAt?: string;
   finalizedAt?: string;
   attestationId?: string;
+}
+
+export interface StoredSkillCredential extends SkillExamResult {}
+
+export function calculateActiveSkillCredits(results: SkillExamResult[]): number {
+  return results
+    .filter((r) => r.credentialStatus === "active" && r.decision === "pass")
+    .reduce((sum, r) => sum + r.credits, 0);
+}
+
+export async function saveSkillCredential(
+  uid: string,
+  credential: StoredSkillCredential,
+): Promise<void> {
+  await writeBlob(skillCredentialPath(uid, credential.attestationId), credential);
+}
+
+export async function getSkillCredential(
+  uid: string,
+  attestationId: string,
+): Promise<StoredSkillCredential | null> {
+  return readBlob<StoredSkillCredential>(skillCredentialPath(uid, attestationId));
+}
+
+export async function listSkillCredentials(uid: string): Promise<StoredSkillCredential[]> {
+  const prefix = `clawford/skill-credentials/${uid}/`;
+  const { blobs } = await list({ prefix, limit: 500 });
+  const rows: StoredSkillCredential[] = [];
+  for (const blob of blobs) {
+    if (!blob.pathname.startsWith(prefix) || !blob.pathname.endsWith(".json")) continue;
+    const row = await readBlob<StoredSkillCredential>(blob.pathname);
+    if (row) rows.push(row);
+  }
+
+  const dedup = new Map<string, StoredSkillCredential>();
+  for (const row of rows) {
+    const prev = dedup.get(row.attestationId);
+    if (!prev || row.timestamp > prev.timestamp) {
+      dedup.set(row.attestationId, row);
+    }
+  }
+  return Array.from(dedup.values()).sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 }
 
 export async function saveSkillVerification(

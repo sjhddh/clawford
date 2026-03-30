@@ -3,8 +3,12 @@ import { authenticateRequest as getAuth } from "../../../_lib/session.js";
 import { applyRateLimit } from "../../../_lib/security.js";
 import { createAuditContext } from "../../../_lib/telemetry.js";
 import {
+  calculateActiveSkillCredits,
+  getSkillCredential,
   getSkillExamAttempt,
   getSkillVerification,
+  listSkillCredentials,
+  saveSkillCredential,
   saveSkillExamAttempt,
   updateTranscript,
 } from "../../../_lib/blob.js";
@@ -52,41 +56,56 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const creditsEarned = verification.credits;
 
-  const updated = await updateTranscript(auth.uid, (transcript) => {
-    if (!transcript.skillExamResults) transcript.skillExamResults = [];
+  const existingCredential = await getSkillCredential(auth.uid, attestationId);
+  const now = new Date().toISOString();
+  const finalizedCredential = existingCredential ?? {
+    skillId: slug,
+    skillVersion: verification.skillVersion,
+    skillHash: verification.skillHash,
+    credentialStatus: "active" as const,
+    tier: verification.tier,
+    score: verification.score,
+    maxScore: verification.maxScore,
+    decision: verification.decision,
+    assertionResults: verification.assertionResults,
+    attestationId,
+    credits: creditsEarned,
+    timestamp: now,
+  };
+  await saveSkillCredential(auth.uid, finalizedCredential);
 
-    const alreadyFinalized = transcript.skillExamResults.some(
-      (r) => r.attestationId === attestationId || (r as { traceHash?: string }).traceHash === attestationId,
-    );
-    if (alreadyFinalized) return transcript;
-
-    for (const existing of transcript.skillExamResults) {
-      if (
-        existing.skillId === slug
-        && existing.credentialStatus === "active"
-        && existing.skillHash !== verification.skillHash
-      ) {
-        existing.credentialStatus = "legacy";
-      }
+  const credentials = await listSkillCredentials(auth.uid);
+  const mergedCredentials = [...credentials];
+  for (const credential of mergedCredentials) {
+    if (
+      credential.skillId === slug
+      && credential.attestationId !== attestationId
+      && credential.credentialStatus === "active"
+      && credential.skillHash !== verification.skillHash
+    ) {
+      credential.credentialStatus = "legacy";
+      await saveSkillCredential(auth.uid, credential);
     }
+  }
+  if (!credentials.some((row) => row.attestationId === attestationId)) {
+    mergedCredentials.push(finalizedCredential);
+  }
 
-    transcript.skillExamResults.push({
-      skillId: slug,
-      skillVersion: verification.skillVersion,
-      skillHash: verification.skillHash,
-      credentialStatus: "active",
-      tier: verification.tier,
-      score: verification.score,
-      maxScore: verification.maxScore,
-      decision: verification.decision,
-      assertionResults: verification.assertionResults,
-      attestationId,
-      credits: creditsEarned,
-      timestamp: new Date().toISOString(),
-    });
-    transcript.totalSkillCredits = transcript.skillExamResults
-      .filter((r) => r.credentialStatus === "active" && r.decision === "pass")
-      .reduce((sum, r) => sum + r.credits, 0);
+  const normalizedCredentials = mergedCredentials
+    .sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+    .map((row) => ({ ...row }));
+
+  const updated = await updateTranscript(auth.uid, (transcript) => {
+    const byAttestation = new Map<string, (typeof normalizedCredentials)[number]>();
+    for (const row of transcript.skillExamResults ?? []) {
+      byAttestation.set(row.attestationId, row);
+    }
+    for (const row of normalizedCredentials) {
+      byAttestation.set(row.attestationId, row);
+    }
+    const merged = Array.from(byAttestation.values()).sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+    transcript.skillExamResults = merged;
+    transcript.totalSkillCredits = calculateActiveSkillCredits(merged);
     return transcript;
   });
 
@@ -99,7 +118,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await saveSkillExamAttempt(auth.uid, {
       ...attempt,
       status: "finalized",
-      finalizedAt: new Date().toISOString(),
+      finalizedAt: now,
       attestationId,
     });
   }

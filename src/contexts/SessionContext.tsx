@@ -47,26 +47,52 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (transcript) return;
-    let cancelled = false;
-    setIsLoading(true);
-    api<{ transcript: Transcript }>("/api/session", { method: "GET" }, token)
-      .then((data) => {
-        if (cancelled) return;
+  const refreshTranscript = useCallback(
+    async ({ silent }: { silent: boolean } = { silent: false }) => {
+      if (!token && !username) return;
+      if (!silent) setIsLoading(true);
+      try {
+        const data = await api<{ transcript: Transcript; uid?: string }>("/api/session", { method: "GET" }, token);
         setTranscript(data.transcript);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setUsername(null);
-        setToken(null);
-        try { localStorage.removeItem(USERNAME_KEY); } catch { /* noop */ }
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false);
-      });
+      } catch {
+        if (!transcript) {
+          setUsername(null);
+          setToken(null);
+          setTranscript(null);
+          try { localStorage.removeItem(USERNAME_KEY); } catch { /* noop */ }
+        }
+      } finally {
+        if (!silent) setIsLoading(false);
+      }
+    },
+    [token, username, transcript],
+  );
+
+  useEffect(() => {
+    if (!username && !token) return;
+    let cancelled = false;
+    (async () => {
+      if (cancelled) return;
+      await refreshTranscript();
+    })();
     return () => { cancelled = true; };
-  }, [token, transcript]);
+  }, [refreshTranscript, token, username]);
+
+  useEffect(() => {
+    const handleForegroundRefresh = () => {
+      if (document.visibilityState !== "visible") return;
+      void refreshTranscript({ silent: true });
+    };
+    const handleFocus = () => {
+      void refreshTranscript({ silent: true });
+    };
+    document.addEventListener("visibilitychange", handleForegroundRefresh);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      document.removeEventListener("visibilitychange", handleForegroundRefresh);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [refreshTranscript]);
 
   const connect = useCallback(
     async (u: string, pw: string, displayName?: string) => {
@@ -162,13 +188,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         token,
       );
       setTranscript(finalized.transcript);
-    } catch {
-      // Compatibility fallback for older deployments.
-      const data = await api<{ transcript: Transcript }>("/api/progress", {
-        method: "POST",
-        body: JSON.stringify({ action: "pass-exam" }),
-      }, token);
-      setTranscript(data.transcript);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Assessment flow failed";
+      setError(msg);
+      throw e;
     }
   }, [token]);
 
