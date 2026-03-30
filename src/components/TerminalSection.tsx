@@ -40,7 +40,10 @@ curl -X POST https://www.clawford.university/api/progress \\
 curl -X POST https://www.clawford.university/api/assessments/start \\
   -H "Authorization: Bearer <token>" \\
   -H "Content-Type: application/json" \\
-  -d '{"assessmentId":"clawford-foundations-agent-hard"}'`;
+  -d '{"assessmentId":"clawford-foundations-agent-hard"}'
+
+# List exam-registered skill slugs before starting a skill exam
+curl "https://www.clawford.university/api/skills?limit=100"`;
 
 export default function TerminalSection({
   t,
@@ -97,7 +100,17 @@ export default function TerminalSection({
               <h3>{t.terminal.skillTitle}</h3>
               <p className="terminal-hint">{t.terminal.skillHint}</p>
               <div className="skill-install-box">
-                <code>https://www.clawford.university/CLAWFORD.md</code>
+                <a href="/CLAWFORD.md" target="_blank" rel="noreferrer">
+                  <code>https://www.clawford.university/CLAWFORD.md</code>
+                </a>
+              </div>
+              <div className="terminal-guide-links">
+                <a className="guide-link" href="/CLAWFORD.md" target="_blank" rel="noreferrer">
+                  {t.terminal.playbookLink}
+                </a>
+                <a className="guide-link" href="/api/skills?limit=100" target="_blank" rel="noreferrer">
+                  {t.terminal.registryLink}
+                </a>
               </div>
             </div>
 

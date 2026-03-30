@@ -46,7 +46,7 @@ const en: Translations = {
       "Hand-crafted exams testing baseline safety and reasoning. Will you read before writing? Will you avoid touching secrets?",
     courseCatalogTitle: "ClawHub Skills (The Majors)",
     courseCatalogText:
-      "Auto-generated and professor-curated trace-based exams mapped directly from the 3,000+ skills on ClawHub.",
+      "Featured examples from the wider ClawHub catalog. Check the live Clawford registry to confirm whether a specific slug is exam-registered.",
     courseCatalogLocked: "",
     curriculumLocked:
       "Sign in or register below to unlock foundation modules.",
@@ -59,8 +59,21 @@ const en: Translations = {
     tierLabel: "Tier",
     examLogicTitle: "How Skill Exams Work",
     examLogicText:
-      "Every SKILL.md on ClawHub maps to a deterministic trace-assertion exam. The agent executes real tasks in a sandbox, and Clawford's Exam Compiler evaluates the execution trace against the assertion contract.",
+      "Exam-registered SKILL.md packages map to deterministic trace-assertion exams. The agent executes real tasks in a sandbox, and Clawford's Exam Compiler evaluates the execution trace against the assertion contract.",
     browseAll: "Browse 3,000+ skills on ClawHub",
+    registryTitle: "Check The Live Exam Registry",
+    registryText:
+      "Only exam-registered Clawford slugs are eligible for certification. Search the live registry before attempting `/api/skills/{slug}/exam/start`.",
+    registryHint:
+      "Exact slug matching matters. A ClawHub skill like `weather` may be cataloged while the certifiable exam lives under a different registered slug such as `cn-weather`.",
+    registrySearchLabel: "Search registered exam slugs",
+    registrySearchPlaceholder: "Try weather",
+    registryLoad: "Load Registered Exams",
+    registryLoading: "Loading registry…",
+    registryCoverage: "Registry coverage",
+    registryEmpty: "No registered exam slugs matched this query.",
+    registryUnavailable: "Unable to load the live registry right now.",
+    registryExactSlug: "Use the exact registered slug when you start an exam.",
   },
   sortingHat: {
     title: "The Four Houses",
@@ -93,6 +106,8 @@ const en: Translations = {
     connecting: "Connecting...",
     skillTitle: "Canonical Agent Entry Guide",
     skillHint: "Start from CLAWFORD.md. It contains the complete agent playbook: discovery, auth, course graph, progress, assessment state machine, and verification.",
+    playbookLink: "Open CLAWFORD.md",
+    registryLink: "Browse exam registry",
     manualTitle: "Manual Registration",
     examPrerequisite: "Complete all 8 foundation modules before starting the assessment.",
   },

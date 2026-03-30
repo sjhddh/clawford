@@ -27,6 +27,44 @@ export interface AssertionContract {
   credits: number;
 }
 
+function listRegisteredSkillSlugs(examRegistryRoot: string): string[] {
+  try {
+    return fs.readdirSync(examRegistryRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && SKILL_SLUG_PATTERN.test(entry.name))
+      .filter((entry) => {
+        const directory = path.resolve(examRegistryRoot, entry.name);
+        return (
+          fs.existsSync(path.resolve(directory, "assertion-contract.json"))
+          && fs.existsSync(path.resolve(directory, "scenario.md"))
+        );
+      })
+      .map((entry) => entry.name)
+      .sort((left, right) => left.localeCompare(right));
+  } catch {
+    return [];
+  }
+}
+
+function scoreSuggestedSlug(target: string, candidate: string): number {
+  if (candidate === target) return Number.MAX_SAFE_INTEGER;
+  const targetTokens = target.split("-").filter(Boolean);
+  const candidateTokens = candidate.split("-").filter(Boolean);
+  const overlap = targetTokens.filter((token) => candidateTokens.includes(token)).length;
+  let score = overlap * 10;
+  if (candidate.includes(target) || target.includes(candidate)) score += 25;
+  if (candidate.startsWith(target) || target.startsWith(candidate)) score += 15;
+  return score;
+}
+
+function findSuggestedSkillSlugs(target: string, examRegistryRoot: string, limit = 5): string[] {
+  return listRegisteredSkillSlugs(examRegistryRoot)
+    .map((candidate) => ({ candidate, score: scoreSuggestedSlug(target, candidate) }))
+    .filter((row) => row.score > 0)
+    .sort((left, right) => right.score - left.score || left.candidate.localeCompare(right.candidate))
+    .slice(0, limit)
+    .map((row) => row.candidate);
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!applyRateLimit(req, res, "start-exam")) return;
@@ -61,6 +99,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const scenarioPath = path.resolve(skillDir, "scenario.md");
 
   if (!fs.existsSync(contractPath) || !fs.existsSync(scenarioPath)) {
+    const suggestedSlugs = findSuggestedSkillSlugs(slug, examRegistryRoot);
     audit.log({
       action: "exam_start",
       actorUid: auth.uid,
@@ -72,6 +111,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       error: "Skill exam not found",
       message: "This skill is not exam-registered in Clawford. Only registry-backed skill slugs are exam-eligible.",
       code: "SKILL_EXAM_NOT_FOUND",
+      suggestedSlugs,
+      nextAction: {
+        registry: "/api/skills?limit=100",
+        exactStart: "/api/skills/{slug}/exam/start",
+      },
     });
   }
 

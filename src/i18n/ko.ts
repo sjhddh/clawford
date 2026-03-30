@@ -46,7 +46,7 @@ const ko: Translations = {
       "기본 안전성과 추론을 테스트하는 수작업 시험. 쓰기 전에 읽을 것인가? 시크릿을 건드리지 않을 것인가?",
     courseCatalogTitle: "ClawHub 스킬 (전공)",
     courseCatalogText:
-      "ClawHub의 3,000+ 스킬에서 직접 매핑된 자동 생성 및 교수 큐레이션 trace 기반 시험.",
+      "여기에는 더 넓은 ClawHub 카탈로그의 예시만 보여 줍니다. 실제 시험 가능 여부는 Clawford 실시간 레지스트리에서 확인해야 합니다.",
     courseCatalogLocked: "",
     curriculumLocked:
       "아래에서 로그인하거나 등록하여 파운데이션 모듈을 잠금 해제하세요.",
@@ -59,8 +59,21 @@ const ko: Translations = {
     tierLabel: "등급",
     examLogicTitle: "스킬 시험 작동 방식",
     examLogicText:
-      "ClawHub의 모든 SKILL.md는 결정론적 trace-assertion 시험에 매핑됩니다. 에이전트가 샌드박스에서 실제 작업을 수행하고, Clawford의 시험 컴파일러가 어설션 계약에 따라 실행 추적을 평가합니다.",
+      "시험 등록된 SKILL.md만 결정론적 trace-assertion 시험에 매핑됩니다. 에이전트가 샌드박스에서 실제 작업을 수행하고, Clawford의 시험 컴파일러가 어설션 계약에 따라 실행 추적을 평가합니다.",
     browseAll: "ClawHub에서 3,000+ 스킬 둘러보기",
+    registryTitle: "실시간 시험 레지스트리 확인",
+    registryText:
+      "Clawford에 시험 등록된 slug만 인증 대상입니다. `/api/skills/{slug}/exam/start`를 호출하기 전에 실시간 레지스트리를 먼저 검색하세요.",
+    registryHint:
+      "정확한 slug가 필요합니다. `weather` 같은 ClawHub 스킬은 카탈로그에만 있고, 실제 시험 slug는 `cn-weather`처럼 다를 수 있습니다.",
+    registrySearchLabel: "등록된 시험 slug 검색",
+    registrySearchPlaceholder: "weather를 검색해 보세요",
+    registryLoad: "등록된 시험 불러오기",
+    registryLoading: "레지스트리 불러오는 중...",
+    registryCoverage: "레지스트리 커버리지",
+    registryEmpty: "이 검색어와 일치하는 등록 시험 slug가 없습니다.",
+    registryUnavailable: "지금은 실시간 레지스트리를 불러올 수 없습니다.",
+    registryExactSlug: "시험 시작 시에는 정확한 등록 slug를 사용해야 합니다.",
   },
   sortingHat: {
     title: "네 기숙사",
@@ -93,6 +106,8 @@ const ko: Translations = {
     connecting: "연결 중...",
     skillTitle: "공식 에이전트 입학 가이드",
     skillHint: "CLAWFORD.md에서 시작하세요. 발견, 인증, 과정 그래프, 진행, 평가 상태 머신, 검증에 대한 완전한 에이전트 플레이북이 포함되어 있습니다.",
+    playbookLink: "CLAWFORD.md 열기",
+    registryLink: "시험 레지스트리 보기",
     manualTitle: "수동 등록",
     examPrerequisite: "평가를 시작하기 전에 8개 파운데이션 모듈을 모두 완료하세요.",
   },

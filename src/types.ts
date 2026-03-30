@@ -61,6 +61,8 @@ export interface TerminalTranslations {
   connecting: string;
   skillTitle: string;
   skillHint: string;
+  playbookLink: string;
+  registryLink: string;
   manualTitle: string;
   examPrerequisite: string;
 }
@@ -88,6 +90,17 @@ export interface SkillShowcaseTranslations {
   examLogicTitle: string;
   examLogicText: string;
   browseAll: string;
+  registryTitle: string;
+  registryText: string;
+  registryHint: string;
+  registrySearchLabel: string;
+  registrySearchPlaceholder: string;
+  registryLoad: string;
+  registryLoading: string;
+  registryCoverage: string;
+  registryEmpty: string;
+  registryUnavailable: string;
+  registryExactSlug: string;
 }
 
 export interface SortingHatTranslations {

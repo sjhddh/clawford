@@ -16,6 +16,11 @@ export interface CourseMeta {
   modules: CourseModuleMeta[];
 }
 
+export interface FoundationsModuleBlock {
+  moduleId: string;
+  missingPrerequisites: string[];
+}
+
 export const FOUNDATIONS_MODULE_ORDER = [
   "FND-101",
   "FND-102",
@@ -70,4 +75,39 @@ export function calculateFoundationsCredits(moduleIds: string[]): number {
     const module = foundationsModuleMap.get(id);
     return sum + (module?.credits ?? 0);
   }, 0);
+}
+
+export function planFoundationsModuleCompletion(
+  requestedModuleIds: string[],
+  completedModuleIds: string[],
+): {
+  accepted: string[];
+  blocked: FoundationsModuleBlock[];
+  nextEligible: string[];
+} {
+  const requested = new Set(requestedModuleIds.map((id) => id.toUpperCase()));
+  const completed = new Set(completedModuleIds.map((id) => id.toUpperCase()));
+  const accepted: string[] = [];
+  const blocked: FoundationsModuleBlock[] = [];
+
+  for (const moduleId of FOUNDATIONS_MODULE_ORDER) {
+    if (!requested.has(moduleId) || completed.has(moduleId)) continue;
+    const module = foundationsModuleMap.get(moduleId);
+    if (!module) continue;
+    const missingPrerequisites = module.prerequisites.filter((prerequisite) => !completed.has(prerequisite));
+    if (missingPrerequisites.length > 0) {
+      blocked.push({ moduleId, missingPrerequisites });
+      continue;
+    }
+    accepted.push(moduleId);
+    completed.add(moduleId);
+  }
+
+  const nextEligible = FOUNDATIONS_MODULE_ORDER.filter((moduleId) => {
+    if (completed.has(moduleId)) return false;
+    const module = foundationsModuleMap.get(moduleId);
+    return module ? module.prerequisites.every((prerequisite) => completed.has(prerequisite)) : false;
+  });
+
+  return { accepted, blocked, nextEligible };
 }

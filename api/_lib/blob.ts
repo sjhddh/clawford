@@ -61,7 +61,9 @@ async function readBlob<T>(pathname: string): Promise<T | null> {
     const cacheBustedUrl = new URL(blob.url);
     cacheBustedUrl.searchParams.set("ts", Date.now().toString());
     const res = await fetch(cacheBustedUrl.toString(), {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: token
+        ? { Authorization: `Bearer ${token}`, "Cache-Control": "no-store" }
+        : { "Cache-Control": "no-store" },
     });
     if (!res.ok) return null;
     return res.json() as Promise<T>;

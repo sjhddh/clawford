@@ -38,17 +38,26 @@ describe("Strict skill certification policy", () => {
     }));
     vi.doMock("fs", () => ({
       default: {
-        existsSync: vi.fn().mockReturnValue(false),
+        existsSync: vi.fn().mockImplementation((target: string) => {
+          return target.includes("cn-weather") || target.includes("clawtip-weather");
+        }),
+        readdirSync: vi.fn().mockReturnValue([
+          { isDirectory: () => true, name: "cn-weather" },
+          { isDirectory: () => true, name: "clawtip-weather" },
+          { isDirectory: () => true, name: "react-components" },
+        ]),
       },
     }));
 
     const { default: handler } = await import("../../api/skills/[slug]/exam/start.js");
-    const req = { method: "POST", query: { slug: "unknown-skill" } } as any;
+    const req = { method: "POST", query: { slug: "weather" } } as any;
     const res = createRes();
 
     await handler(req, res as any);
     expect(res.statusCode).toBe(404);
     expect((res.body as any).code).toBe("SKILL_EXAM_NOT_FOUND");
+    expect((res.body as any).suggestedSlugs).toEqual(["clawtip-weather", "cn-weather"]);
+    expect((res.body as any).nextAction.registry).toBe("/api/skills?limit=100");
   });
 
   it("issues finalized credentials with official verification class", async () => {

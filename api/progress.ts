@@ -14,6 +14,7 @@ import {
   getFoundationsModuleMeta,
   getFoundationsRequiredModules,
   calculateFoundationsCredits,
+  planFoundationsModuleCompletion,
 } from "../shared/course-catalog.js";
 
 const ALL_MODULE_IDS = getFoundationsRequiredModules();
@@ -64,7 +65,19 @@ export default async function handler(
         return res.status(400).json({ error: "No valid module IDs supplied", invalid });
       }
 
-      const batch = await markFoundationsModulesCompleted(identity.uid, valid);
+      const completedBefore = await getFoundationsCompletedModules(identity.uid);
+      const completionPlan = planFoundationsModuleCompletion(valid, completedBefore);
+
+      if (completionPlan.accepted.length === 0) {
+        return res.status(409).json({
+          error: "Requested modules are blocked by foundations prerequisites.",
+          invalid,
+          blockedByPrerequisites: completionPlan.blocked,
+          nextEligibleModules: completionPlan.nextEligible,
+        });
+      }
+
+      const batch = await markFoundationsModulesCompleted(identity.uid, completionPlan.accepted);
       const transcript = await updateTranscript(identity.uid, (current) => {
           current.foundationsStatus.completedModules = batch.completedModules;
           current.foundationsStatus.totalCreditsEarned = batch.totalCredits;
@@ -83,6 +96,8 @@ export default async function handler(
         applied: batch.applied,
         alreadyCompleted: batch.alreadyCompleted,
         invalid,
+        blockedByPrerequisites: completionPlan.blocked,
+        nextEligibleModules: completionPlan.nextEligible,
         authMethod: auth.method,
         deprecation:
           auth.method === "password"
