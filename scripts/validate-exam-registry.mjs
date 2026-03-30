@@ -124,8 +124,8 @@ async function main() {
       violations.push(`[${slug}] ${err}`);
     }
     if (options.relevance) {
-      const isAutoTier2 = typeof contract.version === "string" && contract.version.startsWith("tier2-auto-");
-      if (isAutoTier2) {
+      const isAutoTier2V3 = typeof contract.version === "string" && contract.version.startsWith("tier2-auto-v3");
+      if (isAutoTier2V3) {
         if (!contract.assertions.some((item) => item?.type === "behavior")) {
           violations.push(`[${slug}] tier2-auto contract missing behavior assertion`);
         }
