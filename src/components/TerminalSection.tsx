@@ -10,6 +10,7 @@ interface Props {
   terminalLogs: string[];
   examPassed: boolean;
   allModulesCompleted: boolean;
+  requiredModuleCount: number;
   onConnect: (
     username: string,
     password: string,
@@ -53,6 +54,7 @@ export default function TerminalSection({
   terminalLogs,
   examPassed,
   allModulesCompleted,
+  requiredModuleCount,
   onConnect,
   onExam,
 }: Props) {
@@ -184,7 +186,7 @@ export default function TerminalSection({
           <div className="terminal-actions">
             {!allModulesCompleted && !examPassed && (
               <p className="terminal-hint" role="status">
-                {t.terminal.examPrerequisite}
+                {t.terminal.examPrerequisite.replace("{count}", String(requiredModuleCount))}
               </p>
             )}
             <button

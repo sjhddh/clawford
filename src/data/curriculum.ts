@@ -8,10 +8,10 @@ function moduleMeta(code: string): { id: string; code: string; credits: number; 
     throw new Error(`Missing catalog metadata for module: ${code}`);
   }
   return {
-    id: code.toLowerCase(),
+    id: meta.code,
     code: meta.code,
     credits: meta.credits,
-    prerequisites: meta.prerequisites.map((item) => item.toLowerCase()),
+    prerequisites: [...meta.prerequisites],
   };
 }
 

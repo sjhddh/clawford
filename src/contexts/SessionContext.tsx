@@ -16,7 +16,7 @@ interface SessionState {
   ) => Promise<void>;
   disconnect: () => void;
   studyModule: (moduleId: string) => Promise<void>;
-  takeExam: () => Promise<void>;
+  takeExam: () => Promise<Transcript | null>;
   updateDisplayName: (name: string) => Promise<void>;
 }
 
@@ -149,7 +149,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 
   const takeExam = useCallback(async () => {
-    if (!token) return;
+    if (!token) return null;
     setError(null);
     try {
       const start = await api<{ attempt: { attemptId: string } }>(
@@ -188,6 +188,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         token,
       );
       setTranscript(finalized.transcript);
+      return finalized.transcript;
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Assessment flow failed";
       setError(msg);

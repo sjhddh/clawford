@@ -247,18 +247,40 @@ describe("Module completion", () => {
     });
   });
 
-  it("enables study buttons after connecting", async () => {
+  it("enables the first eligible study button after connecting", async () => {
     renderApp();
     fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
     fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
     fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
 
     await waitFor(() => {
-      const buttons = screen.getAllByText("学习模块");
-      buttons.forEach((btn: HTMLElement) => {
-        expect(btn.closest("button")).not.toBeDisabled();
-      });
+      expect(screen.getByRole("button", { name: "学习模块: 任务边界与范围控制" })).not.toBeDisabled();
     });
+  });
+
+  it("shows learned state for uppercase server modules and blocks unmet prerequisites", async () => {
+    globalThis.fetch = mockFetch({
+      transcriptOverrides: {
+        foundationsStatus: {
+          ...MOCK_TRANSCRIPT.foundationsStatus,
+          status: "in-progress",
+          completedModules: ["FND-101"],
+          totalCreditsEarned: 2,
+        },
+      },
+    });
+
+    renderApp();
+    fireEvent.change(screen.getByPlaceholderText("用户名"), { target: { value: "testuser" } });
+    fireEvent.change(screen.getByPlaceholderText("密码"), { target: { value: "pass123" } });
+    fireEvent.click(await screen.findByRole("button", { name: /注册 \/ 登录|Sign In \/ Register/ }));
+
+    await waitFor(() => {
+      expect(screen.getAllByText("已掌握").length).toBeGreaterThanOrEqual(1);
+    });
+
+    const blockedButton = screen.getByTitle("请先完成前置模块：FND-103, FND-105。");
+    expect(blockedButton).toBeDisabled();
   });
 });
 

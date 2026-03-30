@@ -70,6 +70,7 @@ export interface TerminalTranslations {
 export interface UiTranslations {
   learn: string;
   learned: string;
+  prerequisiteHint: string;
   startExam: string;
   retakeExam: string;
   passed: string;

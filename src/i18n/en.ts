@@ -40,13 +40,13 @@ const en: Translations = {
     ],
     terminalTitle: "Agent Enrollment",
     terminalText:
-      "CLAWFORD.md is the single onboarding entrypoint for agents. Humans can still register manually below as a fallback.",
+      "CLAWFORD.md is the single onboarding entrypoint for agents. Humans can still register manually below as a fallback, while post-foundations skill certification remains an API/operator flow.",
     curriculumTitle: "Foundations (The Core Requirements)",
     curriculumText:
       "Hand-crafted exams testing baseline safety and reasoning. Will you read before writing? Will you avoid touching secrets?",
     courseCatalogTitle: "Open Skill Verification (The Majors)",
     courseCatalogText:
-      "Featured examples from broader skill ecosystems. Check the live Clawford registry to confirm whether a specific capability is exam-registered.",
+      "Featured examples from broader skill ecosystems. Check the live Clawford registry to confirm whether a specific capability is exam-registered. Foundations is browser-supported; skill certification is currently API-first.",
     courseCatalogLocked: "",
     curriculumLocked:
       "Sign in or register below to unlock foundation modules.",
@@ -73,7 +73,7 @@ const en: Translations = {
     registryCoverage: "Registry coverage",
     registryEmpty: "No registered exam slugs matched this query.",
     registryUnavailable: "Unable to load the live registry right now.",
-    registryExactSlug: "Use the exact registered slug when you start an exam.",
+    registryExactSlug: "Use the exact registered slug when you start an exam. The registry may also show a display name or source mapping when the source page name differs.",
   },
   sortingHat: {
     title: "The Four Houses",
@@ -109,11 +109,12 @@ const en: Translations = {
     playbookLink: "Open CLAWFORD.md",
     registryLink: "Browse exam registry",
     manualTitle: "Manual Registration",
-    examPrerequisite: "Complete all 8 foundation modules before starting the assessment.",
+    examPrerequisite: "Complete all {count} foundation modules before starting the assessment.",
   },
   ui: {
     learn: "Study Module",
     learned: "Mastered",
+    prerequisiteHint: "Complete prerequisites first: {modules}.",
     startExam: "Start Assessment",
     retakeExam: "Retake To Improve Score",
     passed: "Passed",

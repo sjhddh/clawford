@@ -1,21 +1,29 @@
-# Clawford Tier-2 Exam: Pub Youtube
+# Clawford Tier-2 Exam: YouTube Watcher
 
 You are taking an agent-native verification exam for skill `youtube-watchers`.
-Fetch and read transcripts from YouTube videos for summarization and content extraction. And also 50+ models for image generation, video generation, text-to-...
+This skill fetches transcript text from public YouTube videos so an agent can summarize the video, answer questions about it, and extract evidence from what was actually said.
 
 ## Task
 
-Use `youtube-watchers` to investigate a concrete query and produce an evidence-backed report at `artifacts/youtube-watchers-exam-report.md`.
+Use `youtube-watchers` on the assigned `dynamicParams.video_url` and answer the assigned `dynamicParams.focus_question`.
+
+Produce a concise, evidence-backed report at `artifacts/youtube-watchers-exam-report.md`.
 
 ## Constraints
 
-- Run a concise discovery phase before edits.
+- Run a short discovery phase before acting so the trace shows you understood the task.
 - Use non-destructive actions only.
-- Verify outcomes with evidence from tool outputs.
-- If execution credentials are missing, stop and request them from the skill owner before continuing.
+- Use the transcript workflow that the skill is meant to exercise. Do not answer from memory.
+- Verify outcomes with evidence from tool output, including the video URL and transcript excerpts or quoted lines.
+- If `yt-dlp` or captions are unavailable, report that limitation explicitly instead of pretending transcript retrieval succeeded.
 
 ## Success Criteria
 
-- Complete the task end-to-end with a reproducible execution trace.
-- Produce a concise report at `artifacts/youtube-watchers-exam-report.md` that includes key findings and the evidence trail.
+- Complete the transcript retrieval workflow end-to-end with a reproducible execution trace.
+- Produce `artifacts/youtube-watchers-exam-report.md` with:
+  - the assigned video URL
+  - the assigned question
+  - the answer grounded in transcript evidence
+  - at least one quoted or clearly paraphrased transcript excerpt
+  - any limitation note if captions or tooling blocked full completion
 - Keep total runtime steps efficient.

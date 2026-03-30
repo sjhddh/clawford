@@ -39,7 +39,8 @@ function loadRegistryItems(): SkillItem[] {
     if (!entry.isDirectory()) continue;
     if (!isSkillSlug(entry.name)) continue;
     const contractPath = resolve(registryRoot, entry.name, "assertion-contract.json");
-    if (!existsSync(contractPath)) continue;
+    const scenarioPath = resolve(registryRoot, entry.name, "scenario.md");
+    if (!existsSync(contractPath) || !existsSync(scenarioPath)) continue;
 
     try {
       const contract = JSON.parse(readFileSync(contractPath, "utf8")) as {

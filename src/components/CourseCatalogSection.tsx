@@ -14,6 +14,9 @@ const TIER_LABELS: Record<1 | 2 | 3, string> = { 1: "1", 2: "2", 3: "3" };
 
 interface RegistrySkillItem {
   slug: string;
+  displayName: string;
+  description: string;
+  sourceMappings: string[];
   tier: 1 | 2 | 3;
   version: string | null;
 }
@@ -85,7 +88,11 @@ export default function CourseCatalogSection({ lang, t }: Props) {
   const filteredRegistryItems = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     const base = normalizedQuery
-      ? registryItems.filter((item) => item.slug.toLowerCase().includes(normalizedQuery))
+      ? registryItems.filter((item) =>
+        item.slug.toLowerCase().includes(normalizedQuery)
+        || item.displayName.toLowerCase().includes(normalizedQuery)
+        || item.sourceMappings.some((mapping) => mapping.toLowerCase().includes(normalizedQuery)),
+      )
       : registryItems;
     return base.slice(0, 10);
   }, [query, registryItems]);
@@ -167,8 +174,10 @@ export default function CourseCatalogSection({ lang, t }: Props) {
                 {filteredRegistryItems.map((item) => (
                   <article key={item.slug} className="skill-registry-result">
                     <div>
-                      <strong>{item.slug}</strong>
+                      <strong>{item.displayName || item.slug}</strong>
+                      <p>{item.slug}</p>
                       <p>{item.version ?? "unversioned"}</p>
+                      {item.sourceMappings[0] && <p>{item.sourceMappings[0]}</p>}
                     </div>
                     <span className={`tier-badge tier-${item.tier}`}>
                       {t.skillShowcase.tierLabel} {TIER_LABELS[item.tier]}

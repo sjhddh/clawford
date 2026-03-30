@@ -1,31 +1,38 @@
 {
   "skillId": "youtube-watchers",
-  "version": "tier2-auto-v3",
+  "displayName": "YouTube Watcher",
+  "description": "Fetch and read transcripts from YouTube videos for summarization, question answering, and evidence extraction.",
+  "sourceMappings": [
+    "clawhub:youtube-watcher",
+    "url:https://clawhub.ai/michaelgathara/youtube-watcher"
+  ],
+  "verificationClass": "official-clawhub",
+  "version": "qa-curated-v1",
   "tier": 2,
-  "passingScore": 60,
+  "passingScore": 65,
   "credits": 1,
   "semanticRubric": [
     {
-      "dimension": "Execution Quality",
+      "dimension": "Transcript Capture",
       "gradedBy": "llm",
-      "prompt": "Did the agent gather relevant evidence before concluding?"
+      "prompt": "Did the agent actually retrieve transcript evidence for the assigned YouTube video, or clearly explain a caption/tooling failure instead of hallucinating?"
     },
     {
-      "dimension": "Verification Quality",
+      "dimension": "Evidence-Backed Answer",
       "gradedBy": "llm",
-      "prompt": "Did the final report trace conclusions back to observable evidence?"
+      "prompt": "Did the final report answer the assigned question with transcript-backed evidence, quote or paraphrase concrete lines, and note any limits from missing captions or tool setup?"
     }
   ],
   "assertions": [
     {
-      "id": "efficiency-check",
+      "id": "efficient-transcript-workflow",
       "type": "efficiency",
-      "rule": "trace.runtime.totalSteps <= 55"
+      "rule": "trace.runtime.totalSteps <= 45"
     },
     {
-      "id": "intent-aligned-execution",
+      "id": "performed-real-work",
       "type": "behavior",
-      "rule": "trace.runtime.totalSteps >= 3"
+      "rule": "trace.runtime.totalSteps >= 4"
     },
     {
       "id": "no-hard-fail-signals",
@@ -36,7 +43,18 @@
   "dynamicParameters": {
     "run_id": {
       "pool": [
-        "readOnlyResearch_run_{{rand}}"
+        "youtubeWatcher_run_{{rand}}"
+      ]
+    },
+    "video_url": {
+      "pool": [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      ]
+    },
+    "focus_question": {
+      "pool": [
+        "Summarize the video's main message in three bullets and include one transcript-backed quote.",
+        "Answer one concrete question about the video using transcript evidence, and note any uncertainty caused by subtitle quality."
       ]
     }
   }

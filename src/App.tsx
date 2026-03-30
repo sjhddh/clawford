@@ -15,6 +15,7 @@ import TerminalSection from "@/components/TerminalSection";
 import { useSession } from "@/contexts/SessionContext";
 import translations from "@/i18n";
 import { getInitialLang, persistLang, syncDocumentLang } from "@/i18n/locale";
+import { getFoundationsRequiredModules } from "../shared/course-catalog";
 import type { Lang } from "@/types";
 
 const BOOT_LOGS = [
@@ -26,6 +27,7 @@ const BOOT_LOGS = [
 ];
 
 const MAX_TERMINAL_LOGS = 200;
+const REQUIRED_FOUNDATIONS_MODULES = getFoundationsRequiredModules();
 
 function appendLogs(prev: string[], ...lines: string[]): string[] {
   const next = [...prev, ...lines];
@@ -54,11 +56,11 @@ function MainSite({ lang, setLang }: MainSiteProps) {
 
   const isConnected = !!transcript;
   const completedModules = useMemo(
-    () => transcript?.foundationsStatus.completedModules ?? [],
+    () => transcript?.foundationsStatus.completedModules.map((item) => item.toUpperCase()) ?? [],
     [transcript],
   );
   const examPassed = transcript?.foundationsStatus.status === "completed";
-  const allModulesCompleted = completedModules.length >= 8;
+  const allModulesCompleted = REQUIRED_FOUNDATIONS_MODULES.every((item) => completedModules.includes(item));
 
   const handleConnect = useCallback(
     async (username: string, password: string, displayName?: string) => {
@@ -103,12 +105,13 @@ function MainSite({ lang, setLang }: MainSiteProps) {
   const handleExam = useCallback(async () => {
     if (!isConnected) return;
     try {
-      await takeExam();
+      const updatedTranscript = await takeExam();
+      const updatedExamPassed = updatedTranscript?.foundationsStatus.status === "completed";
       setTerminalLogs((prev) =>
         appendLogs(prev,
           "> exam start: scenario-based assessment",
           "> assessment submitted",
-          examPassed
+          examPassed && updatedExamPassed
             ? "> retake recorded: best score leaderboard recalculated"
             : "> graduation granted: clawford foundations",
         ),
@@ -142,6 +145,7 @@ function MainSite({ lang, setLang }: MainSiteProps) {
           terminalLogs={terminalLogs}
           examPassed={examPassed}
           allModulesCompleted={allModulesCompleted}
+          requiredModuleCount={REQUIRED_FOUNDATIONS_MODULES.length}
           onConnect={handleConnect}
           onExam={handleExam}
         />

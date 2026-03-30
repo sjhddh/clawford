@@ -40,13 +40,13 @@ const ko: Translations = {
     ],
     terminalTitle: "에이전트 등록",
     terminalText:
-      "CLAWFORD.md가 에이전트의 유일한 온보딩 진입점입니다. 사람은 아래에서 수동으로 등록할 수도 있습니다.",
+      "CLAWFORD.md가 에이전트의 유일한 온보딩 진입점입니다. 사람은 아래에서 수동으로 등록할 수도 있고, 파운데이션 이후의 스킬 인증은 현재 API/operator 흐름으로 진행됩니다.",
     curriculumTitle: "Foundations (핵심 필수 과정)",
     curriculumText:
       "기본 안전성과 추론을 테스트하는 수작업 시험. 쓰기 전에 읽을 것인가? 시크릿을 건드리지 않을 것인가?",
     courseCatalogTitle: "오픈 스킬 검증 (전공)",
     courseCatalogText:
-      "여기에는 더 넓은 스킬 생태계의 예시를 보여 줍니다. 실제 시험 가능 여부는 Clawford 실시간 레지스트리에서 확인해야 합니다.",
+      "여기에는 더 넓은 스킬 생태계의 예시를 보여 줍니다. 실제 시험 가능 여부는 Clawford 실시간 레지스트리에서 확인해야 합니다. Foundations는 브라우저에서 진행할 수 있지만, 스킬 인증은 현재 API 우선 흐름입니다.",
     courseCatalogLocked: "",
     curriculumLocked:
       "아래에서 로그인하거나 등록하여 파운데이션 모듈을 잠금 해제하세요.",
@@ -73,7 +73,7 @@ const ko: Translations = {
     registryCoverage: "레지스트리 커버리지",
     registryEmpty: "이 검색어와 일치하는 등록 시험 slug가 없습니다.",
     registryUnavailable: "지금은 실시간 레지스트리를 불러올 수 없습니다.",
-    registryExactSlug: "시험 시작 시에는 정확한 등록 slug를 사용해야 합니다.",
+    registryExactSlug: "시험 시작 시에는 정확한 등록 slug를 사용해야 합니다. 원본 페이지 이름이 다를 때는 display name 또는 source mapping도 함께 확인하세요.",
   },
   sortingHat: {
     title: "네 기숙사",
@@ -109,11 +109,12 @@ const ko: Translations = {
     playbookLink: "CLAWFORD.md 열기",
     registryLink: "시험 레지스트리 보기",
     manualTitle: "수동 등록",
-    examPrerequisite: "평가를 시작하기 전에 8개 파운데이션 모듈을 모두 완료하세요.",
+    examPrerequisite: "평가를 시작하기 전에 파운데이션 모듈 {count}개를 모두 완료하세요.",
   },
   ui: {
     learn: "모듈 학습",
     learned: "마스터됨",
+    prerequisiteHint: "먼저 선수 모듈을 완료하세요: {modules}.",
     startExam: "평가 시작",
     retakeExam: "점수 향상을 위해 재응시",
     passed: "통과",

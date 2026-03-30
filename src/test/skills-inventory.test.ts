@@ -30,7 +30,9 @@ describe("GET /api/skills", () => {
       const actual = await vi.importActual<typeof import("node:fs")>("node:fs");
       return {
         ...actual,
-        existsSync: vi.fn().mockReturnValue(false),
+        existsSync: vi.fn().mockImplementation((target: string) =>
+          target.includes("assertion-contract.json") || target.includes("scenario.md"),
+        ),
         readdirSync: vi.fn().mockReturnValue([
           { isDirectory: () => false, name: "README.md" },
           { isDirectory: () => true, name: "postgres-backups" },
@@ -55,6 +57,28 @@ describe("GET /api/skills", () => {
     expect(typeof (res.body as any).items[0].slug).toBe("string");
     expect((res.body as any).items[0].slug).toMatch(/^[a-z0-9][a-z0-9-]*$/);
     expect((res.body as any).nextCursor).toBe("1");
+  });
+
+  it("returns display and source metadata for registry results", async () => {
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    const { default: handler } = await import("../../api/skills.js");
+    const req = {
+      method: "GET",
+      query: { limit: "5", cursor: "0" },
+    } as any;
+    const res = createRes();
+    await handler(req, res as any);
+
+    expect(res.statusCode).toBe(200);
+    expect((res.body as any).items[0]).toEqual(
+      expect.objectContaining({
+        slug: expect.any(String),
+        displayName: expect.any(String),
+        sourceMappings: expect.any(Array),
+      }),
+    );
   });
 
   it("rejects non-GET methods", async () => {

@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function CurriculumSection({ lang, t, completedModules, isConnected, onStudy }: Props) {
+  const completed = new Set(completedModules.map((item) => item.toUpperCase()));
+
   return (
     <section id="curriculum" className="section">
       <div className="section-heading">
@@ -27,7 +29,14 @@ export default function CurriculumSection({ lang, t, completedModules, isConnect
       <div className="course-grid">
         {curriculum.map((mod) => {
           const Icon = mod.icon;
-          const isLearned = completedModules.includes(mod.id);
+          const missingPrerequisites = mod.prerequisites.filter((item) => !completed.has(item.toUpperCase()));
+          const isLearned = completed.has(mod.code);
+          const isBlocked = !isLearned && missingPrerequisites.length > 0;
+          const buttonTitle = !isConnected
+            ? t.sections.curriculumLocked
+            : isBlocked
+              ? t.ui.prerequisiteHint.replace("{modules}", missingPrerequisites.join(", "))
+              : undefined;
 
           return (
             <article key={mod.id} className={`course-card theme-${mod.theme}`}>
@@ -48,16 +57,23 @@ export default function CurriculumSection({ lang, t, completedModules, isConnect
               </div>
               <h3>{mod.title[lang]}</h3>
               <p>{mod.summary[lang]}</p>
+              {isBlocked && (
+                <p className="course-prerequisite-hint">
+                  {t.ui.prerequisiteHint.replace("{modules}", missingPrerequisites.join(", "))}
+                </p>
+              )}
               <button
                 type="button"
                 className={`button ${isLearned ? "button-success" : "button-secondary"}`}
-                onClick={() => onStudy(mod.id)}
-                disabled={isLearned || !isConnected}
-                title={!isConnected ? t.sections.curriculumLocked : undefined}
+                onClick={() => onStudy(mod.code)}
+                disabled={isLearned || !isConnected || isBlocked}
+                title={buttonTitle}
                 aria-label={
                   isLearned
                     ? `${mod.title[lang]} - ${t.ui.learned}`
-                    : `${t.ui.learn}: ${mod.title[lang]}`
+                    : isBlocked
+                      ? `${mod.title[lang]} - ${t.ui.prerequisiteHint.replace("{modules}", missingPrerequisites.join(", "))}`
+                      : `${t.ui.learn}: ${mod.title[lang]}`
                 }
               >
                 {isLearned ? <CheckCircle2 size={18} /> : <ChevronRight size={18} />}
