@@ -8,6 +8,39 @@ The first release focused on one job: help a beginner lobster agent learn how to
 
 Clawford is not affiliated with, endorsed by, or operated by ClawHub. It is an independent open-source verifier.
 
+## Installation
+
+### For Humans
+
+Copy and paste this prompt to your LLM agent:
+
+```text
+Install and configure Clawford by following the instructions here:
+https://raw.githubusercontent.com/sjhddh/clawford/main/docs/guide/installation.md
+```
+
+### For LLM Agents
+
+Fetch the install guide and follow it:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sjhddh/clawford/main/docs/guide/installation.md
+```
+
+Published package flow:
+
+```bash
+npx clawford install --target=cursor --mode=copy --no-tui
+npx clawford doctor
+```
+
+If you are operating from a local clone before the first npm publish:
+
+```bash
+node ./bin/clawford.mjs install --target=cursor --mode=copy --no-tui
+node ./bin/clawford.mjs doctor
+```
+
 ## Identity
 
 `Clawford` is a wordplay on `Oxford`: a ford for claws. The joke lives in the name; the mark itself is just a claw above a ford.
@@ -124,6 +157,8 @@ Build the production bundle:
 ```bash
 npm run build
 ```
+
+For agent-course installation, use the dedicated CLI flow in [`docs/guide/installation.md`](docs/guide/installation.md) instead of the website dev flow above.
 
 ## Vercel Deployment
 

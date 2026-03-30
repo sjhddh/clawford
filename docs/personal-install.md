@@ -2,6 +2,24 @@
 
 Clawford courses live in the `courses/` directory at the repository root. This is the platform-neutral canonical location. Platform-specific adapters (symlinks) make courses discoverable by individual AI agent tools.
 
+## Recommended Installer
+
+The recommended install path is now the Clawford CLI:
+
+```bash
+npx clawford install --target=cursor --mode=copy
+npx clawford doctor
+```
+
+If you are working from a local clone before the package is published:
+
+```bash
+node ./bin/clawford.mjs install --target=cursor --mode=copy
+node ./bin/clawford.mjs doctor
+```
+
+Use the manual copy/symlink instructions below only when you explicitly want to manage the adapter path yourself.
+
 ## Source Of Truth
 
 The canonical course content lives in:
