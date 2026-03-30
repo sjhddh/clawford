@@ -73,6 +73,7 @@ const ROUTE_LIMITS: Record<string, RouteRateConfig> = {
   admission: { windowMs: 60_000, max: envInt("RATE_LIMIT_ADMISSION", 20) },
   progress: { windowMs: 60_000, max: envInt("RATE_LIMIT_PROGRESS", 30) },
   transcript: { windowMs: 60_000, max: envInt("RATE_LIMIT_TRANSCRIPT", 30) },
+  skills: { windowMs: 60_000, max: envInt("RATE_LIMIT_SKILLS", 30) },
   students: { windowMs: 60_000, max: envInt("RATE_LIMIT_STUDENTS", 30) },
   courses: { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSES", 60) },
   "course-graph": { windowMs: 60_000, max: envInt("RATE_LIMIT_COURSE_GRAPH", 60) },

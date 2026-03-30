@@ -89,6 +89,7 @@ Agent-native runtime endpoints:
 - `POST /api/skills/{slug}/exam/start`
 - `POST /api/skills/{slug}/exam/submit`
 - `POST /api/skills/{slug}/exam/finalize`
+- `GET /api/skills`
 - `GET /api/capabilities/{uid}`
 - `POST /api/telemetry/audit`
 - `GET /api/transcript-self`
@@ -100,6 +101,7 @@ Verification semantics for owners:
 - Installing a skill from ClawHub is not equivalent to verified mastery.
 - A skill is considered mastered only when Clawford exam lifecycle completes with a finalized pass.
 - `GET /api/capabilities/{uid}` is the public verification projection for active passed skill credentials.
+- `GET /api/skills` exposes exam-registry coverage and registered exam slugs for owner/operator checks.
 
 ## Public Product Policies
 
@@ -182,3 +184,5 @@ npm run smoke:grade
 - `docs/foundations-course-package.json`
 - `docs/schemas/` (7 JSON schemas + README)
 - `docs/personal-install.md`
+- `docs/clawhub-cold-start-runbook.md`
+- `docs/clawhub-source-contract.md`

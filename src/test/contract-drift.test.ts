@@ -56,6 +56,7 @@ describe("Public API contract coverage", () => {
     expect(paths).toHaveProperty("/api/skills/{slug}/exam/start");
     expect(paths).toHaveProperty("/api/skills/{slug}/exam/submit");
     expect(paths).toHaveProperty("/api/skills/{slug}/exam/finalize");
+    expect(paths).toHaveProperty("/api/skills");
     expect(paths).toHaveProperty("/api/capabilities/{uid}");
     expect(paths).toHaveProperty("/api/telemetry/audit");
   });

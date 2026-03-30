@@ -1,0 +1,52 @@
+name: ClawHub Drift Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"
+
+jobs:
+  sync-catalog-and-registry:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Sync catalog snapshot
+        run: npm run catalog:sync
+
+      - name: Generate missing Tier-2 exams
+        run: npm run exam:generate
+
+      - name: Validate registry
+        run: npm run exam:validate
+
+      - name: Build coverage report
+        run: npm run exam:coverage
+
+      - name: Create drift sync PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: sync ClawHub skill catalog and Tier-2 exam registry"
+          branch: "automation/clawhub-drift-sync"
+          title: "chore: sync ClawHub skill catalog and exam coverage"
+          body: |
+            ## Summary
+            - refresh ClawHub skill catalog snapshot
+            - generate missing Tier-2 exam packages for strict mapping
+            - update exam coverage report
+
+            ## Verification
+            - npm run exam:validate
+            - npm run exam:coverage
+          labels: automation,clawhub
