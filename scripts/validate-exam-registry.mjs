@@ -4,6 +4,7 @@ import process from "node:process";
 
 const DEFAULT_REGISTRY_ROOT = "exam-registry";
 const ALLOWED_ASSERTION_TYPES = new Set(["behavior", "state", "efficiency", "hardFail"]);
+const ALLOWED_VERIFICATION_CLASSES = new Set(["official-clawhub", "official-open", "community-submitted"]);
 
 function parseArgs(argv) {
   const options = {
@@ -35,6 +36,14 @@ function validateContractShape(slug, contract) {
 
   if (contract.skillId !== slug) {
     errors.push(`contract.skillId must match folder slug (${slug})`);
+  }
+  if (contract.verificationClass !== undefined && !ALLOWED_VERIFICATION_CLASSES.has(contract.verificationClass)) {
+    errors.push(`contract.verificationClass must be one of ${Array.from(ALLOWED_VERIFICATION_CLASSES).join(", ")}`);
+  }
+  if (contract.sourceMappings !== undefined) {
+    if (!Array.isArray(contract.sourceMappings) || contract.sourceMappings.some((item) => typeof item !== "string" || !item.includes(":"))) {
+      errors.push("contract.sourceMappings must be an array of '<source>:<id>' strings");
+    }
   }
   if (![1, 2, 3].includes(contract.tier)) {
     errors.push("contract.tier must be one of 1, 2, 3");

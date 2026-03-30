@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   calculateActiveSkillCredits,
+  isOfficialVerificationClass,
   lookupByUsername,
   registerIdentity,
   getTranscript,
@@ -91,7 +92,7 @@ async function handleGet(req: VercelRequest, res: VercelResponse, audit: ReturnT
   const electiveTotalCredits = enrollments.reduce((s, e) => s + e.totalCreditsEarned, 0);
   const totalSkillCredits = transcript.totalSkillCredits ?? 0;
   const activeSkillCount = (transcript.skillExamResults ?? []).filter(
-    (item) => item.verificationClass === "official-clawhub" && item.credentialStatus === "active" && item.decision === "pass",
+    (item) => isOfficialVerificationClass(item.verificationClass) && item.credentialStatus === "active" && item.decision === "pass",
   ).length;
 
   audit.log({ action: "read-public", targetUid: uid, status: "success", statusCode: 200 });

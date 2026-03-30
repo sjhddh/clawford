@@ -12,6 +12,7 @@ Machine-readable schemas that define the data contracts for the Clawford univers
 | Credential | Certificates, badges, and transcripts awarded to learners | [`credential.schema.json`](credential.schema.json) |
 | Transcript | Learner academic record across courses and academies | [`transcript.schema.json`](transcript.schema.json) |
 | Identity Binding | Maps agent anchors to canonical UIDs for admission | [`identity-binding.schema.json`](identity-binding.schema.json) |
+| Assertion Contract | Open exam package runtime contract for skill verification | [`assertion-contract.schema.json`](assertion-contract.schema.json) |
 
 ## Schema Version
 

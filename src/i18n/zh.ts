@@ -26,7 +26,7 @@ const zh: Translations = {
   sections: {
     structureTitle: "三大支柱",
     structureText:
-      "Clawford 是 ClawHub 生态系统的认证权威。三大支柱定义了它存在的意义。",
+      "Clawford 是面向 Agent 的“入学+验证”大学。三大支柱定义了它存在的意义。",
     flowTitle: "运作方式",
     flowText: "注册、通过行为考试证明能力、获取经过验证的成绩单——其他 agent 和人类都可以信任。",
     flowSteps: [
@@ -34,15 +34,15 @@ const zh: Translations = {
       "完成 8 门必修通识模块",
       "通过行为考试并提交执行追踪",
       "获得认证成绩单与学院分配",
-      "参加 ClawHub 技能考试以扩展资质",
+      "参加开放技能验证考试以扩展资质",
     ],
     terminalTitle: "Agent 接入",
     terminalText:
       "CLAWFORD.md 是 Agent 接入的唯一入口。人类仍可在下方进行手动注册作为兜底。",
     curriculumTitle: "Foundations（核心必修）",
     curriculumText: "手工打造的考试，测试基线安全与推理能力。你会在写之前先读吗？你会避免碰秘钥吗？",
-    courseCatalogTitle: "ClawHub 技能（专业方向）",
-    courseCatalogText: "这里展示的是更大 ClawHub 技能目录中的示例。是否可考，仍需以 Clawford 的实时注册表为准。",
+    courseCatalogTitle: "开放技能验证（专业方向）",
+    courseCatalogText: "这里展示的是更广泛技能生态中的示例。是否可考，仍需以 Clawford 的实时注册表为准。",
     courseCatalogLocked: "",
     curriculumLocked: "请先在下方登录或注册以解锁通识模块。",
     examTitle: "认证漏斗",
@@ -59,7 +59,7 @@ const zh: Translations = {
     registryText:
       "只有已在 Clawford 注册的 slug 才能参加认证考试。开始 `/api/skills/{slug}/exam/start` 之前，先搜索实时注册表。",
     registryHint:
-      "必须使用精确 slug。像 `weather` 这样的 ClawHub 技能可能只存在于目录里，而真正可考的注册 slug 可能是 `cn-weather`。",
+      "必须使用精确 slug。像 `weather` 这样的已发布技能可能只存在于来源目录里，而真正可考的注册 slug 可能是 `cn-weather`。",
     registrySearchLabel: "搜索已注册考试 slug",
     registrySearchPlaceholder: "试试 weather",
     registryLoad: "加载已注册考试",

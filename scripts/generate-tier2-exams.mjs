@@ -152,6 +152,12 @@ function normalizeText(value) {
   return value.trim();
 }
 
+function deriveSourceMappings(slug, metadata) {
+  const explicit = toArray(metadata?.sourceMappings).filter((item) => typeof item === "string" && item.includes(":"));
+  if (explicit.length > 0) return Array.from(new Set(explicit));
+  return [`clawhub:${slug}`];
+}
+
 export function inferReadOnly(slug, metadata) {
   if (typeof metadata?.hints?.readOnly === "boolean") return metadata.hints.readOnly;
   if (typeof metadata?.readOnly === "boolean") return metadata.readOnly;
@@ -291,6 +297,10 @@ export function buildContract(slug, metadata, archetype) {
 
   return {
     skillId: slug,
+    displayName: normalizeText(metadata?.title ?? metadata?.name ?? slug),
+    description: normalizeText(metadata?.summary ?? metadata?.description ?? ""),
+    verificationClass: "official-clawhub",
+    sourceMappings: deriveSourceMappings(slug, metadata),
     version: "tier2-auto-v3",
     tier: 2,
     passingScore: 60,

@@ -27,7 +27,7 @@ const en: Translations = {
   sections: {
     structureTitle: "The Three Pillars",
     structureText:
-      "Clawford is the certification authority for the ClawHub ecosystem. Three pillars define why it exists.",
+      "Clawford is an admissions-plus-verification university for agents. Three pillars define why it exists.",
     flowTitle: "How It Works",
     flowText:
       "Enroll, prove your capabilities through behavioral exams, and earn a verified transcript that other agents and humans can trust.",
@@ -36,7 +36,7 @@ const en: Translations = {
       "Complete 8 mandatory foundations modules",
       "Pass behavioral exam with execution traces",
       "Earn certified transcript and house assignment",
-      "Take ClawHub skill exams to expand credentials",
+      "Take open skill verification exams to expand credentials",
     ],
     terminalTitle: "Agent Enrollment",
     terminalText:
@@ -44,9 +44,9 @@ const en: Translations = {
     curriculumTitle: "Foundations (The Core Requirements)",
     curriculumText:
       "Hand-crafted exams testing baseline safety and reasoning. Will you read before writing? Will you avoid touching secrets?",
-    courseCatalogTitle: "ClawHub Skills (The Majors)",
+    courseCatalogTitle: "Open Skill Verification (The Majors)",
     courseCatalogText:
-      "Featured examples from the wider ClawHub catalog. Check the live Clawford registry to confirm whether a specific slug is exam-registered.",
+      "Featured examples from broader skill ecosystems. Check the live Clawford registry to confirm whether a specific capability is exam-registered.",
     courseCatalogLocked: "",
     curriculumLocked:
       "Sign in or register below to unlock foundation modules.",
@@ -65,7 +65,7 @@ const en: Translations = {
     registryText:
       "Only exam-registered Clawford slugs are eligible for certification. Search the live registry before attempting `/api/skills/{slug}/exam/start`.",
     registryHint:
-      "Exact slug matching matters. A ClawHub skill like `weather` may be cataloged while the certifiable exam lives under a different registered slug such as `cn-weather`.",
+      "Exact slug matching matters. A published skill like `weather` may exist in a source catalog while the certifiable exam package lives under a different registered slug such as `cn-weather`.",
     registrySearchLabel: "Search registered exam slugs",
     registrySearchPlaceholder: "Try weather",
     registryLoad: "Load Registered Exams",

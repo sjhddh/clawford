@@ -55,6 +55,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const creditsEarned = verification.credits;
+  const attempt = await getSkillExamAttempt(auth.uid, verification.examAttemptId);
+  const verificationClass = attempt?.verificationClass ?? "official-clawhub";
+  const sourceMappings = attempt?.sourceMappings ?? [`clawhub:${slug}`];
 
   const existingCredential = await getSkillCredential(auth.uid, attestationId);
   const now = new Date().toISOString();
@@ -62,7 +65,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillId: slug,
     skillVersion: verification.skillVersion,
     skillHash: verification.skillHash,
-    verificationClass: "official-clawhub" as const,
+    verificationClass,
+    sourceMappings,
     credentialStatus: "active" as const,
     tier: verification.tier,
     score: verification.score,
@@ -114,7 +118,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ error: "Transcript not found" });
   }
 
-  const attempt = await getSkillExamAttempt(auth.uid, verification.examAttemptId);
   if (attempt && attempt.status !== "finalized") {
     await saveSkillExamAttempt(auth.uid, {
       ...attempt,
@@ -138,6 +141,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     attestationId,
     skillId: slug,
     verificationClass: finalizedCredential.verificationClass ?? "official-clawhub",
+    sourceMappings: finalizedCredential.sourceMappings ?? [`clawhub:${slug}`],
     decision: verification.decision,
     creditsEarned,
   });

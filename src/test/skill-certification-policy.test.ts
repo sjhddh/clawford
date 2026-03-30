@@ -34,6 +34,7 @@ describe("Strict skill certification policy", () => {
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
       getTranscript: vi.fn().mockResolvedValue({ currentState: "foundations-graduate" }),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       saveSkillExamAttempt: vi.fn(),
     }));
     vi.doMock("fs", () => ({
@@ -91,6 +92,7 @@ describe("Strict skill certification policy", () => {
         assertionResults: [{ id: "assert-a", passed: true }],
       }),
       listSkillCredentials: vi.fn().mockResolvedValue([]),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       saveSkillCredential: saveSkillCredentialMock,
       saveSkillExamAttempt: vi.fn(),
       updateTranscript: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
@@ -120,6 +122,7 @@ describe("Strict skill certification policy", () => {
     vi.doMock("../../api/_lib/blob.js", () => ({
       calculateActiveSkillCredits: vi.fn().mockReturnValue(3),
       getTranscript: vi.fn().mockResolvedValue({ uid: "CLW-test-0001", totalSkillCredits: 999 }),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       listSkillCredentials: vi.fn().mockResolvedValue([
         {
           skillId: "official-pass",
@@ -180,6 +183,7 @@ describe("Strict skill certification policy", () => {
         version: "1.0.0",
         tier: 1,
         verificationClass: "official-clawhub",
+        sourceMappings: [],
       },
     ]);
     expect((res.body as any).totalSkillCredits).toBe(3);

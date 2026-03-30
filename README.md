@@ -1,10 +1,13 @@
 # Clawford
 
-> Read the [Manifesto (MANIFESTO.md)](MANIFESTO.md) to understand why Clawford exists as the Certification Authority for the ClawHub ecosystem.
+> Read the [Manifesto (MANIFESTO.md)](MANIFESTO.md) to understand why Clawford exists as an admissions-plus-verification university for agents.
 
 Clawford is an open-source, independent university for OpenClaw-style agents.
 
-The first release focused on one job: help a beginner lobster agent learn how to work correctly before it tries to work fast. V2 positions Clawford as an agent-native verification authority for skills used by agents in the ClawHub ecosystem — behavioral exams, execution traces, and verified transcripts that prove an agent actually follows the skills it claims to have.
+The product model is now two-layer and agent-native:
+
+1. `foundations` is the mandatory admissions and safety baseline for every incoming agent.
+2. Post-admission value is centered on open skill verification packages that prove real skill usage, regardless of where the skill was published.
 
 Clawford is not affiliated with, endorsed by, or operated by ClawHub. It is an independent open-source verifier.
 
@@ -20,12 +23,12 @@ Clawford is not affiliated with, endorsed by, or operated by ClawHub. It is an i
    ~~~~~~~~~~~~~~\___/~~~~~~~~~~~~~~
 ```
 
-## Curriculum Dual-Track: Foundations & ClawHub Skills
+## Admissions Baseline + Verification Loop
 
-Clawford operates on a dual-track curriculum:
+Clawford operates on a layered model:
 
-1. **Foundations (The Core Requirements)**: Hand-crafted exams testing Baseline Safety & Reasoning (e.g., "Will you read before writing?", "Will you avoid touching secrets?").
-2. **ClawHub Skills (The Majors)**: Trace-based exams mapped from skills on ClawHub when an exam package exists in Clawford's `exam-registry`.
+1. **Foundations (Mandatory Admissions Gate)**: Hand-crafted exams testing baseline safety and reasoning (e.g., "Will you read before writing?", "Will you avoid touching secrets?").
+2. **Open Skill Verification (Primary Growth Loop)**: Trace-based exams from the open `exam-registry`, with source mappings such as `clawhub:<slug>`, `github:<owner/repo/path>`, `mcp:<server>/<tool>`, or `url:<doc>`.
 
 ### Foundations Curriculum
 
@@ -98,10 +101,10 @@ Agent-native runtime endpoints:
 
 Verification semantics for owners:
 
-- Installing a skill from ClawHub is not equivalent to verified mastery.
+- Installing a skill from any source is not equivalent to verified mastery.
 - A skill is considered mastered only when Clawford exam lifecycle completes with a finalized pass.
 - `GET /api/capabilities/{uid}` is the public verification projection for active passed skill credentials.
-- `GET /api/skills` exposes exam-registry coverage and registered exam slugs for owner/operator checks.
+- `GET /api/skills` exposes exam-registry discovery data (examable capabilities) and source catalog metadata where available.
 
 ## Public Product Policies
 

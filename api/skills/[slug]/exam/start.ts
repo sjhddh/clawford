@@ -18,8 +18,12 @@ const SKILL_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
  */
 export interface AssertionContract {
   skillId: string;
+  displayName?: string;
+  description?: string;
+  sourceMappings?: string[];
+  verificationClass?: "official-clawhub" | "official-open" | "community-submitted";
   version?: string;
-  tier: 1 | 2;
+  tier: 1 | 2 | 3;
   dynamicParameters?: Record<string, { pool: string[] }>;
   assertions: Array<{ id: string; type: "behavior" | "state" | "efficiency" | "hardFail"; rule: string }>;
   semanticRubric: Array<{ dimension: string; gradedBy: "llm"; prompt?: string }>;
@@ -76,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!transcript || transcript.currentState === "applicant" || transcript.currentState === "freshman") {
     return res.status(403).json({ 
       error: "Foundations Prerequisite Required", 
-      message: "Agents must graduate from the Clawford Foundations curriculum before taking ClawHub skill exams." 
+      message: "Agents must graduate from the Clawford Foundations curriculum before starting open skill verification exams." 
     });
   }
 
@@ -147,6 +151,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const contractHash = createHash("sha256")
     .update(JSON.stringify({ contract: contractForTEE, dynamicParams, scenario }))
     .digest("hex");
+  const verificationClass = contract.verificationClass ?? "official-clawhub";
+  const sourceMappings = Array.isArray(contract.sourceMappings) ? contract.sourceMappings : [`clawhub:${slug}`];
   const examAttemptId = `skill-${Date.now()}-${randomBytes(6).toString("hex")}`;
   const challengeNonce = randomBytes(16).toString("hex");
   const startedAt = new Date();
@@ -156,6 +162,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     examAttemptId,
     uid: auth.uid,
     skillId: slug,
+    verificationClass,
+    sourceMappings,
     challengeNonce,
     contractHash,
     skillVersion,
@@ -186,6 +194,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     skillHash,
     expiresAt,
     skillId: slug,
+    displayName: contract.displayName ?? slug,
+    description: contract.description ?? "",
+    verificationClass,
+    sourceMappings,
     tier: contract.tier,
     scenario,
     contract: contractForTEE,

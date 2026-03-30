@@ -4,6 +4,7 @@ import { applyRateLimit } from "../_lib/security.js";
 import { createAuditContext } from "../_lib/telemetry.js";
 import {
   calculateActiveSkillCredits,
+  isOfficialVerificationClass,
   listSkillCredentials,
   saveSkillCredential,
   updateTranscript,
@@ -101,7 +102,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           );
         if (
           exam.skillId === attestation.skillId
-          && exam.verificationClass === "official-clawhub"
+          && isOfficialVerificationClass(exam.verificationClass)
           && exam.credentialStatus === "active"
           && versionMatches
         ) {
@@ -130,7 +131,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             );
           if (
             exam.skillId === attestation.skillId
-            && exam.verificationClass === "official-clawhub"
+            && isOfficialVerificationClass(exam.verificationClass)
             && exam.credentialStatus === "active"
             && versionMatches
           ) {
@@ -141,7 +142,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!changed) return transcript;
 
         transcript.totalSkillCredits = transcript.skillExamResults
-          .filter((r) => r.verificationClass === "official-clawhub" && r.credentialStatus === "active" && r.decision === "pass")
+          .filter((r) => isOfficialVerificationClass(r.verificationClass) && r.credentialStatus === "active" && r.decision === "pass")
           .reduce((sum, r) => sum + r.credits, 0);
         return transcript;
       });

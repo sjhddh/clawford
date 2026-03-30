@@ -5,6 +5,11 @@ import { applyRateLimit } from "./_lib/security.js";
 
 type SkillItem = {
   slug: string;
+  displayName: string;
+  description: string;
+  sourceMappings: string[];
+  verificationClass: "official-clawhub" | "official-open" | "community-submitted";
+  examStatus: "examable";
   tier: 1 | 2 | 3;
   version: string | null;
 };
@@ -40,15 +45,32 @@ function loadRegistryItems(): SkillItem[] {
       const contract = JSON.parse(readFileSync(contractPath, "utf8")) as {
         tier?: 1 | 2 | 3;
         version?: string;
+        displayName?: string;
+        description?: string;
+        sourceMappings?: string[];
+        verificationClass?: "official-clawhub" | "official-open" | "community-submitted";
       };
+      const sourceMappings = Array.isArray(contract.sourceMappings) && contract.sourceMappings.length > 0
+        ? contract.sourceMappings.filter((entry) => typeof entry === "string")
+        : [`clawhub:${entry.name}`];
       rows.push({
         slug: entry.name,
+        displayName: typeof contract.displayName === "string" ? contract.displayName : entry.name,
+        description: typeof contract.description === "string" ? contract.description : "",
+        sourceMappings,
+        verificationClass: contract.verificationClass ?? "official-clawhub",
+        examStatus: "examable",
         tier: contract.tier ?? 2,
         version: contract.version ?? null,
       });
     } catch {
       rows.push({
         slug: entry.name,
+        displayName: entry.name,
+        description: "",
+        sourceMappings: [`clawhub:${entry.name}`],
+        verificationClass: "official-clawhub",
+        examStatus: "examable",
         tier: 2,
         version: null,
       });
@@ -69,6 +91,30 @@ function loadCatalogSlugs(): Set<string> | null {
         .map((slug) => String(slug).trim().toLowerCase())
         .filter((slug) => isSkillSlug(slug)),
     );
+  } catch {
+    return null;
+  }
+}
+
+function loadCatalogStats():
+  | {
+      source: "clawhub";
+      totalPublishedSkills: number;
+    }
+  | null {
+  const catalogPath = resolve(process.cwd(), "docs/generated/clawhub-skill-catalog.json");
+  if (!existsSync(catalogPath)) return null;
+  try {
+    const payload = JSON.parse(readFileSync(catalogPath, "utf8")) as {
+      skills?: unknown[];
+      slugs?: unknown[];
+    };
+    const skillsCount = Array.isArray(payload.skills) ? payload.skills.length : 0;
+    const slugsCount = Array.isArray(payload.slugs) ? payload.slugs.length : 0;
+    return {
+      source: "clawhub",
+      totalPublishedSkills: Math.max(skillsCount, slugsCount),
+    };
   } catch {
     return null;
   }
@@ -124,6 +170,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const allItems = loadRegistryItems();
   const catalogSlugs = loadCatalogSlugs();
+  const sourceCatalog = loadCatalogStats();
   const limit = parseLimit(req.query.limit);
   const cursorOffset = parseCursor(req.query.cursor);
   const items = allItems.slice(cursorOffset, cursorOffset + limit);
@@ -154,6 +201,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       : null;
 
   return res.status(200).json({
+    discovery: {
+      sourceCatalog,
+      examRegistry: {
+        totalExamableSkills: allItems.length,
+      },
+    },
     items,
     total: allItems.length,
     limit,

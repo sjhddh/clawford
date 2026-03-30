@@ -1,5 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { calculateActiveSkillCredits, getTranscript, listSkillCredentials } from "../_lib/blob.js";
+import {
+  calculateActiveSkillCredits,
+  getTranscript,
+  isOfficialVerificationClass,
+  listSkillCredentials,
+} from "../_lib/blob.js";
 import { applyRateLimit } from "../_lib/security.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -19,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const source = persisted.length > 0 ? persisted : (transcript.skillExamResults ?? []);
   const activeSkills = source
     .filter(
-      (s) => s.verificationClass === "official-clawhub" && s.credentialStatus === "active" && s.decision === "pass",
+      (s) => isOfficialVerificationClass(s.verificationClass) && s.credentialStatus === "active" && s.decision === "pass",
     );
 
   // Public projection only: expose skill/tier/version for trust decisions.
@@ -32,6 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       version: s.skillVersion,
       tier: s.tier,
       verificationClass: s.verificationClass,
+      sourceMappings: s.sourceMappings ?? [],
     })),
     totalSkillCredits:
       persisted.length > 0 ? calculateActiveSkillCredits(source) : (transcript.totalSkillCredits ?? 0),

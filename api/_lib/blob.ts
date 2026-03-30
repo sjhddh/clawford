@@ -163,7 +163,8 @@ export interface SkillExamResult {
   skillId: string;
   skillVersion: string;
   skillHash: string;
-  verificationClass?: "official-clawhub";
+  verificationClass?: "official-clawhub" | "official-open" | "community-submitted";
+  sourceMappings?: string[];
   credentialStatus: "active" | "legacy" | "revoked";
   tier: 1 | 2 | 3;
   score: number;
@@ -539,6 +540,8 @@ export interface SkillExamAttempt {
   examAttemptId: string;
   uid: string;
   skillId: string;
+  verificationClass?: "official-clawhub" | "official-open" | "community-submitted";
+  sourceMappings?: string[];
   challengeNonce: string;
   contractHash: string;
   skillVersion: string;
@@ -558,9 +561,13 @@ export interface SkillExamAttempt {
 
 export interface StoredSkillCredential extends SkillExamResult {}
 
+export function isOfficialVerificationClass(value: string | undefined): boolean {
+  return value === "official-clawhub" || value === "official-open";
+}
+
 export function calculateActiveSkillCredits(results: SkillExamResult[]): number {
   return results
-    .filter((r) => r.verificationClass === "official-clawhub" && r.credentialStatus === "active" && r.decision === "pass")
+    .filter((r) => isOfficialVerificationClass(r.verificationClass) && r.credentialStatus === "active" && r.decision === "pass")
     .reduce((sum, r) => sum + r.credits, 0);
 }
 

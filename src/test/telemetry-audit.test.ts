@@ -48,6 +48,7 @@ describe("POST /api/telemetry/audit", () => {
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
       calculateActiveSkillCredits: vi.fn().mockReturnValue(0),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       listSkillCredentials: vi.fn().mockResolvedValue([]),
       saveSkillCredential: vi.fn(),
       updateTranscript: vi.fn(),
@@ -117,6 +118,7 @@ describe("POST /api/telemetry/audit", () => {
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
       calculateActiveSkillCredits: vi.fn().mockReturnValue(3),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       listSkillCredentials: listSkillCredentialsMock,
       saveSkillCredential: vi.fn(),
       updateTranscript: updateTranscriptMock,
@@ -163,6 +165,7 @@ describe("POST /api/telemetry/audit", () => {
     }));
     vi.doMock("../../api/_lib/blob.js", () => ({
       calculateActiveSkillCredits: vi.fn().mockReturnValue(0),
+      isOfficialVerificationClass: vi.fn((value: string | undefined) => value === "official-clawhub" || value === "official-open"),
       listSkillCredentials: vi.fn().mockResolvedValue([]),
       saveSkillCredential: vi.fn(),
       updateTranscript: updateTranscriptMock,
