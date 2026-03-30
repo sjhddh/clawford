@@ -9,12 +9,14 @@ function parseArgs(argv) {
   const options = {
     registryRoot: DEFAULT_REGISTRY_ROOT,
     strict: false,
+    relevance: false,
   };
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === "--registry-root") options.registryRoot = argv[++i] ?? DEFAULT_REGISTRY_ROOT;
     else if (arg === "--strict") options.strict = true;
+    else if (arg === "--relevance") options.relevance = true;
   }
   return options;
 }
@@ -86,6 +88,7 @@ async function main() {
 
   const violations = [];
   let checked = 0;
+  let relevanceWarnings = 0;
 
   for (const slug of skillDirs) {
     if (!isSkillSlug(slug)) {
@@ -100,6 +103,10 @@ async function main() {
     try {
       scenarioText = await readFile(scenarioPath, "utf8");
       if (!scenarioText.trim()) violations.push(`[${slug}] scenario.md is empty`);
+      if (options.relevance && scenarioText.includes("exam-ready workflow")) {
+        relevanceWarnings++;
+        violations.push(`[${slug}] scenario.md uses generic fallback wording (exam-ready workflow)`);
+      }
     } catch {
       violations.push(`[${slug}] missing scenario.md`);
     }
@@ -116,6 +123,17 @@ async function main() {
     for (const err of contractErrors) {
       violations.push(`[${slug}] ${err}`);
     }
+    if (options.relevance) {
+      const isAutoTier2 = typeof contract.version === "string" && contract.version.startsWith("tier2-auto-");
+      if (isAutoTier2) {
+        if (!contract.assertions.some((item) => item?.type === "behavior")) {
+          violations.push(`[${slug}] tier2-auto contract missing behavior assertion`);
+        }
+        if (!Array.isArray(contract.semanticRubric) || contract.semanticRubric.some((item) => typeof item?.prompt !== "string" || item.prompt.trim() === "")) {
+          violations.push(`[${slug}] tier2-auto contract semanticRubric entries must include prompt text`);
+        }
+      }
+    }
     checked++;
   }
 
@@ -123,6 +141,7 @@ async function main() {
     registryRoot: options.registryRoot,
     checkedSkillDirectories: checked,
     violationCount: violations.length,
+    relevanceWarnings,
   };
 
   if (violations.length === 0) {

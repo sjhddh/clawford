@@ -17,10 +17,21 @@ Reasoning:
 
 1. Request pages from `/api/v1/packages?family=skill&limit=<N>`.
 2. Follow `nextCursor` until exhausted.
-3. Extract slug from `items[].name`.
-4. Normalize slugs to lowercase and validate with: `^[a-z0-9][a-z0-9-]*$`.
-5. Deduplicate and sort lexicographically.
-6. Persist to `docs/generated/clawhub-skill-catalog.json`.
+3. Extract metadata from each item:
+   - `slug` from `items[].name`
+   - `title` from `displayName|title|name`
+   - `description` from `description|summary|shortDescription`
+   - `tags`, `categories` (when present)
+4. Infer lightweight execution hints for generation:
+   - `readOnly`
+   - `externalApi`
+   - `browser`
+   - `fileEditing`
+5. Normalize slugs to lowercase and validate with: `^[a-z0-9][a-z0-9-]*$`.
+6. Deduplicate and sort lexicographically.
+7. Persist to `docs/generated/clawhub-skill-catalog.json` with backward-compatible fields:
+   - `slugs` (legacy list)
+   - `skills[]` (metadata-rich records)
 
 ## Reproducibility
 
@@ -30,9 +41,10 @@ Reasoning:
   - generation timestamp
   - pagination stats
   - normalized slug list
+  - metadata-rich `skills[]` payload and hint coverage stats
 
 ## Downstream Use
 
-- `scripts/generate-tier2-exams.mjs` consumes catalog slugs and writes registry packages.
+- `scripts/generate-tier2-exams.mjs` consumes catalog slugs + metadata and writes archetype-specific registry packages.
 - `scripts/build-skill-coverage-report.mjs` computes mapping coverage from catalog to `exam-registry/`.
 - `api/skills.ts` exposes runtime inventory and optional coverage metadata.

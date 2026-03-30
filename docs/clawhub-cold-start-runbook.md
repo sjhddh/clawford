@@ -28,11 +28,16 @@ npm run coldstart:skills
 For large updates, run generation in shards:
 
 ```bash
-node scripts/generate-tier2-exams.mjs --only-missing --chunk-size 400 --chunk-index 1
-node scripts/generate-tier2-exams.mjs --only-missing --chunk-size 400 --chunk-index 2
+node scripts/generate-tier2-exams.mjs --overwrite --chunk-size 400 --chunk-index 1
+node scripts/generate-tier2-exams.mjs --overwrite --chunk-size 400 --chunk-index 2
 ```
 
 Recommended batch size: 300-500 skill slugs per PR.
+
+Default generator safety:
+
+- `--no-preserve-curated` is **off** by default.
+- Existing curated contracts (non `tier2-auto-*`) are preserved unless explicitly overridden.
 
 ## PR Policy
 
@@ -57,6 +62,20 @@ If a shard introduces regressions:
 - Target: `coveragePercent >= 99.5%` from catalog to registry.
 - `coveragePercent = matchedCount / catalogCount * 100`.
 - Track from `docs/generated/clawhub-exam-coverage.json`.
+
+## Relevance SLO
+
+- Generator report (`docs/generated/exam-generation-report.json`) should show:
+  - low `genericFallbackCount` (metadata gap indicator)
+  - healthy archetype spread (not a single-template collapse)
+- Spot-check each shard for at least one skill per archetype:
+  - `readOnlyResearch`
+  - `apiOperator`
+  - `browserWorkflow`
+  - `fileTransformer`
+  - `codeModifier`
+  - `contentGenerator`
+  - `opsAutomation`
 
 ## Ongoing Drift Sync
 

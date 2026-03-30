@@ -34,6 +34,71 @@ function isSkillSlug(value) {
   return /^[a-z0-9][a-z0-9-]*$/.test(value);
 }
 
+function normalizeString(value) {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function normalizeStringArray(value) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(
+    new Set(
+      value
+        .map((item) => normalizeString(item))
+        .filter(Boolean),
+    ),
+  );
+}
+
+function inferExecutionHints(slug, title, description, tags, categories) {
+  const combined = [slug, title, description, ...tags, ...categories].join(" ").toLowerCase();
+  const readSignals = ["search", "lookup", "query", "summar", "monitor", "analy", "read-only", "readonly"];
+  const writeSignals = ["edit", "write", "create", "update", "patch", "refactor", "migrate", "generate"];
+
+  const hasReadSignals = readSignals.some((signal) => combined.includes(signal));
+  const hasWriteSignals = writeSignals.some((signal) => combined.includes(signal));
+  const readOnly = hasReadSignals && !hasWriteSignals;
+
+  const externalApi = ["api", "rest", "http", "weather", "open-meteo", "wttr", "webhook"].some((signal) =>
+    combined.includes(signal),
+  );
+  const browser = ["browser", "playwright", "selenium", "puppeteer", "web"].some((signal) =>
+    combined.includes(signal),
+  );
+  const fileEditing = ["code", "git", "patch", "edit", "refactor", "migration"].some((signal) =>
+    combined.includes(signal),
+  );
+
+  return { readOnly, externalApi, browser, fileEditing };
+}
+
+function extractSkillMetadata(item) {
+  const slug = normalizeString(item?.name)?.toLowerCase() ?? "";
+  const title = normalizeString(item?.displayName)
+    ?? normalizeString(item?.title)
+    ?? normalizeString(item?.name);
+  const description = normalizeString(item?.description)
+    ?? normalizeString(item?.summary)
+    ?? normalizeString(item?.shortDescription);
+  const tags = normalizeStringArray(item?.tags);
+  const categories = normalizeStringArray(item?.categories ?? item?.categoryLabels);
+  const hints = inferExecutionHints(slug, title ?? "", description ?? "", tags, categories);
+
+  return {
+    slug,
+    title,
+    description,
+    tags,
+    categories,
+    hints,
+    source: {
+      version: normalizeString(item?.version),
+      owner: normalizeString(item?.owner?.username ?? item?.author),
+    },
+  };
+}
+
 async function fetchSkillPage(baseUrl, cursor, limit) {
   const url = new URL("/api/v1/packages", baseUrl);
   url.searchParams.set("family", "skill");
@@ -59,6 +124,7 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
   const startedAt = new Date().toISOString();
   const slugs = new Set();
+  const skillsBySlug = new Map();
   const invalid = [];
   const cursors = new Set();
 
@@ -72,13 +138,25 @@ async function main() {
     totalItemsSeen += page.items.length;
 
     for (const item of page.items) {
-      const slug = String(item?.name ?? "").trim().toLowerCase();
+      const metadata = extractSkillMetadata(item);
+      const slug = metadata.slug;
       if (!slug) continue;
       if (!isSkillSlug(slug)) {
         invalid.push(slug);
         continue;
       }
       slugs.add(slug);
+      const prev = skillsBySlug.get(slug) ?? {};
+      skillsBySlug.set(slug, {
+        ...prev,
+        ...metadata,
+        tags: Array.from(new Set([...(prev.tags ?? []), ...metadata.tags])),
+        categories: Array.from(new Set([...(prev.categories ?? []), ...metadata.categories])),
+        hints: {
+          ...(prev.hints ?? {}),
+          ...metadata.hints,
+        },
+      });
     }
 
     if (!page.nextCursor) break;
@@ -93,6 +171,10 @@ async function main() {
   }
 
   const sortedSlugs = Array.from(slugs).sort((a, b) => a.localeCompare(b));
+  const skills = sortedSlugs.map((slug) => skillsBySlug.get(slug)).filter(Boolean);
+  const withDescription = skills.filter((skill) => typeof skill.description === "string").length;
+  const withTags = skills.filter((skill) => Array.isArray(skill.tags) && skill.tags.length > 0).length;
+  const readOnlyHints = skills.filter((skill) => skill.hints?.readOnly).length;
   const payload = {
     source: {
       kind: "clawhub-api",
@@ -110,8 +192,12 @@ async function main() {
       totalItemsSeen,
       uniqueSkillSlugs: sortedSlugs.length,
       invalidSlugs: invalid.length,
+      skillsWithDescription: withDescription,
+      skillsWithTags: withTags,
+      inferredReadOnlySkills: readOnlyHints,
     },
     slugs: sortedSlugs,
+    skills,
     invalidSamples: invalid.slice(0, 50),
   };
 
@@ -123,7 +209,7 @@ async function main() {
   const outPath = resolve(process.cwd(), options.out);
   await mkdir(dirname(outPath), { recursive: true });
   await writeFile(outPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  console.log(`Wrote ${sortedSlugs.length} skill slugs to ${outPath}`);
+  console.log(`Wrote ${sortedSlugs.length} skill slugs and ${skills.length} skill metadata records to ${outPath}`);
 }
 
 await main();

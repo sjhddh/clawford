@@ -1,10 +1,105 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const DEFAULT_CATALOG = "docs/generated/clawhub-skill-catalog.json";
 const DEFAULT_REGISTRY_ROOT = "exam-registry";
 const DEFAULT_REPORT = "docs/generated/exam-generation-report.json";
+
+const ARCHETYPES = {
+  readOnlyResearch: {
+    id: "readOnlyResearch",
+    task: (slug, outputPath) =>
+      `Use \`${slug}\` to investigate a concrete query and produce an evidence-backed report at \`${outputPath}\`.`,
+    success:
+      (outputPath) => `- Produce a concise report at \`${outputPath}\` that includes key findings and the evidence trail.`,
+    rubricPrompts: [
+      "Did the agent gather relevant evidence before concluding?",
+      "Did the final report trace conclusions back to observable evidence?",
+    ],
+    stepBudget: 55,
+    requireDiff: false,
+  },
+  apiOperator: {
+    id: "apiOperator",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.`,
+    success:
+      (_outputPath) => "- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.",
+    rubricPrompts: [
+      "Did the agent validate API outcomes instead of assuming success?",
+      "Did the agent preserve evidence for request/response behavior and error handling?",
+    ],
+    stepBudget: 70,
+    requireDiff: true,
+  },
+  browserWorkflow: {
+    id: "browserWorkflow",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to complete a browser-based workflow and document verifiable checkpoints along the path.`,
+    success:
+      (_outputPath) => "- Produce evidence-backed workspace output that reflects key browser workflow milestones.",
+    rubricPrompts: [
+      "Did the agent execute the browser workflow deterministically with explicit checkpoints?",
+      "Did the agent verify final browser state with concrete evidence?",
+    ],
+    stepBudget: 70,
+    requireDiff: true,
+  },
+  codeModifier: {
+    id: "codeModifier",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to implement a scoped code/task change and verify the result with reproducible checks.`,
+    success:
+      (_outputPath) => "- Produce meaningful workspace changes tied directly to the requested objective and verification.",
+    rubricPrompts: [
+      "Did the agent implement the requested change with minimal unrelated edits?",
+      "Did the agent verify behavior changes instead of relying on intuition?",
+    ],
+    stepBudget: 60,
+    requireDiff: true,
+  },
+  fileTransformer: {
+    id: "fileTransformer",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to transform or generate file-based outputs and verify the transformed state.`,
+    success:
+      (_outputPath) => "- Produce transformed files or artifacts with clear verification evidence.",
+    rubricPrompts: [
+      "Did the agent transform artifacts correctly and preserve important structure?",
+      "Did the agent verify transformed outputs before completion?",
+    ],
+    stepBudget: 60,
+    requireDiff: true,
+  },
+  contentGenerator: {
+    id: "contentGenerator",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to generate structured content artifacts and validate they match the requested format and intent.`,
+    success:
+      (_outputPath) => "- Produce structured output artifacts and verification notes in the workspace.",
+    rubricPrompts: [
+      "Did the generated content align with the requested scope and structure?",
+      "Did the agent validate output quality against explicit criteria?",
+    ],
+    stepBudget: 55,
+    requireDiff: true,
+  },
+  opsAutomation: {
+    id: "opsAutomation",
+    task: (slug, _outputPath) =>
+      `Use \`${slug}\` to run an operations workflow with safety checks, then verify final state with operational evidence.`,
+    success:
+      (_outputPath) => "- Produce operational evidence demonstrating execution safety and final state validation.",
+    rubricPrompts: [
+      "Did the agent apply safe operational sequencing and rollback awareness?",
+      "Did the agent verify final system state with concrete evidence?",
+    ],
+    stepBudget: 75,
+    requireDiff: true,
+  },
+};
 
 function parseArgs(argv) {
   const options = {
@@ -17,6 +112,7 @@ function parseArgs(argv) {
     dryRun: false,
     chunkSize: null,
     chunkIndex: null,
+    preserveCurated: true,
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -30,8 +126,8 @@ function parseArgs(argv) {
     else if (arg === "--dry-run") options.dryRun = true;
     else if (arg === "--chunk-size") options.chunkSize = Number.parseInt(argv[++i] ?? "", 10) || null;
     else if (arg === "--chunk-index") options.chunkIndex = Number.parseInt(argv[++i] ?? "", 10) || null;
+    else if (arg === "--no-preserve-curated") options.preserveCurated = false;
   }
-
   return options;
 }
 
@@ -40,90 +136,122 @@ function isSkillSlug(value) {
 }
 
 function normalizeSlug(value) {
-  return String(value ?? "")
-    .trim()
-    .toLowerCase();
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function toArray(value) {
+  return Array.isArray(value) ? value : [];
 }
 
 function keywordMatch(value, keywords) {
   return keywords.some((keyword) => value.includes(keyword));
 }
 
-function inferReadOnly(slug, metadata) {
+function normalizeText(value) {
+  if (typeof value !== "string") return "";
+  return value.trim();
+}
+
+export function inferReadOnly(slug, metadata) {
+  if (typeof metadata?.hints?.readOnly === "boolean") return metadata.hints.readOnly;
   if (typeof metadata?.readOnly === "boolean") return metadata.readOnly;
   if (typeof metadata?.mode === "string" && metadata.mode.toLowerCase() === "read-only") return true;
   if (typeof metadata?.executionMode === "string" && metadata.executionMode.toLowerCase() === "read-only") return true;
 
-  const textFields = [
+  const combined = [
     metadata?.summary,
     metadata?.description,
     metadata?.objective,
     metadata?.task,
     metadata?.name,
+    metadata?.title,
+    ...toArray(metadata?.tags),
+    ...toArray(metadata?.capabilities),
+    ...toArray(metadata?.categories),
     slug,
   ]
-    .filter(Boolean)
-    .map((value) => String(value).toLowerCase());
-  const text = textFields.join(" ");
-
-  const tagValues = [
-    ...(Array.isArray(metadata?.tags) ? metadata.tags : []),
-    ...(Array.isArray(metadata?.capabilities) ? metadata.capabilities : []),
-    ...(Array.isArray(metadata?.categories) ? metadata.categories : []),
-  ]
-    .map((value) => String(value).toLowerCase())
+    .map((value) => normalizeText(value).toLowerCase())
     .join(" ");
 
-  const combined = `${text} ${tagValues}`;
   const readSignals = ["search", "lookup", "query", "fetch", "monitor", "analyze", "summarize", "read-only", "readonly"];
-  const writeSignals = ["edit", "write", "create", "update", "refactor", "patch", "modify", "generate-file"];
-
-  if (keywordMatch(combined, readSignals) && !keywordMatch(combined, writeSignals)) return true;
-  return false;
+  const writeSignals = ["edit", "write", "create", "update", "refactor", "patch", "modify", "generate"];
+  return keywordMatch(combined, readSignals) && !keywordMatch(combined, writeSignals);
 }
 
 function buildSkillMetadataMap(catalog, extraMetadata) {
   const map = new Map();
-  const toArray = (value) => (Array.isArray(value) ? value : []);
+  const merge = (slug, entry) => {
+    if (!isSkillSlug(slug)) return;
+    const previous = map.get(slug) ?? {};
+    map.set(slug, {
+      ...previous,
+      ...entry,
+      tags: Array.from(new Set([...(previous.tags ?? []), ...toArray(entry.tags)])),
+      categories: Array.from(new Set([...(previous.categories ?? []), ...toArray(entry.categories)])),
+      capabilities: Array.from(new Set([...(previous.capabilities ?? []), ...toArray(entry.capabilities)])),
+      hints: { ...(previous.hints ?? {}), ...(entry?.hints ?? {}) },
+    });
+  };
 
-  const catalogSkills = toArray(catalog?.skills);
-  for (const entry of catalogSkills) {
+  for (const entry of toArray(catalog?.skills)) {
     const slug = normalizeSlug(entry?.slug ?? entry?.name);
-    if (isSkillSlug(slug)) map.set(slug, entry);
+    merge(slug, entry);
   }
-
-  const extraSkills = toArray(extraMetadata?.skills);
-  for (const entry of extraSkills) {
+  for (const entry of toArray(extraMetadata?.skills)) {
     const slug = normalizeSlug(entry?.slug ?? entry?.name);
-    if (isSkillSlug(slug)) map.set(slug, { ...(map.get(slug) ?? {}), ...entry });
+    merge(slug, entry);
   }
-
-  const extraBySlug = extraMetadata?.skillsBySlug;
-  if (extraBySlug && typeof extraBySlug === "object" && !Array.isArray(extraBySlug)) {
-    for (const [rawSlug, entry] of Object.entries(extraBySlug)) {
+  if (extraMetadata?.skillsBySlug && typeof extraMetadata.skillsBySlug === "object") {
+    for (const [rawSlug, entry] of Object.entries(extraMetadata.skillsBySlug)) {
       const slug = normalizeSlug(rawSlug);
-      if (!isSkillSlug(slug)) continue;
-      map.set(slug, { ...(map.get(slug) ?? {}), ...(entry && typeof entry === "object" ? entry : {}) });
+      if (entry && typeof entry === "object") merge(slug, entry);
     }
   }
-
   return map;
 }
 
-function buildScenario(slug, metadata) {
-  const title = String(metadata?.title ?? metadata?.name ?? slug).trim();
-  const summary = String(
-    metadata?.summary ??
-      metadata?.description ??
-      metadata?.objective ??
-      `Use the \`${slug}\` skill to complete an exam-ready workflow.`,
-  ).trim();
-  const readOnly = inferReadOnly(slug, metadata);
-  const outputPath = `artifacts/${slug}-exam-report.md`;
+export function classifyArchetype(slug, metadata) {
+  const text = [
+    slug,
+    metadata?.title,
+    metadata?.name,
+    metadata?.summary,
+    metadata?.description,
+    ...toArray(metadata?.tags),
+    ...toArray(metadata?.categories),
+    ...toArray(metadata?.capabilities),
+  ]
+    .map((item) => normalizeText(item).toLowerCase())
+    .join(" ");
 
-  const taskLine = readOnly
-    ? `Use \`${slug}\` to gather evidence for a concrete query, then write a concise report to \`${outputPath}\`.`
-    : `Use \`${slug}\` to execute a real task and commit the outcome as meaningful workspace changes.`;
+  if (metadata?.hints?.browser || keywordMatch(text, ["browser", "playwright", "selenium", "puppeteer"])) {
+    return ARCHETYPES.browserWorkflow;
+  }
+  if (metadata?.hints?.externalApi || keywordMatch(text, ["api", "rest", "graphql", "http", "webhook", "weather"])) {
+    return ARCHETYPES.apiOperator;
+  }
+  if (inferReadOnly(slug, metadata)) return ARCHETYPES.readOnlyResearch;
+  if (keywordMatch(text, ["devops", "docker", "k8s", "deploy", "infra", "ci", "cd", "pipeline", "ops"])) {
+    return ARCHETYPES.opsAutomation;
+  }
+  if (keywordMatch(text, ["content", "blog", "article", "summary", "copywrite", "email", "scriptwriter"])) {
+    return ARCHETYPES.contentGenerator;
+  }
+  if (keywordMatch(text, ["convert", "transform", "extract", "parse", "csv", "json", "markdown", "pdf"])) {
+    return ARCHETYPES.fileTransformer;
+  }
+  return ARCHETYPES.codeModifier;
+}
+
+export function buildScenario(slug, metadata, archetype) {
+  const title = normalizeText(metadata?.title ?? metadata?.name ?? slug);
+  const summary = normalizeText(
+    metadata?.summary
+      ?? metadata?.description
+      ?? metadata?.objective
+      ?? `Use the \`${slug}\` skill to complete a realistic, skill-relevant workflow.`,
+  );
+  const outputPath = `artifacts/${slug}-exam-report.md`;
 
   return [
     `# Clawford Tier-2 Exam: ${title}`,
@@ -133,7 +261,7 @@ function buildScenario(slug, metadata) {
     "",
     "## Task",
     "",
-    taskLine,
+    archetype.task(slug, outputPath),
     "",
     "## Constraints",
     "",
@@ -145,38 +273,35 @@ function buildScenario(slug, metadata) {
     "## Success Criteria",
     "",
     "- Complete the task end-to-end with a reproducible execution trace.",
-    readOnly
-      ? `- Produce a human-readable report at \`${outputPath}\` summarizing inputs, tool output evidence, and final result.`
-      : "- Produce workspace changes that are directly tied to the task objective.",
+    archetype.success(outputPath),
     "- Keep total runtime steps efficient.",
   ].join("\n");
 }
 
-function buildContract(slug, metadata) {
-  const readOnly = inferReadOnly(slug, metadata);
+export function buildContract(slug, metadata, archetype) {
+  const readOnly = inferReadOnly(slug, metadata) || !archetype.requireDiff;
   const assertions = [
-    { id: "efficiency-check", type: "efficiency", rule: "trace.runtime.totalSteps <= 60" },
-    { id: "tool-invoked", type: "tool_usage", rule: `trace.toolsUsed.includes('${slug}')` },
+    { id: "efficiency-check", type: "efficiency", rule: `trace.runtime.totalSteps <= ${archetype.stepBudget}` },
+    { id: "intent-aligned-execution", type: "behavior", rule: "trace.runtime.totalSteps >= 3" },
     { id: "no-hard-fail-signals", type: "hardFail", rule: "trace.hardFailSignals.length == 0" },
   ];
-
   if (!readOnly) {
     assertions.splice(2, 0, { id: "non-empty-run", type: "state", rule: "trace.fileDiffs.length > 0" });
   }
 
   return {
     skillId: slug,
-    version: "tier2-auto-v2",
+    version: "tier2-auto-v3",
     tier: 2,
     passingScore: 60,
     credits: 1,
     semanticRubric: [
-      { dimension: "Execution Quality", gradedBy: "llm" },
-      { dimension: "Verification Quality", gradedBy: "llm" },
+      { dimension: "Execution Quality", gradedBy: "llm", prompt: archetype.rubricPrompts[0] },
+      { dimension: "Verification Quality", gradedBy: "llm", prompt: archetype.rubricPrompts[1] },
     ],
     assertions,
     dynamicParameters: {
-      run_id: { pool: ["tier2_run_{{rand}}"] },
+      run_id: { pool: [`${archetype.id}_run_{{rand}}`] },
     },
   };
 }
@@ -189,6 +314,22 @@ function chunkSlugs(slugs, chunkSize, chunkIndex) {
   return slugs.slice(start, end);
 }
 
+function isCuratedContract(contract) {
+  if (!contract || typeof contract !== "object") return false;
+  const version = normalizeText(contract.version);
+  if (!version) return true;
+  return !version.startsWith("tier2-auto-");
+}
+
+async function readContractIfExists(contractPath) {
+  if (!existsSync(contractPath)) return null;
+  try {
+    return JSON.parse(await readFile(contractPath, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
 async function writeReport(reportPath, report, dryRun) {
   if (dryRun) {
     console.log(JSON.stringify(report, null, 2));
@@ -199,8 +340,8 @@ async function writeReport(reportPath, report, dryRun) {
   await writeFile(absReportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 }
 
-async function main() {
-  const options = parseArgs(process.argv.slice(2));
+export async function main(argv = process.argv.slice(2)) {
+  const options = parseArgs(argv);
   const catalogPath = resolve(process.cwd(), options.catalog);
   const metadataPath = options.metadata ? resolve(process.cwd(), options.metadata) : null;
   const registryRoot = resolve(process.cwd(), options.registryRoot);
@@ -208,20 +349,25 @@ async function main() {
   const rawCatalog = JSON.parse(await readFile(catalogPath, "utf8"));
   const rawMetadata = metadataPath ? JSON.parse(await readFile(metadataPath, "utf8")) : null;
   const metadataBySlug = buildSkillMetadataMap(rawCatalog, rawMetadata);
-  const allSlugs = Array.isArray(rawCatalog?.slugs) ? rawCatalog.slugs.map((s) => String(s).trim().toLowerCase()) : [];
+  const allSlugs = toArray(rawCatalog?.slugs).map((slug) => normalizeSlug(slug));
   const validSlugs = allSlugs.filter((slug) => isSkillSlug(slug));
   const selectedSlugs = chunkSlugs(validSlugs, options.chunkSize, options.chunkIndex);
 
   let created = 0;
   let updated = 0;
   let skipped = 0;
-  let invalid = allSlugs.length - validSlugs.length;
-  let readOnlyContracts = 0;
+  let preservedCurated = 0;
+  const invalid = allSlugs.length - validSlugs.length;
+  const archetypeCounts = {};
   const processed = [];
+  const genericFallbackSlugs = [];
 
   for (const slug of selectedSlugs) {
-    const metadata = metadataBySlug.get(slug);
-    const readOnly = inferReadOnly(slug, metadata);
+    const metadata = metadataBySlug.get(slug) ?? {};
+    const archetype = classifyArchetype(slug, metadata);
+    const summary = normalizeText(metadata.summary ?? metadata.description ?? metadata.objective);
+    if (!summary) genericFallbackSlugs.push(slug);
+
     const skillDir = resolve(registryRoot, slug);
     const scenarioPath = resolve(skillDir, "scenario.md");
     const contractPath = resolve(skillDir, "assertion-contract.json");
@@ -234,6 +380,14 @@ async function main() {
       skipped++;
       continue;
     }
+
+    const existingContract = await readContractIfExists(contractPath);
+    if (options.preserveCurated && existingContract && isCuratedContract(existingContract)) {
+      preservedCurated++;
+      skipped++;
+      continue;
+    }
+
     if (!options.overwrite && hasExisting && !(options.onlyMissing && (!scenarioExists || !contractExists))) {
       skipped++;
       continue;
@@ -241,13 +395,13 @@ async function main() {
 
     if (!options.dryRun) {
       await mkdir(skillDir, { recursive: true });
-      await writeFile(scenarioPath, `${buildScenario(slug, metadata)}\n`, "utf8");
-      await writeFile(contractPath, `${JSON.stringify(buildContract(slug, metadata), null, 2)}\n`, "utf8");
+      await writeFile(scenarioPath, `${buildScenario(slug, metadata, archetype)}\n`, "utf8");
+      await writeFile(contractPath, `${JSON.stringify(buildContract(slug, metadata, archetype), null, 2)}\n`, "utf8");
     }
 
     if (hasExisting) updated++;
     else created++;
-    if (readOnly) readOnlyContracts++;
+    archetypeCounts[archetype.id] = (archetypeCounts[archetype.id] ?? 0) + 1;
     processed.push(slug);
   }
 
@@ -262,6 +416,7 @@ async function main() {
       chunkSize: options.chunkSize,
       chunkIndex: options.chunkIndex,
       metadata: options.metadata,
+      preserveCurated: options.preserveCurated,
     },
     totals: {
       catalogSlugs: allSlugs.length,
@@ -270,17 +425,23 @@ async function main() {
       created,
       updated,
       skipped,
+      preservedCurated,
       invalid,
-      readOnlyContracts,
+      genericFallbackCount: genericFallbackSlugs.length,
     },
+    archetypeCounts,
     processedSamples: processed.slice(0, 100),
+    genericFallbackSamples: genericFallbackSlugs.slice(0, 100),
   };
 
   await writeReport(options.report, report, options.dryRun);
   if (!options.dryRun) {
     console.log(`Generated/updated ${created + updated} exam packages (${created} created, ${updated} updated).`);
-    console.log(`Skipped ${skipped}; invalid slugs ${invalid}.`);
+    console.log(`Skipped ${skipped} (${preservedCurated} curated preserved); invalid slugs ${invalid}.`);
   }
 }
 
-await main();
+const entrypoint = fileURLToPath(import.meta.url);
+if (process.argv[1] && resolve(process.argv[1]) === resolve(entrypoint)) {
+  await main();
+}
