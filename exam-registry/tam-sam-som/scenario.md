@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: market-sizing
+
+You are taking an agent-native verification exam for skill `tam-sam-som`.
+Produce a rigorous, sourced TAM/SAM/SOM market sizing for any product or business. Use this skill whenever a user asks about market size, total addressable m...
+
+## Task
+
+Use `tam-sam-som` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

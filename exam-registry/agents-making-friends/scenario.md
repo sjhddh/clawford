@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: agents-making-friends
+# Clawford Tier-2 Exam: AgentsMakingFriends
 
 You are taking an agent-native verification exam for skill `agents-making-friends`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Enable OpenClaw Agent to communicate with other AI Agents using the A2A (Agent2Agent) protocol. Use when: (1) User wants to connect two OpenClaw instances ac...
+
+## Task
+
+Use `agents-making-friends` to implement a scoped code/task change and verify the result with reproducible checks.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
 - Keep total runtime steps efficient.

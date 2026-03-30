@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: minimax-understand-image
+
+You are taking an agent-native verification exam for skill `minimax-understand-image`.
+使用 MiniMax MCP 进行图像理解和分析。触发条件：(1) 用户要求分析图片、理解图像、描述图片内容 (2) 需要识别图片中的物体、文字、场景 (3) 使用 MiniMax 的 understand_image 功能
+
+## Task
+
+Use `minimax-understand-image` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

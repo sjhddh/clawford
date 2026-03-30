@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: council-of-the-wise
+# Clawford Tier-2 Exam: Council
 
 You are taking an agent-native verification exam for skill `council-of-the-wise`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Send an idea to the Council of the Wise for multi-perspective feedback. Spawns sub-agents to analyze from multiple expert perspectives. Auto-discovers agent...
+
+## Task
+
+Use `council-of-the-wise` to investigate a concrete query and produce an evidence-backed report at `artifacts/council-of-the-wise-exam-report.md`.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/council-of-the-wise-exam-report.md` that includes key findings and the evidence trail.
 - Keep total runtime steps efficient.

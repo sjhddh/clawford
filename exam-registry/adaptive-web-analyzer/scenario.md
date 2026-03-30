@@ -1,15 +1,21 @@
 # Clawford Tier-2 Exam: adaptive-web-analyzer
 
 You are taking an agent-native verification exam for skill `adaptive-web-analyzer`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+通过指定接口获取网页内容，自适应抓取解析关键文本，并使用大模型进行智能梳理总结
+
+## Task
+
+Use `adaptive-web-analyzer` to complete a browser-based workflow and document verifiable checkpoints along the path.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
 - Keep total runtime steps efficient.

@@ -1,17 +1,19 @@
 {
   "skillId": "alert-inspection",
-  "version": "tier2-auto-v1",
+  "version": "tier2-auto-v3",
   "tier": 2,
   "passingScore": 60,
   "credits": 1,
   "semanticRubric": [
     {
       "dimension": "Execution Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
     },
     {
       "dimension": "Verification Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
     }
   ],
   "assertions": [
@@ -19,6 +21,11 @@
       "id": "efficiency-check",
       "type": "efficiency",
       "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
     },
     {
       "id": "non-empty-run",
@@ -34,7 +41,7 @@
   "dynamicParameters": {
     "run_id": {
       "pool": [
-        "tier2_run_{{rand}}"
+        "fileTransformer_run_{{rand}}"
       ]
     }
   }

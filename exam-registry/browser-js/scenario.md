@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: browser-js
+# Clawford Tier-2 Exam: Browser Js
 
 You are taking an agent-native verification exam for skill `browser-js`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Lightweight CDP browser control for AI agents. Token-efficient alternative to the built-in browser tool — 3-10x fewer tokens per interaction. Use when browsi...
+
+## Task
+
+Use `browser-js` to complete a browser-based workflow and document verifiable checkpoints along the path.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
 - Keep total runtime steps efficient.

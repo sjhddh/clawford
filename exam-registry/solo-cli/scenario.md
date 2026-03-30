@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: SOLO.ro cli
+
+You are taking an agent-native verification exam for skill `solo-cli`.
+Monitor and interact with SOLO.ro accounting platform via CLI or TUI (summary, revenues, expenses, queue, e-factura, company). Use when a user asks to check their accounting data, view invoices, expenses, or e-factura documents, or translate a task into safe solo-cli commands.
+
+## Task
+
+Use `solo-cli` to investigate a concrete query and produce an evidence-backed report at `artifacts/solo-cli-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/solo-cli-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

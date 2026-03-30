@@ -1,24 +1,31 @@
 {
   "skillId": "03",
-  "version": "tier2-auto-v1",
+  "version": "tier2-auto-v3",
   "tier": 2,
   "passingScore": 60,
   "credits": 1,
   "semanticRubric": [
     {
       "dimension": "Execution Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
     },
     {
       "dimension": "Verification Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
     }
   ],
   "assertions": [
     {
       "id": "efficiency-check",
       "type": "efficiency",
-      "rule": "trace.runtime.totalSteps <= 60"
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
     },
     {
       "id": "non-empty-run",
@@ -34,7 +41,7 @@
   "dynamicParameters": {
     "run_id": {
       "pool": [
-        "tier2_run_{{rand}}"
+        "apiOperator_run_{{rand}}"
       ]
     }
   }

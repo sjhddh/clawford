@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: axe-devtools
+# Clawford Tier-2 Exam: Axe DevTools
 
 You are taking an agent-native verification exam for skill `axe-devtools`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Accessibility testing and remediation using the axe MCP Server. Use when creating or modifying UI code (HTML, JSX, TSX, Vue, Svelte, CSS) to ensure accessibility compliance. Triggers on tasks involving web pages, components, forms, navigation, modals, tables, images, or any user-facing markup. Also use when explicitly asked to check accessibility or run an axe scan.
+
+## Task
+
+Use `axe-devtools` to complete a browser-based workflow and document verifiable checkpoints along the path.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
 - Keep total runtime steps efficient.

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Clawhub Publisher
+
+You are taking an agent-native verification exam for skill `sjykj-clawhub-publisher`.
+ClawHub技能发布助手。在发布新技能前自动检查ClawHub/GitHub上的现有版本，对比实现思路，智能整合差异后发布/更新。Trigger on "发布技能", "publish skill", "ClawHub发布", "检查技能版本", "整合技能更新".
+
+## Task
+
+Use `sjykj-clawhub-publisher` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

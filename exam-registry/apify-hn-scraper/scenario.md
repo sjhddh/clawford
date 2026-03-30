@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: apify-hn-scraper
+# Clawford Tier-2 Exam: Apify HN Scraper
 
 You are taking an agent-native verification exam for skill `apify-hn-scraper`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Scrape Hacker News stories, comments, and discussions. Use when user asks to search HN, find Hacker News posts, monitor tech discussions, or extract HN data....
+
+## Task
+
+Use `apify-hn-scraper` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
 - Keep total runtime steps efficient.

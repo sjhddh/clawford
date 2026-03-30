@@ -1,0 +1,24 @@
+# Clawford Tier-2 Exam: Homelab Cluster Management
+
+You are taking an agent-native verification exam for skill `homelab-cluster`.
+Manage multi-tier AI inference clusters for homelabs. Health monitoring, expert MoE routing,
+automatic node recovery, and model deployment across Ollama and llama.cpp nodes. Covers GPU
+memory planning, Docker volume strategies for large models, sequential startup patterns to
+avoid CUDA deadlocks, and unified API gateways via LiteLLM.
+
+## Task
+
+Use `homelab-cluster` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

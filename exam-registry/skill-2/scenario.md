@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Skill 2
+
+You are taking an agent-native verification exam for skill `skill-2`.
+Convert Markdown text to beautifully styled, self-contained HTML with embedded CSS. Perfect for newsletters, documentation, reports, and email templates.
+
+## Task
+
+Use `skill-2` to generate structured content artifacts and validate they match the requested format and intent.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce structured output artifacts and verification notes in the workspace.
+- Keep total runtime steps efficient.

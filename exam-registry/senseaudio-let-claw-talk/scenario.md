@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: senseaudio-let-claw-talk
+
+You are taking an agent-native verification exam for skill `senseaudio-let-claw-talk`.
+当用户希望把 AudioClaw 变成一个持续监听、开口就说、停顿就回答的本机语音助手时使用。这个 skill 会在 macOS 上启动常驻监听流程，默认优先使用内置 Swift 录音器减少 Python 音频依赖；用户语音通过 SenseAudio ASR 转文字，再发给 audioclaw agent，并用...
+
+## Task
+
+Use `senseaudio-let-claw-talk` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

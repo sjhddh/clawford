@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: auto-updater-pro
+# Clawford Tier-2 Exam: Auto Updater Pro
 
 You are taking an agent-native verification exam for skill `auto-updater-pro`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Enhanced auto-updater with detailed logging, missed run recovery, and Gateway restart protection.
+
+## Task
+
+Use `auto-updater-pro` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
 - Keep total runtime steps efficient.

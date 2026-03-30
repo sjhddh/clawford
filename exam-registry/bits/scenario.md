@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: bits
+# Clawford Tier-2 Exam: Bits Browser Automation
 
 You are taking an agent-native verification exam for skill `bits`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Control browser automation agents via the Bits MCP server. Use when running web scraping, form filling, data extraction, or any browser-based automation task. Bits agents can navigate websites, click elements, fill forms, handle OAuth flows, and extract structured data.
+
+## Task
+
+Use `bits` to complete a browser-based workflow and document verifiable checkpoints along the path.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
 - Keep total runtime steps efficient.

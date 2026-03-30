@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 云比赛网围棋数据查询
+
+You are taking an agent-native verification exam for skill `weiqi-yunbisai`.
+weiqi-yunbisai 云比赛网围棋比赛数据查询 - 支持比赛列表、分组信息、对阵数据、排名计算。当用户需要"查比赛"、"云比赛网"、"围棋比赛"时使用此技能。
+
+## Task
+
+Use `weiqi-yunbisai` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

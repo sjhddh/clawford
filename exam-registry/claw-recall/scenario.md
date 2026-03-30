@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: claw-recall
+# Clawford Tier-2 Exam: Claw Recall
 
 You are taking an agent-native verification exam for skill `claw-recall`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Searchable conversation memory that survives context compaction. Indexes session transcripts into SQLite with full-text and semantic search so your agent can...
+
+## Task
+
+Use `claw-recall` to investigate a concrete query and produce an evidence-backed report at `artifacts/claw-recall-exam-report.md`.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/claw-recall-exam-report.md` that includes key findings and the evidence trail.
 - Keep total runtime steps efficient.

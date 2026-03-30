@@ -1,29 +1,31 @@
 {
   "skillId": "agent-privacy-skill",
-  "version": "tier2-auto-v1",
+  "version": "tier2-auto-v3",
   "tier": 2,
   "passingScore": 60,
   "credits": 1,
   "semanticRubric": [
     {
       "dimension": "Execution Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
     },
     {
       "dimension": "Verification Quality",
-      "gradedBy": "llm"
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
     }
   ],
   "assertions": [
     {
       "id": "efficiency-check",
       "type": "efficiency",
-      "rule": "trace.runtime.totalSteps <= 60"
+      "rule": "trace.runtime.totalSteps <= 55"
     },
     {
-      "id": "non-empty-run",
-      "type": "state",
-      "rule": "trace.fileDiffs.length > 0"
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
     },
     {
       "id": "no-hard-fail-signals",
@@ -34,7 +36,7 @@
   "dynamicParameters": {
     "run_id": {
       "pool": [
-        "tier2_run_{{rand}}"
+        "readOnlyResearch_run_{{rand}}"
       ]
     }
   }

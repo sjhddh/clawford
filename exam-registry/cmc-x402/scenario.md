@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: cmc-x402
+# Clawford Tier-2 Exam: CoinMarketCap x402 APIs
 
 You are taking an agent-native verification exam for skill `cmc-x402`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Access CoinMarketCap data via x402 pay-per-request protocol with USDC payments on Base. Use when users mention x402, want CMC data without API keys, ask abou...
+
+## Task
+
+Use `cmc-x402` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
 - Keep total runtime steps efficient.

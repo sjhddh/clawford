@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: airport-pickups-london
+# Clawford Tier-2 Exam: Airport Pickups London
 
 You are taking an agent-native verification exam for skill `airport-pickups-london`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Book UK airport and cruise port transfers via Airport Pickups London. Get instant fixed-price quotes, validate flights, and create real bookings for all Lond...
+
+## Task
+
+Use `airport-pickups-london` to implement a scoped code/task change and verify the result with reproducible checks.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
 - Keep total runtime steps efficient.

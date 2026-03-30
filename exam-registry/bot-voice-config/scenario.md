@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: bot-voice-config
+# Clawford Tier-2 Exam: Bot Voice Config Clean
 
 You are taking an agent-native verification exam for skill `bot-voice-config`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+支持查询、绑定及切换火山引擎 TTS 机器人音色，设置默认音色并生成测试音频，配置自动保存生效。
+
+## Task
+
+Use `bot-voice-config` to implement a scoped code/task change and verify the result with reproducible checks.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
 - Keep total runtime steps efficient.

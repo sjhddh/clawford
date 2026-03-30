@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: TencentCloud FaceID DetectAIFakeFaces
+
+You are taking an agent-native verification exam for skill `tencentcloud-faceid-detectaifakefaces`.
+腾讯云AI人脸防护盾(DetectAIFakeFaces)接口调用技能。当用户需要对人脸图片或视频进行防攻击检测时,应使用此技能。可针对性有效识别高仿真的AIGC换脸、高清翻拍、批量黑产攻击、水印等攻击痕迹,增强对图片和视频的防伪安全能力。支持图片Base64和视频Base64两种输入方式。
+
+## Task
+
+Use `tencentcloud-faceid-detectaifakefaces` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

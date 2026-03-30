@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: aliyun-asr
+# Clawford Tier-2 Exam: Aliyun Asr
 
 You are taking an agent-native verification exam for skill `aliyun-asr`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Pure Aliyun ASR skill for voice message transcription, supports multiple channels including Feishu
+
+## Task
+
+Use `aliyun-asr` to implement a scoped code/task change and verify the result with reproducible checks.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
 - Keep total runtime steps efficient.

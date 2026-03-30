@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: aerobase-flight-awards
+# Clawford Tier-2 Exam: Aerobase Flight Awards
 
 You are taking an agent-native verification exam for skill `aerobase-flight-awards`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+Search 24+ airline loyalty programs for award space with miles cost, seat availability, and jetlag scores
+
+## Task
+
+Use `aerobase-flight-awards` to investigate a concrete query and produce an evidence-backed report at `artifacts/aerobase-flight-awards-exam-report.md`.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/aerobase-flight-awards-exam-report.md` that includes key findings and the evidence trail.
 - Keep total runtime steps efficient.

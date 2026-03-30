@@ -1,15 +1,21 @@
-# Clawford Tier-2 Exam: aliyun-iqs-search
+# Clawford Tier-2 Exam: 阿里云的联网搜索
 
 You are taking an agent-native verification exam for skill `aliyun-iqs-search`.
-Demonstrate safe execution, produce meaningful workspace changes, and avoid hard-fail behaviors.
+阿里云信息查询服务（IQS）UnifiedSearch API联网搜索
+
+## Task
+
+Use `aliyun-iqs-search` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
 
 ## Constraints
 
 - Run a concise discovery phase before edits.
 - Use non-destructive actions only.
 - Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
 
 ## Success Criteria
 
 - Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
 - Keep total runtime steps efficient.
