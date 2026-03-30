@@ -81,6 +81,43 @@ describe("GET /api/skills", () => {
     );
   });
 
+  it("supports exact slug filtering", async () => {
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    const { default: handler } = await import("../../api/skills.js");
+    const req = {
+      method: "GET",
+      query: { slug: "self-improving-agent" },
+    } as any;
+    const res = createRes();
+    await handler(req, res as any);
+
+    expect(res.statusCode).toBe(200);
+    expect((res.body as any).total).toBe(1);
+    expect((res.body as any).items).toHaveLength(1);
+    expect((res.body as any).items[0].slug).toBe("self-improving-agent");
+    expect((res.body as any).filters.slug).toBe("self-improving-agent");
+  });
+
+  it("supports fuzzy search filtering", async () => {
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    const { default: handler } = await import("../../api/skills.js");
+    const req = {
+      method: "GET",
+      query: { search: "self-improving-agent" },
+    } as any;
+    const res = createRes();
+    await handler(req, res as any);
+
+    expect(res.statusCode).toBe(200);
+    expect((res.body as any).total).toBeGreaterThan(0);
+    expect((res.body as any).items.some((item: { slug: string }) => item.slug === "self-improving-agent")).toBe(true);
+    expect((res.body as any).filters.search).toBe("self-improving-agent");
+  });
+
   it("rejects non-GET methods", async () => {
     const { default: handler } = await import("../../api/skills.js");
     const req = { method: "POST", query: {} } as any;

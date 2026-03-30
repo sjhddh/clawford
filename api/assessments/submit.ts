@@ -7,6 +7,49 @@ import {
 } from "../_lib/blob.js";
 import { gradeWithFlockModel } from "../lib/grading.js";
 
+function toSectionTitle(key: string): string {
+  return key
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^\w/, (char) => char.toUpperCase());
+}
+
+function normalizeSubmissionInput(input: unknown): string {
+  if (typeof input === "string") return input.trim();
+  if (!input || typeof input !== "object" || Array.isArray(input)) return "";
+
+  const record = input as Record<string, unknown>;
+  const preferredOrder = [
+    "discovery",
+    "execution",
+    "verification",
+    "safetyAndReporting",
+    "safety",
+    "reporting",
+    "notes",
+  ];
+  const orderedKeys = [
+    ...preferredOrder.filter((key) => key in record),
+    ...Object.keys(record).filter((key) => !preferredOrder.includes(key)),
+  ];
+  const sections = orderedKeys
+    .map((key) => {
+      const value = record[key];
+      if (value === undefined || value === null) return null;
+      const content =
+        typeof value === "string"
+          ? value.trim()
+          : JSON.stringify(value, null, 2);
+      if (!content) return null;
+      return `## ${toSectionTitle(key)}\n${content}`;
+    })
+    .filter((entry): entry is string => typeof entry === "string");
+
+  return sections.join("\n\n").trim();
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!applyRateLimit(req, res, "assessments")) return;
   if (req.method !== "POST") {
@@ -22,7 +65,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const attemptId = String(req.body?.attemptId ?? "").trim();
-  const submission = String(req.body?.submission ?? "").trim();
+  const submission = normalizeSubmissionInput(req.body?.submission);
   const attemptType = req.body?.attemptType === "resit" ? "resit" : "initial";
   if (!attemptId) return res.status(400).json({ error: "attemptId is required" });
   if (!submission) return res.status(400).json({ error: "submission is required" });

@@ -17,6 +17,11 @@ import {
 } from "../../../lib/attestation-validator.js";
 
 const SKILL_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+type ExamTracePayload = {
+  runtime: { totalSteps: number };
+  fileDiffs: unknown[];
+  hardFailSignals: unknown[];
+};
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -78,6 +83,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     )
     : [];
+  const traceInput = body.trace;
+  const hasTrace = traceInput && typeof traceInput === "object" && !Array.isArray(traceInput);
 
   const examAttempt = await getSkillExamAttempt(auth.uid, body.examAttemptId);
   if (!examAttempt) {
@@ -99,6 +106,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     || body.skillHash !== examAttempt.skillHash
   ) {
     return res.status(400).json({ error: "Attestation binding fields do not match the issued exam attempt" });
+  }
+
+  if (assertionResults.length === 0 && !hasTrace) {
+    return res.status(400).json({
+      error: "Either trace or assertionResults is required for attestation verification",
+    });
+  }
+
+  if (hasTrace) {
+    const trace = traceInput as Partial<ExamTracePayload>;
+    const totalSteps = trace.runtime?.totalSteps;
+    if (
+      typeof totalSteps !== "number"
+      || !Number.isFinite(totalSteps)
+      || totalSteps < 0
+      || !Array.isArray(trace.fileDiffs)
+      || !Array.isArray(trace.hardFailSignals)
+    ) {
+      return res.status(400).json({
+        error:
+          "trace must include runtime.totalSteps (number), fileDiffs (array), and hardFailSignals (array)",
+      });
+    }
+  }
+
+  if (!hasTrace && examAttempt.assertionIds.length > 0) {
+    const submittedAssertionIds = new Set(assertionResults.map((item) => item.id));
+    const missingAssertionIds = examAttempt.assertionIds.filter((id) => !submittedAssertionIds.has(id));
+    if (missingAssertionIds.length > 0) {
+      return res.status(400).json({
+        error: "assertionResults must include all contract assertion IDs when trace is omitted",
+        missingAssertionIds,
+      });
+    }
   }
 
   const attestation: ExamAttestation = {

@@ -122,6 +122,174 @@ describe("POST /api/skills/[slug]/exam/submit", () => {
     expect((res.body as any).error).toContain("binding fields");
   });
 
+  it("rejects submit when both trace and assertionResults are missing", async () => {
+    vi.doMock("../../api/_lib/session.js", () => ({
+      authenticateRequest: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
+    }));
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    vi.doMock("../../api/_lib/telemetry.js", () => ({
+      createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
+    }));
+    vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
+      getSkillExamAttempt: vi.fn().mockResolvedValue({
+        examAttemptId: "skill-123",
+        uid: "CLW-test-0001",
+        skillId: "postgres-backups",
+        challengeNonce: "nonce-123",
+        contractHash: "contract-abc",
+        skillVersion: "1.0.0",
+        skillHash: "skill-hash-abc",
+        tier: 2,
+        credits: 1,
+        passingScore: 70,
+        assertionIds: ["efficiency-check"],
+        dynamicParams: {},
+        startedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 60_000).toISOString(),
+        status: "started",
+      }),
+      saveSkillExamAttempt: vi.fn(),
+      saveSkillVerification: vi.fn(),
+    }));
+    vi.doMock("../../api/lib/attestation-validator.js", () => ({
+      verifyAttestation: vi.fn(),
+    }));
+
+    const { default: handler } = await import("../../api/skills/[slug]/exam/submit.js");
+    const req = {
+      method: "POST",
+      query: { slug: "postgres-backups" },
+      body: {
+        ...baseBody(),
+        assertionResults: undefined,
+      },
+    } as any;
+    const res = createRes();
+
+    await handler(req, res as any);
+    expect(res.statusCode).toBe(400);
+    expect((res.body as any).error).toContain("Either trace or assertionResults");
+  });
+
+  it("rejects incomplete assertionResults when trace is omitted", async () => {
+    vi.doMock("../../api/_lib/session.js", () => ({
+      authenticateRequest: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
+    }));
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    vi.doMock("../../api/_lib/telemetry.js", () => ({
+      createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
+    }));
+    vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
+      getSkillExamAttempt: vi.fn().mockResolvedValue({
+        examAttemptId: "skill-123",
+        uid: "CLW-test-0001",
+        skillId: "postgres-backups",
+        challengeNonce: "nonce-123",
+        contractHash: "contract-abc",
+        skillVersion: "1.0.0",
+        skillHash: "skill-hash-abc",
+        tier: 2,
+        credits: 1,
+        passingScore: 70,
+        assertionIds: ["efficiency-check", "no-hard-fail-signals"],
+        dynamicParams: {},
+        startedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 60_000).toISOString(),
+        status: "started",
+      }),
+      saveSkillExamAttempt: vi.fn(),
+      saveSkillVerification: vi.fn(),
+    }));
+    vi.doMock("../../api/lib/attestation-validator.js", () => ({
+      verifyAttestation: vi.fn(),
+    }));
+
+    const { default: handler } = await import("../../api/skills/[slug]/exam/submit.js");
+    const req = {
+      method: "POST",
+      query: { slug: "postgres-backups" },
+      body: {
+        ...baseBody(),
+        assertionResults: [{ id: "efficiency-check", passed: true }],
+      },
+    } as any;
+    const res = createRes();
+
+    await handler(req, res as any);
+    expect(res.statusCode).toBe(400);
+    expect((res.body as any).error).toContain("assertionResults must include all contract assertion IDs");
+    expect((res.body as any).missingAssertionIds).toEqual(["no-hard-fail-signals"]);
+  });
+
+  it("accepts a valid trace payload when assertionResults are omitted", async () => {
+    const verifyAttestationMock = vi.fn().mockReturnValue({
+      score: 86,
+      maxScore: 100,
+      decision: "pass",
+      hardFail: { triggered: false, reasons: [] },
+    });
+    vi.doMock("../../api/_lib/session.js", () => ({
+      authenticateRequest: vi.fn().mockResolvedValue({ uid: "CLW-test-0001" }),
+    }));
+    vi.doMock("../../api/_lib/security.js", () => ({
+      applyRateLimit: vi.fn().mockReturnValue(true),
+    }));
+    vi.doMock("../../api/_lib/telemetry.js", () => ({
+      createAuditContext: vi.fn().mockReturnValue({ log: vi.fn() }),
+    }));
+    vi.doMock("../../api/_lib/blob.js", () => ({
+      getTranscript: vi.fn().mockResolvedValue({ currentState: "sophomore" }),
+      getSkillExamAttempt: vi.fn().mockResolvedValue({
+        examAttemptId: "skill-123",
+        uid: "CLW-test-0001",
+        skillId: "postgres-backups",
+        challengeNonce: "nonce-123",
+        contractHash: "contract-abc",
+        skillVersion: "1.0.0",
+        skillHash: "skill-hash-abc",
+        tier: 2,
+        credits: 1,
+        passingScore: 70,
+        assertionIds: ["efficiency-check"],
+        dynamicParams: {},
+        startedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 60_000).toISOString(),
+        status: "started",
+      }),
+      saveSkillExamAttempt: vi.fn(),
+      saveSkillVerification: vi.fn(),
+    }));
+    vi.doMock("../../api/lib/attestation-validator.js", () => ({
+      verifyAttestation: verifyAttestationMock,
+    }));
+
+    const { default: handler } = await import("../../api/skills/[slug]/exam/submit.js");
+    const req = {
+      method: "POST",
+      query: { slug: "postgres-backups" },
+      body: {
+        ...baseBody(),
+        assertionResults: undefined,
+        trace: {
+          runtime: { totalSteps: 12 },
+          fileDiffs: [{ path: "api/admission.ts" }],
+          hardFailSignals: [],
+        },
+      },
+    } as any;
+    const res = createRes();
+
+    await handler(req, res as any);
+    expect(res.statusCode).toBe(200);
+    expect(verifyAttestationMock).toHaveBeenCalledTimes(1);
+  });
+
   it("uses server-issued passingScore for attestation verification", async () => {
     const verifyAttestationMock = vi.fn().mockReturnValue({
       score: 65,

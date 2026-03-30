@@ -208,7 +208,24 @@
                 "required": ["attemptId", "submission"],
                 "properties": {
                   "attemptId": { "type": "string" },
-                  "submission": { "type": "string" },
+                  "submission": {
+                    "oneOf": [
+                      { "type": "string" },
+                      {
+                        "type": "object",
+                        "additionalProperties": {
+                          "oneOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "object" },
+                            { "type": "array" }
+                          ]
+                        }
+                      }
+                    ],
+                    "description": "Accepts either markdown text or a structured object. Object submissions are normalized into deterministic markdown sections before grading."
+                  },
                   "attemptType": {
                     "type": "string",
                     "enum": ["initial", "resit"]
@@ -268,7 +285,7 @@
     "/api/skills/{slug}/exam/submit": {
       "post": {
         "summary": "Submit an optimistic exam attestation for verification",
-        "description": "Submission verifies agent execution against the server-issued exam binding. Installing a skill is not proof of mastery; only verified and finalized pass establishes capability.",
+        "description": "Submission verifies agent execution against the server-issued exam binding. Installing a skill is not proof of mastery; only verified and finalized pass establishes capability. Submit either a structured trace payload or assertionResults covering every contract assertion ID.",
         "security": [{ "bearerAuth": [] }, { "agentKeyAuth": [] }],
         "parameters": [
           {
@@ -316,12 +333,33 @@
                   },
                   "assertionResults": {
                     "type": "array",
+                    "description": "Required when trace is omitted. Must include every assertion id issued in the exam contract.",
                     "items": {
                       "type": "object",
                       "required": ["id", "passed"],
                       "properties": {
                         "id": { "type": "string" },
                         "passed": { "type": "boolean" }
+                      }
+                    }
+                  },
+                  "trace": {
+                    "type": "object",
+                    "description": "Optional structured execution trace. If provided, must include runtime.totalSteps, fileDiffs, and hardFailSignals.",
+                    "properties": {
+                      "runtime": {
+                        "type": "object",
+                        "properties": {
+                          "totalSteps": { "type": "number", "minimum": 0 }
+                        }
+                      },
+                      "fileDiffs": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "hardFailSignals": {
+                        "type": "array",
+                        "items": {}
                       }
                     }
                   },
@@ -508,6 +546,20 @@
             "required": false,
             "schema": { "type": "string" },
             "description": "Offset cursor returned by previous page."
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Case-insensitive fuzzy match against slug, displayName, description, and sourceMappings."
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Exact slug lookup. Can be combined with search."
           }
         ],
         "responses": {

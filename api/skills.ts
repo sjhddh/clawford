@@ -30,6 +30,12 @@ function parseCursor(raw: unknown): number {
   return value;
 }
 
+function parseOptionalQuery(raw: unknown): string | null {
+  if (typeof raw !== "string") return null;
+  const value = raw.trim().toLowerCase();
+  return value.length > 0 ? value : null;
+}
+
 function loadRegistryItems(): SkillItem[] {
   const registryRoot = resolve(process.cwd(), "exam-registry");
   const entries = readdirSync(registryRoot, { withFileTypes: true });
@@ -172,10 +178,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const allItems = loadRegistryItems();
   const catalogSlugs = loadCatalogSlugs();
   const sourceCatalog = loadCatalogStats();
+  const search = parseOptionalQuery(req.query.search);
+  const slug = parseOptionalQuery(req.query.slug);
+  const filteredItems = allItems.filter((item) => {
+    if (slug && item.slug !== slug) return false;
+    if (!search) return true;
+
+    const searchable = [
+      item.slug,
+      item.displayName,
+      item.description,
+      ...item.sourceMappings,
+    ]
+      .join(" ")
+      .toLowerCase();
+    return searchable.includes(search);
+  });
   const limit = parseLimit(req.query.limit);
   const cursorOffset = parseCursor(req.query.cursor);
-  const items = allItems.slice(cursorOffset, cursorOffset + limit);
-  const nextCursor = cursorOffset + limit < allItems.length ? String(cursorOffset + limit) : null;
+  const items = filteredItems.slice(cursorOffset, cursorOffset + limit);
+  const nextCursor = cursorOffset + limit < filteredItems.length ? String(cursorOffset + limit) : null;
 
   const coverageReport = loadCoverageReport();
   const coverage = coverageReport
@@ -209,10 +231,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     },
     items,
-    total: allItems.length,
+    total: filteredItems.length,
     limit,
     cursor: String(cursorOffset),
     nextCursor,
+    filters: {
+      search,
+      slug,
+    },
     coverage,
   });
 }

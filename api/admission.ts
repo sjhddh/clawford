@@ -160,7 +160,8 @@ export default async function handler(
           return loginResponse(maybeExisting);
         }
         return res.status(429).json({
-          error: "Registration cooldown active. One registration per device every 7 days.",
+          error:
+            "Registration cooldown active. One registration per device every 7 days. If you are behind a shared NAT, send a stable X-Device-Id header for an independent cooldown window.",
           code: "COOLDOWN",
           retryAfter: regCheck.retryAfter,
         });
