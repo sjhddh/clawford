@@ -132,8 +132,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (!hasTrace && examAttempt.assertionIds.length > 0) {
-    const submittedAssertionIds = new Set(assertionResults.map((item) => item.id));
-    const missingAssertionIds = examAttempt.assertionIds.filter((id) => !submittedAssertionIds.has(id));
+    const submittedAssertionIds = new Set(assertionResults.map((item: { id: string }) => item.id));
+    const missingAssertionIds = examAttempt.assertionIds.filter((id: string) => !submittedAssertionIds.has(id));
     if (missingAssertionIds.length > 0) {
       return res.status(400).json({
         error: "assertionResults must include all contract assertion IDs when trace is omitted",
