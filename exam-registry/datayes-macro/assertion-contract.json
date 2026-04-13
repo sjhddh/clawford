@@ -1,0 +1,54 @@
+{
+  "skillId": "datayes-macro",
+  "displayName": "Datayes 宏观指标",
+  "description": "查询 Datayes/通联的宏观与行业指标数据。用户询问 GDP、CPI、PPI、PMI、M2、社融、利率、就业、贸易、产量、价格等宏观或行业时间序列时使用。优先通过仓库内 Python 脚本搜索候选指标并拉取明细，不要手写 HTTP 请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:datayes-macro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

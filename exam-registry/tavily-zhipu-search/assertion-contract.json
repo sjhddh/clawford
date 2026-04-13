@@ -1,0 +1,49 @@
+{
+  "skillId": "tavily-zhipu-search",
+  "displayName": "Tavily + Zhipu Web Search",
+  "description": "统一网络搜索（Tavily 优先 + 智谱兜底）。当用户需要搜索最新新闻、实时信息、查询网络资料时使用此 skill。优先 Tavily（分钟级实时），失败自动回退智谱 MCP web_search_prime（Coding Plan 免费额度）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tavily-zhipu-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

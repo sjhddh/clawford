@@ -1,0 +1,54 @@
+{
+  "skillId": "fanqie-novel-auto-publish",
+  "displayName": "番茄小说自动创作发布一条龙",
+  "description": "番茄小说创作发布一条龙技能。整合 open-novel-writing (AI创作) + fanqie-publisher (番茄发布)，从想法一键生成到发布到番茄小说。 完整流程：想法 → 设定 → 大纲 → 生成多章 → 评审修订 → 自动发布到番茄小说。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fanqie-novel-auto-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

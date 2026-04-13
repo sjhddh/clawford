@@ -1,0 +1,54 @@
+{
+  "skillId": "web-browser-toolkit",
+  "displayName": "Openclaw Web Browser",
+  "description": "웹사이트 브라우징, 정보 수집, 데이터 추출, 모니터링을 위한 종합 브라우징 스킬. 정적/동적 웹페이지에서 데이터를 수집하고 JSON으로 구조화하며, 변경사항 모니터링과 정기 수집을 지원한다. 항공(ICAO, FAA 등) 기관 수집에 특화된 프리셋도 포함.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-browser-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

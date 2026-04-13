@@ -1,0 +1,54 @@
+{
+  "skillId": "benchclaw",
+  "displayName": "Benchclaw",
+  "description": "BenchClaw 是 OpenClaw Agent 的专业级“安兔兔”评测框架。它专注于对 AI Agent 进行多维度、 自动化的量化评估与能力基准测试，集成了任务分发、精准评分、可视化报表生成及热更新功能。 当需要量化 Agent 的推理规划、响应速度、Token 成本及安全性时使用。 **用户意图/指令*...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:benchclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

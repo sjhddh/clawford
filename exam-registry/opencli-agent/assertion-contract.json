@@ -1,0 +1,54 @@
+{
+  "skillId": "opencli-agent",
+  "displayName": "opencli-agent",
+  "description": "当用户希望通过命令行自动化与网站或在线服务交互时，应使用本技能。它支持在 Twitter/X 上发帖、浏览 Reddit、获取 B站热门、下载小红书内容等 70+ 个平台的操作——全部通过 opencli 工具完成。触发场景包括社交媒体操作（发帖、点赞、关注、搜索）、内容获取（热门、时间线、动态流）、下载（视频、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opencli-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

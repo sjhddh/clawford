@@ -1,0 +1,54 @@
+{
+  "skillId": "dragon-session-compactor",
+  "displayName": "Dragon Session Compactor",
+  "description": "上下文压缩技能。当对话越来越长、token快爆的时候，自动压缩旧消息为摘要，保留最近上下文。 触发条件： - \"压缩会话\"、\"compact\"、\"上下文满了\" - 检测到消息超过阈值（默认100条或token估计超过80000） - 手动调用 $compact 无外部依赖，纯Node.js实现。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dragon-session-compactor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "developer-self-improve-core",
+  "displayName": "developer-self-improve-core",
+  "description": "开发者自改进核心技能 - 自动错误防重、自检、规则生成、记忆清洗、定时提醒 核心功能： - 每轮回答前：自动错误防重 - 每轮回答后：自动自检 + 生成规则草案 - 累计 10 轮对话/每周：自动记忆清洗扫描 - 自动提醒：每天 9:30 钉钉推送待确认规则 核心原则： - AI 只提议，人类终审 - 绝不自动写...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:developer-self-improve-core"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

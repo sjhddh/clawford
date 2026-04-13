@@ -1,0 +1,54 @@
+{
+  "skillId": "fanqie-publisher-skill",
+  "displayName": "番茄小说自动发布",
+  "description": "番茄小说章节自动发布工具。使用场景：(1) 发布单个章节到番茄小说平台；(2) 批量发布多个章节；(3) 存入草稿箱；(4) 登录番茄小说作家后台；(5) 查看作品列表和状态。触发词：番茄发布、番茄小说上传、发布章节、存入草稿箱、番茄登录。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fanqie-publisher-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

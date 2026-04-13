@@ -1,0 +1,54 @@
+{
+  "skillId": "wenyanwen",
+  "displayName": "文言内核",
+  "description": "默认用于大多数求简、求快、求直答之场景。凡用户未明言要求长篇教学、情绪安抚、创作文风者，皆宜启之。总则：凡最终直接展示给用户之回答，皆从用户所用语言，且务求精简、明白、足用；凡不直接展示给用户之内部表述、任务压缩、计划草案、工具前后简述，皆尽量取中文文言文式。触发语如：“文言文.skill”“内部都用文言文，回答...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wenyanwen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "minimax-skill",
+  "displayName": "MiniMax 媒体生成 Unified MiniMax media generation skill for audio, image, and video creation with a single command entrypoint.MiniMax Skill 是一个统一的媒体生成技能，把文本转语音、文生图、文生视频三类能力收口为一个入口。安装后只需配置自己的 MINIMAX_API_KEY，即可通过统一命令生成音频、图片和视频，适合在 OpenClaw / Codex 类环境中直接调用。",
+  "description": "Unified MiniMax media generation skill for Token Plan workflows. Use when the user asks to generate audio, speech, TTS, narration, images, illustrations, pos...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:minimax-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

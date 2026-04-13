@@ -1,0 +1,49 @@
+{
+  "skillId": "ip-lookup-tool",
+  "displayName": "IP Lookup Tool",
+  "description": "查询当前公网 IP、城市位置（含中文名）和运营商。当用户问“我的 IP 是多少”“我现在的 IP 地址”“我在哪个城市上网”这类问题时使用。优先返回公网出口 IP，而不是局域网 IP。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ip-lookup-tool"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

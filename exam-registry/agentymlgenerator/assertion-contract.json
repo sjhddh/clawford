@@ -1,0 +1,54 @@
+{
+  "skillId": "agentymlgenerator",
+  "displayName": "AgentYMLgenerator",
+  "description": "生成可直接导入 Dify 1.3.1 平台的 Agent 工作流 YAML 配置文件。当用户描述业务需求、SOP流程、或要求生成 Dify workflow/agent YAML 时，必须使用本 skill。触发词包括：生成yml、生成yaml、dify工作流、agent yaml、工作流配置、导入dify、生成...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentymlgenerator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

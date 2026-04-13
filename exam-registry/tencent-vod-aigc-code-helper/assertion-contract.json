@@ -1,0 +1,54 @@
+{
+  "skillId": "tencent-vod-aigc-code-helper",
+  "displayName": "Tencent VOD AIGC code helper",
+  "description": "腾讯云点播（VOD）AIGC 接口对接助手。当用户需要对接腾讯云点播 AIGC 生图、生视频、自定义主体、自定义音色等接口时使用，包括：调用各类 AIGC API、查询任务状态、处理回调事件、使用腾讯云 SDK 示例代码等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencent-vod-aigc-code-helper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

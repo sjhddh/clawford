@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-improvement-learner",
+  "displayName": "Improvement Learner",
+  "description": "当需要检查 skill 质量评分、自动优化 SKILL.md 结构、追踪评估分数变化趋势、或「评分低了想知道哪里扣分」时使用。6维结构评估 + HOT/WARM/COLD 三层记忆 + Pareto front。不用于候选语义打分（用 improvement-discriminator）或全流程编排（用 impr...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-improvement-learner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

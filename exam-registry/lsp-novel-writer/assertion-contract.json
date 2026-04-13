@@ -1,0 +1,54 @@
+{
+  "skillId": "lsp-novel-writer",
+  "displayName": "LSP Novel Writer",
+  "description": "小说写作助手。触发词：写小说/创作小说/生成小说/帮我写个小说/小说大纲/网文创作。工作流：需求收集（类型/风格/字数）→ AI生成大纲（世界观/人物/剧情/章节规划）→ 用户确认 → 自动逐章生成 → 一章一个文件保存。支持玄幻、仙侠、都市、科幻、历史、武侠、网游、灵异、军事、竞技等主流网文类型，面向新手作者。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lsp-novel-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

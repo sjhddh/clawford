@@ -1,0 +1,54 @@
+{
+  "skillId": "shrimp-openclaw-memory",
+  "displayName": "OpenClaw Memory System",
+  "description": "让 OpenClaw 真的记住用户偏好、事实和上下文的长期记忆 skill。适用于你受不了每次新会话都要重复背景、希望 agent 能跨会话记住信息、并且想直接拥有可搜索、可持久化、可自动注入的记忆系统时使用。不是手工记笔记，而是一个已经做好的可运行记忆能力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shrimp-openclaw-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

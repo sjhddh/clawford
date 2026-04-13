@@ -1,0 +1,54 @@
+{
+  "skillId": "pv-inspection",
+  "displayName": "PV Inspection",
+  "description": "光伏电站巡检报告生成技能。支持创建标准化巡检报告、记录缺陷问题、统计汇总数据、导出 Word/PDF 格式。使用场景：(1) 生成每日/周/月巡检报告，(2) 记录电站缺陷和隐患，(3) 统计发电量数据，(4) 导出格式化报告文档。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pv-inspection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

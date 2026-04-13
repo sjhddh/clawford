@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-report-and-weekly-report",
+  "displayName": "日报和周报(daily-report and weekly-report)",
+  "description": "自动生成工作日报和周报的技能。当用户需要生成工作总结、工作汇报、日报或周报时使用。 技能通过分析git提交记录、TODO注释和工作日志，自动生成结构化的工作报告。 使用此技能的场景包括：用户需要向领导汇报工作进展、总结本周完成的任务、 准备每日站立会议内容、记录工作成果、规划下周工作等。 确保在用户提到\"日报\"、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-report-and-weekly-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "dream-memory",
+  "displayName": "dream-memory",
+  "description": "完整的工作区记忆管理系统。四层架构：文件存储 + OpenViking 向量引擎 + Ollama bge-m3 + Agent 规则。 Use when: 用户询问记忆系统如何工作、如何安装记忆系统到新 Agent、记忆文件结构、向量检索原理、 Session Flush 机制、长期记忆晋升规则、OpenVik...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dream-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

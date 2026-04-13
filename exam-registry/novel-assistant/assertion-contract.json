@@ -1,0 +1,54 @@
+{
+  "skillId": "novel-assistant",
+  "displayName": "Novel Assistant",
+  "description": "小说创作助手，维护小说连贯性和一致性。核心功能：(1) 创建/续写小说章节 (2) 管理人物设定和世界观 (3) 追踪伏笔和时间线 (4) 压缩记忆文件控制上下文 (5) 本地章节备份 (6) 多作品并行管理 (7) 人物对话风格样本库。触发词：小说、章节、续写、人物设定、创建小说、世界观、伏笔、时间线、剧情概要...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:novel-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

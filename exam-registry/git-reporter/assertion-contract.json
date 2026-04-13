@@ -1,0 +1,54 @@
+{
+  "skillId": "git-reporter",
+  "displayName": "Git Reporter",
+  "description": "智能站会与工作汇报生成器。分析当前仓库的 git 提交记录、分支变更和未完成工作， 自动生成结构化的每日站会、周报或 Sprint 回顾。支持团队模式和自定义输出格式。 仅使用本地 git 命令，不访问远程 API。当用户提到写站会、每日汇报、晨会、周报、工作总结时自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:git-reporter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

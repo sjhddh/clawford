@@ -1,0 +1,54 @@
+{
+  "skillId": "comprehensive-test-case-writer",
+  "displayName": "根据PRD或者你的测试用例来编写和修改测试用例",
+  "description": "全面测试用例编写和优化技能。当用户需要基于需求文档或现有测试用例设计、评审、优化测试用例时使用。 技能支持分析用户提供的需求文档（PRD、用户故事、API文档等）或现有测试用例， 生成全面、准确的测试用例，或对现有测试用例进行评审、完善和优化。 技能覆盖功能、性能、安全、易用性、界面、兼容性、异常场景等多个测试维...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:comprehensive-test-case-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

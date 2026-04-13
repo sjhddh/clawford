@@ -1,0 +1,49 @@
+{
+  "skillId": "videototext",
+  "displayName": "VideoToText — subtitles & summary",
+  "description": "指导稳定拉取 B 站官方字幕（应对限流/登录可见轨道）、并用 OpenAI 兼容接口生成中文总结稿；技能包内含 code/ 镜像源码与 env 模板，可打 zip 给 OpenClaw 离线使用。 适用于 Bilibili 链接解析、字幕提取失败排查、SESSDATA/Cookie、WBI player 字幕、字...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:videototext"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

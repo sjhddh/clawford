@@ -1,0 +1,54 @@
+{
+  "skillId": "0xcjl-auto-context",
+  "displayName": "auto-context",
+  "description": "智能上下文卫生检查器。分析当前会话的上下文污染程度 （长对话、主题漂移、噪声累积），建议：continue、/fork、/btw 或新会话。 支持手动触发（/auto-context）和自动触发（响应层实现）。 基于 ArXiv 论文和认知心理学研究的多维度评估体系。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:0xcjl-auto-context"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

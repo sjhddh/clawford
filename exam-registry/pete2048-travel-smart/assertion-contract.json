@@ -1,0 +1,54 @@
+{
+  "skillId": "pete2048-travel-smart",
+  "displayName": "TravelSmart",
+  "description": "自驾出行决策助手 - 高速出口推荐、途中住宿、打车点推荐三大场景。 高德地图 Web API + 多因子评分算法，支持 CLI / Web / 飞书三种使用方式。 必填环境变量：AMAP_KEY（高德地图）；可选：MINIMAX_API_KEY、FEISHU_APP_ID、FEISHU_APP_SECRET。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pete2048-travel-smart"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "improvement-discriminator",
+  "displayName": "Improvement Discriminator",
+  "description": "当需要对改进候选多人盲审打分、用 LLM 做语义评估、判断候选是否应被接受、或打分结果全是 hold 想知道为什么时使用。支持 --panel 多审阅者盲审和 --llm-judge 语义评估。不用于结构评估（用 improvement-learner）或门禁决策（用 improvement-gate）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:improvement-discriminator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

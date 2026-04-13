@@ -1,0 +1,54 @@
+{
+  "skillId": "acpx-bridge-troubleshooting-guide",
+  "displayName": "Acpx Bridge Troubleshooting Guide",
+  "description": "解决 acpx 桥接超时问题和 OpenClaw 飞书多账户配置。当遇到 acpx 连接 Gateway 超时、initialize 卡住、WebSocket 1005 错误、gateway.token 缺失、acpx 配置错误、飞书多机器人配置、ACP 协议解析失败、bindings 路由不生效等问题时使用。包...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:acpx-bridge-troubleshooting-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

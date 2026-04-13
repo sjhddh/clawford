@@ -1,0 +1,54 @@
+{
+  "skillId": "gitlab-team-report",
+  "displayName": "GitLab Team Report",
+  "description": "生成 GitLab 团队周报，支持按产品功能分类 MR、按成员和仓库汇总贡献、输出 Markdown/HTML、生成图表和历史周报首页，并可选上传到飞书文档。用于用户提到“GitLab 周报”“团队周报”“统计本周 MR/commit”“按功能归类开发工作”“生成 HTML 周报”“上传周报到飞书”等场景。 Ge...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gitlab-team-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

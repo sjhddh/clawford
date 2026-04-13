@@ -1,0 +1,49 @@
+{
+  "skillId": "api-event-query",
+  "displayName": "Closeli Open Device Event Query",
+  "description": "调用 ai-open-gateway 的事件查询接口 POST /api/event/query，支持自然语言查询设备事件，返回 AI 摘要和事件列表。Use when: 需要查询设备检测到的事件、了解某段时间内的活动情况，例如有没有人出现、有没有车开过、我的猫去哪里了等自然语言问题。⚠️ 需设置 AI_GATE...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:api-event-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

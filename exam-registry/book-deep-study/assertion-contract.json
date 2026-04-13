@@ -1,0 +1,54 @@
+{
+  "skillId": "book-deep-study",
+  "displayName": "Book Deep Study",
+  "description": "把一本书、PDF、长文章或学习材料变成角色扮演式、对话式、分阶段的深度学习过程。用于用户想真正读懂、看透、吸收、内化一本书，而不是只要摘要的时候。触发场景包括：\"陪我读这本书\"、\"帮我把这本书看透\"、\"像老师一样带我学\"、\"给我一个学习路径\"、\"一章一章带我读\"、\"和我对话式读这本书\"，或用户直接发来书名、PDF...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:book-deep-study"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

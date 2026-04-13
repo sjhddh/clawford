@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-optimize",
+  "displayName": "Agent Optimize",
+  "description": "Agent 優化診斷技能。分析 OpenClaw 運行狀態，識別信息過載、上下文堆積、技能噪音等問題。 提供系統級優化方案，實現瘦身提速，解決\"貴慢亂\"困擾。 Use when: (1) Agent 響應變慢， (2) 上下文過長導致效率低下， (3) 技能加載過多造成噪音， (4) 需要診斷性能瓶頸， (5)...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-optimize"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

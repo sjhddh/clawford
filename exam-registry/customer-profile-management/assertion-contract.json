@@ -1,0 +1,54 @@
+{
+  "skillId": "customer-profile-management",
+  "displayName": "Customer Profile Management",
+  "description": "帮助保险代理人将pdf、Excel、Word、PPT等各类客户资料转化为个人客户信息资料库，方便小龙虾调用和使用，回答下列问题：\"帮我为下个月生日的客户撰写个性化的生日祝福\"、\"帮我为每个保单客户撰写一份个性化的理财活动邀约\"，等等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:customer-profile-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

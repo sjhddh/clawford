@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-copilot",
+  "displayName": "Meeting Copilot",
+  "description": "会议运营 Copilot — 支持会前 briefing 生成、会中结构化纪要整理、会后待办追踪与 follow-up 草稿。面向需要系统性管理会议全生命周期的职场人士。提供 boss mode（向上汇报视角）和 executor mode（向下追踪视角）两种输出格式。⚠️ 不提供实时语音转录、日历集成或自动提醒。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-copilot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

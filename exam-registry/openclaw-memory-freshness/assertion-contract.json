@@ -1,0 +1,54 @@
+{
+  "skillId": "openclaw-memory-freshness",
+  "displayName": "OpenClaw: memory freshness",
+  "description": "为 OpenClaw 4.2 记忆搜索结果添加新鲜度警告。当记忆搜索结果返回时自动注入时间戳警告，提示模型验证旧记忆。当用户提到记忆过时、记忆不准确、记忆过期、或要求添加记忆新鲜度提醒时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:openclaw-memory-freshness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

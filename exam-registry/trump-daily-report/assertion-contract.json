@@ -1,0 +1,54 @@
+{
+  "skillId": "trump-daily-report",
+  "displayName": "Trump Daily Report",
+  "description": "每日特朗普动态追踪报告技能。自动采集特朗普前一日Truth Social/社交媒体发言，监控美国主流媒体（CNBC/Bloomberg/Reuters/WSJ/FT/NYT等）对特朗普言论的报道，分析其对金融市场的影响，于每日9:00前生成并推送中英双语分析报告。支持报告历史记忆、趋势对比分析、情境变化追踪和市场预测。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trump-daily-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

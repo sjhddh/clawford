@@ -1,0 +1,54 @@
+{
+  "skillId": "fapiao-clipper",
+  "displayName": "Fapiao Clipper",
+  "description": "发票夹子 v1.4 - 本地大模型驱动的发票自动识别与报销管理工具。 2级降级链：PyMuPDF文本提取（修复跨行匹配）→ Qwen3-VL视觉模型。 新增：seller/buyer跨行匹配修复、日期标准化。 功能：8项风控验真 + 一键导出 Excel + 合并 PDF。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fapiao-clipper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

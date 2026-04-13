@@ -1,0 +1,54 @@
+{
+  "skillId": "outlook-microsoft",
+  "displayName": "outlook-microsoft",
+  "description": "微软 Outlook 邮箱和日历管理工具（支持世纪互联版 Office 365）。当用户要求查看邮件、发送邮件、搜索邮件、管理日历日程、创建会议、查询忙闲状态时使用。注意：此 Skill 仅支持世纪互联（21Vianet）版本的 Microsoft 365，使用 login.chinacloudapi.cn /...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:outlook-microsoft"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

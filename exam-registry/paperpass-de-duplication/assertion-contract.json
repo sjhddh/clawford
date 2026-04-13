@@ -1,0 +1,54 @@
+{
+  "skillId": "paperpass-de-duplication",
+  "displayName": "Harry Tan（Tin Hou Tam）",
+  "description": "根据 PaperPass 查重报告，对论文中标注了相似度百分比的段落进行智能降重改写，将高重复文字转化为低重复原创表达。适用场景：用户上传了 PaperPass 查重报告（PDF 或文本），需要降低论文重复率时使用。注意：本技能只针对「文字重复/抄袭检测」，不针对 AIGC 率（AIGC 率请用 humanize...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paperpass-de-duplication"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

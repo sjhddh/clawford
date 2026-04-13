@@ -1,0 +1,54 @@
+{
+  "skillId": "bom-sop-check",
+  "displayName": "BOM与SOP校对",
+  "description": "BOM与SOP对比校对技能。支持多个BOM文件合并后与SOP对比，检测名称规格、位号、数量差异，在SOP文件中标注差异、追加BOM数据并生成报告。校对报告包含：SOP独有物料、BOM独有物料、数量差异明细三个表格。触发场景：用户发送BOM和SOP文件要求对比校对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bom-sop-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

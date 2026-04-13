@@ -1,0 +1,54 @@
+{
+  "skillId": "sec-audit-cn",
+  "displayName": "Sec Audit Cn",
+  "description": "在中国等地区进行代码安全审计、安全编码与评审时使用：覆盖 OWASP Top 10、鉴权与授权、密钥与配置、CORS/CSP、 输入校验与防注入、XSS/CSRF、依赖漏洞、日志与错误处理；输出分级结论与可执行修复建议。 适用于 Web/API、移动端后端、小程序服务端、涉及个人信息与支付回调的业务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sec-audit-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

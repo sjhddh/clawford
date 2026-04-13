@@ -1,0 +1,54 @@
+{
+  "skillId": "cms-push-skill",
+  "displayName": "cms-push-skill",
+  "description": "用于\"发布 Skill / 上架 Skill / 推送 Skill / 更新已发布的 Skill / 下架 Skill / 把本地 Skill 上传到平台 / 同步到 ClawHub 或 GitHub\"。一键完成 打包 → 七牛上传 → 平台注册/更新/下架。需要先通过 cms-auth-skills 取得 to...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cms-push-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

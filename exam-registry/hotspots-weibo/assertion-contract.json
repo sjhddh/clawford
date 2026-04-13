@@ -1,0 +1,54 @@
+{
+  "skillId": "hotspots-weibo",
+  "displayName": "微博热点",
+  "description": "用于拉取并展示微博热点内容（接口为 https://hotspot.api4claw.com/hotspots/platform/微博?timestamp=$TIME_STEMP，返回 JSON 数组）。默认会提示用户创建定时任务（不自动执行），在用户确认后提供 cron 注册命令。适用于用户查询微博热点、服务状...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hotspots-weibo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

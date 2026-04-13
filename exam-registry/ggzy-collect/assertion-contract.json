@@ -1,0 +1,54 @@
+{
+  "skillId": "ggzy-collect",
+  "displayName": "公共资源交易信息收集",
+  "description": "从公共资源交易网站（淄博）抓取项目信息并保存到Excel。用于收集特定日期范围内的招标公告、中标信息等信息。触发场景：(1) 用户要求查询或收集公共资源交易信息 (2) 需要从ggzyjy.zibo.gov.cn抓取项目数据 (3) 需要将项目列表导出为Excel文件",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ggzy-collect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

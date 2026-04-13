@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-correction-cn",
+  "displayName": "AI幻觉纠偏 / AI纠偏",
+  "description": "AI幻觉纠偏 / AI纠偏 alias route into Official VeriClaw. 如果你的真实目标是官方公共安装入口，先安装 `vericlaw`；这个页面只负责把 AI幻觉纠偏、AI纠偏、AI监督、AI纠错、AI校正、模型纠偏、幻觉纠偏、AI幻觉、AI工作幻觉 和 bot纠偏 这些中文意图映射...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-correction-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tradingagents-cn-skill",
+  "displayName": "tradingagents-cn-skill",
+  "description": "股票多智能体分析报告生成。通过 6 个分析师串行分析 + 多空辩论 + 交易计划 + 风险评估， 生成专业 PDF 报告。触发场景：用户要求分析股票、生成股票报告、提供截图或代码进行分析、 询问买卖建议、要求技术分析或基本面分析或风险评估。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tradingagents-cn-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

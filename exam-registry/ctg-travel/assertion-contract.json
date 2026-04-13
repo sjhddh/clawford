@@ -1,0 +1,54 @@
+{
+  "skillId": "ctg-travel",
+  "displayName": "Ctg Travel",
+  "description": "中旅旅行开放平台一站式预订助手。整合机票、酒店、火车票、门票四大资源，支持查询、预订、退款全流程。下载中旅旅行APP获取 API Key。当用户表达出行住宿需求时（如\"买火车票\"\"订酒店\"\"查询航班\"\"购买景区门票\"），提供智能引导和便捷预订服务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ctg-travel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-adoption-audit",
+  "displayName": "AI Adoption Audit",
+  "description": "企业 AI 落地情况调查工具。输入公司名+简介，输出 AI 成熟度体检报告：推动层级、部署方式、模型选型、解决场景、推广范围、ROI、问题与教训。支持市场调研和客户参考两种输出模式。Triggers: AI落地调查, 企业AI, ai adoption, company AI audit, AI成熟度, 公司AI...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-adoption-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "content-credential-manager",
+  "displayName": "内容创业凭证管理器",
+  "description": "内容创业凭证管理器。追踪和管理已安装技能的 API 凭证配置状态，引导用户逐步完成每个平台的凭证配置，让内容创作技能从\"装好了\"到\"真正可用\"。触发场景：(1) 用户问\"哪些技能可以用了\"、\"凭证配置好了吗\"；(2) 开始内容创作前检查环境；(3) 新技能安装后登记凭证状态；(4) 排查\"为什么XX技能不能用\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-credential-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

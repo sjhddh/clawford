@@ -1,0 +1,49 @@
+{
+  "skillId": "zaker-news-search",
+  "displayName": "ZAKER新闻检索-news search",
+  "description": "基于ZAKER权威资讯库进行关键词新闻检索，支持指定时间范围（30天内）。Use when the user asks about 搜索新闻, 某事件新闻, 某人物新闻, 某关键词相关新闻, 查新闻, 新闻检索, 相关新闻, 某时间段新闻.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zaker-news-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

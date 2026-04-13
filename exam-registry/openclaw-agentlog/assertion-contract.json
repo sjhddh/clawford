@@ -1,0 +1,54 @@
+{
+  "skillId": "openclaw-agentlog",
+  "displayName": "openclaw-agentlog",
+  "description": "OpenClaw Agent 自动存证与 Trace 生命周期管理 Skill。 提供给 OpenClaw Agent 使用，实现： 1. 自动会话存证 - 通过 OpenClaw Hooks 自动记录 agent 活动 2. Trace 生命周期 - 管理 trace 的创建、认领、完成流程 When to a...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:openclaw-agentlog"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

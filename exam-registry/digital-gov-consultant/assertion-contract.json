@@ -1,0 +1,54 @@
+{
+  "skillId": "digital-gov-consultant",
+  "displayName": "digital-gov-consultant",
+  "description": "数字政府应用场景申报顾问及文档生成入口。 【AI执行顺序】此skill必须按以下步骤执行： 1. 首先执行下方\"第一步\"中的命令，自动打开浏览器展示示例文档 2. 然后执行\"第二步\"，引导用户描述项目需求 3. 最后执行\"第三步\"，协助用户提交需求生成文档 引导用户清晰描述数字政府相关项目的业务需求，提供专业咨询...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:digital-gov-consultant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

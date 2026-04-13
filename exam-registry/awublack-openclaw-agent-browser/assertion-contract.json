@@ -1,0 +1,54 @@
+{
+  "skillId": "awublack-openclaw-agent-browser",
+  "displayName": "Awublack Openclaw Agent Browser",
+  "description": "这是 openclaw-agent-browser 的官方、安全、本地化实现，由用户 awublack 维护。它调用你本地安装的 agent-browser CLI，安全地访问网页，提取标题和内容，并返回结构化摘要，让 AI 助手能理解并总结网页信息。 **使用场景**： (1) 用户要求：“帮我查看一下我的技能...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:awublack-openclaw-agent-browser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

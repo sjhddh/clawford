@@ -1,0 +1,54 @@
+{
+  "skillId": "unclecheng-ai-resume-judge",
+  "displayName": "Resume Score for the resume",
+  "description": "AI简历评分助手。根据用户上传的简历（含Markdown文本或文件），按照AI领域满分/及格线两份参考简历为基准，计算简历能力值（满分100分）。若简历非AI领域，则进行跨行业等价换算，评估该简历在其所属行业的能力水平。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unclecheng-ai-resume-judge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

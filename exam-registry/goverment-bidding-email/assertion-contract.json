@@ -1,0 +1,54 @@
+{
+  "skillId": "goverment-bidding-email",
+  "displayName": "goverment bidding email",
+  "description": "政府采购商机专用推报工具。根据商机数据自动生成 Excel 并通过 SMTP 发送邮件。当用户说\"govb-email\"、\"政府采购商机邮件\"、\"推送政府采购商机\"、\"政采商机通报\"时触发。注意：这不是通用邮件客户端，仅用于执行 govb 业务逻辑。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:goverment-bidding-email"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "customer-background-check",
+  "displayName": "Customer Background Check",
+  "description": "对客户公司做三查式合规背调，重点覆盖 OFAC 制裁名单检索、BIS/ECFR 黑名单地址关键词核查，以及生成给商务部同事 Dora 或 Shellen 的协查请求。用于用户要求“做客户背调”“查客户是否在制裁名单”“查注册地址是否在黑名单”“做三查”“生成给 Dora/Shellen 的出口数据协查消息”等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:customer-background-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

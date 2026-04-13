@@ -1,0 +1,54 @@
+{
+  "skillId": "onkos",
+  "displayName": "Onkos-AI长篇小说创作伙伴",
+  "description": "支持2000章规模的AI长篇小说创作伙伴，通过6级分层摘要、SQLite事实相关性引擎、本地语义检索和多角色协作实现600万字级连贯性保证；当用户需要创作小说、管理长篇创作项目、检查情节连贯性、构建角色心理模型、追踪伏笔回收时使用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:onkos"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "figma-mobile-cn",
+  "displayName": "Figma Mobile Cn",
+  "description": "将 Figma 设计稿转为移动端 UI 代码（Android Jetpack Compose / XML，iOS SwiftUI / UIKit）。 在用户粘贴 Figma 链接并希望生成布局代码时使用。 通过 Figma REST API 提取设计树与 token，必要时追问澄清，再输出可落地的工程代码。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:figma-mobile-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

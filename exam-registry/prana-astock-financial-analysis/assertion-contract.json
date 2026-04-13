@@ -1,0 +1,49 @@
+{
+  "skillId": "prana-astock-financial-analysis",
+  "displayName": "prana-astock-financial-analysis",
+  "description": "通过调用 Prana 平台上的远程 agent 完成以下处理：分析A股上市公司财务状况,从6个维度展示(盈利能力、偿债能力、营运能力、成长能力、现金流质量、估值水平),生成交互式HTML报告,默认分析近8个季度数据。 IMPORTANT: This skill has a mandatory step-by-st...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prana-astock-financial-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

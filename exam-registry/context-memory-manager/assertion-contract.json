@@ -1,0 +1,54 @@
+{
+  "skillId": "context-memory-manager",
+  "displayName": "context-memory-manager(记忆管家)",
+  "description": "多 Agent 上下文监控与记忆管理。监控每个 agent/subagent 的上下文长度， 根据模型最大上下文设置阈值，触发压缩保存记忆，并支持每日定时复盘记忆。 使用场景：(1) 监控会话上下文使用情况 (2) 上下文超过阈值时自动压缩并保存 (3) 每日定时复盘已有记忆、合并冗余、防止遗忘 (4) 查询当前...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:context-memory-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

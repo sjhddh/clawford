@@ -1,0 +1,54 @@
+{
+  "skillId": "link-resolver-engine",
+  "displayName": "link-resolver-engine",
+  "description": "当用户想要**下载抖音视频**、**下载B站视频**、**解析无水印直链**、**提取最高画质视频**、**把视频下下来**、**保存抖音/B站视频**时自动触发。 专门处理哔哩哔哩（Bilibili/B站）和抖音（Douyin）的任意视频链接（包括短链 b23.tv、douyin.com、bilibili.co...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:link-resolver-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

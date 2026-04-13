@@ -1,0 +1,54 @@
+{
+  "skillId": "sop-bom-report",
+  "displayName": "Sop Bom Report",
+  "description": "SOP与BOM对比校对，生成独立校对报告。支持单个SOP与多个BOM合并校对。从SOP提取物料信息（含页码、序号），与BOM对比，生成包含三个表格的报告：有差异物料（并排对比）、SOP独有物料、BOM独有物料。差异用红色标注，重复物料编码用黄色标注。自动清理临时文件和旧报告缓存。跨平台兼容（Linux/Mac/W...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sop-bom-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "editor1",
+  "displayName": "testskill-0410zip1",
+  "description": "用于查看和修改 Knot 平台智能体（Agent）配置的专业技能。当用户需要以下操作时使用：(1) 查看当前对话智能体的草稿配置，(2) 查看指定 agent_id 的草稿配置，(3) 搜索/列出名下有管理权限的 agent，(4) 查看 agent 可用的大模型列表，(5) 基于最新版本重新生成 agent 草...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:editor1"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

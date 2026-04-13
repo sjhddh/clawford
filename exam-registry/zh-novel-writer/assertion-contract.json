@@ -1,0 +1,54 @@
+{
+  "skillId": "zh-novel-writer",
+  "displayName": "zh-novel-writer - 批量生成引擎",
+  "description": "批量生成网络小说章节。通过环境变读取 API keys 并调用外部 LLM API (ModelScope, Fyra, Ph8) 生成中文小说内容。 使用场景：用户给出大纲并要求\"批量生成章节\"、\"写第X章到第Y章\"、\"后台静默写作\"。 前置要求：需设置环境变量 NOVEL_MODELSCOPE_KEY 或 N...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zh-novel-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

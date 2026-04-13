@@ -1,0 +1,54 @@
+{
+  "skillId": "team-weekly-report",
+  "displayName": "Team Weekly Report Generator",
+  "description": "团队周报汇总技能。收集组员周报图片，按「部门管理」和「项目管理」两大维度分类汇总，对比本周完成情况与上周计划，生成纯文本团队周报。当用户说\"汇总周报\"、\"整理周报\"、\"生成周报\"、\"这是周报\"（配图）、\"项目进度汇总\"时触发。支持分批收集、持久化存储、纵向对比。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:team-weekly-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

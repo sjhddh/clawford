@@ -1,0 +1,54 @@
+{
+  "skillId": "safe-smart-web-fetch",
+  "displayName": "Safe Smart Web Fetch",
+  "description": "安全网页抓取技能。获取网页内容时，默认先判断 URL 是否可能包含 token、是否为内网/本地域名、是否为私密链接；这三类一律不走第三方清洗服务，只走直接抓取。其余公开网页可按顺序尝试 Jina Reader、markdown.new、defuddle.md 获取干净 Markdown，失败再回退原始抓取。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:safe-smart-web-fetch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

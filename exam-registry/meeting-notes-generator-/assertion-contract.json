@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-notes-generator-",
+  "displayName": "Meeting Notes Generator",
+  "description": "智能会议纪要整理专家，保证信息100%不遗漏且字数至少2000字。当用户要求整理会议记录、生成会议纪要、提取会议要点、总结会议内容、将录音转文字文档转换为结构化纪要时使用此技能。特别适用于需要保证信息完整性和详细程度的场景。触发短语包括但不限于：帮我整理会议记录、会议纪要怎么写、生成会议纪要、整理会议要点、会议总...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-notes-generator-"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

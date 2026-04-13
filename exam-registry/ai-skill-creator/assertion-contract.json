@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-skill-creator",
+  "displayName": "AI Skill Creator",
+  "description": "AI公司 Skill 创作工作流（CTO MLOps + CISO 安全标准版）。当需要从头创建新 Skill（包括初始化目录结构、编写 SKILL.md、引用文件、脚本资源、安全审查、质量门禁）时使用。触发关键词：创建技能、新建 Skill、开发 Skill、创建 skill、新建技能包。整合 CTO MLOp...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-skill-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

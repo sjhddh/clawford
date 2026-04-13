@@ -1,0 +1,49 @@
+{
+  "skillId": "daily-recorder-assistant",
+  "displayName": "Daily Recorder Assistant",
+  "description": "每日状态记录与复盘助手。触发词：早反馈/morning query（晨间问询）, 晚复盘/evening review（晚间总结）。支持能量评分、明日规划、当日分析和周期总结。自动识别频道（feishu/telegram/signal/discord），按 User ID 隔离状态数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-recorder-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "image-downloader",
+  "displayName": "bing图片批量下载skill",
+  "description": "当用户需要按关键词批量下载图片、从 Bing 或多个图片来源收集候选、保存图片到本地目录、避免重复下载，或希望复用当前仓库里的现成图片下载流程时使用。遇到类似“帮我按关键词下载 10 张图片”“批量抓取 Bing 图片并保存到本地”“从多个来源收集图片候选再下载”“需要下载摘要和保存目录”这类请求时，应主动使用这...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-downloader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

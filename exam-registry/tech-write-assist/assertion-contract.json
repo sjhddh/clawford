@@ -1,0 +1,54 @@
+{
+  "skillId": "tech-write-assist",
+  "displayName": "技术宣发助手",
+  "description": "AI技术报告社媒宣发一键生成器。输入PDF技术报告，一键生成X推文Thread、 小红书帖子(好物推荐+技术揭秘两种风格)、微信公众号文章(量子位风格)， 可选AI配图生成。用法: /宣传 <pdf路径> [--platform x|xhs|wechat|all] [--no-image]",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tech-write-assist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "complex-task-orchestrator",
+  "displayName": "Complex Task Orchestrator",
+  "description": "复杂任务编排与分治。当任务涉及批量操作（研究20+公司、处理大量数据）、多步骤工程（5+步骤有依赖关系）、sub-agent可能翻车的场景时激活。提供预记录防崩溃丢失、分治策略、超时管控、上下文膨胀防护、失败恢复方案。也适用于\"任务太大不知道怎么拆\"、\"sub-agent老超时\"、\"批量操作到一半挂了\"、\"崩溃后...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:complex-task-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

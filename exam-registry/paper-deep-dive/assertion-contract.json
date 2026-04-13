@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-deep-dive",
+  "displayName": "paper-deep-dive",
+  "description": "以结构化、证据驱动、读者友好的方式深度解读单篇论文。用于用户要求论文深读、详细分析、博客级讲解、研究脉络梳理、方法架构拆解、关键概念解释，或判断实验是否真的支撑论文 claim；也用于基于论文 PDF、arXiv 页面、附录、官方代码和项目页完成系统性论文解读。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-deep-dive"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

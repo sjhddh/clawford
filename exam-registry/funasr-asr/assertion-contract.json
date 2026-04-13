@@ -1,0 +1,54 @@
+{
+  "skillId": "funasr-asr",
+  "displayName": "Funasr Asr",
+  "description": "本地中文语音识别，使用阿里达摩院 FunASR。触发场景：(1) 用户发送语音消息需转录，(2) 需要转录音频/视频文件，(3) 从网页下载视频并转录，(4) 中文语音转文字任务。支持小内存模式（~500MB）和大模型模式（~2GB），自动内存管理，任务队列防并行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:funasr-asr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

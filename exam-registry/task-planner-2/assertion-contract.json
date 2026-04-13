@@ -1,0 +1,54 @@
+{
+  "skillId": "task-planner-2",
+  "displayName": "Task Planner",
+  "description": "任务规划与执行引导工具。当用户提出需要多步骤完成的复杂任务、请求帮忙规划工作、说\"帮我规划\"、\"拆解任务\"、\"怎么完成这个\"时触发。也适用于用户描述了一个大目标但不确定从哪里开始的场景。即使用户没有明确说\"规划\"，只要任务明显涉及3个以上步骤、多个依赖关系、或需要分阶段完成，都应该使用此 skill。覆盖场景包括...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:task-planner-2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

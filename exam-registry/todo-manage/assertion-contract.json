@@ -1,0 +1,54 @@
+{
+  "skillId": "todo-manage",
+  "displayName": "个人待办管理",
+  "description": "待办事项管理器。触发场景： (1) 用户提到 \"待办\"、\"TODO\"、\"计划事项\"、\"任务\" (2) 用户说 \"帮我增加/新增/创建一个待办\" (3) 用户说 \"我有什么待办\"、\"查看待办\"、\"待办列表\" (4) 用户说 \"完成 xxx\"、\"开始 xxx\"、\"删除 xxx\" (5) 用户说 \"标记 xxx 为进行...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:todo-manage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

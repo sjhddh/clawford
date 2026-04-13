@@ -1,0 +1,54 @@
+{
+  "skillId": "dingtalk-notify",
+  "displayName": "Dingtalk Notify",
+  "description": "通过钉钉工作通知发送消息给指定用户。统一的消息推送渠道。 Use when: 需要发送钉钉工作通知、测试钉钉连通性、重试失败的钉钉消息、 发送文件到钉钉、切换钉钉机器人模型。Triggers: \"钉钉通知\", \"钉钉推送\", \"发送钉钉\", \"dingtalk notify\", \"钉钉连通性\", \"钉钉测试\",...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dingtalk-notify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

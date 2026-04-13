@@ -1,0 +1,54 @@
+{
+  "skillId": "partner-selection",
+  "displayName": "全球电子发票合作伙伴甄选",
+  "description": "当用户需要为某个目标国家寻找、筛选或评估本地电子发票合规通道合作伙伴时，使用本 Skill。 覆盖场景：识别和筛选本地 e-invoicing 接入点（AP/SP/T-VAN/ASP/PJAP/SDI中间商）合作伙伴、 评估候选方是否适合作为我方的白标底层通道、对候选方开展多轮过滤和反向证伪、 设计POC验收方案...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:partner-selection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

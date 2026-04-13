@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-send-file-1-2-1",
+  "displayName": "Feishu Send File 1.2.1",
+  "description": "通过飞书机器人稳定发送本地普通文件或本地图片。用于现有一等工具无法直接完成“发送本地文件附件”时，或本地图片经常规消息链路发送后在飞书里只显示路径文本而不显示图片本体时。普通文件走 `im/v1/files -> file_key -> msg_type=file`，图片走 `im/v1/images -> im...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-send-file-1-2-1"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ashan-skill-creator",
+  "displayName": "Skill Creator",
+  "description": "创建、编辑、改进或审核 OpenClaw AgentSkill。触发场景：用户要求\"创建一个 skill\"、\"写一个技能\"、\"帮我新建技能\"、\"改进这个 skill\"、\"审核 skill\"、\"整理 skill\"、\"完善技能说明\"。同时用于：skill 目录结构调整、文件迁移（移动到 references/ 或 s...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ashan-skill-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

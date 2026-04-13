@@ -1,0 +1,54 @@
+{
+  "skillId": "think-plan",
+  "displayName": "Think-Plan",
+  "description": "深度思考与规划 Skill。用于复杂任务的需求挖掘、方案设计和执行规划。 触发场景： 1. 用户说\"帮我规划一下...\"、\"我想做一个...\"、\"分析一下这个方案\" 2. 用户明确说\"使用 think-plan\"或\"用思考规划 Skill\" 3. 用户提出的任务需求不清晰、需要梳理 4. 用户需要多个可选方案对比...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:think-plan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

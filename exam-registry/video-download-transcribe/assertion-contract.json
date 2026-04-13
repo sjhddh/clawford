@@ -1,0 +1,54 @@
+{
+  "skillId": "video-download-transcribe",
+  "displayName": "Video Download Transcribe",
+  "description": "多平台视频下载 + 本地转录 + 视频内容分析。 **触发词**：这个视频说了什么、视频内容是什么、帮我看这个视频、下载这个视频、视频转录、字幕提取、B站视频、抖音视频、bilibili、youtube视频、帮我转录 **支持平台**：B站/抖音/TikTok/YouTube/小红书/微博/快手",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-download-transcribe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

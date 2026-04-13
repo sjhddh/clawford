@@ -1,0 +1,54 @@
+{
+  "skillId": "outreach-pipeline",
+  "displayName": "outreach-pipeline",
+  "description": "邮件外联自动化（批量邮件外联、序列发送、模板合并、节流与送达合规）。当用户要：1) 导入收件人列表（CSV/表格）并批量发送个性化外联邮件；2) 运行简单的邮件序列与跟进；3) 通过 SMTP 或常见 ESP（SendGrid/Mailgun）发送；4) 使用 Gmail/Outlook（OAuth/App Pa...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:outreach-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

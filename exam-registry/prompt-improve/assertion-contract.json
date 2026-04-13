@@ -1,0 +1,54 @@
+{
+  "skillId": "prompt-improve",
+  "displayName": "improve your prompt",
+  "description": "将模糊的用户请求转化为基于四要素框架的详细、可操作提示。该技能直接根据用户的输入生成结构化提示，无需交互式澄清。技能仅生成用于执行任务的提示文本，不执行实际任务或探索性操作。基于角色设定、任务描述、上下文信息和指令约束四个核心要素构建优秀prompt。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prompt-improve"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

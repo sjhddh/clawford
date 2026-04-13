@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-improvement-orchestrator-skill",
+  "displayName": "Auto Improvement Orchestrator Skill",
+  "description": "Skill 自动评估和改进管线。9 维结构评分（含 LLM-as-Judge）、4 角色加权、 类别修正系数（tool/knowledge/orchestration/rule）、Pareto front 回归保护 （security 2%/efficiency 10%/其他 5%）、trace-aware 失败...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-improvement-orchestrator-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

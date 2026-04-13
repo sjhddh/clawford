@@ -1,0 +1,54 @@
+{
+  "skillId": "content-rewriter-claw",
+  "displayName": "流量重组洗稿虾",
+  "description": "流量重组洗稿虾 — 基于爆款逻辑的深度内容改写专家。保留爆款基因，规避重复风险，快速产出高质量原创内容。 **当以下情况时使用此 Skill**： (1) 需要将爆款内容改写为符合自己账号风格的原创版本 (2) 需要跨平台内容迁移（长文→短视频脚本、视频→图文） (3) 需要基于同一核心观点生成多个不同角度的内容...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-rewriter-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

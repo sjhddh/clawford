@@ -1,0 +1,54 @@
+{
+  "skillId": "aviation-web-scraper",
+  "displayName": "Openclaw Version",
+  "description": "항공 기관(ICAO, FAA, EASA, 국토교통부 등) 웹사이트에서 정보를 수집하여 JSON으로 구조화하고 태깅한 뒤, Word/Excel/PDF/Markdown 문서로 변환하는 스킬. 일회성 수집과 정기 스케줄 수집 모두 지원.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aviation-web-scraper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

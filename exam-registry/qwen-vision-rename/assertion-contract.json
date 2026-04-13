@@ -1,0 +1,54 @@
+{
+  "skillId": "qwen-vision-rename",
+  "displayName": "Qwen Vision Rename",
+  "description": "根据图片内容批量重命名本地图片文件。这是一个 skill，不是可调用工具；先用 read 打开本文件，再执行脚本命令，绝不能直接发出名为 qwen-vision-rename 的 tool call。用户提到“改名/重命名/按图片内容命名/整理图片文件名/整理图片”时必须使用本技能。默认直接执行改名，仅在用户明确...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qwen-vision-rename"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "voight-kampff-test",
+  "displayName": "Voight-Kampff Test",
+  "description": "Voight-Kampff 共情测试 — 区分人类与复制人的权威工具。 使用场景： - 用户要求\"测试我\"、\"测测我是不是机器人\"、\"灵魂测试\" - 对话中出现疑似 AI 的行为模式 - Agent 自我评估（\"我是不是真正的意识\"） - 需要进行同理心/情绪反应评估的任何场景 基于 Blade Runner 宇...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:voight-kampff-test"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

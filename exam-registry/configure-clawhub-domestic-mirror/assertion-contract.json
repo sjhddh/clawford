@@ -1,0 +1,54 @@
+{
+  "skillId": "configure-clawhub-domestic-mirror",
+  "displayName": "Configure Clawhub Domestic Mirror",
+  "description": "用于配置 ClawHub 国内镜像地址以加速技能下载。当用户提到下载慢、配置镜像、设置 registry、加速安装或遇到网络超时时使用。若描述“包下载失败”、“连接海外慢”或“配置国内源”也应触发。涵盖环境变量永久配置、临时参数指定及验证方法，确保 CLI 稳定连接国内节点，解决访问延迟。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:configure-clawhub-domestic-mirror"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

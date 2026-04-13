@@ -1,0 +1,54 @@
+{
+  "skillId": "stock-selecter",
+  "displayName": "Stock Selecter",
+  "description": "统一选股技能包，整合14种策略（ROE筛选、MACD底背离、高股息、低估值、 费雪成长股、长期低位、近期放量、趋势分析、K线形态、布林带下轨、筹码集中、 现金流质量、北向资金、股东增持、分析师目标价），支持单策略、多策略组合筛选。 触发词（精准触发，覆盖明确选股意图）： 按策略名：ROE选股、ROE筛选、MACD...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stock-selecter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

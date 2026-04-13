@@ -1,0 +1,54 @@
+{
+  "skillId": "videoclaw-pro",
+  "displayName": "VideoClaw Pro",
+  "description": "视频剪辑脚本执行助手（增强版）- 根据飞书提示词库和直播素材文字档生成剪辑建议脚本。 支持飞书文档（docx）和知识库（wiki）链接，自动解析权限问题。 ⚠️ 重要：本 skill 所有文档读取必须通过 Python CLI 脚本，不使用内置 feishu_doc 工具！ 触发指令格式：「剪辑脚本 [视频类型]...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:videoclaw-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

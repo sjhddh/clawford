@@ -1,0 +1,54 @@
+{
+  "skillId": "deepknow-currency",
+  "displayName": "DeepKnow Currency",
+  "description": "北京宽客进化科技有限公司旗下“知汇 InkRate”的验证版/内测版汇率 Skill，连接 `https://rate.deepknow.cn` 与京东 `clawtip` A2A 支付服务。提供四项服务：查询汇率（免费）、计算兑换金额（免费）、汇率提醒服务（收费）、汇率涨跌概率查询（收费）。收费流程会走真实 J...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepknow-currency"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "chanjing-content-creation-skill",
+  "displayName": "Chanjing Content Creation Skill",
+  "description": "蝉镜内容创作聚合技能包。提供凭据管理、TTS 语音合成、声音克隆、数字人口播、对口型、文生图/视频、定制数字人训练、一键成片编排、卡通视频编排等能力。当用户表达\"做一个短视频\"\"语音合成\"\"数字人口播\"\"一键成片\"\"卡通视频\"等意图时触发。副作用：HTTPS 访问蝉镜 Open API、读写本地凭据文件、下载、f...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chanjing-content-creation-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tech-article-cn",
+  "displayName": "Tech Article CN",
+  "description": "要写技术分享但不知从何下手？草稿写完读起来像流水账？ 从选题→大纲→草稿→润色→发布，端到端帮你把技术经验变成一篇让人记住的文章。 适用于团队内部技术分享、掘金/InfoQ 博文、技术复盘、会议演讲稿。 不适用于：API 文档（用 doc-gen）、README（用 readme-craft）、去 AI 味（用...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tech-article-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

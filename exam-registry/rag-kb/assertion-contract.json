@@ -1,0 +1,54 @@
+{
+  "skillId": "rag-kb",
+  "displayName": "Knowledge Base with Faiss and Bailian (embedding and rerank)",
+  "description": "使用 Python、FAISS、MarkItDown、阿里云百炼 text-embedding-v4 与可选的 qwen3-rerank，维护基于文件目录的本地知识库；适用于文件转 Markdown、遍历 chunks 与 T2Q 建立索引，以及对指定知识库或全部知识库做语义查询。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rag-kb"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

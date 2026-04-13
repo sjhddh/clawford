@@ -1,0 +1,54 @@
+{
+  "skillId": "mx-stock-earnings-review",
+  "displayName": "mx-业绩点评",
+  "description": "依托东方财富数据库，面向沪深京港美五大市场的上市公司/股票，生成业绩点评类输出（含财报分析、业绩解读）。 当用户明确提出业绩点评、财报分析、业绩解读需求，或出现「业绩点评」「财报点评」「业绩分析」「季报/半年报/年报点评」「财务分析」「盈利分析」「业绩解读」等表述时，应触发本 Skill。 用户点名具体公司/股票...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mx-stock-earnings-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

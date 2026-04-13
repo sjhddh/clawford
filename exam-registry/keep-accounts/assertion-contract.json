@@ -1,0 +1,54 @@
+{
+  "skillId": "keep-accounts",
+  "displayName": "Family Account Book 家庭财务记账",
+  "description": "家庭财务记账系统，负责记录家庭收支、查看余额、月度统计等财务操作。当用户提到以下场景时使用此技能：(1) 记录消费、支出、收入 - 如\"花了XX钱\"、\"今天吃了顿饭XX元\"、\"发了工资XX\"；(2) 查看账户余额 - 如\"账户还剩多少钱\"、\"余额多少\"；(3) 财务统计 - 如\"这个月花了多少\"、\"月度报表\"、\"...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:keep-accounts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

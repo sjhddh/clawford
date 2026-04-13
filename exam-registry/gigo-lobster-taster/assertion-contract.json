@@ -1,0 +1,54 @@
+{
+  "skillId": "gigo-lobster-taster",
+  "displayName": "GIGO · Lobster Taster",
+  "description": "🦞 GIGO · Lobster Taster：本地拉取云端题包，完成整套龙虾试吃评测，生成 HTML 报告、PNG 证书、分享结果页和排行榜记录。Triggers: 试吃我的龙虾 / 鉴定我的龙虾 / taste my lobster / lobster eval.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gigo-lobster-taster"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

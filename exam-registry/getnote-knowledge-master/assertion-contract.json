@@ -1,0 +1,54 @@
+{
+  "skillId": "getnote-knowledge-master",
+  "displayName": "Getnote Knowledge Master",
+  "description": "Get笔记 · 六步抄作业版。复刻 AI 大神卡帕西的知识管理方法论，融合 Get笔记 API + @getnote/cli 实现一键式六步知识管理流程。 **何时激活：** (1) 用户提到\"六步抄作业\"、\"卡帕西知识管理\"、\"知识库抄作业\" (2) 用户要执行完整知识管理流程（建库→存入→整理→搜索→反哺→体...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:getnote-knowledge-master"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

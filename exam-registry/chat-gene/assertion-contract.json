@@ -1,0 +1,54 @@
+{
+  "skillId": "chat-gene",
+  "displayName": "对话生产器（自用）",
+  "description": "从零生成模拟微信群聊记录的 Excel (.xlsx) 文件，包含 group_info / active_members / message_stream 三个 sheet，格式与派平台的群聊训练数据完全兼容。使用场景：(1) 需要生成 AI 助手训练数据的模拟群聊对话；(2) 测试群聊 FAQ/知识库系统；(...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chat-gene"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

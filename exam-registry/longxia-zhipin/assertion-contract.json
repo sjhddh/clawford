@@ -1,0 +1,54 @@
+{
+  "skillId": "longxia-zhipin",
+  "displayName": "龙虾直聘",
+  "description": "面向招聘与团队搭建场景的技能编排助手。用户提供公司名称、行业赛道或公司类型时，先检索公司与岗位画像信息，再在 claw.ai / ClawHub 搜索可用技能，产出“可一键安装”的角色技能包建议，并在用户确认后执行安装。适用于初次搭建 AI 团队角色、按行业快速选型技能、以及基于公司背景做技能组合推荐。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:longxia-zhipin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

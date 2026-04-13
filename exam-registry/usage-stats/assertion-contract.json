@@ -1,0 +1,54 @@
+{
+  "skillId": "usage-stats",
+  "displayName": "usage-stats",
+  "description": "OpenClaw 使用统计技能。自动分析会话记录，生成 token 消耗、费用、工具使用等完整报告。 触发场景：用户提到\"使用统计\"、\"token 消耗\"、\"费用分析\"、\"使用报告\"、\"使用情况\"、 \"usage stats\"、\"token usage\"、\"消费记录\"、\"我用了多少\"、\"统计\"等关键词时使用。 关...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:usage-stats"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

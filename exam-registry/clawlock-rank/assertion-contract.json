@@ -1,0 +1,54 @@
+{
+  "skillId": "clawlock-rank",
+  "displayName": "ClawLock-Rank",
+  "description": "ClawLockRank — 基于 ClawLock 2.2.1+ 本地体检结果的排行榜上传技能。 仅当用户明确要上传安全分、上传体检成绩、提交排行榜结果、同步分数到 ClawLockRank 时触发。 不要在普通安全体检、安全加固、调试开发、安装依赖或仅浏览榜单时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clawlock-rank"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

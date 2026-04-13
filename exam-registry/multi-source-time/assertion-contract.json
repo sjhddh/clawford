@@ -1,0 +1,54 @@
+{
+  "skillId": "multi-source-time",
+  "displayName": "Multi Source Time",
+  "description": "多方法报时技能。综合系统时钟、NTP 授时、网络时间 API 等多个时间源， 融合输出可靠的时间报告（带置信度和偏差估计），并支持语音播报。 触发场景：\"现在几点\"、\"报时\"、\"报北京时间\"、\"当前时间\"、\"帮我看下时间\"、 \"time check\"、\"what time is it\"、\"报时技能\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multi-source-time"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

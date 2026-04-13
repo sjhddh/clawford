@@ -1,0 +1,54 @@
+{
+  "skillId": "intent-filter-claw",
+  "displayName": "潜在意向筛选虾",
+  "description": "潜在意向筛选虾 — 从公域评论、帖子、私信中识别真实购买意向，生成高意向销售线索并推送给销售团队。 当以下情况时使用此 Skill： (1) 需要从评论区、帖子、私信中挖掘有购买意向的潜在客户 (2) 需要对用户提供的评论数据（CSV/文本）进行意向识别和评分 (3) 需要在竞品帖子下找到对竞品不满意、正在寻找替...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:intent-filter-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

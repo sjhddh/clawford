@@ -1,0 +1,54 @@
+{
+  "skillId": "worldline-choice",
+  "displayName": "Worldline Choice",
+  "description": "AI驱动的互动叙事游戏引擎 v4.4.1 - 强制自动保存版。作为主持人(agent)，你与玩家共同创造一个开放式的故事世界。 核心职责：初始化游戏→生成场景和ABCD+E选项→接收玩家选择→调用引擎执行d20检定→根据骰子结果讲述剧情→更新状态。 本skill强制透明暴露d20结果，禁止LLM脑补骰子结果；引擎...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:worldline-choice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

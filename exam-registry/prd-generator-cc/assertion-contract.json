@@ -1,0 +1,54 @@
+{
+  "skillId": "prd-generator-cc",
+  "displayName": "PRD Generator",
+  "description": "当用户希望撰写、起草、完善或获得关于产品需求文档（PRD）、功能规格说明、特性规格或产品规格的帮助时，立即使用此技能。 触发词包括但不限于：\"帮我写PRD\"、\"起草需求文档\"、\"写功能规格\"、\"需求说明书\"、\"写用户故事\"、\"feature spec\"、\"产品文档\"、\"需求评审\"。 当用户描述产品想法、业务需求或...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prd-generator-cc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

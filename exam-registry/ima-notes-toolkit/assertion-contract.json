@@ -1,0 +1,54 @@
+{
+  "skillId": "ima-notes-toolkit",
+  "displayName": "Ima Notes Toolkit",
+  "description": "统一的 IMA OpenAPI 技能，支持笔记管理和知识库操作。当用户提到知识库、资料库、笔记、备忘录、记事，或者想要上传文件、添加网页到知识库、搜索知识库内容、搜索/浏览/创建/编辑笔记时，使用此 skill。即使用户没有明确说\"知识库\"或\"笔记\"，只要意图涉及文件上传到知识库、网页收藏、知识搜索、个人文档存取...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ima-notes-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

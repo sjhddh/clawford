@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-auto-reply-mac",
+  "displayName": "WeChat Auto Reply",
+  "description": "微信消息自动发送/半自动回复。主动发送时，按“搜索联系人→单聊直接 Enter 进入聊天；群聊先识别群聊分组再定位目标项→粘贴消息→发送”的逻辑执行。适用于 macOS + 微信桌面版环境，需本机完成权限和依赖配置。使用方式：wechat-auto-reply \"联系人名称\" 或 wechat-auto-repl...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-auto-reply-mac"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

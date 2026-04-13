@@ -1,0 +1,54 @@
+{
+  "skillId": "course-prep-afp",
+  "displayName": "备课AFP · Course-Prep-Auto-Flow",
+  "description": "工程化备课系统（Course-Prep-Auto-Flow v1.0）。把\"靠灵感备课\"变成\"走流程出内容\"。用户提供课程主题、受众画像、参考素材，系统自动完成：P1信息采集→P2骨架设计→P3素材提炼→P4内容填充→P5结构审查→P6配图规划→P7终局产出。适用于公开课、直播课、工作坊的备课准备。触发关键词：备...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:course-prep-afp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

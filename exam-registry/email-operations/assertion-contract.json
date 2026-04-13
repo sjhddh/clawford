@@ -1,0 +1,54 @@
+{
+  "skillId": "email-operations",
+  "displayName": "Email Operations",
+  "description": "邮件操作技能，通过 SMTP/IMAP 协议读取和发送邮件。当用户想要查看邮件、搜索邮件内容、 获取收件箱列表、拉取特定邮件详情、发送邮件、或需要与邮箱服务交互时，使用此技能。 无论用户是否明确提到 \"IMAP\" 或 \"SMTP\"，只要涉及邮件收发操作，均可触发此技能。 适用场景：查看收件箱、搜索邮件、按条件过滤...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:email-operations"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

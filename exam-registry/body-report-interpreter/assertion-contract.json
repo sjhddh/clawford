@@ -1,0 +1,54 @@
+{
+  "skillId": "body-report-interpreter",
+  "displayName": "Body Report Interpreter",
+  "description": "解读体检报告（血常规、肝功能、血脂、肾功能、尿常规、肿瘤标志物等）。用户上传体检报告图片或PDF时触发。逐项解释指标含义、标注异常值、给出健康建议。适用场景：解读体检报告、解释化验单、健康指标异常分析、历年体检对比。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:body-report-interpreter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

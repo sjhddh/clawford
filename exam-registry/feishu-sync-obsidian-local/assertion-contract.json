@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-sync-obsidian-local",
+  "displayName": "Feishu Sync Obsidian Local",
+  "description": "将飞书 Wiki 文档同步到 Obsidian PARA 知识库。 触发：当用户说\"同步飞书\"或\"同步文档\"时使用。 遵循 Pipeline 模式，4 步顺序执行，带硬检查点。 必需文件：vault 根目录必须有 SYNC-RULES.md。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-sync-obsidian-local"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

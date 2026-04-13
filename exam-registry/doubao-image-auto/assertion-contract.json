@@ -1,0 +1,54 @@
+{
+  "skillId": "doubao-image-auto",
+  "displayName": "doubao-image-auto",
+  "description": "豆包 AI 创作自动化 - 通过 CDP 浏览器自动化实现无手动交互的图像生成与提取。工作流：1) 连接已打开的豆包页面 2) 导航到 AI 创作页 3) 输入 prompt 并自动生成 4) 提取生成的图片 URL 5) 下载保存到本地。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doubao-image-auto"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

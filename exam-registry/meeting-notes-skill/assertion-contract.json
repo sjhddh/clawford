@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-notes-skill",
+  "displayName": "会议纪要助手",
+  "description": "会议纪要与会议播报生成技能。用于处理会议录音或转写文本，执行发言人区分、口语降噪、议题重构、双钻结构整理，并输出执行摘要、核心决议、Markdown待办表格、TTS播报稿和会议思维导图（HTML/SVG/XMind）。支持双向语音能力：录音转文本（ASR）与文本转录音（TTS）。用户提到“会议纪要”“录音转文字”...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-notes-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

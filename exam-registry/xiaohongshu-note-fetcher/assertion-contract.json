@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaohongshu-note-fetcher",
+  "displayName": "小红书笔记抓取与选题助手",
+  "description": "抓取并整理小红书笔记公开页面信息（标题、正文摘要、作者、发布时间、互动数据、标签、封面图等）为结构化 JSON 或 Markdown。用于“根据笔记链接提取内容”“批量收集笔记基础信息”“生成笔记摘要素材”等场景；当用户提供小红书笔记 URL、URL 列表或需要导出机器可读结果时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaohongshu-note-fetcher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "webnovel-writer",
+  "displayName": "Novel Writer",
+  "description": "长篇网络小说创作引擎，支持写作、续写、审稿、一致性检查、矛盾检测、角色状态管理。适用于番茄小说等平台的都市/奇幻/悬疑/催泪等类型长篇连载（50万字以上）。当用户提到写小说、续写章节、检查章节矛盾、审查小说质量、角色设定管理、时间线梳理、大纲规划、弹幕角色管理时触发。覆盖从大纲设计到逐章写作到质量审校的完整流程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:webnovel-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

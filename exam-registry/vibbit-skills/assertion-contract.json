@@ -1,0 +1,54 @@
+{
+  "skillId": "vibbit-skills",
+  "displayName": "Vibbit SKILL",
+  "description": "调用 Vibbit OpenAPI 完成五类能力——AI 生图、解析抖音/小红书/B站链接、爆款视频拆解、查询当前用户可用的数字人列表、初始化数字人口播视频工作流。当用户说\"生成一张图 / AI 出图\"、\"解析这个抖音/小红书/B站链接\"、\"拆解一下这条爆款 / 视频拆解\"、\"看看我有哪些数字人 / 列一下数字人...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vibbit-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

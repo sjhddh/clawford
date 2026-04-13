@@ -1,0 +1,54 @@
+{
+  "skillId": "smart-memory-keeper",
+  "displayName": "Smart Memory Keeper",
+  "description": "解决 AI /new 后失忆问题的记忆管理 skill。三层加载机制（热/温/冷），session 启动时只取当前需要的记忆，省 token。 包含：任务状态恢复、每日日记、项目索引、Dream 定期整理。纯文件系统，无需外部服务。 用户说\"先这样\"、\"暂停\"、\"记住这个\"、里程碑完成时触发。 Memory ma...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smart-memory-keeper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

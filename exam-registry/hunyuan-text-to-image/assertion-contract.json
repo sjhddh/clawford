@@ -1,0 +1,54 @@
+{
+  "skillId": "hunyuan-text-to-image",
+  "displayName": "腾讯云混元文生图像生成",
+  "description": "使用腾讯混元生图 3.0（HunyuanImage 3.0）生成图片。当用户需要调用混元/腾讯云生图、hunyuan 生图、huny-img 生图时，使用此 skill。调用 Python 脚本完成文生图（text-to-image）和图生图（image-to-image）任务，接口风格与 wanx-img sk...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hunyuan-text-to-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

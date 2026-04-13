@@ -1,0 +1,54 @@
+{
+  "skillId": "jy-news-interpretation",
+  "displayName": "jy-news-interpretation",
+  "description": "基于 MCP 聚源金融数据库生成过去 24 小时的金融资讯热点速报（默认 Markdown 格式，支持 HTML 输出）。覆盖重要金融相关的国内新闻、国外要闻、重要个股公告、三大核心模块，所有信息可溯源、带原始发布时间戳。使用场景：当用户有以下意图时触发，询问近期要闻，询问近期热点，快速了解金融最新动态，解读财经...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jy-news-interpretation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

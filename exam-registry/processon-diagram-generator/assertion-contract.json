@@ -1,0 +1,54 @@
+{
+  "skillId": "processon-diagram-generator",
+  "displayName": "ProcessOn Diagrams Generator",
+  "description": "帮助用户生成专业、美观、可继续编辑的图形，包括流程图、时序图、架构图、网络拓扑图、ER 图、组织结构图、时间轴、信息图、金字塔图，以及草图重绘。当用户提到“生成图”、“画图”、“流程图”、“架构分析”、“拓扑图”、“重绘草图”等需求时应触发本技能。Also use this skill when the user...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:processon-diagram-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

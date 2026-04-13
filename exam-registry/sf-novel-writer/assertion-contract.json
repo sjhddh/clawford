@@ -1,0 +1,54 @@
+{
+  "skillId": "sf-novel-writer",
+  "displayName": "sf-novel-writer",
+  "description": "分阶段支持科幻（Science Fiction）小说策划、写作与润色的技能。 触发条件: \"想写科幻小说\"、\"想创作科幻作品\"、\"帮我构建科幻世界观\"、 \"继续写科幻小说\"、\"设计科幻情节\"、\"润色科幻小说\"等， 涵盖一切与科幻小说创作相关的请求。支持短篇、中篇、长篇全类型。 覆盖硬科幻、太空歌剧、反乌托邦、赛博...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sf-novel-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

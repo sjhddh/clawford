@@ -1,0 +1,54 @@
+{
+  "skillId": "user-feedback-claw",
+  "displayName": "用户反馈虾",
+  "description": "用户反馈虾 — 自动分析用户差评与建议，从多渠道反馈数据中提炼产品改进信号。 **当以下情况时使用此 Skill**： (1) 用户提供评论数据（Excel/CSV/文本），要求分析差评、找出主要问题 (2) 需要对用户反馈进行情感分析、主题分类、优先级排序 (3) 需要生成结构化的用户反馈分析报告 (4) 需要...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:user-feedback-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

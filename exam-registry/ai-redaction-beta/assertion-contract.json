@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-redaction-beta",
+  "displayName": "ai-redaction-beta",
+  "description": "一款专为个人用户设计的智能文件脱敏工具，强调纯个人独立模式。支持通过自然语言指令，脱敏用户上传的文件，对 PDF、Word、图片等多种格式的文件进行快速、精准、安全的隐私信息处理。处理完成后返回查询链接，可查看处理进度和下载结果",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-redaction-beta"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

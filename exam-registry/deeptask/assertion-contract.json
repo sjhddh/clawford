@@ -1,0 +1,54 @@
+{
+  "skillId": "deeptask",
+  "displayName": "DeepTask",
+  "description": "AI 自动拆解需求与任务管理工具。实现 AI 自动拆解需求 → 人工审核 → AI 执行任务 → UT 验证 → **Git Commit** 的完整闭环。使用 SQLite 数据库管理项目、会话、子任务、MUF（最小功能单元）、单元测试。**核心特性：每完成一个 MUF 并通过 UT 后自动执行 git com...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deeptask"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

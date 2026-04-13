@@ -1,0 +1,54 @@
+{
+  "skillId": "weather-pulse",
+  "displayName": "Weather Pulse",
+  "description": "天气查询 + 空气质量查询。城市天气、实时温度、预报(3-30天/24-168小时)、生活指数(AQ/PM2.5)、AQI。QWeather API (50k/mo) + WAQI AQI (1k/hr)。配置免费 API 凭证即可使用。支持中英文城市名、经纬度自动识别、CityId。Trigger patter...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weather-pulse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hermes-installer",
+  "displayName": "Hermes Installer",
+  "description": "Hermes Agent 安装配置完整指南。当用户要求安装 Hermes Agent、部署 Hermes、配置模型提供商、配置飞书/Telegram/Discord 网关时使用此 Skill。触发词：安装 Hermes、部署 Hermes Agent、配置 Hermes、配置 GLM、配置 Kimi、配置 Ope...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hermes-installer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

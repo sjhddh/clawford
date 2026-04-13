@@ -1,0 +1,54 @@
+{
+  "skillId": "ppt-generator-skill",
+  "displayName": "1、不依赖任何第三方 PPT 服务；  2、给可以自行上传ppt模板和内容资料，约束让大模型根据上传的内容生成最终的成品   3.自动导出生成.pptx格式的文件",
+  "description": "Generate professional .pptx presentations from any topic, uploaded documents, or reference materials. Supports custom PPT templates (filled via python-pptx,...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ppt-generator-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

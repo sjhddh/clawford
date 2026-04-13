@@ -1,0 +1,54 @@
+{
+  "skillId": "travel-city-game",
+  "displayName": "travel-city-game(旅行游戏副本生成器)",
+  "description": "根据用户输入的城市名，自动调用 flyai 搜索该城市的景点、体验、美食产品， 然后生成一个游戏化的3节点叙事行程 H5 页面。每个节点包含 AI 生成的故事文案 和飞猪真实预订链接。使用方式: /travel-city-game 城市名。 当用户提到 \"travel-city-game\"、\"生成行程\"、\"旅行叙...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:travel-city-game"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

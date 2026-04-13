@@ -1,0 +1,49 @@
+{
+  "skillId": "reveyes-skill",
+  "displayName": "Amazon Review Analyzer",
+  "description": "使用 Reveyes API 批量抓取亚马逊商品评论，支持 20 个站点。 输出完整评论数据（含所有字段），并由 AI 从跨境电商运营者视角深度分析差评， 提供产品质量、物流包装、Listing 准确性、客服反馈、改善优先级等结构化分析报告。 Use when: 用户提到抓评论、查差评、分析竞品口碑、给出 ASI...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:reveyes-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

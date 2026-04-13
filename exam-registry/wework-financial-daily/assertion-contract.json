@@ -1,0 +1,54 @@
+{
+  "skillId": "wework-financial-daily",
+  "displayName": "Wework Financial Daily",
+  "description": "每日定时生成金融分析教学课件并推送至企业微信。使用场景：(1) 每天自动生成当日最新金融数据（BTC、AAPL 等）的教学课件，(2) 推送课件到指定企业微信账号，(3) 保存 HTML 课件到本地桌面，(4) 包含价格走势图表和趋势分析。支持通过环境变量配置企业微信 token 和接收人。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wework-financial-daily"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

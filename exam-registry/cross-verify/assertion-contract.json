@@ -1,0 +1,54 @@
+{
+  "skillId": "cross-verify",
+  "displayName": "Cross Verify",
+  "description": "交叉验证信息准确性、识别偏见和逻辑漏洞。当用户说\"这段话有没有问题\"、\"这个数据可靠吗\"、\"帮我看看这段有没有偏见\"、\"这个信息准确吗\"、\"核查一下这段\"，或直接丢入一段文字/数据要求检查时触发。Also triggers when the user pastes any text containing stat...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cross-verify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

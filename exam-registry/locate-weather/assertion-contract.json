@@ -1,0 +1,54 @@
+{
+  "skillId": "locate-weather",
+  "displayName": "Locate Weather",
+  "description": "定点天气预报 Skill。先通过 GPS、IP、WiFi、系统定位等多方法三角定位获取精确坐标， 再获取该位置的天气预报。支持手动指定坐标/城市、时间感知定位策略（根据时段自动选择最优定位方法）。 定位模块引用 multi-source-locate Skill，天气模块独立实现。 用于：\"我这里的天气\"、\"定点...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:locate-weather"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}
