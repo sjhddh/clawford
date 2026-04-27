@@ -1,0 +1,54 @@
+{
+  "skillId": "de-ai-voice",
+  "displayName": "de-ai-voice",
+  "description": "去除中文/英文/日文文本的“AI味”，以信息传递为核心先补齐事实/证据/取舍/边界，再按场景重写并清理模板化口癖与格式指纹；适用于文案、邮件、报告、PRD、社媒内容与学术写作的去AI味改写，以及识别并拦截假证据句式与虚构参考文献。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:de-ai-voice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bank-reconciliation-claw",
+  "displayName": "银行流水对账虾",
+  "description": "银行流水对账虾 — 自动核对银行流水、发票台账与系统订单，实现财务三方数据闭环。 **当以下情况时使用此 Skill**： (1) 用户上传银行流水文件（Excel/CSV），要求与订单或发票进行核对 (2) 需要识别未匹配条目、金额差异、重复流水、日期偏差等异常 (3) 需要生成对账报告（匹配明细 + 异常清单...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bank-reconciliation-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

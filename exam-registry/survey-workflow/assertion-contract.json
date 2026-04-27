@@ -1,0 +1,54 @@
+{
+  "skillId": "survey-workflow",
+  "displayName": "survey-workflow",
+  "description": "组织健康度与员工敬业度调研全流程管理 Agent。功能包括：①员工名单批量导入问卷系统；②追加人员（增量导入）；③发送调研通知（支持自定义通知模板）；④追踪填答状态；⑤截止前自动催办；⑥拉取答卷数据（API直连）；⑦计算本批次基准均值；⑧按模板生成部门/集团诊断报告。问卷包含麦肯锡组织健康度37题（10维度）+...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:survey-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

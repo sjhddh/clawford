@@ -1,0 +1,54 @@
+{
+  "skillId": "document-translate",
+  "displayName": "Doc Translate",
+  "description": "Office文档翻译工具集。用于翻译和本地化办公文档（PPT/Word/PDF/Excel），保持原文档模板和格式不变。当用户说\"翻译PPT\"、\"翻译Word文档\"、\"翻译PDF\"、\"翻译Excel\"、\"翻译文档\"、\"文档本地化\"、\"英文文档翻译成中文\"时使用本技能。支持PPT/Word/PDF/Excel四种格...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:document-translate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "invoice-ocr-extractor",
+  "displayName": "发票票据识别虾",
+  "description": "发票票据识别虾 — 自动识别发票/票据图片，提取关键字段（金额、日期、商家、税号等），支持批量处理、费用分类、税务验真，并可写入飞书多维表格或导出 Excel。 当以下情况时使用此 Skill： (1) 用户上传发票图片（JPG/PNG/PDF），要求识别或录入 (2) 需要批量处理多张发票，生成汇总表 (3)...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:invoice-ocr-extractor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "music-studio",
+  "displayName": "Music Studio",
+  "description": "面向大模型（LLM）的轻量音乐创作工作台，通过自然语言交互生成音乐、歌词与翻唱。默认采用保守的本地配置与输出管理方式，当前正式支持 MiniMax 歌词、`music-2.6` 文本生成音乐，以及 `music-cover` 前处理配合 `music-2.6` 的两阶段翻唱链路；只有明确说「打开音乐工作室」才进入...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:music-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "file-crypto",
+  "displayName": "文件加解密 (file-crypto)",
+  "description": "使用来布公司内置的 file-crypto SDK 对服务器本地文件进行加密或解密处理，以及获取 Agent 身份令牌（authId）。当用户提到\"加密文件\"、\"解密文件\"、\"文件加密\"、\"文件解密\"、\"获取authId\"、\"获取鉴权\"、\"encrypt file\"、\"decrypt file\"，或者提供了服务器...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:file-crypto"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

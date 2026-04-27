@@ -1,0 +1,54 @@
+{
+  "skillId": "huo15-openclaw-code-review",
+  "displayName": "Huo15 Openclaw Code Review",
+  "description": "对 GitHub / cnb.cool PR 做综合代码评审（设计 / 实现 / 测试 / 安全 / 可维护五维），借 gh CLI 拉 diff，产出可粘贴到 PR 的评论 markdown。触发词：评审 PR、code review、审一下这个 PR、帮我 review、看看这个合并请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huo15-openclaw-code-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

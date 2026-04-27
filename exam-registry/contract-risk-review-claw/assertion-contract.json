@@ -1,0 +1,54 @@
+{
+  "skillId": "contract-risk-review-claw",
+  "displayName": "合同风险审查虾",
+  "description": "合同风险审查虾 — 深度识别合同风险条款，给出修订建议，守住法律红线。 **当以下情况时使用此 Skill**： (1) 用户上传合同文件（PDF/Word/文本），要求审查风险 (2) 需要识别不平等条款、违约责任失衡、知识产权陷阱、管辖权不利等风险 (3) 需要对比我方模板与对方合同，找出被修改的关键条款 (...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:contract-risk-review-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

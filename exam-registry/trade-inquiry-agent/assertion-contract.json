@@ -1,0 +1,54 @@
+{
+  "skillId": "trade-inquiry-agent",
+  "displayName": "外贸工厂询盘全流程 Agent",
+  "description": "外贸工厂询盘全流程 Agent。覆盖：询盘解析、产品可行性分析、报价单生成（中英文）、专业外贸邮件起草、客户建档与跟进管理。当用户提到外贸询盘、海外客户报价、出口报价单、外贸邮件、FOB/CIF 报价、工厂对外贸、出口报价等场景时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trade-inquiry-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "web-novel-creator",
+  "displayName": "Web Novel Creator (网文创作协调层)",
+  "description": "网文创作兼容协调层。 定位：不做一个独立的创作引擎，而是让现有的优秀创作Skill（如 novel-generator、open-novel-writing、novel-orchestrator 等）能够无缝对接 Memory Manager Pro 的索引系统。 核心价值：(1) 提供统一的项目目录规范，让各S...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-novel-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

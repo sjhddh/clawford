@@ -1,0 +1,54 @@
+{
+  "skillId": "software-manager-skill",
+  "displayName": "Software Manager Skill",
+  "description": "软件产品经理/软件开发经理知识技能。当用户需要产品经理级别的专业支持时触发，包括： 需求分析、PRD撰写、产品设计、产品路线图规划、竞品分析、数据分析； 或用户询问产品经理职责、如何成为产品经理、产品经理技能要求； 或需要产品架构图、流程图、时序图、甘特图等 Mermaid 图表； 或需要从0到1输出PRD文档并...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:software-manager-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

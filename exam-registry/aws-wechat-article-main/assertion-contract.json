@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-wechat-article-main",
+  "displayName": "微信公众号 AI 一条龙运营（总控）",
+  "description": "公众号运营｜微信公众号｜公众号一条龙｜公众号全流程｜自媒体运营｜wechat automation｜content pipeline｜AIGC workflow — 公众号一条龙运营总控入口，选题→写稿→审稿→排版→配图→发布串联 8 个子 skill，单条指令完成整篇图文从 0 到上架。面向公众号小编、自媒体、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-wechat-article-main"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

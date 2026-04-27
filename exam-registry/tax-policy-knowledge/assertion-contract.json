@@ -1,0 +1,54 @@
+{
+  "skillId": "tax-policy-knowledge",
+  "displayName": "Tax-Policy-Knowledge",
+  "description": "财税政策知识库技能。当用户查询增值税、企业所得税、个人所得税等税务政策时使用，涵盖：最新政策文件检索、优惠政策适用判定、申报流程指导、税务风险预警指标查询（金税四期22项）、企业财务合规自检等场景。触发词包括：增值税、所得税、税务、发票、申报、优惠、风险预警、金税、合规、财税政策、纳税人、小规模、一般纳税人等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tax-policy-knowledge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

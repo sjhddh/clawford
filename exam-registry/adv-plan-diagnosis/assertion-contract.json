@@ -1,0 +1,54 @@
+{
+  "skillId": "adv-plan-diagnosis",
+  "displayName": "EMAR adv-plan-diagnosis",
+  "description": "信息流广告计划诊断助手。当用户说“计划为什么不起量”“成本为什么这么高”“帮我诊断这个计划”“计划有问题”“计划跑不动”“消耗不动”“成本超标”时触发。基于出价、预算、消耗、展现、点击率、转化成本等数据，诊断广告计划异常原因并给出可执行的优化建议。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adv-plan-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

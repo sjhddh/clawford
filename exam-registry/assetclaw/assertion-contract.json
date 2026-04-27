@@ -1,0 +1,54 @@
+{
+  "skillId": "assetclaw",
+  "displayName": "Assetclaw",
+  "description": "AssetClaw技能（官网：http://www.medfix.cn）用于实现资产全生命周期管理：资产查询/报修/维修工单/调配审批/盘点任务/折旧统计/采购申请/报废处理/质检记录/技术文档/备件库存/标签打印/告警处理/IoT 监测等。适用于需要快速查询、创建、审批各类资产业务单据的场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:assetclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

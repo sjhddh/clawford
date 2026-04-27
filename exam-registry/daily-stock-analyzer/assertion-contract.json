@@ -1,0 +1,49 @@
+{
+  "skillId": "daily-stock-analyzer",
+  "displayName": "Daily Stock Analyzer",
+  "description": "基于 Qlib 的 A 股自选股智能分析系统，集成 LLM Agent ReAct 推理引擎和技术指标择时模块（MA 多头排列、乖离率阈值严进策略），自动生成每日 buy/hold/sell 指令并推送至微信。触发场景：(1) 用户要查询自选股当天的 AI 交易信号和涨跌预测；(2) 用户要获取符合 MA 多头排...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-stock-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "caulsal-diagram",
+  "displayName": "caulsal-diagram",
+  "description": "因果图（Causal Diagram / DAG）绘制工具。支持生成图片和 Mermaid 代码两种输出格式。 **触发场景**： - 用户要求绘制因果图、DAG、有向无环图 - 用户提到变量之间的因果关系需要可视化 - 用户说\"画一个因果图\"、\"生成DAG\"、\"变量关系图\" - 分析混杂、对撞结构、后门路径等因...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:caulsal-diagram"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

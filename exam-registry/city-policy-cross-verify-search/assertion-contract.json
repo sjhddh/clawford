@@ -1,0 +1,49 @@
+{
+  "skillId": "city-policy-cross-verify-search",
+  "displayName": "city-policy-cross-verify-search",
+  "description": "根据用户输入的城市和年份（默认最新），围绕异地就医备案、异地生育结算、公积金异地贷款、购房资格、车牌摇号与竞价、子女非户籍入学、本科人才落户等 7 个维度，执行多来源政策检索与交叉验证，输出结构化结论，并附带来源网址。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:city-policy-cross-verify-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

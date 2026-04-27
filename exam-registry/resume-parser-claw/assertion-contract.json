@@ -1,0 +1,54 @@
+{
+  "skillId": "resume-parser-claw",
+  "displayName": "简历标准化解析虾",
+  "description": "简历标准化解析虾 — 将非标简历（PDF/Word/图片/文本）解析为结构化候选人数据，并可写入飞书多维表格或导出 Excel/JSON。 **当以下情况时使用此 Skill**： (1) 用户上传或提供简历文件（PDF、Word、图片），要求提取候选人信息 (2) 需要批量解析简历并录入数据库或飞书多维表格 (...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resume-parser-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-paper-writer",
+  "displayName": "Auto Paper Writer",
+  "description": "自动撰写科研论文的完整 AI pipeline。当用户说\"撰写[方向]论文\"、\"自动写论文\"、\"生成论文\"时触发。功能包括：(1) 搜索 ArXiv 最新论文并下载原始 PDF；(2) 总结现有工作局限性；(3) 设计创新模型框架；(4) 撰写双栏 LaTeX 论文（IEEEtran格式）；(5) 生成科研级 m...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-paper-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

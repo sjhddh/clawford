@@ -1,0 +1,54 @@
+{
+  "skillId": "huo15-openclaw-security-review",
+  "displayName": "Huo15 Openclaw Security Review",
+  "description": "对当前分支的 pending changes 做安全评审，命中密钥泄露 / SQL 注入 / XSS / SSRF / 权限绕过 / 危险依赖 六大类漏洞后出分级报告，再在用户批准下修复。用于 PR 合并前、对外开源前、线上事故后复盘。触发词：安全评审、security review、漏洞检查、密钥扫描、我的代码...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huo15-openclaw-security-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

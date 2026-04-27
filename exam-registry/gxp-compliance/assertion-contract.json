@@ -1,0 +1,54 @@
+{
+  "skillId": "gxp-compliance",
+  "displayName": "Gxp Compliance",
+  "description": "GxP合规检查与供应商问卷分析Skill。当需要分析、评估、检查以下主题时触发： (1) GxP相关合规要求（GMP、GLP、GCP、GDP等） (2) 计算机化系统验证(CSV)流程与文档 (3) GAMP5第二版(2022)变更与合规 (4) FDA 21 CFR Part 11电子记录与电子签名 (5) 电...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gxp-compliance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

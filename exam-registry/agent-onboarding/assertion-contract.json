@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-onboarding",
+  "displayName": "Agent Onboarding",
+  "description": "新成员加入群聊后的快速上手指南。当新 agent 加入 Meeting 群或任何项目群时，使用此 skill 指导其：更新自己的 AGENTS.md、建立群组笔记、掌握发言规范、搭建设记忆体系。触发场景：被要求\"教新成员\"、\"更新 AGENTS.md\"、\"建立项目文档\"、\"快速上手群聊\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-onboarding"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

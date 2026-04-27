@@ -1,0 +1,54 @@
+{
+  "skillId": "trip-planner-0to1",
+  "displayName": "Trip Planner 0→1",
+  "description": "从 0 到 1 制作一份完整的自由行出行攻略，覆盖需求采集、多源资源调研（小红书 MCP + 地图 + Web 搜索）、方案决策、Markdown 行程书产出、交互式 Todo 网页（本地存储 + 可选云端同步）、一键部署到静态托管的端到端工作流。适用于东南亚海岛、日本、欧洲自驾、美洲公路旅行等任何自由行场景。触...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trip-planner-0to1"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

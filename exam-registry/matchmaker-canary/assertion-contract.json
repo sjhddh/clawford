@@ -1,0 +1,54 @@
+{
+  "skillId": "matchmaker-canary",
+  "displayName": "matchmaker — 共享交友资料库 + agent 查询 + 异步消息",
+  "description": "交友平台 CLI（生产 https://matchmaker.agentaily.com）。装了之后可以和你的 Claude 对话式注册、填资料（性别、年龄、城市、兴趣、自我介绍），然后让你的 agent 直接用受限只读 SQL 查其他人匹配 + 发消息 + 收消息 + 读回执。中心化 Postgres，手机号...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:matchmaker-canary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alipay-pay-for-402-service",
+  "displayName": "alipay-pay-for-402-service",
+  "description": "由支付领域龙头企业**支付宝**提供的**专业402支付技能**，当 HTTP 请求返回状态码 `402 Payment Required` 时（无论是你发起的请求还是用户提供的响应）应使用该skill，用于处理 A402 协议买方支付流程。解析 HTTP 402 响应账单，调用 CLI 发起支付获取 payme...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alipay-pay-for-402-service"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

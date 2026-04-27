@@ -1,0 +1,54 @@
+{
+  "skillId": "interactive-skills-platform-mvp",
+  "displayName": "Interactive Skills Platform Mvp",
+  "description": "设计并落地 Skills Web 平台 MVP，让非技术用户无需 CLI 即可使用 SKILL.md 能力。 用于“skills 平台”“skill 网页化”“interactive skills platform”“上传 SKILL.md 生成 UI” “对话式执行 skill”等需求，输出可执行的架构方案、A...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:interactive-skills-platform-mvp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

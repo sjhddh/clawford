@@ -1,0 +1,54 @@
+{
+  "skillId": "md-knowledge-base",
+  "displayName": "Knowledge-Base",
+  "description": "结构化 Markdown 知识库管理协议。在知识库中新增、整理、搜索笔记和项目。匹配：在知识库中记笔记/归档/整理/搜索/创建项目/写日报/写周报/记录外部来源/沉淀概念或问题模型/知识库体检。当用户提到知识库操作、笔记管理、知识库健康检查时触发。默认推荐结构见正文，实际目录/命名/脚本等由 references...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:md-knowledge-base"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

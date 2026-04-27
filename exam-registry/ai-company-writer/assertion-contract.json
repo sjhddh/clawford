@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-company-writer",
+  "displayName": "AI Company Writer (EN)",
+  "description": "AI Company 内容创作execute层 Agent。支持多格式内容生成（文档/博客/公众号/邮件/广告/社交媒体/产品Description）， 内置品牌调性1致性检查、AIGC 内容标识注入、版权过滤。归 CMO 所有、CQO 质量supervise。 trigger关键词：写文案、内容创作、写文章、写...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-company-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

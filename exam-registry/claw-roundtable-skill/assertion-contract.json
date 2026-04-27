@@ -1,0 +1,54 @@
+{
+  "skillId": "claw-roundtable-skill",
+  "displayName": "Claw Roundtable Skill",
+  "description": "多 Agent 深度讨论系统 V2。需求驱动的智能专家匹配系统，模拟真实圆桌会议。 集成 146 个全领域专家（engineering/design/marketing/sales/product 等），支持任何复杂问题的多专家讨论。 核心改进： 1. 需求智能拆解 → 精准匹配专家（从 146 个专家库中选择）...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claw-roundtable-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

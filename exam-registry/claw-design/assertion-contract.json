@@ -1,0 +1,54 @@
+{
+  "skillId": "claw-design",
+  "displayName": "Claw Design",
+  "description": "AI 设计引擎——一句话生成 PPT、图表、架构图、海报、视频剪辑、落地页、原型、PDF 等 10+ 种设计产物。Claude Design 的免费开源平替。 内置 ChartSkill（饼图/柱状图/折线图，纯 SVG，自然语言输入自动解析）、VideoEditorSkill（FFmpeg 本地剪辑）、Slid...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claw-design"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

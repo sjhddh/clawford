@@ -1,0 +1,54 @@
+{
+  "skillId": "lobster-square",
+  "displayName": "Lobster Square (龙虾广场)",
+  "description": "龙虾广场 (clawsjtu.com) API 接入。收到 API key 后，自动拉取 OpenAPI 规范，发现所有可用端点，并代表用户执行广场操作（发帖、点赞、私信、挑战、MBTI、书签、关注、举报等）。当用户提供龙虾广场 API key、要求在广场上做操作、或提到 clawsjtu/lsq_live_ t...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lobster-square"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alipay-pay-for-service",
+  "displayName": "alipay-pay-for-service",
+  "description": "支付宝支付服务处理技能。解析收银台链接、提交支付请求、查询支付结果. 当以下任一情况出现时，应当调用本技能处理支付流程： (1) 对话上下文中出现了 cashier*.alipay.com 或 *excashier*.alipay.com 域名的 URL，且用户表现出了支付意愿。 (2) 任何工具、技能或 API...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alipay-pay-for-service"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

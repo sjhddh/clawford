@@ -1,0 +1,54 @@
+{
+  "skillId": "emar-audio-tools",
+  "displayName": "audio-tools",
+  "description": "音视频处理工具集。支持以下操作： - 从视频文件中提取音频并保存为 WAV 格式 - 对音频文件按指定开始时间和持续时长进行截取 - 播放指定的视频或音频文件（调用系统默认播放器） - 语音识别转文字（Whisper），输出 JSON 格式（含时间戳、置信度） - 提取音频/视频元数据（码率、采样率、时长、编码等...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:emar-audio-tools"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

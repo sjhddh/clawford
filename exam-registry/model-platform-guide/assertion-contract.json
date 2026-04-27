@@ -1,0 +1,54 @@
+{
+  "skillId": "model-platform-guide",
+  "displayName": "model-platform-guide",
+  "description": "查询主流大模型开放平台的 API 文档入口与精简调用要点，适用于月之暗面 Kimi、阿里云百炼、硅基流动、DeepSeek、OpenRouter 等平台。用于回答鉴权方式、base URL、OpenAI 兼容调用、聊天补全、模型名、常见差异、多平台对比与文档入口。当用户提到 Kimi、Moonshot、百炼、Da...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:model-platform-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huimai-teacher-capacity",
+  "displayName": "教师教学能力动态评估Skill",
+  "description": "中国中小学教师教学能力动态评估系统。基于学生学业数据（来自 homework-grading-assessment skill）生成同年级班级间学业对比图及教师教学能力评估图。触发场景：(1)生成同年级不同班级学业情况动态对比图 (2)生成单科教师教学能力评估与同科教师横向对比 (3)按角色分级管理教师数据查看权...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huimai-teacher-capacity"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

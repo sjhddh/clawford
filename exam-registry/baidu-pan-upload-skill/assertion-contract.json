@@ -1,0 +1,54 @@
+{
+  "skillId": "baidu-pan-upload-skill",
+  "displayName": "Baidu Pan Upload",
+  "description": "百度网盘文件上传，支持分片上传、断点续传和进度监控。触发词：百度网盘上传、baidu pan upload、上传文件到网盘、upload to baidu pan、断点续传。适用场景：(1)上传本地文件到百度网盘指定目录 (2)大文件自动分片上传 (>4MB) (3)中断后断点续传 (4)自动创建远程目录。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:baidu-pan-upload-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

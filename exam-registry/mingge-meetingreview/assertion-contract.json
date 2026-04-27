@@ -1,0 +1,54 @@
+{
+  "skillId": "mingge-meetingreview",
+  "displayName": "明歌内训课内容加工",
+  "description": "内训课内容加工工作流。从飞书文档读取课程素材（参与用户表 + 评论区 + 逐字稿），生成四版本文档（蒸馏版、总结版、复盘版、3 点改进稿）。使用场景：用户说\"开始加工\"、\"处理课程\"、\"生成四版本\"、\"帮我复盘\"、\"帮我蒸馏\"、\"帮我总结\"、\"帮我改进\"并提供飞书文档链接时触发。无论使用哪个触发词，均生成全部四个版本。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mingge-meetingreview"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

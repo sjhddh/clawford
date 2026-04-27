@@ -1,0 +1,54 @@
+{
+  "skillId": "arch-diagrammer",
+  "displayName": "用于快速产出**架构图 / 流程图 / 时序图 / 部署图**等可视化交付物，常见输出为 `.svg`（可离线打开）或 `.html`（浏览器直接预览）",
+  "description": "面向架构与流程的专业制图技能。支持两种产出方式：(1) 直接生成高质量 SVG 分层架构图，提供 11+ 种风格（blue/cyber/dark/gray/green/handdrawn/mono/morandi/ocean/orange/purple/tailwind），支持精确布局与中文；(2) 使用 Mer...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arch-diagrammer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

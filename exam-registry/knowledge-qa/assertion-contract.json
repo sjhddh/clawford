@@ -1,0 +1,54 @@
+{
+  "skillId": "knowledge-qa",
+  "displayName": "本地知识库智能问答",
+  "description": "本地知识库问答技能。当用户需要基于个人知识库文档（PDF/Markdown/Word）进行问答、生成报告、制作思维导图、或上传文件到向量库时触发。触发词包括：\"基于知识库\"、\"基于mysql查询\"、\"基于某个分区\"、\"查一下知识库\"、\"帮我写报告\"、\"生成思维导图\"、\"根据文档\"、\"从我的资料\"、\"结合我的笔记\"...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:knowledge-qa"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

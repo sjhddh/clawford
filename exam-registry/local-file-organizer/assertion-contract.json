@@ -1,0 +1,54 @@
+{
+  "skillId": "local-file-organizer",
+  "displayName": "本地文件整理虾",
+  "description": "本地文件整理虾 — 自动分类、重命名并归档本地文件。 当以下情况时使用此 Skill： (1) 需要自动整理本地目录（下载文件夹、桌面、项目归档等） (2) 需要按文件类型分类（文档/图片/视频/音频/压缩包/代码） (3) 需要检测并清理重复文件 (4) 需要批量重命名文件，统一命名格式 (5) 用户提到\"整理...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:local-file-organizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

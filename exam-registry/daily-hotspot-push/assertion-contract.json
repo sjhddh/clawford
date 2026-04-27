@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-hotspot-push",
+  "displayName": "Daily Hotspot Push",
+  "description": "自包含的每日热点订阅推送技能。用于创建、查询、修改、取消固定时间自动发送的新闻简报订阅，适合“每天中午12点推送国际科技和国际军事”“工作日早上8点推送今日热点”这类场景。不用于一次性临时查新闻。内置时区管理、中文时间解析、订阅状态存储与 OpenClaw cron 调度，QQ 用户首次创建前需先设置时区。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-hotspot-push"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

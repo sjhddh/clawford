@@ -1,0 +1,54 @@
+{
+  "skillId": "weibo-scraper",
+  "displayName": "抓取某个微博用户在某个时间发的微博内容。只需要说：抓一下XXX的微博。",
+  "description": "抓取指定微博用户的帖子内容。当用户提到\"抓微博\"、\"微博内容\"、\"看微博\"、\"weibo\"、\"某人微博\"等关键词时使用此 skill。支持按日期筛选、自动获取长文全文、滚动加载防遗漏。基于 m.weibo.cn 移动端 + browser 工具实现，无需登录即可抓取公开微博。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weibo-scraper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

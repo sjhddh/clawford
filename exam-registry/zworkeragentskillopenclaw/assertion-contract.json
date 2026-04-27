@@ -1,0 +1,54 @@
+{
+  "skillId": "zworkeragentskillopenclaw",
+  "displayName": "ZworkerAgentSkillOpenClaw",
+  "description": "控制zworker AI自动化任务应用，支持任务管理、定时计划控制、用户信息同步和消息通知转发。当用户提到“zworker”关键词时使用此技能，例如：同步用户信息、获取任务列表、执行任务、管理定时计划、获取并发送通知等。技能通过HTTP接口与本地运行的zworker应用（localhost:18803）通信。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zworkeragentskillopenclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

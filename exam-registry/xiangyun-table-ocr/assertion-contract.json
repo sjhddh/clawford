@@ -1,0 +1,54 @@
+{
+  "skillId": "xiangyun-table-ocr",
+  "displayName": "文档识别-表格识别-Pro（翔云开放平台）",
+  "description": "翔云通用文档/表格识别 Agent。当用户请求以下操作时触发： - 通用文档识别、文档 OCR、OCR 文档、识别图片文字 - 表格识别、表格 OCR、识别表格 - 提取表格内容、读取表格数据 - 识别图片/扫描件/PDF 中的文字和表格 - 表格转 Excel、表格转 Word、表格转 Markdown - 导...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiangyun-table-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

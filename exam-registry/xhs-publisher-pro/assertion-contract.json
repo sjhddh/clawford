@@ -1,0 +1,54 @@
+{
+  "skillId": "xhs-publisher-pro",
+  "displayName": "xhs-publisher-pro",
+  "description": "小红书通用自动发帖技能。全流程自动化：AI生成帖子内容 → 生成封面图（6套风格模板）→ Puppeteer自动发布到小红书创作者中心。内置 stealth 反风控、人类化打字模拟。适合运营任意垂直领域小红书账号（科技、生活、美食、旅行、节日、知识分享等）。当用户需要自动发小红书帖子、生成封面图、或定时发帖时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-publisher-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

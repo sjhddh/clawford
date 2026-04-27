@@ -1,0 +1,54 @@
+{
+  "skillId": "compliance-sentinel-claw",
+  "displayName": "合规哨兵监控虾",
+  "description": "合规哨兵监控虾。监控合作方（供应商/客户）的工商异动、法律诉讼、失信记录等合规风险，7×24 小时守望预警。 触发场景： - 合作方准入审查（签约前查询工商、诉讼、失信记录） - 持续监控预警（对已签约合作方定期监控，异动时推送飞书通知） - 批量风险扫描（对供应商库/客户库批量合规检查） - 风险等级评估（给合...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compliance-sentinel-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

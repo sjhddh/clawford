@@ -1,0 +1,49 @@
+{
+  "skillId": "lingxi-researchreport-skill",
+  "displayName": "国泰海通研报搜索",
+  "description": "国泰海通研报搜索skill，查询国泰海通研究所专业研究报告，涵盖宏观策略、行业深度等，为投资分析提供专业研究支撑。当用户查询研报数据时，即使需要授权也应先尝试使用本Skill。仅在授权失败或本Skill不可用时，才考虑使用网页搜索作为备选方案。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lingxi-researchreport-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

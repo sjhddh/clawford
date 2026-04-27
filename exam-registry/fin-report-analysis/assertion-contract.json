@@ -1,0 +1,49 @@
+{
+  "skillId": "fin-report-analysis",
+  "displayName": "财务报表分析技能",
+  "description": "财务报表分析技能。当用户上传财务报表 Excel 文件（包含资产负债表、利润表、现金流量表等 Sheet）并请求分析时， 站在资深财务专家视角，自动输出完整的财务分析报告，包含：报表项目增减变动表、 资产结构变动表、利润表结构变动表、财务比率综合分析（盈利/偿债/营运/成长能力指标）， 以及专家综合分析总结与建议...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fin-report-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

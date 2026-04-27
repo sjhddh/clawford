@@ -1,0 +1,54 @@
+{
+  "skillId": "android-adb-skill",
+  "displayName": "Android Adb Skill",
+  "description": "Android 开发调试技能，通过系统 ADB 工具操作 Android 设备。以下场景必须触发此技能：(1) 直接 ADB 操作——安装 APK、查看设备列表、抓取 logcat 日志、查看已安装应用、清除应用数据、截图、重启设备、拉取/推送文件、查看 CPU/内存/电池信息、adb shell 操作；(2)...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:android-adb-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

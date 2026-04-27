@@ -1,0 +1,54 @@
+{
+  "skillId": "gateway-restart-profiler",
+  "displayName": "Gateway Restart Profiler",
+  "description": "OpenClaw Gateway 重启性能分析工具。分析 Gateway 重启速度、排查启动慢的原因、生成性能报告、诊断启动问题。支持 Windows (PowerShell) 和 Linux (Bash) 平台。触发场景包括：分析 gateway 重启、检查启动时间、gateway 太慢了、生成性能报告、诊断...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gateway-restart-profiler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

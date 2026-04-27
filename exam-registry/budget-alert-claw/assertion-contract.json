@@ -1,0 +1,54 @@
+{
+  "skillId": "budget-alert-claw",
+  "displayName": "支出预警管控虾",
+  "description": "支出预警管控虾 — 实时监控预算执行，发现超支或异常消费时自动报红。 当以下情况时使用此 Skill： (1) 需要校验某笔支出申请是否超出预算 (2) 需要批量核对支出流水与预算配置 (3) 需要生成预算执行报告（各部门/项目使用率） (4) 需要检测异常消费（金额异常、频次异常、类目异常） (5) 需要配置预...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:budget-alert-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

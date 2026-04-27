@@ -1,0 +1,54 @@
+{
+  "skillId": "disease-cea-auto",
+  "displayName": "disease-cea-auto",
+  "description": "疾病药物经济学自动评价 Skill — 对任意指定疾病，自动设计适合的 Markov / 决策树模型框架， 联网遴选当前最常用治疗药物，搜索模型参数（有效率、AE率、效用值、费用等）， 以中国最新人均 GDP（1倍）为 QALY 支付阈值，计算每种药物的增量成本效果比（ICER）与 货币化净收益（NMB），从大到...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:disease-cea-auto"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

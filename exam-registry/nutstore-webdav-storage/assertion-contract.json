@@ -1,0 +1,54 @@
+{
+  "skillId": "nutstore-webdav-storage",
+  "displayName": "Nutstore WebDAV Storage",
+  "description": "使用坚果云 WebDAV 为 OpenClaw 多 agent 工作区做备份、归档与恢复的 skill。默认按 agent 备份身份信息文件与 memory 目录；如有明确要求，也支持自定义文件或目录备份到坚果云，并保留默认排除敏感文件的执行规则。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nutstore-webdav-storage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

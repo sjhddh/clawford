@@ -1,0 +1,54 @@
+{
+  "skillId": "video-japanese-subtitle",
+  "displayName": "视频日语字幕",
+  "description": "日语视频自动翻译烧录技能。将日语视频转换为中文硬字幕，完整流程：ffmpeg 提取音频 → Whisper 日语转录 → LLM 翻译日→中 → SRT 转 ASS → ffmpeg NVENC 烧录硬字幕 → 验证。触发条件：用户提到视频字幕、硬字幕、字幕烧录、日语视频翻译、whisper 字幕、ass 字幕、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-japanese-subtitle"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

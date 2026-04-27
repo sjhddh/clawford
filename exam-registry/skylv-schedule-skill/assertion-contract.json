@@ -1,0 +1,54 @@
+{
+  "skillId": "skylv-schedule-skill",
+  "displayName": "Skylv Schedule Skill",
+  "description": "日程/日历/会议/安排管理 Skill。当用户提到任何日程相关话题时触发——包括但不限于：查看日程（'明天有什么安排'、'这周有什么会'）、创建日程（'帮我建个日程'、'约个会'、'三点开会'）、修改日程（'把会议推迟到后天'、'改个时间'）、取消日程（'取消明天的会'、'把那个会删了'）。也适用于间接意图如'帮...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skylv-schedule-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

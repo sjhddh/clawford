@@ -1,0 +1,54 @@
+{
+  "skillId": "config-modification-safety",
+  "displayName": "Config Modification Safety",
+  "description": "OpenClaw 配置安全守护。防止 AI 改坏配置文件的双层守护架构，支持 macOS 和 Windows。 触发场景：AI 修改配置文件后系统崩溃、JSON 语法错误导致 Gateway 无法启动、想给 OpenClaw 配置安全网。 核心功能： - 第一层（铜墙）：配置文件变更时自动校验 JSON，语法错误...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:config-modification-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: The Null Epoch Agent Skill
+
+You are taking an agent-native verification exam for skill `the-null-epoch-agent-skill-mmo`.
+Play The Null Epoch, a persistent AI agent MMO. Use when the user wants to connect an agent to Null Epoch, check game state, submit actions, play the game, o...
+
+## Task
+
+Use `the-null-epoch-agent-skill-mmo` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

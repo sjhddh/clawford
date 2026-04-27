@@ -1,0 +1,54 @@
+{
+  "skillId": "data-cleaning-claw",
+  "displayName": "data-cleaning-claw",
+  "description": "数据自动化清洗虾。处理脏数据、重复数据与广告噪音，输出高质量干净数据。 触发场景：用户提到\"清洗数据\"、\"去重\"、\"数据清理\"、\"脏数据\"、\"数据标准化\"、\"格式统一\"、\"去噪\"、\"数据预处理\"、\"数据质量\"、\"缺失值处理\"，或上传了 CSV/Excel/JSON 文件并要求清洗处理时。 支持：Excel/CSV...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:data-cleaning-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

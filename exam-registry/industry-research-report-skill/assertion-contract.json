@@ -1,0 +1,49 @@
+{
+  "skillId": "industry-research-report-skill",
+  "displayName": "Industry Research Report Skill",
+  "description": "生成专业行业研究报告，适用于投资尽调、并购评估等场景。当用户提到\"研究某行业\"、\"行业分析\"、\"尽调报告\"、\"投资研究\"、\"行业深度报告\"时加载本技能。采用经典四维分析框架：PEST宏观环境分析 + 波特五力竞争分析 + 价值链分析 + 市场规模测算（TAM/SAM/SOM），最终输出正式PDF报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-research-report-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

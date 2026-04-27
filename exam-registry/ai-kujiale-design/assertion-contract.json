@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-kujiale-design",
+  "displayName": "ai-kujiale-design",
+  "description": "通过用户的自然语言需求，自动调用酷家乐AI设计工厂（OpenAPI+网页操作）完成室内住宅方案的户型获取/临摹导入、风格匹配、智能布局与渲染，最终返回多张效果图与全景图，并提供拟人化进度反馈；当用户表示要做房子/室内设计、提到小区/户型/风格（如北欧、现代）、或要求生成效果图/全景图/使用酷家乐时触发。适用于住宅...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-kujiale-design"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

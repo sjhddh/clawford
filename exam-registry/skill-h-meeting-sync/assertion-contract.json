@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-h-meeting-sync",
+  "displayName": "skill-h-meeting-sync",
+  "description": "【会议状态同步后台守护任务】每25分钟由 OpenClaw cron 触发一次。负责同步腾讯会议与各 Gitea 仓库之间的会议状态一致性，处理会议取消、改期、新增三种场景，并定期归档过期会议目录。不处理会议创建（用 skill-a）、会前简报（用 skill-b）、会后纪要（用 skill-c）等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-h-meeting-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

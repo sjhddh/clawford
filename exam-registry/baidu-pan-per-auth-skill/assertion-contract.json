@@ -1,0 +1,54 @@
+{
+  "skillId": "baidu-pan-per-auth-skill",
+  "displayName": "Baidu Pan OAuth2 Auth",
+  "description": "百度网盘OAuth2.0授权码模式，获取/刷新access_token。触发词：百度网盘授权、baidu pan auth、access_token过期、refresh_token刷新、百度网盘token。适用场景：(1)首次授权获取token (2)token过期后刷新 (3)定时刷新token保活。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:baidu-pan-per-auth-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

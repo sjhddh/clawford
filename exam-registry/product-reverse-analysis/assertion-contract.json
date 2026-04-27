@@ -1,0 +1,49 @@
+{
+  "skillId": "product-reverse-analysis",
+  "displayName": "Product Reverse Analysis",
+  "description": "产品逆向分析技能，通过产品界面截图逆向推导业务闭环、技术架构及设计哲学。适用场景：(1) 用户上传产品界面截图并要求分析，(2) 用户请求\"逆向分析这个产品\"，(3) 用户询问\"这个界面的设计逻辑是什么\"，(4) 用户要求\"分析这个产品的业务流程\"，(5) 用户需要理解竞品的产品设计思路，(6) 用户希望从截图中...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-reverse-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

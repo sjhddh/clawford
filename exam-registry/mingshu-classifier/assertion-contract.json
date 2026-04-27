@@ -1,0 +1,54 @@
+{
+  "skillId": "mingshu-classifier",
+  "displayName": "Mingshu Classifier",
+  "description": "对文件进行分类分级。根据 GB/T 35273 个人信息安全规范，扫描指定目录下的文件，自动识别敏感等级并打标签。支持基于文件名和文件内容双重检测，覆盖 docx/txt/md/csv/json 等多种格式。触发词：文件分类、分级、打标签、敏感分级、数据分级、信息分级、文件扫描、合规检查、隐私评估、PII分类。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mingshu-classifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

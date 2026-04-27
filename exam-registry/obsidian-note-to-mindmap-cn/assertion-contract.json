@@ -1,0 +1,54 @@
+{
+  "skillId": "obsidian-note-to-mindmap-cn",
+  "displayName": "Obsidian Note 转导图",
+  "description": "将用户明确提供的 Obsidian 笔记或 Markdown 大纲默认转换为 KMind 导图 PNG，并在明确要求时输出可编辑的 KMind 导图；如果缺少已审核的 KMind core skill，先征求确认后再从 ClawHub 安装。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:obsidian-note-to-mindmap-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "deepsop-artist",
+  "displayName": "支持图片生成（SEEDREAM5_0/NANO_BANANA_2）和视频生成（SEEDANCE_1_5_PRO/SORA2/VEO3.1/WAN2.6），SORA2 支持文生视频和首尾帧图生视频",
+  "description": "AI 图片与视频异步生成技能，调用 AI Artist API 根据文本提示词生成图片或视频，自动轮询直到任务完成。 ⚠️ 使用前必须设置环境变量 AI_ARTIST_TOKEN 为你自己的 API Key！ 获取 API Key：访问 https://ai.deepsop.com/ 注册登录后创建。 支持图片模...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepsop-artist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

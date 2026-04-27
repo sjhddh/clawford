@@ -1,0 +1,54 @@
+{
+  "skillId": "art-tutor",
+  "displayName": "Publish Art Tutor",
+  "description": "艺术学习私人助教。依据用户的学习目标、水平和偏好，从本地艺术知识库中精准推荐学习资源、规划学习路径，并解答技法疑问。当用户说\"学画画\"、\"想学水彩\"、\"零基础学素描\"、\"帮我制定学习计划\"、\"推荐一些艺术书籍\"等任何艺术学习相关需求时，触发本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:art-tutor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

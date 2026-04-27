@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-writer-cn",
+  "displayName": "Patent Writer Cn",
+  "description": "中国发明专利交底书撰写与软著申请材料准备工具。当用户需要撰写专利、写专利交底书、申请软件著作权、准备软著材料、提取技术发明点、撰写权利要求书、生成专利附图文档时使用此 skill。触发词：专利、专利撰写、专利交底书、发明点、权利要求、软著、软件著作权、著作权申请、软著材料、鉴别材料、申请材料清单。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-writer-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

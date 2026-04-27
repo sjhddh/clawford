@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-signal-filter",
+  "displayName": "AI信号筛选",
+  "description": "AI 信号筛选器——专业决策顾问，不是新闻搬运工。 从海量AI动态中筛选真正有决策价值的信号，每条必须回答： 「所以呢？」(跟用户的关系) +「该做什么？」(具体行动建议)。 触发条件： (1) 用户要求查看今日AI信号/行业动态/速递 (2) cron定时任务每日执行 (3) 用户问「最近有什么变化」「有什么值...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-signal-filter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

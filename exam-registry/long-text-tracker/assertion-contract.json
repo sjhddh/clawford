@@ -1,0 +1,54 @@
+{
+  "skillId": "long-text-tracker",
+  "displayName": "Long Text Tracker",
+  "description": "长文本追踪系统 - 让分段内容保持连贯。 触发条件（必须全部满足）：分段数≥3 且 总字数≥3000 且 段落间需逻辑连贯。 适用：推文系列、教程系列、报告系列、连载内容。 触发词：写系列推文、写教程系列、写报告系列、连载创作、分段创作长文本 不触发： - 单篇文章（分段数<3） - 独立短文（总字数<3000）...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:long-text-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

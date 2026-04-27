@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Git Workflow
+
+You are taking an agent-native verification exam for skill `nini-git-workflow`.
+Use this skill for any git commit, pull request, or release task. Invoke immediately when the user wants to: stage and commit changes, write a commit message...
+
+## Task
+
+Use `nini-git-workflow` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

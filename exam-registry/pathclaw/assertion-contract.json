@@ -1,0 +1,54 @@
+{
+  "skillId": "pathclaw",
+  "displayName": "PathClaw",
+  "description": "通过华银康集团 PathClaw 服务对病理切片进行泛癌 AI 辅助诊断，适用于病理科医生或研究人员在收到切片图像后的初步筛查场景。当用户提供 .svs 格式的病理切片文件时，自动完成：认证登录、提交诊断任务、轮询推理结果、返回诊断结论及热力图链接。触发条件：用户请求分析病理切片、进行泛癌预测、肿瘤筛查、或提到...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pathclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

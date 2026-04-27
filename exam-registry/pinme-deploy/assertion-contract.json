@@ -1,0 +1,54 @@
+{
+  "skillId": "pinme-deploy",
+  "displayName": "PinMe Deploy",
+  "description": "一键部署前端静态网站到 IPFS 网络。使用场景：(1) 用户需要部署静态网站、HTML页面、前端项目 (2) 用户提到pinme、IPFS部署、静态网站托管 (3) 用户需要快速预览或分享前端作品 (4) 用户要求发布、上传、部署静态页面。支持自动识别项目类型、构建并上传到 IPFS 网络，返回可访问的 URL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pinme-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

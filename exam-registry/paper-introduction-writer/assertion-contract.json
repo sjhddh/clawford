@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-introduction-writer",
+  "displayName": "paper-introduction-writer",
+  "description": "根据论文主题、背景、前人研究、gap、方法和结果，按 Glasman-Deal《Science Research Writing》的四组件/十一句式模型生成、修改或注释研究论文 Introduction；支持英文稿、中文功能注释、段落提纲、已有引言修改和 §1.6 的 250-350 词短引言练习。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-introduction-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

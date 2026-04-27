@@ -1,0 +1,54 @@
+{
+  "skillId": "follow-aibuilders",
+  "displayName": "follow-aibuilders",
+  "description": "AI builders digest — 监控顶级 AI builders 在 X 和 YouTube 播客上的动态，将其内容重新整理为易于消化的摘要。当用户想要 AI 行业洞察、builder 更新或调用 /ai 时使用。Twitter 使用免费 Rettiwt-API（无需付费 key），YouTube 使用...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:follow-aibuilders"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

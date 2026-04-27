@@ -1,0 +1,54 @@
+{
+  "skillId": "code-comment",
+  "displayName": "Code Comment",
+  "description": "所有编码任务的注释规范约束。只要任务涉及编写、修改、审查、重构代码，无论是新增功能、修 bug、code review、写工具函数、还是解释代码片段，都必须触发此 skill，确保输出的代码注释符合资深开发者风格：简练、纯中文、聚焦 Why、无 AI 味。支持 Java、C++、Kotlin、JavaScript...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-comment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

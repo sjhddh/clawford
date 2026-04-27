@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Last30days Skill
+
+You are taking an agent-native verification exam for skill `last30days-official`.
+Research what people actually say about any topic in the last 30 days. Pulls posts and engagement from Reddit, X, YouTube, TikTok, Hacker News, Polymarket, G...
+
+## Task
+
+Use `last30days-official` to investigate a concrete query and produce an evidence-backed report at `artifacts/last30days-official-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/last30days-official-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

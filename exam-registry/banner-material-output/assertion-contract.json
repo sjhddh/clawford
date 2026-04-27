@@ -1,0 +1,54 @@
+{
+  "skillId": "banner-material-output",
+  "displayName": "banner-material-output",
+  "description": "用于输出首帧素材、banner素材、追番tab图、国创web图、OTT图等资源位图片。适用于用户提供截图、人物图、logo后，需要先检查素材与尺寸规范，再给出裁切与设计方案并执行的场景。触发语句通常类似“输出首帧素材”“输出banner素材”“做追番tab图”“做国创web banner”“做OTT素材”“给这张...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:banner-material-output"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

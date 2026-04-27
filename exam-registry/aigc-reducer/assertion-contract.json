@@ -1,0 +1,54 @@
+{
+  "skillId": "aigc-reducer",
+  "displayName": "aigc-reducer",
+  "description": "降低论文AIGC检测率的专业化处理流水线。当用户需要降低AI生成文本检测率、降低AIGC百分比、去除AI写作特征、规避Turnitin检测、论文去AI化、让论文更像人类写作时使用。本skill包含5个专业化模块：词汇清洗、句法节奏打乱、机械连词隐蔽、学术克制注入、困惑度重构。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aigc-reducer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

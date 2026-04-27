@@ -1,0 +1,54 @@
+{
+  "skillId": "problem-solving-methodology",
+  "displayName": "Problem Solving",
+  "description": "结构化问题诊断与解决方法论。 Use when: (1) 问题原因不明需要调查/\"分析一下这个问题\"/\"排查一下\", (2) 之前的修复尝试失败了, (3) 问题涉及多个组件交互/\"为什么会这样\"/\"调查一下原因\", (4) 修改有风险或副作用/\"诊断一下\", (5) 用户明确要求先分析再修复。 NOT for:...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:problem-solving-methodology"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

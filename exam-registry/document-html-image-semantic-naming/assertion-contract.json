@@ -1,0 +1,54 @@
+{
+  "skillId": "document-html-image-semantic-naming",
+  "displayName": "文档转HTML图片语义命名技能",
+  "description": "文档转 HTML 时的图片语义命名技能。用于把 doc/docx/pdf 等文档导出的 `image1`、`image2` 这类无语义图片，结合文档上下文与图片内容重新命名，并同步更新 HTML 引用与映射清单。适用于用户提到“文档转 html”“图片重命名”“导出图片没语义”“根据上下文给图片命名”“doc/p...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:document-html-image-semantic-naming"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

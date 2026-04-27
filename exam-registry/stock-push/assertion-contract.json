@@ -1,0 +1,54 @@
+{
+  "skillId": "stock-push",
+  "displayName": "Stock Push",
+  "description": "A股股票定时推送系统。管理盘前推荐（09:20）、收盘复盘（15:05）、次日关注（20:00）三个推送任务，每交易日晚自动发送持仓股行情到微信。当用户提到：股票推送、持仓监控、定时提醒、A股行情，或者需要查询持仓盈亏、复盘信息、次日建议时触发。also triggers when user says \"推送\"...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stock-push"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

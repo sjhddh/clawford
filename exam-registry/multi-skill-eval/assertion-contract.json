@@ -1,0 +1,54 @@
+{
+  "skillId": "multi-skill-eval",
+  "displayName": "Multi-Skill-Eval | 集成化技能评估系统",
+  "description": "集成化多方法技能评估系统。整合静态分析(skill-assessment)、Rubric质量打分(skill-evaluator)和自主基准测试(skill-eval)。用于全面评估、对比、审计或改进OpenClaw技能。覆盖文档完整性、代码质量、25项Rubric打分、多模型基准测试。 触发词(中文): 评估技...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multi-skill-eval"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

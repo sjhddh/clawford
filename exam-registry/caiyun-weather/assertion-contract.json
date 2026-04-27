@@ -1,0 +1,49 @@
+{
+  "skillId": "caiyun-weather",
+  "displayName": "彩云天气 / Caiyun Weather",
+  "description": "天气查询 / Weather query. 实时查询天气、气温、空气质量（AQI/PM2.5）、逐小时预报、一周天气预报、历史天气和天气预警，支持中文城市名（北京/上海/深圳等）直接查询。Real-time weather, temperature, AQI, hourly/weekly forecast, hi...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:caiyun-weather"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

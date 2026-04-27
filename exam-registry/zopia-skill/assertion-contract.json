@@ -1,0 +1,54 @@
+{
+  "skillId": "zopia-skill",
+  "displayName": "Zopia Skills",
+  "description": "Zopia AI 视频创作技能 - 通过 Zopia 平台的 AI Agent 进行视频/图片创作。覆盖场景包括：AI 视频生成（文生视频、图生视频）、AI 图片生成（角色设定图、分镜关键帧）、剧本创作（对话/旁白/场景描述）、角色设计、分镜设计、多集连续剧制作。当用户提到 zopia、视频创作、短剧制作、分镜、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zopia-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

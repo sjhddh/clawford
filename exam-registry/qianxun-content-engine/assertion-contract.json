@@ -1,0 +1,54 @@
+{
+  "skillId": "qianxun-content-engine",
+  "displayName": "内容引擎",
+  "description": "内容引擎（小红书）。两种 mode：①拆解（v1）— 输入 XHS 爆款链接，输出 18 维结构化拆解卡；②生成（v2）— 在拆解卡基础上结合品牌信息，用 Ofox（LLM + Nano Banana）生成我方版本的脚本/文案/素材图/封面/标签全套产出。视频生成（Seedance 2.0）规划在 v2.1。同时...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qianxun-content-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bie-zheng-luan-prototype",
+  "displayName": "别整乱七八糟的原型",
+  "description": "将产品原型转换为详细技术规范的技能。当产品经理提供原型资源需要拆解为技术实现方案时使用。支持四种输入类型：1.URL原型（Figma/墨刀/Axure等公开链接）→ 下载HTML并解析DOM结构；2.本地HTML文件 → 直接读取并解析；3.图片原型（PNG/JPG/WebP等设计稿截图）→ 提取颜色、布局区域，...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bie-zheng-luan-prototype"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

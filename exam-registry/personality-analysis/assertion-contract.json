@@ -1,0 +1,49 @@
+{
+  "skillId": "personality-analysis",
+  "displayName": "my skill",
+  "description": "从聊天记录中深度分析人物性格、说话风格和心理画像，输出结构化分析报告。当用户要求分析某人的聊天记录、说话风格、性格特征、心理画像时使用此 skill。典型触发：\"分析一下这个人\"、\"分析聊天记录\"、\"提取说话风格\"、\"人物画像分析\"、\"帮我分析一下TA\"、\"分析形象\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:personality-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

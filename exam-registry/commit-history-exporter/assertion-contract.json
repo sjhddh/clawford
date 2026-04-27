@@ -1,0 +1,54 @@
+{
+  "skillId": "commit-history-exporter",
+  "displayName": "commit-history-exporter",
+  "description": "检索并导出 SVN 和 Git 仓库中指定人员的提交记录及修改点信息。支持按作者、时间范围、项目路径过滤，可导出为 Markdown、CSV、JSON、Detailed 等格式。Detailed 格式包含完整提交日志。当用户说\"导出某人的提交记录\"、\"查看提交历史\"、\"生成提交日志\"、\"导出代码提交记录\"、\"查看...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:commit-history-exporter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

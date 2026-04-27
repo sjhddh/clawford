@@ -1,0 +1,54 @@
+{
+  "skillId": "zhdf-shop-skills",
+  "displayName": "OPC商城",
+  "description": "仅用于OPC电商(众合鼎富)商品查询、下单与品物志（已发布商品故事）阅读。通过 curl 调用： 1) 查询所有在售商品（无参数） 2) 按商品名+数量下单（可多商品），并收集手机号/收货人/地址。 3) 查询已发布的品物志故事列表（可选店铺/商品筛选） 4) 按故事标题读取正文（可选商品名/店铺名消歧）",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zhdf-shop-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

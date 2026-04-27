@@ -1,0 +1,54 @@
+{
+  "skillId": "deepseek-v4-reasoning-bug",
+  "displayName": "DeepSeek V4 Reasoning Bug",
+  "description": "排查 DeepSeek V4-Pro 在 tool-call 模式下因 reasoning_content 字段缺失导致的 API 400 错误。适用场景：(1) DeepSeek V4-Pro 使用 thinking/reasoning 模式时遇到 400 error, (2) 报错内容为 'The reaso...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepseek-v4-reasoning-bug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

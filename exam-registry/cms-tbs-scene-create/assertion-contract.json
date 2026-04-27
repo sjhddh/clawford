@@ -1,0 +1,54 @@
+{
+  "skillId": "cms-tbs-scene-create",
+  "displayName": "cms-tbs-scene-create",
+  "description": "提供【TBS 训战场景创建】全流程执行能力。用户一旦表达“创建场景/生成对练场景/医药代表训练/销售训练/校验场景/确认落库”等执行意图，必须进入本 Skill 的分阶段脚本调用流程；仅当用户明确是纯咨询（如问规则、问怎么做）时，才允许先文字说明并二次确认是否执行。本 Skill 通过依赖 `cms-auth-s...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cms-tbs-scene-create"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

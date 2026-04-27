@@ -1,0 +1,54 @@
+{
+  "skillId": "compliance-archive-claw",
+  "displayName": "compliance-archive-claw",
+  "description": "合规制度归档虾 — 企业法律文件、规章制度的数字档案管理。用于归档新制度文件、更新版本、标记废止、全文检索、导出文件清单。 触发场景：用户说\"归档制度\"、\"归档文件\"、\"查询制度\"、\"制度更新\"、\"标记废止\"、\"合规检查\"、\"导出文件清单\"、\"版本管理\"等。 支持输入：Excel/CSV 文件清单、自然语言描述、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compliance-archive-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "personal-map",
+  "displayName": "Gaode Map Personal - 高德官方个人专属地图 Skill",
+  "description": "高德地图个人专属地图生成工具。封装了高德开放平台的Web服务API，提供地理编码、POI搜索、路径规划、周边搜索、天气查询等能力，最终生成可在高德地图App中打开的个人地图小程序二维码。当用户提到以下任意场景时，都应主动使用本技能：查找附近的餐厅/景点/商场等POI、规划从A到B的路线（步行/驾车/公交/骑行）、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:personal-map"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

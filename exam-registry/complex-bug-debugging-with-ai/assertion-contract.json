@@ -1,0 +1,54 @@
+{
+  "skillId": "complex-bug-debugging-with-ai",
+  "displayName": "complex-bug-debugging-with-ai",
+  "description": "复杂 bug 与 AI 协作排查的元方法论。当用户报告\"诡异 / 间歇性 / 多层因素 / 重启不愈 / 多系统协作 / 已经排查很久没头绪\"的 bug 时，启用本 SKILL 的 7 阶段协作工作流：\"业务链路对齐 → 症状结构化 → 边界测试循环 → 方案摆台 → 执行验证 → 失效升级 → 闭环沉淀\"。本...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:complex-bug-debugging-with-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

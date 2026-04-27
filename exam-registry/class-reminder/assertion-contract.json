@@ -1,0 +1,54 @@
+{
+  "skillId": "class-reminder",
+  "displayName": "Class Reminder",
+  "description": "课程提醒助手。解析 Excel 课程表（支持教师课表格式），按日期梳理课程安排，支持查询今天/明天/指定日期的课程，生成上课提醒。触发场景：(1) 用户上传课程表后询问\"明天有什么课\"、\"今天上什么课\"、\"XX号有什么课\"；(2) 设置定时提醒，每天/每周自动推送次日课程；(3) 解析、导入、更新课程表；(4)...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:class-reminder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

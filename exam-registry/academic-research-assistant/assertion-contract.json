@@ -1,0 +1,49 @@
+{
+  "skillId": "academic-research-assistant",
+  "displayName": "学术研究助手",
+  "description": "学术研究全流程助手。提供论文写作指导、文献检索方法、学术工具推荐、期刊投稿指南、学术会议信息、科研项目管理等。适用于大学生、研究生和科研人员的学术工作辅助。支持家用（知识库）和商用（API扩展）双模式。触发器：用户提出论文/文献/期刊/投稿/学术/科研相关问题时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:academic-research-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

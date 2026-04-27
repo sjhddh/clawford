@@ -1,0 +1,54 @@
+{
+  "skillId": "current-akshare-list",
+  "displayName": "Current Akshare List",
+  "description": "通过akshare下载所有A股、创业板、B股股票简况并用实时行情列表校对，获得当前正在交易的所有AB和创业板股票清单，以及不在交易的股票清单（代码、简称、上市时间），保存为csv。触发词：\"A股股票列表\"、\"更新股票列表\"、\"股票列表下载\"、\"akshare股票\"、\"获取全部A股\"、\"沪深京A股\"、\"不在交易股票...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:current-akshare-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

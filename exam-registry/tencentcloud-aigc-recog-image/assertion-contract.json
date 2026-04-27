@@ -1,0 +1,54 @@
+{
+  "skillId": "tencentcloud-aigc-recog-image",
+  "displayName": "TencentCloud Image AIGC Detection",
+  "description": "腾讯云 AI 生成图片识别 (TencentCloud Image AIGC Detection) 技能。适用于 AI 生成图片检测、图片真伪鉴别、AI 绘画检测、Deepfake 检测等场景。TencentCloud Image AIGC Detection is an AI-generated content...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencentcloud-aigc-recog-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

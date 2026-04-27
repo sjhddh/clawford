@@ -1,0 +1,54 @@
+{
+  "skillId": "content-card",
+  "displayName": "Content Card",
+  "description": "将内容铸成 PNG 视觉卡片。三种模具：-l 长图阅读卡（默认）、-i 信息图、-m 多卡。 输入文本/URL/文件，输出高品质 PNG。 Use when: (1) 用户说\"做成卡片\"/\"做成图\"/\"铸\"/\"cast\", (2) 用户说\"知识卡片\"/\"信息图\"/\"infograph\", (3) 需要将文章/笔记...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-card"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

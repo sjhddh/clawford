@@ -1,0 +1,54 @@
+{
+  "skillId": "cms-cwork-workflow",
+  "displayName": "工作协同官方skill",
+  "description": "提供【工作协同】全流程执行能力。用户一旦表达“写汇报/发汇报/发周报/提交汇报/查看收件箱/查待办/任务协作/业务单元”等执行意图，必须进入本 Skill 的脚本调用流程；仅当用户明确是纯咨询（如问规则、问怎么做）时，才允许先文字说明并二次确认是否执行。本 Skill 通过依赖 `cms-auth-skills`...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cms-cwork-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

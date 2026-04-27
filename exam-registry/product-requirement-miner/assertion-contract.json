@@ -1,0 +1,54 @@
+{
+  "skillId": "product-requirement-miner",
+  "displayName": "Product Requirement Miner",
+  "description": "从产品评论数据中挖掘和分析迭代需求。支持CSV格式的产品评论数据，自动进行数据清洗、分类、聚类分析和产品优化路线图生成。使用场景：(1) 用户需要从产品评论中提取用户需求 (2) 对产品反馈进行分类整理 (3) 进行需求聚类分析以识别重复或相似需求 (4) 生成产品优化路线图和优先级规划。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-requirement-miner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

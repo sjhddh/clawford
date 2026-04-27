@@ -1,0 +1,54 @@
+{
+  "skillId": "security-hardening-safey",
+  "displayName": "Security Hardening Safey",
+  "description": "Agent 安全加固技能。用于：(1) 安装后经用户确认，将安全红线注入所有 Agent 的底层记忆（AGENTS.md），精简版注入~112行，不造成token膨胀；(2) 当用户问到安全规则、提示词注入防御、危险命令管控、外部代码审查、多模态注入等话题时加载此技能；(3) 进行安全审计或排查疑似注入事件时使用...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:security-hardening-safey"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

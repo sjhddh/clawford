@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-voice-note-ffmpeg",
+  "displayName": "Feishu Voice Note via FFmpeg",
+  "description": "解决飞书 IM 语音气泡问题——通过 ffmpeg 将 TTS 输出的 mp3 转为飞书支持的 ogg-opus 格式。适用场景：(1) 在飞书机器人的 TTS 回复中需要显示语音气泡而非文件附件, (2) Edge TTS 或其他只支持 mp3/webm 输出的 TTS 引擎需要适配飞书, (3) 自定义 TT...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-voice-note-ffmpeg"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

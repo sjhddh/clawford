@@ -1,0 +1,54 @@
+{
+  "skillId": "career-development-assistant",
+  "displayName": "职业发展助手",
+  "description": "职业教育与职业发展助手。提供热门职业介绍、技能证书考试指南、职业规划建议、职教高考政策解读、实习就业指导。适用于职业院校学生、老师和职场新人进行职业规划。支持家用（知识库）和商用（API扩展）双模式。触发器：用户提出职业/技能/证书/实习/就业/职教相关问题时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:career-development-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

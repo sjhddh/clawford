@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-agent-provision",
+  "displayName": "Feishu Agent Provision",
+  "description": "创建绑定飞书群聊的专用 Agent。支持：询问配置问题、创建独立 workspace、注册 agent 到 OpenClaw 配置、绑定飞书群到该 agent、设置每日/每周定时报告。触发条件：用户说\"创建一个飞书agent\"、\"创建项目agent\"、\"新建agent并绑定飞书群\"、\"创建一个专属agent\"、或...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-agent-provision"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hermes-memory-cn",
+  "displayName": "Hermes Memory CN",
+  "description": "给AI装一个「人脑级」记忆系统。它能记住你说过的一切重要信息，下次聊天自动想起来。 不用云端、不用API Key、不花一分钱——全部数据存在你自己的电脑上。 说「记住这个」它就记住，问「我上次说了什么」它就找到。自动整理、自动遗忘过时信息。 适合：想让自己的AI助手拥有长期记忆的用户。 触发词：记忆、记住、之前说...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hermes-memory-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

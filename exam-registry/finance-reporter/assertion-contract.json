@@ -1,0 +1,54 @@
+{
+  "skillId": "finance-reporter",
+  "displayName": "finance-reporter",
+  "description": "实时财经数据推送工具。使用Yahoo Finance API获取全球股市、外汇、大宗商品、加密货币实时行情，支持定时推送到钉钉/微信。包含股票代码、货币单位、实时价格、24h前/昨收价格、涨跌幅。支持标的：纳指、道指、美元指数、黄金、比特币、沪指、恒生、日经、人民币/美元汇率、原油。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:finance-reporter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

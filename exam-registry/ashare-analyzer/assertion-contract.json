@@ -1,0 +1,49 @@
+{
+  "skillId": "ashare-analyzer",
+  "displayName": "A股综合分析报告",
+  "description": "生成A股综合分析报告（深交所/上交所/北交所），包含K线技术指标图表、同行业对比、基本面分析、主营业务构成、技术面评分、催化剂与风险、短线/中线买卖建议。当用户提供A股名称（如康盛股份）或代码（如002418、002418.SZ、sz002418）并要求分析、出报告、看技术面，或简单输入\"002418\"、\"看看康...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ashare-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

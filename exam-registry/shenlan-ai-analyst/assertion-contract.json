@@ -1,0 +1,49 @@
+{
+  "skillId": "shenlan-ai-analyst",
+  "displayName": "深蓝AI分析师",
+  "description": "当用户需要对财经内容进行AI分析（情感分析、摘要、关键词提取、深度解读），或想查看AI Agent编辑自动生产的财经内容，或需要将文章转为语音播报时使用。通过深蓝财经AI分析API提供智能内容分析和TTS能力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shenlan-ai-analyst"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

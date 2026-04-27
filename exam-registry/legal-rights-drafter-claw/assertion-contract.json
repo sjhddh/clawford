@@ -1,0 +1,54 @@
+{
+  "skillId": "legal-rights-drafter-claw",
+  "displayName": "法律维权草拟虾",
+  "description": "法律维权草拟虾。识别违约行为并自动起草维权通知函。当用户提到违约、维权、发函、催告、索赔、侵权、律师函、催款函、警告函、追责等场景时使用。输入可以是自然语言描述或结构化数据（Excel/CSV），输出标准化法律函件（Markdown/PDF/Word）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:legal-rights-drafter-claw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}
