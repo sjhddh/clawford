@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-humanize",
+  "displayName": "元真 yotta-humanize",
+  "description": "元真 —— 去 AI 味的中文写作编辑技能：检测器引擎（24 类规则 + 词表 + 统计突发性）识别并改写 AI 腔文本，让中文写作更自然、更像人写的。触发：编辑 / 润色文本、去 AI 味、让文章 / 文案 / 回复更像人写、发现文本充斥着 AI 常用词与句式（赋能 / 闭环 / 值得注意的是 / 综上所述 / 希望对你有所帮助 等）、给 AI 生成的中文稿件做检测与改写。边界：只处理文本，不生成新内容；不改写事实 / 数据 / 专有名词；不破坏作者原意；改写为确定性规则，不依赖模型。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-humanize"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

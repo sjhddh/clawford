@@ -1,0 +1,54 @@
+{
+  "skillId": "rhinoclaw",
+  "displayName": "RhinoClaw",
+  "description": "Control Rhino 3D via the RhinoClaw plugin over TCP. Use whenever you need to create, modify, query, measure, or render 3D geometry, manage layers/materials, run Boolean and transform ops, drive Grasshopper definitions, work with VisualARQ BIM objects, or batch multiple steps as one atomic operation. Requires Rhino 7/8 running with `tcpstart` (the plugin's command line server) on the Rhino host.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rhinoclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

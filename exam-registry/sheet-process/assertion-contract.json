@@ -1,0 +1,54 @@
+{
+  "skillId": "sheet-process",
+  "displayName": "sheet-process",
+  "description": "腾讯文档智能表格通用筛选处理工具。支持两种模式：工作流模式（一键输出JSON，适合作为下游AI节点输入）和原子模式（引导式问答，可自定义输出格式）。触发词：sheet-process（工作流）、表格筛选/表格处理/表格过滤（原子模式）。当用户在腾讯文档智能表格中需要按列进行多条件筛选时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sheet-process"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

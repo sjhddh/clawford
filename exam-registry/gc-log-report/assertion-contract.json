@@ -1,0 +1,54 @@
+{
+  "skillId": "gc-log-report",
+  "displayName": "Gc Log Report",
+  "description": "读取和分析 JDK GC 日志，并生成更专业的 HTML 正式报告与 Markdown 简版结论，既适合技术复盘，也适合领导汇报和架构师调优决策。只要用户提到 gc log、GC 日志、CMS/G1/ParNew 回收日志、JVM 停顿分析、Full GC、Young GC、生成 GC 分析报告、导出 HTML 报告、整理领导汇报材料、给出 JVM 调优建议、识别问题项并高亮展示，或希望合并多个 gc.log.* 滚动文件并给出结论时，都应该优先使用这个 skill，即使用户没有明确说“skill”或“报告”。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gc-log-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

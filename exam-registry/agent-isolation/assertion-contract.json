@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-isolation",
+  "displayName": "Agent Isolation",
+  "description": "当多个 AI agent 共享同一个运行时底座时，防止互相踩踏工作区。不是靠约定——是写进每个 agent 配置文件里的硬边界规则。每个 agent 有自己的工作区、自己的 memory、自己的 session；唯一共享区是显式声明的公共目录。包含隔离规则模板、越界例外条款、从混乱到隔离的逐步执行指南。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-isolation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

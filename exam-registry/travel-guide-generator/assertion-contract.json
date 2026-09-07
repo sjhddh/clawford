@@ -1,0 +1,54 @@
+{
+  "skillId": "travel-guide-generator",
+  "displayName": "旅游攻略生成器",
+  "description": "旅游攻略生成器 - 当用户提出旅游规划需求时自动调用，例如\"生成XX旅游攻略\"、\"规划XX行程\"、\"XX几天怎么玩\"、\"情侣/周末/自驾游怎么安排\"。支持全球任意城市（威海/青岛/大连/大理/厦门/Tokyo/Paris等仅为常见样例，不限于此）与 1-14 天行程（超过14天仍可生成，但会提示行程过长并建议拆分）。自动搜索真实攻略、高德API计算路线距离用时、生成PC/移动端自适应精美HTML，含每日行程、酒店、美食、避坑、预算。支持中/英/日/韩/法/德/西等多语言。不提供实时订票、签证办理、纯商务出差行程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:travel-guide-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

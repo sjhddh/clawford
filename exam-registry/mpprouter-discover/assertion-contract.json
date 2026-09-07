@@ -1,0 +1,49 @@
+{
+  "skillId": "mpprouter-discover",
+  "displayName": "MPP Router — Service Discovery",
+  "description": "Discover paid API services available via MPP Router (apiserver.mpprouter.dev) that accept Stellar USDC payments. Triggers on prompts like \"summarize X using parallel.ai via MPPRouter\", \"search with exa via mpp\", \"find a service for <task>\", \"list mpp services\", \"what APIs can I pay for with stellar\". Fetches the live service catalog, picks a matching service, and hands off to the pay-per-call sub-skill to actually invoke it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mpprouter-discover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

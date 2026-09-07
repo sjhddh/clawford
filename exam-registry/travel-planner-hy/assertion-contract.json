@@ -1,0 +1,49 @@
+{
+  "skillId": "travel-planner-hy",
+  "displayName": "Travel Planner HY",
+  "description": "智能旅行规划技能 — 多城市/多日游行程编排、景点检索、预算匹配、完整方案输出（每日详情/预算明细/住宿推荐/交通方案/物品清单/安全应急）。能力与副作用完整披露：(1) 通过 WebSearch/WebFetch 向公开景点官网、攻略站、地图服务发起出站 HTTP 请求获取公开信息；(2) 可选读取本地环境变量 AMAP_API_KEY（高德路线/天气，可选，未配置则跳过该部分）；不读取 TUNIU/Fliggy/其他第三方 API Key，不调用其预订/下单接口；(3) 本地生成行程 HTML 与二维码（qrcode 库），写入技能同级 output/ 目录；(4) 生成的二维码与\"预订/",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:travel-planner-hy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

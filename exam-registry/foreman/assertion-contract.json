@@ -1,0 +1,54 @@
+{
+  "skillId": "foreman",
+  "displayName": "foreman",
+  "description": "Dispatch-and-acceptance control desk for farming coding work out to background agents. Sends executable tasks to worker agents via the handoff CLI, takes delivery against a path whitelist, then gates the merge behind an acceptance protocol whose core rule is that the builder may never touch the tests, assertions, or CI config that judge it. Use it when batching implementation work out to background agents, or when accepting code that someone else — human or agent — built.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:foreman"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

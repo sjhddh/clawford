@@ -1,0 +1,54 @@
+{
+  "skillId": "question-bank-api",
+  "displayName": "question-bank-api",
+  "description": "题库 API 接口技能（第三方题库供应商提供的 K12 试题/试卷数据服务）。This skill should be used when a user who has purchased an API key wants to pull school questions or papers from the provider's API — especially 按知识点取题、按章节取题（语文/英语等）、按试卷取题，以及试题搜索、获取答案解析、生成 Word 试卷。Trigger phrases include: 按知识点出题、按章节取题、取出这套试卷的题、找五年级数学小数乘法的题、搜一道关",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:question-bank-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

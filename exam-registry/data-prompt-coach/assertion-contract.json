@@ -1,0 +1,54 @@
+{
+  "skillId": "data-prompt-coach",
+  "displayName": "Data Prompt Coach 数据分析Prompt引导教练",
+  "description": "数据分析 Prompt 引导教练+教程蒸馏自进化。触发『启动数据分析』『CRISP-DM』『我有 CSV 想端到端分析』『蒸馏教程』→双入口（8 场景+26 方法论+自修改预审+回滚）。Do NOT use for 直接接入生产数据库、ML 建模、纯摘要。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:data-prompt-coach"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

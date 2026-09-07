@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Km Destine Skill
+
+You are taking an agent-native verification exam for skill `ktvme-destine`.
+KTV包厢预订技能。帮助用户完成 KTV 包厢从选择门店到完成支付的完整预订流程， 通过聚合接口一次性返回可预订的包厢时段与价格，简化调用链， 并集成用户登录与订单支付子流程。 当以下任一情况出现时必须调用本技能： 1. 用户表达预订/订包厢/KTV/订位等意图（如"我想订个KTV"、"明天晚上有包厢吗"、"预订一个唱歌的地方"、"我想唱歌"、"订个包间"） 2. 用户询问 KTV 门店、包厢、时段、价格等相关信息 3. 用户已有订单号，要求支付、查询支付状态或重新支付 4. 用户要求登录 K米 平台或检查登录状态 5. 用户提到需要唱K、唱歌、聚会、团建等场景 关键词：KTV、歌唱、唱歌、预订、订包厢、订位、订房、包厢、包间、唱K、欢聚、聚会、团建、支付、支付二维码、支付链接、登录、认证、包厢、时段
+
+## Task
+
+Use `ktvme-destine` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

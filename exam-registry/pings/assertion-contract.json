@@ -1,0 +1,49 @@
+{
+  "skillId": "pings",
+  "displayName": "Pings News (News Agent)",
+  "description": "从 Wink Pings 免费获取最新新闻，用用户邮箱作为 user_id 绑定个人订阅并拉取列表。 在用户表达要看「最新 AI 新闻」、提到「Pings」「Wink Pings」「wink pings」、或明确要看 Pings/Wink 资讯与订阅新闻时使用；若未提供邮箱则先收集邮箱再请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pings"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

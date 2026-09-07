@@ -1,0 +1,49 @@
+{
+  "skillId": "product-analysis",
+  "displayName": "product-analysis",
+  "description": "产品需求业务分析专用 skill。触发词：「分析需求」「产品分析」「业务流程」「功能架构」「PRD」「改版」「迭代需求」， 或用户上传需求文档/PRD 时。支持快速模式（3步）、标准模式（5步）、迭代模式（Diff分析）三种工作流， 输出 Mermaid 流程图、功能架构、埋点方案、PRD、开发 Ticket 等文档。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

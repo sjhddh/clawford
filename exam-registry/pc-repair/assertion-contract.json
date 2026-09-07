@@ -1,0 +1,54 @@
+{
+  "skillId": "pc-repair",
+  "displayName": "电脑维修智能助手",
+  "description": "电脑维修智能助手。用户描述电脑故障（无法开机、蓝屏、电脑卡顿、网络问题、硬件故障等），自动进行交互式故障诊断，给出紧急处理建议、维修方案对比（DIY/官方售后/第三方维修店）、费用估算、配件购买建议和预防措施，生成交互式HTML可视化维修报告。覆盖台式机/笔记本电脑，支持Windows/macOS/Linux系统...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pc-repair"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

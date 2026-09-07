@@ -1,0 +1,54 @@
+{
+  "skillId": "srdi-application",
+  "displayName": "专精特新企业申报助手",
+  "description": "专精特新企业申报材料智能生成助手。覆盖创新型中小企业→省级专精特新→国家级小巨人三个梯度，自动生成申请书、自查清单、佐证材料清单、市场地位说明、研发费用说明、合规证明等全套申报材料，输出交互式HTML可视化报告。内置2026最新政策标准和AI评分预评估。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:srdi-application"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

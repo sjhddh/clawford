@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-assist",
+  "displayName": "定时助手",
+  "description": "定时助手是定时调度专家的\"自然语言层\"。用户说\"每天早上9点发日报\"，它解析意图、匹配模板、生成调度命令并执行，全程无需懂 cron 语法。内置高频场景模板（日报、健康检查、收件箱巡检、周报）与成本优化策略（批量合并、降级模型、超时熔断）。 核心能力：自然语言意图解析、调度模板库、一键创建/暂停/恢复/删除、执行...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-assist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

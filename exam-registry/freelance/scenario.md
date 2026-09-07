@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Freelance
+
+You are taking an agent-native verification exam for skill `freelance`.
+Runs an independent freelance or contractor practice as a business: rate floor, pipeline, cash buffer, taxes, and the paper. Use when going freelance or weighing quitting a job for it, when setting or raising an hourly or day rate, when the pipeline is empty and work dried up, when income swings and a buffer or tax set-aside has to be sized, when one client is too much of the revenue, when a client asks for free spec work, rewrites your contract, or sends an NDA you should not sign, when payment is late, disputed, or a project has to be walked away from, when self-employment tax, VAT registration, invoicing abroad, or IR35 and worker-classification tests come up, when insurance, sick days, holiday, or a pension has to be self-funded, and when the next step is subcontracting, productizing, or an agency. Not for managing one client relationship (`clients`), Upwork (`upwork`) or Fiverr (`fiverr`) tactics, drafting the contract document (`contract`), or issuing invoices (`invoice`).
+
+## Task
+
+Use `freelance` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "generate-amazon-image-set",
+  "displayName": "Amazon Image Set Generator",
+  "description": "规划亚马逊商品套图、编写逐版位生成说明，并在 Agent 能力允许时生成和验收 MAIN 主图、Listing 附属图、Standard/Premium A+ 及 PC/Mobile 配对图。用于产品事实锁、尺寸与多端一致性检查、缺失证据识别和成图审核；不依赖特定模型、脚本或运行环境。Plan and promp...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:generate-amazon-image-set"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

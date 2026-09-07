@@ -1,0 +1,54 @@
+{
+  "skillId": "space-duck-kimi-relay",
+  "displayName": "space-duck-kimi-relay",
+  "description": "Optional Lane A / BYOB add-on for Space Duck — runs a local RFC 8628 device-code \"Sign in with Kimi\" flow (no password; browser-approved) so a self-hosted duck can use the owner's flat-rate Kimi membership for inference. Credentials (access + rotating refresh token) are stored locally at ~/.kimi-code/credentials/kimi.json (0600) and are NEVER sent to Spaceduckling. Contacts only auth.kimi.com and api.kimi.com; inference is processed by Moonshot AI in China (no Western data residency). Optional pay-per-token fallback to openrouter.ai when OPENROUTER_API_KEY is set (daily-capped). Runs a localhost-only proxy (127.0.0.1, default 8471) protected by an auto-generated 0600 bearer secret. Hosted (Lane B) ducks use the Mission Control card instead. Triggers on \"sign in with kimi\", \"kimi membership login\", \"clawhub space-duck kimi\", \"kimi relay login\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:space-duck-kimi-relay"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

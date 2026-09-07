@@ -1,0 +1,54 @@
+{
+  "skillId": "biliyoutik2brain",
+  "displayName": "BiliYouTik2Brain",
+  "description": "视频→结构化知识引擎 v4.0。触发：B站/YouTube/抖音/小红书链接→转录+结构化分析+知识归档。不触发：纯文本内容/非视频链接/无URL的对话。单条命令完成采集→转录→LLM修复→分析→保存。支持一键部署、4+N平台插件、反爬中间件、OCR关键帧、多格式输出(笔记/卡片/富文本/错题)、反馈闭环、图文并...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biliyoutik2brain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

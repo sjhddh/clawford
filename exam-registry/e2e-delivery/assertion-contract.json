@@ -1,0 +1,54 @@
+{
+  "skillId": "e2e-delivery",
+  "displayName": "e2e-delivery",
+  "description": "端到端需求/缺陷交付驱动器：给定一个 PingCode 工作项 URL/ID 或自然语言描述，自动串联\"准备→开发→提交→验证→交付\"五个阶段， 并沿路埋点，流程结束时产出 Markdown 报告并同步到 REDoc。 触发条件（满足任一即触发）： (1) 用户说「帮我交付需求 xxx」「跑一遍端到端交付」「dr...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:e2e-delivery"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

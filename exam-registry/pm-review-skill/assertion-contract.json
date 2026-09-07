@@ -1,0 +1,54 @@
+{
+  "skillId": "pm-review-skill",
+  "displayName": "Pm Review",
+  "description": "产品经理页面评审工具，用于评估网页或设计截图的产品质量。触发条件：用户要求评审页面、分析截图、评估设计、PM评审、产品评审、界面分析。支持两种输入方式：(1) 网址评审 - 通过 URL 评审在线页面 (2) 截图评审 - 通过图片文件评审设计稿。输出七维度专业评审报告（战略目标/用户体验/功能内容/数据度量/技...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pm-review-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

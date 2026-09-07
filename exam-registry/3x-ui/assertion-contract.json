@@ -1,0 +1,54 @@
+{
+  "skillId": "3x-ui",
+  "displayName": "3X-UI代理面板",
+  "description": "3x-ui面板REST API交互。用于管理Xray代理面板的入站/出站配置、客户端(用户)管理、节点管理、服务器状态监控、订阅管理、备份等功能。当用户需要操作3x-ui面板、查询代理服务器状态、管理用户/流量/订阅链接时使用。支持Bearer Token和Session Cookie两种认证方式。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:3x-ui"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

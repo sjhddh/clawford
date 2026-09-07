@@ -1,0 +1,49 @@
+{
+  "skillId": "skill-8d-report-analyzer",
+  "displayName": "8D报告评价技能",
+  "description": "深度分析8D报告每一步骤质量，重点评价D4根因分析工具应用、D3流/遏制措施、D5/D6纠正预防措施的有效性与逻辑性；当SQE或质量工程师需要对供应商/内部8D报告进行评审、发现不足并提出改进建议时使用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-8d-report-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

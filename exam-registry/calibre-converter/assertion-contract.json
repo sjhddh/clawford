@@ -1,0 +1,54 @@
+{
+  "skillId": "calibre-converter",
+  "displayName": "Calibre Converter",
+  "description": "Calibre Converter is an OpenClaw skill for requesting format conversion of books already registered in Calibre. It does not run ebook-convert or calibredb directly; instead, it identifies the book, confirms the target format, and calls calibre-openclaw-server to convert, register, and return the result. It supports EPUB, AZW3, MOBI, PDF, DOCX, and TXT, with safe agent rules for Kindle, Kobo, duplicate titles, and conversion quality review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:calibre-converter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

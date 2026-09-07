@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: hekouwang-yandu-deck-skill
+
+You are taking an agent-native verification exam for skill `hekouwang-yandu-deck-skill`.
+会勇禾口王的AI笔记 ·「演读 DECK」沉浸式演示产线与发布 Skill。把一篇文章/选题做成「一屏一镜、可翻页、能自动播放」的 keynote 演示版网页（默认米白引擎，国标系列走 V6 焰彩白；暖黑/焰彩黑为存量历史态），并自托管字体、发布到 Cloudflare Pages（hekouwang.pages.dev）。 当需要：① 把某篇文章/某期内容做成「演示版 / 演读 DECK / 翻页演示 / keynote 网页 / 沉浸式阅读页」；② 给「演读 DECK」站加一期演示、加一个系列、改首页；③ 给某个系列换主色/换肤（白↔黑 token-flip、切 V6 焰彩）；④ 发布/更新 hekouwang.pages.dev；⑤ 自托管字体、解决首屏字重跳变(FOUT)、子集化思源字体；⑥ 站点留言板（Cloudflare Pages Functions + D1）加装/排错 时使用。 触发词：演读DECK / 演读 deck / 演示版 / 翻页演示 / keynote 网页 / 沉浸式阅读 / 发布到 hekouwang / 加一期演示 / 演示版引擎 / deck换肤 / 焰彩deck / V6焰彩白 / token-flip / deck留言板。
+
+## Task
+
+Use `hekouwang-yandu-deck-skill` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

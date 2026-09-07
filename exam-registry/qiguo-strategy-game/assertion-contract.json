@@ -1,0 +1,54 @@
+{
+  "skillId": "qiguo-strategy-game",
+  "displayName": "七国群雄传",
+  "description": "This skill launches the single-file HTML strategy game 七国群雄传 (Seven Kingdoms Tactics), a 三国群英传-style isometric turn-based wargame. Use it when the user wants to play a browser strategy game, mentions 七国群雄传 / 战棋 / 三国群英传-style web game, or asks to open / play this game. It copies the self-contained HTML into the workspace and opens it directly in the built-in preview so the user can play immediately with zero setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qiguo-strategy-game"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

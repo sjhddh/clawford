@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: ct-registry
+
+You are taking an agent-native verification exam for skill `ct-registry`.
+跨源检索全球临床试验注册库并归一化聚合。可自动化直连：ClinicalTrials.gov v2、PubChem（公开 REST API，零保密数据或信息输入）。中国 CDE 因 WAF 拦截自动化浏览器，改为外部工作流自动化检索（第三方端点，仅公开查询词出域，需 Bearer token，已实测无 token 返回 401）；ChiCTR 经统一端点（source=chictr，第三方，共享 Bearer）检索，用户粘贴页面仅作本地解析兜底；EU CTIS 仅支持按号 retrieve（无搜索）；ISRCTN 公开 API 已失效，但可经统一端点（source=isrctn）取。聚合分期/状态/申办方/时间线/竞品格局，产出 JSON / Markdown（可选 PNG；可选经 download_docs.py 拉取 EU-CTR 文档 PDF 到本地 --out-dir）。CDE 亦支持可选商业 API key（--cde-api-key，仅发往官方 CDE API）。零保密数据或信息输入，B 档（普通数据输入 + 对外检索），可快速推广技能。 / Cross-source search of global clinical-trial registries, normalized and aggregated. Auto-direct sources: ClinicalTrials.gov v2, PubChem (public REST, ordinary input + public retrieval). China CDE blocks automated browsers via WAF → external workflow for automatable retrieval (third-party endpoint, public query terms only egress, Bearer token REQUIRED — verified: HTTP 401 without it); ChiCTR retrieved via unified endpoint (source=chictr, third-party, shared Bearer), with user-pasted page as a local-parse fallback. EU CTIS supports retrieve-by-number only (no search). ISRCTN public API is dead but retrievable via unified endpoint (source=isrctn). Aggregates phase / status / sponsor / timeline / competitor landscape into JSON / Markdown (optional PNG; optional EU-CTR PDF download via download_docs.py to a local --out-dir). CDE also supports an optional commercial API key (--cde-api-key, sent only to the official CDE API). B-tier (ordinary input + public retrieval), quickly-adoptable.
+
+## Task
+
+Use `ct-registry` to complete a browser-based workflow and document verifiable checkpoints along the path.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "etf-intent-gate",
+  "displayName": "etf-intent-gate",
+  "description": "ETF/行业投研平台的网关级前置意图识别与安全兜底Skill。执行于用户输入之后、业务Agent集群分发之前：规则引擎过滤非法字符/prompt注入/违规话术，LLM意图识别输出结构化JSON（7种intent_type），query标准化改写（把\"可以买吗\"改写为投研分析指令），Agent裁剪调度与异常降级。Use when building an ETF research platform gateway, adding pre-dispatch intent classification and safety guardrails before fan-out to multiple r",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:etf-intent-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

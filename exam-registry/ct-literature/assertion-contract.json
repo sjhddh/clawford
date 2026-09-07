@@ -1,0 +1,49 @@
+{
+  "skillId": "ct-literature",
+  "displayName": "临床试验文献检索专家 / Clinical Trial Literature Search",
+  "description": "检索公开学术文献（OpenAlex 主源 + Europe PMC/MeSH 生物医学精准[默认开启] + Semantic Scholar 引用增强 + bioRxiv/medRxiv 预印本 + arXiv 方法学广度），归一化合并去重，产出证据基础与 CSM 定性安全性文献集，附带可选英文→中文摘要术语标注工具（本地、术语级替换，非全文翻译）；临床指南 12+ 源「本地语料库」模式。 / Search public scholarly literature (OpenAlex as primary source + Europe PMC/MeSH biomedical precision [on by default] + Semantic Scholar citation enrichment + bioRxiv/medRxiv preprints + arXiv methodology breadth), normalize and de-duplicate it into one evidence base plus a qualitative CSM safety-literature subset; ships an optional local English→Chinese abstract term-annotation tool (term-level substitution, not full-text translation); clinical guidelines via a LOCAL corpus spanning 12+ sources.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ct-literature"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "mybooks-tts",
+  "displayName": "Mybooks tts",
+  "description": "MyBooks(PoxenStudio/Talebook)的MiMo TTS有声书工具，支持将EPUB电子书转换为有声书。你可以帮助用户：配置TTS API（MiMo或OpenAI兼容）、测试API连接、开始EPUB转有声书、查询转换进度、管理克隆音色库（上传/列表/删除/试听）、管理自定义语音提示词库（保存/列表/删除）等。所有操作需要管理员权限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mybooks-tts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

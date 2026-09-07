@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-sfsturbo-list",
+  "displayName": "huawei-cloud-sfsturbo-list",
+  "description": "Query the list of Huawei Cloud SFS (Scalable File Service, 弹性文件服务 / SFS Turbo) file systems under the current tenant / project, focused on the SFS NAME list. Returns each file system's name, id, status, size, protocol and region; can also output a pure SFS name-only list. Supports pagination (limit/offset). Uses the KooCLI command `hcloud SFSTurbo ListShares --cli-region={region}` (primary) against the v1 API, or the huaweicloudsdksfsturbo Python SDK (fallback). Read-only — never creates, modifies or deletes any file system. Use this skill whenever the user wants to list/inspect the SFS file systems of the tenant or query the SFS name list, e.g. for storage inventory, daily inspection, or cost review. Triggers include: \"list SFS\", \"SFS list\", \"query SFS names\", \"SFS name list\", \"弹性文件服务列表\", \"查询SFS\", \"SFS名称\", \"sfs 列表\", \"list shares\", \"list file systems\", \"how many SFS\", \"SFS Turbo 列表\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-sfsturbo-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

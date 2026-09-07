@@ -1,0 +1,54 @@
+{
+  "skillId": "mu-meeting-flow",
+  "displayName": "高效会议流程管理助手",
+  "description": "AI Agent 原生的会议全流程编排 Skill。覆盖会前排期、忙闲查询、会议室预订、日程创建、会前材料生成、会中主持指导、会后纪要提取、TODO 跟踪与知识沉淀。通过可配置适配器对接 Google Calendar、Whisper、Notion、Slack 等工具，零内部依赖，任何 Agent 可用。触发词：meeting flow、会议流程、meeting assistant、会议编排、帮我开个会、预约会议、开会准备、会前材料、会议总结、会议纪要、会后TODO、查忙闲、改期、取消会议、查会议记录、meeting notes、meeting scheduler。不适用：纯任务管理（非会议场景的待办请用专门的任务管理工具）。即使没说 meeting flow，只要提到开会/约会议/会议纪要也要用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mu-meeting-flow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

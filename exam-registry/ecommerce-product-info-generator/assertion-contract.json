@@ -1,0 +1,54 @@
+{
+  "skillId": "ecommerce-product-info-generator",
+  "displayName": "Ecommerce Product Info Generator",
+  "description": "产品卖点基础信息生成器（国际化电商视频管线 Skill1）。接收产品图片和商品信息，自动识别产品类别、凝练结构化卖点、推断适用人群和场景，生成产品白底图（product_layer.png）和结构化卖点数据（selling_points.json）。当用户上传产品图片、要求\"分析这个产品\"\"提取卖点\"\"生成产品信...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ecommerce-product-info-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

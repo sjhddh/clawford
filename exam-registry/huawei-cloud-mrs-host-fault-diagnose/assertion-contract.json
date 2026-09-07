@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-mrs-host-fault-diagnose",
+  "displayName": "huawei-cloud-mrs-host-fault-diagnose",
+  "description": "Huawei Cloud MRS cluster fault diagnosis skill. Diagnoses service faults, instance faults, and host faults through progressive root cause localization: quick log scan first, host troubleshooting when host issues are found, detailed investigation when no conclusion is reached. Driven by the built-in LakeWatch API client and the per-component knowledge base under components/. No commands outside the knowledge base are fabricated. Applicable to MRS fault diagnosis and root cause localization scenarios where a service name or node name is provided. Trigger words: \"故障诊断\", \"故障定位\", \"fault diagnosis\", \"fault diagnose\", \"MRS故障\", \"服务故障\", \"实例故障\", \"主机故障\", \"集群排查\", \"集群诊断\", \"启动失败\", \"停止异常\", \"KrbServer故障\", \"DBService故障\", \"fault troubleshooting\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-mrs-host-fault-diagnose"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

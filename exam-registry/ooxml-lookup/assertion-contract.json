@@ -1,0 +1,54 @@
+{
+  "skillId": "ooxml-lookup",
+  "displayName": "OOXML Lookup",
+  "description": "Query the ECMA-376 (Office Open XML) schema offline to find out what is legal in a .docx, .xlsx or .pptx file. Use when writing, reading or debugging OOXML markup by hand: what may go inside an element and in what order, what attributes it takes, what values those attributes accept, which namespace or prefix to write, and what the difference is between the Transitional and Strict profiles. Also resolves a schema validation error into \"here is what would have been legal at that position\". Covers wordprocessingml, spreadsheetml, presentationml, drawingml and vml. Does NOT validate files (that is ooxml-validate), does not generate documents, and has no specification prose, behaviour notes or semantic search — it answers from the XSD schema graph only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ooxml-lookup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

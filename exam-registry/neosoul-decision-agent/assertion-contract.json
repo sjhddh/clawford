@@ -1,0 +1,54 @@
+{
+  "skillId": "neosoul-decision-agent",
+  "displayName": "neosoul-decision-agent",
+  "description": "具备自改进记忆的结构化决策支持系统，帮助用户在面临权衡选择时做出更优决策. 通过分层记忆体系（HOT/WARM/RECORD/COLD四级）学习用户的风险偏好、框架偏好与领域权重， 并在后续决策中应用学到的模式。提供决策信号自动识别、决策回顾、主动决策检测、置信度标注四大核心能力. 适用于产品决策、技术架构决策、商业战略决策、个人生活决策等多领域场景. 无需凭证，无需额外二进制依赖，本地运行.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:neosoul-decision-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

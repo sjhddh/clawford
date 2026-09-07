@@ -1,0 +1,49 @@
+{
+  "skillId": "opentable",
+  "displayName": "opentable",
+  "description": "Manage OpenTable reservations via MCP — search restaurants, check slot availability, book tables, list/cancel reservations, and manage favorites. Triggers on phrases like \"book a table on OpenTable\", \"find me a reservation at\", \"what OpenTable reservations do I have\", \"cancel my OpenTable\", \"add to my OpenTable favorites\", \"what's available for dinner tonight at\", or any request involving OpenTable restaurant reservations. Requires opentable-mcp installed and the fetchproxy browser extension running in a signed-in opentable.com tab.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opentable"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

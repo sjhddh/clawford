@@ -1,0 +1,54 @@
+{
+  "skillId": "token-freedom",
+  "displayName": "Token Freedom",
+  "description": "AI API 平台推荐与 Token 自由助手。帮助用户找到最便宜/免费/最适合的 AI API 平台，注册获取免费额度，配置到 QClaw 等客户端使用。支持比价、推荐、注册引导。当用户说\"API太贵了\"、\"token用完了\"、\"哪里可以免费调用AI\"、\"帮我注册API\"、\"换个便宜的模型\"、\"接入自己的Key...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:token-freedom"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "chan-signal",
+  "displayName": "Chan Signal",
+  "description": "缠论买卖点分析技能。当用户询问某只股票的买卖点、缠论分析、交易信号、进场出场时机，或提到'缠论'、'买卖点'、'一买二买三买'、'一卖二卖三卖'、'中枢'、'背驰'、'笔'等缠论术语时触发此技能。通过通达信数据源获取K线，运行完整缠论引擎（包含处理→分型→笔→中枢→买卖点判定），输出结构化的买卖点信号和交易建议。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chan-signal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

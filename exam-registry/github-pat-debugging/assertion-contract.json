@@ -1,0 +1,54 @@
+{
+  "skillId": "github-pat-debugging",
+  "displayName": "GitHub PAT Debugging",
+  "description": "Diagnose GitHub Personal Access Token failures — 401 Bad credentials, push failures, tokens that appear valid but fail — before declaring them expired or revoked. Checks the command, variable propagation, and request parameters first, then cross-validates with curl, Node.js, Python, or PowerShell, and only then investigates permission, revocation, or network causes. Covers the GitHub REST API, Contents API, and file-push workflows. 中文摘要：GitHub PAT 认证排障。先查命令、环境变量传递与请求参数，再用 curl/Node/Python 交叉验证，最后才判断权限、撤销或网络原因。触发词：GitHub token 失效排查、401 Bad credentials、PAT 认证失败、推送失败诊断.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:github-pat-debugging"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

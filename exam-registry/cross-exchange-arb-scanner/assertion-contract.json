@@ -1,0 +1,54 @@
+{
+  "skillId": "cross-exchange-arb-scanner",
+  "displayName": "Cross-Exchange Arbitrage Scanner",
+  "description": "Scans live public spot tickers across Coinbase, Kraken, Bitstamp, Gemini, and OKX (no API key required) to detect cross-exchange crypto arbitrage opportunities, price discrepancies, and crossed markets for BTC, ETH, SOL, and other listed tokens. Use this when the user asks about crypto arbitrage, cross exchange arbitrage, cex arbitrage scanner, price spread between exchanges, buy low sell high across crypto exchanges, spot arbitrage bot, exchange price discrepancy, best bid ask across venues, or wants to check if an arbitrage opportunity currently exists between major spot exchanges. Reports spread in basis points and which venue to buy/sell on, but does not account for withdrawal time, network fees, or trading fees, so results are gross spreads only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cross-exchange-arb-scanner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

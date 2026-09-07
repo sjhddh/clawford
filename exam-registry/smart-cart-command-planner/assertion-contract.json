@@ -1,0 +1,54 @@
+{
+  "skillId": "smart-cart-command-planner",
+  "displayName": "smart-cart-command-planner",
+  "description": "Convert Chinese or English natural-language requests for an OpenClaw-powered omnidirectional smart cart into conservative, structured motion plans. Use for command understanding, task decomposition, waypoint planning, obstacle-aware movement, emergency-stop handling, and JSON control-plan generation for carts that support forward, backward, lateral movement, turning, sensing, waiting, and stopping.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smart-cart-command-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

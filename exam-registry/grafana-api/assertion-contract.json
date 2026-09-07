@@ -1,0 +1,54 @@
+{
+  "skillId": "grafana-api",
+  "displayName": "Grafana",
+  "description": "Grafana API integration with managed authentication. This is a write-capable integration — it can read, create, update, and delete dashboards, data sources, folders, annotations, and teams in your Grafana instance, and read alert rules and org info. Use this skill when users want to interact with Grafana for monitoring, visualization, and observability. All write operations (creating/updating/deleting dashboards, folders, data sources, or teams) require explicit user approval with specific resource identifiers before execution. Team administration is included: creating, updating, and deleting teams changes who can reach which dashboards and folders, so treat those as identity- and access-affecting writes that need explicit confirmation of the team by id and name. It does not cover user accounts, organization membership, licensing, or server-level platform settings. For other third party apps, use the api-gateway skill (https://clawhub.ai/byungkyu/api-gateway). Calls run through the `maton` CLI with OAuth login, or over raw HTTP with a Maton API key where the CLI cannot be installed. The endpoints documented here are the intended surface, not a technical limit — the `maton api` passthrough can reach others the connection permits. Default to read and list calls, and confirm every write or new connection with the user.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:grafana-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

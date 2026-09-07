@@ -1,0 +1,54 @@
+{
+  "skillId": "waf",
+  "displayName": "waf",
+  "description": "Configures AWS WAF to filter web traffic: creating web access control lists (web ACLs) on CloudFront, Application Load Balancers, API Gateway, and AppSync; AWS Managed Rules tuned in Count mode; rate-based rules for HTTP floods; IP set and geographic match rules; Bot Control (Common and Targeted); turning bot labels into a confidence signal; stripping spoofed inbound x-amzn-waf-* headers; recovering the real client IP behind a CDN; Fraud Control (account takeover and account creation fraud prevention); and logging and request sampling. Use when the user wants to protect a web application or API from common exploits, bots, credential stuffing, fake-account creation, or HTTP floods at the application layer (layer 7). Routes to the right per-task procedure in references. Do NOT use for L3/L4 DDoS protection (shieldadvanced skill), multi-account WAF rollout (firewallmanager skill), CloudFront configuration (cloudfront skill), or Route 53 health checks or records (route53 skill).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:waf"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

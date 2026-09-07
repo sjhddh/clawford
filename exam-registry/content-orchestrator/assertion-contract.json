@@ -1,0 +1,54 @@
+{
+  "skillId": "content-orchestrator",
+  "displayName": "content-orchestrator",
+  "description": "内容生成+发布统一编排器,15条管道文件(12 PL-*+3 E2E-*):VIDEO/VIDEO-BATCH/IMAGE/AUDIO/LIPSYNC/COMIC/COMIC-BATCH/ARTICLE-BATCH/NOVEL-BATCH/PRODUCT/HOTSPOT/NEWPROD+E2E-VIDEO/E2E-IMAGE/E2E-DAILY+3内置虚拟路由(PL-NOVEL连载/PL-DRAMA短剧/PL-UPLOAD上传)。平台注册表自动路由+代理自动注入+多租户感知(tenant_id→风格/人设/素材/平台隔离)+素材→闲鱼商品(PL-PRODUCT)+热点→商品(PL-HOTSPOT)+小说连载(PL-NOVEL/PL-NOVEL-BATCH)+短剧生成(PL-DRAMA内置)。触发:生成内容/发布内容/一条龙/日常运营/素材转商品/热点选品/热点上架/小说连载/短剧生成/上传内容生成 不触发:纯闲鱼运营/纯客服回复/数据分析查询",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

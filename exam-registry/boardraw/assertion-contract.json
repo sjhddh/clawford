@@ -1,0 +1,54 @@
+{
+  "skillId": "boardraw",
+  "displayName": "boardraw",
+  "description": "Turn a natural-language description into a real Excalidraw whiteboard file (.excalidraw) — flowcharts, mind maps, architecture/system diagrams, org charts, wireframes, sticky-note brainstorms, sequence diagrams. Always use this skill whenever the user asks to draw, sketch, diagram, whiteboard, mind-map, or map something out, or mentions \"excalidraw\", \"boardraw\", \"白板\", \"画一个\", \"流程图\", \"思维导图\", \"架构图\", \"组织架构图\", \"线框图\", \"泳道图\", \"看板\", or wants a file they can open in Excalidraw or Boardraw. Do NOT hand-write raw .excalidraw JSON directly — the schema has fragile id/seed/binding requirements — always build it with the bundled scripts/excalidraw_builder.py helper instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:boardraw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

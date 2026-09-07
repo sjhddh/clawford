@@ -1,0 +1,54 @@
+{
+  "skillId": "hs-weekly-report",
+  "displayName": "weekly-report",
+  "description": "把\"只讲事的流水账周报\"升级成\"领导 30 秒读懂全局\"的结构化周报。用户提供碎碎念式的本周工作流水账（或直接给出本周做了什么），此 skill 通过四步流程（建项目库 → 拆事归位 → 追问补缺 → 六要素组装）输出可直接发出的领导版周报。适用于：写周报/月报/工作汇报、周会材料、向上管理。关键设计：AI 只补缺的、不编没的，风险/下周计划/思考三样缺了必须追问用户，绝不编造。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hs-weekly-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

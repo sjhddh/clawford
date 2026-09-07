@@ -1,0 +1,54 @@
+{
+  "skillId": "hekouwang-claude-skill-doctor-skill",
+  "displayName": "hekouwang-claude-skill-doctor-skill",
+  "description": "会勇禾口王的AI笔记 · Agent Skill（SKILL.md）体检器。检查一个 Claude/Agent Skill 是否 符合\"按需加载的指令包，不是单文件巨石\"的最佳实践——评 description 触发质量、SKILL.md 篇幅、渐进披露（references/ 拆分）、脚本外置、可移植性（无硬编码绝对路径）、安全（无硬编码 密钥、宿主元数据与多 Skill 发现冲突），给出评分卡 + 按优先级的修复建议，并可代为重构。触发：用户说「检查我的 skill / SKILL.md 体检 / 这个 skill 规范吗 / claude-skill-doctor / audit skill / lint SKILL.md / 我的 skill 太长了 / skill 拆分 / 看看我的 skill 合不合规 / skill 对齐官方规范」。 任何\"评估/审查/优化某个 Agent Skill 质量或结构\"的请求都应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hekouwang-claude-skill-doctor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

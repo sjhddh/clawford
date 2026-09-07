@@ -1,0 +1,54 @@
+{
+  "skillId": "find-ebooks",
+  "displayName": "find-ebooks / 搜好书",
+  "description": "搜好书 — 基于安娜档案(Anna's Archive)的电子书搜索引擎，覆盖 6 大中文图书平台。 搜索 epub/pdf 格式电子书，获取完整元数据（书名、作者、年份、语言、大小、格式） 和多源下载链接（慢速下载/快速下载/Amazon/微信读书），同时查询豆瓣读书、掌阅、 天猫图书、当当网、京东图书、机械工业出版社的图书上架信息。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:find-ebooks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

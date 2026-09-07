@@ -1,0 +1,54 @@
+{
+  "skillId": "gogcli-mcp",
+  "displayName": "gogcli-mcp",
+  "description": "This skill should be used when the user asks about Google Workspace automation via gogcli — Docs, Sheets, Slides, Drive, or Classroom. Triggers on phrases like \"edit this Google doc\", \"update the sheet\", \"find my slides\", \"grade this assignment\", or any request involving Google Workspace documents, files, or classes. This is an umbrella skill — the 5 sibling packages (gogcli-mcp-docs, gogcli-mcp-sheets, gogcli-mcp-slides, gogcli-mcp-drive, gogcli-mcp-classroom) cover specific APIs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gogcli-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

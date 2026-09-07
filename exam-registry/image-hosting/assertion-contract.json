@@ -1,0 +1,54 @@
+{
+  "skillId": "image-hosting",
+  "displayName": "image-hosting",
+  "description": "Upload images to img402.dev and get a public URL. Images 1MB or under are free AND permanent — no account, no API key, no payment. Larger images (up to 10MB) are free for 30 days, or permanent for $0.01 USDC via x402. Use when the agent needs a hosted image URL — for sharing in messages, embedding in documents, posting to social platforms, or any context that requires a public link to an image file.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-hosting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "deepseek-websearch",
+  "displayName": "Deepseek WebSearch",
+  "description": "Deepseek 联网搜索工具。一键调用 AI 联网搜索能力，快速获取实时信息。当用户需要使用 Deepseek 搜索、联网搜索、AI 搜索获取实时信息时使用。触发词：Deepseek搜索、deepseek websearch、联网搜索、AI搜索、ds搜索。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepseek-websearch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

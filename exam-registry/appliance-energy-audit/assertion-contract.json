@@ -1,0 +1,54 @@
+{
+  "skillId": "appliance-energy-audit",
+  "displayName": "appliance-energy-audit",
+  "description": "Use when you want to know which appliances actually drive your electric bill, whether a bill spike is explained by your usage, if standby/vampire draw is worth addressing, whether replacing an old fridge/dryer/AC pays back, or when modeling tiered utility rates — builds a ranked cost-per-appliance table from watts, duty cycle, and usage hours, reconciles it against your real bill, and computes replacement payback.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:appliance-energy-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

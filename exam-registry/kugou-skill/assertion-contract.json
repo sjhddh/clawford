@@ -1,0 +1,54 @@
+{
+  "skillId": "kugou-skill",
+  "displayName": "酷狗",
+  "description": "酷狗，酷狗音乐，酷狗skill，酷狗音乐skill，酷狗音乐助手\n提供歌曲搜索、猜你喜欢、相似推荐、收藏管理、听歌统计、酷狗榜单、创建歌单等功能。\n\n**触发场景**（满足任一即使用本技能）：\n- 用户要求推荐歌曲、听歌建议\n- 用户要求搜索歌曲、查找歌手作品\n- 用户要求查看音乐榜单（飙升榜、TOP500、抖音热歌等）\n- 用户要求查看收藏、最近播放、听歌统计\n- 用户要求创建歌单、自建歌单\n- 用户提供 base64 secret 字符串要求登录或导入身份\n- Agent 在尝试扫码登录时遇到环境限制（无法发图片）→ 主动询问用户是否可提供 secret\n- 用户提到\"酷狗\"、\"kugou",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kugou-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

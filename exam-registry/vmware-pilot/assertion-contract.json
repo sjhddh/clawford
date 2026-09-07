@@ -1,0 +1,49 @@
+{
+  "skillId": "vmware-pilot",
+  "displayName": "vmware-pilot",
+  "description": "Use this skill whenever the user wants to design, execute, or manage complex multi-step VMware workflows with human approval and automatic rollback. Pilot is the orchestration brain — it breaks a goal into steps across companion VMware skills (aiops, monitor, nsx, nsx-security, aria, vks, storage, avi), adds approval gates before destructive operations, and rolls back automatically if anything fails. Always use vmware-pilot for: \"clone and test before applying to production\", \"VMware incident response with checkpoints\", \"investigate alert root cause\", \"VMware rolling restart with health checks\", \"baseline capture and drift detection\", \"rolling maintenance with AVI drain\", or any VMware workflow needing approval gates or rollback. 15 built-in templates + custom YAML + AI-designed workflows. Do NOT use for single-step work — use vmware-aiops for one VM action, vmware-monitor for read-only queries, vmware-avi for load balancer queries.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-pilot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

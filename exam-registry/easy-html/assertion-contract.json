@@ -1,0 +1,54 @@
+{
+  "skillId": "easy-html",
+  "displayName": "easy-html",
+  "description": "Turn any content — Markdown, plain text, images, tables, Excel (.xlsx), Word (.docx) — into a polished single-page HTML, pick one of 19 built-in themes, set the page Title and FavIcon, then publish it as a live page. When the input is already a well-designed HTML page (or an image with a clear layout), it switches to \"layout inheritance\" mode: the original layout is kept intact and only the colour theme is swapped, instead of tearing it apart and rebuilding. Use when the user says \"turn this into a web page\", \"make this an HTML page\", \"convert this doc/table/Excel to HTML\", \"make it pretty\", \"把这个转成网页\", \"做成 HTML 页面\", \"内容转 HTML\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:easy-html"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "whydoesmysitesuck",
+  "displayName": "whydoesmysitesuck.com — website quality scores",
+  "description": "Grade any website 0-100 across categories like SEO, security, performance, accessibility, content, email auth and AI/LLM readiness, using the free whydoesmysitesuck.com API. Use when the user asks \"why is my site bad/slow\", \"audit this website\", \"check my site's SEO/security\", \"how good is example.com\", \"score this domain\", \"compare these two sites\", or wants an objective quality baseline for a URL before or after making changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:whydoesmysitesuck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

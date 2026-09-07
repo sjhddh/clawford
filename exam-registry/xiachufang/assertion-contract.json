@@ -1,0 +1,54 @@
+{
+  "skillId": "xiachufang",
+  "displayName": "Xiachufang",
+  "description": "下厨房菜谱使用与家常烹饪助手。Use for: (1) 高效检索靠谱菜谱——按'做过'数和评分筛选、读懂用户作品反馈, (2) 把菜谱换算成购物清单与备菜时间线, (3) 新手烹饪概念解读（焯水/上浆/收汁等）与失败复盘。Xiachufang recipe-platform guide: finding reli...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiachufang"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

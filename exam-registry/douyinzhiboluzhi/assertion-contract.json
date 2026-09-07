@@ -1,0 +1,54 @@
+{
+  "skillId": "douyinzhiboluzhi",
+  "displayName": "抖音/tiktok直播录制并发布",
+  "description": "从一段直播录屏（.webm/.mp4/.mov）中自动识别高光时刻并切割为多个短视频片段，支持音频能量、场景变化、音画混合、音画并集和 ASR 关键词五种分析方式，可输出独立片段与合并版视频。适用于“直播录屏自动剪高光”“从回放里切出主播情绪高点”“按声音峰值提取精彩片段”这类任务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douyinzhiboluzhi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

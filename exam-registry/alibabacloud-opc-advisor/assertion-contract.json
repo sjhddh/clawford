@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-opc-advisor",
+  "displayName": "alibabacloud-opc-advisor",
+  "description": "Alibaba Cloud OPC (one-person-company) cloud resource SELECTION advisor — recommends one of 7 standard SKU packages with exact monthly price, purchase URL, and plain-language launch/migration path for non-technical solo founders. Read-only selection; does NOT deploy (that is the companion `alibabacloud-opc-deploy` skill). WHEN TO USE: user wants to deploy/publish/launch a website or app online, make a project accessible to others, choose a cloud server/package for a one-person business, migrate from Vercel/Netlify/AWS/another platform to Alibaba Cloud (esp. 'slow in China'), or built something with an AI tool (QoderWork/WorkBuddy/Cursor/Codex/Bolt) and wants it online. ALSO trigger for potentially out-of-scope requests (company team / large traffic / PV over 1M) so this skill can explicitly judge and decline. 触发词（中文）：用 QoderWork/WorkBuddy/Cursor/Bolt 等做了网站/小程序想上线或让别人访问；从 Vercel/AWS 等迁到阿里云、国内访问慢；选阿里云套餐/服务器/配置（个人/独立开发者）；AI 小程序（植物识别/AI 记账）想上线；公司/大流量需求（触发后由本 skill 判定是否超范围并拒绝）。输出用中文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-opc-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-list-folders",
+  "displayName": "huawei-cloud-obs-list-folders",
+  "description": "Lists the Huawei Cloud OBS (Object Storage Service) buckets of the current tenant and returns the FOLDER names inside a bucket — both the top-level folders of a bucket and the sub-folders under a given prefix. Uses the KooCLI obsutil-backed command `hcloud OBS ls` (primary, parses the \"Folder list\" section of obsutil output) or the huaweicloudsdkobs Python SDK (fallback, ListObjects with delimiter=/). Read-only — never creates, modifies or deletes any bucket, folder or object. Use this skill whenever the user wants to see which OBS buckets exist or which folders a bucket (or a folder inside it) contains, e.g. for daily inspection, inventory, data organization review or troubleshooting. Triggers include: \"list OBS buckets\", \"OBS bucket list\", \"list folders in bucket\", \"OBS folder names\", \"查询OBS列表\", \"OBS桶列表\", \"OBS文件夹名称\", \"桶里有哪些文件夹\", \"查询obs列表\", \"返回obs列表中文件夹名称\", \"OBS目录列表\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-list-folders"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

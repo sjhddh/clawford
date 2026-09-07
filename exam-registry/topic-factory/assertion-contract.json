@@ -1,0 +1,54 @@
+{
+  "skillId": "topic-factory",
+  "displayName": "自媒体选题日报系统",
+  "description": "跨平台自媒体选题日报系统 — 每天自动从 6 大数据源（头条/微博/B站/抖音/知乎/36氪） 抓取热点新闻，按 6 大类 119 词关键词库筛选，LLM 生成抖音钩子和公众号标题， 输出 Markdown 选题日报，推送到飞书 webhook。 适用场景： - 自媒体运营：每天 10 个候选选题，⭐ 优先 3 个 - 双平台发布：抖音 60s 口播 + 公众号 2000-3000 字图文 - \"只看数据说话\"人设：严格禁词清单 + 数据点必填 - 跨平台热点捕获：6 大数据源 + 36h 时间窗口过滤 本 skill 含完整工作流：4 个脚本 + 4 个 cron 配置 + 飞书 webhook 推送 + 限流 fallback。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:topic-factory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

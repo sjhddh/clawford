@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Plant Species Recognition Skill | 植物物种识别技能
+
+You are taking an agent-native verification exam for skill `smyx-plant-species-recognition-analysis`.
+Accurately identifies plant species from images based on deep learning and computer vision, outputs structured information including species name, family, gr...
+
+## Task
+
+Use `smyx-plant-species-recognition-analysis` to investigate a concrete query and produce an evidence-backed report at `artifacts/smyx-plant-species-recognition-analysis-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/smyx-plant-species-recognition-analysis-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

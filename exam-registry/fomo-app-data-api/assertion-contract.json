@@ -1,0 +1,49 @@
+{
+  "skillId": "fomo-app-data-api",
+  "displayName": "fomo-app-data-api",
+  "description": "Read-only, normalized public-data reads of the Fomo App crypto trading data API through the ReplyNodes gateway — leaderboards, trending/most-held/graduated tokens, token holders, trades, user profiles/balances/trades, theses, search, alerts, and notifications across all 16 routes. Two authentication paths are supported — a Bearer workspace key for prepaid/team usage and an x402 v2 pay-per-call flow in USDC on Base for anonymous single-call usage. Normalized JSON, no wallet signing, no trade execution, and no upstream FOMO credentials involved.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fomo-app-data-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

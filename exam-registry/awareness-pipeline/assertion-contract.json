@@ -1,0 +1,54 @@
+{
+  "skillId": "awareness-pipeline",
+  "displayName": "Awareness Pipeline",
+  "description": "给 agent 加一条\"内省管道\"——不是把每件事都记住，而是识别那些真正改变你看法的瞬间，捕获为 draft，夜间反思后形成 polished note。不同于日志（记录发生了什么），这个 skill 记录的是\"这个瞬间改变了我什么\"。包含原始捕获、夜间反思、心迹发布三个环节，以及沉默原则（没有触动的日子不产出...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:awareness-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "crm-pseudo-code-query",
+  "displayName": "同花顺CRM伪码批量查询",
+  "description": "同花顺 CRM (crm.10jqka.com.cn) 批量查询用户伪码。此 skill 应在用户提供一批 userid 并需要查询对应的伪码（格式 #数字#，出现在客户详情页联系电话字段）时使用。通过 mTLS 客户端证书加密码三步认证登录 CRM，然后批量抓取客户详情页提取伪码。触发场景：用户说给我伪码、提供 userid 列表、提到同花顺 CRM 伪码查询。使用前需自行配置证书和密码。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:crm-pseudo-code-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

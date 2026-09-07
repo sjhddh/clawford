@@ -1,0 +1,49 @@
+{
+  "skillId": "tanteng-stock-research-debug",
+  "displayName": "test",
+  "description": "股票分析技能（v4 简化版）。主 agent 单 agent 快速模式：westock-data 采集数据 + minimax__web_search 实时资讯（含🛡️ 监管/处罚/政策 hard rule）+ 综合建议。覆盖 A 股 / 港股 / 美股。Fork of `stock-research-team` (charonling, 1.0.0) 并大幅简化——不再支持多 agent 流水线。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tanteng-stock-research-debug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

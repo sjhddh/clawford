@@ -1,0 +1,54 @@
+{
+  "skillId": "xwlb-policy-extract",
+  "displayName": "新闻联播政策摘要",
+  "description": "新闻联播政策摘报。获取每日新闻联播主要内容并提取宏观经济政策与金融影响政策。触发场景：用户询问新闻联播摘要、宏观政策摘报、金融政策风向等。用于了解新闻联播内容，关注其中涉及国家宏观经济政策或影响金融市场走向的政策时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xwlb-policy-extract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

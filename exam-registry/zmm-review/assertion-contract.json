@@ -1,0 +1,54 @@
+{
+  "skillId": "zmm-review",
+  "displayName": "詹明明·发布前审一遍",
+  "description": "📐 詹明明·发布前审一遍 ——口播稿发布前审核技能。按观众的四次决定审：点不点进来 · 留不留下来 · 记不记得你 · 做不做点什么。逐句信息密度评分（60/80 分线）+ 十一问 + 红线五查（改法给稳妥版和保留力度版两版）+ 机器信号层（导流 / 广告形状 / 名单词，与内容违规分开报），默认只诊断不改。 触发方式：/zmm-review、/能不能发、/审核、/zmm-审核、「这稿子能不能发」「帮我审一下」「过一遍红线」「信息密度够不够」 Pre-publish review for talking-head scripts, organised around the viewer's four decisions: click, stay, remember, act. Per-sentence density scoring, eleven questions, red-line audit. Diagnose-only by default. Trigger: /zmm-review, \"can I publish this\", \"review my script\" —— 📐 詹明明 · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zmm-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

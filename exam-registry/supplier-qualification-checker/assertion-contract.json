@@ -1,0 +1,49 @@
+{
+  "skillId": "supplier-qualification-checker",
+  "displayName": "供应商资质核查-履约能力一查便知",
+  "description": "供应商资质与履约能力核查助手。当用户（采购方/招标人/总包/甲方）给出一个公司主体，想审查供应商资质、评估履约能力、核验业绩真实性时，必须使用此SKILL：供应商审查、供应商准入核查、履约能力评估、业绩核验（自称做过的项目是否真的中过标）、分包商考察、投标单位背景核查、同类项目经验盘点、大客户与合作历史、公开涉诉与行政处罚排查。基于全网招投标数据输出报告：履约实力用中标记录证明、合作关系是真实合同关系、风险信息逐条附来源。支持单公司深度报告与两家候选供应商对比。即使用户没有提到「资质」，只要想核实一家供应商/合作方的真实履约能力，都应使用本SKILL。注意边界：若用户给出一个具体的招标项目做该",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:supplier-qualification-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "260611-md2mini-img",
+  "displayName": "markdown-to-minimal-image",
+  "description": "Read an attached Markdown document, analyze and summarize it, then generate a minimalist image from the summary using the default image model. Ask the user for aspect ratio when needed, and support social-banner formats such as 5:2 and 5:4. Use when the user wants a document turned into a simple tutorial-style visual with handwritten whiteboard aesthetics.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:260611-md2mini-img"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

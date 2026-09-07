@@ -1,0 +1,54 @@
+{
+  "skillId": "dog-train-o-matic",
+  "displayName": "Dog Train-O-Matic",
+  "description": "Generate a personalized, breed-and-age-aware dog training program: 5-minute daily exercise plans targeting the owner's specific behavior problems, week-by-week progression, breed drive profiles (herding/hunting/guarding energy outlets), and progress tracking with automatic plan adjustment. Use when the user asks for a dog training plan, help with a behavior problem (pulling, barking, jumping, recall failure, separation anxiety), puppy raising schedules, or wants to know why their breed behaves a certain way.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dog-train-o-matic"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

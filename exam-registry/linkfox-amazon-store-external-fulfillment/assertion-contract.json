@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-external-fulfillment",
+  "displayName": "亚马逊-店铺External Fulfillment",
+  "description": "亚马逊店铺 External Fulfillment（与 linkfox-amazon-store-auth / orders / listings 同系列），经 /spApi/developerProxy 调用 SP-API External Fulfillment v2024-09-11：Inventory 的 batchInventory（按 location 查/写库存）；Shipping 的 getShipments、getShipment、processShipment、createPackages、updatePackage、updatePackageStatus、retrieveShippingOptions、generateInvoice、retrieveInvoice、generateShipLabels；Returns 的 listReturns、getReturn。覆盖 Seller Flex / Easy Ship / Self Ship / MFN Self Delivery 等。当用户提到 External Fulfillment、SmartConnect、Seller Flex、FBA Onsite、Easy Ship、Self Ship、batchInventory、location 库存、履约单 shipment、面单、发票、EF 退货、externalFulfillment 时触发。与普通 Orders/Feeds 库存不同，本技能专指 External Fulfillment API。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-external-fulfillment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

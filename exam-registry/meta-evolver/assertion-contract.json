@@ -1,0 +1,54 @@
+{
+  "skillId": "meta-evolver",
+  "displayName": "meta-evolver",
+  "description": "递归自进化元引擎。在单技能学习器(skill-self-improve)之上，构建「全局能力感知 → 自定策略 → 自找资源 → 自改自身 → 元反思」的循环，使技能生态持续自我增强、逼近并超越一线大模型能力。 当希望让 agent 长期自主迭代、自动发现并填补能力缺口、自己制定进化路线时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meta-evolver"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

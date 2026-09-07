@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: alibabacloud-ack-cli
+
+You are taking an agent-native verification exam for skill `alibabacloud-ack-cli`.
+Use when the user operates Alibaba Cloud Container Service for Kubernetes (ACK). Covers cluster lifecycle (create / modify / delete / upgrade), node pools & nodes (create, modify, delete, repair, fix CVE), addons (install / upgrade / uninstall), KubeConfig & RBAC (issue for RAM user, grant / revoke), security & policy (CVE scan/fix, policy governance, KMS, delete protection), logging / audit / alerting, intelligent O&M (check / inspect / diagnosis / auto-repair), async tasks (track / pause / resume / cancel), templates, autoscaling, tags & quotas. Triggers: create / upgrade / delete ACK cluster, migrate to Pro, scale nodepool, fix node CVE, install / remove addon, get / revoke kubeconfig, grant RBAC, enable audit log, run inspection, diagnose cluster, track task_id, debug cs error, Forbidden.RAM, kubectl cannot connect. Terms: ACK, container service, k8s cluster, nodepool, addon, AutoMode, Terway, Flannel, ForRegion, kubeconfig, RBAC, CVE.
+
+## Task
+
+Use `alibabacloud-ack-cli` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

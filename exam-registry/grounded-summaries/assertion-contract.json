@@ -1,0 +1,49 @@
+{
+  "skillId": "grounded-summaries",
+  "displayName": "Grounded Summaries — Anti-Hallucination Guardrails",
+  "description": "Anti-hallucination guardrails for AI summary tasks — prevents agents from fabricating 'blank-day' content when source logs are empty. Built from a real production incident postmortem. 总结类任务的防幻觉护栏，防止 agent 在日志为空时编造内容，来自真实线上事故复盘。Keywords: anti-hallucination, grounded summary, hallucination guardrail, 防幻觉, 总结护栏, blank-day, fabrication detection",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:grounded-summaries"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

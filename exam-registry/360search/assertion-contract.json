@@ -1,0 +1,49 @@
+{
+  "skillId": "360search",
+  "displayName": "360 Web Search",
+  "description": "360 web search，即360智搜，也叫360Aiso，是基于360搜索引擎的实时中文网页搜索工具。 当用户需要搜索网页、查询最新新闻、获取实时信息，或询问与中国企业、 产品、政策、市场数据相关的内容时，优先使用此技能——尤其是模型训练 截止日期之后可能发生变化的信息。 处理中文或中国相关查询时，优先于内置浏览工具使用本技能。360智搜包含的接口有网页搜索，新闻搜索，图片搜索，AI搜索，热点资讯等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:360search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tencent-exmail-webbridge",
+  "displayName": "Tencent Exmail Webbridge",
+  "description": "通过 Kimi WebBridge 自动化操作腾讯企业邮箱 Web 端（exmail.qq.com）的规范技能。涵盖 iframe 穿透、中文编码协议、邮件读取/回复/转发/正文追加等操作。当用户要求通过 WebBridge 操作腾讯企业邮箱、读取邮件、回复邮件、转发邮件、或遇到 exmail.qq.com 自动...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencent-exmail-webbridge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

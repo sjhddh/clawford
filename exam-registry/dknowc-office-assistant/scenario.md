@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 深知晓办公助手
+
+You are taking an agent-native verification exam for skill `dknowc-office-assistant`.
+深知晓办公助手，是由北京彩智科技有限公司旗下“深知可信智能”提供的综合办公助手，统一覆盖公文写作、可信咨询、可信检索、PPT 生成四大类办公场景，并可持续扩展更多能力。可用于公文与正式材料起草（通知、请示、报告、函、会议纪要、总结、方案、讲话稿、调研报告等文种的起草、改写、润色、压缩、审查和 Word/红头交付）、政策法规与政务办事咨询（税务社保、公积金、企业补贴、资质证照、行业标准、合规义务、办理条件、材料清单、申请路径、风险判断，输出带真实来源角标和可点击溯源 HTML 的答案）、权威材料检索与核验（政策依据查找、政策调研、城市政策对比、补贴税惠材料核验、深度搜索、政策可视化）、以及原生可编辑 PPT 生成（工作汇报、专题汇报、政策宣讲、培训课件，从需求直接生成或从已有材料提炼，5 种党政合规风格 + 8 种画布规格，约束 SVG → 原生 DrawingML 编译导出真实 PowerPoint）。所有事实素材都通过深知可信智能的权威文件库检索，全程可溯源。
+
+## Task
+
+Use `dknowc-office-assistant` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

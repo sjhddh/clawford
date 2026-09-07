@@ -1,0 +1,54 @@
+{
+  "skillId": "qq",
+  "displayName": "Qq",
+  "description": "QQ 机器人与开放平台开发指南。Use for: (1) 选择 QQ 机器人技术路线——官方 Bot API vs 社区 OneBot 生态, (2) 官方机器人从注册到上线全流程（鉴权/WebSocket网关/Intents/消息类型/Ark卡片）, (3) QQ 小程序与 OAuth2.0 接入。QQ bot...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qq"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

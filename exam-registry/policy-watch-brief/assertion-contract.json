@@ -1,0 +1,54 @@
+{
+  "skillId": "policy-watch-brief",
+  "displayName": "Policy Watch Brief",
+  "description": "通过公开Web搜索获取近期产业政策与监管动态，整理为结构化简报（包含主题、关键信息、影响分析、来源）。Use when: (1) 需要了解某一产业近期政策动向，(2) 需要跟踪监管政策变化，(3) 需要整理政策简报，(4) 需要搜索产业政策的历史或未来趋势。NOT for: 需要实时数据的业务分析、需要专业政策咨...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:policy-watch-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

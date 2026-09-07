@@ -1,0 +1,49 @@
+{
+  "skillId": "multi-channel-skill-publisher",
+  "displayName": "Multi-Channel Skill Publisher",
+  "description": "Publish ONE skill to ALL agent-skill channels from a single source of truth: the ClawHub skill registry, a ClawHub bundle-plugin package, and a Claude Code plugin marketplace (plain GitHub repo). Use when the user wants to publish, release, rename, or version-bump a skill/plugin across registries, or asks how to package a skill as a Claude Code plugin or OpenClaw bundle plugin. Covers the SSOT/sync model against redundancy, exact manifests (plugin.json, marketplace.json, openclaw.plugin.json), known CLI bugs and their web-UI workarounds (rename, --name, display-name fallback), versioning pitfalls (permanent versions, highest-version-wins display name, web-UI version drift), and publish gotchas (version must exceed live on BOTH namespaces, push before source-linked package publish, name-driven search).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multi-channel-skill-publisher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

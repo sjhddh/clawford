@@ -1,0 +1,54 @@
+{
+  "skillId": "pipeline-architecture",
+  "displayName": "pipeline-architecture",
+  "description": "採用 Pipeline Architecture（先宣告意圖、後統一執行）的專案，其業務邏輯讀寫流程的結構規範。同時支援 Python/FastAPI 與 TypeScript/Node.js 兩種實作，並提供 Payload CMS 基底專案的專屬補充。當專案已採用此架構、且任務涉及業務邏輯流程時使用，包含：新增 API endpoint、設計資料寫入流程、實作權限檢查、多步驟資料處理、跨系統寫入（DB、外部 API、裝置變數）、審計日誌，或任何「先決策後執行」的 workflow",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pipeline-architecture"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

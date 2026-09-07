@@ -1,0 +1,54 @@
+{
+  "skillId": "alist",
+  "displayName": "alist",
+  "description": "alist 全功能 API 客户端：文件系统（列表/搜索/创建/重命名/移动/复制/删除/上传/下载/目录扫描/离线下载）、存储管理、驱动管理、用户管理、元信息管理、设置管理、任务管理、索引管理、备份恢复、SSH/SFTP、审计日志、公告、2FA、SSO、刮削诊断。支持 token 自动管理和重试。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

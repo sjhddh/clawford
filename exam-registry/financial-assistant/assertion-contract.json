@@ -1,0 +1,54 @@
+{
+  "skillId": "financial-assistant",
+  "displayName": "小河狸财报助手",
+  "description": "读取并分析本机“小河狸财报助手”中已导入的财务数据。用户询问公司财务指标、资产负债表、利润表、现金流量表、历年或跨期趋势、财务数据对比、回款金额、本地财务问答时使用；仅通过 localhost 的只读接口访问数据。\n使用前提：\n确认小河狸财报助手正在同一台电脑上运行，版本不低于 `1.7.4`。\n安全与错误处理：\n只访问 `127.0.0.1` 或 `localhost`，不访问局域网 IP、公网地址或分享链接。\n只调用 `/api/local-agent/*`，不执行导入、删除、修改公司、修改配置或创建分享链接。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:financial-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

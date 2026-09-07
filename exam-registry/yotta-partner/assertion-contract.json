@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-partner",
+  "displayName": "元伴 yotta-partner",
+  "description": "元伴 —— 通用人机协作/AI协作提效协议技能（协作协议、AI提效、跨会话、任务交接、工作流）：把「怎么跟 AI 把事做成」固化成可执行协作协议单元（上下文模板：背景/目标/约束/验收；先方案后动手；分步交付；收工锚点；验证复核；经验回流）。触发：用户开始复杂/长期任务、需要人机配合、任务反复中断或下个会话接不上、交付前要验证、想沉淀协作经验时。边界：只讲通用协作提效，不含营销、运营与交易类建议；不替代元引意图澄清、元呈呈现、元忆/元序记录、元习经验沉淀；不保证 AI 输出正确，关键结论由用户复核。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-partner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaozhi-teach-exam-designer",
+  "displayName": "测评设计师",
+  "description": "帮老师把\"拼凑试卷\"变成\"按双向细目表命题\"。当老师**明确要求生成或修改命题产物**时建议激活：出一份单元测验/试卷、写双向细目表、调整试卷难度配比、改编某道题、写评分细则、按题目统计决定哪些题返修。**不激活**：只讨论考试结果与学情分析（转 `xiaozhi-teach-student-analyzer`）、只备讲评课的环节与提问（转 `xiaozhi-teach-lesson-planner` / `xiaozhi-teach-classroom-coach`）、布置作业（转 `xiaozhi-teach-assignment-designer`）、非命题的日常教学讨论。工作流：测评类型 → 双向细目表 → 选题改编 → 难度与认知层级配比 → 评分标准 → 讲评错题清单；考后 P/D/信度只读不算。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-teach-exam-designer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

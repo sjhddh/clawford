@@ -1,0 +1,49 @@
+{
+  "skillId": "dknowc-trusted-search",
+  "displayName": "深知可信搜索（法律、政策、标准）",
+  "description": "当用户需要可信搜索、权威材料检索、政策法规/标准依据查找、可点击溯源、知识专库、政策调研、城市政策对比、企业补贴与税惠材料核验、合规依据核验，或明确要求深度搜索、深度分析、全面查找、多轮核验、完整方案时，使用深知可信搜索（法律、政策、标准）。本 Skill 默认只调用深知可信搜索接口，不使用统一咨询接口；只有用户明确要求深度搜索或在可信搜索完成后确认升级深度核验时，才调用深度搜索接口。最终交付必须包含直接回复答案、与答案一致的可点击溯源 HTML、以及移除来源角标的干净 Markdown。API Key 统一通过环境变量 DKNOWC_API_KEY 注入。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dknowc-trusted-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

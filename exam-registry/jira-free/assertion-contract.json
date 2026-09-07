@@ -1,0 +1,54 @@
+{
+  "skillId": "jira-free",
+  "displayName": "Jira集成引擎(免费版)",
+  "description": "Jira问题跟踪与项目管理集成引擎（免费版），通过REST API操作Jira实例. 覆盖问题管理、Sprint规划、看板操作与工作流自动化。核心能力： - 问题管理（创建/更新/查询/批量操作） - Sprint与看板管理（Sprint规划/看板配置） - 工作流与状态流转（转码/分配/评论） - JQL高级查...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jira-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

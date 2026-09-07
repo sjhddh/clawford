@@ -1,0 +1,54 @@
+{
+  "skillId": "stripe-api",
+  "displayName": "Stripe",
+  "description": "Stripe API integration with managed OAuth. This is a write-capable financial integration for customers, subscriptions, invoices, products, prices, and payments. Install only if you need Stripe administration. Connect with the least-privileged Stripe account and OAuth scopes available, verify the intended connection ID before each request, and revoke unused connections promptly. All write operations require explicit user approval showing the exact endpoint, target resource, object IDs, amounts, and test/live mode before execution. For other third party apps, use the api-gateway skill (https://clawhub.ai/byungkyu/api-gateway). Calls run through the `maton` CLI after `maton login --oauth`; the Stripe credential stays in the gateway and is never handled locally. Only your own Maton credential is used locally — held by the CLI, or supplied as `MATON_API_KEY` in the appendix fallback. Default to read and list calls, stay on the endpoints this skill documents, and confirm every write or new connection with the user.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stripe-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

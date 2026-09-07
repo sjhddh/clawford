@@ -1,0 +1,54 @@
+{
+  "skillId": "autopilot",
+  "displayName": "autopilot",
+  "description": "Fully autonomous end-to-end task run with NO human gates — pulls the work item (via the azure-devops or github skill if installed, or takes an inline task description), plans against the real codebase, executes incrementally with per-increment verification, writes and runs tests, code-reviews and fixes blocking findings, then STOPS before any commit/push/PR and delivers an evidence-backed report with every assumption logged. Replaces interactive questions with a documented-assumption protocol; halts only for destructive actions, missing access, or unimplementable specs. Use this skill whenever the user says \"autopilot\", \"/autopilot\", \"run task <id> autonomously\", \"work this task end to end without asking\", \"full autonomy on this\", \"do the whole task, skip commits and PR\", or launches a headless run with a task id — even if they don't explicitly say \"autopilot skill\". Do not use when the user wants interactive planning gates (use task-executor) or wants commits/PRs created.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autopilot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

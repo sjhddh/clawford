@@ -1,0 +1,54 @@
+{
+  "skillId": "chore-system-upgrade",
+  "displayName": "xiaohongshu-skill",
+  "description": "小红书 / Xiaohongshu / RedNote AI Agent Skill。用 Python Playwright 搜索和读取内容、管理登录会话、发布图文/视频/长文、评论、点赞和收藏；默认输出 JSON，任何写操作都必须先获得用户确认。用户提到 xiaohongshu、小红书、rednote、小红书搜索、发到小红书、小红书笔记分析、小红书运营或小红书自动化时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chore-system-upgrade"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

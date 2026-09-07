@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-draft-publisher-cloud",
+  "displayName": "WeChat Draft Publisher Cloud",
+  "description": "基于微信云托管 relay 的公众号草稿发布器：把现成的 markdown 文章 + 封面图推送到微信公众号草稿箱，本地无需 appid/secret、免 IP 白名单。触发：「推草稿」「发公众号草稿箱」「wechat draft publish」「send to wechat draft」。不触发：写文章、tr...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-draft-publisher-cloud"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

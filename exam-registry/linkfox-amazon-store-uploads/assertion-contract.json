@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-uploads",
+  "displayName": "亚马逊-店铺上传",
+  "description": "亚马逊店铺文件上传（与 linkfox-amazon-store-auth 等同系列），经 /spApi/developerProxy 调用 Uploads API v2020-11-01 的 createUploadDestinationForResource，再向返回 URL 上传文件，供 A+ Content、Messaging 等 API 使用。当用户提到上传文件、createUploadDestinationForResource、upload destination、contentMD5、预签名上传、SP-API 上传、A+ 图片上传、Messaging 附件上传 时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-uploads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

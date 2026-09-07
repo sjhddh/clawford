@@ -1,0 +1,49 @@
+{
+  "skillId": "management-dashboard-skill",
+  "displayName": "Management Dashboard Skill",
+  "description": "管理驾驶舱技能：基于录音 AI 总结内容，生成管理者日报 HTML 报表。 通过分页接口获取录音的 ai_summary_content，使用 LLM 分析生成包含团队资产、外勤效能、 合规监控、RM 排行、线索转化、管理建议六大板块的可视化报表。 MUST resolve agentId via session...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:management-dashboard-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

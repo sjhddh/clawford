@@ -1,0 +1,54 @@
+{
+  "skillId": "meta-skill-system",
+  "displayName": "meta-skill-system",
+  "description": "元技能系统，提供领域评估、工作流重构、领域负载物生成和通用任务执行的完整能力。核心能力：①领域消除评估（五步法：边界识别→存在理由分析→消除可行性评估→独立存在必要性判断→决策输出）②工作流重构（三步法：拆解→消除→重整，将复杂工作流重构为AI辅助一人简易完成）③领域负载物生成（从零创建完整的领域负载物技能，三层结构模板+28项接口校验，可选附加12维完整角色）④通用任务执行（三轴正交：执行轴6大元操作+管线编排、内容轴清单法+样本法、创新轴4种模式+10种元框架）。10域82种任务。触发词：元技能、领域评估、工作流重构、技能生成、任务执行、meta-skill、领域消除、三轴执行、创新框架、",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meta-skill-system"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

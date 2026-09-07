@@ -1,0 +1,54 @@
+{
+  "skillId": "hook-auditor",
+  "displayName": "hook-auditor",
+  "description": "审计并清理 Claude Code 中「你不知道自己装了」的 hook。安装 skill 或 plugin 会自带 hook，它们安装即常驻、每轮对话都跑、持续烧 token 并可能拦截或改写工具调用——即使你从未调用过那个 skill。本 skill 枚举全部真正生效的 hook、标注来源与可信度、量化每轮成本，并在你确认后清理。触发场景：用户说「清理」「提速」「省 token」「变慢了」「token 消耗太快」「怎么这么慢」「清理配置」「检查 hook」「有哪些 hook」「audit hooks」「清理插件」「为什么会自动触发」「莫名其妙弹出」「我没让它这么做」，或用户抱怨出现了未预期的自动行为、权限询问、注入文字。也在安装来源不明的 skill/plugin 后主动建议运行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hook-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

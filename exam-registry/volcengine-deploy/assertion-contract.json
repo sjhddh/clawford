@@ -1,0 +1,54 @@
+{
+  "skillId": "volcengine-deploy",
+  "displayName": "volcengine-deploy",
+  "description": "Deploy a local project directory or Git repository to Volcengine as a running, reachable cloud service. USE WHEN: deploy to Volcengine, deploy to 火山引擎/火山, deploy this repo/project, publish current code, launch the app, run it in the cloud, expose it as a service, deploy to ECS/VKE/veFaaS, run on ECS, push to VKE, deploy as serverless/FaaS, or the user wants the agent to choose a Volcengine hosting target. If the user only asks which Volcengine deployment target to choose, use `volcengine-prepare` skill first. Not for creating a single standalone resource — use `volcengine-cli` skill for that.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

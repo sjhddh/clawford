@@ -1,0 +1,54 @@
+{
+  "skillId": "self-intro",
+  "displayName": "Self Intro",
+  "description": "帮求职者撰写面试自我介绍稿。当用户要准备面试自我介绍、说\"帮我写个自我介绍\"\"面试要怎么介绍自己\"\"一分钟自我介绍\"\"群面自我介绍\"，或提供了自己的经历/简历和目标岗位希望生成开场陈述时触发。支持按面试时长（30秒/1分钟/3分钟）、面试形式（群面/单面/终面HR）和公司行业类型定制。即使用户没有明说\"自我介绍\"...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-intro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

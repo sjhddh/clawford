@@ -1,0 +1,54 @@
+{
+  "skillId": "claude-session",
+  "displayName": "claude-session",
+  "description": "Claude Code session management. Topics — id (current session UUID), list (enumerate sessions), search (keyword + result validation), import, summarize, analyze (stats), archive (move to ~/.claude/projects/.bak/ with flat naming), classify, clean-profanity (sanitize text in session JSONL), split (topic boundaries), compress (MCP-direct), destroy, dual-sync (Windows/WSL memory path mapping), install (hook), memory-trim (MEMORY.md index byte-budget trim), migrate (project to worktree), move (with cwd update), purge (dead sessions), rename (custom title), repair (chain/tool_result/UUID), url (web URL). Use when: \"session id\", \"current session\", \"session list\", \"list sessions\", \"session search\", \"find session\", \"session classify\", \"session compress\", \"session migrate\", \"session move\", \"session repair\", \"chain repair\", \"session rename\", \"session split\", \"session purge\", \"dead session\", \"session url\", \"session analyze\", \"session import\", \"session summarize\", \"session archive\", \"archive session\", \"session clean\", \"clean profanity\", \"sanitize session\", \"redact session\", \"worktree session\", \"session cleanup\", \"memory trim\", \"MEMORY.md over budget\", \"dual sync\", \"WSL memory\", \"Windows memory path\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claude-session"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "html-slides-to-pptx",
+  "displayName": "Html Slides To PPTX",
+  "description": "编写可无损还原为 PPTX 的 HTML 幻灯片。先经引导式访谈确认样式/形式/结构并落盘 deck-brief,再生成完整目录结构(assets/theme.css、slides/*.html、playlist.json), 每页严格遵循 html-spec.md 规范,经 validate.js 预检零 ERROR 后用 convert.js 转成 PowerPoint。TRIGGER when: 用户要求\"做PPT/幻灯片/slides/演示文稿\"、\"把内容做成 HTML幻灯片\"、\"生成可转PPTX的slides\",或调用 /html-slides-to-pptx。DO NOT TRIG",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:html-slides-to-pptx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

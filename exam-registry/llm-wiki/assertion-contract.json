@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-wiki",
+  "displayName": "Llm Wiki Admin",
+  "description": "管理 Karpathy LLM-Wiki 理念知识库，四大操作包括：初始化项目、摄入新原始资料（编译为 wiki 页面）、回答基于 wiki 的查询、执行健康检查（lint）。当用户想要初始化知识库、ingest/摄入新文章或笔记、从 wiki 查询知识、维护 wiki 健康、或提到 llm-wiki / llm_wiki / schema.md / 第二大脑 / Karpathy wiki / Obsidian wiki / 知识编译 时，必须使用此技能。即使用户只说\"帮我把这篇文章加进 wiki\"或\"wiki 里有关于 X 的内容吗\"，也要触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-wiki"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "screenclaw",
+  "displayName": "Screenclaw",
+  "description": "用“截图 + 坐标网格”的方式操作任意桌面软件：截带网格的图，让任意多模态大模型读出目标的坐标数字，再调用点击/输入/按键等 API ，模拟人类视觉化操作软件。还能录制一次操作并沉淀成可复用的场景模板，下次直接复用。不依赖目标软件提供 API 或 CLI。 出现以下情况时使用： - 自动化操作 Windows 桌...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:screenclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

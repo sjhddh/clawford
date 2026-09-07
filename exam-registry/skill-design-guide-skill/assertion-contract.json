@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-design-guide-skill",
+  "displayName": "Skill Design Guide",
+  "description": "Design better AI skills with proven architecture patterns. Helps you decide Workflow vs Agent, pick the right pattern (Prompt Chaining, Routing, Parallelization, Orchestrator-Workers, Evaluator-Optimizer), write clean SKILL.md files, and catch common mistakes with a governance-aware quality checklist. Based on design principles from Anthropic, OpenAI, and LangChain.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-design-guide-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

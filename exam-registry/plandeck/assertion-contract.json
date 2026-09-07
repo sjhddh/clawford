@@ -1,0 +1,54 @@
+{
+  "skillId": "plandeck",
+  "displayName": "plandeck",
+  "description": "A live visual Kanban board and continuity layer for long-running agentic tasks. Nobody wants to read a markdown plan or stare at raw HTML while an agent grinds for an hour, so Plandeck turns the plan into a board that organizes itself. Use it when a task is multi-step, long-running, or needs visual planning. Break the work into cards, declare which card depends on which, and Plandeck computes the critical path, auto-promotes cards to Ready as their dependencies clear, rolls up story-point estimates into an honest percent complete, and names the one next action. Plans, observed transitions, and last-known-good snapshots stay as plain files on disk, so they survive /clear and context resets. After a reset, run plandeck next to recover the single next move and its recent history. If the plan stops parsing, run plandeck doctor before using git. Renders a live board in the browser over SSE. Triggers on plan a project, break down a task, kanban board, task board, visual plan, long-running agent, agentic task, track dependencies, critical path, story-point estimates, what is next, mission journal, recover plan, plandeck.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:plandeck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

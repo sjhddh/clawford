@@ -1,0 +1,54 @@
+{
+  "skillId": "natural-light-direction",
+  "displayName": "natural-light-direction",
+  "description": "用户想了解光线方向对照片效果的影响、问\"什么光线适合拍人像\"、或面对自然光 场景不知如何选择拍摄角度时调用。不适用于人造光布光（应调用 three-point-lighting） 或曝光参数设置（应调用 exposure-dual-control）。 Invoke when the user wants to understand how light direction affects photos, asks \"what light is best for portraits,\" or doesn't know which angle to shoot from in natural light. Not for artificial light setup (use three-point-lighting) or exposure parameter settings (use exposure-dual-control). 关键 trigger / Key triggers: \"光线方向\"、\"顺光逆光\"、\"侧光\"、\"natural light direction\"、 \"best light for portrait\"、\"golden hour\"、\"backlight\"、\"side light\"、 \"front light vs back light\"、\"what direction should light come from\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:natural-light-direction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

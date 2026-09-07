@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-loongcollector-ops",
+  "displayName": "alibabacloud-loongcollector-ops",
+  "description": "Alibaba Cloud LoongCollector / SLS installation, collection onboarding, Pipeline config management and validation, machine groups, permission troubleshooting, and Lens queries. HARD RULE: for matching requests, the first tool MUST load this skill before any SSH probe, directory setup, checklist/file write, or cloud read. Triggers: \"安装 LoongCollector\", \"ECS 安装采集器\", \"自建 Linux 主机安装 LoongCollector\", \"ACK 安装 loongcollector\", \"自建 K8s 部署采集\", \"从安装到能查到日志\", \"SLS 日志采集接入\", \"SLS 日志采集接入相关的事\", \"修改采集配置\", \"改采集配置\", \"采集配置校验\", \"validate_pipeline.py\", \"SLS 机器组\", \"新建 Logtail Pipeline 采集配置\", \"Logtail Pipeline\", \"ClusterAliyunPipelineConfig\", \"SLS Lens 查询\", \"无数据排查\", \"心跳异常\", \"SLS 采集权限排查\", \"SLS 权限排查\", \"阿里云 CLI 凭证没有 SLS 操作权限\", \"Logtail\", \"iLogtail\", \"AgentSight\", \"Agentloop\", \"input_agentsight\", \"eBPF Runtime\", \"ebpf-event\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-loongcollector-ops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

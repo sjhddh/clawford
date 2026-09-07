@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-shopee-store-fbs",
+  "displayName": "Shopee-店铺FBS",
+  "description": "Shopee（虾皮）FBS 巴西仓储（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API FBS 模块全部 4 个接口：query_br_shop_enrollment_status、query_br_shop_invoice_error、query_br_shop_block_status、query_br_sku_block_status。当用户提到 Shopee FBS、巴西FBS、店铺入驻状态、发票错误、封禁状态、query_br_shop_enrollment_status 时触发。即使未明确提及\"FBS\"，只要涉及已授权 Shopee 巴西店铺的 FBS 入驻/封禁/发票状态查询，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-fbs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

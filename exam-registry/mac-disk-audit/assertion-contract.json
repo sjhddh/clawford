@@ -1,0 +1,54 @@
+{
+  "skillId": "mac-disk-audit",
+  "displayName": "Mac Disk Audit",
+  "description": "Mac 磁盘空间盘点与清理建议技能。当用户说「硬盘不够用」「空间不足」「磁盘快满了」「帮我清理 Mac」「扫描大文件」「哪些可以删」时触发。 自动扫描系统、用户目录、开发项目中的空间占用，生成三级清理建议（立即清 / 确认后清 / 保留），提供可直接复制执行的命令。 绝不自动删除任何文件，只出报告和命令，执行前必...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mac-disk-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

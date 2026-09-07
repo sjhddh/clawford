@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-teach-parent-communication",
+  "displayName": "家长沟通助手",
+  "description": "帮独立教师把\"临时想起来发条消息\"变成有节奏、不制造焦虑的家长沟通。适用于老师说\"帮我想个消息发给家长\"\"家长问成绩怎么回\"\"孩子这次退步了怎么说\"\"家长很担心怎么回\"\"续课怎么跟家长说\"\"家长群里发什么\"\"家长不太配合怎么办\"。流程：认场景 → 查授权位 → 按具体/低焦虑/可操作三原则起草 → 检查频率是否过密 → 记录渠道与发送状态。本 SKILL 只起草不发送，唯一的持久化写入是 parentCommunicationLogs[]。不写课后记录、不登记作业、不排课、不做阶段报告，也不改学员档案（status、沟通偏好、授权位、保留期一概不动）——素材来自 lesson-log 与 homework-tracker，阶段报告转 renewal-report，档案改动转 student-intake。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-teach-parent-communication"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

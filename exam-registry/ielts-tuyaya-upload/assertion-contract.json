@@ -1,0 +1,54 @@
+{
+  "skillId": "ielts-tuyaya-upload",
+  "displayName": "IELTS Tuyaya Upload 雅思成绩一键上传",
+  "description": "上传雅思阅读复盘文件到服务器，支持 token 模式（进个人主页）和匿名模式。当用户想要上传已有的复盘 JSON、查看个人复盘仪表板时使用。触发词：上传复盘、上传复盘文件、sync review、upload review、查看我的复盘记录、我的仪表板、dashboard、tuyaya 上传、批量同步。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ielts-tuyaya-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

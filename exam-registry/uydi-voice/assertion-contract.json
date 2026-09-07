@@ -1,0 +1,54 @@
+{
+  "skillId": "uydi-voice",
+  "displayName": "Uydi Voice Design & Clone",
+  "description": "Uydi Voice enables an AI agent to design custom voices, clone a user's authorized voice sample, synthesize narration, and produce multi-voice Voice Canvas projects with the Uydi voice platform (https://uydi.com). Use it when a user asks to create or describe a voice, clone their own voice from a recording, convert text to speech, generate narration audio, arrange multiple speakers or languages into one audio file, list or manage Uydi voices, check Uydi credits, or review synthesis history. It requires Node.js 18+ and a one-time OAuth approval in the user's browser.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:uydi-voice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

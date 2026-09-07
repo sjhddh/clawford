@@ -1,0 +1,49 @@
+{
+  "skillId": "fetch-wechat-article",
+  "displayName": "Fetch Wechat Article",
+  "description": "使用 Playwright headed 模式 + 真实系统浏览器抓取微信公众号文章。 当用户给出 mp.weixin.qq.com 链接、说要抓取/下载公众号文章、 或遇到\"环境异常\"验证页时，必须使用本技能。 本技能会弹出真实浏览器窗口绕过微信反爬，提取文章标题、作者、正文， 并同时保存 .md 和 .htm...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fetch-wechat-article"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

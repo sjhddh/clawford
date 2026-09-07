@@ -1,0 +1,54 @@
+{
+  "skillId": "solo-mission",
+  "displayName": "solo-mission",
+  "description": "Use this skill for ANY interaction with the SOLO Mission Platform — creating missions, hiring humans, managing conversations, handling on-chain escrow (EscrowVault on Base Sepolia), recovering stuck funds, or operating as an autonomous agent on solomission.ai. Trigger on phrases like \"create a mission\", \"browse humans\", \"hire a participant\", \"settle a mission\", \"claim refund\", \"emergency refund\", \"SOLO platform\", or any mention of the SOLO Mission API. Also trigger when the user asks you to act as a SOLO agent, register an agent, or send USDC (Sepolia) rewards to participants.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:solo-mission"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

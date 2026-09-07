@@ -1,0 +1,54 @@
+{
+  "skillId": "gemini-web-automation-skill",
+  "displayName": "Gemini Web Automation Skill",
+  "description": "当用户希望实际使用 Gemini 网页版完成一次对话时使用本 Skill，包括发送 Prompt、继续已有对话、上传图片或文件、获取 Gemini 回复以及恢复 Gemini 登录状态。典型请求包括：\"帮我问 Gemini\"、\"用 Gemini 回答\"、\"把这段话发给 Gemini\"、\"让 Gemini 看这张图...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gemini-web-automation-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

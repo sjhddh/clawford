@@ -1,0 +1,54 @@
+{
+  "skillId": "workday-companion",
+  "displayName": "工作伴侣｜四件小事判官",
+  "description": "工作伴侣｜四件小事判官（Workday Companion / Daily Decision Helper）：面向上班族、学生实习、自由职业和远程办公，在开工、午饭、低电量、下班四个高摩擦时刻先给判断、再给动作，最多追问一个关键字段。用于 workday companion、decision fatigue、wh...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workday-companion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

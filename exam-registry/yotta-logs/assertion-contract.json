@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-logs",
+  "displayName": "元史 yotta-logs",
+  "description": "元史 —— 跨智能体的历史会话 / 记忆日志检索技能：零依赖检索 / 分析 JSONL、JSON、SQLite、Markdown 多格式会话与记忆文件，回溯旧对话与父会话上下文，为跨会话追溯提供原始日志依据。触发：用户问起先前聊过的内容 / 父会话 / 历史上下文、要查以前说过的结论、跨会话回溯某次讨论、需要从会话日志或记忆文件定位某段决策时。边界：仅读取本机自己的会话日志 / 记忆文件；不修改、不删除；只查本地不联网上传。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-logs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

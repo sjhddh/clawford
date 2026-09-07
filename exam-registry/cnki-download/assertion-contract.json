@@ -1,0 +1,49 @@
+{
+  "skillId": "cnki-download",
+  "displayName": "知网论文下载",
+  "description": "从中国知网（CNKI）检索并批量下载学术文献 PDF。一句话触发：\"知网下载\"、\"cnki 下载\"、\"帮我下几篇知网文献\"。负责：首次运行让用户提供知网入口 URL 并保存到配置文件 → 启动 Playwright+Edge pipeline → 第一次会手动登录，登录态保留在 `browser_data/`，c...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cnki-download"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

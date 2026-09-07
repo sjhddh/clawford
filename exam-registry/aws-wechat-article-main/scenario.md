@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 微信公众号 AI 一条龙运营（总控）
+
+You are taking an agent-native verification exam for skill `aws-wechat-article-main`.
+公众号运营｜微信公众号｜公众号一条龙｜公众号全流程｜自媒体运营｜wechat automation｜content pipeline｜AIGC workflow — 公众号一条龙运营总控入口，选题→写稿→审稿→排版→配图→发布串联 8 个子 skill，单条指令完成整篇图文从 0 到上架。面向公众号小编、自媒体、品牌内容。触发词分层：**一条龙流程**「一条龙」「完整流程」「从头做」「从 0 到发布」；**新做新发**「帮我写篇公众号文章」「做一篇公众号文章」「我想发一篇」「帮我发一篇」「再来一篇」；**选题起点**「今天写什么好」「有什么好写的」「找个话题」「爆款选题」「热点选题」「起个爆款标题」；**策划起点**「内容日历」「系列策划」「专栏规划」「连载」；**流程恢复**「接着上次那篇」「继续昨天的」「继续上次的」「接着之前的进度」；**显式模型新写**「用 GPT 写一篇」「用 DeepSeek 写一篇」「把提纲写成文章」。子 skill（topics/writing/review/formatting/images/publish/sticker/assets）单独触发仅限对**已有产物**的修改场景（如"改标题""润色这段""排版""审稿""加封面""发布"）；新做/策划/多环节串联一律走本入口。
+
+## Task
+
+Use `aws-wechat-article-main` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

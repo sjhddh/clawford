@@ -1,0 +1,54 @@
+{
+  "skillId": "agents",
+  "displayName": "Agents",
+  "description": "Designs, debugs, evaluates, and hardens AI agents — the loop, tools, memory, context budget, cost, and escalation — independent of any framework. Use when an agent loops forever, repeats a tool call, drifts from its instructions after many turns, invents tool arguments, stops mid-task, or swallows a tool error silently; when deciding single agent versus several, or which framework to build on; when token cost per task or p95 latency has to come down; when designing tool schemas, retries, timeouts, checkpoints, or human approval; when writing an eval set or a regression suite for agent behavior; when prompt injection, tool abuse, or an over-permissioned action is the risk; and when specifying an agent's purpose, escalation rules, and cost ceiling for a team. Covers memory design, multi-agent handoffs, tracing, and rollout. Not for LangChain APIs (`langchain`), retrieval pipelines (`rag`), prompt craft alone (`prompting`), or agent persona and voice (`agent`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agents"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

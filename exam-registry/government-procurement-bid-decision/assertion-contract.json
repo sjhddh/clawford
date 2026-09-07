@@ -1,0 +1,49 @@
+{
+  "skillId": "government-procurement-bid-decision",
+  "displayName": "政府采购投标决策-政采项目投标评估",
+  "description": "政府采购投标决策分析助手。当用户给出一个具体的政采类招标项目（政府/事业单位/机关/央国企采购），并希望进行投标决策分析时，必须使用此SKILL：该不该投、限制性信号识别（邀请招标/单一来源/定向条款/超短投标窗口）、采购单位供应商格局与偏好分析、竞争对手预测、同类政采项目历史成交价与建议报价、废标红线与合规风险评估。基于全网招中标历史数据输出决策报告。即使用户没有提到「政府采购」，只要涉及政采标投标评估、机关单位项目该不该投、政采报价参考等需求，都应使用本SKILL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:government-procurement-bid-decision"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

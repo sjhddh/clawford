@@ -1,0 +1,54 @@
+{
+  "skillId": "self-play-coevolution",
+  "displayName": "self-play-coevolution",
+  "description": "自我博弈对抗进化：让同一个智能体轮流扮演 proposer（提案者）与 critic（批判者），两边互相找茬、互相修补， 逐轮把提案质量与批判敏锐度一起推高，彼此越迭代越强。这是一线大模型几乎不具备、且决定能否可证明地变强的能力。 当用户要求自我博弈、对抗共进化、proposer/critic 闭环、越迭代越强、GAN 式自训练时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-play-coevolution"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

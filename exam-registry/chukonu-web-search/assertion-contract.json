@@ -1,0 +1,49 @@
+{
+  "skillId": "chukonu-web-search",
+  "displayName": "chukonu-web-search",
+  "description": "通过 Chukonu remote MCP 的 search 与 research 获取网页、学术、专利和中国法律法规证据。用于需要外部、实时、可引用信息的搜索任务，以及法律法规检索、事实核验、反证检索、PDF 全文深读、覆盖评估或持久化多轮研究；依据结构化 evidence、retrieval_assessment 与 research dossier 作答。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chukonu-web-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

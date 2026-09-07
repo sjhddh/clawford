@@ -1,0 +1,54 @@
+{
+  "skillId": "pdf-watermark",
+  "displayName": "PDF Watermark",
+  "description": "Convert PPT/PPTX to PDF and add customizable watermarks. Supports diagonal/grid/center layouts, adjustable font size, opacity, rotation, and color. Trigger words: 加水印、转PDF、PDF水印、导出PDF、水印工具、add watermark、convert to PDF、PDF watermark. Includes a mobile-friendly web UI for real-time parameter tuning.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdf-watermark"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

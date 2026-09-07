@@ -1,0 +1,54 @@
+{
+  "skillId": "deli-ocr-file-parser",
+  "displayName": "文件OCR解析",
+  "description": "当用户需要将扫描版 PDF、图片、OFD、票据、合同扫描件、法院文书扫描件或其他 Agent 无法直接读取的文件解析为文本/Markdown 时使用。适用于 OCR 识别、扫描件识别、图片转文字、图片转 Markdown、PDF 转 Markdown、文件解析失败、文档无法读取、提取结果为空、乱码、扫描版文件解析不了、agent 解析不了文件、平台无法解析文件、需要调用得理 OCR 接口等场景。优先使用当前 Agent/平台原生解析能力；只有原生解析失败、结果明显不可用，或用户明确要求使用得理 OCR 时才调用接口。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deli-ocr-file-parser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

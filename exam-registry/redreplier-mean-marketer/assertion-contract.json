@@ -1,0 +1,54 @@
+{
+  "skillId": "redreplier-mean-marketer",
+  "displayName": "redreplier-mean-marketer",
+  "description": "A background accountability loop that surfaces fresh, high-scoring RedReplier lead opportunities and — if you ignored the last one (didn't approve or reject it) — roasts you, hilariously and meanly, about your marketing until you act. All criteria and the roast itself are computed server-side by RedReplier; this skill just loops and relays. Use when the user wants automated lead nudges, a \"marketing accountability\" or \"roast me into marketing\" loop, or to be pinged about new high-relevance Reddit/HN/X/Bluesky leads above a configurable score. Requires a RedReplier account + API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:redreplier-mean-marketer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

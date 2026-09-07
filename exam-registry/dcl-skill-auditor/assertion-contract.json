@@ -1,0 +1,49 @@
+{
+  "skillId": "dcl-skill-auditor",
+  "displayName": "DCL Skill Auditor — Pre-Install Security Scanner",
+  "description": "Scan any ClawHub skill before installing it. 534 out of 3,984 ClawHub skills contained critical vulnerabilities — credential theft, prompt injection, data exfiltration. Snyk Research, 2026. DCL Skill Auditor analyzes SKILL.md, scripts, and manifests against 30+ known attack patterns...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dcl-skill-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

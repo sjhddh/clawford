@@ -1,0 +1,54 @@
+{
+  "skillId": "kr-patent-claims-review",
+  "displayName": "kr-patent-claims-review",
+  "description": "韩国专利申请文件权利要求书审核工具。用户上传PDF或Word版专利申请文件后，自动按韩国专利法（§42等）及韩国特许厅审查实务标准，从法律合规性、保护范围策略、措辞规范、审查实务风险等六大维度逐项审核权利要求书，输出结构化审核报告及逐条修改建议。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kr-patent-claims-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

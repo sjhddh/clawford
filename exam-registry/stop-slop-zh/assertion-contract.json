@@ -1,0 +1,54 @@
+{
+  "skillId": "stop-slop-zh",
+  "displayName": "Stop Slop Zh",
+  "description": "写、起草、生成、润色任何面向人读的中文文章或段落时，都要用本 Skill——公众号、博客、知乎、小红书、技术文档、技术方案、设计文档、README、公文、学术摘要、产品文案、复盘、提案、新闻稿、邮件。无论是从零写新稿，还是改稿、审稿，只要在产出中文长文，写完、定稿、交付、发布前都必须调用它过一遍：它识别并消除中文...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stop-slop-zh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

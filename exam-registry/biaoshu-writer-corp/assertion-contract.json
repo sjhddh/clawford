@@ -1,0 +1,54 @@
+{
+  "skillId": "biaoshu-writer-corp",
+  "displayName": "投标文件写作工具",
+  "description": "凭 App Key 调用招采猫开放 API，完成「招标文件智能解读 → 抽取分包 → 生成成品投标文件(.docx) → 可选合规审查」的端到端标书制作。当用户明确提供招标文件并希望生成投标文件/标书、对已生成标书做合规检查、或询问招采猫标书相关能力时使用。注意：招标/投标文件会上传到招采猫云端 API 处理，标书生成消耗账户积分；使用前请确认用户知悉。本 skill 是招采猫线上接口的轻客户端，不复刻其算法。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biaoshu-writer-corp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "simmer-tennis-live-gate",
+  "displayName": "Tennis Live-State Gate",
+  "description": "Gate Simmer/Polymarket tennis market entries on the live match state (score, who is serving, break-point flag, retirement/walkover/suspension) from the Live Tennis API. Observe-only — it returns a trade/no-trade decision and a suggested size; it places no orders. Modeled line-for-line on simmer-sdk's regime_gate_skill.py. Use when a tennis strategy should not fire into a break point or a stopped match.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:simmer-tennis-live-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

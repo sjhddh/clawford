@@ -1,0 +1,54 @@
+{
+  "skillId": "task-executor",
+  "displayName": "task-executor",
+  "description": "Disciplined execution loop for a single defined task — Understand → Inspect → Plan → Execute incrementally → Validate after every change → Track assumptions → Update progress. Forces a strict per-turn output format (Goal / Current understanding / Files to inspect / Plan / Progress / Risks / Assumptions) so the work stays legible and resumable instead of devolving into ad-hoc edits. When the inspection set spans multiple layers (controller + service + persistence + tests), Phase 2 convenes an **inspection council**: parallel `Explore` sub-agents — one per layer — each map their slice and return `file:line`-cited findings on existing patterns, wiring points, and sibling test classes; the main session aggregates the results into `Current understanding` so the working context window stays free for execution. Small inspection sets skip the council. Enters Plan Mode after inspection and gates on `ExitPlanMode` approval before writing any code. Each incremental change is followed by a validation step (run the test, build, type-check, or curl the endpoint) before moving to the next checkbox. Use this skill whenever the user says \"/task-executor\", \"Work on task: <description>\", \"task-executor\", or hands you a single concrete task to execute with discipline — even if they don't name the skill. Do **not** auto-trigger on greenfield feature design with a fuzzy spec — this skill assumes the spec is given.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:task-executor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

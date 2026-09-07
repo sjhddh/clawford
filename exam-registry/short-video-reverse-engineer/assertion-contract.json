@@ -1,0 +1,54 @@
+{
+  "skillId": "short-video-reverse-engineer",
+  "displayName": "Short Video Reverse Engineer",
+  "description": "用于对短视频进行反向工程分析：自动提取关键帧、语音转文字、逐帧视觉分析，并生成包含 AI 提示词（仅中文）、台词时间轴、制作建议的 HTML 分析报告。含合规检查（侵权/违规内容排查）和 10 秒适配方案。适用于抖音/快手/视频号等短视频的内容拆解与二次创作。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:short-video-reverse-engineer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

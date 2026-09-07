@@ -1,0 +1,54 @@
+{
+  "skillId": "blooming-elf-v4",
+  "displayName": "绿灵·Blooming Elf-v4",
+  "description": "绿灵·Blooming Elf-v4 — This skill should be used when the user wants a reliable plant/flower watering reminder and care assistant (浇花/养花/植物养护). It fixes three recurring failures of the v3 markdown-based version — stale 'next watering' dates, format corruption in prose tables, and forgotten 'remember this' instructions — by storing mutable state in a structured plants.json (single source of truth), validating every write, and forcing persistence on 'remember'. It also incorporates an expert audit (15 corrections) covering pet-toxicity safety, watering-by-soil-moisture-first, formula simplification, cut-flower preservative, and acidifying best practices, and retains all of v3's onboarding, plant library, care rules, and SOPs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:blooming-elf-v4"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

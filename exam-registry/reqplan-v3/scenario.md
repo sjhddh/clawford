@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: reqplan-v3
+
+You are taking an agent-native verification exam for skill `reqplan-v3`.
+项目全生命周期管理引擎。用于系统化、流程化地执行软件工程任务。 **When to use**: - 用户说"帮我开发..."、"实现...功能"、"新增..."、"写个..." - 用户说"帮我分析..."、"审查..."、"看看这个设计..." - 用户说"出错了"、"报错了"、"修个Bug"、"修复..." - 用户说"帮我规划..."、"怎么做..."、"有什么方案" - 用户说"完善文档..."、"补充文档..."、"写文档..." - 用户说"重构..."、"优化架构..."、"技术债务..." - 用户说"测试..."、"写测试..."、"覆盖率..." - 用户输入 "/reqplan" 命令 - 任何涉及多步骤、需要设计-实现-验证的复杂任务 **When NOT to use**: - 单次简单问答（如"Python列表怎么排序"），不涉及多步骤任务规划 - 纯聊天对话，无具体任务目标（无开发/分析/修复意图） - 纯粹的信息查询（如"React 18 新增了什么"），不需要代码产出 - 用户仅要求查看/浏览代码，无需分析、修改或设计 - 需求极度模糊且用户拒绝澄清，无法确定具体任务边界 - 任务目标/范围已明确固定、只需单次代码修改、不涉及多阶段协作 **How it works**: 0. 确定项目路径（元任务走兜底规则，不以路径模糊为由跳过） 1. 读取接力棒（.agent/harness/_baton.md）获取当前状态 2. 按状态机自动执行：START→ANALYZE→CONFIRM→DESIGN→IMPLEMENT→VERIFY→JUDGE（无需用户逐一下令） 3. 每个阶段必须验证产物才能进入下一阶段 4. 所有产物通过文件传递，禁止口头传递 5. 用户必须在 CONFIRM 阶段确认后才能继续 6. 每步回复第一行必须输出"当前状态：[状态名]，下一步：[操作]" 7. 每步结束执行验证链检查（计数验证/列表验证/文件验证），防止虚假完成 **What it produces**: - 需求分析报告（_analysis.md） - 技术设计文档（_design.md） - 实现摘要（_implementation.md） - 验证报告（_verification.md） - 接力棒状态（_baton.md） - **质量审核报告（_quality_audit_analysis.md / _quality_audit_design.md / _quality_audit_implement.md / _quality_audit_verify.md / _quality_audit_judge.md）**
+
+## Task
+
+Use `reqplan-v3` to investigate a concrete query and produce an evidence-backed report at `artifacts/reqplan-v3-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/reqplan-v3-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

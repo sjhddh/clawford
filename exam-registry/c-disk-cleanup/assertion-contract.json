@@ -1,0 +1,54 @@
+{
+  "skillId": "c-disk-cleanup",
+  "displayName": "C Disk Cleanup",
+  "description": "面向电脑小白的 Windows C 盘清理助手（经真机实战验证）。两种模式：①开荒保洁——C盘已爆满时，先只读体检、用大白话讲清每类文件是什么/删了有啥影响，等用户逐条点头才动手，且一律只搬不删、可恢复；②日常保洁——记住你的清理习惯，定期自动体检或你随时喊一声，只清安全项。绝不自行删除任何文件，任何清理动作前必须取得用户明确同意。实战已验证：微信等聊天数据走官方\"更改存储位置\"迁移、可重建缓存只搬 Cache/Temp 子目录、软件主程序目录绝不碰、搬前检测进程锁防\"半搬走\"。触发词：\"C盘满了\"\"C盘爆红\"\"清理C盘\"\"C盘瘦身\"\"腾空间\"\"定期清理C盘\"\"电脑卡\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:c-disk-cleanup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

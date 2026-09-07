@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-exposure-limitation",
+  "displayName": "auto-exposure-limitation",
+  "description": "用户发现自动模式拍的照片都差不多、想理解程序曝光的局限、或从自动模式 转向手动控制时调用。不适用于具体曝光参数选择（应调用 exposure-dual-control） 或测光问题（应调用 light-meter-compensation）。 Invoke when the user notices all their auto-mode photos look the same, wants to understand program exposure limitations, or is transitioning from auto to manual control. Not for specific exposure parameter choices (use exposure-dual-control) or light-meter issues (use light-meter-compensation). 关键 trigger / Key triggers: \"自动模式\"、\"程序曝光\"、\"auto mode\"、\"program mode\"、 \"why all photos look same\"、\"manual mode\"、\"aperture priority\"、 \"limitations of auto exposure\"、\"should I use manual mode\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-exposure-limitation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

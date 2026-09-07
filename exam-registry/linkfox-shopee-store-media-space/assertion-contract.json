@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-shopee-store-media-space",
+  "displayName": "Shopee-店铺媒体空间",
+  "description": "Shopee（虾皮）媒体上传 MediaSpace（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API MediaSpace 模块全部 6 个接口：init_video_upload、upload_video_part、complete_video_upload、get_video_upload_result、cancel_video_upload、upload_image。当用户提到 Shopee 上传图片、上传视频、media_space、init_video_upload、upload_image、视频分片上传、获取Shopee图片URL 时触发。即使未明确提及\"媒体\"，只要涉及已授权 Shopee 店铺的图片/视频文件上传，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-media-space"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

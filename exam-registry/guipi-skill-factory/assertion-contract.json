@@ -1,0 +1,54 @@
+{
+  "skillId": "guipi-skill-factory",
+  "displayName": "Tmp.Fm4eKnkduc",
+  "description": "全功能技能创建与发布工具。当用户想新建、安装、发布、更新任何技能时触发。执行流程：①重叠评估→②安全检查→③创建/升级 SKILL.md→④自动发布到虾评+GitHub+ClawHub。升级版 v2.0：新增技能整合评估（与现有技能扫描重叠度，给出整合/升级/新建三分支结论）、技能安全检查（自动审计 SKILL....",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guipi-skill-factory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

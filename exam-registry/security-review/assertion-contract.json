@@ -1,0 +1,54 @@
+{
+  "skillId": "security-review",
+  "displayName": "security-review",
+  "description": "Attacker's-eye security review of a diff, branch, or module — walks a fixed vulnerability catalog (missing authz on new endpoints, injection, secrets in code/logs, trusting client-sent identity, SSRF, path traversal, insecure deserialization, mass assignment, broken crypto, unsafe redirects, dependency CVEs) where every finding must name a concrete attack path (attacker does X → gains Y) or be demoted to hardening advice. Never claims \"secure\", only \"nothing found in the classes checked\". Use this skill whenever the user says \"security review\", \"is this secure\", \"check for vulnerabilities\", \"audit the auth\", \"threat model this\", \"pentest mindset\", \"check for injection\", or \"/security-review\" — even if they don't name the skill. Distinct from code-review (security is one lens there); this is the dedicated deep pass.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:security-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

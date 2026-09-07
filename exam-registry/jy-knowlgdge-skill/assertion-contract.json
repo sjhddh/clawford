@@ -1,0 +1,54 @@
+{
+  "skillId": "jy-knowlgdge-skill",
+  "displayName": "Knowlgdge-Skill",
+  "description": "智能知识库文件处理与数据集自动生成系统。上传文件后自动评估知识价值，LLM智能分类归档，通过EasyDataset生成微调数据集。使用场景：(1) 用户上传文档需要判断是否值得生成知识数据集，(2) 批量处理DOCX/PDF/Excel/图片文件转为知识库，(3) 从本地知识库搜索答案结合对话回复，(4) 部署和初始化知识库环境，(5) 管理知识库分类体系和数据集。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jy-knowlgdge-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "qmt-knowledge-skill",
+  "displayName": "QMT Knowledge Skill",
+  "description": "QMT（迅投极速策略交易系统）智能编程助手。提供QMT API查询、策略代码生成、回测/实盘配置指导、行情/交易函数用法、枚举常量/数据结构查档、常见问题排查。当用户明确请求QMT相关的API查询、策略代码生成或问题排查时调用本Skill；不主动介入非QMT上下文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qmt-knowledge-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

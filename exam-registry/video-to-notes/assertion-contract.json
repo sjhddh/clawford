@@ -1,0 +1,54 @@
+{
+  "skillId": "video-to-notes",
+  "displayName": "Video to Notes",
+  "description": "将视频内容（课程/讲座/教程/纪录片/会议/演讲等）自动转为高质量结构化学习笔记。核心价值：看视频容易忘、看一遍记不住 → 转成笔记随时回看。支持本地视频文件、YouTube/B站等网络链接。流程：提取音轨 → Whisper 语音转文字 → AI 生成结构化笔记。适用场景：任何想从视频中高效学习的人——自学程序...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-to-notes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

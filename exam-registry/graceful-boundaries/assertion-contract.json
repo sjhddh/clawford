@@ -1,0 +1,54 @@
+{
+  "skillId": "graceful-boundaries",
+  "displayName": "graceful-boundaries-audit",
+  "description": "Assess any API or website's Graceful Boundaries conformance level and provide concrete guidance for reaching the next level. Use this skill when the user asks to check a URL's rate limit communication, evaluate API conformance to Graceful Boundaries, assess how a service handles 429s, or improve how an API communicates its limits to agents. Also trigger when the user says \"check this API's boundaries\", \"what level is this service\", \"assess graceful boundaries compliance\", \"how does this API handle rate limits\", or provides a URL and asks about rate limit quality, conformance, or structured refusal. Distinct from the agent-readiness-audit skill, which assesses overall AI discoverability -- this skill specifically evaluates rate limit communication quality per the Graceful Boundaries specification.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:graceful-boundaries"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

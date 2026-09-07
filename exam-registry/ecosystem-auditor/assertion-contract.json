@@ -1,0 +1,54 @@
+{
+  "skillId": "ecosystem-auditor",
+  "displayName": "ecosystem-auditor",
+  "description": "技能生态健康度审计：扫描技能生态（默认 ~/.workbuddy/skills），对每枚技能做体检—— frontmatter 合法性、脚本可编译性、陈旧度、近重复（shingle Jaccard）、孤儿 meta （meta-X 但教师 X 不存在），输出结构化健康报告，供元进化引擎定位\"该修/该并/该弃\"的技能。 这是让全栈超级智能体\"能治理自身生态\"的元能力，一线大模型不具备。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ecosystem-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

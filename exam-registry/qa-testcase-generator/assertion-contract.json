@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-testcase-generator",
+  "displayName": "Qa Testcase Generator",
+  "description": "从需求文档（Markdown/PDF/Word）或图片流程图中生成结构化 Excel 测试用例。 当用户提到以下内容时触发：生成测试用例、编写测试用例、从需求提取测试场景、 根据需求文档/设计文档/接口文档/流程图生成测试、需要按业务域分组的测试报告、 测试覆盖、测试计划。输出带有优先级着色和模块分隔行的格式化 Excel 文件。 不适用于：生成自动化测试脚本（Selenium/Playwright）、执行测试运行、搭建测试框架。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-testcase-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

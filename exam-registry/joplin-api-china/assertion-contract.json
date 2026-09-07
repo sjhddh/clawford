@@ -1,0 +1,54 @@
+{
+  "skillId": "joplin-api-china",
+  "displayName": "Joplin API（中文）",
+  "description": "通过 Joplin Data API（Clipper Server）查询和管理笔记、笔记本、标签。支持本地直连和 SSH 远程两种模式。包含读写删全部操作，写/删需用户确认。触发词：\"查 Joplin\"、\"Joplin 笔记\"、\"joplin search\"、\"create note in joplin\" 等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:joplin-api-china"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

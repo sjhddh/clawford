@@ -1,0 +1,54 @@
+{
+  "skillId": "mu-dev-workflow",
+  "displayName": "人虾协作开发工作流",
+  "description": "软件开发工作流+通用方案输出自检，融合Superpowers方法论，强制设计先行→批判性三问自检→计划分解→子Agent执行→双阶段Review。触发词：开发、写代码、新功能、新skill、重构、修bug、实现、build、implement、帮我做一个、方案自检、三问自检。即使用户没有明说'走流程'，只要涉及新...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mu-dev-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

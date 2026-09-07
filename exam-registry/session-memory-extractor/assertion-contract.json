@@ -1,0 +1,54 @@
+{
+  "skillId": "session-memory-extractor",
+  "displayName": "Session Memory Extractor",
+  "description": "OpenClaw 版 Claude-Mem：自动扫描旧 Session 文件，AI 提炼决策、偏好、事实，追加写入 memory/；同步清理 .jsonl + .trajectory.jsonl，释放数百 MB 磁盘。提炼比清理先跑，记忆不丢失；提炼失败的文件自动 Quarantine 不删，避免静默丢数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:session-memory-extractor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "concept-validation-tech-validation-engine",
+  "displayName": "概念验证 技术验证引擎",
+  "description": "概念验证中心技术验证引擎。当用户需要验证技术可行性、评估TRL等级、设计技术验证方案、进行多路线并行对比时使用。本技能是验验（技术验证师）的核心工具，支持TRL 1-4阶段的技术成熟度评估、3维轻一致性验证、技术风险识别。适用于技术方案评估、原型验证设计、技术路线对比等场景。与中试基地工艺熟化引擎（TRL 5-7...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:concept-validation-tech-validation-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

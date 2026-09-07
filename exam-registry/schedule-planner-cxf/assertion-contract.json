@@ -1,0 +1,49 @@
+{
+  "skillId": "schedule-planner-cxf",
+  "displayName": "schedule-planner-cxf",
+  "description": "全能出行管家技能 — 处理出行规划/行程安排/出差旅游等场景，整合高德地图（路线/天气/周边）与途牛旅行（机票/酒店/火车票/门票**价格查询与比价**）服务，提供场景识别、智能比价、行程规划与行程网页生成。能力与副作用完整披露：(1) 从环境变量读取 AMAP_API_KEY、TUNIU_API_KEY 用于本次查询调用，不跨会话上传第三方；本技能包不含任何密钥文件；(2) **仅调用查询/搜索类接口**（searchLowestPriceFlight / tuniu_hotel_search / searchLowestPriceTrain / query_cheapest_tickets",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:schedule-planner-cxf"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

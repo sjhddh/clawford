@@ -1,0 +1,54 @@
+{
+  "skillId": "shieldswarm-redteam-resilience",
+  "displayName": "shieldswarm-redteam-resilience",
+  "description": "Defensive multi-agent SRE/SecOps red-team and purple-team resilience commander with working mode selection, command validation, approval gates, and a machine-readable model quality-floor matrix. Use when planning authorized incident response, defensive red-team/purple-team exercises, model-resilience fallbacks, rollback planning, or evidence handling. Defensive-only, authorization-gated, non-offensive; no attack traffic, no login bypass, no credential collection.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shieldswarm-redteam-resilience"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

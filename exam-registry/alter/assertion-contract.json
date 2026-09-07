@@ -1,0 +1,54 @@
+{
+  "skillId": "alter",
+  "displayName": "alter",
+  "description": "Build and run a digital persona of the user, their alter ego. Interviews them through chat and voice memos, learns from their documents, writing samples, and AI chat exports from OpenAI or Claude, then chats, answers questions, and drafts messages and emails in their voice, values, and style. Improves continuously from corrections and new uploads, and asks for clarification when it finds contradictions. Use when the user wants to create a persona of themselves, talk to their persona, add material to it, correct it, check its progress, or have something drafted the way they would write it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

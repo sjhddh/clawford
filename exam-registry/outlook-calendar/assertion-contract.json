@@ -1,0 +1,54 @@
+{
+  "skillId": "outlook-calendar",
+  "displayName": "outlook-calendar",
+  "description": "Read and write the signed-in user's Microsoft 365 / Outlook.com personal calendar via Microsoft Graph. Calendar API surface only — but note: this skill shares one device-code login with the outlook-contacts and outlook-todo skills, so the shared consent also grants their Calendars/Tasks/Contacts read-write scopes (fully disclosed in the Scope table below). Use when the user wants to list today's events, look at next week, create / update / delete a single event by id, or check token status. Trigger keywords: \"outlook calendar\", \"ms calendar\", \"graph calendar\", \"我的 outlook 日历\", \"微软日历\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:outlook-calendar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

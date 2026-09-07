@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-test-assistant",
+  "displayName": "自动化测试助手",
+  "description": "帮助编写、调试和优化自动化测试脚本，支持 Selenium、Playwright、Pytest、Cypress、unittest、Jest、Appium、Locust 等主流测试框架。当用户需要编写自动化测试、调试测试脚本、分析测试失败原因、生成测试报告、优化测试代码、或询问测试最佳实践时使用此技能。也适用于用户提到\"写测试\"、\"测试脚本\"、\"自动化测试\"、\"test case\"、\"unit test\"、\"e2e test\"、\"API测试\"、\"性能测试\"、\"Page Object\"等场景。支持生成 Page Object 模式代码、CI/CD 配置、Allure 测试报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-test-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

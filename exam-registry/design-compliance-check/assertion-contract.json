@@ -1,0 +1,54 @@
+{
+  "skillId": "design-compliance-check",
+  "displayName": "设计走查",
+  "description": "设计走查：将生成的 HTML/CSS 页面对照设计规范文档逐项审查，输出结构化合规报告。 当用户说\"设计走查\"、\"走查页面\"、\"检查是否符合设计规范\"、\"审查设计合规\"时触发。 生成任何 HTML/CSS 页面后也可主动触发，确保输出符合设计规范。 用户可指定任意设计规范文档路径，skill 会自动读取并逐项对照检查。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:design-compliance-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

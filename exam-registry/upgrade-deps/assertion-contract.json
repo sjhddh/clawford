@@ -1,0 +1,54 @@
+{
+  "skillId": "upgrade-deps",
+  "displayName": "upgrade-deps",
+  "description": "Upgrade project dependencies safely — inventories current→target versions from the actual manifest/lockfile, reads the real changelog/release notes for every major bump (a breaking-change claim without a changelog citation is a hypothesis), greps the codebase for each breaking API before declaring it safe, upgrades one major at a time with tests+build quoted green between batches, and reports a per-package table of what changed and what evidence backs \"safe\". Use this skill whenever the user says \"upgrade dependencies\", \"update packages\", \"bump <package>\", \"is it safe to upgrade\", \"update to the latest\", \"fix the npm audit\", \"dependabot PR review\", or \"/upgrade-deps\" — even if they don't explicitly say \"dependency skill\". Do not use for adding a NEW dependency (that's a design decision) or diagnosing a breakage after an upgrade already happened (use diagnose).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:upgrade-deps"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

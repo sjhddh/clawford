@@ -1,0 +1,54 @@
+{
+  "skillId": "travel-world",
+  "displayName": "travel-world",
+  "description": "Search flights, hotels, rental cars, travel insurance, and experiences, and plan trips through Travel World — an agent-native travel platform — via its hosted MCP server. Find and compare flights and hotels, search rental cars and travel insurance, discover tours and things to do, check real-time flight status by flight number or by origin/destination route, browse airline promotions and destination guides, and reach airline, hotel, car-rental, and insurance brand agents (BrandLanes). Use this whenever a user wants to find flights, hotels, cars, insurance, or experiences, check whether a flight is on time, plan a trip, or discover brand-direct travel options. Requires a free Travel World API key (create one at https://travel.augworlds.ai/mcp-token) and an MCP-capable runtime. New providers and capabilities come online continuously — call tools/list for the current set.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:travel-world"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

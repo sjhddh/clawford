@@ -1,0 +1,54 @@
+{
+  "skillId": "ss-requirements-to-teambition",
+  "displayName": "SS需求→Teambition任务",
+  "description": "从 SaleSmartly 客服会话中自动采集带标签的对话，经 AI 分析提取需求，创建 Teambition 任务。用于客服反馈→需求管理自动化。触发词：SS需求采集、客服需求整理、SaleSmartly会话转任务、聊天记录转需求、客户反馈建任务、采集会话创建TB任务。当用户想把 SaleSmartly 中的客...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ss-requirements-to-teambition"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

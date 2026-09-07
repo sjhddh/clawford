@@ -1,0 +1,54 @@
+{
+  "skillId": "content-distiller",
+  "displayName": "内容蒸馏器",
+  "description": "从任何内容（电子书/链接/视频/文案）中蒸馏可复用方法论，并自动封装为体系化技能包。支持PDF/EPUB/TXT/MD电子书、小红书/抖音/B站/视频号等平台链接、本地视频、公众号文章、直接文案六种输入源。触发词：蒸馏、帮我蒸馏、提取方法论、把这本书变成技能、生成技能包、book to skills、从这门课程里...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-distiller"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "jd-interpreter",
+  "displayName": "JD智能解读",
+  "description": "招聘需求智能解读技能。输入任意岗位JD（粘贴/上传/URL），自动进行8维深度解读：JD结构化拆解→显性隐性需求解构→需求权重评分→能力差距自评引导→面试考点预测→学习提升路线图→ATS关键词注入→薪资对标分析，生成交互式HTML可视化解读报告。触发词：JD解读、岗位解读、招聘需求分析、解读JD、这个岗位要什么、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jd-interpreter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

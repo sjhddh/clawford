@@ -1,0 +1,54 @@
+{
+  "skillId": "video-downloader-by-browser",
+  "displayName": "video-downloader-by-browser",
+  "description": "手动介入式分片视频下载：用有头浏览器（用户可见、不自动关闭）打开视频页，拦截真实流地址，多路并行高速下载分片（TS 流 / m3u8 / 大分片 MP4），无损合并为完整 MP4，验收通过后再清理分片。面向需要分片下载的流媒体视频，尤其是需要登录、短信验证码、滑动验证、观看密码或切换清晰度的受限站点（优酷、腾讯视频、爱奇艺、B 站等）。关键词：下载视频、视频下载、优酷下载、需要登录的视频、需要密码的视频、m3u8、ts 分片合并",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-downloader-by-browser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

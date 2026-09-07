@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-security-redteam",
+  "displayName": "AI Security & Red Teaming（AI安全与红队测试）",
+  "description": "AI 安全与红队测试实操手册——覆盖 AI 系统六大攻击面（提示注入、越权与工具滥用、数据与隐私泄露、幻觉与质量缺陷、供应链与模型投毒、拒绝服务），OWASP LLM Top 10 风险映射，完整红队测试流程（目标定义/攻击面建模/用例设计/执行/报告/修复复测），直接与间接提示注入测试用例库、Agent 越权与沙箱逃逸测试、训练数据泄露与记忆攻击测试、幻觉检测基准，附漏洞分级与修复建议、零依赖本地工具一键生成风险清单、测试用例与报告模板。面向 AI 工程、安全测试、信息安全负责人，与 AI 治理/智能体治理形成\"制度+技术\"闭环。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-security-redteam"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

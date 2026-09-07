@@ -1,0 +1,49 @@
+{
+  "skillId": "nasa-dataset-download",
+  "displayName": "Geoskill: NASA Dataset Download",
+  "description": "Download any NASA Earth observation dataset (HDF / NetCDF / GeoTIFF) end-to-end. Wraps the official earthaccess library to authenticate with NASA Earthdata Login and bulk-download granules from MODIS, VIIRS, GPM, Sentinel, SMAP, ASTER, etc. Supports BBox + temporal window filtering and QA sidecars. Default credentials are loaded from ~/.geoskill/secrets.json (NASA Earthdata bearer token). 0.2.0: alias map (description → short_name), multi-word search, --dry-run, proper exit codes (5 on 0 results), accurate --max-files, fixed granule display.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nasa-dataset-download"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

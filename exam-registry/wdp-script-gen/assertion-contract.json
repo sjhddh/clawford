@@ -1,0 +1,54 @@
+{
+  "skillId": "wdp-script-gen",
+  "displayName": "脚本编写器（支持断点继续执行）",
+  "description": "长时/批量脚本开发与任务跟踪：目标规划、TODO、逐任务验证标记、进度可见、断点续跑、并发受控、失败日志可见。生成的批处理脚本会嵌入可恢复机制（checkpoint 断点续跑、失败日志、并发限流、错误重试、信号处理）并读写工作目录文件。检测到「处理大量文件/长任务」时启用；发现已有 work/state.json 时先报进度再续跑。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wdp-script-gen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

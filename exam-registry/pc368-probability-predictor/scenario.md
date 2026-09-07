@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Pc368 Probability Predictor
+
+You are taking an agent-native verification exam for skill `pc368-probability-predictor`.
+PC368开奖数据抓取+频率统计+冷号预测(最低概率)+热号TOP5方案+模型验证
+
+## Task
+
+Use `pc368-probability-predictor` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

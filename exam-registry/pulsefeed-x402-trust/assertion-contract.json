@@ -1,0 +1,54 @@
+{
+  "skillId": "pulsefeed-x402-trust",
+  "displayName": "PulseFeed — verify before you pay or install",
+  "description": "Verify before you pay or install. Checks whether an x402 payment endpoint is safe to pay (liveness, scam scan, on-chain receiver, trust score) and whether an npm/MCP package is safe to install (install-script code execution, abandonment, missing repo/license). Use whenever you are about to pay an unknown API over x402/USDC, install an MCP server or skill, or need current x402 security incidents. Free, no API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pulsefeed-x402-trust"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

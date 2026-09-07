@@ -1,0 +1,49 @@
+{
+  "skillId": "ibkr-httpapi",
+  "displayName": "ibkr-httpapi",
+  "description": "HTTP+JSON control plane over Interactive Brokers (ib_async + a local IB Gateway container) that the user already runs. Talk to a real brokerage with curl + JSON — market data (OHLC bars, snapshot/historical ticks, option chains + Greeks) across stocks/options/futures/cfd/forex/crypto, account/positions summaries, order placement / retrieval / cancellation, and server-side technical analysis via the wickworks sidecar. Bearer-token auth (API_TOKEN). Use when the user has deployed ibkr-httpapi and set IBKR_HTTPAPI_URL and wants to pull IBKR market data, inspect account/positions, run TA, or place/cancel orders. THIS API CAN PLACE, EXERCISE, AND CANCEL REAL ORDERS ON A REAL IBKR ACCOUNT — every account-mutating call requires explicit per-action user confirmation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ibkr-httpapi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

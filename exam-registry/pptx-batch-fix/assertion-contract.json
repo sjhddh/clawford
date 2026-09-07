@@ -1,0 +1,54 @@
+{
+  "skillId": "pptx-batch-fix",
+  "displayName": "PPTX批量格式化修复",
+  "description": "PPT/PPTX 批量格式化修复工具，涵盖两大核心能力：(1) 字号统一修复 — 全片扫描文字字号，低于阈值的统一调至16pt（可配置），自动启用换行防止溢出，修正超出版面边界的形状；(2) 页码批量删除 — 多格式页码检测与删除（X/Y、纯数字、幻灯片编号占位符），不误删章节标记。 触发场景：修改PPT字号/调...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pptx-batch-fix"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

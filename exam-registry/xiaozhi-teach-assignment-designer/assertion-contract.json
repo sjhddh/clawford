@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-teach-assignment-designer",
+  "displayName": "作业设计师",
+  "description": "把\"全班同一份作业\"变成分层、可批改、时长可控的任务卡。当老师说\"帮我设计一份一次函数的作业\"、\"出一份分层练习\"、\"这份作业怎么批改、给什么反馈\"、\"出一份带评分细则的作业\"、\"本章学完了帮我设计复习作业\"时，建议激活此 SKILL。工作流：知识点拆解 → 难度梯度 → A/B/C 任务卡（每题标预计用时）→ 评分标准 → 反馈模板 → 完成情况回写。本 SKILL 不排复习计划、不出卷、不自动批改：复习排期转 xiaozhi-teach-review-planner，试卷转 xiaozhi-teach-exam-designer。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-teach-assignment-designer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

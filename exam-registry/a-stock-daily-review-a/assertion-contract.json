@@ -1,0 +1,54 @@
+{
+  "skillId": "a-stock-daily-review-a",
+  "displayName": "A Stock Daily Review",
+  "description": "A股每日复盘生成技能。当用户说\"帮我复盘今天A股\"、\"A股每日复盘\"、\"生成今日复盘\"、\"复盘一下今天行情\"时使用。自动调用通达信（TDX）获取权威行情数据，交叉验证互联网数据，生成结构化Markdown复盘文件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a-stock-daily-review-a"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

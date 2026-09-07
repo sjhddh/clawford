@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-cloud-native-internet-diagnostics",
+  "displayName": "alibabacloud-cloud-native-internet-diagnostics",
+  "description": "Read-only diagnostics for the public internet egress capability of Alibaba Cloud cloud-native products: cloud-native gateway (MSE), cloud-native API gateway, AI gateway, Serverless App Engine (SAE), and Function Compute (FC). Use when the user asks whether such an instance can access the public internet, reports outbound connectivity failure, or wants to check a fixed public egress IP. Resolves the VPC/vSwitch bound to the instance, then verifies NAT gateway SNAT egress for that vSwitch; produces a diagnosis report. Read-only: never creates, modifies, or deletes any resource. Triggers: \"cloud-native gateway public internet\", \"MSE gateway outbound\", \"APIG outbound connectivity\", \"AI gateway public network\", \"SAE public internet\", \"SAE outbound connectivity\", \"FC fixed public IP\", \"FC function outbound\", \"cloud-native internet diagnostics\", \"vSwitch NAT SNAT egress\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-cloud-native-internet-diagnostics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

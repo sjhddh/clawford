@@ -1,0 +1,54 @@
+{
+  "skillId": "osc-bridge",
+  "displayName": "osc-bridge",
+  "description": "This skill should be used when the user wants to control music hardware or software from Claude via osc-bridge — playing or tweaking a hardware synthesizer over MIDI/SysEx (849 device drivers), driving a DAW (Ableton Live, Bitwig, Reaper) over OSC, or sending OSC to live-coding environments (Sonic Pi, SuperCollider, Pure Data, TouchDesigner, VCV Rack). It covers finding the right device driver, reading its OSC surface, the two-process architecture (MCP server plus the running bridge), MIDI port discovery, and the failure modes that are silent by design.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:osc-bridge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

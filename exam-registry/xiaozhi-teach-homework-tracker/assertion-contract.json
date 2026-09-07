@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-teach-homework-tracker",
+  "displayName": "作业跟进管家",
+  "description": "帮独立教师把作业从\"收上来\"变成\"跟到底\"：登记、追状态、归错因、导出下节课讲什么。适用于老师说\"登记今天布置的作业\"\"[化名] 的作业状态\"\"这周谁没交\"\"错题回流\"\"下节课该讲什么\"\"这道题他错第三次了\"\"看下 [化名] 的作业画像\"。流程：老师登记 task/dueDate → 追七档状态 → 按 shared/vocab.md §1/§3 归错因 → 阈值命中先存证据待老师确认。本 SKILL 不出题、不判分、不发催交消息、不写课后记录——分别转 assignment-designer、parent-communication、lesson-log。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-teach-homework-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

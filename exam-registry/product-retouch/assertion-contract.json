@@ -1,0 +1,54 @@
+{
+  "skillId": "product-retouch",
+  "displayName": "商品精修",
+  "description": "使用 GPT Image 2 精修现有商品照片，以缺陷清单和不可变项控制除尘、去划痕、反光整理、颜色校准、标签保护与背景清理。Use this skill for 商品精修、产品精修、电商修图、瑕疵修复、质感增强、反光控制、颜色校正、背景清理、淘宝京东抖店 Amazon Shopify 商品摄影后期；必须提供参考图片，通过 AI Hive 编辑。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-retouch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

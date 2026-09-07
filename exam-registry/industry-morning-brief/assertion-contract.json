@@ -1,0 +1,54 @@
+{
+  "skillId": "industry-morning-brief",
+  "displayName": "industry-morning-brief",
+  "description": "Generate a structured daily morning brief for an industry vertical by searching public web sources and synthesizing the latest developments into a concise, actionable bulletin. Use when: the user asks for today's/this morning's news, roundup, recap, or update for an industry (e.g. new energy, renewables, EV, battery, solar, wind, hydrogen, semiconductor, biotech). Not for: historical analysis, deep financial modeling, or private/internal data.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-morning-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

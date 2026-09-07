@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-ak-leak-incident-response",
+  "displayName": "alibabacloud-ak-leak-incident-response",
+  "description": "Investigate an Alibaba Cloud AccessKey (AK) leakage incident and produce a read-only investigation report. Use when the user reports a leaked / exposed / stolen / compromised Alibaba Cloud AccessKey (AK / AK-SK / access key / secret key / RAM credential); receives an AK-leak alert, risk notification, SMS, or email; finds an AK/secret exposed on GitHub, Gitee, a public repo, logs, or config files; needs AK-leak incident response, post-theft investigation, or risk assessment; or wants to trace a leaked AK's malicious operations, attack chain, created sub-users (RAM users), or new AccessKeys.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-ak-leak-incident-response"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

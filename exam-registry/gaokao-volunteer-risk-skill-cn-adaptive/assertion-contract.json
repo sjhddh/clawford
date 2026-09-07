@@ -1,0 +1,54 @@
+{
+  "skillId": "gaokao-volunteer-risk-skill-cn-adaptive",
+  "displayName": "高考志愿填报",
+  "description": "Analyze Chinese gaokao志愿填报 plans nationwide. Use this skill when a user asks to evaluate, rank, redesign, or generate college application choices based on score, rank, province-specific admission mode, subject requirements, line margins, major fit, tuition constraints, and transfer-major risk. This",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gaokao-volunteer-risk-skill-cn-adaptive"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

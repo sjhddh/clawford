@@ -1,0 +1,54 @@
+{
+  "skillId": "film-exposure-asymmetry",
+  "displayName": "film-exposure-asymmetry",
+  "description": "用户在使用胶片拍摄、问\"负片和反转片曝光有什么区别\"、或面对高反差场景 需要决定曝光策略时调用。纯数码摄影用户不适用（数码传感器宽容度特性不同）。 Invoke when the user is shooting film, asks about the difference between negative and reversal film exposure, or needs to decide exposure strategy for high-contrast film scenes. Not applicable to pure digital photography (sensor latitude differs). 关键 trigger / Key triggers: \"负片曝光\"、\"反转片曝光\"、\"slide film exposure\"、 \"negative film latitude\"、\"宁过勿欠\"、\"宁欠勿过\"、 \"high contrast film exposure\"、\"film exposure strategy\"、 \"overexpose or underexpose film\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:film-exposure-asymmetry"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

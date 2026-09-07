@@ -1,0 +1,54 @@
+{
+  "skillId": "english-native-reviewer",
+  "displayName": "English Native Reviewer",
+  "description": "不只是语法检查——专治中式英语（Chinglish）和翻译腔。四级递进审查（L1语法→L2翻译腔→L3用词→L4风格）， 把中国作者写的英文改得像母语者写的。 Use when user asks to 检查英文语法、润色英文、修改英文表达、把这段英文改得更地道、 英文翻译腔检测、去Chinglish、英文写作审...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:english-native-reviewer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-cybernetic-thinking",
+  "displayName": "Cybernetic Thinking",
+  "description": "Thinking-mode skill for LLMs: installs a control-theoretic and systems-theoretic cognitive operating system distilled from two books — Tsien Hsue-shen & Song Jian's \"Engineering Cybernetics\" (工程控制论) and Jin Guantao's \"Cybernetics and Scientific Methodology\" (控制论与科学方法论). Shapes how the LLM reasons about systems, not just how it writes patch diffs. Teaches the model to identify state and possibility space, model the plant as a black-box hypothesis, demand observability and information channels, verify stability and convergence, respect bounds, decouple harm, coordinate benefits, recognize ultra-stability and bifurcations, and close the loop before declaring success. Use when designing architecture, writing complex code, refactoring coupled modules, debugging non-deterministic systems, or any task where \"correct AND robust\" cannot be verified by a single happy path.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-cybernetic-thinking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

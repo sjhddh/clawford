@@ -1,0 +1,54 @@
+{
+  "skillId": "truenas-aiops",
+  "displayName": "truenas-aiops",
+  "description": "Use this skill whenever the user needs to operate TrueNAS SCALE storage — a one-shot health overview, system info, read-only diagnostics / RCA (pool health, alerts & dataset capacity), inspect ZFS pools (list/get/status, capacity, scrub status, start a scrub), datasets (list/get/create), snapshots (list/create/delete), physical disks and S.M.A.R.T. self-test results, system alerts, services (list/restart), and replication / cloud-sync tasks. Always use this skill for \"list truenas pools\", \"truenas dataset\", \"create zfs snapshot\", \"start a scrub\", \"diagnose truenas pool health\", \"why is my pool degraded\", \"truenas disk health\", \"truenas smart test\", \"truenas alerts\", \"restart truenas service\", or \"truenas replication\" when the context is explicitly TrueNAS / TrueNAS SCALE / a ZFS NAS appliance. Do NOT use when the target is not a TrueNAS SCALE appliance — other NAS/storage products, backup software, hypervisor VM lifecycle, container clusters, and network devices are out of scope (negative routing hints only). Common TrueNAS SCALE operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). Live-verified against real TrueNAS SCALE 25.04 and 26 appliances over both transports; see docs/VERIFICATION.md for what is and is not covered.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:truenas-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

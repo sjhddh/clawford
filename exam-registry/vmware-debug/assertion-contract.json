@@ -1,0 +1,49 @@
+{
+  "skillId": "vmware-debug",
+  "displayName": "vmware-debug",
+  "description": "Use this skill whenever the user is troubleshooting a VMware/vSphere problem — a reported error, an exception, a log dump, a slow or failed VM, a host that went sideways — and needs help locating the root cause. It is the diagnostic brain of the VMware family: it drives a systematic investigation, pulls the right signals from the other skills, correlates events into one timeline, ranks root-cause hypotheses, and tells you what to check next even when you don't know where to start. Always use this skill for \"diagnose this VMware issue\", \"why is my VM slow\", \"troubleshoot this vSphere error\", \"what does this log mean\", \"help me figure out what broke\" when the context is explicitly VMware/vSphere/ESXi/NSX. It is READ-ONLY: it never changes anything. Do NOT use it to execute fixes — single fixes go to vmware-aiops, multi-step gated remediation goes to vmware-pilot. Do NOT use it for routine inventory or health checks with no problem to solve — use vmware-monitor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-debug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

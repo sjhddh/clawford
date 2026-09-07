@@ -1,0 +1,54 @@
+{
+  "skillId": "linggen",
+  "displayName": "linggen",
+  "description": "Linggen — durable cross-host memory plus browser control, over two local MCP servers: `ling-mem` for memory, the Linggen engine for browser, X and agents. Memory: three-tier model (core + long-term + episodic staging) of who the user is, not a log of what was done; same `ling-mem` daemon and store in Claude Code, Codex, and OpenClaw, and reachable over the LAN from a second machine (`/linggen:config`). Browser: agent control of the user's own Chrome with per-site permission prompts, and logged-in X session reads.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linggen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

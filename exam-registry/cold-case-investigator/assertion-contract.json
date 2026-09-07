@@ -1,0 +1,49 @@
+{
+  "skillId": "cold-case-investigator",
+  "displayName": "Cold Case Investigator",
+  "description": "全球未破悬疑案件（cold case / unsolved case）迭代式深度自动化调查与创作辅助技能。 当用户提到\"查案件\"\"调查\"\"搜案子\"\"搜悬案\"\"查悬疑案件\"\"查未破案件\" \"cold case\"\"unsolved case\"或明确要求搜索某个具体案件信息时触发。 也适用于内容创作者需要\"搜外网素材\"\"找案件原型\"\"查真实犯罪资料\"等创作调研场景。 采用\"广度搜索→信息分析→双轨深追→穷尽为止\"的迭代循环： Track A（证据支撑型）基于已获取信息进行系统性分析，制定有信源支持的深追方向； Track B（直觉推演型）生成纯粹猜想的深追方向，无证据基础但逻辑自洽，专为创作启发设计",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cold-case-investigator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

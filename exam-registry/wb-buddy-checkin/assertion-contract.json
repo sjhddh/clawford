@@ -1,0 +1,54 @@
+{
+  "skillId": "wb-buddy-checkin",
+  "displayName": "Wb Buddy Checkin Publish",
+  "description": "自动完成 WorkBuddy 桌面客户端「Buddy 加油站」每日签到、领取积分。当用户需要在 Windows 上自动点击头像→Buddy加油站→立即领取，并通过截图灰度校验是否成功（灰底「今日已领」）时使用。基于纯 ctypes 实现窗口置前、坐标点击与窗口截图，零第三方 Python 依赖，仅依赖 Windows 系统 API（可选复用 desktop-control-win skill 的截图）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-buddy-checkin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

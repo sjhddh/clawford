@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-orders",
+  "displayName": "亚马逊-店铺订单",
+  "description": "亚马逊店铺订单（与 linkfox-amazon-store-auth / report / listings / pricing 同系列），经 /spApi/developerProxy 调用 SP-API Orders：v2026-01-01 的 searchOrders、getOrder；v0 的 getOrderBuyerInfo、getOrderAddress、getOrderItems、getOrderItemsBuyerInfo、updateShipmentStatus、getOrderRegulatedInfo、updateVerificationStatus、confirmShipment。当用户提到亚马逊订单、searchOrders、getOrder、订单列表、订单详情、买家信息、收货地址、订单行、发货确认、管制订单、核验状态、Orders API、SP-API 订单 时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-orders"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

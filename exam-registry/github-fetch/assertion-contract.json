@@ -1,0 +1,54 @@
+{
+  "skillId": "github-fetch",
+  "displayName": "GitHub Fetch",
+  "description": "Download files, release assets, or entire repositories (including submodules) from GitHub. Use whenever the user needs to fetch GitHub resources but direct connections are slow, timing out, rate-limited, or blocked — large release assets (ffmpeg builds, binaries, models), git clone with submodules, or single files. The skill auto-detects network problems, probes and benchmarks proxy mirrors, resumes interrupted downloads, verifies SHA-256 checksums, and extracts/installs artifacts. Make sure to use this skill whenever the user mentions downloading from GitHub, cloning a repo, fetching a release, getting a binary from GitHub, or any download that fails or stalls on GitHub — even if they don't explicitly ask for help with mirrors or proxies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:github-fetch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

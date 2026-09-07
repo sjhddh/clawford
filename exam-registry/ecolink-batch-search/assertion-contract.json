@@ -1,0 +1,49 @@
+{
+  "skillId": "ecolink-batch-search",
+  "displayName": "EcoLink 批量碳足迹搜索",
+  "description": "EcoLink碳足迹数据库批量搜索（本地模式）。内置ecoinvent/CPCD/GHG因子库CSV数据，本地模糊匹配搜索，利用Agent自身LLM能力做翻译/分解/替代品推荐，生成HTML预览页面让用户勾选后导出CSV。当用户需要\"批量搜索碳足迹\"、\"批量查因子\"、\"批量查CPCD\"、\"批量查碳足迹数据\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ecolink-batch-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

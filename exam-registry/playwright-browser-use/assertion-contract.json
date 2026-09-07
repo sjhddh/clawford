@@ -1,0 +1,54 @@
+{
+  "skillId": "playwright-browser-use",
+  "displayName": "playwright-browser-use",
+  "description": "浏览器自动化 CLI（Playwright 版，纯 Node.js 实现）。除常规自动化（打开网页/截图/点击/填表/翻页）外，提供三类能力：(1) 会话凭证读写原语 —— `cookies` / `storage` 命令可**无需代码执行**即列出/导出/导入/清除/设置 cookie 与 localStorage，直接提取或注入登录态与会话令牌（此路径独立于代码执行；自 v1.3.2 起 `PW_BROWSER_SAFE_MODE=1` 会将其与代码执行一并禁用）；(2) `eval` 在页面上下文执行任意 JavaScript（可读 cookie/存储、发起带凭证请求）；(3) `run",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:playwright-browser-use"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

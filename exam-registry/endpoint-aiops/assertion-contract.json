@@ -1,0 +1,54 @@
+{
+  "skillId": "endpoint-aiops",
+  "displayName": "endpoint-aiops",
+  "description": "Use this skill whenever the user needs to operate a managed-endpoint fleet (thin clients, VDI endpoints, centrally-managed devices) — a one-shot fleet health overview, endpoint inventory (list/get), a composite per-endpoint health score (which endpoints are worst?), login & boot sessions, login-storm analysis (detect morning login storms and rank the slowest login/boot contributors), patch/config drift (which endpoints deviate from the fleet baseline), and two guarded writes (assign a config profile, reboot an endpoint). Always use this skill for \"endpoint fleet overview\", \"list managed endpoints\", \"which endpoints are worst\", \"endpoint health score\", \"rank endpoints by risk\", \"why is login slow this morning\", \"login storm\", \"boot time analysis\", \"patch drift\", \"config drift\", \"which endpoints are behind on patches\", \"assign a profile to an endpoint\", or \"reboot a thin client\" when the context is an endpoint-management fleet. Do NOT use when the target is OT / industrial equipment (Modbus, OPC-UA, PLCs — use industrial-aiops), a hypervisor, a storage appliance, a backup product, a Kubernetes cluster, or a network device (negative routing hints only). Covers common managed-endpoint operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). The test suite is mock-based; not yet exercised against a live management server (see docs/VERIFICATION.md).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:endpoint-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

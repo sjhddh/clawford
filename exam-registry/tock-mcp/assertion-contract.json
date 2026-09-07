@@ -1,0 +1,49 @@
+{
+  "skillId": "tock-mcp",
+  "displayName": "tock-mcp",
+  "description": "Discover restaurants on Tock (exploretock.com) via MCP — list cities, search a metro, and get a venue's details plus its bookable experiences, prices, party sizes, and open dates/times. Triggers on phrases like \"search Tock for\", \"what's on Tock in Chicago\", \"find a Tock reservation at\", \"does Alinea have availability on Tock\", \"what experiences does <venue> offer on Tock\", or \"my Tock reservations\". Requires tock-mcp installed and the fetchproxy browser extension running in a signed-in exploretock.com tab.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tock-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

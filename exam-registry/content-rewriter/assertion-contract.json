@@ -1,0 +1,54 @@
+{
+  "skillId": "content-rewriter",
+  "displayName": "content-rewriter",
+  "description": "LLM内容改写器(v25.0合并content-dedup)，语义改写+SimHash去重检测，支持8平台风格适配+24h滑窗跨平台内容去重。同平台汉明距离≤3拦截，跨平台≤5告警。触发:内容改写/跨平台差异化/同质化处理/内容发布前去重检查/跨平台分发前检测/内容同质化防控",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-rewriter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

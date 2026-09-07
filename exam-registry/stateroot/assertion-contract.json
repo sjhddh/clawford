@@ -1,0 +1,54 @@
+{
+  "skillId": "stateroot",
+  "displayName": "StateRoot",
+  "description": "StateRoot is the cross-harness continuity layer for AI coding agents (Claude Code, Codex, Cursor, Kimi Code, Pi, DeepSeek Harness): shared persona, memory, plans, skills, sessions, and project history. Bootstrap-only: install the StateRoot CLI from official GitHub release assets and run once-per-machine `stateroot setup` so harnesses get hooks and the built-in session skill. Use when the user asks to install or set up StateRoot, when `stateroot` is missing from PATH, or when setup has not been run yet. Do not use after the CLI is installed and harnesses are interfaced — that built-in skill (`stateroot skill show stateroot`) is then the default. Not for resume, checkpoint, handoff, memory, or daily workflow.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stateroot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

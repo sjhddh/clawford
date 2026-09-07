@@ -1,0 +1,54 @@
+{
+  "skillId": "opc-event-tracker",
+  "displayName": "OPC赛事活动追踪",
+  "description": "追踪 OPC/AI/独立开发者相关赛事活动。从信息源抓取 → 提取结构化信息 → 提交到 OPC 公共赛事池。安装时引导用户获取 API Key。触发词：赛事、比赛、hackathon、活动、OPC赛事、AI比赛、独立开发者大赛、收录赛事、加到OPC",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opc-event-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "reviewcourt",
+  "displayName": "Reviewcourt",
+  "description": "基于腾讯会议官方 tmeet CLI 的会后需求评审裁决 Skill。当用户需要复盘需求评审、PRD 评审或技术方案评审会议，判断需求是通过、有条件通过、驳回还是信息不足，并从智能纪要和逐段转写中提取质疑、答复、阻塞条件、原话证据与验收标准时使用；也用于用户同时提供 PRD、需求文档或方案文档，要求核对会议结论与...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:reviewcourt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

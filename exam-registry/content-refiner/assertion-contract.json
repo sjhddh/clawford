@@ -1,0 +1,54 @@
+{
+  "skillId": "content-refiner",
+  "displayName": "Content Refiner",
+  "description": "内容洗稿师是一款同质化内容改写工具,解决内容查重与原创度问题。 支持LLM深度改写、8平台风格适配、SimHash去重检测,原创度达99%。 核心能力: - 双模式改写引擎(LLM/本地) - 8平台风格精准适配 - SimHash汉明距离去重 - 自动降级与变更明细追踪",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-refiner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

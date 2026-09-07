@@ -1,0 +1,54 @@
+{
+  "skillId": "drivethru-production-scheduler",
+  "displayName": "drivethru-production-scheduler",
+  "description": "Schedule MRP production batches in Odoo (BaconCo) — the fluid shop-floor scheduler. Periodically read open `mrp.production.batch` records, rank them into a run order by the shop rule (manual pins first, then art readiness, then imminent event dates, then earliest governing deadline), write that order back to the floor, and refine it into machine + time slots where the picture is solid. Defers batches whose decals aren't printed or whose artwork isn't digitized below work that can actually run, and expedites them to the top once they're about to be late. Reads purchase orders + vendor tracking to know when goods will land, and uses receipt-readiness as guidance (jobs generally shouldn't start before their components are in) that it refines from human feedback. Handles rush orders dropped in mid-day by re-ranking. Talks to Odoo through the `drivethru_mcp` MCP server. Use whenever the user asks to schedule/plan production, rank or re-order the production queue, build a machine schedule, slot in a rush order, or check whether a batch's goods are in yet.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drivethru-production-scheduler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

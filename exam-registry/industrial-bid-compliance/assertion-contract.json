@@ -1,0 +1,54 @@
+{
+  "skillId": "industrial-bid-compliance",
+  "displayName": "工业招投标技术方案合规审查",
+  "description": "工业领域招投标技术方案智能审查。上传技术方案文档，自动逐条对标国家/行业强制性标准进行合规审查，输出9维合规雷达评分+逐条审查清单+不合规整改建议+交互式HTML合规报告。覆盖设备采购/工程施工/技术服务三类工业招投标场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industrial-bid-compliance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

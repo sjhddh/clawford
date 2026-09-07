@@ -1,0 +1,54 @@
+{
+  "skillId": "vocational-report-generator",
+  "displayName": "Vocational Report Generator",
+  "description": "职业教育专业/专业群调研报告与可行性分析报告生成。支持常规性专业调研（7章）和双高专业群建设调研分析（10章），输出MD+HTML双格式。触发条件：用户请求撰写职业教育领域的专业调研报告、人才需求调研、专业建设可行性分析、双高申报材料，或提到\"帮我调研一下XX专业\"\"XX专业就业怎么样\"\"专业群可行性\"\"写份XX...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vocational-report-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

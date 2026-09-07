@@ -1,0 +1,54 @@
+{
+  "skillId": "hegui",
+  "displayName": "合规咨询",
+  "description": "上市公司合规、任职资格、公司治理及信息披露咨询。用户询问某事项是否合法合规、是否需要公告、是否影响董事、独立董事或高级管理人员任职资格，或涉及减持、回购、关联交易、担保、重组、分红、股权激励、停复牌、内幕信息、业绩预告、退市风险、权益变动、再融资、募集资金、问询回复及三会治理时使用。先调用 hegui MCP 查询并核验法规数据库中的现行正文；法规结构化结论仅用于内部路由，只有法规支持披露义务时才检索公告数据库中的同类案例。查完法规后根据返回 JSON 内容判断是否需要公告格式（条款指向格式或事项需出具公告时），补取对应板块的现行公告格式文件及可下载模板附件。最终答复必须提供正式法规名称、文号",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hegui"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

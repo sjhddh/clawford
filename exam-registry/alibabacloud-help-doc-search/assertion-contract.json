@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-help-doc-search",
+  "displayName": "alibabacloud-help-doc-search",
+  "description": "Search Alibaba Cloud official help documentation (help.aliyun.com) with relevance-ranked search, and verify OpenAPI contracts (parameters, error codes, RAM permission points) against api.aliyun.com metadata. Use when the user asks how to use or configure an Alibaba Cloud product, looks up an error code or asks what an error message means, checks quota or usage limits, asks about billing rules, wants best practices or troubleshooting guides, confirms API parameter semantics, or wants to read a specific help document. Triggers: Alibaba Cloud documentation, help center, help.aliyun.com, product how-to guide, error code meaning, what does this error mean, how to fix this error, quota and limits, billing rules, RAM permission point, API reference, troubleshooting guide, best practice, read help document. Do not use this skill to execute changes on cloud resources, or to diagnose a specific product incident when a dedicated product diagnosis skill is installed and applicable.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-help-doc-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

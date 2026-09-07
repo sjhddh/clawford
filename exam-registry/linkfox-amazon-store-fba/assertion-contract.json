@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-fba",
+  "displayName": "亚马逊-店铺FBA",
+  "description": "亚马逊店铺 Fulfillment by Amazon（FBA）系列（与 linkfox-amazon-store-auth 同系列），经 /spApi/developerProxy 调用 SP-API：FBA Inbound Eligibility（getItemEligibilityPreview）、FBA Inventory（getInventorySummaries/createInventoryItem/deleteInventoryItem/addInventory）、Fulfillment Inbound v2024-03-20（InboundPlan/装箱/放置/运输/货件等）与 v0（prepInstructions/labels/BOL/shipments）、Fulfillment Outbound 2020-07-01（MCF 履约单/预览/退货/tracking/features）。当用户提到 FBA、入仓资格、Inbound Eligibility、FBA 库存摘要、Send to Amazon、Inbound Plan、FBA 货件、MCF、多渠道履约、getItemEligibilityPreview、getInventorySummaries、createInboundPlan、createFulfillmentOrder 时触发。与 External Fulfillment / 普通 Orders 不同。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-fba"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

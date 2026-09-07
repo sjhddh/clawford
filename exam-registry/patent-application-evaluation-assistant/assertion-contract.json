@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-application-evaluation-assistant",
+  "displayName": "patent-application-evaluation-assistant",
+  "description": "面向企业 IPR、专利工程师、专利代理人的专利申请预评估智能体。当用户需要评估专利申请可行性、分析技术交底书、进行专利预评估或查新检索时触发。基于技术交底书或研发资料，自动完成材料完整性检查、专利及非专利文献查新、中美欧授权可行性分析，输出 A/B/C 评级、评分依据、主要风险和处理建议。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-application-evaluation-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

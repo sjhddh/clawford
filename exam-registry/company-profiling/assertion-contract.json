@@ -1,0 +1,49 @@
+{
+  "skillId": "company-profiling",
+  "displayName": "company-profiling",
+  "description": "Accurately and efficiently extract and analyze intelligence based on massive pharmaceutical data to provide users with professional company profiles and investment/collaboration recommendations. Typical user behavior involves inquiring about a pharmaceutical company's situation. This skill should be invoked when user questions involve the following content 1、Company overview 2、Company financing history analysis 3、Company pipeline analysis 4、Company drug transaction analysis 5、Company's important patent layout in a specific field Typical queries - Give me an overview of Arrowhead Pharmaceuticals - What is BioNTech's R&D pipeline? - Analyze Roche's patent layout in small nucleic acid technologies - What BD deals has Pfizer made in the last two years? - Tell me about Moderna's financing history",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:company-profiling"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "furniture-fit-checker",
+  "displayName": "furniture-fit-checker",
+  "description": "Check if furniture fits a room and the delivery path before buying or moving: computes doorway/hallway/stair clearance with diagonal-tilt geometry (the moving-industry standard), room layout fit with walkway widths, and draws an ASCII floorplan preview. Use when the user asks if a sofa/desk/bed/mattress will fit through a door, up stairs, around a corner, or in a room — preventing the classic bought-it-can't-move-it disaster.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:furniture-fit-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

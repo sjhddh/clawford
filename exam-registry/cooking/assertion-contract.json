@@ -1,0 +1,54 @@
+{
+  "skillId": "cooking",
+  "displayName": "Cooking",
+  "description": "Cooks and rescues real dishes at the stove: heat control, seasoning, doneness, timing, substitutions, and food safety. Use when a dish is bland, too salty, burnt, tough, dry, watery, rubbery, greasy, or gummy; when a sauce breaks, splits, curdles, or will not thicken; when meat, fish, eggs, rice, pasta, beans, bread, or a cake come out wrong; when adapting a recipe for a missing ingredient, a different pan, an air fryer, altitude, or a doubled batch; when asking what temperature something is done at, how long to rest it, how much salt, or whether leftovers are still safe; when searing, braising, roasting, frying, grilling, baking, fermenting, or curing; or when ordering the work so a whole meal lands hot at once. Not for weekly menus and shopping lists (`meal-planner`, `grocery`), recipe collections and recipe walkthroughs (`recipe`, `chef`), calorie or macro counting (`calories`), or micronutrients (`nutrition`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cooking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "enterprise-query-skill",
+  "displayName": "Enterprise Query",
+  "description": "企业信息查询专家 Skill。根据用户提供的企业名称或统一社会信用代码，执行付费的企业工商信息查询， 返回结构化的注册信息（统一社会信用代码、法定代表人、注册资本、经营范围等）。 执行前必须完成 yeeap 支付验证。所有用户交互（含思考过程）一律使用中文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:enterprise-query-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

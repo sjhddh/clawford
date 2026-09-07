@@ -1,0 +1,54 @@
+{
+  "skillId": "podcast-chat-prep",
+  "displayName": "podcast-chat-prep",
+  "description": "播客/连麦音频速通与整档播客批量化处理工具。当用户说'朋友推荐了一个播客但我没时间听'、'帮我快速了解这个播客'、'把这几期内容扒下来让我能跟人聊'、'想系统了解一档播客的嘉宾和观点'、'播客逐字稿分析'、'播客笔记'、'连麦完怎么出内容'时使用此 Skill。核心能力：对一档播客几十期上百期做批量化处理，输出单期笔记、嘉宾观点跨期变化追踪、嘉宾人设画像、聊天素材库、公众号内容素材。 输入为逐字稿（.md/.txt，可由通义听悟/飞书妙记/剪映转写获得）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:podcast-chat-prep"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

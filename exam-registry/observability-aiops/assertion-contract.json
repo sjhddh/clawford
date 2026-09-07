@@ -1,0 +1,54 @@
+{
+  "skillId": "observability-aiops",
+  "displayName": "observability-aiops",
+  "description": "Use this skill whenever the user needs to operate a self-hosted observability stack on Prometheus (HTTP API + PromQL), Alertmanager, Grafana, or Grafana Loki (logs) — a one-shot overview, PromQL instant/range queries, label + series metadata, scrape-target health (up/down + why) and dropped targets, recording/alerting rule health, firing/pending alerts, Alertmanager alerts + silences, Grafana dashboards/datasources/folders, bounded Loki LogQL log reads (labels, query, error-tail), five flagship analyses (firing-alert RCA, target-scrape-health, alert-noise/flap, log-error-burst RCA, log-volume/cardinality) plus an alert->log cross-signal, and guarded writes (create/expire silence, create annotation, update/delete dashboard, reload Prometheus config). Always use this skill for \"Prometheus\", \"PromQL\", \"Alertmanager\", \"Grafana\", \"Loki\", \"LogQL\", \"logs\", \"which targets are down\", \"scrape failing\", \"why is this alert firing\", \"root cause this alert\", \"firing alerts\", \"silence this alert\", \"noisy alerts\", \"alert flapping\", \"recording rule\", \"alerting rule\", \"dashboard\", \"datasource health\", \"reload prometheus config\", \"TSDB cardinality\", \"error burst\", \"log volume\", \"log cardinality\", \"tail errors\" when the context is a self-hosted metrics/logs/observability stack. Do NOT use when the target is something other than a Prometheus/Grafana observability stack (a hypervisor, storage appliance, backup product, container-orchestrator control plane, network device config, or OT/industrial equipment) — route those to the appropriate other AIops-tools skill. Hosted/SaaS monitoring suites (Datadog, New Relic, enterprise NMS) are out of scope. Governed observability operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). Beyond the mock suite, the Prometheus/Alertmanager/Grafana surfaces have been exercised against a live Prometheus 3.x + Alertmanager + Grafana 13 stack (RCAs, governed writes, undo); the Loki surface has not (see docs/VERIFICATION.md).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:observability-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

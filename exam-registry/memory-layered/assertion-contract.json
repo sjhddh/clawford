@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-layered",
+  "displayName": "Memory Layered",
+  "description": "为 AI agent 建立持久、可检索、可遗忘的六层记忆体系。不是堆更多 context——是把记忆按信息密度分层：L1 对话流、L2 索引（≤200行）、L3 主题文件、L4 技能固化、L5 状态追踪、L6 经验累积。含 REM 做梦（只读扫描发现模式）、SWS 巩固（写入长期记忆）、遗忘脚本（自动清理过期条目...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-layered"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

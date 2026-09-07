@@ -1,0 +1,54 @@
+{
+  "skillId": "lawyer-assistant",
+  "displayName": "lawyer-assistant",
+  "description": "民事和刑事法律全场景律师助手。覆盖法律检索（法条溯源）、案例检索（裁判文书溯源）、证据分析（含OCR识别）、法律思维分析、文书起草、非诉业务（合同审查/法律尽调/公司治理）、强制执行、劳动争议等律师全场景工作。强制执行防虚构协议——所有法条引用和案例引用必须通过网络检索溯源验证，禁止凭记忆引用，确保法律服务的真实性和可靠性。当用户涉及法律问题咨询、法条查询、案例检索、证据分析、案件策略分析、法律文书起草、刑事辩护分析、民事代理分析、合同审查、尽职调查、强制执行、劳动仲裁等任何律师实务场景时触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lawyer-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

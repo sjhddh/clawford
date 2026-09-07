@@ -1,0 +1,54 @@
+{
+  "skillId": "mobile-pay-bill-ocr",
+  "displayName": "mobile_pay_bill_ocr",
+  "description": "仅在用户明确提及“支付宝账单”、“微信支付记录”、“交易截图”、“支付明细”、“移动支付账单”等特定词汇时触发，用于识别并结构化提取移动支付交易截图中的时间、商户、金额、收支类型等信息。不适用于通用OCR或非支付类票据识别。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mobile-pay-bill-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

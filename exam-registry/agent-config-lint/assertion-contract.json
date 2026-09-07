@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-config-lint",
+  "displayName": "agent-config-lint",
+  "description": "Check agent config for things that break silently on someone else's machine. Use before publishing or committing a SKILL.md, AGENTS.md, CLAUDE.md or llms.txt, before publishing a skill to ClawHub, when a skill \"works on my machine\" but not for a teammate, when a skill fails to trigger, or when asked to review agent config. Catches references to files that do not exist, absolute paths under the author's home directory, undeclared CLI dependencies, a frontmatter name that does not match the skill's directory, and two skills whose descriptions are so similar the agent fires the wrong one.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-config-lint"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

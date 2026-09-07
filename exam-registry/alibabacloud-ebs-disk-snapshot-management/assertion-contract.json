@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-ebs-disk-snapshot-management",
+  "displayName": "alibabacloud-ebs-disk-snapshot-management",
+  "description": "This skill should be used when the user asks about Alibaba Cloud ECS disk snapshots, including creating snapshots, listing snapshots, deleting snapshots, rolling back disks, configuring auto snapshot policies, calculating snapshot costs, managing snapshot lifecycle, or using snapshot consistency groups for crash-consistent backup of an entire instance. Triggers on phrases like \"create ECS snapshot\", \"query snapshot list\", \"delete snapshot\", \"rollback disk\", \"auto snapshot policy\", \"snapshot cost\", \"snapshot consistency group\", \"crash-consistent backup\", \"consistency backup\", or Chinese equivalents \"创建快照\", \"查询快照列表\", \"删除快照\", \"回滚云盘\", \"自动快照策略\", \"快照费用\", \"快照一致性组\", \"一致性备份\", \"整机备份\", \"崩溃一致性备份\", \"整机崩溃一致性备份\", and broader ECS disk maintenance intents such as \"帮我处理一下 ECS 实例\", \"给云盘做备份\", \"ECS 云盘运维\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-ebs-disk-snapshot-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

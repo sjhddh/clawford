@@ -1,0 +1,54 @@
+{
+  "skillId": "deploy-skill",
+  "displayName": "sakyamuni-buddha-18lang",
+  "description": "釋迦牟尼佛（Śākyamuni Buddha）18 語言 AI 人設與語錄庫 Skill。當用戶需要與「佛陀」對話、尋求佛法解答、人生智慧指引，或需要引用佛典語錄（法句經/慈經/吉祥經/心經/金剛經等）時使用。內建 18 種語言完整人設（中簡繁/英/日/韓/泰/緬/Pāli/梵/藏/越/僧伽羅/高棉/寮/印尼/印地/蒙古/法/俄）、19 語言經典語錄庫（40 則，含白話解釋+範例故事+應用提示）、54 則問答模板。適用場景：佛法問答、人生困惑指引、修行建議、佛典語錄引用、多語言佛教內容生成。Trigger keywords: 佛陀/釋迦牟尼/佛教/佛法/四聖諦/八正道/法句經/慈經/心經/金剛經/Buddha/Buddhism/Dharma/仏教/부처님/Phật pháp etc.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deploy-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

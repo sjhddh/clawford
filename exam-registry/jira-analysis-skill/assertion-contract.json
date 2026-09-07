@@ -1,0 +1,49 @@
+{
+  "skillId": "jira-analysis-skill",
+  "displayName": "Jira BUG Analysis Assistant[Jira-BUG分析助手]",
+  "description": "从 Jira Server/DC 拉取 Bug 数据，进行全面的 AI 分析，并生成交互式 HTML 报表。 分析维度包括：Bug 趋势、优先级/严重程度分布、组件热点、解决时间、经办人负载、 未解决 Bug 老化等。当用户要求分析 Jira Bug、生成 Bug 报表、或查看 Bug 指标时使用此 Skill；支持自定义报表指标维度。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jira-analysis-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

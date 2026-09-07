@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-short-film-studio",
+  "displayName": "Ai Short Film Studio",
+  "description": "低成本AI短剧/短片全流程制作技能。三套制作路线：①速创API+Grok Imagine直出视频（¥30-50/部）；②可灵Kling V3+Gemini Image图生视频（¥80-120/部）；③Google Flow Omni Flash免费批量文生视频（¥0/部，Chrome CDP自动化）。包含分镜脚本...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-short-film-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

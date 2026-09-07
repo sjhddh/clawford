@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-claude-code-installer",
+  "displayName": "Wechat Claude Code Installer",
+  "description": "装好「微信 ↔ Claude Code 桥」并避开 6 个新手坑。用户说「装一下微信桥」/「微信里用 Claude Code」/「按那篇逛逛GitHub 文章配一下」/`/wechat-claude-code-installer` 时触发。包装上游 Wechat-ggGitHub/wechat-claude-co...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-claude-code-installer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

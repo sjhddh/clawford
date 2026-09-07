@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-usage-aggregator",
+  "displayName": "Llm Usage Aggregator",
+  "description": "LLM使用流水数据汇总工具。将LLM调用日志CSV文件按Provider、Model、用户维度进行汇总统计，输出多Sheet Excel报表，并基于pricing_config.json计算成本。适用场景：(1) 用户提供LLM流水CSV文件需要汇总分析；(2) 需要区分内部/外部用户使用情况；(3) 需要统计p...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-usage-aggregator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

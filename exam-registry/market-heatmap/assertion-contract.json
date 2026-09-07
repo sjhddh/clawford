@@ -1,0 +1,54 @@
+{
+  "skillId": "market-heatmap",
+  "displayName": "market-heatmap",
+  "description": "Market heatmap of the US stock market as one self-contained interactive HTML page the agent can show inline or hand over as a file: every stock in an index drawn as a treemap tile, sized by market cap, grouped by GICS sector, coloured by today's move, with a click to recolour the whole board by sentiment, SentiSense Score, mention volume or options interest, plus sector Market Mood, a ticker search, sector zoom and a hover card on every tile. One API call per render on any tier. The agent fetches with a read-only API key and bakes the board in, so the page carries no key, makes no network call of its own, and renders anywhere that draws HTML. Use for market heatmap, sector heatmap, stock market heatmap today, what is moving today, which sectors are hot, market mood by sector, sector performance map, heatmap by sentiment, heatmap by options activity, nasdaq 100 heatmap. Read-only. No trading, no purchases, no write operations, no wallet access.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:market-heatmap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

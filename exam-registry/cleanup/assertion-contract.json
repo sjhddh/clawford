@@ -1,0 +1,54 @@
+{
+  "skillId": "cleanup",
+  "displayName": "cleanup",
+  "description": "Run the self-improving loop before session end. config - enable/disable individual tasks [config.md], hook-review - review hook errors and suggest improvements [hook-review.md], rag-store - persist to RAG before session end + sync fix_plan completed items to RAG (medium matrix fallback) [rag-store.md], run - 5-step sequential execution (commit → self-improve → knowledge persist → checklist record → next-action recommendation) [run.md]. Mistake recording (retrospect) and FA pruning moved to the fa skill — invoke Skill(\"fa\") / Skill(\"fa\", \"fa-prune\"). Supports Ralph mode (records to improvements.md instead of AskUserQuestion). Use on \"wrap up\", \"session cleanup\", \"end session\", \"cleanup\", \"record mistake\", \"save feedback\", \"improve\", \"retrospect\", \"hook error\", \"next action\", \"RAG store\", \"qdrant store\", \"fix_plan sync\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cleanup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

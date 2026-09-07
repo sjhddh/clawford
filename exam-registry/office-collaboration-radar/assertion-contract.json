@@ -1,0 +1,54 @@
+{
+  "skillId": "office-collaboration-radar",
+  "displayName": "Office Collaboration Radar (Chinese)",
+  "description": "从群聊记录、会议纪要等协作材料中提取稳定格式的协作状态卡片。 用户提到\"协作状态\"\"项目进展\"\"待办提取\"\"风险阻断\"\"Owner/DDL\"\"跨部门依赖\"\"需确认项\" 或粘贴协作文本时使用；输出协作状态卡片、行动项、风险依赖、证据片段、优先级排序、 雷达图与 JSON 结构化结果，并自动脱敏 PII、强制证据留痕、标记冲突。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:office-collaboration-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

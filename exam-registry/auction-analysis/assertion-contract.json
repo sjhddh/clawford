@@ -1,0 +1,49 @@
+{
+  "skillId": "auction-analysis",
+  "displayName": "竞价分析",
+  "description": "竞价结束后（9:26-9:29）的快速分析技能。基于竞价数据做三件事：致命风险扫描、当日机会方向识别、开盘操作建议。必须在3分钟内完成输出。前置依赖：盘前核心标的筛选应已在8:00-9:15完成。触发词：竞价分析、竞价结束、竞价后分析、开盘前分析、9点26分、竞价复盘。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auction-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

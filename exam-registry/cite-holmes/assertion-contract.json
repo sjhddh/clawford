@@ -1,0 +1,49 @@
+{
+  "skillId": "cite-holmes",
+  "displayName": "cite-holmes",
+  "description": "Cite Holmes — deep research that interrogates its own sources (Verified Deep Research). Calibrates scope first (asks 3-5 sharp questions), plans sub-questions, searches iteratively across sources and languages, then machine-verifies every citation (five states: verified/partial/unverified/unreachable/invalid) before a confidence-graded report ships. Never outputs unverified references; treats fabricated DOIs, dead links and missing sources as first-class catch targets. Use whenever the user asks to \"deep research\", \"look into\", \"investigate\", \"compare A vs B\", \"fact check\", \"verify this claim\", \"is it true that...\", \"check these references\", \"are these citations real\", wants a research report with sources, or needs reliable multi-source answers — even if they never say the word \"research\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cite-holmes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

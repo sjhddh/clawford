@@ -1,0 +1,54 @@
+{
+  "skillId": "weixin-quote",
+  "displayName": "weixin-quote",
+  "description": "微信『引用即上下文』的『功能装载器』。当用户要求启用/检查/修复微信引用追问（引用 bot 消息时把被引用全文喂给模型），或全新环境想获得该能力时，按本技能执行安装与配置，完成后用户引用 clawbot 消息追问可被准确理解。触发词：启用引用、引用没生效、引用追问、quote。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weixin-quote"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

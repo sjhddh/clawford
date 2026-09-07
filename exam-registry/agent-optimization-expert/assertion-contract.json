@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-optimization-expert",
+  "displayName": "Agent优化专家",
+  "description": "Agent 优化专家 — 自动诊断和修复 Agent 执行问题（Cron 失败、工具报错、工作流中断、性能退化）， 兼容 OpenClaw 和 Hermes Agent，自带持续自我进化能力。 Use when user asks to 系统诊断、修复 cron、优化配置、检查系统健康度、自愈修复、 诊断失败原因...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-optimization-expert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

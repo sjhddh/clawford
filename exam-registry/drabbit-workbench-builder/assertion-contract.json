@@ -1,0 +1,54 @@
+{
+  "skillId": "drabbit-workbench-builder",
+  "displayName": "个人工作台搭建器",
+  "description": "个人工作台搭建器。通过5-7个简单问题了解用户的职业、工作需求和手机型号，自动生成个性化单页PWA工作台（含任务管理、日程、记账、项目模块等），部署到CloudStudio获得HTTPS网址，手机电脑均可添加桌面。触发词：搭建工作台、做个工作台、帮我建个工作台、个人工作台、workbench、dashboard。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drabbit-workbench-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

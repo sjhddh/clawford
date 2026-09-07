@@ -1,0 +1,54 @@
+{
+  "skillId": "book-to-skill",
+  "displayName": "书到技能 · 把技术书/PDF 蒸馏成 AI 技能",
+  "description": "【知识技能化】把技术书/PDF/白皮书/设计规范/运营手册蒸馏成可导入的 AI 技能（知识包）——不是 RAG 检索原文，而是把书里方法论内化为决策规则、模板、心智模型，让 AI 边干活边套用专业方法。适合：把《Clean Code》变代码审查 Skill、把品牌规范变审图 Skill、把投资问答录变投研 Skill。当用户说\"把这本书变成 skill\"\"把 PDF 转成技能\"\"知识即服务\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:book-to-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

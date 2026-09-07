@@ -1,0 +1,49 @@
+{
+  "skillId": "expert2skill",
+  "displayName": "Expert2Skill - From Expert to Skill",
+  "description": "专家方法沉淀器（meta-skill）— 通过引导式访谈，把一个\"具备专业技术/知识但不懂 AI\"\n的专家（如营养师、验房师、投资顾问、设备工程师）的隐性方法，蒸馏成结构化规则库\n（rule_library JSON）+ 可运行 skill 包。\n\n仅在用户明确要求\"把我的 XX 方法/经验做成 skill\"、\"帮我把我的专业判断沉淀成工具\"、\n\"我想让别人能按我的标准做评估\"、\"expert2skill\"、\"方法蒸馏\"时激活。\n普通对话中提及\"skill/方法\"等词不自动触发。\n\n核心能力：\n1. 适配性判断（P0）— 5 问内判断方法是否适合规则引擎，不适合诚实告知转咨询型。\n2. 引导式",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expert2skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

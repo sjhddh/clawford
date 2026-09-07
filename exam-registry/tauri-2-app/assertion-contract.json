@@ -1,0 +1,54 @@
+{
+  "skillId": "tauri-2-app",
+  "displayName": "tauri-2-app",
+  "description": "Scaffold a new Tauri 2 desktop app (Rust backend + TypeScript/React frontend) using a thin-frontend / rich-Rust-backend architecture with modular commands, trait-based platform abstractions, encrypted secrets at rest, single-instance enforcement, an updater wired to a self-hosted manifest, and a cross-platform CI matrix. Use this skill whenever the user asks to \"create a new Tauri app\", \"scaffold a Tauri 2 project\", \"new desktop app with Tauri\", \"Tauri + React project\", \"add a Tauri command end-to-end\", \"add a Rust module to my Tauri app\", or mentions \"the Tauri patterns I like\" / \"my Tauri conventions\" — even if they don't explicitly say \"tauri-2-app\". Three modes — (1) full project scaffold, (2) add a Tauri command slice (Rust command + capability + typed frontend hook), (3) add a Rust module slice (state + storage + tests). Codifies the good patterns (modular `src-tauri/src/`, `commands/`, `state/`, `storage/`, `platform/` traits, `error/` macros, single-instance + updater + global-shortcut plugins, capability files, encrypted API keys, `spawn_blocking` for sync work, typed frontend command hooks) and forbids the common pitfalls (committed `.backup`/`.orig`/`.temp` files, secrets in plaintext, `localStorage` for tokens, dev-tools enabled in release, hand-rolled date math instead of `chrono`, raw `std::fs` bypassing capability checks, `'use client'` analog flaws like skipping `isTauriReady` guards, `cfg!(target_os)` in commands instead of trait-based platform code, missing `windows_subsystem = \"windows\"` in `main.rs`, multi-instance apps with no `tauri-plugin-single-instance`, hardcoded company URLs / updater pubkeys / bundle identifiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tauri-2-app"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "aigc-cat-comic-review",
+  "displayName": "AI漫剧改编审核专家",
+  "description": "AI漫剧改编审核专家，25维全面审核：爆款评估、爽点打脸、悬念检测、改编适配全覆盖诊断，点评毒辣不留情。触发词：审核剧本、评估剧本、剧本打分、漫剧审核、短剧审核、分析剧本、剧本诊断、爆款检测、AI漫剧评估、改编审核。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aigc-cat-comic-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

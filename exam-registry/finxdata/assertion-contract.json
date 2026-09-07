@@ -1,0 +1,54 @@
+{
+  "skillId": "finxdata",
+  "displayName": "FinXData",
+  "description": "当用户需要查询 A股和H股相关数据 可通过 FinXData 获取 金融数据 API 时使用本技能，包括股票行情、股票图谱、财务报表、市场新闻、龙虎榜、限售解禁、宏观经济、异动追踪。本技能调用与 FinXData MCP 工具相同的公开 HTTP 接口。下列数据Agent可直接获取：A股股票行情、重点指数行情、股票图谱摘要、股票财报、行情复盘、市场新闻",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:finxdata"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-avoidance-design",
+  "displayName": "patent-avoidance-design",
+  "description": "基于TRIZ方法论的完整专利规避设计流程。 当用户要求分析专利进行规避设计、生成不侵权替代方案、或进行专利规避分析时使用。 触发词包括：\"专利规避\"、\"规避设计\"、\"专利规避设计\"、\"不侵权方案\"、\"patent avoidance\"、\"生成不侵权方案\"。 本技能嵌套调用 patent-claim-to-funcmodel 子技能完成功能模型还原（8步）， 然后执行：(1) TRIZ裁剪（规则A/B/C），(2) 功能导向检索FOS， (3) 非等效方案生成，(4) 侵权判定（全面覆盖原则 + 等同原则 + 禁止反悔原则）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-avoidance-design"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

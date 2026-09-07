@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-qms-objective-decomposition",
+  "displayName": "Qms Objective Decomposition",
+  "description": "质量管理体系质量目标分解与审核辅助技能。两种模式：(1) 分解模式——从公司级质量方针/战略目标出发，生成三维度（部门/工序/时间）目标分解矩阵并做 SMART 校验；(2) 审核模式——对用户现有的质量目标分解文档做 ISO 9001 6.2 条款符合性诊断，输出带严重度的审核建议。内置 5 条通用交互规则。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-qms-objective-decomposition"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

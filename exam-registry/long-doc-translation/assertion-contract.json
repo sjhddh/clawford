@@ -1,0 +1,54 @@
+{
+  "skillId": "long-doc-translation",
+  "displayName": "long-doc-translation",
+  "description": "长篇外文（德/英/法/日等）学术专著、古籍、档案、译著的全文高质量中译流水线：解析→清洗切片→建体例与术语表→并行分批翻译→多维质检→合并交付带目录的阅读版。适用于 300 页以上、需要术语全书统一、脚注保留、存疑可追溯的长篇翻译任务。Triggers: 全文翻译 / 翻译全书 / 翻译整本 / 德译中 / 学术翻译 / 长篇翻译 / 译著 / 逐段翻译 / 把这本书译成中文 / translate a whole book / full-text translation of a scholarly monograph.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:long-doc-translation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

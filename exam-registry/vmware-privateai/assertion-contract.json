@@ -1,0 +1,54 @@
+{
+  "skillId": "vmware-privateai",
+  "displayName": "vmware-privateai",
+  "description": "Use this skill whenever the user needs the GPU / AI-infrastructure layer of VMware Private AI Foundation with NVIDIA (PAIF-N) on vSphere 9.x / VCF 9.1: inventory GPU hosts and physical GPU devices, see which VMs consume a vGPU and the profile each holds, read real-time GPU utilization, list the vGPU and DirectPath profile catalog, assign a VM's vGPU profile, and list Private AI Service (PAIS) served models and knowledge bases. Always use this skill for \"list GPU hosts\", \"which VMs are using a vGPU\", \"GPU utilization\", \"assign a vGPU profile\", \"list vGPU profiles\", \"list served models\" when the context is explicitly VMware / vSphere / VCF Private AI / NVIDIA vGPU. Do NOT use for the backing VM's power/snapshot/clone/migrate (use vmware-aiops), read-only vSphere inventory/alarms/host health (use vmware-monitor), or GPU-enabled Tanzu Kubernetes (use vmware-vks). This skill is the GPU lens; vmware-aiops owns the VM lifecycle behind it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-privateai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

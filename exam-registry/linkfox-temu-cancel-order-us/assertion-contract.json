@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-temu-cancel-order-us",
+  "displayName": "Temu美国站-取消订单",
+  "description": "Temu 美国站取消订单 API（买家+卖家合一），经 LinkFox 网关转发 Partner US：买家售后取消列表/同意(bg.aftersales.cancel.*)、卖家申诉/缺货取消(temu.order.cancel.appeal/outofstock.*)等。当用户提到 Temu US 取消订单、买家取消、卖家取消、缺货取消、afterSalesStatusGroup、applySn、order-shipping 时触发。订单用 linkfox-temu-order-us；欧洲站用 linkfox-temu-cancel-order-eu；全球站用 linkfox-temu-cancel-order-global。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-temu-cancel-order-us"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

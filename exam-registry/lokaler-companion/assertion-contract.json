@@ -1,0 +1,54 @@
+{
+  "skillId": "lokaler-companion",
+  "displayName": "lokaler-companion",
+  "description": "Baut einen \"Companion\" — eine lokal laufende Beobachtungs-Anwendung: kleiner Server auf 127.0.0.1, Doppelklick-Starter, installierbare PWA, optionale Browser-Erweiterung, Meldung beim Zustandswechsel, Dauerbetrieb im Container. Nutze diesen Skill, sobald jemand etwas dauerhaft im Auge behalten und benachrichtigt werden will — Livestreams, Kanäle, Feeds, Preise, Build-Zustände, Serververfügbarkeit, Ordner, Warteschlangen. Auch wenn die Anfrage nur nach einem Teil klingt: \"sag mir Bescheid wenn X online geht\", \"kleines Tool das im Hintergrund läuft\", \"Statusseite für Y\", \"als App installierbar\", \"soll dauerhaft laufen\", \"auch nach Neustart\", \"als Docker-Container\". Besonders wichtig bei einer einzelnen HTML-Datei, die fremde Daten abruft: ob das trägt, hängt an einer CORS-Freigabe, die man vorher prüfen muss — sonst bleibt die Datei beim Nutzer leer.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lokaler-companion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

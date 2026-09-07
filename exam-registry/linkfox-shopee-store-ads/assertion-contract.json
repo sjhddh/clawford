@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-shopee-store-ads",
+  "displayName": "Shopee-店铺广告",
+  "description": "Shopee（虾皮）店铺站内广告 Ads（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API Ads 模块 23 个接口：get_total_balance、create_manual_product_ads、get_product_campaign_daily_performance、GMS 广告等。调用前须确认目标店已有 appType=ad 授权（ERP 授权不能代替）。当用户提到 Shopee 广告、Ads、广告余额、CPC、商品推广、手动广告、campaign、广告效果、ROI、get_total_balance、广告授权 时触发。即使未明确提及\"广告\"，只要涉及已授权 Shopee 店铺的广告账户、推广或效果查询，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-ads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

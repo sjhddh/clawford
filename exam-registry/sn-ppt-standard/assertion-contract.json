@@ -1,0 +1,54 @@
+{
+  "skillId": "sn-ppt-standard",
+  "displayName": "sn-ppt-standard",
+  "description": "Standard and fast PPT pipeline. All LLM / VLM / T2I calls are wrapped in a single CLI entry (scripts/run_stage.py). The main agent's job is simple: emit ONE shell command per stage, never write loops, never write prompts. Standard mode plans thoroughly with a three-sample deck preview checkpoint (three concatenated deck images plus a preview URL), web research, image search, and user-selected final output format (PPTX or PDF) for polished, delivery-ready presentations. Fast mode builds a complete draft immediately with autonomous decisions, then provides structured refinement suggestions so the user can iterate quickly. Supports AI-generated infographics (U1) for diagrams and flowcharts, web image search (Serper) for real photos, and ECharts for data charts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-ppt-standard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

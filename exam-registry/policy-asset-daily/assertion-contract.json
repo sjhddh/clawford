@@ -1,0 +1,49 @@
+{
+  "skillId": "policy-asset-daily",
+  "displayName": "政策资产联动日报",
+  "description": "Policy-Asset Linkage Daily Report generator. Produces a bilingual (Chinese/English) single-file HTML report analyzing the transmission chain from political policy and macro signals to energy, commodities, FX, and capital markets. This skill should be used when the user asks for policy daily report,",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:policy-asset-daily"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

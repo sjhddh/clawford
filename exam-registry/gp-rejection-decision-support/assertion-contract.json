@@ -1,0 +1,54 @@
+{
+  "skillId": "gp-rejection-decision-support",
+  "displayName": "gp-rejection-decision-support",
+  "description": "政府采购评审（评标委员会专家）侧无效投标/废标决策支持引擎。当用户提供\"某投标人的具体响应情况 + 采购文件对应条款\"并询问\"该不该认定无效投标\"\"应当无效还是澄清补正\"\"帮我写评标报告用的无效投标理由\"时触发。输出三类成果：① 是否构成无效投标的判断及法条/条款依据；② 应当无效与可澄清补正的区分判定（避免把可补正的形式瑕疵直接认定无效，或把实质偏差误当可澄清）；③ 可直接写入评标报告的规范化无效投标理由措辞。核心目标：评得准、无效得有依据、经得起质疑投诉复核、不踩纪律红线。区别于\"政采无效投标风险雷达\"（扫描采购文件提取风险条款）、\"政府采购问答引擎\"（通用政采问答）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gp-rejection-decision-support"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

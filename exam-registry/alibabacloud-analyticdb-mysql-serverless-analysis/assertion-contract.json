@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-analyticdb-mysql-serverless-analysis",
+  "displayName": "alibabacloud-analyticdb-mysql-serverless-analysis",
+  "description": "Analyze OSS data through an Alibaba Cloud AnalyticDB for MySQL (ADB) Serverless workspace with read-only, bounded Presto SQL. Trigger only when the user explicitly mentions ADB or AnalyticDB MySQL, provides a workspaceId and an oss:// path, and asks to discover, query, or analyze data. Do not trigger for an OSS path, token, accessToken, workspace, or generic SQL question alone. After triggering, validate endpoint or regionCode, workspaceId, an explicit accessToken or ADB_ACCESS_TOKEN, OSS URI, and the analysis goal together, then choose registered Hive metadata, files(...), or hive_files(...).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-analyticdb-mysql-serverless-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

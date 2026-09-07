@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-lingjun-node-diagnose",
+  "displayName": "alibabacloud-lingjun-node-diagnose",
+  "description": "bash prefix: export LJ_SKILL_DIR=\"${LJ_SKILL_DIR:-$HOME/.qoder/skills/alibabacloud-lingjun-node-diagnose}\" && source \"$LJ_SKILL_DIR/lib/lj_init.sh\" i18n: detect language each turn (CJK ratio ≥ 0.30 → LJ_LANG=zh, else en); inject LJ_LANG=zh|en prefix before source. Intelligent diagnosis for Alibaba Cloud Lingjun (regular & hyper) compute nodes: submit diagnostic tasks (BasicCheck / NodeHardwareCheck / CheckByAiJobLogs), produce structured diagnostic reports, propose repair plans (reboot / reimage / stop / report-node-status), track fault reports (list-fault-reports / describe-fault-report / stop-node-diagnostic). Read-only: list-clusters / list-cluster-nodes / list-cluster-hyper-nodes / describe-node / describe-hyper-node / list-syslogs / list-diagnostic-results. Triggers: \"lingjun diagnose\", \"灵骏诊断\", \"灵骏排障\", \"GPU 故障\", \"硬件故障\", \"节点异常\", \"诊断节点\", \"重启节点\", \"重装节点\", \"灵骏修复\", \"报障\", \"终止报障\", \"syslog\", \"NodeHardwareCheck\", \"CheckByAiJobLogs\", \"BasicCheck\", \"fault report\", \"stop fault diagnosis\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-lingjun-node-diagnose"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

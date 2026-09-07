@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-commander",
+  "displayName": "OpenClaw Cross-Tool Commander",
+  "description": "Drive OpenClaw with Claude Code, Codex, OpenCode, Trae, DSH etc. — command the gateway, its agents and channels, from any Agent Skills tool. Use when you want other AI tools to make OpenClaw work. 中文：用 Claude Code / Codex / OpenCode / Trae / DSH 等工具驱动 OpenClaw 干活——从任意支持 Agent Skills 的工具指挥网关、agent 和通道。 当你想用其他 AI 工具驱动 OpenClaw 时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-commander"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

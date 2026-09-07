@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-feeds",
+  "displayName": "亚马逊-店铺数据上传",
+  "description": "亚马逊店铺 Feeds（与 linkfox-amazon-store-auth / report / listings / pricing / orders 同系列），经 /spApi/developerProxy 调用 SP-API Feeds v2021-06-30：createFeedDocument、getFeedDocument、createFeed、getFeed、getFeeds、cancelFeed；另含 upload_feed_document 向预签名 URL 上传内容。当用户提到亚马逊 Feed、提交库存/Listing Feed、POST_FLAT_FILE、feedType、feedDocumentId、feedId、取消 Feed、查询 Feed 处理状态、Feeds API、SP-API 上传文件 时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-feeds"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

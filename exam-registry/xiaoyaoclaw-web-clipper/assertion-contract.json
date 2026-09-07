@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaoyaoclaw-web-clipper",
+  "displayName": "OpenClaw Web Clipper",
+  "description": "OpenClaw web clipper skill: save any web page as clean local Markdown with YAML frontmatter. Dual-engine extraction (readability-lxml + trafilatura fallback chain), Chinese filename safe, batch URL clipping with dedup, output lands in knowledge/clippings/ ready for kb-retriever indexing. Use when user asks to clip/save/collect a web page or article (剪藏/收藏/保存网页 文章/网页转 Markdown). 中文：OpenClaw 网页剪藏工具。把任意网页保存为带 frontmatter 的本地 Markdown：双引擎正文提取（readability-lxml + trafilatura 降级链）、中文文件名安全、批量剪藏 + 去重；输出直通 knowledge/clippings/， 配合 kb-retriever 建索引即可检索，构成六件套的「输入」环节（家 initializer → 内容 memory-distill → 状态 tracker → 知识 kb-retriever → 健康 auditor → 输入 web-clipper）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-web-clipper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

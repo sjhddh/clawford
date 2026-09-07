@@ -1,0 +1,49 @@
+{
+  "skillId": "company-deep-analysis",
+  "displayName": "公司深度分析助手",
+  "description": "A股/港股公司深度分析。输入公司名称或股票代码，自动完成 6 步分析流程： 数据采集 → 公司画像 → 产业链五力 → 竞争护城河 → 财务四维 → 相对估值。 输出双产物：公司深度分析报告 + 投研简报 支持单步模式：用户指定\"财务情况/财务分析/公司画像/公司基本面\"时，按路由表只跑对应步骤并输出对应单文件。 触发词：公司分析 / 深度分析 / 公司调研 / 投资初筛 / 深度调研 / 公司研究 / 行业研究 / 投研简报 / 财务情况 / 财务分析 / 公司画像 / 公司基本面",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:company-deep-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

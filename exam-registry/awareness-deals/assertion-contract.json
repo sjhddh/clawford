@@ -1,0 +1,54 @@
+{
+  "skillId": "awareness-deals",
+  "displayName": "awareness-deals",
+  "description": "Use when the user wants to BROADCAST or FIND business supply and demand — \"we have 8x H100 in Singapore\", \"who has colocation in HK\", \"need air freight partner\", 找算力供应, H100 租赁, 服务器托管需求. Queries the public Awareness Open Deal Board (deals.md / JSON API) and reports listings with their real publisher evidence. Anonymous publishing available, no API key needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:awareness-deals"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

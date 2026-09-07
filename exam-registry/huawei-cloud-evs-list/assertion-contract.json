@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-evs-list",
+  "displayName": "huawei-cloud-evs-list",
+  "description": "Query the list of Huawei Cloud EVS (Elastic Volume Service) disks under the current tenant / project, focused on the EVS disk NAME list. Returns each disk's name, id, status and size; can also output a pure EVS name-only list. Supports filtering by status, name and pagination (limit/offset). Uses the KooCLI command `hcloud EVS ListVolumes --cli-region={region}` (primary) against the v2 API, or the huaweicloudsdkevs Python SDK (fallback). Read-only — never creates, modifies or deletes any disk. Use this skill whenever the user wants to list/inspect the EVS disks of the tenant or query the EVS disk name list, e.g. for disk inventory, daily inspection, or cost review. Triggers include: \"list EVS\", \"EVS list\", \"query EVS names\", \"EVS name list\", \"云硬盘列表\", \"查询云硬盘\", \"EVS磁盘名称\", \"云硬盘名称\", \"list volumes\", \"list elastic volumes\", \"how many EVS disks\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-evs-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

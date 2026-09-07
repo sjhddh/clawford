@@ -1,0 +1,54 @@
+{
+  "skillId": "cheat-code-paid",
+  "displayName": "Cheat Code Paid",
+  "description": "面向团队与企业的高级能力扩展工具,在免费版基础上扩展批量查询、自定义数据源、知识缓存等能力。核心能力: - 批量知识查询与并行检索 - 自定义数据源接入(内部文档库、Wiki、API) - 本地知识缓存与智能预取 - 团队共享知识库与查询历史 - 查询质量评分与结果去重 适用场景: - 企业内部知识库统一检索 -...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cheat-code-paid"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

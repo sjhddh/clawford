@@ -1,0 +1,49 @@
+{
+  "skillId": "distill",
+  "displayName": "distill",
+  "description": "Session knowledge distillation: assign what you just learned in this session into an agent's four-layer persistent knowledge base (rule / memory / skill / decision record). The core is four disciplines — search before adding, pick the right layer, guard against bloat, and run a hygiene pass before landing anything. Fits agent workflows that already have (or want to build) these four layers; this is not a general note- taking tool. Invoke explicitly at the end of a session to consolidate what was learned.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:distill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

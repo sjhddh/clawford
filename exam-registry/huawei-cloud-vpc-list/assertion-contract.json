@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-vpc-list",
+  "displayName": "huawei-cloud-vpc-list",
+  "description": "Query the list of Huawei Cloud Virtual Private Clouds (VPCs) belonging to the current tenant / project. Returns VPC id, name, CIDR block, status, description, enterprise project and other metadata. Supports filtering by VPC name, ID, CIDR block and enterprise project, pagination via limit/marker, and listing VPCs across all enterprise projects (all_granted_eps). Uses the huaweicloudsdkvpc Python SDK to query the VPC v3 API with full page aggregation — automatically loops through all paginated results to return the correct total VPC count. Read-only — never creates, modifies or deletes any resource. Use this skill whenever the user wants to list/inspect the VPCs of the tenant, e.g. for network inventory, VPC planning, or troubleshooting. Triggers include: \"query VPC list\", \"list VPCs\", \"VPC list\", \"查询VPC列表\", \"查询vpc列表\", \"VPC列表\", \"租户VPC列表\", \"查询租户的VPC\", \"list my vpcs\", \"how many VPCs\", \"VPC inventory\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-vpc-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

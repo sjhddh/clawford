@@ -1,0 +1,54 @@
+{
+  "skillId": "chatmosp-msr-generator",
+  "displayName": "Chatmosp Msr Generator",
+  "description": "MSR (Multiscale Structure Reconstruction) calculation engine of the chatMOSP system.\nInvokes mosp-for-chatMOSP/utils/msr.py to generate metal cluster structures\n(Wulff construction), producing ini.xyz and {task_name}_cluster.xyz, then\nautomatically generates PNG structure images and GIF rotation ani",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chatmosp-msr-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

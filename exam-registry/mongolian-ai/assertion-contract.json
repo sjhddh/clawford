@@ -1,0 +1,54 @@
+{
+  "skillId": "mongolian-ai",
+  "displayName": "Mongol AI Skill 蒙古语AI技能",
+  "description": "需在 OpenClaw 配置 MONGOL_AI_SKILL_API_KEY（https://mongol.open-idea.net）。提供蒙古语 API 服务：zh/mw/mn 互译、蒙古语对话与创作、TTS、ASR、OCR、Word/PDF 文档翻译。输出语言以用户需求为准；传统蒙古文（mw）须经外部 AP...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mongolian-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

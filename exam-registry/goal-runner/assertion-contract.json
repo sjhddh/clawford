@@ -1,0 +1,54 @@
+{
+  "skillId": "goal-runner",
+  "displayName": "goal-runner",
+  "description": "Autonomous multi-task orchestration loop over a roadmap file (ROADMAP.md, TODO.md, or any checkbox task list) — pairs with the built-in /goal Stop hook to work tasks ONE at a time until the file is done. The main agent orchestrates only; every task is delegated to sub-agents for coding, code review, and regression testing, with observed-green gates before the checkbox is ticked. No commits or pushes unless the goal text explicitly authorizes them — when it does, one commit per verified task, never red. Blocked tasks are annotated and skipped, never faked. Use this skill whenever the user says \"work on the roadmap tasks til completion\", \"work the roadmap until completion\", \"work on tasks until completion using sub agents\", \"launch sub agents to work the tasks\", \"/goal-runner\", or sets a /goal naming a roadmap/task file — even if they don't name the skill. Not for a single defined task (use autopilot or task-executor) and not for interval-scheduled reruns (use loop).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:goal-runner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

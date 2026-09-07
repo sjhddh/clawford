@@ -1,0 +1,54 @@
+{
+  "skillId": "resize-for-banner",
+  "displayName": "resize-for-banner",
+  "description": "Rescale an image into social banner versions using ImageMagick. The image is resized to fit and the leftover space is padded black — never cropped. Use when the user wants a banner, cover photo, or resized version for a social profile or article header. Never overwrites the original — creates new files beside it. Defaults to Twitter/X (5:2, 1500x600); other platforms available on request.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resize-for-banner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

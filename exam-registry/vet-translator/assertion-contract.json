@@ -1,0 +1,54 @@
+{
+  "skillId": "vet-translator",
+  "displayName": "vet-translator",
+  "description": "Decode veterinary visit notes, discharge summaries, and lab panels (CBC, chemistry, urinalysis) into plain language: what each value means, which results are actually abnormal for the animal's species/breed/age, flag concerning trends across visits, and generate a question list for the next appointment. Use when the user shares vet notes or bloodwork for a pet and asks what it means, whether results are normal, or wants trends tracked over time.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vet-translator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

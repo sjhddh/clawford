@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh-koc",
+  "displayName": "ljh-koc",
+  "description": "KOC 验证方案设计与验证报告生成。还没铺就帮你设计验证方案，跑完了就帮你判定结果并出报告。 触发方式：/ljh-koc、「帮我设计一个 KOC 验证方案」「KOC 数据跑完了帮我出个报告」「这个卖点该怎么验」 KOC validation plan design and validation report generation. Design a plan before launch, judge results and write a report after data comes in. Trigger: /ljh-koc, \"help me design a KOC validation plan\", \"help me write a validation report from this data\" 明星代言合作方案、品牌公关声明这类非KOC小范围验证场景，不要自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh-koc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "lead-research-bant",
+  "displayName": "Lead Research & BANT Rating",
+  "description": "B2B 线索研究与 BANT 评级技能。输入目标公司名称或域名， 自动完成公司情报收集、关键决策人识别、BANT（预算/决策权/需求/时间线）评级， 输出可操作的销售行动建议和线索评分报告。 适用于 B2B 销售、SDR、客户成功团队进行线索资格判定和销售准备。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lead-research-bant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

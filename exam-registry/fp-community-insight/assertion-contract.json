@@ -1,0 +1,54 @@
+{
+  "skillId": "fp-community-insight",
+  "displayName": "社区热点痛点分析",
+  "description": "把 Agent-Reach 抓取的 Reddit（17个subreddit）和专业论坛热帖数据，聚类成本周 热门话题、高频用户痛点、FridayParts 内容机会、趋势信号四个模块。挖掘出的痛点 和选题可直接喂给 fp_youtube_script 做视频脚本、fp_blog_to_social 做文章。 自动...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fp-community-insight"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

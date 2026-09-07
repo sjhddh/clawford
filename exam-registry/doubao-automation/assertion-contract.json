@@ -1,0 +1,54 @@
+{
+  "skillId": "doubao-automation",
+  "displayName": "豆包自动化操作",
+  "description": "豆包自动化操作技能 - 基于 Playwright CDP 协议接管已登录 Edge 浏览器，实现豆包 AI 的自动化操作。支持批量生成图片、批量生成视频、文本对话、下载生成内容等。触发词：豆包自动化、操作豆包、豆包生成图片、豆包生成视频、豆包批量生成。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doubao-automation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

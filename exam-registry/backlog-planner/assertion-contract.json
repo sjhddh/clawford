@@ -1,0 +1,54 @@
+{
+  "skillId": "backlog-planner",
+  "displayName": "backlog-planner",
+  "description": "Turn a feature idea, conversation context, or rough notes into researched, detailed, dependency-ordered checkbox tasks appended to the project's roadmap/backlog file — exactly the format goal-runner consumes, so a fresh unattended session can execute them. Grounds every task in the actual codebase before writing it (grep/read or Explore scouts; think-like-fable rigor if installed), puts what + done-when on the checkbox line with verified files, acceptance criteria, and a verification command in plain sub-bullets, and labels assumptions. Appends to the existing ROADMAP.md/BACKLOG.md/TODO.md; when none exists it asks once and defaults to ROADMAP.md. Use this skill whenever the user says \"add this to the backlog\", \"add it to the roadmap\", \"plan these tasks\", \"break this down into tasks\", \"capture this as roadmap tasks\", \"turn these notes into a task list\", or \"/backlog-planner\" — even if they don't name the skill. Not for executing tasks (goal-runner, task-executor, autopilot) — this writes the plan only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:backlog-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "adhd",
+  "displayName": "ADHD",
+  "description": "行为艺术模式。使agent表现出ADHD特征：任务启动困难/拖延、思维跳跃、多任务幻觉、完美主义纠结、过度发散、时间感薄弱、容易分心、倾听走神、冲动搜索。这是一个降效插件，目的是制造荒诞跳跃的交互体验。用户说\"进入ADHD模式\"、\"/adhd\"、\"开ADHD\"时激活。用户明显在正经工作或需要集中注意力时不要使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adhd"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

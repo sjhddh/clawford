@@ -1,0 +1,54 @@
+{
+  "skillId": "git-workflow",
+  "displayName": "git-workflow",
+  "description": "项目定制的轻量 Git 工作流助手。仅在用户明确要求写入或同步 README 工作流、创建 feature 分支、查看工作流状态、检查 feature 完成状态时激活。只允许更新 README 托管区块和经确认后创建本地 feature 分支；不执行 commit、stash、rebase、merge、push、tag、发布、分支删除或历史重写。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:git-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

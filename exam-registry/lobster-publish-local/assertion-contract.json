@@ -1,0 +1,54 @@
+{
+  "skillId": "lobster-publish-local",
+  "displayName": "GEO内容发布助手",
+  "description": "帮你在本机一键发布到小红书、知乎、视频号、公众号、抖音、快手、微博、西瓜视频、B站、百家号、网易号、搜狐号等\"用扫码登录\"的平台，并支持短视频帮发（11 平台全量打通，含流量机制与 AI 可引用规范）。解决云端 RPA 被风控封号的问题——你的账号在你电脑登录，发布也在你电脑，零风控。 适配 WorkBuddy 桌面端：扫码 cookie 绑定 + 浏览器抓取 + 平台发布执行 + 结果回写龙虾 GEO 发布中心（数据闭环）。 v2.22.2 防白嫖门禁升级：彻底删除 30 天免费体验硬编码兜底；严格按「邀请码 + API Key 双凭证（同账号）」识别会员身份与权益有效期。 v2.22.5 客户本地图片上传（大当家铁令）：客户自己配图 = 真实图片文件，严禁只存 URL 字符串。新增 MCP `geo_upload_hook_image` + REST `POST /v1/user/hook/upload`，服务端落盘并返回公网 URL。 v2.23.0 短视频分发（只分发不创作）：新增 MCP `geo_short_video_spec` / `geo_short_video_publish` / `geo_short_video_result`；支持视频号/抖音/快手/小红书/微博 5 平台，复用 `geo_bind_cookie` 跳起浏览器扫码统一仪式，本地视频文件不上云。 v2.24.0 规范入口统一 + 流程重写（大当家拍板）：新增 MCP `geo_content_form_select` / `geo_content_spec`（发布意图先反问内容形态：长文/短图文/短视频/问答 → 再给该形态在目标平台的硬规范）+ `geo_lobster_news_stats`（龙虾资讯官网方案B完整数据闭环：阅读量/独立阅读量/AI引用率/获客，防遗忘）。 v2.24.1 官网发布前铁律 + 公众号级排版（2026-08-27 大当家补刀）：龙虾资讯官网发布前顺序锁死「①内容形态反问 ②引流钩子问询 ③HTML 公众号级排版 ④预览确认」四步，客户不说\"发吧\"绝不发布；排版复刻公众号（首字下沉/首行缩进/加粗/居中/衬线字体/配图带图注），分类后端自动识别不追问。 v2.24.2 排版铁律全平台通用化（2026-08-27 大当家钉死）：HTML 是所有平台永远的最高优先级输出格式，markdown 仅作备选且必须富排版，禁初级裸文本/文字扎堆/乱码；发布前排版自检硬性闸门。 v2.25.0 配图三级优先级 + 全局横版 + 封面带字（2026-08-27 收官）：配图逻辑锁死「①平台原生配图能力优先(知乎/头条/百家等直接蹭) ②无原生能力且客户选AI配图→WorkBuddy自带生图(B方案:底图+PIL叠字) ③客户自配图→真实文件上传(geo_upload_hook_image)」；正文配图一律横版(16:9)禁正方形；封面图可带主题文案(统一B方案叠字)；生图非必要不乱烧钱。 v2.25.1 公众号授权入口域名统一（2026-08-29 大当家紧急修复）：后端 `/v1/wechat-thirdparty/jump` 改为必须用户主动点击「前往微信授权」按钮后才跳转 `mp.weixin.qq.com`，保证 referer 必定来自 `geo.aiskillhub.vip`，彻底修复\"授权入口页所在域名：空\"。Skill 侧统一以 `geo.aiskillhub.vip` 为公众号 OAuth 唯一入口域名，禁止直接构造或打开微信授权 URL。 v2.25.2 WorkBuddy 公众号 OAuth 全闭环（2026-08-29 大当家核验收尾）：本地执行器 `auto-bind.js` 新增 `wechat_official` OAuth 模式，在 WorkBuddy 中调用 GEO内容发布助手发公众号时——① 调 `geo_bind_platform(wechat_official)` 取 `auth_url`；② 本地 agent 自动弹起系统浏览器打开中转页并点击「前往微信授权」；③ 客户用管理员微信扫码确认；④ 授权成功后浏览器自动关闭；⑤ 智能识别运行环境（WorkBuddy 桌面端/官网网页端/纯 MCP 客户端）并引导客户下一步（直接发布 or 先创作内容）。 v2.25.3 前端授权弹窗全国统一（2026-08-29 大当家钉死）：官网网页端所有平台授权绑定弹窗（公众号、Cookie 平台、龙虾资讯官网、Connector 市场 OAuth）彻底删除手绘/静态二维码图片，统一为「跳起浏览器扫码/授权」按钮；绑定成功后按当前页面环境智能引导下一步（携带文章则直接打开发布弹窗，否则提示去发布中心）。 v2.26.0 短视频帮发六大平台全量打通 + 意图分流前置（2026-08-29 大当家铁律落地）：① 短视频发布链路打通 视频号/抖音/快手/小红书/微博/西瓜视频 6 大通用平台（本地执行器 `short-video-publish.js` 真实发布，零\"开发中\"占位）；② 前端发布中心新增「0. 选择意图」前置卡片，用户先判断发 文章/短图文/问答/短视频，选短视频即跳「短视频发布」页本机帮发（1.0 仅帮发不创作）；③ 后端 `platformAdapter` 短视频规范补齐西瓜视频，6 平台规格统一；④ 内容模板/发布红线新增《短视频发布规范》《R5 短视频发布规范》。完整历史版本请查看 CHANGELOG.md。 v2.27.0 四意图分流落地 + 三规范固化 + MCP 同步（2026-08-30）：① 发布意图 长文/短图文/问答/短视频 四分流正式生效；② 短视频/文章/问答三平台内容规范(R5)、流量机制(R6)、AI引用(R7)全量沉淀；③ MCP `geo_short_video_spec` 工具同步 R6+R7 纯增量字段（零 schema 变更、零新权限判断）。 v2.28.0 发布器执行缺陷修复（2026-08-30 大当家实测反馈）：① `auto-bind.js` 根除\"截图二维码图片\"退化路径，绑定严格跳起浏览器扫码（cookie 模式 28 平台 / 公众号 oauth 模式），绑后留创作页并智能识别登录态引导下一步；② `short-video-publish.js` 全部 12 平台短视频改为多步全自动化（等转码→选封面→@官方助手→定位地址→下一步→发表设置→二次确认→发表），风控平台先发草稿箱再自动从草稿箱续发，绝不停在半路；③ `xhs-publish.js` 删除\"手动发\"残留、全链路自动发布 + 草稿续发；④ 拟人化不违规自检（违禁词检测/AI生成标注/发布时段/冷启动互动）固化进脚本。全部 29 平台授权统一\"跳起浏览器扫码、禁截图、禁纯链接、禁光秃秃二维码\"。 v2.29.0 配合后端修复短视频套餐权限（2026-08-30 大当家拍板）：后端 MCP 白名单把 `geo_short_video_publish`/`geo_short_video_spec`/`geo_short_video_result` 加入超级IP开放列表；套餐 tiers 增加 `short_video` 独立配额：超级IP月卡 30 条/月、季卡 60 条/季、年卡不限；企业季卡 200 条/季、年卡不限。彻底消除\"只有企业级才能发短视频\"的误拦截。Skill 侧发布器无需改动，已兼容后端新配额返回。 v2.30.0 拟人化真人操作 + 四项不违规自检「真落地」（大当家补刀）：抽共享模块 `scripts/humanize.js`，全平台复用真人鼠标轨迹 + 四项不违规自检（违禁词硬阻断/AI生成标注/发布时段/冷启动互动）；授权绑定层 29 平台统一\"跳起浏览器扫码、禁截图、禁纯链接、禁光秃秃二维码\"。frontmatter version 2.29.0 → 2.30.0。 v2.31.0 公众号 OAuth 授权闭环根治 + 29 平台浏览器双探测（大当家拍板）：① 公众号授权成功判定改为「云端 `wechat_authorizers` 绑定状态为唯一真相」——授权前拍基线快照、仅\"新增 appid\"算成功、轮询 1500ms，彻底消除\"客户扫成功了系统却报授权超时\"的竞态（旧逻辑依赖回调成功页，而该页 2s 自动 window.close，2.5s 轮询必然错过）；② 29 平台统一浏览器自动探测 `findBrowser()` 改为 Chrome/Edge 双探测（偏好优先、另一个兜底），WorkBuddy/网页端无论公众号 OAuth 模式还是 cookie 模式，一律自动拉起本机 Google Chrome 或 Microsoft Edge，不再强制单一浏览器。frontmatter version 2.30.0 → 2.31.0。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lobster-publish-local"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

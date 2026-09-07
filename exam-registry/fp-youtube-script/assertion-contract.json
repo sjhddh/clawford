@@ -1,0 +1,54 @@
+{
+  "skillId": "fp-youtube-script",
+  "displayName": "YouTube 脚本生成",
+  "description": "输入视频主题、关键词、产品信息，输出 5 分钟 YouTube 维修科普视频的完整 10 列分镜脚本。 严格对齐运营 Excel 蓝本：Section/镜号/景别/画面内容/参考画面(生图prompt)/ 台词初版中英/二次验证中英/建议画面。符合北美机械师口语习惯，内置 FridayParts 技术准确性规范，...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fp-youtube-script"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

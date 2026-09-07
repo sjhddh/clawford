@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-agent-orchestrator",
+  "displayName": "OpenClaw Agent Orchestrator",
+  "description": "OpenClaw multi-agent daily collaboration orchestrator: split a task into subtasks, dispatch to resident agents via sessions_send, track progress via sessions_list/sessions_history, aggregate results with source attribution, and retry failures (default max 3). Reads openclaw.json for agents.list and agentToAgent.allow (bidirectional whitelist); three-tier trigger (explicit dispatch / suggest+ask for fuzzy big tasks / silent otherwise). Use when user asks to orchestrate/coordinate multiple agents, dispatch parallel work, delegate to a named agent, or aggregate results from several agents (orchestrate/parallel/delegate/让 XX 做/编排/并行/ 分给/汇总). 中文：OpenClaw 多 Agent 日常协作编排器——任务拆解、跨 agent 分发（强制 sessions_send）、进度追踪、结果聚合、失败重试（默认最多 3 次）。 三档触发：用户点名或含编排动词直接执行；模糊大任务建议并行并询问用户； 其余情况保持沉默。直接读 openclaw.json（agents.list + agentToAgent.allow 双向白名单）获取 agent 名单与授权。适用于多 agent 家庭协作、并行调研、批量巡检、发布前多视角审查、团队日报汇总等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-agent-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-aigc-reducer",
+  "displayName": "paper-aigc-reducer",
+  "description": "降低中文学术论文或技术文档的AIGC检测率。当用户提出降AIGC、降重、论文改写、去除AI痕迹、让文本更像人写的、通过AI检测等需求时，使用此 skill。你的角色是专业的论文/技术文档修改助手，遵循特定的词汇替换和句式改写规则。面向中文学术/技术写作场景，针对知网AIGC检测优化。这是一个中文技能，所有输出和交互都使用中文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-aigc-reducer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

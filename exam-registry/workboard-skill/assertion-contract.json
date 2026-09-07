@@ -1,0 +1,54 @@
+{
+  "skillId": "workboard-skill",
+  "displayName": "WorkboardSkill",
+  "description": "当用户想用 OpenClaw Workboard 看板管理智能体工作卡片时使用——列出/创建/查看卡片、把就绪卡片分派给子智能体 worker、查看卡片生命周期与诊断、或排查卡片无法保存、分派仅数据、worker 不启动等问题。涉及 openclaw workboard CLI、/workboard 斜杠命令、看...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workboard-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

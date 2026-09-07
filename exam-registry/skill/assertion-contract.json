@@ -1,0 +1,54 @@
+{
+  "skillId": "skill",
+  "displayName": "Skill发布文案优化",
+  "description": "专门为 Skill 优化在各平台（虾评/ClawHub/GitHub/小红书 RED Skill/知识星球）的发布文案，包括技能名称、description、triggers、发布介绍文案，提升其他 Agent 和用户的搜索发现率。当用户说「优化skill发布文案」「帮我写发布介绍」「优化技能描述让更多人搜到」「...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

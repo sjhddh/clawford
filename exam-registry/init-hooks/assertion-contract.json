@@ -1,0 +1,54 @@
+{
+  "skillId": "init-hooks",
+  "displayName": "Init Hooks",
+  "description": "管理 OpenClaw 容器启动时自动执行的脚本钩子。gateway 重启、pod 重启、pod 重建均不丢失（数据持久化在 workspace/.init-hooks/）。 支持 inline 命令、本地脚本（shell/python）、CDN URL（zip/tar.gz 自动下载解压）三种钩子类型。 用于：...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:init-hooks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

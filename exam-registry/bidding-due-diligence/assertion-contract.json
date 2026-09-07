@@ -1,0 +1,49 @@
+{
+  "skillId": "bidding-due-diligence",
+  "displayName": "招投标尽调助手-合同流水看经营实态",
+  "description": "招投标尽职调查助手（投资/合作/并购前的轻尽调）。当用户给出一个公司主体，想在投资、并购、合作、签约前做尽职调查、核实经营实态时，必须使用此SKILL：企业尽调、轻尽调、投资标的初筛、经营实态核验（中标合同流水是否活跃）、订单走势分析（逐年增长还是萎缩）、客户结构与大客户依赖度、履约能力评估、公开涉诉与行政处罚检索。基于全网招投标数据输出报告：经营实态用真实发生的中标合同流水说话、客户关系是真实合同关系、风险信息逐条附来源链接。支持单公司深度报告与双公司对比。即使用户没有提到「尽调」，只要想在投钱或合作前搞清楚一家公司的真实经营状况，都应使用本SKILL。注意边界：若用户给出一个具体的招标项目",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidding-due-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "vmware-harden",
+  "displayName": "vmware-harden",
+  "description": "Use this skill whenever the user needs to perform VMware cyber compliance auditing (aligned with VCF 9 Advanced Cyber Compliance / ACC), baseline checking, or drift detection on vSphere/ESXi/NSX environments. Directly handles: CIS / vSphere SCG / 等保 2.0 三级 / PCI-DSS / BSI IT-Grundschutz / EU NIS2 scans; custom YAML baselines; LLM-driven remediation suggestions; web dashboard. Always use this skill for \"scan compliance\", \"check baseline\", \"audit etcd\", \"check 等保\", \"drift detection\", \"compliance report\", \"cyber compliance scan\", \"ACC posture\", \"STIG check\" when the context is explicitly VMware/vSphere/ESXi. Do NOT use for general vSphere monitoring (use vmware-monitor or vmware-aiops), network changes (use vmware-nsx), or executing remediations directly (this skill only suggests; execution goes through vmware-pilot).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-harden"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

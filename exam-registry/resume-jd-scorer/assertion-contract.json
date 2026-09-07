@@ -1,0 +1,54 @@
+{
+  "skillId": "resume-jd-scorer",
+  "displayName": "简历-JD 5维度匹配度评分引擎",
+  "description": "简历-JD匹配度5维度评分技能。输入简历文本和目标JD，自动提取关键词→交叉匹配→5维评分→生成交互式HTML报告。5维度：硬技能匹配30分/经历相关性25分/学术产出20分/ATS关键词覆盖率15分/加分项10分。输出：总分评级+维度表+关键词命中表+得分扣分明细+TOP3建议+跨岗位对比。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resume-jd-scorer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

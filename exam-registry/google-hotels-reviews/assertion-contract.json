@@ -1,0 +1,49 @@
+{
+  "skillId": "google-hotels-reviews",
+  "displayName": "Google Hotels reviews — not available (use another platform)",
+  "description": "Google Hotels review TEXT is not available through StayingAPI — /v1/reviews returns 400 platform_not_enabled for google. This skill tells an agent what to use instead: the aggregate rating from /v1/search, or reviews from Booking.com, Airbnb or Vrbo. Powered by StayingAPI.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-hotels-reviews"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

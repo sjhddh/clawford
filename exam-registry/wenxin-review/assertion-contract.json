@@ -1,0 +1,54 @@
+{
+  "skillId": "wenxin-review",
+  "displayName": "文心审",
+  "description": "文心审——人文学科论文深度阅读助手。专为中国文学、史学、哲学、语言学等人文专业研究生设计，辅助深度阅读中文学术论文。当用户要求审稿、评阅、剖析、批评、review、读透、深度阅读一篇中文学术论文/文献/文章时触发。支持用户粘贴论文全文、提供PDF路径或URL。输出结构化八维度阅读报告，每条意见标注原文位置，区分\"...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wenxin-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

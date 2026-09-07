@@ -1,0 +1,54 @@
+{
+  "skillId": "takeout-decision-fatigue-rescuer",
+  "displayName": "takeout-decision-fatigue-rescuer",
+  "description": "外卖点餐\"决策疲劳\"拯救者。 当用户打开外卖软件面对大量选项无法抉择时调用此 Skill。 根据用户设定的预算范围、忌口清单和当前饥饿程度，将海量选项过滤为 Top3 精准推荐（店名+菜品+总价），将决策时间从 10 分钟压缩到 30 秒。 触发场景：用户表达\"不知道吃什么\"\"选择太多\"\"外卖纠结\"\"中午吃啥\"等决策困难。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:takeout-decision-fatigue-rescuer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

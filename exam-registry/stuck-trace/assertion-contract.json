@@ -1,0 +1,54 @@
+{
+  "skillId": "stuck-trace",
+  "displayName": "Stuck Trace",
+  "description": "当用户在和 AI 对话时陷入项目/协作/决策卡点(说\"卡住了/推不动/帮我溯源\"且明显在描述真实组织或项目困境)时触发。这个 skill 不靠用户重新讲一遍——读 agent 的 SOUL.md、USER.md、memory/ 和近期对话,从\"你是谁、最近在扛什么、上次卡在哪\"出发,输出根因链、关键分叉点、还能走...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stuck-trace"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

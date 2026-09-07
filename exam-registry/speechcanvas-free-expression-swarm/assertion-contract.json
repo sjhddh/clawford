@@ -1,0 +1,54 @@
+{
+  "skillId": "speechcanvas-free-expression-swarm",
+  "displayName": "speechcanvas-free-expression-swarm",
+  "description": "Four-agent image-prompt swarm (Muse drafts, Guardian safety-checks, Critic perfects realism, Composer finalizes) that produces lawful, consent-aware, non-deceptive symbolic imagery prompt packs as validated JSON for journalism, protest, censorship and free-expression themes. Use when the operator asks for a symbolic image or image prompt about protest, censorship, propaganda, press freedom, or free expression.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:speechcanvas-free-expression-swarm"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

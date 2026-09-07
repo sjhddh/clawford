@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-coding-exception-control",
+  "displayName": "AI编码异常处理控制框架",
+  "description": "AI编码异常处理控制框架。当用户要求\"编写功能\"、\"实现接口\"、\"开发模块\"、 \"写代码\"、\"编码\"、\"需求分析\"、\"设计\"、\"测试\"、\"代码审查\"、\"重构\"时触发。 通过七层防御机制（深度调研→需求引导→设计引导→规格书→架构→提示词→测试→审查→弯路闭环）， 从调研阶段开始强制AI完整思考异常路径，杜绝\"只走...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-coding-exception-control"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

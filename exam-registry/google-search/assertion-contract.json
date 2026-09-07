@@ -1,0 +1,49 @@
+{
+  "skillId": "google-search",
+  "displayName": "google-search",
+  "description": "通过Google Custom Search Engine搜索网络,获取实时信息与权威来源,精准搜索。API调用**：使用Google Custom Search Engine API进行网络搜索。。自定义搜索**：支持自定义搜索配置。。实时结果**：提供实时搜索结果。轻量级设计,低资源占用,适配云端与本地部署。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

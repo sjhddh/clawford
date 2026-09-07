@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-ddos-origin-exposure-detector",
+  "displayName": "alibabacloud-ddos-origin-exposure-detector",
+  "description": "Alibaba Cloud Anti-DDoS Proxy (ddoscoo) origin-server IP exposure risk detector. Detects whether a website protected by Anti-DDoS Proxy still has its origin IP exposed to direct attack, across two scenarios: (S1) a protected domain whose public DNS still resolves to the origin IP, bypassing protection; (S2) the origin IP is directly reachable from the public Internet. Reads protected domains / CNAME / origin IPs via ddoscoo (DescribeWebRules / DescribeNetworkRules). Two probe methods: (1) cloud probe via Cms one-off site monitor (CreateInstantSiteMonitor + DescribeSiteMonitorLog); (2) local dig / curl / nc, used when cloud probe is unavailable. Binary verdict. Triggers: \"源站IP暴露\", \"源站暴露检测\", \"高防被绕过\", \"流量绕过高防\", \"origin IP exposure\", \"DDoS origin detection\", \"ddos-origin-exposure\", \"检测源站\", \"探测源站\", \"网络分析与监控探测源站\", \"Call DescribeWebRules\", \"DescribeWebRules\", \"DescribeNetworkRules\", \"CreateInstantSiteMonitor\", \"DescribeSiteMonitorLog\", \"get protected domains\", \"probe origin server\", \"site monitor probe origin\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-ddos-origin-exposure-detector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

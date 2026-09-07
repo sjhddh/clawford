@@ -1,0 +1,54 @@
+{
+  "skillId": "loseit",
+  "displayName": "Lose It Nutrition",
+  "description": "Read your Lose It! nutrition from any agent. Logs in with your Lose It email/password (self-healing — it obtains and refreshes its own session token), fetches your data export, and emits per-day nutrition as JSON — calories, protein, carbs, fat, fiber, a per-meal breakdown, and Lose It's own budget / under / exercise-adjustment figures. A self-contained, read-only extractor: it never changes your Lose It account and does no application writing (no daily log, no sync) — the caller decides what to do with the data. The only file it writes locally is its own session-token cache (a credential, mode 0600). Single static binary, no Python or other runtime. Auth options: email/password (recommended — set LOSEIT_EMAIL/LOSEIT_PASSWORD or put them in config.json), a downloaded export ZIP (--zip, no credentials), or a saved liauth cookie.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:loseit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

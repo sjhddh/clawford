@@ -1,0 +1,54 @@
+{
+  "skillId": "chinese-history-literature-culture",
+  "displayName": "chinese-history-literature-culture",
+  "description": "Write, polish, and cite Chinese-language articles on Chinese history, literature, and culture (Five Dynasties & Ten Kingdoms, silk, Dream of the Red Chamber, 洛神赋, 脂砚斋, etc.). Use when the user shares their own outline, notes, or stream-of-thought for a 中文历史/文学/文化 article and wants the agent to follow that thought-flow (must), expand with web research, and produce a polished, well-cited draft. Output is in Chinese (simplified by default); source material may be in any language. Covers creation, polishing, fact-checking, and source selection.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chinese-history-literature-culture"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

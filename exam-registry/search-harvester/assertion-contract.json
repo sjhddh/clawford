@@ -1,0 +1,49 @@
+{
+  "skillId": "search-harvester",
+  "displayName": "search-harvester",
+  "description": "Candidate discovery for link building and outreach. Harvests candidate URLs from DuckDuckGo HTML and Marginalia through a local privacy-preserving Tor circuit (server IP never contacts the engine), then dedupes, triages liveness/anti-bot barriers, and exports a scored candidate list. DISCOVERY ONLY — this skill never submits forms, posts listings, or performs any state-changing action on third-party sites. Use ONLY when the user explicitly asks to find directories, submission platforms, blogs, or link-building candidates (e.g. \"find more places to submit\", \"find directories\", \"get candidate websites like scrapebox\", \"search for link building opportunities\"). Requires explicit user confirmation before routing any query through Tor; never for generic web search, never for sensitive/personal queries.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:search-harvester"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

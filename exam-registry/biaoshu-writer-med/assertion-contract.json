@@ -1,0 +1,54 @@
+{
+  "skillId": "biaoshu-writer-med",
+  "displayName": "蝉标AI投标文件写作",
+  "description": "以「提分」为目标的应答写作。它对照招标文件的评分标准逐项撰写投标应答，把每一分都写到点子上，随后生成成品投标文件(.docx)并做合规审查以稳住基本分。用户想写标书、优化投标应答或提高中标概率时，经 App Key 使用本 SKILL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biaoshu-writer-med"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

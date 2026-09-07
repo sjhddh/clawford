@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh",
+  "displayName": "ljh",
+  "description": "打品工具箱主入口。三模式：任务前路由（你的问题该用哪个工具）+ 任务后导航（刚做完一个环节，下一步该干什么）+ 陪跑（带你从头走完整条打品链路）。 触发方式：/ljh、电商老家伙、「打品」、「帮我看看这个品」、「不知道下一步该干什么」、「带我从头打这个品」 Main entry point for the product-launch toolkit. Three modes: pre-task routing, post-task navigation, and a guided walkthrough across the full product-launch chain. Trigger: /ljh, \"help me launch this product\", \"what should I do next\", \"walk me through this product from scratch\" 不要在与电商打品无关的通用咨询上自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

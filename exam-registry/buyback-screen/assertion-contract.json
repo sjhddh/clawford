@@ -1,0 +1,54 @@
+{
+  "skillId": "buyback-screen",
+  "displayName": "buyback-screen",
+  "description": "筛选A股（沪深北交所）最近发布回购公告（回购计划/预案）的上市公司，并按市盈率(PE-TTM)、 市净率、总市值、回购金额、用途、进度等条件过滤，输出清单表格。数据来自东方财富数据中心。 当用户提到\"回购公告/回购预案/回购进展/筛选回购/回购名单/哪些公司最近回购\"、 \"回购+市盈率/PE/估值过滤\"、\"注销式回购\"、\"大额回购\"、或\"最近有哪些公司回购了\" 等需求时，务必使用此技能，即使没有明确说\"skill\"。也适用于把回购公司按 PE≤X 进一步筛选、 按回购金额/用途/进度筛选、导出回购清单 CSV/TSV 等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:buyback-screen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

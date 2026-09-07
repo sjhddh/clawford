@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-multimodal-product-similarity",
+  "displayName": "多模态商品相似度",
+  "description": "多模态产品图片相似度分析与分组。当用户提到产品图片相似度、视觉分组、查找外观相似的商品、基于图片去重、竞品同款检测、同款商品聚类、按外观分组、image similarity, product image comparison, visual clustering, same-style recognition, appearance deduplication, image grouping时触发此技能。即使用户未明确说\"图片相似度\"，只要其意图涉及商品主图对比、视觉聚类、识别视觉上相同或相似的商品，或根据外观、颜色、构图等视觉特征对商品列表进行后处理，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-multimodal-product-similarity"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

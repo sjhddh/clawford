@@ -1,0 +1,54 @@
+{
+  "skillId": "search-patents-ip",
+  "displayName": "search-patents-ip",
+  "description": "Build and validate expert patent-search branches for Stage 1/4 of a patent-landscape program. Use when starting create-patent-landscape-overview-ip or when a user needs a reusable, field-scoped, anchored, classification-assisted, de-noised patent search configuration with precision/recall validation, a traceable family-aware candidate pool, a lightweight core-recall set, and a preliminary taxonomy export for later human review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:search-patents-ip"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

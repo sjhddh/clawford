@@ -1,0 +1,49 @@
+{
+  "skillId": "client-background-check",
+  "displayName": "客户背景调查-摸清客户采购底细",
+  "description": "客户背景调查助手（销售/BD 视角）。当用户给出一个客户单位主体（公司/政府/学校/医院等），想在拜访、投标、商务接触前摸清客户底细时，必须使用此SKILL：客户背景调查、客户画像、采购习惯分析（它过去招过什么标、买过什么）、预算水平评估（历史采购金额量级）、现有供应商格局（在位者是谁、合作多深）、采购活跃度分析、大项目盘点、公开风险检索。基于全网招投标数据输出报告：采购史是真实发生的招标记录、供应商关系是真实合同关系。支持单客户深度报告与双单位对比。即使用户没有提到「背调」，只要想在接触客户前了解它的采购习惯与供应商现状，都应使用本SKILL。注意边界：若用户给出一个具体的招标项目做该不该投",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:client-background-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

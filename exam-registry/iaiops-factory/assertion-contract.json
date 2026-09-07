@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops-factory",
+  "displayName": "iaiops-factory",
+  "description": "Factory edition of iaiops — discrete-manufacturing lines: OPC-UA, Modbus-TCP/RTU, Siemens S7comm (S7-300/400/1200/1500), Mitsubishi MC/MELSEC, Omron FINS (CS/CJ/CP/NX), Allen-Bradley EtherNet/IP (ControlLogix/CompactLogix), EtherCAT (CoE/SOEM), PROFINET (DCP discovery), MTConnect (CNC machine tools), IO-Link (master JSON — sensor-level visibility), MQTT/Sparkplug B/UNS, plus the cross-protocol brain (downtime root-cause, OEE, asset inventory). Use for PLC, CNC, servo/drive bus, name-of-station, tag browse, Unified Namespace, or production-line troubleshooting tasks. Read-first, MOC-gated writes. Also covers Phoenix Contact PLCnext vPLC (via its built-in OPC-UA + Modbus servers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops-factory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}
