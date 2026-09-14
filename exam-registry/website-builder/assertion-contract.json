@@ -1,0 +1,54 @@
+{
+  "skillId": "website-builder",
+  "displayName": "云指建站助手",
+  "description": "用于云指建站系统的页面创建、修改与排障，当用户需要新建网站、从零规划站点、搬站/仿站、生成/修改企业网站页面（自由页 HTML/CSS/JS、Twig 风格模板）、调用产品/文章/下载/相册/门店/栏目/FAQ 数据、做自定义表单/产品询盘/在线查询、上传或修改产品/文章数据等时可使用本技能。通过用户指定站点的 MCP 服务查询与写入站点内容。本技能与 Workbuddy、Codex 等协同使用时，可实现从需求到页面的端到端自动交付，建站流程大幅简化。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

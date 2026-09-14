@@ -1,0 +1,54 @@
+{
+  "skillId": "self-improving-sales",
+  "displayName": "self-improving-sales",
+  "description": "Captures pipeline leaks, objection patterns, pricing errors, forecast misses, competitor shifts, and deal velocity drops to enable continuous sales improvement. Use when: (1) A deal slips past stage thresholds, (2) An objection recurs across multiple deals, (3) A pricing mistake is discovered, (4) Forecast accuracy falls below target, (5) A deal is lost to a competitor, (6) Discount escalations exceed policy, (7) A win/loss pattern emerges.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-sales"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

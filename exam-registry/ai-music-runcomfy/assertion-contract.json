@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-music-runcomfy",
+  "displayName": "AI Music — Pro Pack on RunComfy",
+  "description": "Generate AI music on RunComfy via the `runcomfy` CLI — a smart router across the music-model catalog. Routes to ElevenLabs AI Music Generation (premium 44.1 kHz stereo vocal tracks, 5 s–5 min, $0.0083/s) and ACE Step / ACE Step 1.5 (StepFun-AI open-weights, tag-driven composition, multilingual lyrics, $0.0002–0.0003/s, ~27× cheaper), plus ACE Step audio-inpaint (regenerate a time range inside an existing track) and ACE Step audio-outpaint (extend a track before or after). Picks the right model for the user's actual intent — premium vocal hook, cheap background music library, multilingual pop song, repair a bad chorus, lengthen a 30 s draft into a 2 min cut — and ships each model's documented prompting patterns plus the minimal `runcomfy run` invoke. Triggers on \"generate music\", \"make a song\", \"AI music\", \"background music\", \"instrumental track\", \"soundtrack\", \"jingle\", \"theme music\", \"royalty-free music\", \"compose\", \"music with lyrics\", \"extend music\", \"fix this song\", \"inpaint music\", or any explicit ask to generate or edit music.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-music-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

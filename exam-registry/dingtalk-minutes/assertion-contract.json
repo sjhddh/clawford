@@ -1,0 +1,54 @@
+{
+  "skillId": "dingtalk-minutes",
+  "displayName": "dingtalk-minutes",
+  "description": "钉钉 AI 听记（妙记）读取封装。当用户要查询/读取 AI 听记的列表、摘要、语音转写原文（逐字稿）、关键词、待办或音频地址时使用。基于 dws CLI（钉钉官方 Workspace CLI）。写文档走 dingtalk-doc，建待办走 dingtalk-todo，日程走 dingtalk-calendar。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dingtalk-minutes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "opmc-creative-bureau",
+  "displayName": "Opmc Creative Bureau",
+  "description": "创意造物局全流程SOP Agent，5阶段工作流（猎手→策划师→分析师→IP师→设计师）+强制交叉审核+逐问三问三答+角色治理（独立思考/必须反对/话语权加权）+项目收尾（评审+内部讨论+结题报告）。阶段5设计师必须交付技术规格书（API+数据库+AI Prompt+部署方案），开发者拿到可直接开工。当用户需要创...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opmc-creative-bureau"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

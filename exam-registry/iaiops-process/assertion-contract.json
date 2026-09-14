@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops-process",
+  "displayName": "iaiops-process",
+  "description": "Process-industry edition of iaiops — chemical / pharma / food & beverage / oil & gas plants: HART-IP process instrumentation (transmitters, valve positioners, loop current), OPC-UA (DCS / gateway read), Modbus-TCP/RTU (skids, analyzers), optional MQTT/Sparkplug B UNS, plus the cross-protocol brain (downtime root-cause, data quality, OEE). Use when the task mentions HART, HART-IP, transmitter, 变送器, valve positioner, process instrumentation, PV/SV/TV/QV, loop current, burst mode, DCS tap, or a process plant. Read-first, MOC-gated writes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops-process"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "claim-to-source-auditor-skill",
+  "displayName": "Claim-to-Source Auditor",
+  "description": "When the user asks to audit, fact-check, verify, or cross-check an article, report, draft, or series. Triggered by 审稿/审计/核验/事实检查/来源追溯/查一下这个数据/核对/审查/跨平台一致性/三平台统一/回归检查/有没有事实错误/这个引用对不对/跟上次比有没有退化. Extracts verifiable claims, traces them to L0 primary or L1 reliable secondary sources, marks each as 通过/部分支持/缺证/错误/判断, and produces a structured audit report with P0-P2 severity. Supports cross-platform version comparison and regression gold-set re-runs. Only audits facts and sources — does not edit style or argument structure.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claim-to-source-auditor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

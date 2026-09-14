@@ -1,0 +1,54 @@
+{
+  "skillId": "google-maps-api",
+  "displayName": "Google Maps API",
+  "description": "A Google Maps API alternative and Google Places API alternative on fetcher.sh — pay-per-call in USDC via x402, or prepaid credits with a Bearer key, no Google Cloud billing account. Use when the user wants to search places by text query or anchor the search to a latitude/longitude coordinate, fetch a place's full details by its feature ID (fid), pull a place's reviews sorted by relevance/newest/rating, or look up a single review by ID. Also covers local business discovery, points-of-interest data, store-locator input, and review monitoring without Google Cloud Platform's API key setup, billing, and per-request pricing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-maps-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

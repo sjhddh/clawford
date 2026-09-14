@@ -1,0 +1,54 @@
+{
+  "skillId": "plaud-recordings-to-google-drive-sync",
+  "displayName": "plaud-recordings-to-google-drive-sync",
+  "description": "Plaud Recordings to Google Drive Sync: Automatically backs up your Plaud recordings to Google Drive and keeps a tracking spreadsheet in Google Sheets. Each time you run this workflow, it downloads any new recordings from your Plaud account to a \"Plaud Recordings\" folder in Drive, creates a transcript for each recording (using Plaud's built-in transcripts when available, or automatic speech-to-text otherwise), saves the transcript alongside the audio file, identifies what each recording is about.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:plaud-recordings-to-google-drive-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

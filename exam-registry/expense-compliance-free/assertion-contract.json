@@ -1,0 +1,54 @@
+{
+  "skillId": "expense-compliance-free",
+  "displayName": "报销单合规预检（免费）",
+  "description": "把一沓发票和一张报销单放在一起核一遍，每条结论都带原文行号，不需要付款，也不需要注册。本免费版执行 重复发票号（重复报销线索）、发票要素完整性（发票号 / 开票日期 / 销售方 / 金额）、模板占位符残留。触发词包括 报销合规、重复报销、发票重复、报销单检查、发票要素不全、报销预检、贴票核对、费用报销自查。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expense-compliance-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

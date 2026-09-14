@@ -1,0 +1,49 @@
+{
+  "skillId": "guaikei-xhs-comment-insights",
+  "displayName": "小红书评论洞察",
+  "description": "抓取小红书博主公开作品列表并配合笔记详情与评论，还原其发文节奏、内容风格与互动表现。当用户要分析小红书竞品账号、监控对手博主最近发了什么、或为差异化策略准备数据时使用本技能；即使用户没说\"竞品分析\"，只要给了博主主页链接并想了解其内容表现也适用。不用于登录态或私密数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guaikei-xhs-comment-insights"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

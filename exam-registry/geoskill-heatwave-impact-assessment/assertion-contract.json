@@ -1,0 +1,54 @@
+{
+  "skillId": "geoskill-heatwave-impact-assessment",
+  "displayName": "geoskill-heatwave-impact-assessment",
+  "description": "热浪影响评估：逐像元 P90 分位数阈值 + 连续≥3天连通域热浪检测，Stull/简化湿球温度健康风险分级，人口暴露与脆弱性制图。Heatwave impact assessment: per-pixel P90 threshold with connected-run detection, wet-bulb temperature health risk, population exposure and vulnerability mapping. 输出热浪日数/暴露人口/脆弱性/湿球风险 GeoTIFF + 事件清单 JSON。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geoskill-heatwave-impact-assessment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

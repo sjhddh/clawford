@@ -1,0 +1,54 @@
+{
+  "skillId": "task-decomposition",
+  "displayName": "task-decomposition",
+  "description": "任务分解器。把一句目标/需求自动拆成可执行的层级化工作分解结构（WBS）：阶段 → 任务 → 步骤，附依赖关系、工时估算（S/M/L）与建议执行顺序。纯规则、本地可跑，把\"我要做 X\"变成\"第 1 步做 A、第 2 步做 B\"。当用户需要\"把这个目标拆成任务\"\"帮我规划步骤\"\"做个 WBS\"\"decompose this goal\"\"制定执行计划\"时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:task-decomposition"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

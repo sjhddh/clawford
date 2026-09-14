@@ -1,0 +1,54 @@
+{
+  "skillId": "building-with-memorysync",
+  "displayName": "Building with MemorySync",
+  "description": "Guide for building, reviewing, evaluating, and troubleshooting applications that use MemorySync — the memory platform with verbatim conversation history plus server-side distilled facts, header-enforced end-user isolation, and silent quota degradation in production. Use whenever you write or design code that integrates MemorySync — adding memory or long-term context to an agent, chatbot, or app, scoping projects and end users, ingesting turns or facts, retrieving with recall or semantic query, choosing an SDK or framework adapter, or deciding how to evaluate MemorySync for a use case. Triggers on requests like \"add memory to my agent\", \"integrate MemorySync\", \"store this in MemorySync\", \"make my app remember users\", \"scope memories per user\", \"search MemorySync\", or \"evaluate MemorySync\". Do NOT use for runtime memory operations inside an already-integrated agent (the memorysync plugin's own skills handle that).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:building-with-memorysync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaoyaoclaw-usage-report",
+  "displayName": "OpenClaw Usage Report",
+  "description": "OpenClaw usage and performance reporting. Parse session JSONL to answer how long each agent task took, which tools/skills/models were used, and how many tokens were consumed — zero dependency, local only, no cost dimension (token is the primary metric). Read-only: never modifies any file, aggregates statistics only, never leaks conversation content. Use when the user asks about token usage, task duration, slowest tools, skill usage, or per-agent consumption (今天花了多少 token/哪个工具最慢/ 任务耗时/用量报告), or scheduled via cron. 中文：OpenClaw 用量与性能查询。 解析 session JSONL，回答每次 agent 任务耗时、所用工具/技能/模型、token 消耗。零依赖纯本地，不提供成本维度（token 为主指标）。只读：不修改任何 文件，只输出聚合统计，不泄露会话内容。用户问 token 用量、任务耗时、 最慢工具、技能使用、按 agent 消耗时使用。cron 每日日报为可选项，用户 自行设置。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-usage-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

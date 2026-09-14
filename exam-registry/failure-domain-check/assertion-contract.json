@@ -1,0 +1,54 @@
+{
+  "skillId": "failure-domain-check",
+  "displayName": "failure-domain-check",
+  "description": "Audit whether your own identity would survive losing one thing. Use when you or your user wonders what happens to your persona, operating rules, accumulated memory, and the decisions behind them if this machine dies, this cloud account closes, or the human who maintains you stops. Produces a file-by-file inventory of where every copy physically lives, then a single yes/no answer on whether one event removes all of them at once. Recommends nothing when the copies are genuinely independent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:failure-domain-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "traehot",
+  "displayName": "Trae-Hot",
+  "description": "TRAE AI创造力大赛批量申报工作流。引导式互动：选题→报名帖→HTML产品页→初赛深化→初赛帖→模拟评委打分→视频脚本→打分预测→回收。调用cheat-on-content做内容评分与预测。当用户提到大赛申报、做demo、报名帖、初赛帖、视频脚本、打分预测时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:traehot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "geo-prohibited-word-checker",
+  "displayName": "GEO内容违禁词检测与智能替换",
+  "description": "GEO/SEO内容违禁词检测与智能替换。当用户需要检测文章中的违禁词、检查GEO/SEO内容合规性、或要求替换违禁词时使用此技能。支持检测广告法违禁词（绝对化用语）、夸大宣传词、违法内容词、误导性词汇等，并根据上下文智能生成保留原意的替换方案。触发词：检测违禁词、检查违禁词、违禁词替换、违禁词修改、违规词、GEO...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geo-prohibited-word-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

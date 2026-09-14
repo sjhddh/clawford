@@ -1,0 +1,54 @@
+{
+  "skillId": "cad-insight-pro",
+  "displayName": "CAD洞察专家",
+  "description": "CAD 洞察专家为 AI Agent 提供工程图纸智能分析能力，支持 PDF 与 DWG 两种格式，可提取标题栏、尺寸、标注、符号、比例并生成质量检查报告与工程量统计。它通过可配置的标题栏模板适配不同公司/标准的图框，通过多比例检测处理一张图多比例的情况，通过 OCR 管线处理扫描件，通过尺寸上下文关联还原尺寸与...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cad-insight-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

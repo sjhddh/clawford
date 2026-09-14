@@ -1,0 +1,49 @@
+{
+  "skillId": "mcp-server-monitor",
+  "displayName": "mcp-server-monitor",
+  "description": "Diagnose und Einrichtung fremder, offizieller MCP-Server (Konnektoren) in der Claude-App. Nutze diesen Skill, wenn jemand fragt: gibt es für diesen Anbieter einen offiziellen MCP-Server, trag mir den als Konnektor ein, warum sehe ich die Tools von dem Dienst nicht, welche Scopes braucht er, mein Konnektor antwortet nicht, MCP-Server hinzufügen, Connector verbinden, Server hängt in \"connecting\", invalid_scope, 401 nach Wochen, Tools verschwunden. Unterscheidet fünf Zustände — offen ohne Konto, verbunden mit Tools, verbunden ohne Tools, installiert aber unangemeldet, gar nicht vorhanden — und nennt pro Zustand den konkreten nächsten Schritt. Nicht anwenden bei reinen Preisfragen zu einer API, bei Code-Anfragen oder bei der allgemeinen Frage, was MCP überhaupt ist.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mcp-server-monitor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

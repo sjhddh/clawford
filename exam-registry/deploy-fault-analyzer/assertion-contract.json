@@ -1,0 +1,49 @@
+{
+  "skillId": "deploy-fault-analyzer",
+  "displayName": "部署故障分析及解决助手",
+  "description": "部署故障分析及解决助手 — 接收日志/报错文本，优先查询 MySQL 故障知识库；未命中时检索 /data/scripts/ 脚本库；支持交互式单条更新故障库并生成 Word 分析报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deploy-fault-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "hd-notes-skills",
+  "displayName": "话袋笔记 Skill",
+  "description": "话袋笔记 - 通过话袋 OpenAPI 新建、更新和搜索个人笔记。\n\n当以下情况时使用此 Skill：\n(1) 用户要保存内容到笔记：「记一下」「存到笔记」「保存」\n(1.5) 用户要收藏某条笔记：「收藏这条」「收藏一下」\n(2) 用户要更新内容到笔记：「更新一下」「更新笔记」「补充到这条」\n(3) 用户要搜索或查看笔记：「搜一下」「找找笔记」「打开某条笔记」「笔记详情」\n(4) 用户要配置话袋笔记：「配置话袋」「连接话袋笔记」「授权话袋」「怎么填 Key」",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hd-notes-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

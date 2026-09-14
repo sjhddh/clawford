@@ -1,0 +1,54 @@
+{
+  "skillId": "record-keeper",
+  "displayName": "Record Keeper",
+  "description": "工作记录归档标准。当用户要求记录工作内容时,严格按照本 skill 的类别和模板执行。 触发场景:记录会议、记录需求、记录规划、写SOP、写复盘/报告、值班/人事等行政记录、创建记录文件、归档工作记录。 类别严格封闭,共13类:meeting / requirement / plan / sop / report...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:record-keeper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

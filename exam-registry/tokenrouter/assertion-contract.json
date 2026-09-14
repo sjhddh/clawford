@@ -1,0 +1,54 @@
+{
+  "skillId": "tokenrouter",
+  "displayName": "Token Router",
+  "description": "智能模型路由与Token成本优化顾问 / Smart LLM Router & Token Cost Optimizer. 帮助用户为不同复杂度的AI任务选择最合适的模型层级（从极致性价比到旗舰级）， 通过任务复杂度评估、模型分级推荐、安全强制升级规则，在保证质量的前提下节省70-90%的Token成本。 同时提...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tokenrouter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

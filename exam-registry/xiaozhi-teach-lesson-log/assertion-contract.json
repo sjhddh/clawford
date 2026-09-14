@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-teach-lesson-log",
+  "displayName": "课后记录助手",
+  "description": "把独立教师的课后记忆变成结构化教学档案，每节课 5 分钟记完。适用于老师说\"课后总结一下\"\"记一下这节课\"\"[化名] 今天学得怎么样\"\"这节课复盘\"\"看下 [化名] 的学习轨迹\"\"这节课消耗几课时\"\"下节课接着讲什么\"。流程：即时记 5 维度（学了什么/掌握度/课堂反应/进步/调整）→ 分知识点记掌握度 → 生成课时待确认条目 → 给下节课衔接点。触发需带学员化名与日期；记录与课时条目都先给老师预览，确认后才写入。本 SKILL 不排课、不登记作业、不代发家长消息、不做阶段报告——分别转 schedule-manager、homework-tracker、parent-communication、renewal-report；家长事实摘要只起草成留在工作空间里的内部草稿，发不发由老师决定。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-teach-lesson-log"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

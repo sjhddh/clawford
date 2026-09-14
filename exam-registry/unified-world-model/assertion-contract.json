@@ -1,0 +1,54 @@
+{
+  "skillId": "unified-world-model",
+  "displayName": "unified-world-model",
+  "description": "跨模态统一世界模型：把 text/code/vision/tool_state 四种模态观察融一潜空间（共享 grounded 状态）， 在其上做跨模态一致性校验、状态转移、前向仿真、反事实推演。与纯文本生成式世界模型不同， 本模型 grounded（有锚定、可证伪）：跨模态事实矛盾被显式标记而非平滑掉。这是一线大模型 仍薄弱、而\"可靠地超越\"所必需的底层元能力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unified-world-model"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "shell-security-ultimate",
+  "displayName": "TinkerClaw Shell Security",
+  "description": "Classify every shell command as SAFE, WARN, or CRIT before your agent runs it. The classification is instruction-only and runs nothing. The package also ships optional installer scripts that MODIFY SOURCE CODE in an OpenClaw checkout you point them at — they refuse non-OpenClaw trees, verify the whole edit in a temp file before touching the real one, back up, require --yes, offer --dry-run, never rebuild unless you ask, and ship with an unpatch off-switch that validates its range instead of deleting between markers. Nothing is patched by installing this skill. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shell-security-ultimate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

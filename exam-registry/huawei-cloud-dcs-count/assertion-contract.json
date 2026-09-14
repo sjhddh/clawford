@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-dcs-count",
+  "displayName": "huawei-cloud-dcs-count",
+  "description": "Count the number of Huawei Cloud DCS (Distributed Cache Service) instances — managed Redis and Memcached — in a region and output the count. Returns the authoritative instance_num from the ListInstances API, so the reported number is always exact regardless of page size. Supports counting all instances, counting Redis-only (or Memcached-only) instances via the per-engine breakdown, filtering by status (RUNNING, FROZEN, etc.), and a per-status count breakdown via ListNumberOfInstancesInDifferentStatus. Read-only — never creates, modifies or deletes any resource. Use for Redis/DCS instance inventory, daily inspection, or cost review. Triggers include: count Redis, Redis count, DCS instance count, how many Redis instances, number of Redis instances, Redis数量, DCS实例数量, Redis实例数量, 查询Redis数量, 查询redis数量, 缓存实例数量, DCS数量, 统计Redis实例数, redis实例个数.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-dcs-count"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

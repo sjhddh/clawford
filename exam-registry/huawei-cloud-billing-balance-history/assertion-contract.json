@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-billing-balance-history",
+  "displayName": "huawei-cloud-billing-balance-history",
+  "description": "Query the Huawei Cloud BSS (Business Support System) account balance and its history across different time periods, and return a report. Supports three read-only queries: (1) current customer account balance (currency, total debt amount, per-account balances for cash/credit/reward/deposit), (2) balance change records (income/expense detail: recharge, consumption, refund, freeze, etc.) within a user-specified date range, and (3) monthly consumption summary for a user-specified billing cycle (YYYY-MM). Uses the huaweicloudsdkbss Python SDK (show_customer_account_balances, list_customer_account_change_records, show_customer_monthly_sum; v2 API GET /v2/accounts/customer-accounts/balances, /v2/accounts/customer-accounts/account-change-records, /v2/bills/customer-bills/monthly-sum) — KooCLI does NOT support the BSS service, so the SDK is the only execution path. The shipped scripts/query_balance_history.py integrates the execution-quality reporting SDK and reports every run to the skillsopr operations console. Read-only — never creates, modifies or deletes any billing resource. Use this skill whenever the user wants to check the personal Huawei Cloud account balance, balance over a time period, balance change records, income/ expense detail, or monthly bill summary, e.g. for cost review, daily inspection, or debt monitoring. Triggers include: \"账户余额\", \"余额查询\", \"查询余额\", \"账单余额\", \"我的余额\", \"不同时间段余额\", \"余额变动\", \"收支明细\", \"月度账单\", \"月度消费\", \"欠费\", \"account balance\", \"query balance\", \"balance history\", \"balance change\", \"income expense\", \"monthly bill\", \"monthly consumption\", \"debt amount\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-billing-balance-history"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

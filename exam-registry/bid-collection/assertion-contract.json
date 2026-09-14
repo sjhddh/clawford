@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-collection",
+  "displayName": "Bid Collection",
+  "description": "招投标商机采集 — 监控全网公开招投标信息，按业务赛道智能筛选高价值商机线索。能力与副作用完整披露：(1) 通过 WebSearch/WebFetch 向各级政府公共资源交易平台、国企采购平台、行业招投标网站及第三方聚合平台发起出站 HTTP 请求，仅采集公开信息，不读取用户环境变量/API Key/敏感配置；(2) scan/monitor 结果默认写入本地 leads-output/bid/ 目录（HTML/JSON/Markdown/log），不静默写入其他位置；(3) monitor 子命令通过 CronCreate 创建定时任务（会修改宿主调度），周期性发起出站请求并发送 PushN",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-collection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

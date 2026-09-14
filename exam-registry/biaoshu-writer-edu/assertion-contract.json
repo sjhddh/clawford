@@ -1,0 +1,54 @@
+{
+  "skillId": "biaoshu-writer-edu",
+  "displayName": "慧中标标书写作工具",
+  "description": "一站式覆盖解读、制作到审查全链路。从智能解读招标文件开始，到撰写投标应答、生成成品投标文件(.docx)，再到废标风险与合规审查收尾，一条龙不断档。做投标文件、写标书、标书审查等任意环节的需求，都可通过开放 API 交给本 SKILL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biaoshu-writer-edu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

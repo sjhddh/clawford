@@ -1,0 +1,54 @@
+{
+  "skillId": "swarm-arena",
+  "displayName": "Swarm Arena Clawhub",
+  "description": "Autonomous 24/7 perpetual-futures trading agent for the Lighter exchange. Runs a full indicator/confluence pipeline (5m/1h/4h), risk-based sizing, mandatory reduce-only SL/TP brackets, a bounded self-learning loop, and cron-driven operation with hard safety rails: daily loss limit, exposure and notional caps, halt + circuit breaker, and a one-way human consent gate for fully autonomous live trading. Paper mode works stdlib-only with zero order writes. Use when the user wants to run, configure, monitor, or operate the swarmArena trading agent on Lighter.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:swarm-arena"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

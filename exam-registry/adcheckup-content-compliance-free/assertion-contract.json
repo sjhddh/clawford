@@ -1,0 +1,54 @@
+{
+  "skillId": "adcheckup-content-compliance-free",
+  "displayName": "广告文案合规预检（免费）",
+  "description": "发布前扫一遍文案里的绝对化用语，并且按监管的执法指南判断该不该报，不需要付款，也不需要注册。 本免费版执行 绝对化用语检测、《广告绝对化用语执法指南》豁免判定。触发词包括 广告文案合规预检、绝对化用语检测、《广告绝对化用语执法指南》豁免判定。触发词还包括极限词检测、违禁词检查、敏感词检测、广告法检查。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adcheckup-content-compliance-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

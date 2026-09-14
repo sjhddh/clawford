@@ -1,0 +1,54 @@
+{
+  "skillId": "zai-image-understanding",
+  "displayName": "Z.ai 图片理解",
+  "description": "使用 Z.ai GLM-4.1V-thinking-flash 模型进行图片理解和分析。当用户需要分析图片内容、提取图片信息、描述图片细节、回答关于图片的问题，或进行任何形式的视觉理解任务时，必须使用此 skill。支持图片 URL 直接调用，返回结构化分析结果供主模型进一步处理。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zai-image-understanding"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

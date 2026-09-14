@@ -1,0 +1,54 @@
+{
+  "skillId": "controlnet-pose",
+  "displayName": "ControlNet & Pose — Pro Pack on RunComfy",
+  "description": "Pose-conditioned generation on RunComfy via the `runcomfy` CLI. Routes across Kling 2-6 Motion Control Pro / Standard (transfer the motion / blocking of a reference video onto a target character), community Wan 2-2 Animate (audio-driven character animation with pose conditioning), and Z-Image Turbo ControlNet LoRA (pose-conditioned image generation from an OpenPose / DWPose / canny / depth control image). Picks the right route based on video vs still and stylized vs photoreal. Triggers on \"controlnet\", \"control net\", \"pose control\", \"openpose\", \"DWPose\", \"transfer pose\", \"motion control\", \"pose driven\", \"character pose\", \"depth control\", \"canny edge\", \"use this pose\", or any explicit ask to condition generation on a pose / skeleton / motion / depth / canny reference.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:controlnet-pose"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

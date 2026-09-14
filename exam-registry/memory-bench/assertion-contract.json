@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-bench",
+  "displayName": "智能体长期记忆评测台",
+  "description": "AI 说\"我记得\"，你敢信吗？测一下就知道。长期记忆评测台 memory-bench——本地一键评测智能体/大模型长期记忆：12 类题型（时序/实体/否定/反事实/跨会话整合），EM/F1 标准评分，零配置开箱即跑；可接真实 LLM 严评（SiliconFlow/DeepSeek），密钥 env 注入不落盘。结果可复现、可对比、可入发布证据。自带安全稳定性 10 维实测全 5.0。适合 Agent 开发者、AI 产品经理、记忆方案选型。\"记忆好不好，测了才知道。\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-bench"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

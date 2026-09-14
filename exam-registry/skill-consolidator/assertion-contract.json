@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-consolidator",
+  "displayName": "skill-consolidator",
+  "description": "吸星大法 / Skill Consolidator：扫描并整理本地已安装的 AI Agent skills / rules / commands（WorkBuddy、Trae、Cursor、Claude Code、Windsurf、Cline、Continue、Roo Code、GitHub Copilot、OpenAI Codex 等），检测同名冲突、功能重叠、触发词冲突与版本差异，生成整理报告与分类索引。当用户输入 /吸星大法 或 /skill-consolidator、请求整理/清理/查看 skills（如\"帮我整理 skill\"、\"skills 冲突了\"、\"organize my skills\"），或在安装新 skill 之前评估冲突时自动调用。Scans and consolidates installed AI Agent skills, detects conflicts and overlaps, generates cleanup reports and categorized indexes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-consolidator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

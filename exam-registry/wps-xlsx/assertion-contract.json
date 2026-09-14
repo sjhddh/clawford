@@ -1,0 +1,54 @@
+{
+  "skillId": "wps-xlsx",
+  "displayName": "Wps Xlsx",
+  "description": "创建、编辑或分析 .xlsx / .xlsm / .csv / .tsv 文件。当用户要求生成、处理、下载 Excel 表格，或提及表格文件名/路径并希望对其操作时，使用本技能。包括：打开、读取、编辑、修复已有文件（增列、计算、格式化、图表、数据清洗），从零或其他数据源创建新表格，以及表格格式间的转换。对于结构混...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wps-xlsx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "tripadvisor-api",
+  "displayName": "tripadvisor-api",
+  "description": "Query TripAdvisor location data (search, nearby, details, photos, reviews) straight from a shell with curl against the Terra REST API (terra.tripadvisor.com), instead of running the tripadvisor-mcp server — plus a no-API-key fallback that reads a location's public page through the fpx browser bridge. Use when you want TripAdvisor data without the MCP, in a script, or on a machine where the MCP isn't installed. Triggers on \"check TripAdvisor\", \"TripAdvisor location/restaurant/hotel/attraction search, details, photos, reviews\", or any TripAdvisor data request that should hit the API directly.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tripadvisor-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

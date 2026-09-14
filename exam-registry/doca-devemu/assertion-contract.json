@@ -1,0 +1,49 @@
+{
+  "skillId": "doca-devemu",
+  "displayName": "doca-devemu",
+  "description": "Use this skill when the user is doing hands-on DOCA Device Emulation on a BlueField DPU — exposing a custom emulated PCIe device the host sees as a real peripheral while DPU-side code runs the backend, picking the sub-library (PCI Generic, virtio-net, virtio-fs), wiring the per-sub-library Core context plus doorbell / DMA primitives, querying `doca_devemu_*_cap_*`, or debugging DOCA_ERROR_* from a `doca_devemu_*` call. Trigger even when the user does not say \"devemu\" — typical implicit phrasings include \"expose a custom PCIe device from BlueField to the host\", \"host should see a virtio NIC backed by my DPU code\", \"lspci does not show my emulated device\", \"device enumerated but no driver binds\", \"DPU sees nothing when host kicks the queue\", or \"virtio feature negotiation failed at bind\". Refuse and route elsewhere for the packaged DOCA SNAP / Virtio-net Services, host-side virtio kernel drivers, backend body design, or standard BlueField NIC behavior — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-devemu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

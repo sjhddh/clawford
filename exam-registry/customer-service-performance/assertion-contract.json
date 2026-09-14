@@ -1,0 +1,54 @@
+{
+  "skillId": "customer-service-performance",
+  "displayName": "客服绩效核算",
+  "description": "客服坐席绩效核算技能。读取用户提供的坐席工作量数据表与绩效规则表（Excel/CSV 均可），按可配置的多维度权重与阶梯规则逐人核算得分，输出含逐项计算过程的绩效明细表、团队分布对比与待人工复核清单。适用场景：客服绩效核算、坐席绩效、月度绩效统计、绩效评分、按规则算绩效，以及用户提供坐席数据与考核规则并希望自动核算得分的任务。核算结果供人工复核参考，不构成最终考核依据。反馈与定制联系：zenobiazizi.skills@foxmail.com",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:customer-service-performance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

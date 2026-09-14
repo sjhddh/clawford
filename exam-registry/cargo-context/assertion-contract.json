@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-context",
+  "displayName": "cargo-context",
+  "description": "Read and write the workspace GTM knowledge base — the git-backed repository of markdown describing ICPs, personas, plays, proof points, objections, competitors, and signals — plus its runtime sandbox and typed knowledge graph. Triggers: \"document our ICP\", \"write up this persona\", \"what is our positioning\", \"add a battlecard\", \"capture this objection\", \"what do we know about <segment>\", \"update our context\", \"what is in the context repo\", \"who do we sell to\". Skip when: discovering who actually buys from you by analyzing won/lost data — that is cargo-gtm (this skill writes the conclusion down, it does not derive it); storing structured records rather than prose — use cargo-storage; attaching documents to an agent for RAG — use cargo-content.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-context"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

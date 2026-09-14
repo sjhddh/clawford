@@ -1,0 +1,54 @@
+{
+  "skillId": "plaud-transcripts-corrected-with-your-own-terminology-glossary",
+  "displayName": "plaud-transcripts-corrected-with-your-own-terminology-glossary",
+  "description": "Plaud Transcripts Corrected With Your Own Terminology Glossary: Fixes the words your transcription keeps getting wrong, by giving the pipeline your vocabulary instead of hoping a bigger model guesses right. Every speech model mangles terms it has never seen: cell line and reagent names, drug and device names, case and matter numbers, part numbers, local spelling and number conventions, team and client names. Swapping to a different model does not fix this, because none of them have your terms e.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:plaud-transcripts-corrected-with-your-own-terminology-glossary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

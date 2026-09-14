@@ -1,0 +1,49 @@
+{
+  "skillId": "research-gap-finder",
+  "displayName": "research-gap-finder",
+  "description": "Find evidence-bounded candidate research gaps and output a ranked, source-linked report with a candidate research question per gap. Uses a stdlib-only CLI over key-free scholarly APIs (OpenAlex, Semantic Scholar, Crossref, Europe PMC, PubMed, arXiv) plus manual human-in-the-loop guidance. Grounded in PICOS, AHRQ/Robinson gap reasoning, a six-type taxonomy, a five-dimension rubric, reproducible search provenance, and an explicit anti-confabulation protocol.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:research-gap-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

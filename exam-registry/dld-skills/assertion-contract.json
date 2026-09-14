@@ -1,0 +1,49 @@
+{
+  "skillId": "dld-skills",
+  "displayName": "店雷达选品技能",
+  "description": "1688选品库MCP服务引导技能。当用户需要通过1688平台进行商品选品、爆品筛选、供应商评估、商品销量分析、热销榜单查询、类目浏览时触发此技能。本技能引导AI正确理解用户选品意图、选择合适的MCP工具、补全关键参数、并以视觉化方式（图片+表格+卡片）展示选品结果。触发本技能后，所有1688选品相关工具调用默认使用店雷达（dld MCP）连接器，工具包括 mcp__dld MCP__product_search_list、mcp__dld MCP__product_billboard_list、mcp__dld MCP__product_info、mcp__dld MCP__get_categ",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dld-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

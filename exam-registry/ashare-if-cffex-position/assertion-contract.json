@@ -1,0 +1,54 @@
+{
+  "skillId": "ashare-if-cffex-position",
+  "displayName": "A股(机构主力)股指期货持仓统计-中金所",
+  "description": "当用户需要从中金所(cffex.com.cn)获取股指期货(IF/IH/IC/IM)席位持仓、统计机构净多空、计算净增对比、分析主力席位动向、或自动生成每日持仓统计报告/邮件时使用。关键修正：datatypeid=1 是持买单量(多单)、=2 是持卖单量(空单)、=0 是套利(不计入多空净持仓)；净增对比使用官方 varvolume(比上交易日增减)字段直接求和，而非“当日−前日”自行相减。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ashare-if-cffex-position"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

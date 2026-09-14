@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-avatar-video-runcomfy",
+  "displayName": "AI Avatar & Talking Head Video — Pro Pack on RunComfy",
+  "description": "AI avatar video on RunComfy. This RunComfy avatar video skill creates talking-head and lip-sync videos via the `runcomfy` CLI. Routes across ByteDance OmniHuman (RunComfy's lip-sync feature pick — audio-driven full-body avatar from one portrait + audio file), Wan-AI Wan 2-7 (open-weights audio-driven lip-sync via `audio_url` on a portrait), HappyHorse 1.0 (Arena #1 t2v / i2v with in-pass audio from prompt — no audio file needed), Seedance v2 Pro (multi-modal cinematic with reference audio + reference subject), and community Wan 2-2 Animate (stylized character animation). The RunComfy avatar video skill picks the right model for intent — UGC voiceover, virtual presenter, dubbed product demo, lip-synced character, dialog scene — and ships each model's documented prompting patterns plus the minimal `runcomfy run` invoke. Triggers on \"talking head\", \"lip sync\", \"avatar video\", \"make X speak\", \"audio to video\", \"audio driven avatar\", \"virtual presenter\", \"AI spokesperson\", \"dubbed video\", \"UGC avatar\", \"HeyGen alternative\", \"Synthesia alternative\", \"digital human\", \"make this portrait talk\", \"video from voiceover\", or any explicit ask to put words in a face with RunComfy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-avatar-video-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

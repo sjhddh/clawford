@@ -1,0 +1,54 @@
+{
+  "skillId": "geoskill-frost-risk-mapping",
+  "displayName": "geoskill-frost-risk-mapping",
+  "description": "霜冻风险制图：由日最低温时序与 DEM 做高程递减率、冷空气湖（TPI 洼地）与坡向地形修正，逐像元统计霜冻频率/霜冻日数、初霜日、终霜日与无霜期，并分级霜冻风险。Frost risk mapping: terrain-corrected min-temperature (lapse rate, cold-air pooling via TPI, aspect) with frost frequency, first/last frost date, frost-free period and risk classification. 输出霜冻风险/无霜期/频率 GeoTIFF + 统计 JSON。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geoskill-frost-risk-mapping"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

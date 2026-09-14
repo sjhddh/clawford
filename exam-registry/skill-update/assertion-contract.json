@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-update",
+  "displayName": "Skill Update",
+  "description": "Updates installed agent skills safely: version check, diff preview, backup, approval, data migration, and rollback. Use when updating or upgrading a skill, checking for newer versions, previewing what changed before applying, when a skill breaks, misbehaves, or loses data right after an update, when saved data or config must migrate across a version bump, when local edits to an installed skill would collide with the new version, or when bringing every skill or every agent's copy current. Not for installing new skills (skill-finder) or publishing skills you own (skill-publish).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-update"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "code-workflow",
+  "displayName": "code-workflow",
+  "description": "4-stage code-change workflow: research → plan → user review → implement (TDD). Topics — steps (Step 0-3: resume + research + plan + review + branch), implement (Step 4: TDD + build + commit), pr (capture + PR with image/GIF/video). For issue implementation, tracked tasks, new features. TDD default (opt out --no-tdd). github-flow auto-companion on GitHub repos. Use when: \"coding workflow\", \"research plan implement\", \"write plan\", \"plan md\", \"user review\", \"code plan\", \"code changes\", \"PR with screenshots\", \"pull request\", \"capture and PR\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

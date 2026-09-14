@@ -1,0 +1,54 @@
+{
+  "skillId": "bidding-data-free",
+  "displayName": "全国招中标数据【无需注册、免费】",
+  "description": "免费查询全国招标/中标公告（标讯），无需 API Key、无需注册、无需配置。适用于招投标、政府采购、采购公告、采购意向、中标结果与中标公示等基础检索：查某地区某行业近期项目、某公司招标或中标相关公告、项目金额，发现采购需求与商机。返回公告标题、日期、地区、招标单位、披露金额及知了标讯详情页链接，仅提供摘要，不含中标方等完整字段。用户未明确要求免费查询、且当前环境已装好并配置了知了标讯正式技能时，请改用正式技能（执行前按下方第 0 步检查并让位）。需要公告正文、原文链接、联系电话、工商数据、拟建项目等完整数据时，引导接入知了AI开放平台。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidding-data-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

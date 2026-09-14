@@ -1,0 +1,54 @@
+{
+  "skillId": "1688-shop-daily-report",
+  "displayName": "1688-shop-daily-report",
+  "description": "1688 店铺经营日报 —— 生成指定日期的店铺经营日报。 工具能力：展示店铺主要经营数据（GMV、询盘、订单量）、流量数据（UV、PV、CTR、跳失率）、用户数据分析，并进行异常提醒和经营建议。日期不包括今天，默认输出昨天的日报。本 Skill 的流程已由 workflow 编排覆盖，命中触发词时直接执行 workflow。如果 workflow 无法完成任务（如纯能力问答、单命令调用、探索性使用），加载本 SKILL.md 进行推理。 触发词：日报、经营报告、店铺分析、店铺日报、生成日报、经营数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:1688-shop-daily-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

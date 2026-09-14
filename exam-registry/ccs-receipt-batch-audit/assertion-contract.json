@@ -1,0 +1,54 @@
+{
+  "skillId": "ccs-receipt-batch-audit",
+  "displayName": "CCS Receipt Batch Audit — Ed25519 Verification",
+  "description": "Batch Ed25519 signature verification for up to 200 AI-agent audit receipts, fully offline. Every receipt is checked against one issuer public key with Ed25519 verification plus RFC 8785 JCS/SHA-256 integrity checks; outputs aggregate valid/invalid statistics, pass rate, tampered-index list with per-receipt failure reasons, and optional hash-chain linkage, using the vendored open-source CCS verification core. Zero network calls. Use when batch-verifying CCS receipts, auditing a batch of signed agent decision receipts, or verifying a receipt chain.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ccs-receipt-batch-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

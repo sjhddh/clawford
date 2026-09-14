@@ -1,0 +1,49 @@
+{
+  "skillId": "biomedical-reference-verifier",
+  "displayName": "biomedical-reference-verifier",
+  "description": "Verify or normalize biomedical and life-science reference lists, when the task is about AI-caused reference errors. Checks identifiers and bibliographic fields, preserves source evidence, and produces a searchable offline report. 生物医学/生命科学参考文献真实性验证skill，可以对参考文献列表（引文列表）进行多轮核查和错误修复，附带引文格式整理功能，能统一规范化所有引文为AMA、APA、GB/T 7714等格式。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biomedical-reference-verifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

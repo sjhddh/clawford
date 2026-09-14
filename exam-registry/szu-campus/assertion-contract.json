@@ -1,0 +1,54 @@
+{
+  "skillId": "szu-campus",
+  "displayName": "深圳大学校园事务 CLI",
+  "description": "当用户需要通过本地 szu-cli 查询或操作深圳大学校园事务时使用，包括登录检查、公文通、我的课表、全校课表、成绩、绩点排名、培养方案、学业完成、思政学分、创新讲座、宿舍电费、体育场馆预约、图书馆馆藏、知网和万方检索。指导 agent 使用 JSON 输出、安全处理隐私，并对预约和取消执行 dry-run/co...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:szu-campus"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

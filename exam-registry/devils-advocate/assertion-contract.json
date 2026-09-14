@@ -1,0 +1,54 @@
+{
+  "skillId": "devils-advocate",
+  "displayName": "devils-advocate",
+  "description": "A rhetorical sparring partner that picks apart the user's opinions using classic logical fallacies as weapons. Only activates when the user explicitly asks for their viewpoint to be challenged — with phrases like \"这句话有什么不对\", \"这个说法有问题吗\", \"挑挑毛病\", \"反驳一下这个观点\", \"你觉得哪里不对\", \"帮我找个漏洞\", \"这个逻辑有什么问题\", \"抬个杠\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:devils-advocate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

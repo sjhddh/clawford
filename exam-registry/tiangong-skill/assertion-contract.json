@@ -1,0 +1,54 @@
+{
+  "skillId": "tiangong-skill",
+  "displayName": "tiangong-skill",
+  "description": "天工.skill(Tiangong Skill)智能体设计师。当用户需要设计、创建或优化AI智能体/Agent，或基于真实人物蒸馏思维框架创建人物Skill时使用。支持两种范式：人物蒸馏（由内而外，复刻心智模型）与岗位型专家（由外而内，定义岗位职责）。目标：创建专业领域专家角色，具备清晰人设和扎实交付力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tiangong-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

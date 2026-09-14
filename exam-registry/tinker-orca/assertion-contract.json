@@ -1,0 +1,54 @@
+{
+  "skillId": "tinker-orca",
+  "displayName": "Tinker ORCA",
+  "description": "Stop editing files one at a time. ORCA drafts every change in parallel, then applies them per-file-serialized so disjoint files fly and shared files never collide. It SPAWNS SUBAGENTS on your own provider (one per unit, which costs money) and writes ONLY the repo-relative files you list — an allowlist enforced in code, not requested in a prompt, and since 1.2.1 backed by a realpath check on disk so a symlinked path component cannot carry a write outside the repository. Committing rewrites git history and needs commit AND confirmedCommit; it is OFF by default and never inferred. In its default mode it creates a git worktree and branch per unit-group and removes them afterwards. It runs an external program ONLY when you pass its absolute path IN THE CALL — no environment variable can name one. See Permissions, Data Flow and Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tinker-orca"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

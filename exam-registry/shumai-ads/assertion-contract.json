@@ -1,0 +1,54 @@
+{
+  "skillId": "shumai-ads",
+  "displayName": "澍脉投放驾驶舱",
+  "description": "查询澍脉AI投放驾驶舱的真实投放数据。当用户询问广告投放表现、账户余额、哪些广告计划该止损/优化/加预算、CPA/CTR 异常,或品牌在 AI 大模型(DeepSeek/豆包/Kimi 等)中的 GEO 可见度与排名时使用。需要环境变量 SHUMAI_API_KEY。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shumai-ads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

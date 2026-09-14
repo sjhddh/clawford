@@ -1,0 +1,54 @@
+{
+  "skillId": "native-autonomous-discovery",
+  "displayName": "native-autonomous-discovery",
+  "description": "原生自主发现：超越\"被动接任务问答\"，对开放问题自主完成\"假设->设计判别性实验->评估证据->收敛\" 的科研闭环。给定搜索空间与观测器，自动生成候选假设、用观测器打分、按证据累加择优、对低证据 假设再生或剪枝，直到收敛到高置信结论。纯标准库、零依赖、可本地实跑(--selftest 自带样例)。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:native-autonomous-discovery"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

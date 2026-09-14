@@ -1,0 +1,49 @@
+{
+  "skillId": "network-aiops",
+  "displayName": "network-aiops",
+  "description": "Use this skill whenever the user needs to operate a network device — read device facts, interfaces (+ counters/IP), BGP/LLDP neighbors (summary and detail), ARP/MAC tables, VLANs, routes, hardware environment (fans/temp/power/CPU/mem), optics, NTP, users, SNMP info, VRFs, and an aggregated device-health summary; run read-only RCA diagnostics on interface health and BGP neighbors; back up a switch/router config, diff a candidate config (dry-run), and merge/replace/rollback config — across Cisco IOS/IOS-XE, Nexus NX-OS, IOS-XR, Arista EOS, and Juniper Junos via NAPALM. An optional NetBox block adds source-of-truth lookups. Always use this skill for \"back up switch config\", \"show bgp neighbors\", \"diff network config\", \"push config to router\", \"show interfaces on the switch\", or tasks mentioning \"cisco\", \"arista\", \"juniper\", \"nexus\", \"ios-xr\", or \"napalm\". Do NOT use when the target is not a NAPALM-supported network device (Kubernetes clusters, hypervisor VMs, and cloud consoles are out of scope — route those elsewhere). Common multi-vendor device operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:network-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

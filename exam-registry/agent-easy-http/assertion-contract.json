@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-easy-http",
+  "displayName": "agent-easy-http",
+  "description": "Deploy an HTTP(S) proxy that exposes OpenClaw agent capability as a REST API over your network IP (e.g. http://<your-server-ip>:7720). Use when asked to \"start agent-easy-http\", \"expose openclaw agent as HTTP\", \"deploy openclaw agent HTTP service\", \"create internal HTTP API for agent\", or \"start the agent gateway\". HTTP by default (zero-friction); optional HTTPS with self-signed SAN certificates for production / cross-host scenarios. Includes mandatory API Key auth, deny-list filter, prompt-injection hardening, and direct integration with OpenClaw native /hooks/agent (millisecond dispatch + automatic hook:<uuid> session isolation per request). Thin proxy layer; use skill-to-http-flash for per-skill API endpoints.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-easy-http"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

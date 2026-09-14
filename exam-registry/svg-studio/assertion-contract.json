@@ -1,0 +1,54 @@
+{
+  "skillId": "svg-studio",
+  "displayName": "SVG绘图工作台-智能生图",
+  "description": "用「编写 SVG」的方式生成图片——让没有多模态生图能力的模型也能产出任意宽高比、任意复杂度的矢量图，并导出为 SVG / PNG / 动图(GIF/APNG/WebP/MP4)，或内嵌进 HTML。 适用场景：用户要「生成一张图 / 画个图 / 做张配图 / 做海报 / 信息图 / 图表 / 流程图 / 架构图 / 图标 / 封面 / OG 图」，要求指定宽高比(16:9 / 1:1 / 9:16 等)或导出 PNG；也包括「做个动图 / GIF / 加载动画 / loading 动效」。 能力：① 按指令编写复杂 SVG（图表/插画/流程图/海报）；② SVG→PNG 高清渲染(Chrome 优先，cairosvg/resvg 兜底)；③ 多帧/模板 SVG→GIF/APNG/WebP/MP4 动图；④ 任意宽高比与 DPR。 关键词：生图、画图、SVG、矢量图、配图、海报、信息图、图表、流程图、架构图、图标、封面、OG image、转 PNG、动图、GIF、动画、loading。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:svg-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

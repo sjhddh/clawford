@@ -1,0 +1,54 @@
+{
+  "skillId": "fuck-clawhub-2",
+  "displayName": "Fuck Clawhub",
+  "description": "将 ClawHub 的 skill 链接转换为 SkillHub (skillhub.cn) 链接，并在 SkillHub 上按相关度搜索、推荐 skill。当用户搜索某功能/名称的 skill、给出 clawhub.ai 的 skill 链接、或希望寻找 ClawHub 之外的 skill 来源（规避其过于严格的安全审查）时使用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fuck-clawhub-2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

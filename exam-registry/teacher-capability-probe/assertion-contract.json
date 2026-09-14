@@ -1,0 +1,54 @@
+{
+  "skillId": "teacher-capability-probe",
+  "displayName": "teacher-capability-probe",
+  "description": "对 WorkBuddy 内部其他大模型/专家技能（教师）做「能力探针与评测」，量化其能力边界与失败模式， 产出结构化能力画像——这是用户指定的核心机制「跨模型蒸馏」工程化收口的关键子能力 （发现→探针→提取→合成→对抗验证）之一。让蒸馏不再凭手感，而是用覆盖性探针任务量化教师能力边界， 指导下一步该蒸馏哪些能力、规避哪些失败模式。触发词：教师能力探针、能力评测、能力画像、 teacher probe、capability evaluation、蒸馏前评测、能力边界、失败模式分析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:teacher-capability-probe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

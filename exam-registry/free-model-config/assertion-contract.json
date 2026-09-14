@@ -1,0 +1,54 @@
+{
+  "skillId": "free-model-config",
+  "displayName": "free-model-config",
+  "description": "免费AI模型配置领域负载物。标准化Agnes AI、智谱、商汤、小米、美团等平台的免费模型配置流程，支持文本/图像/视频/音频生成、语音识别（ASR）与信息图生成，及灵活多模态路径（单条、组合、批量生成与拼接）。核心：API Key管理、接口配置、模型选择、多模态生成（Agnes AI特有，采用基本命令组合复杂命令架构）、音频生成（简单合成+TTS语音合成）、语音识别与合成（ASR/TTS，含音色克隆/音色设计）。6域24种任务。触发词：模型配置、免费模型、API配置、模型设置、AI模型、图像生成、视频生成、音频生成、语音识别、语音合成、音色克隆、信息图生成、TTS配音、音视频合并、meta-",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:free-model-config"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

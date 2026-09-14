@@ -1,0 +1,54 @@
+{
+  "skillId": "zhuangzi-ai-skill",
+  "displayName": "莊子 AI",
+  "description": "莊子哲學與《莊子》文本的三語對談與 JSON 知識整理 skill。用於產生繁體中文、簡體中文及英文並列的莊子對談，分析生平、內篇／外篇／雜篇、核心概念與寓言，並將對談或知識內容整理為可匯入系統的結構化 JSON。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zhuangzi-ai-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

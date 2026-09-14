@@ -1,0 +1,54 @@
+{
+  "skillId": "wan-3-0-prime-reference-to-video",
+  "displayName": "Wan 3.0 Prime Reference to Video — Reference-Guided Video on RunComfy",
+  "description": "Wan 3.0 Prime Reference to Video generates video clips from reference images, reference videos and reference audio on RunComfy. Wan 3.0 Prime Reference to Video binds up to 10 reference images, 5 reference videos and 5 reference audio clips to a prompt that names them as Image 1, Video 1 and Audio 1, so a character, product or location stays consistent across a 2 to 30 second shot at 480p, 720p or 1080p with a synchronized audio track. Wan 3.0 Prime Reference to Video runs on the fast Wan 3.0 Prime tier (wan3.0-video-prime) and is billed per counted second, where reference videos add duration and reference images and audio do not. This skill documents the full Wan 3.0 Prime Reference to Video input schema, pricing, prompting patterns and the routing rules for Wan 3.0 Prime text-to-video, Wan 3.0 Prime image-to-video, Wan 2.7 and Seedance 2.0 Pro. Calls `runcomfy run wan-ai/wan-3.0-prime/reference-to-video` through the local RunComfy CLI. Triggers on \"wan 3 prime reference to video\", \"wan 3.0 prime\", \"wan3 prime\", \"reference to video\", \"ref2v\", \"keep the same character across shots\", \"video from reference images\", or any explicit ask to generate video from references with Wan 3.0 Prime.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wan-3-0-prime-reference-to-video"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

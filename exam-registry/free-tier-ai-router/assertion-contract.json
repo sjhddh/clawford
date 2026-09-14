@@ -1,0 +1,54 @@
+{
+  "skillId": "free-tier-ai-router",
+  "displayName": "free-tier-ai-router",
+  "description": "Quota-aware LLM router that squeezes maximum usable AI out of free-tier API keys across Gemini, Mistral, OpenRouter, Kilo and Cerebras plus any OpenAI-compatible endpoint (including local Ollama/llama.cpp/vLLM). Probes every model on every key, measures real quality and real published rate limits, then routes each request to the cheapest model that can do the job — spending abundant capacity first and reserving scarce daily quota for when it is actually needed. Persists cooldowns to disk so a 429 discovered in one process is respected by the next. Use when an agent must make many LLM calls on free keys without hitting rate limits, when \"all models failed\", or when deciding which of several provider keys to use for a task.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:free-tier-ai-router"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

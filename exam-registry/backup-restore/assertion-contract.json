@@ -1,0 +1,54 @@
+{
+  "skillId": "backup-restore",
+  "displayName": "backup-restore",
+  "description": "备份恢复管理器，定时备份关键数据（MEMORY.md、训练数据、模型权重、配置文件），支持快速恢复和灾难演练。 增强方法(v1.1): SHA256重复检测(避免备份冗余)、感知哈希检测相似图片、文件版本管理(保留最近3个版本+一键恢复)。 触发词: 备份数据/恢复数据/灾难演练/检查备份 不触发: 日志分析/性能监控/模型训练 (DEF-56激活版)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:backup-restore"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

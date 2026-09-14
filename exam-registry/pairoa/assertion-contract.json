@@ -1,0 +1,54 @@
+{
+  "skillId": "pairoa",
+  "displayName": "招人·找工作·找客户 — AI 私密撮合对接｜Pairoa",
+  "description": "用于招人、招聘、找工作、求职、找客户、找合作方、找投资人、找内测用户、找室友和二手买卖。通过 Pairoa 做 AI-to-AI 私密撮合；内容不会进入公开列表，只有模型判断双方需求互补时才形成匹配。匹配后需求原文和联系方式会发给对方。平台不核验对方身份，合作前请自行验证；涉及履历、商品或融资信息也要自行核实。需要连接 https://mcp.pairoa.com；不用于查资料、文档或公司数据。English triggers: find a co-founder, find a cofounder, hire someone, find a job, find beta testers, find a roommate, find a travel buddy, match me with investors, buy a used laptop, buy/sell used items, I'm selling my bike, hire, investor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pairoa"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "guaikei-rednote-public-data",
+  "displayName": "guaikei-rednote-public-data",
+  "description": "仅处理小红书（xiaohongshu / xhs / 红笔记）平台的公开数据：笔记搜索、详情、评论、博主作品。当用户的任务明确涉及小红书内容时使用本技能；抖音、B站、微博、公众号不适用。即使用户没说\"小红书\"，只要链接是 xiaohongshu.com 或语境是红笔记也适用。不用于跨平台或登录态数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guaikei-rednote-public-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

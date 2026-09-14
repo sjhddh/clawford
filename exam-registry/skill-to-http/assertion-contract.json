@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-to-http",
+  "displayName": "skill-to-http",
+  "description": "Expose installed agent Skills as HTTP(S) REST API services. Runs a persistent FastAPI server that auto-generates an API endpoint per Skill, with sync/async execution, webhook callbacks, and a multi-engine sub-agent executor (OpenClaw / Claude Code / Codex CLI / LLM fallback). Ships a bilingual (EN/ZH) web management console. HTTP by default (zero-friction), optional HTTPS with self-signed SAN certificates for production. Use when you need to serve Skills over HTTP, call Skills remotely, or expose Skill capabilities to external systems.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-to-http"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

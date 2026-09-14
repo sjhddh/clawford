@@ -1,0 +1,54 @@
+{
+  "skillId": "wiki-intent-scope",
+  "displayName": "研究任务与场景界定",
+  "description": "当用户提供客户需求、研究对象（词条/主题词）、业务意图、政府/企业研究需求、市场进入问题、可行性研究需求、排名/背书目标或政策/咨询报告需求时，用于 Wiki 研究项目的任务与决策场景界定。解析客户自由表述，内部调用 wiki-normalize，识别研究对象、管理问题、研究意图、研究口径、风险和待确认项，并输出...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wiki-intent-scope"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

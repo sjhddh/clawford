@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-apig-instance-management",
+  "displayName": "huawei-cloud-apig-instance-management",
+  "description": "Manage Huawei Cloud APIG (API Gateway, dedicated instances) via hcloud CLI: instance lifecycle (create/list/delete), API groups, API create/update/delete, publish/offline, request throttling policies, and public ingress EIP binding, plus read-only diagnosis of public access (eip_address vs sl_domain) and the instance -> group -> API -> publish chain. Delete operations require explicit user confirmation; instance creation is a 5-15 minute async operation that must be polled until status == Running. Triggers include: APIG, API gateway, 网关, API 分组, API 管理, 流控策略, throttling, publish API, 发布 API, 下线 API, 实例管理, 公网访问, ingress EIP, API 网关排障, apig.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-apig-instance-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

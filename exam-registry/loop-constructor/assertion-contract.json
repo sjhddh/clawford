@@ -1,0 +1,54 @@
+{
+  "skillId": "loop-constructor",
+  "displayName": "loop-constructor",
+  "description": "Design the engineered loop for a medium/large (semi-)autonomous AI-coding task by decomposing it into gated sub-loops, emitted as a runnable .loop/ runbook. Use-when: \"design an agent loop\", \"set up an autonomous / self-running agent workflow\", \"$loop-constructor\". It DESIGNS the loop; it does NOT execute it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:loop-constructor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

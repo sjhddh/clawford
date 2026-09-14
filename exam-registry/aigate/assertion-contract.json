@@ -1,0 +1,49 @@
+{
+  "skillId": "aigate",
+  "displayName": "aigate",
+  "description": "Self-hosted AI platform — one `docker-compose up`, one OpenAI-compatible endpoint at http://localhost:4000. Bundles inference (Groq/Cerebras/OpenRouter/HuggingFace/Mistral/Cohere/Ollama/vLLM/llama.cpp/claudebox/pibox-zai/Anthropic/OpenAI), MCP tool use, a stealth browser cluster, image generation (FLUX/DALL-E/SD), speech synthesis (Kokoro/Qwen3-TTS/Chatterbox/OpenAI TTS), transcription (Whisper/Parakeet), S3-compatible object storage, agentic code execution (Claude Code + pi-coding-agent + sandboxed piston), web search (SearXNG), an email gateway (mailbox), a Telegram client (Telethon), time-series forecasting + tabular ML (predictalot), audio/video production (audiolla/flickies), an async job queue (proxq), and a web UI (LibreChat) — all reachable through one bearer token and automatic per-model fallback routing. Use when the user wants a one-command self-hosted OpenAI-compatible stack that aggregates many providers/tools behind a single endpoint instead of wiring each service up individually.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aigate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

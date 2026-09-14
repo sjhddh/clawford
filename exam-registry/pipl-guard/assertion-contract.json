@@ -1,0 +1,49 @@
+{
+  "skillId": "pipl-guard",
+  "displayName": "PIPL Guardrail",
+  "description": "PIPL 运行时护栏 (pipl-guard) v1.0.0。\n在 AI 应用的输入/输出链路中实时检测个人信息，按风险分级\n执行脱敏或阻断，供 Agent 主动调用。区别于事后审计，这是事中防护。\n\nUse when: 需要在 Agent 处理用户输入或返回结果前，实时拦截/脱敏\n个人信息；防止敏感数据流入大模型或被输出泄露；为 AI 应用加装\n符合《个人信息保护法》的运行时护栏。\n\n核心能力：\n- 🛡️ 实时检测中国大陆身份证、手机号、银行卡、护照、车牌、\n  邮箱、IP/MAC 等结构化个人信息（含 Luhn / 身份证校验位校验）\n- 🧩 关键词线索识别（生物识别、医疗健康、行踪轨",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pipl-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

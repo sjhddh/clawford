@@ -1,0 +1,54 @@
+{
+  "skillId": "macd-stock-screener",
+  "displayName": "macd-stock-screener",
+  "description": "A股左右侧MACD选股筛选器，含东方财富股吧舆情采集与情感分析报告。当用户需要扫描全市场MACD金叉信号、MACD选股、左右侧策略选股、MACD即将金叉筛选时使用此skill。支持右侧MACD金叉选股（DIF上穿DEA）和左侧MACD即将金叉选股（DIF在DEA下方但差距收敛）。不含回测。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:macd-stock-screener"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

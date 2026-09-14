@@ -1,0 +1,49 @@
+{
+  "skillId": "sn-ppt-creative",
+  "displayName": "sn-ppt-creative",
+  "description": "Creative-mode PPT pipeline. One full-page 16:9 PNG per slide. LLM / VLM calls go through sn-ppt-standard/lib/model_client.py (shared thin client). Text-to-image (the actual png rendering) goes through sn-image-base/scripts/sn_agent_runner.py. Falls back to web image search when T2I generation fails. Expects task_pack.json + info_pack.json already written by sn-ppt-entry.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-ppt-creative"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

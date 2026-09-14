@@ -1,0 +1,54 @@
+{
+  "skillId": "summarizer",
+  "displayName": "Summarizer",
+  "description": "Summarizes any source without losing the claim: documents, meetings, papers, threads, transcripts, data, and code changes. Use when asked to summarize, condense, shorten, recap, distill, or write a TLDR, abstract, or executive summary; when a source is too long to read or must hit a word count; when summarizing a call, interview, Slack channel, pull request, contract, earnings report, podcast, or a stack of sources on one topic; when a summary dropped something important, invented a detail, turned a hedge into a fact, or reads like the headings; and when the same material must be re-cut for another audience, length, or channel. Covers compression ratios, chunking, faithfulness and omission audits. Not for recurring external feeds (`digest`), decision documents whose point is the recommendation (`brief`), cross-source insight generation rather than compression (`synthesize`), or pulling text or a transcript out of a file or video first (`extract-pdf-text`, `youtube-video-transcript`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:summarizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

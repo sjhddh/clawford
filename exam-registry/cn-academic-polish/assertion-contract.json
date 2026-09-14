@@ -1,0 +1,54 @@
+{
+  "skillId": "cn-academic-polish",
+  "displayName": "cn-academic-polish",
+  "description": "中文学术论文润色与规范化检查。当用户要求\"润色论文\"\"修改学术语言\"\"去口语化\"\"规范参考文献\"\"检查引文格式\"，或粘贴中文学位论文/期刊论文段落请你优化时使用。依据《中文学术写作风格指南》逐句改写为论著体、锁定术语一致、按 GB/T 7714-2015 规范引文，并输出\"润色后全文 + 修改对照表 + 遗留问题\"三段式结果。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cn-academic-polish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

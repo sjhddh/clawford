@@ -1,0 +1,54 @@
+{
+  "skillId": "video-transcript-method",
+  "displayName": "Video Transcript Method",
+  "description": "视频文字稿提取方法。核心能力：将任何在线视频的语音内容提取为结构化文字稿（带时间戳+元信息+要点总结）。覆盖从视频URL解析、音频提取、CC字幕检测、Whisper语音识别、元信息获取、语义分段到结构化文字稿输出的全流程。通用方法，不绑定任何特定视频平台。触发词：视频文字稿、视频转文字、字幕提取、语音转录、vid...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-transcript-method"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "self-improving-support",
+  "displayName": "self-improving-support",
+  "description": "Captures ticket resolution delays, misdiagnoses, escalation gaps, SLA breaches, knowledge gaps, and customer churn signals to enable continuous support improvement. Use when: (1) A ticket is resolved late or incorrectly, (2) An SLA breach occurs, (3) A customer reopens a ticket, (4) An escalation pathway fails, (5) A knowledge base search returns no results, (6) CSAT scores drop below threshold, (7) A churn signal is detected in customer communication.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-support"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

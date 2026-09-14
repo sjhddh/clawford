@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-billing-account-balance",
+  "displayName": "huawei-cloud-billing-account-balance",
+  "description": "Query the Huawei Cloud BSS (Business Support System) customer account balance of the current account and return a balance report. Returns the currency, total debt amount, and per-account balances (cash/balance account, credit account, reward account, deposit account) with amounts. Uses the huaweicloudsdkbss Python SDK (`show_customer_account_balances`, v2 API `GET /v2/accounts/customer-accounts/balances`) — KooCLI does NOT support the BSS service, so the SDK is the only execution path. The shipped scripts/query_account_balance.py integrates the execution-quality reporting SDK and reports every run to the skillsopr operations console. Read-only — never creates, modifies or deletes any billing resource. Use this skill whenever the user wants to check the personal Huawei Cloud account balance, remaining balance, debt, or billing account status, e.g. for cost review, before creating pay-per-use resources, or daily inspection. Triggers include: \"账户余额\", \"余额查询\", \"查询余额\", \"账单余额\", \"我的余额\", \"欠费\", \"account balance\", \"query balance\", \"billing balance\", \"balance check\", \"remaining balance\", \"debt amount\", \"账户欠款\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-billing-account-balance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

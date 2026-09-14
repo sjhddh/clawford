@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-skill-coordinator",
+  "displayName": "学习系统协调器",
+  "description": "学习系统协调器：判断一次学习问题该由哪个 SKILL 接手，并在用户请求时汇总全景月报。学生说“帮我生成全景月报”“我的学习系统运转得好吗”“这道题该找谁分析”“这周该先补哪一环”时可激活。它不自己讲题、不自己分析错因、不自己出题、不发提醒——只做路由、去重与汇总；周报归每周学习复盘。仅在当前任务需要且用户已同意相关数据使用时按最小必要字段汇总，不做跨SKILL全量拉取或写回。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-skill-coordinator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

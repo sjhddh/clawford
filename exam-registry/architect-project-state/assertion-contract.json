@@ -1,0 +1,54 @@
+{
+  "skillId": "architect-project-state",
+  "displayName": "architect-project-state",
+  "description": "Maintain a versioned, source-traceable architectural project brief, decision state, change log, open-question register, and bounded task pool. Use when ingesting design briefs, client meeting notes, consultant feedback, planning conditions, or later revisions; when updating project state without overwriting history; or when handing the project to another architect or Agent. Do not use merely to generate design ideas or imitate an architect's style.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:architect-project-state"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

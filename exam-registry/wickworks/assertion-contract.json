@@ -1,0 +1,49 @@
+{
+  "skillId": "wickworks",
+  "displayName": "wickworks",
+  "description": "Stateless OHLC primitives service — candlestick bars in, technical indicators + Smart-Money-Concepts objects out. Single POST / takes a bars array + an indicators selection map and returns computed primitives; GET /metadata is the output-path catalog; GET /health. 67 primitives across trend (SMA/EMA + 15 more MAs, slope, Donchian, Ichimoku), momentum (RSI, MACD, Stoch, StochRSI, ADX, MFI, CCI, Williams %R, ROC, MOM, TSI, TRIX, UO, Fisher), volatility (ATR, NATR, Bollinger, Keltner, Squeeze), volume (VWAP, VWMA, OBV, AD, ADOSC, CMF, KVO), and SMC (order blocks, fair-value gaps, BOS/CHoCH, swing structure, S/R levels, liquidity, retracements, sessions, previous-period H/L) plus pre-baked summaries. camelCase, NaN-safe JSON. Unified REST + MCP (streamable-HTTP at /mcp — tools health / list_indicators / metadata / compute). Auth-less by default. Use when the user wants technical indicators or Smart-Money-Concepts primitives computed from OHLC candlestick bars.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wickworks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

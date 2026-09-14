@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-ecs-code-deploy",
+  "displayName": "alibabacloud-ecs-code-deploy",
+  "description": "基于 aliyun appmanager 一键把项目代码部署到阿里云 ECS 云服务器，覆盖环境预检、询价、部署、日志验证、失败诊断重试全流程。支持 App / AI Agent（LangChain / AutoGen / AgentScope / MCP / FastAPI / Flask / Spring Boot 等），新建或已有 ECS 实例，自动处理分组冲突、zip 解压、余额不足、地域参数透传、重复部署免初始化。触发词：部署到ECS、部署项目到ECS、部署到云服务器、把这个项目部署上去、上线到ECS、把仓库部署到ECS、当前目录部署、阿里云ECS部署、appmanager部署、aliyun appmanager、一键部署App、部署AI Agent、deploy to ECS、code deploy、deploy app、deploy agent、appmanager deploy、ECS code deploy、跑一下这个项目、把代码跑到ECS上、ECS上线。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-ecs-code-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

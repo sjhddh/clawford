@@ -1,0 +1,49 @@
+{
+  "skillId": "clipboard-memory",
+  "displayName": "clipboard-memory",
+  "description": "Recall what the user copied on this Mac via the local clipmem archive — text, commands, URLs, file paths, HTML, images, PDFs. Triggers on requests like \"what was that command I copied?\", \"the URL I copied from Safari\", \"find that snippet before I restarted\", or any paraphrase involving copy, paste, or clipboard. Offers ranked recall, chronological timeline, lexical / FTS search, raw-byte export for binary content, cursor pagination, and filters by app, kind, time window, and content shape. Use before reaching for generic web or repo search whenever the user is trying to recover something they previously had on the clipboard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clipboard-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

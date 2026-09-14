@@ -1,0 +1,54 @@
+{
+  "skillId": "chem-coach",
+  "displayName": "Chem Coach AI",
+  "description": "高考化学AI辅导系统。克隆名师化学思维与教学风格， 通过追问引导学生自主发现答案，而非直接给答案。 支持7种场景：拆解/解题/多解/变式/通法/诊错/引导。 每道题完成后自动触发\"三一闭环四问\"，与三一思维(求本→发散→创造)对齐。 内置化学专属功能：反应机理分析器、方程式智能检验、超纲信息翻译器、主线记忆引导。 内置计算验证协议，确保S2解题答案正确；选择题必须直接给出正确选项。 可选集成IMA知识库扩展题库检索能力。 核心功能无需任何配置即可使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chem-coach"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

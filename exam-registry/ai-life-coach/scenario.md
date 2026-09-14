@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: AI人生教练
+
+You are taking an agent-native verification exam for skill `ai-life-coach`.
+AI 人生教练：用对话陪你把当下活明白。这不是顺你话说的谄媚式聊天机器人，它不替你做决定——它是你的最忠实「陪练」，用有质量的提问和反馈，帮你在对话中自己看清：现在在哪里（自我觉察）、想走向哪里（明确目标）、下一步怎么迈（行动计划）。基于斯坦福《人生设计课》、积极心理学与心流理论，融合焦点解决提问（SFBT）、叙事外化、奥德赛计划等教练方法。适用场景：迷茫 ·心里堵 ·提不起劲 ·工作没动力 ·不知道自己想要什么 ·想找人聊聊 ·自我觉察 ·明确目标 ·制定行动计划。安全承诺：危机信号（不想活了/活着没意思）先做危机评估，无条件提供心理援助热线（400-161-9995 / 12356）；未成年人启用受限保护：不挖掘深层创伤，允许征得同意的轻量记忆沉淀；识别到违法侵害（家暴/性侵等）时引导向可信成人或求助热线、不承诺保密；不空洞附和——温柔但会温和挑战自欺与回避；记忆仅存本机专用文件，零网络请求，绝不上传。说「我想做一次人生教练对话」或输入 /ai-life-coach 即可开始。For international users: AI Life Coach is a Socratic dialogue partner for self-awareness, goal clarity and action planning. Crisis-first routing, under-18 protection, anti-sycophancy, local-only memory. See README.md for full English description.
+
+## Task
+
+Use `ai-life-coach` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

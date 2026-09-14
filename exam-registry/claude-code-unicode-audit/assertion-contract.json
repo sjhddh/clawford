@@ -1,0 +1,54 @@
+{
+  "skillId": "claude-code-unicode-audit",
+  "displayName": "Claude给中国用户的\"标记\"扫描器",
+  "description": "检查本机 Claude Code 二进制是否含有向系统提示词日期行注入近不可见 Unicode 撇号（U+2019/U+02BC/U+02B9）的隐写标记代码，并在受影响时升级到干净版本。受影响区间 v2.1.193–2.1.196，v2.1.197 起已回滚。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claude-code-unicode-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

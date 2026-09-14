@@ -1,0 +1,54 @@
+{
+  "skillId": "yahoo-network-research",
+  "displayName": "yahoo-network-research",
+  "description": "Researches Yahoo's editorial content network — Autos, Entertainment, Health, Life, News, Shopping, Sports, and Tech — via the Crawlora API, returning clean JSON. Each vertical shares a home/category story-stream plus full-article-content pattern; Yahoo Sports adds deeper sports-data endpoints (scoreboards, standings, team/player/roster, golf, MMA, motorsports, tennis, Olympics). Use when the user wants a Yahoo section's story feed, a Yahoo article's full content, Yahoo News comments, Yahoo Shopping deals/lists, or Yahoo Sports scores/standings/schedules. Yahoo Finance and Yahoo Search are covered by their own separate skills, not this one.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yahoo-network-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

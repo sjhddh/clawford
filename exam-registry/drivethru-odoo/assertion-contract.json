@@ -1,0 +1,54 @@
+{
+  "skillId": "drivethru-odoo",
+  "displayName": "drivethru-odoo",
+  "description": "Talk to an Odoo ERP through its `drivethru_mcp` MCP server — discover the available Odoo tools at runtime and call them to look up eBay products/inventory, push eBay orders and read tracking, run the Accounts Payable PO→vendor-bill flow, review documents in the Documents app against their purchase orders and fix incorrect PO line pricing (the \"check the Purchasing folder against the POs\" / vendor-invoice pricing-review workflow, filing each document into Matched or Questions), schedule MRP production batches, drive vendor replenishment purchasing (run the replenishment report → curate lines → add to a PO → hand style/color/size/qty to the vendor's purchasing skill → write pricing + confirmation back and confirm the PO), and retrieve internal SOPs / best practices / policies from the Knowledge base scoped to the asking person's permissions. Use whenever the user needs to read from or write to Odoo, especially when you are answering a person inside an Odoo Discuss conversation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drivethru-odoo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

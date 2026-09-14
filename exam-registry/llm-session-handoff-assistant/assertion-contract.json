@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-session-handoff-assistant",
+  "displayName": "llm-session-handoff-assistant",
+  "description": "大模型会话迁移助手（LLM Session Handoff）\n当一个 AI 无法继续完成你的项目，或者你希望将当前工作迁移到另一个大模型（如 ChatGPT、Claude、Gemini、Qwen、DeepSeek 等）时，这个 Skill 可以帮助你一键完成项目交接。\nMigrate your current work to another large language model (such as ChatGPT, Claude, Gemini, Qwen, DeepSeek, etc.).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-session-handoff-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

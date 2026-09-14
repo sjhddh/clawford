@@ -1,0 +1,54 @@
+{
+  "skillId": "ultra-remove-ai",
+  "displayName": "超能去AI",
+  "description": "对AI生成的文本进行深度改写，不止是换词换句式——从四个维度系统性去AI化： 语言层（句式、用词、意象模板）、叙事层（结构、逻辑闭环、人物真实感）、 细节层（私人印记 vs 通用模板）、设定层（文风一致性）。 内置13个专业编辑角色，自动匹配文字类型，用最合适的口吻改写。 专为中文文本设计。适用场景：创意写作、自...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ultra-remove-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "formal-capability-contract",
+  "displayName": "formal-capability-contract",
+  "description": "形式化能力契约与可证正确：给 agent 的每个能力（动作/函数/规划步骤）定义前置条件/后置条件/不变量， 用契约校验器对一次真实执行轨迹做可机器验证的\"该能力这次是否真的正确\"判定，而非启发式信任。 这是把能力信任从话术升级为可证明的元能力。当用户要求形式化验证、可证正确、能力契约、前置后置不变量时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:formal-capability-contract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

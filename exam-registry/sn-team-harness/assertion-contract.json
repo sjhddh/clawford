@@ -1,0 +1,54 @@
+{
+  "skillId": "sn-team-harness",
+  "displayName": "sn-team-harness",
+  "description": "Use when a user asks what SenseNova Team Harness is, wants an introduction or overview, is getting started, or is deciding whether it fits — a self-hosted workspace where people and local AI agents collaborate on conversations, projects, work items, and artifacts. Covers its core concepts (Workspace, Project, Conversation, Agent, WorkItem, Resource, Artifact, Local Computer), main capabilities, how to run it, and the basic usage flow.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-team-harness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

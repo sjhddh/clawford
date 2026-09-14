@@ -1,0 +1,54 @@
+{
+  "skillId": "toolchain-orchestrator",
+  "displayName": "toolchain-orchestrator",
+  "description": "多步工具链编排引擎（超越性元能力）。以「规划器为中心」把多工具任务定义为依赖 DAG，确定性地按拓扑序执行， 节点间通过 {{node_id}} 透传上游输出，支持校验/断点重跑/可视化。克服 ReAct 反应式的「局部优化陷阱」， 让 agent 在复杂多工具工作流中全局协调、识别并行、追踪依赖。当用户/agent 需要「串起多个脚本/命令」「编排流水线」「重跑失败步骤」时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:toolchain-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

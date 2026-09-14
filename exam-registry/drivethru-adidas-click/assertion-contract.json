@@ -1,0 +1,49 @@
+{
+  "skillId": "drivethru-adidas-click",
+  "displayName": "drivethru-adidas-click",
+  "description": "Browser-driven adidas Click B2B toolkit — places purchase orders, runs live inventory / wholesale-pricing checks, and pulls shipment tracking numbers from the adidas Click portal with Playwright, since adidas exposes no public API. Ordering accepts style number, color, size, quantity, a purchase-order number, and a ship-to address, drives the cart/checkout, and (on confirm) submits the order. Checks reuse the same flow but never buy — inventory reads product pages (no cart) and reports the **re-stock date** for anything out of stock or backordered, pricing fills a throwaway \"DO NOT BUY\" cart, reads the priced checkout, and deletes it. Tracking searches the order book by PO number, opens every adidas order for it, and returns each delivery's carrier + tracking number (or, for an order that has not shipped, its expected ship dates). Use whenever the user needs to place/draft a PO on adidas Click, check live stock levels, restock/back-in-stock dates, or wholesale pricing, or find tracking numbers / ship dates for adidas POs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drivethru-adidas-click"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

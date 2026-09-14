@@ -1,0 +1,54 @@
+{
+  "skillId": "ebay-lister",
+  "displayName": "eBay Lister",
+  "description": "Turn photos of an item into a real, LIVE eBay listing — identifies the item, researches sold-comp pricing, assesses condition, fills the essential listing fields, then drives your logged-in Chrome to eBay, fills the Create-listing form (photos included), and PUBLISHES it. Triggers on `/sell`, or messages like \"sell this on ebay\", \"list this on ebay\", \"make me an ebay listing\", \"what's this worth + list it\" — especially when photos are attached. On \"List it\" eBay validates and the script fills any required field from the payload and retries; if it still can't satisfy a required field it falls back to saving a DRAFT (never publishes junk) and reports what's missing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ebay-lister"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

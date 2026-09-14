@@ -1,0 +1,54 @@
+{
+  "skillId": "server",
+  "displayName": "Server",
+  "description": "Runs web and application services on a host: process supervision, ports and sockets, worker sizing, restarting without dropping requests. Use when a service will not start, dies after logout, restart-loops, or vanishes on reboot; when a port is already in use, or it answers on localhost but refuses connections from outside; when a request returns 502, 504, 413, 499, or a redirect loop between proxy and app; when wiring nginx, Caddy, Traefik, HAProxy, systemd, PM2, or php-fpm; when sizing workers and threads, tuning keepalive and timeouts, or a box runs out of file descriptors or memory under load; when shipping a release and rolling it back; when serving large uploads, WebSockets, or gRPC through a proxy; and when self-hosting apps or media servers. Not for nginx directive tuning (`nginx`), certificate issuance (`ssl`), host OS failures (`linux`), image building (`docker`), Kubernetes (`k8s`), CI/CD pipelines (`deploy`), or provisioning the machine (`vps`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:server"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

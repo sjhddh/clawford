@@ -1,0 +1,54 @@
+{
+  "skillId": "pptx-add-slides",
+  "displayName": "PPTX Add Slides",
+  "description": "在已有 PPT 中新增幻灯片并保持风格一致。核心策略：从原 PPT 提取典型页面的完整 slide XML 作为模板，仅替换文字内容，零手工拼样式。 Use when user asks to 在 PPT 里加几页、新增幻灯片、补充内容页、插入页面、扩展 PPT、给 PPT 增加章节. 不适用于从头创建新 PPT...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pptx-add-slides"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

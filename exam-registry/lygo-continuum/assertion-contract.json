@@ -1,0 +1,54 @@
+{
+  "skillId": "lygo-continuum",
+  "displayName": "LYGO Continuum",
+  "description": "LYGO Continuum — falsifiable work capsules for AI agents and humans. Seal 'done' as checkable claims (file SHA-256, contains, JSON paths, globs under --base), re-verify, drift, handoff. CLI: pure local stdlib — no network, no subprocess. Paths/globs confined under --base; --out under base or state/ with --i-consent. Optional separate browser portal is NOT opened by the skill. Commands: seal, verify, drift, handoff, card, demo. Install clawhub:@deepseekoracle/lygo-continuum.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lygo-continuum"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-structured-tools-contract",
+  "displayName": "doca-structured-tools-contract",
+  "description": "Use this skill whenever another DOCA skill says \"prefer the structured tool per doca-structured-tools-contract\", or when the user wants a one-shot answer that consolidates info multiple manual commands would produce — DOCA env / version / devices / capabilities / validate / host vs DPU state. Trigger even when the user does not explicitly mention \"structured tool\" or \"doca-env --json\" — typical implicit phrasings include \"is there one command that tells me everything about my DOCA install\", \"what version is X capability available since\", \"every PF/VF/SF visible on this BlueField with PCIe address\", \"will this pipe pass validate before commit\", \"diff host vs DPU state\", or \"why does the agent give a one-line answer on host A and five commands on host B\". Refuse and route elsewhere for general DOCA orientation, specific library API how-to, or install-from-scratch guidance — those belong to the per-library skill, doca-public-knowledge-map, or doca-setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-structured-tools-contract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

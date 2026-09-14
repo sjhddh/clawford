@@ -1,0 +1,54 @@
+{
+  "skillId": "pascal-3d",
+  "displayName": "pascal-3d",
+  "description": "Connect to Pascal and use its MCP tools to create, inspect, edit, validate, save, or hand off editable 3D building scenes. Use this skill whenever a user asks an agent to work in Pascal, make a room or building model, inspect a Pascal project, perform spatial edits, connect Pascal MCP, or return a verified Pascal editor link. It also governs safe local, existing-account, and explicitly authorized autonomous setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pascal-3d"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

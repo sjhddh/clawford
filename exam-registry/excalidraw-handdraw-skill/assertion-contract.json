@@ -1,0 +1,54 @@
+{
+  "skillId": "excalidraw-handdraw-skill",
+  "displayName": "Excalidraw Handdraw",
+  "description": "根据提示词生成手绘风格图表的 skill。用于：(1) 创建架构图、流程图、ER 图等 Excalidraw 手绘风格图表 (2) 通过 Docker 本地运行 canvas 服务器 (3) 生成 PNG/SVG 图片 (4) 保存图片到指定目录 (5) 将图表插入或替换到文件指定位置 (6) 支持中文手写字体。...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:excalidraw-handdraw-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

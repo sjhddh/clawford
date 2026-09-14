@@ -1,0 +1,54 @@
+{
+  "skillId": "vestafolio-age-retraite",
+  "displayName": "vestafolio-age-retraite",
+  "description": "Simulate early retirement (FIRE) financed by invested capital for a French saver using Vestafolio's simulator API, after asking the simulator's questions (current situation, mortgage, target age, complementary income, lifestyle at retirement). Use when a user asks \"à quel âge puis-je arrêter de travailler\", \"quand serai-je financièrement indépendant\", at what age they can retire early, how much capital they need for FIRE, whether their savings will last, or how part-time income and expense cuts change their retirement age.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vestafolio-age-retraite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

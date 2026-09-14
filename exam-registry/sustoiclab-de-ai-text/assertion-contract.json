@@ -1,0 +1,54 @@
+{
+  "skillId": "sustoiclab-de-ai-text",
+  "displayName": "去AI味文本润色助手 · Su's StoicLab",
+  "description": "去AI味文本润色助手 · Su's StoicLab。当需要去除文本中的AI生成痕迹、让文字更像人类书写时使用。适用于公众号文章润色、审稿检查、稿件修改、口语化改写等场景。核心原则：只改语言不改内容，以减法为主，绝不新增信息。编辑或审阅任何疑似AI生成的文本时使用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sustoiclab-de-ai-text"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

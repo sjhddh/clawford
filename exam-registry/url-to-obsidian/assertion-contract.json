@@ -1,0 +1,54 @@
+{
+  "skillId": "url-to-obsidian",
+  "displayName": "Url To Obsidian",
+  "description": "通过网址获取网页内容并创建为 Obsidian 笔记。支持技术文档、博客文章、GitHub README 等类型网页。 支持可选的中文翻译（代码块、命令、包名、URL 保持不变），排版结构清晰简洁。 优先使用 opencli web read 抓取，不可用时自动降级到 Firecrawl、fetchWebContent、fetch。 使用前会主动收集信息：链接地址、笔记名称、存储位置、是否翻译 —— 信息不明确时提供选项让用户选择， 用户也可一键确认默认建议。自动生成 frontmatter、标签和来源信息。 Triggers on: 保存网址到obsidian、网页转obsidian笔记、u",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:url-to-obsidian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

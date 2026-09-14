@@ -1,0 +1,49 @@
+{
+  "skillId": "mu-ebook-scout",
+  "displayName": "电子书下载器",
+  "description": "Multi-source ebook search across 10 legal sources (public-domain classics, CBETA/ctext Chinese canon, LibriVox audiobooks, community netdisk book-lists via full GitHub code search, Google Books metadata). Use when the user wants to find or download a book, ebook, EPUB/PDF/MOBI file, or audiobook in Chinese or English — even without the word find, any mention of a book title together with epub/pdf/下载/电子书 counts. 不适用: academic papers or journal articles (use a general web search tool). 触发词/Triggers: find a book, ebook search, epub, public domain books, audiobook, 找书, 电子书, 公版书, 有声书, 下载书.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mu-ebook-scout"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

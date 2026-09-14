@@ -1,0 +1,54 @@
+{
+  "skillId": "baidu-doc-vlm-parser",
+  "displayName": "百度文档解析vlm-parser",
+  "description": "调用百度PaddleOCR-VL大模型API解析文档。基于PaddleOCR-VL-1.6多模态大模型，支持PDF、Word、PPT、图片等格式，精准识别印刷文本、手写文本、表格、公式、图表、印章等复杂元素，支持100+种语言，可处理不规则布局和长文档跨页解析。触发词：文档解析、VLM解析、大模型OCR、PaddleOCR、多模态文档、手写识别、公式识别、复杂版面。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:baidu-doc-vlm-parser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

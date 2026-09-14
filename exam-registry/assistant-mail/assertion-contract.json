@@ -1,0 +1,54 @@
+{
+  "skillId": "assistant-mail",
+  "displayName": "assistant-mail",
+  "description": "Free (1 mailbox, 25 emails/day): https://app.assistant-mail.ai/?plan=free&utm_source=clawhub&utm_medium=skill&utm_campaign=clawhub_free — managed agent email for OpenClaw & Hermes with allowlist, consent, retention, send caps. Install: openclaw skills install @assistantmail/assistant-mail + MCP with ASSISTANT_MAIL_API_KEY. Outbound gated by allowlist; paid plans consent invites before send. mailboxId UUID + API key auth; Upgrade in-app · Docs https://assistant-mail.ai/docs. Listed on ClawHub — not an official OpenClaw endorsement.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:assistant-mail"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "gpt-image-2-runcomfy",
+  "displayName": "GPT Image 2 — Pro Pack on RunComfy",
+  "description": "GPT Image 2 on RunComfy. GPT Image 2 (OpenAI ChatGPT Images 2.0) is the strongest text-rendering image model available — embedded text, logos, signage, multilingual typography, and high-fidelity layout. This skill calls GPT Image 2 through the RunComfy CLI: `runcomfy run openai/gpt-image-2/text-to-image` (or `/edit`). GPT Image 2 has 3 fixed sizes and supports up to 10 reference images on the GPT Image 2 edit endpoint. Triggers on \"gpt image 2\", \"gpt-image-2\", \"ChatGPT Images 2\", \"ChatGPT Image 2\", \"OpenAI Image 2\", \"GPT Image\", or any explicit ask to generate or edit with GPT Image 2.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gpt-image-2-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

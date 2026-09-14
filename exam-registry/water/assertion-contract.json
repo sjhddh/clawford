@@ -1,0 +1,54 @@
+{
+  "skillId": "water",
+  "displayName": "Water Tracker",
+  "description": "Tracks daily water intake from casual mentions and sets hydration targets from weight, exercise, heat, and health context. Use when the user logs a drink (\"had a glass\", \"finished my bottle\"), asks how much water they should drink or whether they drink enough, reports thirst, dark urine, dry mouth, cramps, or a headache that could be dehydration, plans fluid or electrolyte replacement for workouts, races, sauna, hiking, flights, or hot weather, or needs rehydration guidance during fever, vomiting, diarrhea, or a hangover, or asks whether tap, bottled, filtered, mineral, or sparkling water is safe or better. Not for meal or calorie logging.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:water"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

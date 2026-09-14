@@ -1,0 +1,54 @@
+{
+  "skillId": "drivethru-payable-matching",
+  "displayName": "drivethru-payable-matching",
+  "description": "Payable matching for BaconCo — reconcile vendor documents in Odoo's Documents app against their purchase orders and correct incorrect PO line pricing. Use for requests like \"check the Purchasing folder against the POs and fix the pricing\", \"match the vendor invoice / order confirmation / acknowledgement to its PO\", \"AP price matching / invoice-to-PO matching / three-way match\", \"reconcile the vendor documents and mark the POs checked\", or \"go through the Purchasing folder\". The flow: read every document in a Documents-app folder (extracting text out-of-context so large batches don't bloat the context window — falling back to a page render + OCR/vision for scanned or custom-encoded PDFs that won't extract as text), pull the PO number / line items / unit prices from each, compare to the purchase order line by line, correct any wrong `price_unit`, post a \"checked\" log note on the PO (internal, never a \"Send message\"), and FILE every document into the `Matched` or `Questions` subfolder — escalating genuine questions to a reviewer (default Zach Tucker). Also runs the buying-group payables flow: pull Sports Inc invoices from the SportsLink API (via the `sportsinc-sportslink` adapter), reconcile each to its PO, correct price variances, create the vendor bill and — when the bill total matches the invoice within tolerance — POST it, leaving any mismatch in draft for a human (\"get the Sports Inc invoices and bill them\", \"match the SI invoices to POs and post the payables\", \"match the vendor invoice and post the bill if it matches\"). Handles the multi-shipment case where one PO returns several Sports Inc invoices, splitting it into one vendor bill per shipment via `account.move.line` edits (the `ap_*_bill_line(s)` tools). Runs at volume on a low-cost model. Driven by the Odoo `drivethru_mcp` MCP server; complements the broader `drivethru-odoo` skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drivethru-payable-matching"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

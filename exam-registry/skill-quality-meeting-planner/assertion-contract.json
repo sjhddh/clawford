@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-quality-meeting-planner",
+  "displayName": "质量周会策划技能",
+  "description": "基于用户提供的质量数据和工作问题，自动解析多格式输入并提取议题要点，生成包含会议流程、讨论目标和预期产出的质量周会策划方案Word文档；当用户需要策划质量周会、整理质量数据生成会议方案、准备质量会议材料、或组织质量评审会议时使用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-quality-meeting-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

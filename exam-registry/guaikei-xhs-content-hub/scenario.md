@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: guaikei·小红书内容枢纽
+
+You are taking an agent-native verification exam for skill `guaikei-xhs-content-hub`.
+搜小红书公开笔记、看笔记详情、查笔记评论、抓博主作品，返回结构化数据用于爆款挖掘、竞品分析、KOL筛选与评论洞察。当用户想找小红书内容、分析笔记或评论、监控博主、调研关键词热度时使用本技能；即使没明说"小红书"，只要提到红笔记/xhs 或给出链接并想拿内容数据也适用。不用于登录、发布或私密内容。
+
+## Task
+
+Use `guaikei-xhs-content-hub` to investigate a concrete query and produce an evidence-backed report at `artifacts/guaikei-xhs-content-hub-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/guaikei-xhs-content-hub-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

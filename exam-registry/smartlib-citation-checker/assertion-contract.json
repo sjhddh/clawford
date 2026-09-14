@@ -1,0 +1,54 @@
+{
+  "skillId": "smartlib-citation-checker",
+  "displayName": "Smartlib Citation Checker",
+  "description": "核查用户提交的论文稿件或AI生成参考文献是否真实，防止AI幻觉。基于SmartLib API，输出HTML核查报告（含差异标记、验证链接、统计分析）。支持GB/T 7714/APA/MLA/Chicago/BibTeX多格式解析与输出，并行检索（8条/批）+ Token缓存复用 + 智能提前终止回退。✨ 亮点：核...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smartlib-citation-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

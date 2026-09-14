@@ -1,0 +1,49 @@
+{
+  "skillId": "web-extract",
+  "displayName": "web-extract",
+  "description": "Extract structured JSON from web pages, search engines, and entire sites in ONE call — {title, summary, sections, key_metrics, outgoing_links, author, date, page_type, ...} fields, no second LLM pass to parse HTML. Six endpoints: scrape (single URL), scrape-interactive (JS-rendered pages with click/scroll/type), search (Google SERP + deep-scrape), map (URL discovery), crawl + crawl-status (async recursive crawl). Markdown/raw HTML on request. USE when the user needs page DATA — product pricing/specs, article fields, link graphs, JS-heavy SPAs, Google results with content. Prefer over browser-act (automation/screenshots) and WebFetch (static, no JS, no structured fields). Not for citation-rich research (use deep-research). Trigger (EN): scrape this URL, extract data from page, crawl this site, deep-scrape search results, map a domain's URLs, render this JS page. 触发词：抓取/爬取/网页提取/结构化抽取/搜索带内容/全站爬取/JS 渲染抓取/点击后抓取. Requires ZOODATA_API_KEY (free key: https://zoodata.ai/en/api-keys).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-extract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

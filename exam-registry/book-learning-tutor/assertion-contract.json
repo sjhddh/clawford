@@ -1,0 +1,54 @@
+{
+  "skillId": "book-learning-tutor",
+  "displayName": "book-learning-tutor",
+  "description": "把书课程化并作为「专业教师」逐课带人类学完：课前备课→详尽费曼教学→练习闸门→间隔复习→背诵作业→自进化。默认处理使用者已提供的本地书（PDF/EPUB/DJVU/MOBI/AZW/DOCX/TXT/MD/CBZ）；**当使用者无本地书且明确授权时，可代为联网检索公开来源并用项目抓取工具获取**。当用户说「学这本书 <本地路径> / 把这本 PDF 课程化 / 教我这本书 / 继续学 <书> / 复习 <书> / 考考我 <书> / 帮我学 X」时调用。教学引擎已单包自包含，无需再加载其他技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:book-learning-tutor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

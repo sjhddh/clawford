@@ -1,0 +1,49 @@
+{
+  "skillId": "cite-holmes",
+  "displayName": "cite-holmes",
+  "description": "Deep research that interrogates its own sources (Verified Deep Research): calibrates scope first (3-5 sharp questions), plans sub-questions, searches iteratively across sources and languages, then machine-verifies every citation (verified / partial / unverified / unreachable / invalid) before a confidence-graded report ships. Never outputs unverified references; fabricated DOIs, dead links and missing sources are first-class catch targets. Medical evidence mode (Cochrane/BMJ/ClinicalTrials/NMPA/CDC/NICE/Wanfang Wanfang tier presets, PMID existence check via NCBI E-utilities) and verified-bibliography export (BibTeX + audit CSV) built in.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cite-holmes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

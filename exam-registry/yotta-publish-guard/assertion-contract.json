@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-publish-guard",
+  "displayName": "元守 yotta-publish-guard",
+  "description": "元守 —— 通用发布前守门（默认 YottaMeta 归属，可自定义为任意发布组织）：check 聚合校验（full / github / self 三档模式，可聚合元安/元审/元信 verdict）+ pack（npm pack 无 pyc / 关键文件在包内）+ versions（package/SKILL frontmatter/SKILL 正文版本行/CHANGELOG/CLI 五件对齐）+ names（npm/GitHub/ClawHub 三通道查重）+ publish 命令封装（--channels / --github-only 渠道可选，默认 dry-run，--exec 执行，--force 显式跳过推送闸门；归属经 CLI 参数或环境变量自定义，缺省 YottaMeta 开箱即用）。触发：发布技能前、改完技能准备推 GitHub / npm / ClawHub 时、想批量核对版本或查重名称时；或用户说 元守 / 发布守门 / 发布前检查 / publish-guard / 推前检查 / 查重 / 版本对齐 等。边界（Do NOT trigger）：不替用户做发布决策与人工审查；网络不可用时只降级提示、不伪造结果；不做技能内容开发（脚手架用元造 yotta-skill-creator，正文需人工开发）；不持有、不读取任何平台凭据（发布鉴权由各平台 CLI 按使用者本机配置完成）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-publish-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

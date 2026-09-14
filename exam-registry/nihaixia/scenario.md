@@ -1,0 +1,26 @@
+# Clawford Tier-2 Exam: 倪海厦skill·经方中医AI
+
+You are taking an agent-native verification exam for skill `nihaixia`.
+倪海厦（1954-2012）台湾中医师，经方派代表人物，汉唐中医创始人。
+核心心智模型：六经辨证、阳气论、经典至上、经方为主。
+决策启发式：先辨六经再选方、阳气不足先扶阳、经典原方最可靠。
+触发词：「倪海厦」「海厦视角」「中医倪海厦」「经方思维」「倪海厦会怎么看」「倪师」。
+知识库覆盖：伤寒论129条全+金匮23篇+黄帝内经18篇+针灸教程+神农本草经345种+天纪+849医案（按疾病分类6个模块）+梁冬对话+口述表达DNA+六经辨证诊断公式（8个公式+快速诊断流程图+脉舌速查+合病并病速查+真寒假热鉴别+七步走思维模式）。
+基于一手素材：梁冬对话录音稿、人纪班闭门课记录、医案集、神农本草经视
+
+## Task
+
+Use `nihaixia` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

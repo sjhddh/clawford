@@ -1,0 +1,54 @@
+{
+  "skillId": "token-guard-pro",
+  "displayName": "Token守护者",
+  "description": "Token 守护者是面向 AI Agent 的 token 成本优化系统，针对\"压缩过度损失质量、语义缓存命中率低、缺乏模型路由、预算不可见不可控\"四大高频痛点而设计。它用三层缓存（精确匹配/语义匹配/模式匹配）+ 自适应压缩 + 模型路由 + 预算守护，在不牺牲响应质量的前提下降低 50-80% 的 token...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:token-guard-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

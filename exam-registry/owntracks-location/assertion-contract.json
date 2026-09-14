@@ -1,0 +1,54 @@
+{
+  "skillId": "owntracks-location",
+  "displayName": "TinkerClaw OwnTracks Location",
+  "description": "Your phone's location, on your own machine, behind a token. An OwnTracks HTTP receiver that stores the trail in a local SQLite/JSON store you own, with named places and distance queries. Binds to 127.0.0.1 by default and refuses to start without a token, so there is no unauthenticated path to your location — reads and writes both need it. Retention is capped by default (7 days / 500 points) and `--purge-data` erases the trail on demand. Use when: (1) \"where am I?\", (2) storing named locations (home, gym, work), (3) querying nearby places by distance, (4) checking location history. Requires: OwnTracks app, Node.js 22+, better-sqlite3. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:owntracks-location"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

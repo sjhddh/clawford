@@ -1,0 +1,54 @@
+{
+  "skillId": "tender-bidding-assistant",
+  "displayName": "Enterprise Bid Document AI — 企业招投标文书AI助手",
+  "description": "AI-powered enterprise bidding assistant for China government procurement and commercial projects. Full-lifecycle support: bid document analysis, strategy, drafting, compliance audit, and post-bid follow-up. Updated for 2026 regulatory changes. ⚠️ IMPORTANT: This skill may process bid documents containing confidential business information. Users must sanitize sensitive data before upload and review their organization's data handling policies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tender-bidding-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

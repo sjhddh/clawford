@@ -1,0 +1,49 @@
+{
+  "skillId": "weknora",
+  "displayName": "WeKnora",
+  "description": "Import documents and perform knowledge retrieval via WeKnora API. Use when uploading files, URLs, or Markdown to a knowledge base, searching knowledge with hybrid retrieval (vector + keyword), or querying knowledge details. Triggers: (1) uploading documents to a knowledge base, (2) hybrid search acr",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weknora"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

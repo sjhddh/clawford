@@ -1,0 +1,54 @@
+{
+  "skillId": "personalized-song-maker",
+  "displayName": "personalized-song-maker",
+  "description": "Turn a person's story and occasion into original lyrics and a newly generated song. This personalized song maker and custom song generator workflow collects the recipient, relationship, occasion, memories, and must-include details, drafts the title, lyrics, section structure, genre, and mood for approval, then generates one finished original song, and reviews story accuracy, name pronunciation, hook, lyric rendering, and vocal result. Use it for custom birthday songs, wedding songs, anniversary songs, proposal songs, family tribute songs, and company or team anthems, with one approved lyric draft and one song generation per run and honest post-result review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:personalized-song-maker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

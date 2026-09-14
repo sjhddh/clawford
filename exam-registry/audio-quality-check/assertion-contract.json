@@ -1,0 +1,49 @@
+{
+  "skillId": "audio-quality-check",
+  "displayName": "audio-quality-check",
+  "description": "Analyzes audio recording quality - echo detection, loudness, speech intelligibility, SNR, and spectral analysis. Use when the user wants to check a recording's quality, detect echo or duplication, measure speech clarity, compare original vs processed audio, or diagnose why a recording sounds bad, including tracks from Blackbox or any call recording app.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audio-quality-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

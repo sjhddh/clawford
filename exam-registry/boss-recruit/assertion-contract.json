@@ -1,0 +1,54 @@
+{
+  "skillId": "boss-recruit",
+  "displayName": "BOSS Recruit Assistant",
+  "description": "BOSS直聘招聘助手。处理\"新招呼\"收件箱：读候选人在线简历同步飞书多维表格，有附件简历则零弹窗下载并同步，没附件则主动发消息要简历。内置反风控节奏层（随机延时/批量上限/验证码熔断/权益耗尽诊断/防发错人）。当用户提到 Boss直聘招聘、处理新招呼、候选人简历同步飞书、批量打招呼要简历时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:boss-recruit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

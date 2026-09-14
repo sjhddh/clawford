@@ -1,0 +1,54 @@
+{
+  "skillId": "timestream-influxdb",
+  "displayName": "timestream-influxdb",
+  "description": "Retrieves authoritative guidance on Amazon Timestream for InfluxDB (managed InfluxDB 2, InfluxDB 2 Read Replica Clusters, InfluxDB 3 Core and Enterprise). Applicable to any InfluxDB-on-AWS request including engine selection, provisioning (Marketplace + AmazonTimestreamInfluxDBFullAccess/ConsoleFullAccess IAM), schema design (tags vs fields, cardinality, HTTP/sensor/metric data modeling), migration from LiveAnalytics, Processing Engine plugins, connectivity (port 8086 V2, port 8181 V3, VPC-only by default), and write/query errors.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:timestream-influxdb"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

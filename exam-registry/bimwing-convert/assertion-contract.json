@@ -1,0 +1,54 @@
+{
+  "skillId": "bimwing-convert",
+  "displayName": "BIMWing 三维模型在线浏览",
+  "description": "把本地 BIM / 三维模型或图纸（.rvt/.nwd/.ifc/.dwg/.skp/.obj/.fbx 等）上传到 BIMWing（垒知翼）做在线轻量化转换，生成可在浏览器直接在线浏览三维模型的分享链接。除上传外，还支持列出账号下全部模型、查看转码状态、为已有模型生成链接。需要 BIMWing 账号，会将账号密码以明文保存在本机 config.local.json（仅本机、gitignore）以便复用，且仅在你主动提供时保存。支持 API 直连（主）与 Playwright 浏览器自动化（兜底）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bimwing-convert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

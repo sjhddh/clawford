@@ -1,0 +1,49 @@
+{
+  "skillId": "doca-caps",
+  "displayName": "doca-caps",
+  "description": "Use this skill when the user wants to invoke the read-only doca_caps CLI to ask what DOCA sees on this host — listing DOCA devices and PCIe addresses, listing representor devices, asking which DOCA libraries are available on the current OS, checking per-device per-library capabilities, scoping output to a specific PCIe address, or capturing a side-effect-free capability snapshot for a debug session or install smoke-test. Trigger even when the user does not explicitly mention \"doca_caps\" or \"capabilities print tool\" — typical implicit phrasings include \"what does DOCA actually see on this box\", \"is my BlueField PF visible to DOCA\", \"is Flow available on my RHEL host\", \"enumerate VF representors for pf0\", \"doca_caps: command not found\", or \"empty output for RDMA, is the tool broken\". Refuse and route elsewhere for DOCA installation, library-internal capability matrices (Flow pipe creation, RDMA verbs features), streaming telemetry / DTS, or modifying the shipped binary — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-caps"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

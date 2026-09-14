@@ -1,0 +1,54 @@
+{
+  "skillId": "investment-report",
+  "displayName": "投资报告生成器",
+  "description": "生成A股个股深度投资报告。当用户要求撰写股票/公司投资报告、个股分析、估值分析时使用。支持批量生成多份报告。报告包含：公司概况、详细业务构成、财务分析与预测、分部估值(SOTP)、投资逻辑、交易计划、多维度深度分析（政策面/基本面/技术面/情绪面/消息面/资金面）、风险提示、总结。用户只需提供公司名称列表即可触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:investment-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

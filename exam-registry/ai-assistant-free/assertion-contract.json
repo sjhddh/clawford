@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-assistant-free",
+  "displayName": "ai-assistant-free",
+  "description": "长文本推理基础工具(免费版)。针对商业合同、备忘录、提案等长文档,提供文档评估、核心逻辑提取与基础风险检测 三大基础能力,帮助快速梳理文档结构与识别明显风险。覆盖目的识别、主张提取、歧义与矛盾检测等基础分析. 适用于合同审查准备、备忘录摘要等基础场景。如需多版本对比、风险转移条款识别、结构改进建议、护栏机制等 高级能力,请升级至ai-assistant付费版。本Skill提供分析支持,不替代持牌法律意见.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-assistant-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

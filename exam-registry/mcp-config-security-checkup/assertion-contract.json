@@ -1,0 +1,54 @@
+{
+  "skillId": "mcp-config-security-checkup",
+  "displayName": "MCP Security Audit & Config Checkup",
+  "description": "MCP security audit for AI-agent configs — run it before connecting any MCP server. 14 automated static rules catch hardcoded credentials, arbitrary command execution, writable mounts, SSRF attack surface, prompt-injection risks, plaintext HTTP endpoints and unpinned remote launchers, so unsafe agent tool calls get stopped before they run. Outputs CRIT/HIGH/MED/LOW findings with concrete fix advice. Runs 100% locally with zero network calls. Use when reviewing, auditing or scanning an MCP/agent server config (mcpServers JSON) for security issues, before wiring it into an agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mcp-config-security-checkup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

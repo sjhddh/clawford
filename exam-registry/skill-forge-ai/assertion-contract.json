@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-forge-ai",
+  "displayName": "Skill Forge 技能熔炉",
+  "description": "技能熔炉 — 锻造/评估/改进 Skill。说 技能熔炉 走全流程（含R5改进已有skill）；说 技能评估/skill评估/评估技能 只做同类比对+腾讯9维度。可选能力：搜索SkillHub同类技能（通过TRAE内置工具）、修改已有skill文件（仅R5诊断修复路径，需用户确认）。发布环节请用 skill-pu...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-forge-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

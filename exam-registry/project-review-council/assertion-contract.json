@@ -1,0 +1,54 @@
+{
+  "skillId": "project-review-council",
+  "displayName": "Project Review Council",
+  "description": "世界级项目评审委员会。Use when 用户需要项目审计、项目评审、项目复盘、项目诊断、技术评审、投资评审、商业评估、项目风险分析、Red Team、项目 Go/No-Go 决策、上线前评审、季度复盘、项目体检、投后复盘、竞品对比评审。20 角色委员会从战略/技术/产品/安全/增长/财务/竞争等维度独立审计，交叉...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:project-review-council"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

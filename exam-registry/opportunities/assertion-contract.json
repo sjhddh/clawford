@@ -1,0 +1,54 @@
+{
+  "skillId": "opportunities",
+  "displayName": "opportunities",
+  "description": "技术方向专利机会评估与报告生成 Skill。输入细分技术方向或具体技术方案，自动调用智慧芽专利检索、趋势分析、子技术方向统计等 MCP 工具，生成含交互式 ECharts 图表的多页面 HTML 报告、JSON 中间数据和 CSV 证据链，最终给出研发/投资机会评分与明确建议。本 Skill 不使用 Python，所有文件通过 MCP 和文件写入能力生成。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opportunities"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

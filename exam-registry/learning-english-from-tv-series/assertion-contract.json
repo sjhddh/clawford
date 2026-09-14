@@ -1,0 +1,54 @@
+{
+  "skillId": "learning-english-from-tv-series",
+  "displayName": "看剧看电影学英语超级助手 Learning English from TV Series (DramaLex)",
+  "description": "看剧/看电影学英语的完整闭环学习引擎（别名 DramaLex），面向中文母语者。agent 用自身联网能力自主检索并解析公开字幕，再围绕这一集/这部电影产出完整学习闭环——学前 CEFR 水平诊断、目标词汇预热、听力理解、字幕精读与语言点标注（语法/搭配/篇章/发音）、口语跟读与角色扮演、写作改写续写并给反馈、跨集/跨技能间隔复现。产物覆盖 4 份结构化 CORE JSON（words/listening/annotated/tasks）与 5 种可交付格式（HTML 学习页 / Anki 卡片 / Excel 词表 / Word 文档 / Markdown）",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:learning-english-from-tv-series"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

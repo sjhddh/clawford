@@ -1,0 +1,54 @@
+{
+  "skillId": "gpt-web-chat-skill",
+  "displayName": "GPT Web Chat Skill",
+  "description": "ChatGPT 网页版自动化技能。用于通过浏览器自动化操作 chatgpt.com，包括发送 Prompt、获取回复、检测登录状态、维护会话。典型请求包括：\"帮我问 ChatGPT\"、\"用 GPT 回答\"、\"把这段话发给 ChatGPT\"。如果只是询问 ChatGPT 的功能、模型、API、价格或使用方法，而不需...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gpt-web-chat-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

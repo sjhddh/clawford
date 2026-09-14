@@ -1,0 +1,49 @@
+{
+  "skillId": "bidding-compliance-guard",
+  "displayName": "Bidding Compliance Guard - 招投标合规护栏",
+  "description": "招投标合规护栏。在投标文书、招标公告、资格预审文件、中标公示、商务应答、企业宣传发布前，实时检测串通投标/围标、虚假资质业绩、诋毁竞争对手、报价操纵、商业贿赂、排斥性条款等高频违法违规表述，按风险分级输出命中与整改建议。纯本地运行，零网络、零动态执行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidding-compliance-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

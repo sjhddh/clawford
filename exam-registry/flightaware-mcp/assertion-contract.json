@@ -1,0 +1,54 @@
+{
+  "skillId": "flightaware-mcp",
+  "displayName": "flightaware-mcp",
+  "description": "Live flight tracking and aviation data via FlightAware AeroAPI through MCP. Use when the user asks to track a flight, look up a flight's status/position/route/track, see an airport's arrivals/departures/delays/weather, find flights for an airline, look up an aircraft's owner, get scheduled flights between dates, or manage FlightAware flight alerts. Triggers on phrases like \"where is flight UAL123\", \"track flight\", \"JFK departures\", \"is my flight delayed\", \"flights near\", \"who owns tail number N12345\", or \"set up a flight alert\". Requires the @chrischall/flightaware-mcp package installed and the flightaware server registered (see Setup), plus an AeroAPI key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flightaware-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

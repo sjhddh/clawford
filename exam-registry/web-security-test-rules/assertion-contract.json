@@ -1,0 +1,54 @@
+{
+  "skillId": "web-security-test-rules",
+  "displayName": "网站测试安全规则",
+  "description": "通用网站安全测试（授权渗透测试）规则与检查清单。当用户要求对网站 / Web 应用做安全测试、漏洞扫描、渗透测试、安全评估，或提到安全测试规则、最小影响测试、隐蔽测试、漏洞复查、授权门禁时使用。核心强调：必须获得授权（默认开启授权门禁，主用非对称签名授权令牌验证 AUTHORIZATION.json + 公钥验签，其余为备选）、最小影响、测试后还原、规范报告、不破坏目标、禁止跳出授权范围（含外站关联尝试须授权，规则 23）。关键词：网站安全测试、授权渗透测试、安全规则、漏洞测试、安全评估、渗透测试规范、web 安全、最小影响、隐蔽测试、授权门禁、签名授权、授权验证、mowenfalse、mowenbrokentrue、mowenwaitrue、禁止越界、外站授权",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-security-test-rules"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

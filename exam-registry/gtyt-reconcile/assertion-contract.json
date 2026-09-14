@@ -1,0 +1,54 @@
+{
+  "skillId": "gtyt-reconcile",
+  "displayName": "GTYT Reconcile (共同赢账单 vs 到货单对账)",
+  "description": "共同赢（GTYT）供应商账单与到货单的三阶段对账流程。用于按月核对「共同赢X月账单-上海-共同赢.xls」与「到货单明细表」在每店每产品上的「单价」「数量」「金额」是否一致，输出两份 Excel：(1) 两表金额差异对比 .xls（全量店名对比 + 25 店差异清单），(2) 共同赢X月账单-已标差异 .xls（在原账单上用黄色背景标出每个差异单元格）。触发关键词：「对账」「核对」「共同赢」「到货单差异」「标差异」「账单 vs 到货」。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtyt-reconcile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

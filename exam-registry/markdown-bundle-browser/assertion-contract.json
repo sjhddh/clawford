@@ -1,0 +1,54 @@
+{
+  "skillId": "markdown-bundle-browser",
+  "displayName": "markdown-bundle-browser",
+  "description": "将多个 Markdown 文件打包成自包含的单页 HTML 文档浏览器（v2：离线渲染/搜索/目录树）。当用户需要浏览/查看多个 .md 文件、 或反馈 .md 链接无法打开时触发。适用于项目文档集合、研究系统输出、知识库浏览等场景。 生成的 HTML 内嵌所有文档内容和内置渲染器，不依赖任何 CDN，断网也能用，浏览器直接打开即可。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:markdown-bundle-browser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

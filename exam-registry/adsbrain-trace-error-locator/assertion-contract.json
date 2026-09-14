@@ -1,0 +1,54 @@
+{
+  "skillId": "adsbrain-trace-error-locator",
+  "displayName": "Adsbrain Trace Error Locator",
+  "description": "AdsBrain / Codewiz Langfuse Trace 错误定位 Skill。用于用户提供 Langfuse trace 链接、trace_id、截图、现象描述、对错样例时，在 XRay/Langfuse 平台查询链路，定位错误发生的 observation/step/tool/model 位置，解释...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adsbrain-trace-error-locator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

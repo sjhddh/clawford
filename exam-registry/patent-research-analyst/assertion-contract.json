@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-research-analyst",
+  "displayName": "patent-research-analyst",
+  "description": "科研立项专利检索与分析 Agent——输入技术问题与初步技术方案，自动执行「信息收集→多轮专利检索→五维分析（技术路线/立项查新/FTO风险/竞对跟踪/新公开专利）→HTML+Word双格式报告输出」全流程。融合 PatSnap 智慧芽全球专利数据，生成包含7章正文+3个附录的完整专利分析报告。触发词：专利检索分析、立项查新、FTO分析、技术路线分析、竞对跟踪、专利风险排查、帮我做专利检索。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-research-analyst"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "xuanzang-skill",
+  "displayName": "xuanzang-skill",
+  "description": "玄奘.skill 当用户明确请求紧箍咒模式，或表现出沮丧、反复失败（2次及以上）、消极被动、抱怨质量、未核实即声称完成、想要放弃，或要求更努力/换种方法时触发。常见触发词：'try harder'、'figure it out'、'stop giving up'、'you keep failing'、'加油'、'别偷懒'、'你再试试'、'为什么还不行'、'你怎么又失败了'、'又错了'、'检查下'、'完善'、'审核'、'质量太差'、'换个方法'、'stop spinning'、'you broke it'、'/pua'、'紧箍咒模式'。对于正常的首次编程或信息查询请求，请勿触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xuanzang-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

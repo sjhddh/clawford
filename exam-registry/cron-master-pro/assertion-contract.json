@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-master-pro",
+  "displayName": "定时大师",
+  "description": "定时大师是平台级定时系统的深度使用指南，解决\"何时用心跳、何时用 cron\"\"推送还是静默\"\"怎么跨回合等待\"等高阶决策问题。它提供 heartbeat 与 cron 的决策矩阵、payload 类型选择（agentTurn 推送 vs systemEvent 静默）、严格指令模板、自唤醒规则、时区锁定规范与历史...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-master-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

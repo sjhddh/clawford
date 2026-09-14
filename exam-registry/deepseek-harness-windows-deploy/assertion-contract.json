@@ -1,0 +1,54 @@
+{
+  "skillId": "deepseek-harness-windows-deploy",
+  "displayName": "deepseek-harness-windows-deploy",
+  "description": "Windows 上以源码方式（pnpm monorepo）部署、构建、启动、排错 DeepSeek Harness 的实战指南，聚焦 WorkBuddy / CodeBuddy 托管 Node 沙箱下的 safe-delete 钩子冲突、pnpm 路径损坏、工作区持久化、EPERM 符号链接、端口 3080 等已知坑与已验证命令。仅覆盖 Harness 自身的安装与排错；桌面套壳（Electron 包装 Web UI）由独立的 deepseek-harness-desktop-shell 技能负责。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepseek-harness-windows-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

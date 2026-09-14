@@ -1,0 +1,54 @@
+{
+  "skillId": "biaoshu-writer-service",
+  "displayName": "镖行AI投标文件生成助手",
+  "description": "侧重把成稿改到能打。对照招标文件要求，它对已生成或已有的技术标、商务标逐段润色精修，补齐待填项，排查废标红线并完成合规审查，输出更稳的 .docx。凡涉及撰写标书、精修投标文件、成稿把关，都通过 App Key 调用本 SKILL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biaoshu-writer-service"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

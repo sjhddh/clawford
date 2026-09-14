@@ -1,0 +1,49 @@
+{
+  "skillId": "sith-choir",
+  "displayName": "sith-choir",
+  "description": "Cross-model intellect relay across a mesh of stored API keys (multi-provider, multi-key). The conductor farms work out to a choir of models reachable via EVERY stored credential — each provider's api_key and each alt_api_keys entry is its own health-tracked voice with automatic per-key failover — and models that need help are answered using other providers' keys (e.g. a Mistral-key model that is rate-limited or unsure consults Gemini and llm7.io keys). Core moves: (1) weak/cheap models sing candidates in parallel and a reasoning model aggregates them (Mixture-of-Agents, arXiv:2406.04692); (2) vision relay — text-only callers hand images to vision-capable voices (arXiv:2502.16428); (3) mandatory escalation — low confidence, errors or rate limits route to a reasoning court from other providers (FrugalGPT cascade, arXiv:2305.05176); (4) judge panels score 0-10 and a persistent reward ledger punishes weak voices while key-health cooldowns rotate load (arXiv:2306.05685). Plus self-consistency voting (`consensus`, weighted plurality with abstention, arXiv:2203.11171 + 2502.06233), an independent adversarial `verify` round, a verifier revision loop (`refine`, Reflexion arXiv:2303.11366), calibration-driven self-improvement (`calibrate`), multi-turn memory (`--session`), exact-question answer caching, provider cache-read token accounting + `--budget`, provenance `runs`/`report` with latency, task `--lane` routing, `--plan` dry-run, machine-readable `--json` everywhere, and offline `selftest`. Use when you hold many API keys and want every one contributing, or when one model cannot do the whole job alone.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sith-choir"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

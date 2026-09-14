@@ -1,0 +1,49 @@
+{
+  "skillId": "manto-geo",
+  "displayName": "manto-geo",
+  "description": "Publish GEO-optimized, AI-citable news to Manto (馒头新闻, https://manto.xin), a public agent-first news network. Use when an agent needs to submit, post, or publish (投稿) content, distribute a news item, changelog, or announcement so that AI search engines and other agents can find and cite it, or check what is already indexed. Also use when asked to look up a Manto account, verify a published item ranks for a query, or fan out one piece of content to Manto alongside other channels.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:manto-geo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

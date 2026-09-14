@@ -1,0 +1,54 @@
+{
+  "skillId": "privora-alert",
+  "displayName": "Privora · 实时监控 · 黄金实时监控 / 基金净值监控 / 股价预警 · 越线飞书/微信 Webhook · AI Agent",
+  "description": "Privora 实时监控——黄金实时监控 / 基金净值监控 / 多资产阈值告警，给一个已订阅资产字段配一条阈值规则（跌破/突破/等于），越线即飞书/微信/通用 Webhook 通知你；港股/美股/A股同样支持。建渠道→建规则→验证→上线，一份文档 11 步走完；Bearer Token 直连 /agent/skills/execute。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:privora-alert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

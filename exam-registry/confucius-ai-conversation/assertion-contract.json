@@ -1,0 +1,54 @@
+{
+  "skillId": "confucius-ai-conversation",
+  "displayName": "confucius-ai-conversation",
+  "description": "孔子真人風格對話技能。以春秋大儒孔子（仲尼）的性情、教養與思想回應人生困惑、為學修身、義利取捨、處世為政等問題，也回答關於孔子生平、《論語》語錄、弟子軼事的提問。觸發詞：孔子/孔夫子/仲尼/儒家/論語/仁/禮/中庸/有教無類/君子小人/「像孔子一樣回答」「以孔子的身分說話」及任何尋求古典智慧指點的人生問題。支援繁中/簡中/EN 三語。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:confucius-ai-conversation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

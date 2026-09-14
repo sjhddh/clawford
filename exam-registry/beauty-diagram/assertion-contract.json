@@ -1,0 +1,54 @@
+{
+  "skillId": "beauty-diagram",
+  "displayName": "beauty-diagram",
+  "description": "Use when the user asks for a sleek, modern Mermaid / PlantUML diagram (e.g. \"beautify this flowchart\", \"make this look like a deck slide\", \"produce an SVG of this architecture\"), wants AI to generate a diagram from a text description, wants a public share link for a diagram, wants to render every diagram file in a folder, or wants to render Mermaid / PlantUML fenced code blocks inside a Markdown file (README, docs) into images. This skill teaches you to call the Beauty Diagram CLI (`bd`) — never to hand-author SVG when a source diagram exists.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:beauty-diagram"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "claw-markdown-gen",
+  "displayName": "claw-markdown-gen",
+  "description": "从网页采集内容生成风格化图文（公众号/知乎/掘金/小红书/头条风格）。 当用户需要将网页文章转为精美图文、生成公众号推文、制作小红书笔记、或对文章进行AI改写时使用。 触发词: 生成图文、公众号文章、图文内容、微信推文、article generation、图文生成",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claw-markdown-gen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

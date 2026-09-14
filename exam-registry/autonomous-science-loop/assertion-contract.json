@@ -1,0 +1,54 @@
+{
+  "skillId": "autonomous-science-loop",
+  "displayName": "autonomous-science-loop",
+  "description": "自主科学发现闭环——把「观测→假设→实验设计→反驳→定律归纳」做成一次可机器执行、可证伪的原创科学发现循环。给一组观测与可实验的候选点，引擎自动用符号回归拟合候选定律、按残差反驳被证伪的假设、主动设计\"分歧最大\"的下一次实验以最快收敛、并按 Occam 归纳出最简可解释定律。适用于规律发现、参数辨识、模型选择、主动学习/最优实验设计等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autonomous-science-loop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

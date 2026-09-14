@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-firefly",
+  "displayName": "doca-firefly",
+  "description": "Use this skill when the user is operating the DOCA Firefly Service container on BlueField — picking the four PTP configuration axes (role / profile / domain / interface), wiring the BlueField PHC + host follower + consumer workload pairing, deciding whether PTP-grade time is even needed (vs. chrony / NTP), or debugging a Firefly deployment where PTP isn't syncing or the host clock isn't following. Trigger even when the user does not explicitly mention \"DOCA Firefly\" or \"PTP\" — typical implicit phrasings include \"container green but PTP never advances past LISTENING\", \"Firefly says synced but the host clock still drifts\", \"sync acquired but offset is tens of microseconds\", \"my Rivermax SMPTE workload needs PTP\", or \"is chrony good enough\". Refuse and route elsewhere for installing DOCA, host-side chrony / ptp4l config bodies, PTP topology / boundary-clock design, building DOCA apps that read the disciplined PHC, or other DOCA services (DMS, Flow-Inspector, HBN) — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-firefly"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

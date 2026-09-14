@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-panorama-insights",
+  "displayName": "patent-panorama-insights",
+  "description": "当用户需要基于 PatSnap 或智慧芽专利 MCP/API 数据开展专利全景、专利版图、竞争专利情报、技术路线图、组合规划、产品/R&D 策略项目时使用本技能——无论用户显式调用 /patent-panorama-insights（或 @patent-panorama-insights），还是用自然语言描述这类专利分析任务。本技能编排五层流水线：环节1检索与降噪（patent-panorama-insights-search）、环节2全景统计与价值挖掘（patent-panorama-insights-stats）、环节3标引体系推荐（patent-panorama-insights-tag）、客户 SaaS 工具中的人工标引交接，以及环节4有证据支撑的单文件 HTML 报告（patent-panorama-insights-report），并管理各层之间的检查点、人工标引交接、回滚和进度汇报。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-panorama-insights"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

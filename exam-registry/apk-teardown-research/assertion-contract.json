@@ -1,0 +1,49 @@
+{
+  "skillId": "apk-teardown-research",
+  "displayName": "apk-teardown-research",
+  "description": "Analyzes Android APKs through the Crawlora API — submit an APK or public URL, inspect static-analysis results, compare versions, build timelines, and compare ownership signals — returning clean JSON. Use for mobile-app security, provenance, SDK, permission, signing, and release-history research.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:apk-teardown-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

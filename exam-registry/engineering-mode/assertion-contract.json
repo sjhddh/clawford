@@ -1,0 +1,54 @@
+{
+  "skillId": "engineering-mode",
+  "displayName": "Engineering Mode",
+  "description": "工程模式：写入 Agent 系统指令级别的工程肌肉记忆。触发后强制 UNDERSTAND→DECOMPOSE→SAFETY→EXECUTE→VERIFY→RECOVER 六阶段状态机。使用场景：(1) 用户要求写/改/重构代码 (2) 涉及 edit/write/exec 编程操作 (3) 用户说'工程模式''e...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:engineering-mode"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

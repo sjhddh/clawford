@@ -1,0 +1,54 @@
+{
+  "skillId": "own-style-writer",
+  "displayName": "Own Style Writer",
+  "description": "通用自有文风写作 skill。用于用户要求“按我的文章风格写”“学习某个目录里的文风”“把风格素材和本次写作素材分开处理”“从本地 PDF/DOCX/PPTX/Excel/HTML/文本等素材提炼文风并写文章”时。它会主动询问哪些目录用于学习写作风格、哪些材料只用于本次写作内容，优先在用户同意上传后用 MinerU 转换文档，也可回退内置 MarkItDown 离线转换；默认先生成风格画像、素材摘要和文章大纲，待确认后才写正文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:own-style-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

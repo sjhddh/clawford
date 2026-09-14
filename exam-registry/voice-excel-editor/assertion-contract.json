@@ -1,0 +1,54 @@
+{
+  "skillId": "voice-excel-editor",
+  "displayName": "语音 Excel 编辑助手",
+  "description": "Use when: 用户要上传 Excel 文件和一段语音指令，希望把语音中的表格编辑要求转成结构化 Excel 操作并落到工作簿里时触发。 适用于格式调整、数据写入、基础计算、行列结构修改、多步顺序编辑，以及需要输出执行日志和修改后 Excel 文件的场景。Skill 会先做语音转写与文本规范化，再让 Agen...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:voice-excel-editor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

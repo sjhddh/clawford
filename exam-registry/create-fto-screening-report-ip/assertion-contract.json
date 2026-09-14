@@ -1,0 +1,54 @@
+{
+  "skillId": "create-fto-screening-report-ip",
+  "displayName": "create-fto-screening-report-ip",
+  "description": "Create a traceable, screening-level freedom-to-operate report from a supplied risk-point Word document and user-approved PatSnap search expressions. Use when a patent analyst, IP team, product counsel, or R&D owner needs structured feature extraction, PatSnap patent retrieval, claim-data collection, claim-limitation comparison, candidate risk triage, HTML/DOCX reporting, and evidence JSON. Supports a bundled global PatSnap REST workflow or normalized evidence from verified PatSnap MCP connectors. The output is an FTO screening, not a legal clearance opinion.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:create-fto-screening-report-ip"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

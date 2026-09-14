@@ -1,0 +1,54 @@
+{
+  "skillId": "aippt-generator",
+  "displayName": "AIPPT Generator - AI 专业 PPT 生成",
+  "description": "AI 驱动的专业 PPT 生成能力。当用户需要制作工作汇报、客户提案、季度总结、项目汇报、培训分享等商务演示文稿时触发此技能。通过结构化诊断收集用户核心业务内容，运用金字塔逻辑 Prompt 架构生成含原生图表的完整 PPT 成稿，并导出为可编辑的 .pptx 文件。触发词包括：做PPT、生成PPT、写汇报PPT...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aippt-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

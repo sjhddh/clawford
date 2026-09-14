@@ -1,0 +1,54 @@
+{
+  "skillId": "industrial-park-investment-assistant",
+  "displayName": "industrial-park-investment-assistant",
+  "description": "产业园招商 AI 个人助手。面向招商人员，四步工作流：今天客户 → 客户情况 → 客户推进 → 处理完成。 AI 贯穿全程（排序优先级·推荐下一步·分析客户·自动记录），不替代人做决策。 核心场景：客户管理·房源查询·客户接待·报价方案·选址建议·合同生成·渠道管理。 含时效性校验、No Agency护栏（金额让步需审批）、每日09:00自动推送今日客户列表。 支持多项目架构和知识库分离（SQLite本地库 + IMA知识库）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industrial-park-investment-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

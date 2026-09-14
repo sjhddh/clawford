@@ -1,0 +1,49 @@
+{
+  "skillId": "volcengine-knowledge-search",
+  "displayName": "Volcengine Knowledge Search",
+  "description": "火山引擎官方文档检索与全文获取技能：对火山引擎官方文档站（www.volcengine.com/docs）做语义检索并抓取正文。Use when 用户咨询火山引擎产品的概念、用法、计费规则、部署步骤、最佳实践、服务条款/协议等可在官方文档中找到解释的问题，或用户直接给出火山引擎官方文档链接（www.volceng...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-knowledge-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

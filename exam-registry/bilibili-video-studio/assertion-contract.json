@@ -1,0 +1,54 @@
+{
+  "skillId": "bilibili-video-studio",
+  "displayName": "B站视频全解析",
+  "description": "B站视频一站式解析与创作工场。用户直接输入 B 站视频 URL 加一句简单要求即可：视频转文字（字幕/口播/画面内容）、内容分析总结、爆款视频拆解（按带货/流量逻辑拆结构分段、脚本类型、爆款归因、六维评分报告，照着学照着抄）、视频转脚本（镜头/运镜/转场/情绪/时间线/屏幕文字）、爆款脚本生成（原骨架改写成你的脚本，或按方向/目的/商品原创口播脚本，含分段表与六维质检评分）、视频提示词反推（画面和内容转成 agent 可理解的提示词）、视频提取 PPT 内容（关键帧文字+幻灯OCR+完整口播稿）、备考笔记整理（题库/考点/带背视频按题号+标准答案重组）。底层经 Cue Omni Reader",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilibili-video-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "gongwen",
+  "displayName": "Gongwen 公文生成",
+  "description": "生成党政机关公文 docx（通知、报告、请示、批复、函、会议纪要等），内置机关通行版式规范：方正小标宋二号大标题、黑体/楷体_GB2312/仿宋_GB2312 三号层级标题、正文行距固定29磅、首行缩进32磅、页边距2.54/3.17cm，附字体检查与版式数字验收脚本。Use whenever the user wants to 起草、生成、排版、修改 任何公文、通知、报告、请示、函、纪要、红头文件，或要求 docx 按公文格式/机关格式输出 — even if they only say \"写个通知\"\"按老格式排一下\" or mention 公文 in passing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gongwen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

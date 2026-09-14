@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-panorama-insights-stats",
+  "displayName": "patent-panorama-insights-stats",
+  "description": "用于专利全景项目的环节2。它消费 patent-panorama-insights-search（环节1）产出的已验证 `search_config.json`、`candidate_pool.csv` 和 `core_recall.csv`，生成全景统计（趋势、申请人格局、技术构成、竞品画像）、按分支组织的核心专利索引（默认采信环节1召回排序，仅在必要时做有边界的兜底核查）和价值信号交叉挖掘文件。所有统计直接从检索式聚合，不需要逐件专利标引。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-panorama-insights-stats"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

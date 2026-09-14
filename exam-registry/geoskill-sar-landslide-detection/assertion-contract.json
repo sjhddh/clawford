@@ -1,0 +1,54 @@
+{
+  "skillId": "geoskill-sar-landslide-detection",
+  "displayName": "geoskill-sar-landslide-detection",
+  "description": "融合InSAR形变速率、后向散射变化与DEM坡度综合加权评分，双门限提取疑似滑坡连通域并矢量化分级（high/medium/low），输出滑坡GeoJSON、形变速率/风险评分GeoTIFF与风险汇总JSON。SAR landslide detection fusing InSAR deformation, backscatter change and slope.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geoskill-sar-landslide-detection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

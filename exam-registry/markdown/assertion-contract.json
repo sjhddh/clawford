@@ -1,0 +1,54 @@
+{
+  "skillId": "markdown",
+  "displayName": "Markdown",
+  "description": "Writes, fixes, and converts Markdown that renders the same in every parser — GitHub, MDX, Pandoc, docs sites, Slack, Notion. Use when a list stops nesting, a table renders as literal pipes, a code fence swallows the rest of the file, half a document turns italic, or an anchor link 404s; when frontmatter shows up as text; when footnotes, task lists, callouts, math, or Mermaid render on GitHub but not on the docs site; when MDX rejects `{`, `<`, or an HTML comment; when a README's images break on npm or PyPI; when converting Markdown to PDF, DOCX, or HTML, or HTML back to Markdown; when markdownlint or Prettier fights the file in CI; when pasting into Slack, Discord, Notion, Confluence, or Jira; and when Markdown from an untrusted source has to be rendered safely. Not for LaTeX documents (`latex`), Word files (`word-docx`), templated PDF deliverables such as reports, invoices, and contracts (`pdf-generator`), or documentation strategy and information architecture (`documentation`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:markdown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "consult-report",
+  "displayName": "咨询报告 Consult Report",
+  "description": "战略/市场分析咨询报告工作流——判断+数据双轨。先出有排他性的框架判断,再用真实数据验证(数据文件或公开信息),输出结构化 Markdown 咨询报告。Use when user asks to 写咨询报告、行业分析、市场研究、竞争分析、战略分析、市场进入评估、增长策略、写报告。不用于纯数据报表输出(无判断框架)、代码开发、运营执行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:consult-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "exam-paper-error-analysis",
+  "displayName": "Exam Paper Error Analysis",
+  "description": "全学科错题分析技能，提供单题深度分析、整卷失分分析、变式题生成、错题分类讲评四大能力。 支持文字/文件输入（图片、PDF等，PDF自动转图片后使用多模态模型识别，不使用本地OCR）。 覆盖基础教育和职业教育（机电、计算机、会计、护理、汽修、建筑、旅游、电商等）8+专业。 触发场景：上传错题/试卷要求分析、要求出变...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exam-paper-error-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

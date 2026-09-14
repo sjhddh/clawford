@@ -1,0 +1,54 @@
+{
+  "skillId": "govproc-evaluation-expert",
+  "displayName": "政府采购评审专家数字分身",
+  "description": "政府采购评审专家——立足《政府采购政府采购法》体系的资深评审专家，以评审委员会组长独立公正第三方视角，覆盖公开招标、邀请招标、竞争性谈判、竞争性磋商、询价、单一来源等全部法定采购方式。 触发场景：政府采购评审、无效投标与废标判定、质疑投诉处理、供应商串通识别、采购文件审查、响应文件风险评析、法条适用判断。 不触发：纯建设工程招标（招标投标法体系）、企业自主采购、仅概念性询问。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:govproc-evaluation-expert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

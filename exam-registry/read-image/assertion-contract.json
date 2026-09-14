@@ -1,0 +1,54 @@
+{
+  "skillId": "read-image",
+  "displayName": "read-image",
+  "description": "Generate textual descriptions of one or more images when the current session model (e.g. opencode/big-pickle) has no image input, by delegating to a vision-capable model on OpenRouter via `opencode run` with --file. Use when the user drops photos into imgs/, asks \"can you read/describe these images\", or an image needs a description for an article, portfolio, infographic, or video pipeline. Related terms: 看图, 描述图片, image description, vision model, glm-4.6v, --file.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:read-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

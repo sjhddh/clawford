@@ -1,0 +1,54 @@
+{
+  "skillId": "promostandards",
+  "displayName": "promostandards",
+  "description": "Config-driven PromoStandards client for any supplier that publishes the standard SOAP services — inventory (per-warehouse stock), product data (styles, colors, sizes, parts), pricing and configuration (quantity breaks, decoration locations, FOB points, charges), and purchase-order submission. One skill serves every supplier, because endpoints, versions and credentials come from configuration derived from the public PromoStandards endpoint registry, so onboarding a new supplier is data entry rather than code. Per-version adapters handle the incompatible spellings between service versions (Inventory 1.2.1 vs 2.0.0, Product Data 1.0.0 vs 2.0.0) and normalise everything to one canonical shape. Use whenever the user needs stock, product, pricing or ordering data from a promotional-products supplier, or wants to know which PromoStandards services a supplier actually supports.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:promostandards"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

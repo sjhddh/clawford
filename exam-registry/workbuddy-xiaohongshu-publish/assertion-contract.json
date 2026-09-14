@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-xiaohongshu-publish",
+  "displayName": "Xiaohongshu Publish",
+  "description": "将笔记 / 内容一键发布为小红书图文笔记，macOS 优先用本地 Chrome 图形界面，全程可视化、最稳。 触发场景： - \"把这份笔记发到小红书\" / \"发布到小红书\" / \"发小红书图文\" / \"把 XX 内容发到小红书\" - 需要把 Markdown / HTML 内容渲染成小红书竖版卡片图（封面 + 分...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-xiaohongshu-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

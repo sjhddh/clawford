@@ -1,0 +1,54 @@
+{
+  "skillId": "geoskill-atmospheric-correction",
+  "displayName": "geoskill-atmospheric-correction",
+  "description": "对多光谱影像执行 DOS/简化6S 大气校正，将 DN/TOA 转为地表反射率。DOS/simplified-6S atmospheric correction converting DN/TOA to surface reflectance. 支持 Landsat 8/Sentinel-2 传感器元数据，输出地表反射率 GeoTIFF + 校正参数 JSON。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geoskill-atmospheric-correction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

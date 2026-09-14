@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-lesson-kit",
+  "displayName": "skill-lesson-kit",
+  "description": "生成 Agent Skill 课程的课后巩固材料与练习作业。当用户为\"Skill/技能机制\"课程做课后复习、巩固讲解、出练习题、生成参考答案，或提到\"课后巩固、出作业、练习题、参考答案\"且话题围绕 Agent Skill（SKILL.md、frontmatter、渐进式披露、技能触发）时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-lesson-kit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

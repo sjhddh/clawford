@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-nat-list",
+  "displayName": "huawei-cloud-nat-list",
+  "description": "Query the list of Huawei Cloud public NAT gateways (公网NAT网关) under the current tenant / project, focused on the NAT gateway NAME list. Returns each gateway's name, id, status, spec, router (VPC) id, internal network id and created time. Supports filtering by name, id, status, spec, enterprise project id and pagination via limit/marker. Uses the KooCLI command `hcloud NAT ListNatGateways --cli-region={region}` (primary) against the v2 API, or the huaweicloudsdknat Python SDK (fallback). Read-only — never creates, modifies or deletes any NAT gateway. Use this skill whenever the user wants to list/inspect the public NAT gateways of the tenant or query the NAT gateway name list, e.g. for NAT gateway inventory, daily inspection, or cost review. Triggers include: \"list NAT gateways\", \"NAT gateway list\", \"query NAT gateway names\", \"公网NAT网关列表\", \"查询公网NAT网关\", \"NAT网关列表\", \"NAT网关名称\", \"list nat\", \"nat list\", \"how many NAT gateways\", \"NAT inventory\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-nat-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

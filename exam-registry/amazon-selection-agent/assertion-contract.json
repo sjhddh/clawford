@@ -1,0 +1,49 @@
+{
+  "skillId": "amazon-selection-agent",
+  "displayName": "amazon-selection-agent",
+  "description": "Amazon 产品选品 Agent，面向有经验的亚马逊卖家的全链路选品工具。 覆盖四大模块：市场扫描（BSR分布/价格带/季节性/集中度）→ 竞品拆解（Top20画像/评论痛点/差异化机会） → FBA利润测算（费用/广告/头程/ROI）→ 关键词挖掘（搜索量/长尾词/PPC参考）。 支持双模式：模式A「品类探索」——卖家无明确目标，扫描品类大盘推荐细分赛道； 模式B「产品深挖」——卖家提供 ASIN/关键词/链接，深度分析+利润测算+决策建议。 触发场景：亚马逊选品、Amazon product research、FBA利润计算、竞品分析、 关键词机会、类目分析、\"帮我看看这个品类\"、\"分析这个产品\"、\"这个能不能做\"、 \"算一下利润\"、\"这个词怎么样\"、\"find products to sell on Amazon\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:amazon-selection-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

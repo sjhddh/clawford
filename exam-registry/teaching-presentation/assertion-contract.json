@@ -1,0 +1,54 @@
+{
+  "skillId": "teaching-presentation",
+  "displayName": "Teaching Presentation",
+  "description": "为教师从教案生成完整的课堂教学演示文稿（含.pptx文件）。支持教案文件（.docx/.pdf）、网页内容或主题关键词输入，自动完成内容类型判定（A/B/C/D）、结构化JSON大纲生成、role映射、互动设计规划、并最终输出可直接在课堂上使用的.pptx课件。生成的课件不是知识罗列，而是引导教师一步步推进课堂的...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:teaching-presentation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

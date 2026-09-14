@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-recon",
+  "displayName": "元析 yotta-recon",
+  "description": "元析 —— 跨智能体的网络侦察技能：零依赖自研端口 / 服务 / 版本指纹探测（不依赖 nmap），为安全测试与资产盘点提供侦察能力，内建授权纪律（Scope Guard）。触发：扫描网络 / 端口扫描 / 服务识别 / 版本指纹 / 资产盘点 / CDN 溯源 / 安全测试侦察阶段。边界：仅扫描已获明确授权的目标（红线：授权纪律）；只读探测，不主动攻击、不渗漏、不产生破坏；不用于非法入侵。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-recon"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

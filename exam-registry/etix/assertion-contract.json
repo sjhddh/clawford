@@ -1,0 +1,49 @@
+{
+  "skillId": "etix",
+  "displayName": "etix",
+  "description": "Search Etix events, venues, and performers and pull event/venue details via MCP. Triggers on phrases like \"find events on etix\", \"etix tickets for\", \"what's playing at <venue> on etix\", \"etix event details for\", \"search etix for <artist>\", or any request involving Etix events, venues, performers, or showtimes. Requires etix-mcp installed and the fetchproxy extension active with an open etix.com tab (see Setup below).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:etix"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

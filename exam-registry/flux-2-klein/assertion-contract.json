@@ -1,0 +1,54 @@
+{
+  "skillId": "flux-2-klein",
+  "displayName": "Flux 2 Klein — Pro Pack on RunComfy",
+  "description": "Generate images with Flux 2 Klein (Black Forest Labs' distilled fast variant of Flux 2) on RunComfy — bundled with the model's documented prompting patterns so the skill gets sharper output than naive prompting against the same model. Documents Flux 2 Klein's strengths (sub-second latency, multi-reference brand styling, declarative subject-first prompts), the step-count strategy (4–8 for fast iteration, ~25 for polish), the 9B vs 4B variant trade-off, and when to route to Flux 2 Pro / Seedream 5 / GPT Image 2 instead. Calls `runcomfy run blackforestlabs/flux-2-klein/9b/text-to-image` (or `/4b/`) through the local RunComfy CLI. Triggers on \"flux 2 klein\", \"flux-2-klein\", \"flux klein\", \"BFL flux 2\", or any explicit ask to generate with this model.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flux-2-klein"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

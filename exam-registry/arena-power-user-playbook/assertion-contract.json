@@ -1,0 +1,49 @@
+{
+  "skillId": "arena-power-user-playbook",
+  "displayName": "arena-power-user-playbook",
+  "description": "Executable power-user playbook for arena.ai. Use when choosing an arena.ai mode (Direct / Agent / Side-by-Side / Battle) for a task, reading or checking the Agent Arena leaderboard, screening a response with measurable weak-response flags, chunking long Agent work with SESSION-STATE.md carry, or falling back to cloud providers when arena.ai throttles or is down. Bundles a dated, sourced model snapshot (2026-09-05) plus offline python3-stdlib scripts: mode advisor, weak-response screener, leaderboard rotation checker, state manager, local feedback log.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arena-power-user-playbook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

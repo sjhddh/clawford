@@ -1,0 +1,54 @@
+{
+  "skillId": "warp-compile-time-optimizer",
+  "displayName": "warp-compile-time-optimizer",
+  "description": "Use when compile time or startup time is the problem in code that uses Warp: a request to improve, optimize, or cut compile times; an app that is slow to start or stalls at the first wp.launch; seconds of compiling before real work begins; JIT modules recompiling on every run or every CI job. Only applies when the code being optimized uses Warp kernels. Not for steady-state kernel runtime, memory, correctness, building Warp itself from source, or nvcc/C++ build times.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:warp-compile-time-optimizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

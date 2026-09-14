@@ -1,0 +1,54 @@
+{
+  "skillId": "flickies",
+  "displayName": "flickies",
+  "description": "Self-hosted video REST + MCP API. POST JSON, get a video back. Lipsync (LatentSync 1.5 + Wav2Lip/Wav2Lip-GAN) at /v1/video/lipsync, GFPGAN face restore at /v1/video/restore, pure-ffmpeg ops (trim, concat, transcode incl. gif + fps + codec, scale, mux_audio, extract_audio, thumbnail_grid) under /v1/video/*, and ffprobe metadata at /v1/video/info. file_path (staged) xor file_url in; output_path xor output_url out. Fire-and-forget async jobs (async_job=true → 202 → poll /v1/jobs/{id}) with HMAC-signed webhooks. 11 MCP tools at /v1/mcp. Bearer-token auth. CPU + CUDA images. Use when the user wants to lipsync a face to audio, restore faces in footage, trim/concat/transcode/scale/mux/extract/thumbnail video, probe a video's metadata, or drive any of that from an LLM over MCP.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flickies"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

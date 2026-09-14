@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-image-gen-free",
+  "displayName": "ai-image-gen-free",
+  "description": "AI 图像生成基础版(免费),通过执行脚本调用 ai-model Flash Image API 完成文本生成图像. 核心能力: - 文生图: 文本提示词生成图像,支持主体/场景/光线/风格/色调描述 - 多比例: 1:1、3:2、2:3、3:4、4:3、4:5、5:4、9:16、16:9、21:9 共 10 种 - 双分辨率: 标准 / 2K 适用场景: - 社交媒体头像、封面、壁纸快速生成 - 个人创作者图片原型与灵感草图 - 学习试用与轻量图像生产",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-image-gen-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

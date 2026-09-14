@@ -1,0 +1,54 @@
+{
+  "skillId": "requirement-sharpening-stone",
+  "displayName": "Requirement Sharpening Stone",
+  "description": "帮助 PM 在需求启动阶段,通过三步对话法(苏格拉底→第一性→奥卡姆)拆清问题本质, 产出可进 review 的 PRD v3.x 终稿。支持按需裁剪章节、按需启用场景定位/Agent 设计/学习循环等可选阶段。 输出优先飞书文档,降级本地 MD。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:requirement-sharpening-stone"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

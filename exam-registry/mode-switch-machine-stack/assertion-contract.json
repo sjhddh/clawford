@@ -1,0 +1,54 @@
+{
+  "skillId": "mode-switch-machine-stack",
+  "displayName": "Mode Switch Kit",
+  "description": "Use when you toggle VPN, agents and services by hand. One command flips the whole machine stack together — VPN, background agents, local services, model tier — from one YAML mode matrix; the watchdog repairs the current mode and never revives what you switched off (the part most setups get wrong). Use when: (1) You re-toggle the same five things by hand at every work↔game switch (2) A crash-restart must come back as the mode you are in now, not as whatever was running before it (3) Background agents should all run while you work, one or two while you game, none while you render (4) Local services should free their RAM when you need it, not when you remember (5) VPN on for work, off for low-latency gaming — and the agents must stop with it, or they ride the tunnel Python stdlib only — no pip install, no model calls, no API cost; Windows tested. Prove it first: `python templates/modes_switch.py --selftest` builds a fake stack in a temp dir and switches it end to end — your machine untouched. 中文触发:手动切工作/游戏模式太麻烦 / 一条命令切换整机栈 / 分身与本地服务跟着模式起停 / VPN 跟着模式开关 / 看门狗按模式自愈",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mode-switch-machine-stack"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

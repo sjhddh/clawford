@@ -1,0 +1,54 @@
+{
+  "skillId": "rd-direction-finder",
+  "displayName": "rd-direction-finder",
+  "description": "给定工程/技术问题描述，按\"需求牵引-瓶颈分析-解决思路\"三维解析需求，提取互斥技术难题，识别核心攻关方向，并行执行专利、论文及 Web 多平台检索，综合输出不超过 max_directions（默认 10）路结构化研发方向（含核心问题、研发内容、技术目标、代表参考证据），并按固定骨架同步生成 Markdown 检索报告与可渲染 HTML 报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rd-direction-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

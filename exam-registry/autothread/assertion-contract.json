@@ -1,0 +1,54 @@
+{
+  "skillId": "autothread",
+  "displayName": "autothread",
+  "description": "Add `/topic` to the start of any message and the agent creates a topic/thread from it with an auto-generated title. Telegram and Nicegram: a forum topic is created via the Bot API and the original message is quoted inside it (media is forwarded). Discord: a public thread is created from the message and the quote is posted inside. Signal has no native topics or threads, so its adapter instead posts a titled digest message to the group (or as a DM to a phone number) — no topic object is created there. All credentials are read from the local OpenClaw config; nothing is sent anywhere except the target platform's own API. Each platform adapter is a separate script that implements only its own platform; scripts/ shared helpers handle title fallback and JSON output. The repo also ships an offline test suite with a localhost mock API server (not part of the runtime).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autothread"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

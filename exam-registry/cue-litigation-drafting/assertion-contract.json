@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-litigation-drafting",
+  "displayName": "诉讼文书起草",
+  "description": "诉讼文书起草 — 根据用户提供的案件事实与当事人立场，通过 Cue 服务端生成法律文书草稿（答辩状/质证意见/律师函），逐点附法条与类案依据。本技能调用 Cue API（cuecue.cn）完成远程检索与生成，不直接访问任何数据源。 Triggers: 起草答辩状、起草质证意见、起草律师函、起草起诉状、起草上诉状、draft litigation document",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-litigation-drafting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

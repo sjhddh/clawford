@@ -1,0 +1,49 @@
+{
+  "skillId": "zillow",
+  "displayName": "zillow",
+  "description": "Look up real-estate listings, property details, Zestimates, saved searches/homes, and market reports on Zillow via MCP. Triggers on phrases like \"find homes in\", \"what's the Zestimate for\", \"show my saved Zillow homes\", \"what's my saved Zillow search seeing\", \"what does Zillow say about\", \"Zillow market report for\", or any request involving Zillow properties, prices, or your saved Zillow activity. Requires zillow-mcp installed and the fetchproxy extension active (see Setup below).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zillow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

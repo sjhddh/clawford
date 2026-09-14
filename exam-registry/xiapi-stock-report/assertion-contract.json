@@ -1,0 +1,54 @@
+{
+  "skillId": "xiapi-stock-report",
+  "displayName": "虾皮个股分析报告",
+  "description": "A股上市公司基本面分析报告生成器，输出财务质地、新闻情绪、行业地位、核心竞争力、ROE分析等八段结构化报告。触发词：基本面分析、个股分析、股票分析报告、写一篇股票分析。适用场景：A股上市公司基本面研究报告撰写，包含近30天新闻情绪分析和ROE/杜邦财务分析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiapi-stock-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

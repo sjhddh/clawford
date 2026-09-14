@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-trace-audit",
+  "displayName": "agent-trace-audit",
+  "description": "当用户说『AI刚才干了什么我要查』『agent操作有没有越界』『出事了能回溯吗』『给AI行为留个账本』，或要给 agent 的操作做可审计留痕时使用。把 agent 的动作日志（时间戳/执行者/动作/对象/是否过闸）建成可追溯账本，标出未过闸的越界操作（有籍），输出时间线+违规清单。可运行脚本（trace_audit 审计器）。理论根基：LGD 三律之有籍（全程可追溯）。与 agent-redteam-kit/有门禁互补。触发词：行为留痕、trace audit、操作审计、agent回溯、可追溯、行为账本、审计日志。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-trace-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

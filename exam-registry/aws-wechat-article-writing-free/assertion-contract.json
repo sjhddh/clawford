@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-wechat-article-writing-free",
+  "displayName": "aws-wechat-article-writing-free",
+  "description": "面向微信公众号长文的基础 AI 写作功能。从选题卡或口述话题生成完整初稿, 支持改写与润色。写作约束来自 .aws-article/config.yaml 与本篇 article.yaml 叠加, 覆盖 target_reader / tone / writing_style 等文风字段。模型未配置时自动降级为 当前对话模型按相同约束代写。本基础版不含业务资料库引用、多草稿管理与配图占位 高级分支.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-wechat-article-writing-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

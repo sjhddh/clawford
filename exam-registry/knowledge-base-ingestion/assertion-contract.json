@@ -1,0 +1,54 @@
+{
+  "skillId": "knowledge-base-ingestion",
+  "displayName": "Knowledge Base Ingestion",
+  "description": "将外部知识库（文档/笔记/共享文件等）提取内容并灌入向量数据库的标准流程。支持 ChromaDB、Pinecone、Weaviate 等多种向量库后端。包括预扫描目录、识别并排除无效文件、执行分批灌入、验证索引质量、失败恢复。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:knowledge-base-ingestion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

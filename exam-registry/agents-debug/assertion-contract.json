@@ -1,0 +1,54 @@
+{
+  "skillId": "agents-debug",
+  "displayName": "agents-debug",
+  "description": "Use when your agent or environment is broken — wrong answers, errors, timeouts, tool failures, or CLI issues. Reads traces and logs to diagnose root causes. Also checks prerequisites when the CLI itself isn't working. Triggers on: \"agent not working\", \"wrong answer\", \"agent error\", \"tool call failing\", \"debug agent\", \"check logs\", \"read traces\", \"broken\", \"500 error\", \"424 error\", \"model access denied\", \"command not found\", \"stuck in DELETING\", \"maxVms exceeded\", \"cold start diagnosis\", \"cold start slow\", \"agentcore create error\", \"create failed\", \"exit code 7\", \"connection refused local dev\". Not for deploy failures — use agents-deploy. Not for performance tuning without errors — use agents-optimize. Not for VPC configuration — use agents-build. Not for observability setup or missing logs — use agents-optimize.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agents-debug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

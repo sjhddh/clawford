@@ -1,0 +1,54 @@
+{
+  "skillId": "jz-chinese-text-punctuation-restoration",
+  "displayName": "Text Punctuation Restoration/文本标点恢复与断句段落划分",
+  "description": "本技能用于将无断句、无标点符号的“粘连文本”转化为有标点符号、有断句、无粘连的规范文本。适用于处理从 OCR 识别、语音转写（ASR）或网页复制粘贴产生的无格式文本。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jz-chinese-text-punctuation-restoration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

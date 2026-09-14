@@ -1,0 +1,54 @@
+{
+  "skillId": "self-eval",
+  "displayName": "self-eval",
+  "description": "自我评估 / rubric 评分器（元认知闭环核心）。让 agent 对自己的输出做结构化、可复现的评分，而非凭感觉\"我觉得不错\"。提供多维度评分表（相关性/完整性/结构/准确性/可执行性）、自动 rubric 生成、可选参考答案重叠比对，输出打分 JSON + 改进建议。当用户需要\"评估一下这段输出\"\"给自己的回答打分\"\"做个 rubric 评分\"\"self-evaluation\"\"检查质量\"时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-eval"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

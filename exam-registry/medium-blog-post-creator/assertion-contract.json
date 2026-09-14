@@ -1,0 +1,54 @@
+{
+  "skillId": "medium-blog-post-creator",
+  "displayName": "Medium Blog Post Creator",
+  "description": "Publish to Medium without an API token. Medium closed its API to new integrations in Jan 2025, so this skill uses the one stable path left: it writes your post as Medium-ready HTML, deploys it to your own GitHub Pages, and uses Medium's URL importer to create a draft. Say 'blog about X' and it scaffolds your blog repo on first run, then drafts each post end to end. It always stops at a draft for your review and never auto-publishes. Needs GitHub, Medium, and the gh CLI.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:medium-blog-post-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

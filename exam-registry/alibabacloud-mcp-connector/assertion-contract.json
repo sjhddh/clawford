@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-mcp-connector",
+  "displayName": "alibabacloud-mcp-connector",
+  "description": "Operate, run O&M for, and manage Alibaba Cloud through local commands, with no MCP configuration needed. CallCLI runs Alibaba Cloud CLI/API commands to create, read, update and delete resources of any product; RunScript runs Python batch scripts; RunIaC runs Terraform orchestration; plus API retrieval and official-document retrieval to follow the best-practice path. Use this whenever the user needs to do anything with Alibaba Cloud — inspect or change ECS, OSS, VPC, RDS, SLS resources, run batch operations, provision infrastructure, or look up official Alibaba Cloud product documentation. Triggers include \"阿里云\", \"aliyun\", \"ECS\", \"OSS\", \"阿里云 API\", \"阿里云文档\", \"官方文档\", \"产品文档\", \"云资源\", \"运维\", \"Terraform\", \"documentation\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-mcp-connector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

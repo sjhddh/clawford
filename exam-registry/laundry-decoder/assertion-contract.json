@@ -1,0 +1,54 @@
+{
+  "skillId": "laundry-decoder",
+  "displayName": "laundry-decoder",
+  "description": "Decode laundry care symbols from text descriptions (tub, triangle, iron, circle, square shapes with dots/bars), build a safe wash plan for a mixed load (color bleeding risk, temperature ceilings, fabric conflicts), and give evidence-based stain removal protocols by stain type. Use when the user asks what a care label means, whether clothes can be washed together, what temperature is safe, or how to remove a specific stain without ruining the fabric.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:laundry-decoder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

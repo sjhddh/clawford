@@ -1,0 +1,54 @@
+{
+  "skillId": "360disk-cli",
+  "displayName": "360disk-cli",
+  "description": "360 AI 云盘命令行工具。通过 Shell 命令直接操作云盘：浏览目录、搜索文件、上传下载、移动重命名、删除、分享、保存 URL/文本到云盘、追加文件内容、检测重名文件、配置文件读写、查看用户信息。输出结构化 JSON，支持 jq 管道处理和批量操作。当用户需要管理云盘文件、在脚本/CI 中操作云盘、或将云盘...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:360disk-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibaba-quark-transoffice",
+  "displayName": "夸克扫描王 - 转Office Alibaba-Quark-Transoffice",
+  "description": "由夸克扫描王提供的文件格式转换工具。当用户需要将图片、截图或扫描件转换为 Office 文档（Word/Excel）或 PDF 时，使用此技能。适用于包含复杂表格、合同或图文混排内容的图片或扫描件，可尽量还原原始版式并生成可编辑文档。即使用户未明确提到格式转换，只要用户的需求涉及将图片内容转换为可编辑文档（如 .docx、.xlsx 或 .pdf），也应触发此技能。请勿用于提取纯文本或识别文字内容、图像增强处理或从零创建文档",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibaba-quark-transoffice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "catalyst-search-skill",
+  "displayName": "Catalyst Search",
+  "description": "Catalysis literature search skill. Given a user-provided catalyst topic, reaction type, or material system, retrieve and organize relevant catalysis research papers from the open web (ScienceDirect, arXiv, OpenAlex, Google Scholar, etc.) and output structured literature-review information (literatur",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:catalyst-search-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

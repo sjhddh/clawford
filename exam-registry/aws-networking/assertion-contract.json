@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-networking",
+  "displayName": "aws-networking",
+  "description": "Routes AWS networking requests to the correct service skill for implementation. Covers Route 53 (DNS, health checks, routing policies, Resolver, DNS Firewall), CloudFront (caching, edge, OAC, mTLS, signed URLs), Transit Gateway (multi-VPC hub, segmentation, centralized egress), Direct Connect (hybrid link, DX Gateway, MACsec), Site-to-Site VPN (IPsec tunnels, static or BGP), WAF (web ACLs, AWS Managed Rules, rate-based rules, Bot and Fraud Control), and Shield Advanced (L3/L4 DDoS). Applicable when creating, configuring, troubleshooting, or designing across these services, choosing between them, or diagnosing connectivity or traffic-filtering issues. Not for VPC subnets and route tables, load balancers, VPC endpoints, PrivateLink, API Gateway, IAM policy logic, container or serverless networking, or IaC authoring.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-networking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

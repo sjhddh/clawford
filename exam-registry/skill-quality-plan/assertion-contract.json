@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-quality-plan",
+  "displayName": "质量计划技能",
+  "description": "为通用制造行业产品生成完整质量计划文档，涵盖质量目标、管控流程、检测标准、风险评估等12个模块，支持大纲确认与多轮修改，输出Markdown和HTML两种企业级排版格式；当用户需要制定产品质量计划、质量控制方案、质量管理文件或质量规划文档时使用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-quality-plan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

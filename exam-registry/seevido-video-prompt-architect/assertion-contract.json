@@ -1,0 +1,54 @@
+{
+  "skillId": "seevido-video-prompt-architect",
+  "displayName": "SeeVido Video Prompt Architect",
+  "description": "Turn rough video ideas into structured English or Chinese prompt packs, reference-aware sequences, continuity rules, and focused debugging loops. Use for text-to-video, image-to-video, reference-to-video, video-to-video, product clips, cinematic scenes, or multi-shot work; do not use for account support, live model comparisons, or claims about official provider behavior.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seevido-video-prompt-architect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-memory-distill",
+  "displayName": "OpenClaw Memory Distill",
+  "description": "OpenClaw memory distillation & organization: distill conversations into MEMORY.md + daily logs, solves context overflow, first-run memory building, dedup, sensitive-info skip, per-agent isolated. 中文：OpenClaw 记忆整理工具，对话蒸馏为结构化记忆，解决上下文溢出；缺失时自动首次建忆；增量去重；敏感信息跳过；每个 agent 独立处理。触发词：蒸馏记忆/整理对话/压缩上下文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-memory-distill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

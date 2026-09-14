@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaoyaoclaw-workspace-auditor",
+  "displayName": "OpenClaw Workspace Auditor",
+  "description": "OpenClaw workspace health auditor (read-only inspection): scans an agent workspace for directory-structure compliance, task/PROGRESS.md health, memory-log gaps, knowledge-base index orphans and junk files; outputs a severity-graded report (red/yellow/green) with fix suggestions via a zero-dependency",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-workspace-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

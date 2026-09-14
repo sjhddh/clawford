@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-special-characteristic-manager",
+  "displayName": "特殊特性识别技能",
+  "description": "从用户投喂的杂散材料（图纸图片/客户规范/邮件/Excel清单/口头）中抽取并识别产品与过程的特殊特性（CC/SC），判定级别、翻译客户符号、生成纯文字特性清单与传递矩阵，并标注材料缺口。面向 APQP 特殊特性清单编制、接单评审、审核应对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-special-characteristic-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-file-count",
+  "displayName": "huawei-cloud-obs-file-count",
+  "description": "Counts the total number of files (objects) inside a Huawei Cloud OBS (Object Storage Service) bucket and returns ONLY the numeric count. Supports counting all files in a whole bucket or all files under a given prefix (folder). Zero-byte folder-marker keys (ending with '/') are excluded — only real files/objects are counted. Uses the KooCLI obsutil-backed `hcloud OBS ls ... -limit=0` command (primary, parses the \"File number\" line) or the huaweicloudsdkobs Python SDK (fallback, paginated ListObjects). Read-only — never creates, modifies or deletes any resource. Use this skill whenever the user wants to know how many files or objects an OBS bucket (or a folder inside it) contains, e.g. for inventory, capacity review, migration planning or compliance checks. Triggers include: \"count OBS files\", \"OBS file count\", \"number of files in bucket\", \"how many objects in bucket\", \"OBS object count\", \"OBS文件数量\", \"查询OBS文件总数\", \"OBS文件总数\", \"桶里有多少个文件\", \"统计文件数量\", \"对象数量\", \"查询对象总数\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-file-count"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

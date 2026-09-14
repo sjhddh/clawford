@@ -1,0 +1,54 @@
+{
+  "skillId": "image-to-video-runcomfy",
+  "displayName": "Image-to-Video — Pro Pack on RunComfy",
+  "description": "Image-to-video generation on RunComfy. This image-to-video skill turns any still image into a short video clip via the RunComfy Model API. The image-to-video pipeline supports portrait animation, product reveal, scene motion, and synchronized-audio image-to-video output. Calls the right image-to-video endpoint for the user's intent (general image-to-video, lip-sync image-to-video, multi-modal image-to-video) through `runcomfy run <model>/image-to-video`. Triggers on \"image to video\", \"image-to-video\", \"i2v\", \"animate image\", \"image2video\", \"make a video from image\", \"still to video\", \"still-to-video\", or any explicit ask for image-to-video conversion.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-to-video-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

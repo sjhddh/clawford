@@ -1,0 +1,54 @@
+{
+  "skillId": "evermind-ai-agent-memory",
+  "displayName": "Evermind",
+  "description": "Cross-session memory recovery for AI agents — your agent never cold-starts again. Always-loaded identity & todos, hash-indexed conditional reads cut recovery cost ~70% (~55-75% cumulative when the host already injects identity). Pure local, zero deps. Use when: (1) A new chat asks \"where did we leave off?\" and you have no context (2) Context is filling up and you're about to hit the limit mid-task (3) User says \"I already told you this\" (4) You re-read the same identity/rules/todos files at every session start (5) Session start burns tens of thousands of tokens before real work begins (6) You need to hand a long task to a fresh session without losing progress 中文触发:新对话\"接着上次\" / 上下文快满 / 用户说\"我说过了\" / 每轮重读同样的规则待办 / 开场烧掉几万 token / 长任务交接",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:evermind-ai-agent-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

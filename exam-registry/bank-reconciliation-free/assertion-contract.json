@@ -1,0 +1,54 @@
+{
+  "skillId": "bank-reconciliation-free",
+  "displayName": "银行流水对账核对（免费）",
+  "description": "把银行流水和企业账面记录逐笔配对，列出未达账项与重复记录，每条结论都带原文日期与金额，不需要付款，也不需要注册。本免费版执行 逐笔自动配对、双向未达账项清单（银行有账上无 / 账上有银行无）、单侧重复记录检测、两侧笔数与金额合计对比。触发词包括 银行对账、未达账项、银行流水和企业账对不上、对账、找出未达账项、重复入账、漏记、每月对账。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bank-reconciliation-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

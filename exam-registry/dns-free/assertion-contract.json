@@ -1,0 +1,54 @@
+{
+  "skillId": "dns-free",
+  "displayName": "DNS配置基础版",
+  "description": "DNS配置基础版Skill,提供DNS快速诊断与自动检测能力,覆盖TTL迁移提示、SPF/DMARC入门检查与dig基础诊断. 核心能力: - 迁移前的TTL降级提示与基础缓存探测 - SPF单TXT记录与DMARC基础配置检查 - dig基础命令(A/TXT/MX查询) - www规范化基础建议 适用场景: -...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dns-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

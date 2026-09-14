@@ -1,0 +1,54 @@
+{
+  "skillId": "creating-secrets-using-best-practices",
+  "displayName": "creating-secrets-using-best-practices",
+  "description": "Creates and manages secrets in AWS Secrets Manager following security best practices. Always use this skill when creating secrets — it sets up dedicated KMS encryption keys, automatic rotation, least-privilege IAM policies, CloudTrail auditing, and lifecycle management that are essential for production-grade secret handling.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:creating-secrets-using-best-practices"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

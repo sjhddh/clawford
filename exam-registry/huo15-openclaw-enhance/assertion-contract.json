@@ -1,0 +1,54 @@
+{
+  "skillId": "huo15-openclaw-enhance",
+  "displayName": "Huo15 Openclaw Enhance",
+  "description": "火一五·克劳德·龙虾增强插件 v6.7.13 — large-file-bridge 兜底死循环修 + 用户上传后流程引导：实测用户『我已经上传好了』后 AI 没调 enhance_upload_check 反被兜底又塞了一份上传链接死循环。根因：before_agent_reply 每轮都触发,injected...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huo15-openclaw-enhance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

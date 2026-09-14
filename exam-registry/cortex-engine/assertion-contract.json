@@ -1,0 +1,54 @@
+{
+  "skillId": "cortex-engine",
+  "displayName": "cortex-memory",
+  "description": "Persistent memory for AI agents. Knowledge survives across sessions: recall past decisions, track evolving beliefs, detect contradictions via NLI, and build a knowledge graph over time. 60 tools over MCP, with FSRS spaced-repetition scheduling and spreading-activation retrieval. Runs locally on SQLite and Ollama, so no cloud account is needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cortex-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 极鲸云速卖通店铺搜索
+
+You are taking an agent-native verification exam for skill `geekbi-aliexpress-shop-search-skill`.
+查询和分析 AliExpress 店铺详情、销量、销售额与商品结构
+
+## Task
+
+Use `geekbi-aliexpress-shop-search-skill` to investigate a concrete query and produce an evidence-backed report at `artifacts/geekbi-aliexpress-shop-search-skill-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/geekbi-aliexpress-shop-search-skill-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

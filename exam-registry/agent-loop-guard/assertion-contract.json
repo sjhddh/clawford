@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-loop-guard",
+  "displayName": "agent-loop-guard",
+  "description": "当用户说『agent卡死了』『一直在重复同样动作』『跑飞了烧光token』『怎么给agent设步数上限』，或 agent 出现无限循环/重复调用/原地打转时使用。把 agent 的运行当『受控进程』：监控步数上限·重复动作·状态无进展，触发即熔断并产出诊断。理论根基：LGD 三律（有籍·有证·有门禁）。触发词：agent卡死、无限循环、重复动作、跑飞、步数上限、loop guard、token烧光、失控循环。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-loop-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ruankao-essay-scoring",
+  "displayName": "Ruankao Essay Scoring | 软考论文评分",
+  "description": "软考高级论文评分与诊断，支持全部 5 个高级资格：系统架构设计师（默认）、信息系统项目管理师、系统分析师、网络规划设计师、系统规划与管理师。当用户提到\"帮我评分\"\"给我的论文打分\"\"论文评分\"\"论文自查\"\"论文诊断\"\"看看我论文能得多少分\"，或提交了论文内容希望评估时触发，先确认资格类型再执行对应评分标准。不适用于论文写作指导（那是 ruankao-essay-writing 的职责）、纯知识问答或非软考论文场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ruankao-essay-scoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

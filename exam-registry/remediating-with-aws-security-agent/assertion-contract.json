@@ -1,0 +1,49 @@
+{
+  "skillId": "remediating-with-aws-security-agent",
+  "displayName": "remediating-with-aws-security-agent",
+  "description": "Pull AWS Security Agent findings (penetration tests and code reviews) and drive remediation. Use this whenever the user mentions Security Agent, security findings, pentest or penetration test results, code review findings, vulnerabilities found in their AWS account, \"what did the security scan find\", remediating or triaging security risks, or wants to start fixing reported vulnerabilities — even if they don't name the service explicitly. Trigger it for phrases like \"get my security findings\", \"what vulnerabilities do we have\", \"let's fix the pentest results\", or \"triage the security report\". The skill discovers scans, exports findings to a gitignored local directory (so sensitive exploit detail is never committed), produces a prioritized triage summary, and offers to start fixing the highest-risk issues.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:remediating-with-aws-security-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

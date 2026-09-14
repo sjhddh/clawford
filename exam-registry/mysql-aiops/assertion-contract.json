@@ -1,0 +1,54 @@
+{
+  "skillId": "mysql-aiops",
+  "displayName": "mysql-aiops",
+  "description": "Use this skill whenever the user needs to operate or troubleshoot a MySQL 8.x or MariaDB 10.6+ server as a DBA — a one-shot server health overview (version + flavor, connection headroom, replica role); server reads (global variables, status counters, databases, storage engines); activity (sessions/processlist, long-running queries, open InnoDB transactions, lock waits); query stats (performance_schema statement-digest top-N, EXPLAIN FORMAT=JSON); index health (unused indexes, redundant/duplicate indexes, cardinality); table health (sizes, data_free fragmentation, engine/row-format status); replication (replica IO/SQL thread state and lag, binlog/GTID status); four flagship analyses — slow-query RCA (worst digest + EXPLAIN → cited cause/action incl. full-scan and lock-time-dominant classification), InnoDB lock-wait & deadlock chain RCA (wait-for tree, root blocker, last deadlock parsed from SHOW ENGINE INNODB STATUS), replication lag RCA (thread state/error fields → cause+action), and table fragmentation analysis (data_free → OPTIMIZE candidates); and guarded writes (kill a session or query, OPTIMIZE/ANALYZE TABLE, create/drop an index, SET GLOBAL a variable, reset digest stats). Always use this skill for \"mysql health check\", \"why is this query slow\", \"top queries by time\", \"EXPLAIN this\", \"table fragmentation\", \"which indexes are unused\", \"redundant index\", \"who is blocking whom\", \"deadlock\", \"kill the session holding the lock\", \"replication lag\", \"replica stopped\", \"seconds behind master/source\", \"OPTIMIZE this table\", \"create/drop an index\", or \"SET GLOBAL max_connections\" when the context is a MySQL or MariaDB database. Do NOT use for PostgreSQL — use postgres-aiops. Do NOT use when the target is OT / industrial equipment (use industrial-aiops), a hypervisor, a storage appliance, a backup product, or a container/cluster orchestrator (negative routing hints only). Common MySQL/MariaDB DBA operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). Behaviour is validated by a mock-based test suite; see docs/VERIFICATION.md for the live-verification checklist.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mysql-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "langchain",
+  "displayName": "LangChain",
+  "description": "Builds and debugs LangChain apps in Python: LCEL chains, agents, tools, retrievers, streaming, and structured output. Use when writing or reviewing a chain, agent, tool, retriever, or prompt template; when a prompt raises KeyError or \"missing variables\"; when streaming arrives as one blob or astream_events yields nothing; when an agent loops until GraphRecursionError or repeats a tool; when tool calls fail validation or the provider rejects a tool_call_id; when chat history disappears or the context window overflows; when with_structured_output returns None or a parser crashes on valid JSON; when retrieval returns the wrong chunks; when LangSmith traces are empty; when retries, rate limits, or token cost need bounding; or when imports break after an upgrade. Covers LangGraph state, checkpointers, and middleware. Not for framework-agnostic agent architecture (agents), retrieval design (rag), or chunk tuning (rag-chunking).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:langchain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "structured-extraction",
+  "displayName": "structured-extraction",
+  "description": "把任意非结构化文本/网页/PDF 稳定抽取为机器可读的 JSON。固化 2025 一线实践：JSON mode + JSON Schema 约束 + few-shot + 输出引导 + 失败修复启发式。内置 json_repair 脚本（提取/修复/校验 JSON 块）。适用于文档抽取、网页字段提取、数据管道预处理。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:structured-extraction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

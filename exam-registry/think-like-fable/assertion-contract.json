@@ -1,0 +1,54 @@
+{
+  "skillId": "think-like-fable",
+  "displayName": "think-like-fable",
+  "description": "An operating manual for rigorous reasoning — how to read the real request beneath the words, decompose into independently-checkable pieces, spend effort where the risk lives, verify by re-derivation instead of plausibility, label known vs. guessed, attack your own conclusion, and communicate answer-first. Apply it to the task at hand; it changes HOW you work, not WHAT you do. Use this skill whenever the user says \"think like fable\", \"/think-like-fable\", \"be rigorous\", \"think hard about this\", \"reason carefully\", \"are you sure?\", \"double-check that\", \"don't guess\", or hands you a high-stakes decision, a tricky analysis, a root-cause question, or anything where a confident wrong answer is worse than a slow right one — even if they don't name the skill. Do not load it for trivial mechanical edits or casual questions.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:think-like-fable"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

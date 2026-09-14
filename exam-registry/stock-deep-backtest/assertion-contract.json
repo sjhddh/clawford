@@ -1,0 +1,49 @@
+{
+  "skillId": "stock-deep-backtest",
+  "displayName": "stock-deep-backtest",
+  "description": "股票深度回测（Stock Deep Backtest）技能 —— 基于 QuantAll（全A解析）MCP， 对\"已回测的策略\"做深度诊断：策略为什么有效/失效、最终在哪儿赚钱、能否用入场因子筛选改善。 三层能力：① 四个回测视角（summary 成绩单 / detail 横截面 / segments 持仓片段 / timeline 时序净值）； ② 原生分组（行业/市值/交易所/时间 + 热力图）；③ 因子筛选改善（单/双/多因子 → 片段收益对比）。 固定调用指令已固化为 tasks/*.json，run_task_file 可直接执行；深度分析由 scripts/ 脚本完成； 一键完整链",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stock-deep-backtest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

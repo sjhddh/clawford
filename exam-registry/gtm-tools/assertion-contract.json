@@ -1,0 +1,54 @@
+{
+  "skillId": "gtm-tools",
+  "displayName": "GTM Tools",
+  "description": "Set up and call the gtm-tools API from any agent — get an API key (including fully autonomous self-registration), connect the browser-session pool, then use all 63 LinkedIn, Reddit, email-finding, buying-signal, and geocoding tools over Bash + curl. Use this skill whenever the user wants to install / set up / connect / onboard gtm-tools, asks how to get a gtm-tools API key, hits a 401 / 402 / \"Unauthorized\" / \"Insufficient tokens\" from api.gtm-tools.sh, asks what tools or what token costs are available, asks to check their token balance or top up, asks which LinkedIn or Reddit accounts are connected, asks to install the browser extension, or names any gtm-tools tool (get_linkedin_company_url, get_email, detect_signal, list_linkedin_company_employees, get_reddit_post, …) without a workflow skill already loaded. This is the base capability skill — for full drafting workflows use outbound-sales, linkedin-copywriter, or reddit-community-manager instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtm-tools"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

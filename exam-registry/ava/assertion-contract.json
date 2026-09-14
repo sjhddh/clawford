@@ -1,0 +1,54 @@
+{
+  "skillId": "ava",
+  "displayName": "ava",
+  "description": "Lend real USDC on Base from your coding agent, inside limits the human sets. Ava handles session, mandate, two-phase preview, execution, and returns a receipt with chain proof. The agent never holds a key. Works from Claude Code, Cursor, Codex, and OpenClaw over HTTP MCP (https://www.getava.xyz/mcp). Fastest connect for Claude Code, Cursor, or Codex: npx @getava-xyz/connect. Live money is ava_lend_execute on Base (Morpho); copilot tools are testnet only. Use when: (1) the human wants their agent to allocate capital under bounds they set, (2) they ask for DeFi yield from a coding session, (3) they want a recomputable track record of agent executions. Triggers: Ava, agentic finance, MCP trading, mandate, agent wallet, OpenClaw DeFi, Claude trade, Cursor finance tools.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ava"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

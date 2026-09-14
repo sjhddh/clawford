@@ -1,0 +1,54 @@
+{
+  "skillId": "pibox",
+  "displayName": "pibox",
+  "description": "pi-coding-agent (earendil-works) running on the network inside an aicodebox container. Exposes seven programmatic surfaces on one image — interactive shell, one-shot exec (`-p \"...\"`), an HTTP REST API (run/async/cancel, workspace file ops), an OpenAI-compatible `/openai/v1/chat/completions` endpoint (streaming, client-executed tool calling, response_format/JSON-schema), an MCP server at `/mcp` (mounted in API mode or as a sidecar), a Telegram bot, and a cron scheduler that fires pi on a schedule. Foreground modes (API/Telegram/Cron) are mutually exclusive except Telegram+Cron; MCP coexists with any of them. Bearer-token auth per surface (`PIBOX_API_MODE_TOKEN`, `PIBOX_MCP_MODE_TOKEN`), empty = no auth. Use when the user wants to drive pi-coding-agent programmatically over HTTP/MCP/Telegram/cron instead of a local terminal session, or needs to reason about which pibox mode/endpoint fits a given integration.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pibox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "find-work-email",
+  "displayName": "find-work-email",
+  "description": "Find a verified work email address from a person's name and company domain, powered by Cargo. Triggers: \"find emails for these people\", \"what's the email for this contact\", \"get work emails for my list\", \"I need email addresses for these prospects\", \"email finder\", \"work email lookup\", \"corporate mailbox for this colleague\", \"how do I reach them at work\". Providers: prospeo, FullEnrich. Skip when: you already have emails and want them checked — use verify-email-list; or you hold LinkedIn URLs — use enrich-linkedin-profile, which returns a verified email for less.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:find-work-email"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

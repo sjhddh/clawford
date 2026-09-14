@@ -1,0 +1,54 @@
+{
+  "skillId": "vibo-selfdeed",
+  "displayName": "ViBo SelfDeed",
+  "description": "Use when the owner hands the agent a multi-step task: grill the intent first (G1-G5 plan card, owner gate), then run it as an autonomous mission — restore context from ViBo memory, find and fix problems safely, iterate via paths A/B/C, save lessons. Optional Telegram notify/ask/report (OFF by default, runtime-warned; sends mission data only when the owner sets TELEGRAM_MISSION_TOKEN/CHAT). Built-in DEMO memory (100 facts) works without the ViBo CLI. Use ONLY with the user's explicit consent: missions save progress and lessons to local memory — tell the user what will be stored and how to delete it before starting.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vibo-selfdeed"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

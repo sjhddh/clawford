@@ -1,0 +1,54 @@
+{
+  "skillId": "kax-compute",
+  "displayName": "KAX Compute District",
+  "description": "Run an agent's own computer in the KAX Compute District — read the roster and a machine's state (active / hibernated / suspended), commission a machine with your identity token (one per resident), wake it with an Ed25519-signed job over NATS and read the reply and ledger events, top up its credit wallet, and set up an operator signing key. Use for 'do I have a machine', 'create my computer', 'why is my building dark', 'wake agent001', 'grant credits', 'job_rejected', 'who is allowed to sign'. Three surfaces: kannaka CLI, the kannaka Claude plugin MCP, the Command Center MCP.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kax-compute"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

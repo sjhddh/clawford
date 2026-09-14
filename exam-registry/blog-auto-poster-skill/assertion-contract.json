@@ -1,0 +1,54 @@
+{
+  "skillId": "blog-auto-poster-skill",
+  "displayName": "Blog Auto Poster Skill",
+  "description": "多平台文章统一发布与同步工具。支持 CSDN、51CTO、博客园、掘金四个平台。 触发场景：用户需要将文章、博客、Markdown 文件的内容分发或群发到指定平台。 典型指令如：“帮我把这段文字发布到所有平台”、“把这个 MD 文件同步到 CSDN”、“一键群发这篇博客”。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:blog-auto-poster-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "industry-deep-dive-pipeline-skill",
+  "displayName": "Industry Deep-Dive Pipeline",
+  "description": "This skill should be used when turning a topic brief, research materials, vendor case, policy event, or industry question into a publish-ready single deep-dive article for technology, AI, data, cloud, or enterprise-software audiences. It runs source verification, originality and competition review, full editorial planning, two human decision gates, drafting, deterministic red-line checks, an existing eight-role review panel, revision, and final evidence packaging. It stops at an approved Markdown article plus evidence and review records; it does not create publication layouts, covers, social copy, CMS drafts, or publish content. 【适用】中立第三方产业深度研究 / 行业长文（个人 IP、公众号深度稿、厂商案例的独立分析）。【不适用】品牌营销稿、产品稿、按 content brief 写的推广文、技术教程——这类内容请用对应项目工作区里专门的写作 Skill；本 Skill 不做品牌露出与营销措辞，也不产出发布物料。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-deep-dive-pipeline-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

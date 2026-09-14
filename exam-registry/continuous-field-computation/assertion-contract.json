@@ -1,0 +1,54 @@
+{
+  "skillId": "continuous-field-computation",
+  "displayName": "Continuous Field Computation",
+  "description": "连续场运算技能，根据任务语义密度自动适配处理深度，通过语义密度感知分析任务复杂度并确定处理深度，简单任务快捷响应完整结果，复杂问题自动整合全网络状态演化输出，支持状态演化追踪和用户可控的透明度，默认隐藏中间过程但用户可要求追溯内部状态演变。6域32种任务。触发词：连续场运算、语义密度、自适应处理、状态演化、透明度...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:continuous-field-computation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

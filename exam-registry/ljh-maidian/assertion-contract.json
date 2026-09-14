@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh-maidian",
+  "displayName": "ljh-maidian",
+  "description": "卖点体检器。丢一句或一组卖点文案进来，跑六道检验，判断这是独一份卖点还是随时会被抄的公共卖点，给出通过/打回结论和改法。 触发方式：/ljh-maidian、「帮我看看这个卖点行不行」「这句卖点站得住吗」「体检一下我的卖点」「这个卖点会不会被主播怼回来」 Selling-point health check. Feed in one or a batch of selling-point copy, run six checks, and get a pass/reject verdict with concrete fixes. Trigger: /ljh-maidian, \"check my selling point\", \"is this selling point solid\", \"will this get challenged by a live host\" 论文摘要评审、产品说明书合规审查等非带货卖点语境，不要自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh-maidian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

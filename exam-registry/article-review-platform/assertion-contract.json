@@ -1,0 +1,54 @@
+{
+  "skillId": "article-review-platform",
+  "displayName": "Article Review Platform",
+  "description": "文章审阅平台（Article Review Platform）的完整使用指南。 覆盖：文章列表查看、内容阅读、创建新文章、更新状态、发布状态同步、审稿流程。 适用角色：小博（写稿）→ 文风分析师（审稿）→ 文章发布管家（发布） 触发词：审阅平台、article review platform、平台API、审稿、r...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:article-review-platform"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "project-governance",
+  "displayName": "Agent项目必备文件管理器",
+  "description": "文件太多？AI忘上文？换会话麻烦？AI记错版本？\n请给 AI 长期项目建立「项目记忆 + 文件索引 + 工作规则 + 版本记录」的治理系统。让 AI 换会话、换模型、甚至换 Agent 后，仍然能完美交接项目，而无需重新遍历或猜测。\n包含：跨 Agent 的公共协议：VERSIONS.md / LESSONS.md / whitelist.json / blacklist.json / index.md ；适配器：SKILL.md / CLAUDE.md / AGENTS.md / .cursor/rules/ 。\n适配TRAE，其他代理无法保证。\nCLI 已通过 76 用例健壮性测试。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:project-governance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

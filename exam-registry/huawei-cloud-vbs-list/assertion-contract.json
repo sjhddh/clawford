@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-vbs-list",
+  "displayName": "huawei-cloud-vbs-list",
+  "description": "Query the current Huawei Cloud backup (VBS/Volume Backup Service) list. Lists all backups in the user's project, with optional filtering by status, name, resource type, vault, and time range. The legacy VBS service has been superseded by CBR (Cloud Backup and Recovery), so this skill queries backups through the CBR ListBackups API/CLI. Use when the user wants to: (1) list all backups / VBS backup list, (2) check backup status and details, (3) filter backups by name, status, resource type, vault, or time range, (4) inspect backup inventory for daily inspection or troubleshooting. Triggers include: \"VBS\", \"备份列表\", \"备份\", \"云硬盘备份\", \"backup list\", \"list backups\", \"备份状态\", \"CBR\", \"Cloud Backup\", \"vbs list\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-vbs-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

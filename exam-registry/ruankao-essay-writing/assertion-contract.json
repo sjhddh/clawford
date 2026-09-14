@@ -1,0 +1,54 @@
+{
+  "skillId": "ruankao-essay-writing",
+  "displayName": "Ruankao Essay Writing | 软考论文写作",
+  "description": "覆盖软考高级论文写作全流程，支持全部 5 个高级资格（系统架构设计师/信息系统项目管理师/系统分析师/网络规划设计师/系统规划与管理师）。提供项目准备、试题分析、提纲撰写、摘要撰写、正文填充、检查校对全流程指导，按用户资格类型选择对应的项目案例、写作视角和专业深度标准。当用户提到\"帮我写论文\"\"论文指导\"\"如何准备论文\"\"改论文\"\"论文提纲\"\"论文模板\"等涉及论文写作的需求时触发。不适用于论文评分（那是 ruankao-essay-scoring 的职责）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ruankao-essay-writing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

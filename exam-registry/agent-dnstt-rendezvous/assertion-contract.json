@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-dnstt-rendezvous",
+  "displayName": "agent-dnstt-rendezvous",
+  "description": "Authorization-gated coordination skill for agents that need to plan, verify, and troubleshoot a DNSTT client/server link without sharing private keys, scanning resolvers, changing DNS/firewalls, or auto-executing tunnel commands. Uses short-lived rendezvous cards, out-of-band public-key fingerprints, optional HMAC authentication, loopback-by-default services, deterministic argv plans, and secret-free status handoffs. Use only on domains, resolvers, servers, and services the operator owns or is explicitly authorized to administer.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-dnstt-rendezvous"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

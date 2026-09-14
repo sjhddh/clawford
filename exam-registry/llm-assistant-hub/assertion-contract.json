@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-assistant-hub",
+  "displayName": "LLM助手中枢",
+  "description": "针对商业、法律等高风险长文档的长上下文推理优化器，提供五大核心能力. 分层分析策略（L0快速扫描→L1深度分析→L2聚焦深挖）按文档长度自动选择层级组合，控制token成本. 文档分块处理超长文档（超过50000字），按章节逻辑边界分割，逐块独立分析后全局检查跨块矛盾，解决上下文衰减问题. 假设检测框架将假设分为...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-assistant-hub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

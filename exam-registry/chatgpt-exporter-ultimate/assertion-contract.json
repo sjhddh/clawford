@@ -1,0 +1,54 @@
+{
+  "skillId": "chatgpt-exporter-ultimate",
+  "displayName": "ChatGPT Exporter",
+  "description": "Export all your ChatGPT conversations instantly — full context, timestamps, and metadata in seconds. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. Invoke it BY NAME — \"chatgpt-exporter-ultimate: export my conversations\" — so ordinary talk about ChatGPT cannot trigger it. Rides the ChatGPT session your browser already holds — browser relay or a bookmarklet you paste yourself. It reads NO access token, no cookie jar and no credential file. It enumerates your conversations — including ones inside Projects, found by running searches against your history — and writes JSON and Markdown copies to a private directory. Defaults to index-only (titles and timestamps, no message text); full content needs an explicit confirmation. Destinations are resolved through symlinks before anything is written, so an export cannot land in a synced folder or a git repo. A validated --purge deletes an export again. Off switch documented in the skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chatgpt-exporter-ultimate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "office-collaboration-radar-en",
+  "displayName": "Office Collaboration Radar (English)",
+  "description": "Extract an evidence-linked collaboration status card from chat logs, meeting notes, and project updates. Use when a user needs project progress, confirmed decisions, owner-and-deadline actions, blockers, cross-functional dependencies, human-review items, an executive summary, a radar chart, or stable JSON. Designed for English collaboration material; redacts PII and remains read-only by default.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:office-collaboration-radar-en"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-argp",
+  "displayName": "doca-argp",
+  "description": "Use this skill for hands-on DOCA Arg Parser CLI work on a shipped sample or new DOCA-using app — adding / removing / renaming flags; wiring `doca_argp_init` → register params → `doca_argp_start` → `doca_argp_destroy` in order; picking a parameter type from the full public enum (`DOCA_ARGP_TYPE_STRING`, `_INT`, `_BOOLEAN`, `_DEVICE`, `_DEVICE_REP`, `_DOUBLE` — six values, not three); preserving the standard `--device` / `--representor` / `--json` (`-j`; real flag is `--json`, NOT `--json-config`) / `--sdk-log-level` surface; or debugging `DOCA_ERROR_BAD_STATE` / `INVALID_VALUE` / `NOT_SUPPORTED` / `IO_FAILED` from `doca_argp_*`. Trigger on implicit phrasings: \"add a custom flag to a DOCA sample\", \"should I use getopt here\", \"BAD_STATE registering a new param\", \"my JSON config key is rejected\", or \"my sample's --json is ignored\". Refuse and route elsewhere for variadic-flag / subcommand / shell-completion features, DOCA Core context, or DOCA Log internals.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-argp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

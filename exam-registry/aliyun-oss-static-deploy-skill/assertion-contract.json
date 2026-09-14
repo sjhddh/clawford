@@ -1,0 +1,54 @@
+{
+  "skillId": "aliyun-oss-static-deploy-skill",
+  "displayName": "Aliyun Oss Static Deploy",
+  "description": "把纯静态站点（dist/ 或 web/）部署到阿里云 OSS + 自定义域名 + HTTPS 证书，并打通 GitHub Actions 自动部署与证书自动续期。当用户说「推到阿里云 / 上线 / 部署到 OSS / 绑自定义域名 / 签 SSL 证书 / 配置 Actions 自动部署 / 静态站 HTTPS」时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aliyun-oss-static-deploy-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

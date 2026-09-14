@@ -1,0 +1,54 @@
+{
+  "skillId": "break-watch",
+  "displayName": "Break Watch",
+  "description": "盘中放量上涨阳线股票扫描器。当用户询问盘中选股、放量突破、放量上涨、阳线筛选、盘中扫描、量比选股、突破选股、Break Watch，或提到'放量'、'上涨'、'阳线'、'盘中选股'、'量比'、'突增'等术语时触发此技能。通过通达信 pytdx 获取实时行情，筛选同时满足放量、上涨、收阳线三个条件的 A 股股票，输出结构化信号列表。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:break-watch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

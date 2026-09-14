@@ -1,0 +1,49 @@
+{
+  "skillId": "pharmaceuticals-exploration",
+  "displayName": "pharmaceuticals-exploration",
+  "description": "Used for answering drug-related questions. For early-stage drugs, search and summarize related patents, academic literature, database records, clinical trials, patents, and licensing transaction documents to answer questions. Activate when users explicitly mention specific drugs or when calling disease_investigation_skill or target_intelligence_skill for assistance - Specify output of a drug's characteristics or other records - Search for drugs related to a specific disease - Search for drugs targeting a specific target Typical queries - Please tell me about semaglutide targeting GLP-1R for diabetes treatment - What drug is remdesivir? - Drugs used to treat hepatitis B - ALN-F12",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pharmaceuticals-exploration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

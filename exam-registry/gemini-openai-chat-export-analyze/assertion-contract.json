@@ -1,0 +1,49 @@
+{
+  "skillId": "gemini-openai-chat-export-analyze",
+  "displayName": "Gemini Openai Chat Export Analyze",
+  "description": "当用户要导出并分析与 Gemini(Google)或 ChatGPT(OpenAI)网页版的全部聊天历史时,加载本 skill。典型触发:用户提到 \"导出 gemini 对话\"、\"gemini 聊天记录\"、\"chatgpt 数据导出\"、\"OpenAI conversations.json\"、\"我和 gemini/...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gemini-openai-chat-export-analyze"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-waf-report",
+  "displayName": "alibabacloud-waf-report",
+  "description": "Generate or review Alibaba Cloud WAF 3.0 security operations reports, customer assessments, rule-tuning reports, and focused false-positive or false-negative investigations using WAF OpenAPI, SLS traffic logs, authorized read-only verification, or user-supplied offline WAF samples and exports. Use for WAF monthly reports, security patrols, API Security reviews, BOT analysis, and OWASP API Security Top 10 coverage. Do not use for unauthorized testing or direct production rule changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-waf-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

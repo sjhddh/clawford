@@ -1,0 +1,54 @@
+{
+  "skillId": "queue-aiops",
+  "displayName": "queue-aiops",
+  "description": "Use this skill whenever the user needs to operate a redis cache or a rabbitmq broker — a one-shot overview, redis memory posture (used vs maxmemory, eviction policy, fragmentation), SLOWLOG and a SCAN-budgeted big-key sample (never KEYS *), connected clients, CONFIG get/set, rabbitmq queues with backlog depth, connections/channels, policies and node watermark alarms, four flagship RCAs (redis memory pressure, redis latency/slowlog, rabbitmq queue backlog, connection churn on both platforms), and governed writes (set a config parameter, kill a client, declare/purge/delete a queue, set/delete a policy). Always use this skill for \"redis\", \"rabbitmq\", \"maxmemory\", \"eviction\", \"evicted keys\", \"big key\", \"slowlog\", \"why is my cache slow\", \"queue backlog\", \"messages piling up\", \"no consumers\", \"unacked messages\", \"memory watermark\", \"connection churn\", \"purge a queue\", \"rabbitmq policy\" when the context is a redis or rabbitmq deployment. Do NOT use when the target is something other than a redis/rabbitmq broker (a hypervisor, storage appliance, backup product, container-orchestration cluster, database server, monitoring stack, or OT/industrial equipment) — route those to the appropriate other AIops-tools skill. Managed cloud queue services and other broker products are out of scope. Governed broker operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). Behaviour is validated by a mock-based test suite; see docs/VERIFICATION.md for the live-verification checklist.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:queue-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

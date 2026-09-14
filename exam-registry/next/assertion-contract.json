@@ -1,0 +1,54 @@
+{
+  "skillId": "next",
+  "displayName": "next",
+  "description": "Suggest next actions after completing any task. Auto-invocation via Stop hook + UserPromptSubmit reactive backstop, owned by the `next-invocation-guard` plugin (local-only, ported from `resources/next-trigger.sh` + `resources/next-reactive-guard.sh`). Fires when assistant response contains completion keywords (locale patterns in `data/*.regex`). stall-detect - detect stalled follow-up steps and invoke /fix [stall-detect.md], ask-gates - recording-skip / decision-deferral forced-ask / TaskList primary-source / current-work confirmation gates [ask-gates.md], suggestion-patterns - per-context \"After X\" next-action option templates [suggestion-patterns.md]. Use when \"next action\", \"what next\", \"stall\", \"stuck\", \"not progressing\", \"follow-up missing\" is mentioned.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:next"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "financial-bill-ocr",
+  "displayName": "financial_bill_ocr",
+  "description": "支持金融单据识别,支持识别多种金融单据，包括银行承兑汇票、电子银行承兑汇票、商业承兑汇票、电子商业承兑汇票、银行支票、银行回单、进账单、电汇凭证、支款凭证、移动支付账单、财政授权支付凭证、海关专用缴款书、海关进/出口货物报关单、国际汇票、商业发票、原产地证明、货物运输保险单、装箱单、提单，结构化提取关键信息。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:financial-bill-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

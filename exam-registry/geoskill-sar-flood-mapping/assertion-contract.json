@@ -1,0 +1,54 @@
+{
+  "skillId": "geoskill-sar-flood-mapping",
+  "displayName": "geoskill-sar-flood-mapping",
+  "description": "基于 SAR 低后向散射特性的洪水范围制图：Otsu 阈值分割低 σ⁰ 水体 + 形态学去噪 + 可选 DEM 坡度排除，并矢量化为 GeoJSON。SAR flood extent mapping via Otsu thresholding of low backscatter, morphological cleanup and vectorization. 输出洪水二值 GeoTIFF + 面积统计 JSON + 范围 GeoJSON。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geoskill-sar-flood-mapping"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

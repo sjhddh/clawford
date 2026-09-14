@@ -1,0 +1,54 @@
+{
+  "skillId": "compose-methods",
+  "displayName": "Compose Methods",
+  "description": "通用内容构成方法论技能，提供清单法和样本法两种范式来生成任意类型的结构化成品。当用户要求生成文档、方案、代码、报告、演讲稿、商业计划书等结构化内容，且明确提到清单法、样本法、组件、样本、模板、模仿等关键词，或要求生成结构化成品但未指定生产方式时触发。此技能不替代领域专业技能，而是在用户选择后指导AI执行对应的构成...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compose-methods"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

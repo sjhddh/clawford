@@ -1,0 +1,54 @@
+{
+  "skillId": "yaml",
+  "displayName": "YAML",
+  "description": "Writes, debugs, and validates YAML that parses the same in every language and tool. Use when a file will not parse, when a value silently turns into a boolean, number, date or null (`no`, `on`, `1.0`, `0644`, `22:22`), when tabs, indentation, or a colon inside a string breaks a document, when a block scalar mangles a script or a PEM key, when anchors, aliases or `<<` merge keys do not survive a tool, when duplicate keys pick the wrong winner, when the same file loads in one parser and fails in another, when YAML has to be edited or generated in code without losing comments or key order, when untrusted YAML could execute code, or when writing Kubernetes, Helm, GitHub Actions, GitLab CI, Ansible, Compose, CloudFormation, OpenAPI or Home Assistant files. Covers yamllint, schema validation, yq, and semantic diffs. Not for JSON (`json`), TOML (`toml`), XML (`xml`), or Ansible playbook semantics (`ansible`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yaml"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-migration-dbm-redis-shake-migration",
+  "displayName": "alibabacloud-migration-dbm-redis-shake-migration",
+  "description": "端到端管理 RedisShake 数据迁移任务：从用户提供的 Excel 表格、文本描述或逐项问答中提取迁移信息，生成 shake.toml 配置文件，并在本地或通过 SSH 远程部署、启动、停止、监控迁移任务。当用户需要配置 Redis 迁移/同步、提供了含 Redis 地址密码等信息的文本/表格、需要启动或管理 RedisShake 任务、或通过 SSH 远程操作服务器时触发。本 skill 不适用于：MongoDB/MySQL/ES 等非 Redis 数据迁移、Redis 内存 dump 备份、集群拓扑改造、未提供 SSH 凭证的远程操作；本 skill 不验证迁移后的数据一致性（推荐使用redis-full-check进行校验），仅在已部署 redis-shake 二进制的 Linux 服务器上运行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-migration-dbm-redis-shake-migration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

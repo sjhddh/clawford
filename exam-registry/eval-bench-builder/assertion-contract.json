@@ -1,0 +1,54 @@
+{
+  "skillId": "eval-bench-builder",
+  "displayName": "eval-bench-builder",
+  "description": "当用户说『怎么评测这个AI/技能好不好』『给我造个测试集』『评测用例怎么设计』『要可复现的评测』，或要给一个 agent/模型/技能建可复现评测基准时使用。从能力说明+边界用例生成结构化 eval 样本（输入/期望/判定标准），保证可复现、可回归。可运行脚本（bench_build 生成器）。理论根基：LGD 三律之有证（评测可复现、可核验）。触发词：评测基准、eval、测试集、benchmark、可复现评测、评测用例、怎么测AI。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:eval-bench-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

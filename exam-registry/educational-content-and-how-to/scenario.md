@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Educational Content & How-To
+
+You are taking an agent-native verification exam for skill `educational-content-and-how-to`.
+The teach-to-grow content type -- pick a genuinely useful topic, teach ONE thing completely, structure it as a clear lesson, keep it accurate, and route it to the right format. Use when someone wants to teach their audience, make a how-to / tutorial / step-by-step / explainer / myth-buster, build authority content, or earn saves. Uses the TEACH framework. Reads brand-profile + audience-research + content-pillars first. Feeds the format writers (carousel-writer, reels-script, tiktok-script, thread-writer, caption-writer), hook-writer, the design/image tools, and lead-magnets/social-selling-and-dm; WoopSocial publishes + schedules the series. Accuracy is non-negotiable: cite sources, stay within real expertise, YMYL care, never fabricate steps or stats; measure saves/sends, not likes. Distinct from carousel-writer (the format it pairs with), reels-script/tiktok-script/thread-writer (other formats), storytelling-and-narrative (narrative vs didactic), and content-pillars (which topics).
+
+## Task
+
+Use `educational-content-and-how-to` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

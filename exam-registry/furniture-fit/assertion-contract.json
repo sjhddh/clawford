@@ -1,0 +1,54 @@
+{
+  "skillId": "furniture-fit",
+  "displayName": "furniture-fit",
+  "description": "Assess whether furniture fits in a measured Pascal room or layout. Use this skill for sofa, table, bed, cabinet, appliance, staging, placement, collision, clearance, or rotated-footprint questions. Produce a tool-backed spatial report that distinguishes footprint fit from unsupported height, door-swing, assembly, and delivery-route claims, and return insufficient evidence when dimensions or scale are missing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:furniture-fit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

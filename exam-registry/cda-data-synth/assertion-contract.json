@@ -1,0 +1,54 @@
+{
+  "skillId": "cda-data-synth",
+  "displayName": "CDA Data Synth",
+  "description": "CDA 因果数据合成器——根据领域描述自动生成 CDA 架构可消费的因果数据集。 生成 Entity-State Graph（JSON 格式）、CausalEdge 列表、带时间戳的观测轨迹、哈密顿量约束参数。 覆盖热力学、力学、流体、多域耦合等物理域，支持生成训练数据、验证数据、基准测试数据。 当用户需要为 C...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cda-data-synth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

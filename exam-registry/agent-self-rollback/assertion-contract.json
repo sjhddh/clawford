@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-self-rollback",
+  "displayName": "agent-self-rollback",
+  "description": "Deploy a self-rollback / snapshot mechanism for an AI agent's own memory files (identity SOUL.md, user profile USER.md, FACT.md, JOURNAL) and project files, so the agent can survive its own mistakes. Covers snapshotting, listing, restoring, and MD5 verify, plus self-discipline rules to write into the agent's own rules. Has a portable PowerShell script (snapshot/list/restore/verify). Use when the user asks for \"agent rollback\" \"误操作回滚\" \"self-rollback mechanism\" \"protect my agent memory\" \"备份agent记忆\" \"快照回滚\" or wants to harden an AI assistant against accidentally corrupting its own persistent memory. 关键词：误操作回滚、记忆保护、快照、self-rollback、agent memory backup、自毁预防。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-self-rollback"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

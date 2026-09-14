@@ -1,0 +1,54 @@
+{
+  "skillId": "benxiang-memory",
+  "displayName": "benxiang-memory",
+  "description": "Shadow Memory —— 把聊天历史持续提交为世界状态，新会话秒恢复。MCP Server（stdio，零依赖）：项目状态持久化在 .origin 包里，AI 不再「记住」什么，开工前 origin_state 取投影，收工时 origin_commit 提交语义事务。事务过确定性门禁才落盘，状态不会因模型记错而腐坏；每个字段都能回答「凭什么是这个值」。当新会话丢失上下文、多 agent 协作状态漂移、项目进度需要持久化与追责时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:benxiang-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

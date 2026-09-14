@@ -1,0 +1,54 @@
+{
+  "skillId": "jiufu-cti",
+  "displayName": "九赋产品溯源评级",
+  "description": "九赋产品溯源评级 - 查询产品消费信任指数（CTI）。当用户提到产品溯源、产品评级、产品安全性验证、消费信任、产品质量核查、品牌背景调查、SC许可证验证、3C认证查询、企业工商验证时使用此技能。支持全品类消费品（食品、日化、化妆品、电子产品、宠物食品等）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jiufu-cti"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "dotnet-onion-api",
+  "displayName": "dotnet-onion-api",
+  "description": "Scaffold a new .NET solution (Web API + Worker microservices) using ONION architecture and EF Core, codifying battle-tested layered patterns and explicitly avoiding the common pitfalls of legacy stored-procedure-centric codebases. Use this skill whenever the user asks to \"create a new dotnet project\", \"scaffold a .NET API\", \"new C# solution\", \"add a worker microservice\", \"add a feature end-to-end\", or mentions \"ONION\", \"Clean Architecture\", \"Onion Architecture\", or \"the layered .NET patterns I like\". Three modes — (1) full solution scaffold, (2) add a feature slice through all layers, (3) add a BackgroundService worker microservice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dotnet-onion-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

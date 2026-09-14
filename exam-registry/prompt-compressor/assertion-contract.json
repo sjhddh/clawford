@@ -1,0 +1,54 @@
+{
+  "skillId": "prompt-compressor",
+  "displayName": "prompt-compressor",
+  "description": "当用户说『提示词太长/token烧太快』『上下文塞不下了』『把这段压缩一下还别丢重点』『长文档怎么塞进窗口』，或要压低 agent 每轮上下文成本时使用。基于「信息密度」裁剪：保留关键词密集/位置靠前的句子，删冗余/客套/复述，给出可运行脚本（提示压缩器，按密度+位置打分删句）。与 context-engineering 互补：context 管『放什么』，compressor 管『怎么压短』。理论根基：LGD 三律之收敛（删除冗余，单一有效信息）。触发词：提示压缩、prompt压缩、上下文压缩、压缩token、长文本精简、context压缩、省token、摘要进窗口、prompt shorten。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prompt-compressor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

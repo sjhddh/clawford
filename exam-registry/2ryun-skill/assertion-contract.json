@@ -1,0 +1,54 @@
+{
+  "skillId": "2ryun-skill",
+  "displayName": "2Ryun Skill",
+  "description": "Use when the user wants to import documents, build a knowledge base, search structured knowledge, generate web pages from content, or publish them. Use when the user mentions 2Ryun, 第二现实, knowledge base, 知识库, 文档管理, 知识图谱, 网页, 发布. 2Ryun is an AI-era knowledge/content platform where knowledge extraction from documents happens automatically once enabled — the agent's role is to decide which documents should enter the knowledge base and which should not.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:2ryun-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

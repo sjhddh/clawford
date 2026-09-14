@@ -1,0 +1,54 @@
+{
+  "skillId": "idempotent-rebuild-verification",
+  "displayName": "idempotent-rebuild-verification",
+  "description": "哈希钉扎的 agent 工作区重建验证：纯标准库、离线、确定性 CLI。分类\"良性质漂移 vs 真损坏\" （$(cat) 尾部换行剥离 / CRLF / 截断粘贴 / HTML 错误页 / 同尺寸改动），批量清单校验， runbook 钉扎提取，CommonMark 正确的步骤提取（内嵌围栏不再静默截断），快照擦除后 状态判定与步骤路由。JSON 机器可读输出，每条带 next_action。不修改任何被验证文件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:idempotent-rebuild-verification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

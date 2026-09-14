@@ -1,0 +1,54 @@
+{
+  "skillId": "gzh-download-knowledge",
+  "displayName": "公众号文章导出 MD 知识库",
+  "description": "把自己的公众号历史文章批量导出为本地 Markdown 归档——后台官方「发表记录」全量列表、稳定链接、一键批量保存、纯本地运行、零 token 成本。由 webclaw3 驱动（复用你已登录的 Chrome，无需填任何 token/cookie）。触发场景：想把公众号历史文章批量存到本地做归档/知识库（只支持自己的公众号，后台登录的那个号）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gzh-download-knowledge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

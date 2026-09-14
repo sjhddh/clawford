@@ -1,0 +1,54 @@
+{
+  "skillId": "job-screener-engine",
+  "displayName": "job-screener-engine",
+  "description": "在用户拿到面试邀请或 Offer 后，对岗位机会做深度评估：六个维度 打出 A–H 等级与全局 1–5 分，输出行动建议、面试练手价值与风险提示。 触发词：'拿到 offer 了帮我看看'、'这个面试机会值不值得去'、 '帮我评估这个岗位'、'帮我对比这几个机会'、'岗位深度分析'。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:job-screener-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

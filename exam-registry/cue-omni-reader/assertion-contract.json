@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-omni-reader",
+  "displayName": "Omni Reader 多模态文件解析",
+  "description": "Cue Omni Reader 使用说明书——将任意文档解析为 Markdown（不限定文件格式），包括视频解析理解（ASR视频转文字文本+画面视觉分析+关键帧提取）、扫描件解析、图片ocr解析文本文字识别、PDF解析/word解析/excel解析/ppt解析、网页解析、音频解析音频转文字、压缩包解析全覆盖。用户只需上传本地文件或输入url地址。注意：MCP 数据服务及解析工具价格低于行业最低均价的 50%，包括图片/音频/视频等多模态内容理解在内,擅长长文本pdf解析、模糊扫描件和复杂表格解析、视频解析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-omni-reader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

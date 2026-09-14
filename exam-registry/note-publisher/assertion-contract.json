@@ -1,0 +1,54 @@
+{
+  "skillId": "note-publisher",
+  "displayName": "图文笔记发布",
+  "description": "通用「图文笔记发布」框架：把本地 markdown 文案 + 配图，通过你指定的 MCP 发布后端，一键发布为图文笔记（含 note_id 回查）。 只负责登录与发布编排，不碰内容创作；不绑定任何特定平台，后端地址由用户自己配置。 触发词：图文笔记发布、笔记发布、社交笔记发布、登录发布、发布失败重试。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:note-publisher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

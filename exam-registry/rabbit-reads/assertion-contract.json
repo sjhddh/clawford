@@ -1,0 +1,49 @@
+{
+  "skillId": "rabbit-reads",
+  "displayName": "rabbit-reads",
+  "description": "Distill a book, paper, or thesis into a folder of terse per-concept cheatsheets with a README index. Use whenever the user asks to \"read this PDF and turn it into a doc set\", \"extract the practices from this book\", wants \"chapter summaries\", \"cheatsheets\" or \"best-practice cards\", asks for \"craft notes from a novel\" or \"the claims and methods out of an arxiv paper\", or says \"make study notes from this thesis\". Covers normalizing any source format to text (txt, md, docx, pdf, doc, rtf, html, odt, epub), mapping the source's structure to section line ranges, planning the doc set, fanning the writing out to subagents, and verifying the result, cut by concept and never one file per chapter.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rabbit-reads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

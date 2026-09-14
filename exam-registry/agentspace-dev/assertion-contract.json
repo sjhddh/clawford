@@ -1,0 +1,54 @@
+{
+  "skillId": "agentspace-dev",
+  "displayName": "Agentspace — See what your dev agent is doing, from anywhere",
+  "description": "See what your AI dev agent is doing, from anywhere — free, no-signup live dev workspace for AI agent development. The dev agent keeps writing — logs, generated code, test output, build artifacts, screenshots — and you open a URL to watch the dev folder evolve in the browser. Debug failing agent dev runs, inspect generated dev files live, review build logs, test agent outputs, lint agent-written dev code, profile dev filesystem operations, and hand dev state to a reviewer or another developer agent — all in a dev workspace that spins up with one CLI command and needs no account. Fits dev iterations, build pipelines, test debug sessions, output review, and dev-to-dev handoff. Dev workspaces stay live 24 hours anonymously; one email claim keeps them permanent. Built on the ascli CLI and dev HTTP API at agentspace.so. Triggers on \"show me what the dev agent is doing\", \"open the dev agent's folder from anywhere\", \"debug this agent\", \"what did the agent generate\", \"review the build output\", \"hand off this dev session\", \"show me the agent's files live\", or any dev-time observability need.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentspace-dev"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

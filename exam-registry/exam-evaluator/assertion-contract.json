@@ -1,0 +1,54 @@
+{
+  "skillId": "exam-evaluator",
+  "displayName": "Exam Evaluator",
+  "description": "从 .xlsx/.xls/.docx/.pdf 试卷/题库中提取试题，从五个维度（内容效度、结构效度、难度控制、区分度潜力、规范性）评估命题质量，生成交互式 HTML 可视化报告。Use when: (1) 用户要求评估试卷或题库质量，(2) 命题后需要质量检验，(3) 对比多份试卷的命题水平，(4) 生成试题分...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exam-evaluator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

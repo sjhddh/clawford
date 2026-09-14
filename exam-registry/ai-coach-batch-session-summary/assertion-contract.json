@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-coach-batch-session-summary",
+  "displayName": "Ai Coach Batch Session Summary",
+  "description": "批量分析录音转写，生成多维度拓客分析报告。触发词：录音分析、 总结、音频总结、拜访记录总结。 当用户提到「分析录音」「看看录音数据」「最近的录音」「通话记录」且意图是批量统计/分析时触发。 注意：单独出现「录音」「拜访」时需结合上下文判断，若用户只是查看单条录音详情则不触发本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-coach-batch-session-summary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "zmm-revenue",
+  "displayName": "詹明明·这个月钱去哪了",
+  "description": "📐 詹明明·这个月钱去哪了 ——营收异动归因。这个月钱少了（或多了），到底是客人变少、每人买得少、还是单价变了——三种原因的处理动作完全相反，分不清就会做反。也识别「静默侵蚀」：每个月只跌一点点、单月都像正常波动，累计起来致命。 触发方式：/zmm-revenue、/钱去哪了、/营收归因、「这个月为什么少了」「营收掉了」「钱去哪了」「生意怎么突然不行了」「涨了但我不知道为什么」 Revenue movement attribution for owner-operators. Splits any change into customer count × per-customer volume × price, so the right fix follows. Also detects slow erosion that hides inside monthly noise. Works from a ledger or order book — no dashboard required. Trigger: /zmm-revenue, \"why is revenue down this month\", \"where did the money go\", \"business suddenly slowed\" —— 📐 詹明明 · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zmm-revenue"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

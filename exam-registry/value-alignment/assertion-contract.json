@@ -1,0 +1,49 @@
+{
+  "skillId": "value-alignment",
+  "displayName": "value-alignment",
+  "description": "价值对齐：用 有用/无害/诚实 三原则对生成内容做规则化对齐评估，拦截越界与有害输出、 标记过度承诺与无依据断言。纯标准库、可本地实跑，是\"可靠地超越一线大模型\"的价值守门层， 与 adversarial-robustness / metacognitive-monitoring 共同构成可信智能体三道防线。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:value-alignment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "decision-architect",
+  "displayName": "决策架构师",
+  "description": "面向 AI Agent 的结构化决策支持系统，提供决策框架匹配、认知偏差检测、风险画像学习与强制复盘闭环. 内置 8 类决策框架（决策矩阵、成本效益、前置分析、预演困境、机会成本、二阶思维、奥卡姆剃刀、可逆性评估）， 按\"领域×类型\"双维度自动匹配最佳框架。扫描 12 类常见认知偏差并标注潜在信号，避免单点误判....",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:decision-architect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

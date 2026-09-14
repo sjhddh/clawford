@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-comch",
+  "displayName": "doca-comch",
+  "description": "Use this skill when the user is doing hands-on DOCA Comch work on a host + BlueField pair — bringing up host ↔ DPU PCIe control-plane messaging, picking server (DPU) vs client (host) roles, choosing slow-path send-task / recv-callback vs fast-path producer / consumer, querying max-msg-size or max-clients capabilities, registering connection callbacks, or debugging DOCA_ERROR_* returns from the Comch API. Trigger even when the user does not explicitly mention \"DOCA Comch\" or \"Comm Channel\" (renamed in DOCA 2.5) — typical implicit phrasings include \"send a control message from host to BlueField over PCIe\", \"DPU can't see the host representor\", \"DOCA_ERROR_NOT_PERMITTED on server_create\", \"DOCA_ERROR_AGAIN on task_send submit\", \"connect callback never fires\", or \"stream bulk data from a host driver to a DPU agent\". Refuse and route elsewhere for installing DOCA itself, BFB / firmware bring-up, non-Comch DOCA libraries, or deploying Comch apps at scale — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-comch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

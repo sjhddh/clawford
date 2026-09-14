@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-run-on-docker",
+  "displayName": "tao-run-on-docker",
+  "description": "Docker conventions for running NVIDIA GPU container workloads — NGC authentication, --gpus flag, mount patterns, env-var passthrough, container inspection, data-root relocation for split-disk hosts, and common error modes. Use when another skill requires running an nvcr.io container or any docker run command on a GPU host. Trigger keywords — docker, docker run, nvcr.io, NGC, --gpus, nvidia-container-toolkit, container image, docker login, docker pull.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-run-on-docker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

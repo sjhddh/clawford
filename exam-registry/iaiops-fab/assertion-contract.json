@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops-fab",
+  "displayName": "iaiops-fab",
+  "description": "Fab edition of iaiops — semiconductor / display (panel TFT-LCD/OLED) fab equipment over SECS/GEM (SEMI E5 SECS-II, E30 GEM, E37 HSMS) plus OPC-UA for the equipment's internal control layer, with the cross-protocol brain (downtime root-cause copilot, OEE, asset inventory, data quality). Use when the task mentions SECS/GEM, SECS-II, HSMS, GEM host, wafer, panel, fab equipment, MES equipment interface, SVID, ECID, ALID, PPID / process program, recipe list, or a semiconductor / display fab tool. Read-first, MOC-gated writes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops-fab"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

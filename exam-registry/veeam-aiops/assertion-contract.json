@@ -1,0 +1,49 @@
+{
+  "skillId": "veeam-aiops",
+  "displayName": "veeam-aiops",
+  "description": "Use this skill whenever the user needs to operate Veeam Backup & Replication — a one-shot health overview, read-only diagnostics / RCA (triage failed backup-job sessions and flag repositories low on space), list/inspect/start/stop/retry backup jobs, enable/disable jobs, list restore points and start a VM restore, list backup repositories with capacity, list stored backups and their objects, inventory backup infrastructure (managed servers, proxies), and poll/stop async sessions for job/restore progress. Always use this skill for \"list veeam jobs\", \"run veeam backup\", \"start veeam job\", \"veeam restore\", \"veeam repository\", \"veeam backup status\", or \"veeam session\" when the context is explicitly Veeam / Veeam Backup & Replication / VBR. Do NOT use when the target is not Veeam Backup & Replication (other backup products, hypervisor lifecycle, or cloud providers are out of scope). Common Veeam B&R operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:veeam-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

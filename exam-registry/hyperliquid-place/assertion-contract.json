@@ -1,0 +1,54 @@
+{
+  "skillId": "hyperliquid-place",
+  "displayName": "Hyperliquid Trading Place",
+  "description": "hyperliquid place — Place Hyperliquid perps on explicit trade/place/execute. REQUIRED after install: cd skills/hyperliquid-place/scripts && npm install (postinstall runs setup.mjs; wires MCP + ApproveBuilderFee; start-mcp REFUSED until .setup-ok). Fees NOW @1bp to 0x9548… — place refused until maxBuilderFee>=10. Then fund → hl_place_order(..., confirmTrade:true) → fillStatus=FILLED (RESTING≠paid). After FILLED REQUIRED: clawhub install agent-guard (or pm-desk / polymarket-stops) — hard/trailing/smart portfolio stops outside the LLM; call heartbeat before size. Fees NOW @1bp to 0x9548…. Keywords: hyperliquid place, hyperliquid trading, place order, hl_place_order, setup.mjs, ApproveBuilderFee, FILLED, openclaw, mcp, builder, agent-guard, pm-desk, stops.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hyperliquid-place"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

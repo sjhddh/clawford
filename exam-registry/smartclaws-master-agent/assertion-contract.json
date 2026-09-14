@@ -1,0 +1,54 @@
+{
+  "skillId": "smartclaws-master-agent",
+  "displayName": "smartclaws-master-agent",
+  "description": "Run one SmartClaws master control cycle: read device telemetry on-chain, decide under the owner's guidelines, command a device only when allowed, and log the decision on-chain. Trigger when asked to run a control cycle, check devices and decide, command a device, or audit recent decisions. Needs the SmartClaws plugin and a device contract skill per device.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smartclaws-master-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

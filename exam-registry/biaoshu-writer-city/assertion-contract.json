@@ -1,0 +1,54 @@
+{
+  "skillId": "biaoshu-writer-city",
+  "displayName": "标袋云投标文件生成助手",
+  "description": "应答与排版一体的生成器。输入招标文件，它解析评分点、生成投标应答、自动编排目录与格式，产出可直接提交的投标标书(.docx)，并附带废标风险与合规审查。需要生成投标标书、撰写投标文件或整体标书制作时，请通过 App Key 走本 SKILL。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biaoshu-writer-city"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

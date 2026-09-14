@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-decision-receipt",
+  "displayName": "会议纪要验真器｜定了啥，谁真接活了？",
+  "description": "会议纪要验真：区分已定、暂定、提议、明确接活、被点名未确认和“我看看”，每条判断附原话证据，并保留条件与范围；可处理已有会议转写、纪要、笔记或讨论记录，生成自用纪要与飞书管理层纪要。用于询问会议定了什么、谁接了任务、谁来做、行动项或 action items。不要用于把录音转换成文字、生成逐字稿、员工评价或自动发送。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-decision-receipt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

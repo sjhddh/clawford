@@ -1,0 +1,54 @@
+{
+  "skillId": "zmm-cut",
+  "displayName": "詹明明·口播剪辑",
+  "description": "📐 詹明明·口播剪辑 ——口播成片剪辑技能。把拍好的素材剪成可发布的成片：**按文案规则做内容层重组**（删废镜头/去重复/重排顺序）→ 语音剪辑（去口癖/停顿）→ 加速 → 字幕 → B-roll → 交付。 🔴 **只删和重排，不加词** —— 说话人没说过的话一个字都不加。 詹明明账号的默认参数已固化（抖音 · 保持原长 · 1.15× · HarmonyOS Sans 粗体字幕 · 黄色 #FFE20A 高亮），**不需要每次重说**；换账号只改 §一 那张表，正文流程不变。 检测不到 ChatCut 会引导安装，并给出**本机转写旁路** —— 内容层的活全部不需要 ChatCut。 触发方式：/zmm-cut、/剪辑、/剪片、/zmm-剪、「把这条剪出来」「素材剪成成片」「去口癖」「加字幕」「这条视频剪一下」「重新排一下顺序」 Talking-head footage → publishable cut. Restructures content by copy rules (delete/reorder only, never add words), then cleans speech, speeds up, captions, B-roll. Falls back to local transcription when ChatCut is unavailable. Trigger: /zmm-cut, \"cut this footage\", \"clean up the fillers\", \"add captions\", \"reorder this\" —— 📐 詹明明 · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zmm-cut"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

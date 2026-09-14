@@ -1,0 +1,54 @@
+{
+  "skillId": "automation-recipe-book",
+  "displayName": "Automation Recipe Book",
+  "description": "自动化配方手册专业版是面向从个人到企业的全场景自动化配方系统。在免费版8个配方基础上扩展至25+配方（6大类别），新增配方生成器框架、高级模式（条件分支/并行执行/错误处理/重试）、企业自动化模板、调试与监控工具包、配方分享与导入、版本管理与回滚七大高级能力。Use when 需要提升效率、自动化流程、批量处理、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:automation-recipe-book"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

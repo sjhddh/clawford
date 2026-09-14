@@ -1,0 +1,54 @@
+{
+  "skillId": "review-diagnostics",
+  "displayName": "Review Diagnostics",
+  "description": "文稿审稿诊断工具集。提供事实核查、读者模拟、结构分析、传播力评估和反AI味检测等审稿技法。Use when: (1) 需要对文章/播客稿/视频脚本进行深度审稿 (2) 发现某段读起来不顺/走神/假/有AI味 (3) 用户要求逐句审稿、事实核查、结构评估。Not for: 语法检查、文字校对、帮写文章。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:review-diagnostics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

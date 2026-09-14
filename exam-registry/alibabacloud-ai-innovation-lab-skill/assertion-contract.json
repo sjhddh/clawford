@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-ai-innovation-lab-skill",
+  "displayName": "Alibabacloud Ai Innovation Lab Skill",
+  "description": "当用户想体验、探索或获取 GitHub 热门 AI 开源项目的云端一键部署推荐时触发此技能，此技能由2部分组成：1）前端页面通过「AI尝鲜实验室」页面展示AI项目，「AI尝鲜实验室」页面地址：https://www.aliyun.com/daily-act/ecs/ai-innovation-lab；2）后端的一...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-ai-innovation-lab-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

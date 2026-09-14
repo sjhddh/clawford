@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-load-balancer",
+  "displayName": "meeting-load-balancer",
+  "description": "Use when your calendar is eating your week and you want to know exactly where the time goes, when planning recurring meetings for a team, before proposing a new recurring meeting, when someone says 'we should sync weekly' and you want data, or when auditing which meetings to kill — imports ICS calendar files, measures meeting hours per week/person/meeting-series (including double-bookings and fragmentation), computes focus-time destruction from meeting placement, scores the true cost of each series (hours × attendees × frequency), flags specific meetings to kill/shorten/make-async using explicit rules, and simulates the recovered hours before anyone has to argue about it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-load-balancer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

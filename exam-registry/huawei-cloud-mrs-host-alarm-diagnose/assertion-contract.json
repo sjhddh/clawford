@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-mrs-host-alarm-diagnose",
+  "displayName": "huawei-cloud-mrs-host-alarm-diagnose",
+  "description": "Huawei Cloud MRS cluster alarm diagnosis skill. Analyzes the root cause of an MRS alarm based on user-provided alarm information (alarm ID, alarm name, alarm details, occurrence time, node IP, related service and logs), then outputs the root cause, repair steps, and verification method. Diagnosis is driven by the built-in LakeWatch API client and the per-alarm knowledge base under alarms/. No commands outside the knowledge base are fabricated. Applicable to MRS alarm diagnosis and root cause localization scenarios where an alarm ID is provided. Trigger words: \"告警诊断\", \"告警定位\", \"alarm diagnosis\", \"alarm diagnose\", \"MRS告警\", \"告警原因\", \"告警ID\", \"alarm ID\", \"root cause\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-mrs-host-alarm-diagnose"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

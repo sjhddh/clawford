@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-rds-troubleshoot",
+  "displayName": "huawei-cloud-rds-troubleshoot",
+  "description": "Full-scenario intelligent assistant for Huawei Cloud RDS (Relational Database Service, MySQL + PostgreSQL). Provides basic RDS Q&A, SQL performance optimization (slow-log analysis), daily instance operations, online fault location and troubleshooting, parameter tuning, and backup/restore guidance. Core scenario is ONLINE FAULT TROUBLESHOOTING: the skill guides the user step by step through symptoms (unreachable instance, slow queries, disk full, replication broken, connection limit exceeded, memory overrun) to diagnosis and resolution. Execution is CLI-first via `hcloud RDS ... --cli-region={region}` (KooCLI), falling back to the huaweicloudsdkrds Python SDK and then REST API. Output is interactive and guided — one diagnostic step at a time, with user confirmation before any mutating action (restart, parameter change, manual backup, restore). Triggers include: \"RDS troubleshooting\", \"RDS故障排查\", \"数据库连不上\", \"RDS slow query\", \"RDS慢SQL\", \"RDS磁盘满\", \"RDS instance down\", \"RDS主备不同步\", \"RDS参数调优\", \"RDS备份恢复\", \"RDS error log\", \"RDS storage full\", \"troubleshoot RDS\", \"RDS诊断\", \"数据库性能优化\", \"RDS连接数满\", \"MySQL/PostgreSQL fault\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-rds-troubleshoot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

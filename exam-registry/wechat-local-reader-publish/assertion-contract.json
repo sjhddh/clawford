@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-local-reader-publish",
+  "displayName": "wechat-local-reader",
+  "description": "微信本地管家：在桌面电脑（Windows/macOS/Linux）本地读取你本人本机登录的微信加密数据库，自动脱敏（手机号/身份证/银行卡/邮箱）并生成每日工作简报，推送至邮箱/企业微信机器人/任意 HTTP 端口。全程零上传，隐私不出本机。当用户想\"让 AI 自动梳理微信里的消息和工作群\"\"每天总结微信内容并推送\"\"把微信聊天记录接入自动化并脱敏\"时使用。注意：仅限本人本机微信数据；不支持手机/平板/鸿蒙等移动端。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-local-reader-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

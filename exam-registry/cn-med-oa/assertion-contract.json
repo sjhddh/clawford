@@ -1,0 +1,54 @@
+{
+  "skillId": "cn-med-oa",
+  "displayName": "中文医学文献免费下载",
+  "description": "中文医学文献开放获取(OA)检索下载与引用验证套件。通过维普OA平台(oa.cqvip.com)免登录、 免费检索中文医学期刊并下载 PDF 全文；输出完整 Vancouver/GB-T7714 元数据（标题/作者/期刊/ 年/卷/期/页/DOI/ISSN/CN刊号/摘要/关键词/基金/分类号），可直拼参考文献行；内置相关性守门 （防平台OR匹配捞回无关结果）与五态引用验证器 verify_cn_refs（防AI幻觉引用，判定语义与 pubmed-verifier 一致）。SQLite缓存/重试退避/日配额/控频，零依赖纯标准库。 触发词：\"下中文文献\"、\"找中文文献\"、\"中文医学文献下载\"、\"找OA版\"、\"开放获取\"、\"免费下载论文\"、 \"国内指南共识解读\"、\"找参考文献\"、\"中文文献支撑\"、\"补中文引文\"、\"验证中文引用\"、\"核查中文文献\"、 \"下载维普文献\"、\"找几篇中文的\"、\"写文献综述要中文参考\"。 英文：\"download chinese paper\"、\"find OA chinese literature\"、\"verify chinese citations\"。 即使用户只说\"帮我下载这篇中文文献\"或\"找几篇类风湿的中文论文\"也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cn-med-oa"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

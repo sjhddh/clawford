@@ -1,0 +1,54 @@
+{
+  "skillId": "linear-cli-pro",
+  "displayName": "Linear CLI专家",
+  "description": "面向在 Agent（Claude Code / Codex / Cursor 等）中调用 `linear` CLI 的开发者。 聚焦 v3 执行模型下的稳定 JSON 契约、预演式写入、Markdown 安全传参、批量操作与鉴权自愈。 核心能力: - Agent 优先执行循环：capabilities 发现 →...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linear-cli-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

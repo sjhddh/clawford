@@ -1,0 +1,54 @@
+{
+  "skillId": "free-model-auditor",
+  "displayName": "Free Model Auditor（免费模型审计员）",
+  "description": "本技能用于引审计 WorkBuddy 自定义模型注册表（`models.json`）中的免费 AI 模型。自动发现多个 OpenAI 兼容厂商（Agnes、SenseNova、NVIDIA、BigModel、SiliconFlow等）新上架的免费模型、剔除已转付费或失效的模型。技能内置各厂商「如何判定免费」的隐性知识，对海外厂商先做 VPN 连通性探针，逐条实测每个候选，并自动把新增/移除差异安全应用到 `models.json`（只增删、保既有、写前备份、不变量校验）。已做路径自动识别（适配任意用户环境，无需改配置）与无 API Key 引导（无 Key 时暂停并给出申请地址）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:free-model-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

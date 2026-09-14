@@ -1,0 +1,54 @@
+{
+  "skillId": "loop-skill",
+  "displayName": "Loop Skill",
+  "description": "面向任意 coding-agent CLI 的计划驱动、无人值守多 agent loop 编排。当用户一句话触发推进多个仓库、 需要主控通读仓库生成推进计划、再自动派发 CLI、会话可恢复、后台常驻 loop 或打开看板时使用。 触发语：「用 loop-skill 推进某目录下的项目」「后台常驻 loop」「自动...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:loop-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

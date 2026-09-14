@@ -1,0 +1,54 @@
+{
+  "skillId": "litigation-docs-generator",
+  "displayName": "Litigation Docs Generator",
+  "description": "民商事诉讼文书成套生成技能（诉状文本生成）。当用户要求起草民事起诉状、生成诉讼文书材料、准备立案材料时触发。自动生成8份配套文书：民事起诉状、诉讼保全申请书、担保书、授权委托书、法定代表人身份证明（仅原告为公司时）、律师接待笔录、利息损失计算表（Excel）、委托代理合同。核心流程：收集信息→法律检索（元典/北大...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:litigation-docs-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

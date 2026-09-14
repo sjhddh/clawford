@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-agent-identity-agentrun-e2e",
+  "displayName": "alibabacloud-agent-identity-agentrun-e2e",
+  "description": "Stand up a working Alibaba Cloud agent that authenticates its end users and proves its permissions hold, then tear it back down. Use when someone wants to deploy an AgentRun-hosted agent governed by AgentIdentity, see for themselves that only signed-in users reach it, that each tool receives the credentials it needs without any secret in the code, and that authorization rules actually block what they should — or when they want to remove the resources such a trial created. Covers first-time setup on an empty account, re-verification after a change, and cleanup. 也响应\"AgentRun 端到端测试\"\"AgentIdentity 全流程验证\"\"AgentRun 部署 Agent\"等中文请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-agent-identity-agentrun-e2e"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

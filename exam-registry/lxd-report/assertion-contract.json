@@ -1,0 +1,54 @@
+{
+  "skillId": "lxd-report",
+  "displayName": "lxd-report",
+  "description": "分析用户输入的工作汇报/汇报稿内容,识别其中缺失的关键信息,模拟预测汇报效果,并给出下一步改进建议(每次最多3条)。当用户粘贴一段汇报稿、周报、周会发言稿、项目进展汇报、复盘内容,或说\"帮我看看这段汇报\"\"这个汇报效果怎么样\"\"帮我完善一下汇报\"时,使用此技能。即使用户没有明确要求\"分析\",只要提供的内容明显是要对上级/团队做的工作汇报草稿,也应主动使用此技能进行诊断。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lxd-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

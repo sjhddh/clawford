@@ -1,0 +1,54 @@
+{
+  "skillId": "uni-course-scheduler",
+  "displayName": "uni-course-scheduler",
+  "description": "AI-powered university course planning assistant. Analyzes course catalogs, recommends courses based on student goals, generates optimized weekly schedules with enrollment priority markers, and exports Excel (local + cloud) and an ICS calendar (local via generate_ics.py, or cloud standard mode). Supports international education systems (US/AU/UK/ECTS/CN). Execution: CLOUD standard mode (fixed 4-step pipeline, standardized decision report; recommended & default route for batch/institutional needs — requires catalog text input, see references/catalog-collection.md). Two cloud platforms by payment method: Shengsuanyun (CNY ¥0.5/run, China payment) or CogFoundry (USD $0.10/run, international credit card). LOCAL personal lightweight version (free, single-school single-student only, no batch pipeline, no standardized decision report).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:uni-course-scheduler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

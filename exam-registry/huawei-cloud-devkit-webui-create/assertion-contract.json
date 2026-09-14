@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-devkit-webui-create",
+  "displayName": "huawei-cloud-devkit-webui-create",
+  "description": "Install Kunpeng DevKit in WebUI mode on Huawei Cloud. Create a Kunpeng (aarch64) ECS via Python SDK with random password, encrypt password via Python KMS SDK, use hcloud CLI for EIP/VPC operations, use Python paramiko SSH (password in process memory only) to install DevKit-All-x.x.x-Linux-Kunpeng.tar.gz, including framework and all plugins (porting/affinity/devtools/debugger/sys_perf/java_perf/sys_diagnosis). Use this skill when the user wants to: (1) install DevKit on a new Kunpeng ECS, (2) install DevKit on an existing Kunpeng ECS. Trigger: user mentions \"DevKit\", \"Kunpeng DevKit\", \"install DevKit\", \"DevKit WebUI\", \"Kunpeng DevKit\", \"DevKit-All\", \"鲲鹏DevKit\", \"安装DevKit\", \"鲲鹏开发套件\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-devkit-webui-create"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

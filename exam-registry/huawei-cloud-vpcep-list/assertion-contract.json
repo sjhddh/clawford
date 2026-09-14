@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-vpcep-list",
+  "displayName": "huawei-cloud-vpcep-list",
+  "description": "Query the list of Huawei Cloud VPCEP (VPC Endpoint / VPC Endpoint Service) resources under the current tenant / project, focused on the VPCEP NAME list. Returns each VPC endpoint's name (endpoint_service_name), id, status and service type, and each endpoint service's name (service_name), id and status. Supports filtering by endpoint service name and pagination (limit/offset). Uses the KooCLI commands `hcloud VPCEP ListEndpoints` and `hcloud VPCEP ListEndpointService --cli-region={region}` (primary) against the v1 API, or the huaweicloudsdkvpcep Python SDK (fallback). Read-only — never creates, modifies or deletes any endpoint or service. Use this skill whenever the user wants to list/inspect the VPCEP endpoints or endpoint services of the tenant or query the VPCEP name list, e.g. for endpoint inventory, daily inspection, or connectivity review. Triggers include: \"list VPCEP\", \"VPCEP list\", \"query VPCEP names\", \"VPCEP name list\", \"终端节点列表\", \"查询终端节点\", \"VPCEP名称\", \"终端节点名称\", \"list endpoints\", \"list endpoint services\", \"how many VPCEP endpoints\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-vpcep-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

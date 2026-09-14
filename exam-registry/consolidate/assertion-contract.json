@@ -1,0 +1,49 @@
+{
+  "skillId": "consolidate",
+  "displayName": "consolidate",
+  "description": "Consolidate and respond to external feedback on PRs/issues. Topics — pr (workflow entrypoint + skip conditions), collect (gather AI reviews + superpowers load), internal (Internal Code Review fallback + UI capture), classify (dual-label Type|Severity + diff scope check), decide (user decision: findings + Formal Review), post (Summary + Formal Review + status + deferred), next (post-summary next-action ask). Use when: \"review consolidate\", \"PR review\", \"AI review\", \"CodeRabbit review\", \"Copilot review\", \"review check\", \"review summary\", \"merge ready\", \"internal review\", \"code-reviewer\", \"inline review\", \"line-level comment\", \"PR line review\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:consolidate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "data-audit",
+  "displayName": "data-audit",
+  "description": "数据操作审计追踪器 (Data Audit)。\n对数据目录生成 SHA256 快照、比对文件变化（新增/删除/修改）、\n记录操作日志、检查数据目录健康状态。\n适用于数据合规场景中的操作追溯和审计准备。\n\nUse when: 需要追踪数据文件变化、生成审计快照、\n合规审查准备、文件完整性验证、数据目录健康检查。\n\n🎉 v1.1.0 核心功能：\n- 📸 数据目录 SHA256 快照\n- 🔄 快照对比（新增/删除/修改检测）\n- 📝 操作日志记录与查询\n- 🔍 数据目录健康检查\n- 📊 JSON 报告导出\n\n触发关键词：数据审计、文件追踪、快照比对、SHA256、\n完整性校验、合规审计、",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:data-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

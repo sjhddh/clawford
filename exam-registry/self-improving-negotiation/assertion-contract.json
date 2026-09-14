@@ -1,0 +1,54 @@
+{
+  "skillId": "self-improving-negotiation",
+  "displayName": "self-improving-negotiation",
+  "description": "Logs redacted negotiation learnings (concession leaks, BATNA gaps, framing misses, objections, agreement risk). Optional project-scoped reminder hooks. extract-skill.sh is dry-run by default and writes a SKILL.md scaffold only with --write after explicit user approval. Does not accept terms, set pricing, or approve deals. Use when negotiations stall, concessions exceed guardrails, terms are ambiguous, or recurring bargaining patterns emerge.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-negotiation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

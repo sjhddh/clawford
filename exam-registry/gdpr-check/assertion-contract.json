@@ -1,0 +1,49 @@
+{
+  "skillId": "gdpr-check",
+  "displayName": "GDPR Check - GDPR合规检查",
+  "description": "GDPR Compliance Check — General Data Protection Regulation (EU) 2016/679 (GDPR).\n\nFree to install; scoring runs on the CQDev cloud compliance engine.\nNo Key? The skill auto-runs an anonymous trial (5 real cloud-scored\nruns, 7-day window) before asking you to register. Covers 12 core items.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gdpr-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

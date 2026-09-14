@@ -1,0 +1,54 @@
+{
+  "skillId": "company-tech-profile-zhcn",
+  "displayName": "company-tech-profile-zhcn",
+  "description": "针对特定技术主题的单一公司技术画像与研发评估。当用户请求公司技术画像、公司技术分析、研发方向评估、技术尽职调查简报，或任何按公司加技术主题开展的单一公司技术评估时使用——即使用户仅提及公司名称与技术领域，未明确要求「画像」也适用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:company-tech-profile-zhcn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

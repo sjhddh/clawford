@@ -1,0 +1,54 @@
+{
+  "skillId": "presend-deliverable-inspector",
+  "displayName": "交付物发前体检",
+  "description": "对 PPT、Word、PDF、Excel、邮件、汇报稿和多附件包做发送前最终审核（pre-send review / send-readiness check / final QA），专门判断整套材料现在能不能发。区别于 Office 文件制作、编辑、转换，单纯 PPT 版式检查，通用 document revi...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:presend-deliverable-inspector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

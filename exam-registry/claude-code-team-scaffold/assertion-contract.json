@@ -1,0 +1,54 @@
+{
+  "skillId": "claude-code-team-scaffold",
+  "displayName": "Claude Code Team Scaffold",
+  "description": "该指令用于在 Claude Code 新项目初始化多智能体 AI 开发框架：生成.claude 目录、含 6 类生命周期钩子的配置、子智能体、斜杠命令与文件规划技能，搭建规范目录、两级记忆体系，配套代码质检、文档同步、任务流水线；触发短语含中英多组。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claude-code-team-scaffold"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

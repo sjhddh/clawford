@@ -1,0 +1,54 @@
+{
+  "skillId": "self-improving-robotics",
+  "displayName": "self-improving-robotics",
+  "description": "Captures robotics autonomy failures, operational incidents, and engineering learnings to enable continuous improvement across perception, localization, planning, control, simulation, safety, and hardware integration. Use when: (1) Robot fails to localize in dynamic environment, (2) Planner fails in narrow passage or obstacle-rich scene, (3) Oscillatory control behavior or unstable PID tuning appears, (4) Sensor desync occurs (camera-lidar-imu timestamp mismatch), (5) Hardware driver drops packets or CAN timeout occurs, (6) Safety stop or emergency brake triggers unexpectedly, (7) Simulation succeeds but real robot fails, (8) Thermal throttling, battery sag, or power brownout appears.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-robotics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

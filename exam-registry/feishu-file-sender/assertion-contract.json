@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-file-sender",
+  "displayName": "飞书发文件",
+  "description": "飞书发送普通文件与图片附件,支持file_key两步上传与image_key图片稳定链路。飞书机器人发送文件附件技能。覆盖普通文件(HTML/ZIP/PDF/代码文件等)与图片两类链路,。支持自动化配置和灵活的参数设置，适适用于多种业务场景，提高工作效率和质量。覆盖普通文件(HTML/ZIP/PDF/代码文件等)与图片两类链路,",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-file-sender"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

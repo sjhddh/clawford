@@ -1,0 +1,54 @@
+{
+  "skillId": "md-pdf-report",
+  "displayName": "Markdown → PDF Report",
+  "description": "Convert Markdown research reports / fact-checks / scheme proposals into styled PDFs with native CJK (Chinese) font support. Markdown is the single source of truth; PDF is generated FROM the Markdown. Triggers on \"做个 PDF 报告\", \"转成 PDF\", \"调研报告\", \"fact-check 报告\", \"方案 PDF\", \"scheme 报告\", \"给我 PDF\", \"PDF 版本\", or any long-form analytical content that needs to be both editable (MD) and viewable/shareable (PDF).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:md-pdf-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

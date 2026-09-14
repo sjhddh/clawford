@@ -1,0 +1,49 @@
+{
+  "skillId": "inference-aiops",
+  "displayName": "inference-aiops",
+  "description": "Use this skill whenever the user needs to operate a GPU inference cluster — vLLM (OpenAI API + Prometheus /metrics) and Ray Serve / Ray Jobs (Ray dashboard), plus the single-process serving engines SGLang and TGI (Text Generation Inference): a one-shot cluster overview (deployments + total replicas + queue backpressure), request metrics (TTFT / TPOT / e2e latency + token totals), queue depth, KV-cache stats (utilisation, prefix-cache hit rate, preemptions), the flagship latency root-cause analysis (diagnose_latency_spike / diagnose_engine_latency) and low-utilisation RCA, engine-agnostic health + running-model inventory across vLLM/SGLang/TGI, Ray Serve autoscaling and scaling (scale up/down, scale-to-zero, drain a replica), LoRA load/unload, base-model hot-swap, deploy/undeploy/redeploy, prefix-aware routing, GPU utilisation, Ray jobs, and cost per million tokens. Always use this skill for \"why is inference slow\", \"TTFT spike\", \"latency spike\", \"GPU underutilised\", \"scale down the deployment\", \"scale to zero\", \"drain a replica before a reboot\", \"hot-swap the base model\", \"load a LoRA adapter\", \"KV cache pressure\", \"prefix cache hit rate\", \"queue backpressure\", \"autoscale config\", \"SGLang health\", \"TGI metrics\", or \"cost per token\" when the context is a vLLM / SGLang / TGI / Ray Serve inference cluster. Do NOT use for non-inference infrastructure (hypervisors, storage appliances, backup products, general container/cluster workloads, network devices, or OT/industrial equipment) — those belong to other AIops-tools; this skill is scoped to GPU inference serving (vLLM + Ray). Governed vLLM + Ray inference operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:inference-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

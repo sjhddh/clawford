@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-callback-session",
+  "displayName": "cron-callback-session",
+  "description": "实现『用 A 会话调起/注入 B 会话』的能力（sessions_send）：cron 任务、外部进程或另一会话可向目标会话注入消息，唤醒其 agent 带完整上下文继续推进。适用于 OpenClaw 与 QClaw（同内核）。含 Windows 下 visibility 配置检查/修复、正确重启网关（SIGUSR1 bug 规避）、cron job 设计。当用户要求「定时任务完成后回到本对话继续推进」「cron 回调当前会话」「让任务结果上报到同一对话」时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-callback-session"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

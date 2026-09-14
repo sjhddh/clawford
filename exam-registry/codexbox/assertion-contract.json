@@ -1,0 +1,54 @@
+{
+  "skillId": "codexbox",
+  "displayName": "codexbox",
+  "description": "OpenAI Codex CLI running inside an aicodebox container, put on the network. Exposes seven ways in — interactive shell, one-shot exec, an HTTP REST API (workspace file ops, sync/async prompt runs with run-id polling), an OpenAI-compatible /openai/v1/chat/completions endpoint (streaming, client-executed tools/tool_choice, response_format/JSON-schema), an MCP server (streamable HTTP, mounted at /mcp in API mode or as a sidecar), a Telegram bot, and a cron scheduler that fires codex on a schedule. Auth is bearer-token per surface (CODEXBOX_API_MODE_TOKEN, CODEXBOX_MCP_MODE_TOKEN) plus codex's own OpenAI API-key or ChatGPT-subscription login. Use when the user wants to run OpenAI Codex programmatically over HTTP/MCP/Telegram/cron instead of only in a local terminal, or wants an OpenAI-compatible endpoint backed by Codex.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codexbox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

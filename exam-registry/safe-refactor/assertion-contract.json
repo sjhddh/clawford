@@ -1,0 +1,54 @@
+{
+  "skillId": "safe-refactor",
+  "displayName": "safe-refactor",
+  "description": "Execute a behavior-preserving refactor with a proof of preservation — establishes a safety net first (existing tests or new characterization tests over every touched path), locks a baseline green run, then moves in small always-green steps where each step is one mechanical transformation, and treats any needed assertion change as a smuggled behavior change to surface, not fix. Use this skill whenever the user says \"refactor this\", \"clean this up without changing behavior\", \"extract this into\", \"restructure this module\", \"rename this across the codebase\", \"inline this\", \"split this function/class\", or \"/safe-refactor\" — even if they don't explicitly say \"refactoring skill\". Do not use for choosing WHAT to refactor (use improve-codebase-architecture) or for changes that are supposed to alter behavior (use task-executor).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:safe-refactor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

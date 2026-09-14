@@ -1,0 +1,54 @@
+{
+  "skillId": "textbook-virtual-simulator",
+  "displayName": "Textbook Virtual Simulator",
+  "description": "教材虚拟仿真系统生成器，支持多种教材格式（文本/PDF/JSON）转换为交互式教育仿真 Web 应用。 能够生成3D场景、交互式组件、数据分析功能，适用于教育实验、操作培训、知识图谱等多种仿真类型。 当用户提出以下意图时触发：创建教材仿真、生成虚拟实验、构建教学模拟、制作教育3D场景、 教材可视化、交互式教学应用...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:textbook-virtual-simulator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

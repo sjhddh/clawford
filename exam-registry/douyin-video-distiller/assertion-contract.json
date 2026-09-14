@@ -1,0 +1,54 @@
+{
+  "skillId": "douyin-video-distiller",
+  "displayName": "douyin-video-distiller",
+  "description": "抖音视频蒸馏 Skill。用户提供抖音链接、视频文件或要求把短视频提炼成知识卡片、摘要、时间线、证据、行动项、Wiki 内容或第二大脑资料时使用；也适用于\"帮我把这个视频真正变成可检索知识\"等未明确说蒸馏的请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douyin-video-distiller"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

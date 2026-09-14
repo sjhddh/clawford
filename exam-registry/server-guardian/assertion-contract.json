@@ -1,0 +1,54 @@
+{
+  "skillId": "server-guardian",
+  "displayName": "Server Guardian",
+  "description": "服务器健康监控与自动恢复技能。当服务器出现卡顿、崩溃、Bot 连接异常或网关中断时使用此技能。支持：执行健康检查、自动诊断故障、一键恢复 Gateway、清理内存/磁盘、整理日志、检查 OOM Killer 等操作。触发场景包括：服务器变慢、Bot 无响应、日志报 ERROR、内存/磁盘告警、进程消失等任何异常情...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:server-guardian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

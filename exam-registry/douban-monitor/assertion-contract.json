@@ -1,0 +1,49 @@
+{
+  "skillId": "douban-monitor",
+  "displayName": "douban-monitor",
+  "description": "豆瓣高分影视监控 skill,自动发现豆瓣上近期新出现并达到门槛的电影和剧集(默认评分 >8.0、评分人数 >3000)。通过 Rexxar API + TMDB 混合抓取,纯 Python 标准库、无第三方依赖;维护状态库判定「新增命中 / 继续观察」,输出每日 Markdown 报告和暗色瀑布流网页(封面、简介、评分、短评)。支持两种运行模式:纯本地(跑完直接汇报新增影视)、本地 + GitHub Actions 双跑错峰兜底。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douban-monitor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

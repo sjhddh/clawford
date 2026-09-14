@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-dir-count",
+  "displayName": "huawei-cloud-obs-dir-count",
+  "description": "Counts the number of directories (folders) inside a Huawei Cloud OBS (Object Storage Service) bucket and returns ONLY the numeric count. Supports counting the immediate subdirectories under the bucket (or a given prefix) as well as all nested directories recursively. Uses the KooCLI obsutil-backed `hcloud OBS ls -d` command (primary) or the huaweicloudsdkobs Python SDK (fallback). Read-only — never creates, modifies or deletes any resource. Use this skill whenever the user wants to know how many directories/folders an OBS bucket contains, e.g. for inventory, capacity review or structure checks. Triggers include: \"count OBS directories\", \"OBS directory count\", \"number of directories in bucket\", \"OBS folder count\", \"how many folders in bucket\", \"OBS目录数量\", \"查询OBS目录数量\", \"OBS目录数\", \"桶目录数量\", \"目录数量\", \"文件夹数量\", \"统计目录\", \"目录统计\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-dir-count"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

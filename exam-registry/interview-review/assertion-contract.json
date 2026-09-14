@@ -1,0 +1,54 @@
+{
+  "skillId": "interview-review",
+  "displayName": "Interview Review",
+  "description": "帮求职者复盘真实面试，分析表现并给出改进建议。当用户面试结束后说\"帮我复盘面试\"\"刚面完想分析下\"\"这场面试我表现怎么样\"\"帮我看看哪里答得不好\"\"面试录音/记录帮我分析\"，或贴出面试问答记录、面试转写文本希望诊断时触发。本技能识别表达亮点与风险、分析面试官考察意图、给出可执行的优化方向和参考回答。即使用户没明说...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:interview-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

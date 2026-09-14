@@ -1,0 +1,54 @@
+{
+  "skillId": "network-request-twister",
+  "displayName": "network-request-twister",
+  "description": "当用户想要观察、拦截或修改浏览器网络请求和响应时使用此 skill。Use when the user wants to observe, intercept, or modify browser network requests — monitor HTTP traffic, mock API responses, block analytics/tracking, modify request/response headers, rewrite response bodies, inject content into pages, or test web behavior under modified network conditions. Trigger even when the user doesn't use precise technical terms — 「帮我看这个网站发了什么请求」「把这个 API 的返回值改成假的」「屏蔽谷歌统计」「让页面显示不同数据」are all valid triggers. Keywords: 拦截 intercept mock 修改请求 修改响应 改包 抓包 network monitor CDP fake backend 替换返回值 注入 inject script 改 header 阻止 block request.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:network-request-twister"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

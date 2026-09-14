@@ -1,0 +1,54 @@
+{
+  "skillId": "vmware-log-insight",
+  "displayName": "vmware-log-insight",
+  "description": "Use this skill whenever the user needs to search, aggregate, or investigate centralized logs in VMware VCF Operations for Logs (formerly Aria Operations for Logs / vRealize Log Insight) — the appliance that collects syslog from ESXi hosts, vCenter, and VMs. It is the log data source of the VMware family: full-text event search over a time window, aggregation with spike detection, field discovery, and alert queries. Always use this skill for \"search the logs\", \"what did the host log\", \"find errors in Log Insight\", \"show me a log spike\", \"query vRealize Log Insight\", \"Aria Operations for Logs\", \"VCF Operations for Logs\" when the context is explicitly VMware/vSphere/ESXi. It is strictly READ-ONLY — it never ingests, edits, or deletes anything. Do NOT use it for vCenter events/alarms (use vmware-monitor) or for performance metrics and anomalies (use vmware-aria). To correlate logs with events from other sources into one root-cause timeline, hand results to vmware-debug.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-log-insight"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

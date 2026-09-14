@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-bss-account-balance",
+  "displayName": "huawei-cloud-bss-account-balance",
+  "description": "Query the Huawei Cloud account balance (cash/credit account available amount and debt) and the account change records (recharge/consume/refund/adjust) over a configurable time window, defaulting to the last 6 months. Uses the BSS (Business Support System) customer API via the huaweicloudsdkbss SDK, consistent with the console Billing Center. Use when the user wants to: (1) check the current Huawei Cloud account balance, (2) review income/expense records for the last ~half year, (3) verify recharge/consume history, (4) monitor account funds before deployments or renewals. Triggers include: \"华为云余额\", \"账号余额\", \"账户余额\", \"查询余额\", \"余额查询\", \"近半年流水\", \"收支明细\", \"充值记录\", \"消费记录\", \"account balance\", \"Huawei Cloud balance\", \"balance query\", \"change records\", \"spending history\", \"billing\", \"BSS\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-bss-account-balance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ppt-matcher",
+  "displayName": "PPT-Matcher",
+  "description": "PPT风格分析与匹配工具。提取已有PPT的设计规范（配色/字体/布局/装饰元素），指导新页面或修改页保持风格统一。 Use when user asks to PPT风格匹配、修改几页风格不一致、分析PPT设计规范、提取PPT配色字体、新页面怎么跟原PPT风格一致、PPT重设计。 不适用于从头创建全新PPT、不需...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ppt-matcher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "send-doc-to-feishu",
+  "displayName": "Send Doc To Feishu",
+  "description": "将本地文档（Word/Excel/PDF 等）发送给飞书用户或群聊。处理飞书 IM 消息发送的完整流程、权限卡点排查与降级方案。 当用户说\"发给我\"\"发到飞书\"\"通过飞书发送\"\"发给某人/某群\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:send-doc-to-feishu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

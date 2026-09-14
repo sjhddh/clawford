@@ -1,0 +1,54 @@
+{
+  "skillId": "wip",
+  "displayName": "wip",
+  "description": "Track in-session work progress. Register steps for 3+ step tasks, update status per step, handle completion/abort. On /wip invocation, when remaining tasks exist, AskUserQuestion is required for the per-item direction (proceed / split / merge / hold / defer-to-checklist / delete) — asking only about start priority is forbidden. After a compact, show prior-work summary then AskUserQuestion(multiSelect) for restore selection and re-register via TodoWrite. antigravity - task.md artifact-based checklist (Antigravity environment) [antigravity.md], claude - TodoWrite/TaskCreate API guide (Claude Code environment) [claude.md], resume - environment-agnostic task cleanup + remaining-work workflow [resume.md]. \"wip\", \"track progress\", \"register tasks\", \"task register\", \"step tracking\", \"compact recovery\", \"task resume\", \"resume task\", \"cleanup + resume\" triggers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wip"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-skill-session-callback",
+  "displayName": "workbuddy-skill-session-callback",
+  "description": "【仅限 WorkBuddy 桌面版使用】会话回调（Session Callback）——实现\"一个会话调起另一个会话\"的能力：外部进程、定时任务（cron job）或另一个 agent 会话，向目标会话注入消息，唤醒其 agent 带完整上下文继续处理。适用于 WorkBuddy 桌面版：监控回传后唤醒主会话推进任务、定时任务回调指定会话、异步任务完成后通知会话、多会话协作接力、替代 openclaw 的 sessions_send 机制。当用户在 WorkBuddy 中提到\"会话回调\"、\"唤醒会话\"、\"session callback\"、\"会话调起另一个会话\"、\"cron 唤醒指定会话\"、\"向会话注入消息\"、\"主会话收到提醒后推进\"、\"sessions_send\" 时使用本 skill。注意：本技能依赖 WorkBuddy 本地结构（~/.workbuddy/sessions/、projects/*.jsonl、/api/v1/acp/*），不适用于 openclaw 等其他平台。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-skill-session-callback"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

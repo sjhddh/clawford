@@ -1,0 +1,54 @@
+{
+  "skillId": "devops",
+  "displayName": "DevOps",
+  "description": "Runs the delivery side of software: CI/CD pipelines, release and rollback strategy, environments, reliability and on-call. Use when designing or fixing a pipeline, when builds are slow, flaky, or green locally and red in CI; when planning a deploy — rolling, blue-green, canary, feature flags — or rolling a release back; when promoting an artifact to production, standing up preview environments, or chasing drift; when a schema change, backfill, or DNS cutover must ship without downtime; when pipeline secrets, OIDC, or deploy permissions need hardening; when alerts are noisy, an SLO or error budget is missing, or burn-rate paging is wrong; for on-call, severities, postmortems, runbooks, and DORA metrics; when infrastructure drifts from code, or backups were never restored. Not for Kubernetes manifests (`k8s`), image builds (`docker`), HCL mechanics (`terraform`), one CI product's workflow-file dialect (`github-actions`, `gitlab`, `ci-cd`), or a single app's ship checklist (`deploy`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:devops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "wisely-read-ppt",
+  "displayName": "Wisely Read PPT",
+  "description": "解析 PPT(.pptx) 或 PDF 文件(或两者同时提供),逐页生成结构化的 docx 解析文档。每页固定包含:整页截图、可编辑文字整理、插图描述(文字中以行内标记形式嵌入)。当用户需要:把演示文稿或 PDF 转成可编辑的逐页 Word 文档、提取 PPT 内容为文字稿、做 PPT/PDF 的图文解析稿、'逐页解析'、'生成解析文件'、'转 docx'、'PPT 解析'、'PDF 解析'时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wisely-read-ppt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

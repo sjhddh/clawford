@@ -1,0 +1,54 @@
+{
+  "skillId": "labor-arbitration",
+  "displayName": "Labor Arbitration",
+  "description": "劳动仲裁全流程辅助技能。当用户提到劳动仲裁、劳动争议、拖欠工资、违法解除、经济补偿金、赔偿金、二倍工资、加班费、劳动维权、仲裁申请书等场景时使用此技能。覆盖全国各地区，支持资料研判、资料整理清单、线上提交步骤指引、调解谈判策略、一键生成仲裁申请文档。适用于普通劳动者维权全流程辅助。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:labor-arbitration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "insurance-product-deconstruction",
+  "displayName": "Skill Publish",
+  "description": "Use when 需要拆解一款保险产品（年金/重疾/寿险/医疗险等），输入是一个包含产品文件（条款PDF、现金价值表、产品说明书、费率表、投保规则、增值服务手册等）的目录，输出结构化的产品拆解 Markdown 并存入 Obsidian 知识库",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:insurance-product-deconstruction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

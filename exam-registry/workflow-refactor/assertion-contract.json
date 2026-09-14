@@ -1,0 +1,54 @@
+{
+  "skillId": "workflow-refactor",
+  "displayName": "Workflow Refactor",
+  "description": "工作流重构方法。核心能力：将任何领域的复杂工作流重构为AI辅助一人简易完成的方法（拆解人的局限补偿层→消除→基于AI能力模型重整）。三步法：拆解（识别每个环节的存在理由）→消除（去掉人的局限补偿层）→重整（基于AI能力模型重编为端到端IPO基元链）。覆盖从传统工作流识别、环节分析、补偿层消除、IPO基元链重整、重...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workflow-refactor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

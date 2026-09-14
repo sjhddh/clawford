@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaomi-tts-chapters",
+  "displayName": "xiaomi-tts-chapters",
+  "description": "将章节文件（支持 .md 和 .txt）转换为有声小说音频，使用小米MiMo TTS API。支持批量处理、长文本自动分段、多种音色和风格。当用户要求\"生成有声小说\"、\"把小说转成音频\"、\"TTS合成\"、\"文字转语音\"、\"章节转音频\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaomi-tts-chapters"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

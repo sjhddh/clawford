@@ -1,0 +1,49 @@
+{
+  "skillId": "privacy-search",
+  "displayName": "privacy-search",
+  "description": "隐私优先的多引擎并行搜索 Skill，提供十大搜索引擎（百度/必应/搜狗/360/DuckDuckGo/Yandex/Startpage/Qwant/Brave/本地SearXNG）并行检索。V1.7 新增 MCP Server 形态（stdio JSON-RPC 2.0 暴露 search/synthesize/fetch 三工具），可被 Claude Code/Cursor/n8n 直接挂载，让搜索能力成为任何 Agent 的即插组件。V1.6 新增 Perplexity 式答案合成（引用+正文抓取+citation）和定时引擎失效告警，jieba 默认安装提升中文精度。支持结果缓存与搜索历史、统一 HTTP 出口（隐私头/UA池/代理/自动重试真正生效）、标准 SimHash 去重、多因子加权排序（共识度/位次/相关度/权威度/域名质量）、多套备选选择器与解析诊断、bangs 语法透传、网页正文抓取、搜索结果导出（Markdown/HTML/PDF）、LLM 摘要（智谱 GLM-4-Flash + 抽取式降级）、定时 selftest + 告警、MCP Server 生态桥接。SearXNG 本地实例双路径部署，隐私模式 normal/strict 一键切换，不污染系统 Python 环境。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:privacy-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

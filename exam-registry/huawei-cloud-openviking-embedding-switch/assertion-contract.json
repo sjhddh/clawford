@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-openviking-embedding-switch",
+  "displayName": "huawei-cloud-openviking-embedding-switch",
+  "description": "Switch OpenViking's embedding model to a local llama-server (or any OpenAI-compatible embedding endpoint) running inside a bwrap sandbox managed by job-env-manager. Handles the full lifecycle: detect current config, validate the target embedding endpoint, modify ov.conf, delete incompatible vectordb index when dimension changes, restart the openviking-server process in the sandbox, and verify the new collection dimension. Use this skill when the user wants to: (1) switch the OpenViking embedding model, (2) change the embedding dimension, (3) fix EmbeddingRebuildRequiredError after a dimension mismatch, (4) rebuild the vectordb index after an embedding model change, (5) use a local llama-server for OpenViking embeddings. Trigger words: \"切换OpenViking embedding\", \"OpenViking embedding模型\", \"OpenViking向量化模型\", \"openviking embedding switch\", \"change openviking embedding model\", \"配置openviking embedding\", \"openviking llama embedding\", \"bge embedding openviking\", \"切换向量化模型\", \"OpenViking模型切换\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-openviking-embedding-switch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

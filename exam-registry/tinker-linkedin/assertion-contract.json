@@ -1,0 +1,54 @@
+{
+  "skillId": "tinker-linkedin",
+  "displayName": "Tinker LinkedIn",
+  "description": "Your agent crawls LinkedIn through the browser session you already have — profiles, search, connections, inbox, feed. No official API, no app review. Your cookies never leave the browser: every call is a fetch() run inside the linkedin.com tab you shared, and 1.2.1 DELETED the cookie-extraction, session-store and external-replay code from the package rather than leaving it switched off — there is no longer anything to store or steal. Every request, navigation and tab pick is pinned to exactly https://www.linkedin.com, including the LINKEDIN_TARGET_ID override, so a look-alike host cannot borrow your session. Reads and drafts freely; the one write, message-send, needs per-action consent that repeats the exact conversation URN, and without it you get the draft and nothing is sent. The browser relay must be on loopback, with no override. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tinker-linkedin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

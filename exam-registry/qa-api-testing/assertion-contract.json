@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-api-testing",
+  "displayName": "接口测试",
+  "description": "当需要测试 RESTful/GraphQL/gRPC/WebSocket 等 API 时使用此技能。覆盖接口的功能验证、参数组合、鉴权绕过、超时重试、幂等性、接口契约和向后兼容性。不要只测 HTTP 状态码——真正的接口 Bug 往往在数据结构不一致、字段类型不匹配、空值处理和并发调用上。输出接口测试矩阵、契约断言清单和工具选型建议。 本技能属于 QA Test Skills 技能集（49 个技能之一），完整工作流体验需安装全套：npx skills add Kokxi/qa-test-skills",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-api-testing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "otterkit-tunnel",
+  "displayName": "OtterKit Tunnel",
+  "description": "Expose a local port to the internet via OtterKit tunnel, or create a webhook endpoint to capture incoming HTTP requests. Give your OpenClaw gateway a public HTTPS URL for incoming webhooks (/hooks/wake, /hooks/agent), capture and replay webhook deliveries, and protect tunnels with HTTP Basic auth. Use when the user asks to \"tunnel\", \"expose\", \"share my localhost\", needs a public URL for a local service or for OpenClaw webhooks, needs a webhook endpoint to capture requests, or wants to re-test a webhook handler against a previously received payload.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:otterkit-tunnel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

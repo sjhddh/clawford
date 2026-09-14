@@ -1,0 +1,54 @@
+{
+  "skillId": "aios-self-improving-agent",
+  "displayName": "AIOS 自改进 Agent",
+  "description": "在 AIOS/OpenClaw 运行环境中记录当前 agent 的错误、纠正、经验、知识缺口和可复用改进。适用于命令失败、用户纠正回答、发现过时知识、外部工具/API 异常、同类问题反复出现、完成复杂任务后需要沉淀经验、或开始重要任务前需要回顾当前 agent workspace 内历史 learnings 的场...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aios-self-improving-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

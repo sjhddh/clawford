@@ -1,0 +1,54 @@
+{
+  "skillId": "zzrtest",
+  "displayName": "zzr-testUpload-skill",
+  "description": "DEV 测试环境服务器日志搜索与分析工具。当用户需要搜索测试环境日志、查找错误、 排查测试环境问题、查询 traceId/requestId/订单号/请求记录、或者说\"帮我查一下测试日志\"、 \"查 dev 日志\"、\"看看测试环境有没有\"、\"grep 一下测试服\"时，必须使用此 skill。 校验、生单、支付、申请出票等交易场景，按采购侧→平台侧→供应侧→order 分层搜索，且必须并行查询。 平台侧判断为供应底层请求/响应问题时，Agent 必须自动继续查供应侧日志（禁止询问用户是否继续）；确认供应响应报错后必须告知用户并输出底层 HTTP 请求与响应报文。 关键词：测试环境、dev、查日志、",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zzrtest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-logwatch",
+  "displayName": "元察 yotta-logwatch",
+  "description": "元察 —— 跨智能体的安全日志分析检测技能：零依赖自研解析 auth/secure、Web 访问日志（common/combined）、PowerShell 脚本块日志、Windows 事件日志（Security/System），检测爆破 / webshell / 扫描 / 异常登录 / 可疑脚本块 / 可疑进程 / 账户操作 / 日志清空，输出时间线与中文教学报告。触发：用户给出登录日志 / Web 访问日志 / PowerShell 日志 / Windows 事件日志，要分析入侵痕迹、排查异常活动、审计本地日志时。边界：只读本地日志文件；不联网、不主动扫描、不修改任何其内容；仅用于已获授权 / 自有资产的安全审计。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-logwatch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

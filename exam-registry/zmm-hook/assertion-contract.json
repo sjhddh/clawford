@@ -1,0 +1,54 @@
+{
+  "skillId": "zmm-hook",
+  "displayName": "詹明明·开头前五秒",
+  "description": "📐 詹明明·开头前五秒 ——短视频开头专项技能。先诊断内容有没有货（门禁），再按三种起手 + 四种留白出候选，每个候选标注用了哪个原理。 触发方式：/zmm-hook、/钩子、/开头、/zmm-开头、「开头怎么写」「前五秒抓不住人」「帮我想几个钩子」「这个开头行不行」 Opening-hook specialist: gate-check content first, then generate hooks by expectation forms and information-gap methods. Trigger: /zmm-hook, \"how to write the opening\", \"give me some hooks\" —— 📐 詹明明 · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zmm-hook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "epic-novel-writer",
+  "displayName": "epic-novel-writer",
+  "description": "史诗级长篇网络小说创作skill，包含13阶段写作流程、人物设定、分卷规划、子Agent并行撰写、全文校验、存档管理等完整工作流。覆盖中篇（10-25万字）到超长篇（60-150万字），实测 420,000 字 / 300 章 / 10 卷。支持全局连续编号、只读存档、人物画像 JSON、HTML 导引页生成。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:epic-novel-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-quality-document-control",
+  "displayName": "Quality Document Control",
+  "description": "质量体系文件管控助手。聚焦文件管控生命周期——编号体系设计、审批与变更流程、文件矩阵/受控清单生成、记录留存期限判定、外来文件受控、版本与作废判断。生成为主+轻交互，纯文字MD输出，企业专属信息标\"待企业补充\"。不替代iso9001-qms-generator等文档内容生成类技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-quality-document-control"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "software-spec-writing",
+  "displayName": "software-spec-writing",
+  "description": "撰寫或更新軟體專案規格文件時必須遵循的流程與結構標準。任何會產生、修改、補充專案文件的任務都要先讀取此 Skill，包含：規格書、需求文件、PRD、架構文件、ADR、業務規則、狀態機、資料模型、API 規格、驗收標準、非功能需求、測試策略；也包含在對話中做出技術決策、確認需求、或發現外部限制之後的文件補寫。當你看到 規格、spec、需求、PRD、文件、架構文件、ADR、驗收標準、AC、涵蓋度、coverage、補文件 等關鍵字，或準備動手寫某個功能的程式碼卻找不到對應規格時，必須讀取並遵循此 Skill。不得自行決定文件結構，也不得憑空生成未經確認的規格內容。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:software-spec-writing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

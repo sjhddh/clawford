@@ -1,0 +1,49 @@
+{
+  "skillId": "vibo-mcp-server",
+  "displayName": "ViBo MCP",
+  "description": "Local-first memory for AI agents over MCP: persistent memory (L1/L2/L3), web-search savings, thread memory. Works with Claude Desktop, Cursor, OpenClaw, Windsurf, Codex. Requires a valid ViBo license. Everything is stored locally on the user's machine; use ONLY with the user's explicit consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vibo-mcp-server"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

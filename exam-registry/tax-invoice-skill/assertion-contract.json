@@ -1,0 +1,54 @@
+{
+  "skillId": "tax-invoice-skill",
+  "displayName": "发票归集自动台账工具",
+  "description": "本地离线OCR识别图片/PDF发票，自动分类专票/普票/电子普票，生成月度报销台账，断网可用，财务数据不向外传输。采用「本地OCR取字为主 + 本地多模态大模型(VLM)辅助字段定位」的混合路线，兼顾数字准确率与版式适应性。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tax-invoice-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

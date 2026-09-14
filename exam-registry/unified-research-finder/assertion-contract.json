@@ -1,0 +1,49 @@
+{
+  "skillId": "unified-research-finder",
+  "displayName": "Unified Research Finder",
+  "description": "统一的学术文献检索助手。覆盖两大体系：(1) PubMed 官方 E-utilities API（esearch+efetch，真实 PMID/摘要/DOI）与 PubMed 网页检索；(2) Google Scholar 及其镜像站——灯塔学术搜索、烂番薯学术搜索、Google Scholar 香港镜像、Google Scholar 官方站，以及 KipHub学术、学术搜索Pro 等大陆镜像，按「kiphub → 烂番薯 → 学术搜索Pro → 灯塔 → 香港 → 官方」优先级自动回退。当用户要找文献、查论文、搜 PubMed、查 Google 学术/谷歌学术、用学术镜像站、要影响因子或引用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unified-research-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

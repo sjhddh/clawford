@@ -1,0 +1,54 @@
+{
+  "skillId": "zm-pptx-inspect-review-tool",
+  "displayName": "ZM PPTX 检查与审核工具",
+  "description": "ZM PPTX 检查与审核工具。用于读取、解析、提取、检查、拆分、合并或审核 PPTX 文件，重点支持渲染核验、文本抽取、备注/版式/资源检查；正式项目需配合 ZM PPT/Deck 正式生产流程使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zm-pptx-inspect-review-tool"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

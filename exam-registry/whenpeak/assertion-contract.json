@@ -1,0 +1,54 @@
+{
+  "skillId": "whenpeak",
+  "displayName": "WhenPeak",
+  "description": "Predict when a person's brain works best from their sleep, using the WhenPeak performance-intelligence API, and turn it into concrete scheduling advice. Use this skill whenever the user asks when to schedule a meeting, interview, exam, presentation, deep-work block, or any important task; asks about their energy, focus, alertness, productivity timing, \"peak hours\", post-lunch dip, or chronotype; mentions how last night's sleep will affect today; asks how to prepare for a dated event or shift their body clock for travel or an earlier start; or asks for a daily plan built around their performance curve, even if they never say the word \"WhenPeak\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:whenpeak"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

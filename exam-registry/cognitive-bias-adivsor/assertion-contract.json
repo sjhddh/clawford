@@ -1,0 +1,54 @@
+{
+  "skillId": "cognitive-bias-adivsor",
+  "displayName": "Cognitive Bias Adivsor",
+  "description": "认知偏差顾问。覆盖决策、学习、行动、沟通、影响、管理六大人生领域，基于查理·芒格\"25类人类误判心理学\"+经典认知偏差理论。六大领域并列，根据用户问题路由到对应领域文件执行诊断与策略输出。触发词：决策、学习、拖延、说服、谈判、影响别人、管理团队、带人等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cognitive-bias-adivsor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

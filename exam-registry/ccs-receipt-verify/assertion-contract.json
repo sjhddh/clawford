@@ -1,0 +1,54 @@
+{
+  "skillId": "ccs-receipt-verify",
+  "displayName": "Ed25519 Signature Verifier — CCS Audit Receipts",
+  "description": "Offline Ed25519 signature verification for AI-agent audit receipts. Verify that a CCS receipt was signed by a known signer and never tampered with: Ed25519 verification, RFC 8785 JCS canonicalization, SHA-256 content-hash recomputation and 22-field schema/tamper checks, using the vendored open-source CCS verification core. Zero network calls; only the receipt and the issuer public key are needed, private keys are never involved. Use when verifying a CCS receipt, verifying an Ed25519-signed agent decision receipt, or proving whether a signed agent-tool-call receipt was tampered after issuance.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ccs-receipt-verify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

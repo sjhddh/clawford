@@ -1,0 +1,54 @@
+{
+  "skillId": "invoice-assistant",
+  "displayName": "小河狸发票助手",
+  "description": "读取并分析本机“小河狸发票助手”软件中的数据。当用户要求连接小河狸发票助手、查询发票台账或明细、选择公司、统计进销项、分析客户/供应商/商品排行、查看月度开票趋势、汇总税额，或查询已归档电子发票附件时使用。通过应用的 localhost Skill API 在本机处理数据。\n当前版本主要用于只读提取数据，不支持通过智能体导入、修改或删除发票数据。`open-attachment` 只会在本机调用系统默认程序打开已归档的 PDF/OFD/XML 文件，不会把文件内容上传到智能体或云端。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:invoice-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

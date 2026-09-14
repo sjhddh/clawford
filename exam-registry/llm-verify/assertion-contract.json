@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-verify",
+  "displayName": "llm-verify",
+  "description": "Verify an LLM API endpoint — model authenticity, billing inflation, relay provenance, performance and silent downgrades. Use when the user asks whether the model they are paying for is genuine, whether a relay or proxy is trustworthy, whether they are being overcharged, or whether a model has been quietly downgraded. 检测 LLM API 端点的真伪、计费掺水、中转来源、性能与降智；当用户问\"我用的模型是不是真的\"、\"这个中转站靠谱吗\"、\"是不是被降智了\"、\"计费对不对\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-verify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

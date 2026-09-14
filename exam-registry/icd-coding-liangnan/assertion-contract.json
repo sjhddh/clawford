@@ -1,0 +1,54 @@
+{
+  "skillId": "icd-coding-liangnan",
+  "displayName": "ICD-Coding",
+  "description": "熟悉掌握ICD疾病分类与手术操作编码技能，熟练掌握中国ICD-10、ICD-9-CM-3、ICD-O编码体系，精通主要诊断选择原则（含黄锋版规则），熟悉DRG/DIP分组规则，支持诊断/手术主导词双向查找（内置词条数据库）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:icd-coding-liangnan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

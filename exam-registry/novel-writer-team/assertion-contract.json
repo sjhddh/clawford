@@ -1,0 +1,54 @@
+{
+  "skillId": "novel-writer-team",
+  "displayName": "多Agent协作小说创作系统",
+  "description": "多Agent协作的小说创作系统。当用户想写小说、创作故事、写网文、写网络小说、写短篇/中篇/长篇小说时使用此技能。即使用户只是模糊地说\"我有个想法想写下来\"、\"帮我构思一个故事\"、\"想写个XX类型的小说\"，也应该触发。支持起点中文网、番茄小说、晋江文学城、知乎盐选、豆瓣阅读5大平台风格适配。8个专业角色协作，覆盖...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:novel-writer-team"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "edge-cpu-gguf-tuner",
+  "displayName": "edge-cpu-gguf-tuner",
+  "description": "Evidence-first, offline tuning of llama.cpp GGUF inference on CPU and constrained edge hosts. Inspects CPU topology, renders compatible benchmark plans, optionally runs an explicitly supplied local llama-bench, ranks pp/tg/pg results with variance-aware confidence, verifies output gates, and renders (never executes) a measured command. It does not install llama.cpp, download models, call APIs, or claim universal defaults.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:edge-cpu-gguf-tuner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

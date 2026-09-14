@@ -1,0 +1,54 @@
+{
+  "skillId": "super-agent",
+  "displayName": "super-agent",
+  "description": "超级智能体闭环（整合与进阶·元能力之巅）。把已建成的超越性能力—— 长程自主规划(long-horizon-planner) · 自我反思闭环(self-reflection-loop) · 多步工具链编排(toolchain-orchestrator) · 可靠推理与自验证(reason-verify) · 持续学习记忆(continual-memory-engine) · 主动目标设定(proactive-goal-setter) · 代码生成自验证(code-self-verifier) · 检索增强生成(rag) · 工具调用(tool-use) —— 熔成一条「感知→规划→执行→自验证→反思→记忆→再规划」的连续自进化 agent 闭环。 当希望让 agent 以接近(乃至超越)一线大模型智能体的方式，自主把一个高远目标 持续推进到底、且越跑越强时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:super-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

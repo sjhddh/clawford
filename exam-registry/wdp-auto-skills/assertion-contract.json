@@ -1,0 +1,54 @@
+{
+  "skillId": "wdp-auto-skills",
+  "displayName": "Agent自进化Skill",
+  "description": "AI 编码助手的经验会随着会话结束而丢失：解决过的坑、反复走过的弯路、好的设计决策、用户的偏好，统统不被记住。本技能集合要建立一个**持续进化的闭环**：\n\n```\n解决问题 → 检测信号 → 温和提醒 → 蒸馏经验（用户确认）→ 分类入库 → 下次自动生效\n```\n\n经验分四轨存储，各司其职：\n\n| 轨道 | 内容 | 生效范围 |\n|---|---|---|\n| 用户画像 | 技术栈、工具链、编码风格、协作偏好 | 所有项目 |\n| 个人通用经验 | 与项目无关的方法论、通用坑 | 所有项目 |\n| 行业领域经验 | 行业知识、业务规则（如 GIS/GeoAI） | 同领域项目 |\n| 项",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wdp-auto-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

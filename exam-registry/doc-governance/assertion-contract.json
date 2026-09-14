@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-governance",
+  "displayName": "doc-governance",
+  "description": "Installs a documentation governance architecture in a project and diagnoses what it is missing. Three actions: audit diagnoses the current state against seven components (source-of-truth layering / decision records / cascade discipline / planning system / checkpoints bound to actions / gates / incident traceability); init installs what is missing (config, a script copy, a pre-commit gate, two Claude Code hooks, decision and plan templates); check keeps verifying that what the docs claim about reality still holds (TODOs left hanging too long, cascade memos never carried out, plan status that doesn't match reality, broken references, broken links, § section references pointing to the wrong place, missing index entries, broken tables, endpoints the docs declare but the code doesn't have). The framework was distilled from the documentation system of a large protocol project, and every check is tied to a real incident. ⚠️ init modifies the repository and installs hooks that keep running after the session ends (a git pre-commit gate and two Claude Code hooks that can block commits and new plan files); without --yes it only lists the planned changes. audit and check are read-only. Use only when the user explicitly asks about documentation governance in the current repository: \"doc governance\", \"audit the docs against the code\", \"set up a documentation system for this project\", \"audit before I write a plan\", \"is the spec the single source of truth\", or when a commit or file write was blocked by this skill's own gate output.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-governance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

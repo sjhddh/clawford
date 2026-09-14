@@ -1,0 +1,54 @@
+{
+  "skillId": "zoom-meeting-admin",
+  "displayName": "zoom-meeting-admin",
+  "description": "Manage Zoom meetings, cloud recordings, and account users via a Server-to-Server OAuth REST script. Use this skill when the user wants to list, view, create, or delete a scheduled Zoom meeting; query cloud recordings for a user; or look up account users. The script exposes a fixed CLI action whitelist (list/get/create/delete meeting, get/list user, list recordings); agents must only invoke these documented actions and must not modify the script, import internal functions, or construct arbitrary Zoom API requests. create_meeting requires the agent to obtain explicit user confirmation of topic, start_time, and duration before invoking. delete_meeting is gated by a required --yes flag and the agent must display the meeting info and obtain explicit user confirmation before invoking. Requires a Zoom Server-to-Server OAuth app and a local .env with ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, USER_ID.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zoom-meeting-admin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

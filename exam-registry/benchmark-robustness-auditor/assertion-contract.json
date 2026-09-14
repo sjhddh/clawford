@@ -1,0 +1,49 @@
+{
+  "skillId": "benchmark-robustness-auditor",
+  "displayName": "benchmark-robustness-auditor",
+  "description": "Offline, defensive robustness auditor for LLM benchmarks: n-gram exact + shingle-Jaccard paraphrase contamination, temporal pre/post-cutoff gaps, TS-Guessing above-chance detection, option-letter selection bias (chi2), few-shot curve noise, LLM-judge position/verbosity/rubric-echo bias and hidden-instruction payload detection, paired McNemar + Wilson + deterministic bootstrap for score comparisons, WORKED mitigations (permutation majority ensemble, blind content normalization), documented 0-100 severity formula, hash-chained per-target history ledger with trend deltas. Findings cite a STATIC 17-id exploit catalogue with explicit computable flags — invisible exploit classes are declared, never fabricated. 100% stdlib python3. NO network, NO telemetry. Defense/auditing only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:benchmark-robustness-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

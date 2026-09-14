@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-growth-review",
+  "displayName": "智能体成长复盘",
+  "description": "帮助用户复盘一段时间内的学习、实践、工作和人机协作变化，自动读取已有记忆、身份、Skill、对话记录、任务结果和知识资料，追问少量关键问题，生成'AI赋能XXX成长报告'。调用时机：用户说'智能体成长复盘''生成我的AI赋能成长报告''回顾这段时间我的成长''总结我和智能体最近的变化''复盘最近的人机协作''写一份阶段性学习思想报告''更新我的成长档案'。核心能力：分析用户变化、智能体变化、人机共同形成的能力，区分事实/感受/推断/归纳，未经确认不得写回Memory。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-growth-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

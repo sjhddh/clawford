@@ -1,0 +1,49 @@
+{
+  "skillId": "waterfall-enrichment",
+  "displayName": "waterfall-enrichment",
+  "description": "Cascade one lookup through several vendors in priority order, so a row the first source misses falls through to the next instead of being lost, powered by Cargo. Triggers: \"waterfall enrichment\", \"cascade through providers\", \"fallback chain\", \"my single vendor has bad coverage\", \"try another source when the first one misses\", \"improve my match rate\", \"multi-vendor fallback\". Providers: waterfall. Skip when: you want one address for one name and domain — use find-work-email, the cheaper single job; or you hold addresses and only want them checked — use verify-email-list.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:waterfall-enrichment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

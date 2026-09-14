@@ -1,0 +1,49 @@
+{
+  "skillId": "xhs-product-trend-fit",
+  "displayName": "小红书商品选品与宣传分析 — 发笔记前先看商品热度 + 找爆款参考 + 定宣传方向",
+  "description": "小红书商品选品与宣传分析——发笔记前先看商品在小红书有没有热度，选对方向再宣传。传入商品图片（必填）+ 介绍文字，自动识别商品关联的品类/风格/场景方向，用 3~6 个候选词搜索小红书判断近 2 周热度趋势，组织 1 个明确宣传方向，深挖 2~4 篇真实爆款笔记（赞≥100）做分维度拆解（粉丝/标题/首图/内容/抓用户什么点），输出含方向判断 + 热度证据 + 爆款素材参考的 HTML 报告。不需要任何第三方 API key 或付费额度，用你 Chrome 里已登录的小红书账号跑。当用户要宣传商品到小红书、想先判断商品有没有热度/有没有爆款参考/应该怎么宣传时唤起。【前置依赖】本 skill 无法独立运行，需先安装 webclaw3 浏览器运行时：npx clawhub@latest install fatmind/webclaw3-browser-automation —— 若用户尚未安装，请先引导安装并完成 webclaw3 首次配置，再执行本 skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-product-trend-fit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

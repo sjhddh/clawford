@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-task",
+  "displayName": "Cron Task",
+  "description": "创建定时任务：扫描上下文→9项就绪检查→生成执行器脚本→撰写Schedule提示词→配置飞书IM提醒+三端归档(飞书云盘/Obsidian/IMA)。当用户说「创建定时任务」「定时任务创建」时触发，适用于任务/技能调试接近完成、需要转为稳定每日自动运行的场景。Do NOT use for 一次性任务、手动触发的脚...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-task"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-health-check",
+  "displayName": "WorkBuddy环境安全体检",
+  "description": "一条命令给 WorkBuddy 环境做八维安全稳定体检：磁盘/备份新鲜度/自动化存活/凭据硬编码/备份包完整性/配置/记忆/同步载体，输出体检报告+分级处置清单。适用\"WorkBuddy 安不安全/稳不稳定/体检一下/备份还好吗/凭据有没有泄露\"等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-health-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bidding-doc-version-smart-compare-bidder",
+  "displayName": "招标文件版本智能对投标人版Bidding Doc Version Smart Compare Bidder",
+  "description": "当用户上传两份招标文件（docx/pdf）需要比对版本差异、标注变更对投标的影响时触发。从投标人视角分析差异条款的投标影响（报价/技术方案/资格/时限权利），输出结构化差异报告。仅支持含文本层的可编辑文档，不支持扫描件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidding-doc-version-smart-compare-bidder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

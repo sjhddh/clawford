@@ -1,0 +1,54 @@
+{
+  "skillId": "zmm-skillify",
+  "displayName": "詹明明·做成一个技能",
+  "description": "📐 詹明明·做成一个技能 ——把这次会话里已经跑通的做法固化成一个新技能。不是从想法造技能——是从**已经产生过正确结果的那一段过程**里提炼，所以只在事情做完之后用。 触发方式：/zmm-skillify、/固化、/做成技能、/zmm-固化、「这次的做法留下来」「把刚才那套变成技能」「下次别再重新想一遍」「这个流程以后还要用」 Turn a method that already worked in this session into a reusable skill. Extracts from a completed run, never from an idea — so it only fires after the work is done. Trigger: /zmm-skillify, \"make this a skill\", \"save this workflow\", \"I don't want to re-derive this next time\" —— 📐 詹明明 · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zmm-skillify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

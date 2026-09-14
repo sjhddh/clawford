@@ -1,0 +1,54 @@
+{
+  "skillId": "three-way-match-free",
+  "displayName": "三单匹配机械核对（免费）",
+  "description": "把采购订单、入库单、发票放在一起核一遍，每条结论都带原文行号，不需要付款，也不需要注册。本免费版执行 关键字段跨单据一致（采购订单号 / 供应商 / 物料）、数量 / 单价 / 金额跨单据一致、重复发票号线索、模板占位符残留。触发词包括 三单匹配、应付账款核对、采购订单入库单发票不一致、订单号对不上、供应商名称不一致、重复发票、重复付款。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-way-match-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

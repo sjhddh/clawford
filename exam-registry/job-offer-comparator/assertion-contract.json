@@ -1,0 +1,54 @@
+{
+  "skillId": "job-offer-comparator",
+  "displayName": "job-offer-comparator",
+  "description": "Use when comparing two or more job offers, deciding between a remote and on-site role, weighing a higher salary against a long commute, moving cities for a job, pricing the real value of benefits, or preparing a salary negotiation counter-offer. Computes true total compensation — base + expected bonus + capped retirement match + risk-discounted equity − health premiums − commute cost (km + parking) − cost-of-living adjustment — then effective hourly rate on REAL hours (contracted + overtime + commute), PTO valuation, and the exact break-even base salary the losing offer needs to match the winner. Outputs a negotiation-ready target number.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:job-offer-comparator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

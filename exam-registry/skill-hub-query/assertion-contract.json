@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-hub-query",
+  "displayName": "skill-hub-query",
+  "description": "Query, install, update, and edit AI agent skills on any compatible Skill Hub (self-hosted, or any Hub implementing the documented API contract). Dual-channel: with a token it uses the authenticated API (full features including private skills); without a token it falls back to the unauthenticated channel (public skills only). Covers: list newly published skills, search by keyword / author / time / source, inspect version history, install or upgrade a specific version, and edit a skill's card metadata (display name, summary, tags, visibility, applicable position, etc.) via a safety-first GET -> diff -> backup -> PUT -> dual-channel verify -> auto-rollback flow. Trigger phrases include \"what's new on the hub\", \"search for X skill\", \"install X\", \"update Y skill\", \"edit hub card info\", \"show skill version history\", \"skill-hub-query\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-hub-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "agents-get-started",
+  "displayName": "agents-get-started",
+  "description": "Use when a developer wants to create a new agent project or get started with AgentCore. Handles framework selection, project scaffolding, first deploy, and first invocation. Triggers on: \"build an agent\", \"create an agent\", \"get started\", \"new project\", \"agentcore create\", \"which framework\", \"Strands vs LangGraph\", \"hello world agent\", \"first agent\", \"create MCP server\", \"host MCP server\", \"agentcore dev\", \"dev server\", \"what port\", \"local development\". Not for adding capabilities to existing projects — use agents-build or agents-connect. Strands vs LangGraph in a migration context routes to agents-build, not here. Connecting to an existing MCP server routes to agents-connect, not here.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agents-get-started"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}
