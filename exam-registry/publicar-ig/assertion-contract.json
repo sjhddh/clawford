@@ -1,0 +1,54 @@
+{
+  "skillId": "publicar-ig",
+  "displayName": "publicar-ig",
+  "description": "Skill para publicar fotos, carruseles (1-10 slides) o reels en el Instagram profesional de la usuaria desde su agente, con la conexión de Instagram que ELLA conectó (Composio, o Zapier si lo tiene). Activar SIEMPRE que pida: \"publica esto en Instagram\", \"/publicar-ig\", \"sube este carrusel a IG\", \"publica este reel\", \"manda esto a Instagram\", \"haz el post en IG\", \"publica lo que acabamos de hacer\", o cualquier variación que combine un archivo/carpeta de imagen o video con la intención de publicarlo en Instagram. Usa URLs públicas (las de Higgsfield, una que ella dé, o su propio repo público de GitHub si lo conectó). Nunca publica sin mostrar el preview completo y recibir ✅ explícito por Telegram. NO maneja Stories.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:publicar-ig"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

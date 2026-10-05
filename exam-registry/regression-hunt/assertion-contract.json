@@ -1,0 +1,54 @@
+{
+  "skillId": "regression-hunt",
+  "displayName": "regression-hunt",
+  "description": "Find what a change can break in the code that did NOT change — trace a diff, branch, commit range, or named feature outward through callers, consumers, shared state, and contracts, rank the concrete regression scenarios by blast radius, and prove or clear each one with an observed test run. Zero regressions is a valid outcome. Use this skill whenever the user says \"look for regressions\", \"what could this break\", \"did this change break anything\", \"regression check\", \"impact of this change\", \"blast radius\", \"what else uses this\", \"is anything else affected\", or \"/regression-hunt\" — even if they don't name the skill. Not for reviewing the diff's own quality (code-review) or a bug already observed (diagnose).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:regression-hunt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

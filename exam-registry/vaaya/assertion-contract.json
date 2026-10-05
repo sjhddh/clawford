@@ -1,0 +1,54 @@
+{
+  "skillId": "vaaya",
+  "displayName": "vaaya",
+  "description": "Access Vaaya's paid API catalog for web search and research, scraping, image/video/audio generation, LLMs, lead enrichment, live data, code sandboxes, browser automation, email, storage and tokenized shares. One account, no vendor keys, quoted prices and per-call spending ceilings. Supports agent API signup and verified Instinct email signup with $10 welcome credit, without a card.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vaaya"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

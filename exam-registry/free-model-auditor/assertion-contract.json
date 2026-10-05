@@ -1,0 +1,54 @@
+{
+  "skillId": "free-model-auditor",
+  "displayName": "Free Model Auditor（免费模型审计员）",
+  "description": "审计 WorkBuddy 自定义模型注册表（models.json）中的免费模型：跨多个 OpenAI 兼容厂商新增可发现的免费模型、 剔除已转付费或失效的模型，保持注册表真实有效。当用户要求「审计自定义模型」「检查有没有新的免费模型」 「测试其余平台有无遗漏」「定期巡检模型清单」或希望对免费 API 模型做健康检查时使用。 本技能对海外平台执行 VPN 连通性门禁，按各厂商策略判定免费，活体实测每个候选，并自动把新增/移除差异应用到 models.json。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:free-model-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

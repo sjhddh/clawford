@@ -1,0 +1,54 @@
+{
+  "skillId": "kleos-cli",
+  "displayName": "Kleos CLI",
+  "description": "Use the Kleos CLI (`kleos` / `npx -y kleos-cli`) to do anything a person does in the Kleos app - generate, review, schedule and measure UGC-style TikTok and Instagram posts for an app, upload images and videos, pick music, connect accounts - from any agent that can run shell commands (OpenClaw, Codex, Hermes, CI, cron). Triggers - \"use Kleos\", \"generate posts for my app\", \"plan the week of posts\", \"schedule posts on TikTok/Instagram\", \"upload these files to Kleos\", \"connect my TikTok\", \"how are my posts doing\", \"launch posts\", \"gerar posts no Kleos\", \"gerar posts pro meu app\", \"planejar a semana de posts\", \"agendar no TikTok\", \"agendar no Instagram\", \"subir arquivos no Kleos\", \"conectar conta\", \"revisar a fila de posts\", \"relatório semanal de posts\". Needs `kleos login` (browser) or KLEOS_API_KEY.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kleos-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

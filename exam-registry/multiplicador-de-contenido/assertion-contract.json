@@ -1,0 +1,54 @@
+{
+  "skillId": "multiplicador-de-contenido",
+  "displayName": "multiplicador-de-contenido",
+  "description": "Skill para multiplicar un guion o idea en múltiples formatos de contenido. Activar SIEMPRE que alguien pida: multiplicar un video, reciclar un guion, transformar un script en diferentes formatos, sacar más contenido de una idea, remasterizar un guion, convertir un video en varios, reutilizar contenido, o cualquier variación que implique tomar una pieza de contenido existente y expandirla a múltiples formatos. También activar cuando digan \"tengo este guion y quiero hacer más\", \"¿cómo saco más contenido de esto?\", \"quiero publicar más sin grabar tanto\", \"multiplica esto\", \"¿en qué formatos puedo usar esta idea?\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multiplicador-de-contenido"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

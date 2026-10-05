@@ -1,0 +1,54 @@
+{
+  "skillId": "factor-prune",
+  "displayName": "factor-prune",
+  "description": "因子筛选（Factor Prune）技能 —— 在 stock-factor 技能产出初始因子清单（IC/IR 评估结果）后， 对有效因子做贪心前向选择 + 去相关筛选，精选出一组高有效性、低冗余的因子集合。 算法：汇总所有因子 → 按 |IR|/IC/time_potential 筛选有效 → 按有效性降序 → 贪心提取最优因子 → 与剩余因子做相关性评估 → 移除高相关冗余 → 提取下一个 → 如此反复直到收敛或达到上限。 技能提供两套主实现： (1) 文件驱动六步法 `prune_flow.py`（推荐）——脚本直连 QuantAll 自己跑完整个循环，临时文件统一在内存外的 state",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:factor-prune"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

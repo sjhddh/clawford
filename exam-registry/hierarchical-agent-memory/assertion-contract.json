@@ -1,0 +1,54 @@
+{
+  "skillId": "hierarchical-agent-memory",
+  "displayName": "hierarchical-agent-memory",
+  "description": "Scalable memory architecture with hybrid topic-based working memory and optional time-based episodic recall. Provides structured MEMORY.md routing table, topic files for active projects, contact files, and configurable daily/weekly/monthly/yearly distillation layers. Use when the agent needs durable, organized long-term memory that survives compaction and scales across projects, contacts, and time horizons. For per-channel session isolation, install the companion skill agent-session-state. Upgrading from v2.x? Existing files are preserved — the agent will guide you through adding topic-based working memory alongside your current structure.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hierarchical-agent-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

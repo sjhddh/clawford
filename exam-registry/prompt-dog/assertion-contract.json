@@ -1,0 +1,54 @@
+{
+  "skillId": "prompt-dog",
+  "displayName": "Prompt Dog",
+  "description": "PromptDog（提示词牧羊犬）——终极技能架构师，提示词、SOP 与 Agent 工作流的设计、优化与诊断专家。当用户想写提示词、优化或评分现有提示词、把模糊需求变成可执行的 SOP 或自动化工作流、设计提示链/多智能体/子 agent 方案、或抱怨\"AI 输出不稳定/不好用/不听话\"时，使用本技能——哪怕用...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prompt-dog"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

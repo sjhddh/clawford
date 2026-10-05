@@ -1,0 +1,54 @@
+{
+  "skillId": "poly-mal-scan",
+  "displayName": "Poly-Mal-Scan_恶意代码扫描器",
+  "description": "FWold 多语言(PHP/JS/Bash)恶意代码/webshell 扫描检测器: 用法、MCP 接入、规则库持续更新、运行依赖。扫描文件/代码、挂载/测试 detect_mcp_server MCP、新增调准特征码规则、排查误报漏报时启用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:poly-mal-scan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

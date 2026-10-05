@@ -1,0 +1,54 @@
+{
+  "skillId": "ship-it",
+  "displayName": "ship-it",
+  "description": "Pre-launch operational-readiness checklist for a feature, release, or branch. Walks a fixed 10-category gate (logging, error handling, telemetry, feature flags, migrations, rollback, secrets, local-first storage, auth, update strategy), produces a structured report with PASS / GAP / N/A per item, every PASS backed by `file:line` evidence and every GAP cited as `no evidence found at <path>`. Final verdict groups findings as **Blocking** / **Should-fix** / **N/A with reason** / **Passing**. Use this skill whenever the user says \"is this ready to ship?\", \"ship-it check\", \"/ship-it\", \"production checklist\", \"pre-launch checklist\", \"production readiness\", \"release readiness\", \"launch checklist\", or asks whether a release is operationally safe — even if they don't explicitly say \"ship-it skill\". Use [`code-review`](../code-review/SKILL.md) for diff-level code quality (DRY, dead code, tests). Use `ship-it` for cross-cutting operational readiness. Never edits code unprompted — recommendation first, ask, then fix.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ship-it"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-task-progress-tracker",
+  "displayName": "OpenClaw Task Progress Tracker",
+  "description": "OpenClaw task & project progress tracking. Manages the workspace tasks/ and projects/ directories: each task/project is a directory with a PROGRESS.md card (status + progress log + document index). Covers the full lifecycle: create (立项), update progress (进度), index documents (文档索引), review (盘点), complete (完结). Lightweight, file-based, no CLI, no external services. Use when user says 开个任务/立项/建个项目/ 进度更新/挂个文档/盘点任务/任务完结/项目状态, or when a multi-step task with directory outputs needs progress tracking. 中文：OpenClaw 任务与项目 进度管理工具。管理工作区 tasks/（短期任务）与 projects/（长期项目）目录： 每个任务/项目一个目录 + PROGRESS.md 进度卡（状态 + 进度日志 + 文档索引）。 覆盖全生命周期：立项、进度更新、文档索引、盘点、完结。轻量纯文件， 无 CLI、无外部服务依赖。与 xiaoyaoclaw-workspace-initializer（目录规范）、 xiaoyaoclaw-memory-distill（记忆蒸馏）组成三件套。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-task-progress-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hearth",
+  "displayName": "hearth",
+  "description": "A fast, read-only health-check sweep across every device in a homelab — ping, uptime/load, memory/disk, services, and app health, in 14 seconds with output you can scan in 30. Configuration-driven (~/.hearth/devices.yaml describes the lab; the skill is generic). Use when the user asks \"how is the lab?\", \"server status\", \"check all servers\", \"is X up?\", \"health check\", \"what's down?\", \"anything broken?\". Supports Linux, macOS, Raspberry Pi, Android (Termux/chroot), and Windows hosts (HTTP-only probe). Honest reporting — devices that can't be probed at L4 (Windows, chroots) are reported as such, never faked green. Read-only — never restarts services, never writes to remote hosts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hearth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "phone-mark-query",
+  "displayName": "phone-mark-query",
+  "description": "查询手机号/固话在电话邦、小米、360、腾讯、百度、泰迪熊、联通管家、搜狗号码通、移动高频九大平台的标记（骚扰/诈骗/广告推销/教育培训/房产中介/快递外卖等），自动汇总风险等级并给出接听建议。用户问\"这号码是谁的/该不该接/是不是骚扰诈骗电话/查下标记\"时使用。开箱即用，每天免费10次可配置。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phone-mark-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

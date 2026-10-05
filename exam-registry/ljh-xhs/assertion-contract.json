@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh-xhs",
+  "displayName": "ljh-xhs",
+  "description": "小红书图文爆款拆解器。拿到一条小红书图文样本，先判断样本等级（能不能拆），再按用户链路拆封面、图文承接、爆款因子、成立机制、变量分层，最后给出受控变体迁移方案。 触发方式：/ljh-xhs、「帮我拆一条小红书爆款」「这条图文笔记为什么能卖」「小红书图文怎么复刻」「这张封面为什么点击高」 Xiaohongshu (RED) viral image-text post decomposer. Given a sample post, judge whether it is even decomposable, then break down cover, page 2-5 handoff, viral factors and mechanism, variable layering, and produce a controlled-variant migration plan. Trigger: /ljh-xhs, \"break down this Xiaohongshu viral post\", \"why does this post convert\", \"how do I replicate this RED post\" 不要在拆解抖音视频、公众号文章等非小红书图文场景自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh-xhs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

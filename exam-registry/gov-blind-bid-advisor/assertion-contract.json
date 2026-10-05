@@ -1,0 +1,54 @@
+{
+  "skillId": "gov-blind-bid-advisor",
+  "displayName": "政府采购盲投参谋gov-blind-bid-advisor",
+  "description": "投标人侧政府采购盲投参谋：基于公开数据做商机发现（采购公告采集+企业画像匹配排序）与投标决策（资格/能力/利润/风险 go-no-go 结构化判断），内置投标人防御视角风险自查（废标雷区+排他性/萝卜坑条款扫描）。纯本地+公开数据采集，零 API Key；可选挂载 IMA 知识库做检索增强。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gov-blind-bid-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

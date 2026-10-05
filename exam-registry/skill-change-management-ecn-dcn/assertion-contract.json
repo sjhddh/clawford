@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-change-management-ecn-dcn",
+  "displayName": "Change Management Ecn Dcn",
+  "description": "面向变更工程师、项目经理与文控(DCC)的变更管理（ECN/DCN）技能，对工程变更与文件变更做影响分析、评审路由、验证与切换计划，生成受控变更记录。覆盖 ECN（改产品技术状态）与 DCN（只改文件），与变化点管理(CPM)、供应商变更管理上下游互补。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-change-management-ecn-dcn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

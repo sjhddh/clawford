@@ -1,0 +1,49 @@
+{
+  "skillId": "text-patterns",
+  "displayName": "text-patterns",
+  "description": "Process text through curated content patterns for summarization, extraction, analysis, writing, and review. Use when the user asks to summarize, extract insights/wisdom/ideas, analyze claims/prose/paper, improve writing, clean text, or apply a named pattern like extract_wisdom or summarize. 用模式处理文本, 总结内容, 提炼洞察, 提取智慧, 分析文本, 改善写作, 清洗文本. Runs the fabric CLI when present; otherwise falls back to applying the pattern instructions directly with no external dependency.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-patterns"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

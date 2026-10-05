@@ -1,0 +1,49 @@
+{
+  "skillId": "smyx-driver-head-pose-abnormality-analysis",
+  "displayName": "Driver Head-Pose Abnormality (Head-Down / Side-View) | 驾驶员头部姿态异常（低头/侧视）检测",
+  "description": "Using an in-cabin DMS camera, the system analyzes the driver's head pose in real time, computing head pitch (down/up) and yaw (left/right turn). | 通过车载DMS摄像头实时分析驾驶员头部姿态，计算头部俯仰角（低头/抬头）和偏航角（左/右转头）。当低头角度超过阈值（默认>30°）且持续时间超过2秒（可能为看手机、查看物品），或侧视角度超过阈值（默认>45°）持续时间超过2秒（可能为与乘客聊天、看窗外）时，输出分心驾驶预警，联动语音提醒，预防交通事故。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smyx-driver-head-pose-abnormality-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

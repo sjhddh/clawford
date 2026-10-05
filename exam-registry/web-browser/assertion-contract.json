@@ -1,0 +1,54 @@
+{
+  "skillId": "web-browser",
+  "displayName": "web-browser",
+  "description": "Environment-aware browser operations. Detects wmux/cmux/tmux and routes to the right backend (wmux/cmux panel → user-visible, plain → Playwright MCP, chrome-devtools → reuse the user's real logged-in session). Topics: ui-test - snapshots, click/fill/verify, closed shadow DOM cascade diagnosis (cdp-trace) [ui-test.md, cdp-trace.md]. credential-issue - open service login via detected backend → wait for user sign-in → issue OR refresh an access key / token / secret / OAuth scope → hand off to follow-up automation (aws-cli, gh secret set, gh auth refresh, etc.) [credential-issue.md]. Covers both new issuance and existing-token scope expansion (PAT scope add, OAuth re-authorize, device-code). Use for: \"UI check\", \"browser test\", \"screen verify\", \"Playwright test\", \"shadow DOM cascade\", \"::part not working\", \"CDP trace\", \"issue token\", \"service credential\", \"open login screen\", \"PAT refresh\", \"scope expansion\", \"device-code auth\", \"browser device-code\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-browser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

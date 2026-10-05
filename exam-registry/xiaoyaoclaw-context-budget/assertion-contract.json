@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-context-budget",
+  "displayName": "OpenClaw Context Budget",
+  "description": "OpenClaw context check / context optimization (Context Budget). Core goal = context optimization: reads the models currently enabled in this installation, reads each model's published context window from its vendor's official source, and proposes a window = 60% of the vendor spec. It writes nothing until the user confirms; then it patches only the window field and reports the result. This skill never runs automatically and creates no scheduled jobs. Use ONLY when the user explicitly asks, with one of these exact intents: 上下文检查 / 上下文优化 / 检查一下模型上下文 / 把上下文窗口配一下 / 设置上下文窗口, or in English: context window check, configure context window, context optimization. Do NOT activate on generic talk about context, memory, prompts, or token usage. 中文：按「厂商标称窗口 × 60%」设置已启用模型的上下文窗口；流程 = 检测（只读）→ 决策（用户回一个数字）→ 执行（确认后写入）。 不做：maxTokens 等其它参数、压缩阈值（保持系统默认）、未在用模型的默认配置、自动/定时运行、修改历史与审计留痕。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-context-budget"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

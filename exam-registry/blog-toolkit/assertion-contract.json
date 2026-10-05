@@ -1,0 +1,54 @@
+{
+  "skillId": "blog-toolkit",
+  "displayName": "blog-toolkit",
+  "description": "管理 Blog System API v1.0.0 的文章/标签/用户/评论/留言/说说/文件上传/健康检查。 无认证公开 API，27 个子命令（26 API + 1 capability-list），输出 JSON 与 Markdown 表格。 纯 CLI 管理 skill，不含 Grape Agent 加载集成与自动回复 Issue 能力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:blog-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

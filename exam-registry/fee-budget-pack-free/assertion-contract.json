@@ -1,0 +1,54 @@
+{
+  "skillId": "fee-budget-pack-free",
+  "displayName": "费用与预算技能包（免费版）",
+  "description": "把费用与预算材料按 14 项检查（预提费用与到票冲销、费用预算执行差异、部门费用预算执行、报销单合规预检、租金账单与押金、物流仓储与操作费、设备维保与备件领用、承运司机运费结算、运费对账、车队油耗与运费、物业费与滞纳金、物业公共能耗分摊、物业公共收益公示与分成、长期待摊费用摊销）逐客户核一遍，每个客户一行结论，结论都带原文文件与行号。完全本地运行，核对过程不需要联网、不需要 API Key、没有次数上限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fee-budget-pack-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

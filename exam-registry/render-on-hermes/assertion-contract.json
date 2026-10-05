@@ -1,0 +1,54 @@
+{
+  "skillId": "render-on-hermes",
+  "displayName": "render-on-hermes",
+  "description": "Use whenever any other render-* skill loads, or any time the user asks you to do something on Render. Tells you that this Hermes container has the Render MCP server pre-registered with full MCP tool access for the provided API key and that the `render` CLI is NOT installed in this image, so skip every \"install MCP\", \"install CLI\", and \"run render CLI\" step that upstream render-* skills describe.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:render-on-hermes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

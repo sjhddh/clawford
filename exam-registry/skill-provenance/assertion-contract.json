@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-provenance",
+  "displayName": "skill-provenance",
+  "description": "Version, validate, package, verify, recover, and hand off Agent Skill bundles across local folders, registries, platform uploads, and agent sessions. Use for MANIFEST.yaml, CHANGELOG.md, bundle hashes, stale evals, frontmatter portability, derived skill packages, or version identity that must survive filename changes and cross-platform movement. Do not use for ordinary Git version control that does not involve an Agent Skill bundle. Compatible with the agentskills.io open standard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-provenance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

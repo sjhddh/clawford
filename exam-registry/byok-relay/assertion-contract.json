@@ -1,0 +1,54 @@
+{
+  "skillId": "byok-relay",
+  "displayName": "BYOK Relay Builder",
+  "description": "OpenAI-compatible LLM gateway for any client-side application (browser, mobile, React Native, Flutter, VS Code extensions, browser extensions, Electron, smart TV, and more). Routes requests to OpenAI, Anthropic, Gemini, Groq, Mistral, and 200+ models, handling CORS, key encryption, and streaming without a dedicated backend. Uniquely supports BYOK (bring your own key): users connect their own provider API keys so the developer pays nothing for inference. Use for multi-provider LLM access, client-safe AI API calls, or any product where users supply their own API credentials.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:byok-relay"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

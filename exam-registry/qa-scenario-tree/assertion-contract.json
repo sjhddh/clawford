@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-scenario-tree",
+  "displayName": "qa-scenario-tree",
+  "description": "将需求解构的结果系统化转化为主路径、备选路径、异常路径、业务规则四类测试场景。当业务流程复杂、涉及多个页面跳转或状态变化、需要确保关键路径和异常路径都有覆盖时，应当使用此技能。不要只测\"正常流程\"——场景树的核心价值是暴露那些\"用户可能不会按你预期操作\"的分支和异常路径。每个场景带唯一 ID（SC-{模块缩写}-{序号}）并关联回需求 ID（REQ-）。 触发场景：构建场景、测试场景、场景树、场景设计、测试路径、场景覆盖、业务流程复杂需要系统化梳理时。 Use when the user asks about: building a test scenario tree — main path, alternate path, exception path, and data flow scenarios with traceable SC-/REQ- IDs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-scenario-tree"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

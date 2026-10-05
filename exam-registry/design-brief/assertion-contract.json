@@ -1,0 +1,54 @@
+{
+  "skillId": "design-brief",
+  "displayName": "design-brief",
+  "description": "Turn a vague feature idea into an approved design brief — a file recording the intent, every decision made (with why and cost-if-wrong), scope boundaries, exact interfaces, and constraints — that task-executor, backlog-planner, and autopilot then consume as the spec. Produces decisions, not code; nothing is implemented. Use this skill whenever the user says \"brainstorm this\", \"let's design this first\", \"think through this feature with me\", \"spec this out\", \"I have an idea for\", \"how should we build\", \"before we plan this\", or \"/design-brief\" — even if they don't name the skill. Not for a task that already has a clear spec (task-executor), a bug (diagnose), or turning a decided design into tasks (backlog-planner).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:design-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

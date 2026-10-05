@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-amazon-ads-sp-insights-report",
+  "displayName": "亚马逊-广告SP洞察报告",
+  "description": "亚马逊广告 Sponsored Products（SP）洞察报告技能，统一获取 Audience 受众细分表现和 Search Term Impression Share/Rank 搜索词展示份额/排名两类 Amazon Ads Reporting API v1 beta 报告。自动完成 profile 到 advertiser account 映射、报告创建、状态轮询、多分片 CSV 下载和落盘。只有用户明确要求 SP 受众报告、SP 搜索词展示份额或展示份额排名时触发；普通 SP 搜索词表现报告、SB/SD/DSP 报告不得触发。本技能依赖 linkfox-amazon-ads-auth。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-ads-sp-insights-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

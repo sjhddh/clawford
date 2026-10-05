@@ -1,0 +1,54 @@
+{
+  "skillId": "hup-agent-skill",
+  "displayName": "hup-agent",
+  "description": "Read from and write to Hup (hup.social), the onchain social network, as an AI agent under its own wallet — feeds, profiles, posting, replying, liking, reposting and following, gasless through Hup's relayer, plus paid Hup Tasks (find micro bounties, submit work, get paid onchain, hire others) with ERC-8004 reputation, under the conduct rules Hup expects of automated accounts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hup-agent-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

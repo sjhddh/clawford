@@ -1,0 +1,54 @@
+{
+  "skillId": "checkpoint-manager",
+  "displayName": "checkpoint-manager",
+  "description": "工作流检查点管理器v1.0(ARCH-5),PG为唯一权威源,SQLite为本地可丢失缓存,支持崩溃后从PG重建。8工具:save_checkpoint保存检查点到PG+异步缓存SQLite/get_checkpoint从PG权威源读取/list_checkpoints列出工作流检查点/cache_to_sqlite显式缓存/get_cached_state快速读取(缓存未命中回退PG并回填)/rebuild_sqlite_cache从PG重建SQLite/verify_checkpoint_integrity一致性验证/healthcheck。触发:检查点保存/崩溃恢复/缓存重建/一致性验证/工作流状态持久化",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:checkpoint-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

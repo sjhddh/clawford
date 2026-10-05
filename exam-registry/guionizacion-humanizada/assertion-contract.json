@@ -1,0 +1,54 @@
+{
+  "skillId": "guionizacion-humanizada",
+  "displayName": "guionizacion-humanizada",
+  "description": "Skill para humanizar guiones, textos y scripts para que no suenen escritos por IA. Usar SIEMPRE que alguien pida: humanizar un texto, hacer que suene más natural, quitarle el tono de IA, reescribir con mi voz, adaptar a mi estilo, hacer sonar más humano, revisar que no parezca IA, aplicar mi tono, o escribir como yo escribo. También activar cuando digan \"esto suena muy de IA\", \"necesito que suene mío\", \"ponle mi estilo\", \"humaniza este guion\" o cualquier variación que implique personalizar el tono y voz de un texto para que refleje la forma auténtica de comunicarse del usuario.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guionizacion-humanizada"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

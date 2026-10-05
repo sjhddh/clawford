@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-quota-throttling-diagnosis",
+  "displayName": "alibabacloud-oss-quota-throttling-diagnosis",
+  "description": "Read-only OSS QPS/bandwidth quota and throttling diagnostics. Use when requests persistently hit 503/SlowDown or clients time out with no server errors. Covers watermark guidance, a throttling attribution decision tree, optimization (concurrency, prefix hashing, backoff), quota-increase guidance, ActiveRequestLimitExceeded concurrency throttling, and resource pool QoS / dedicated bandwidth consultation. Triggers: \"QPS limit exceeded\", \"bandwidth saturated\", \"timeout without server errors\", \"persistent SlowDown 503\", \"quota increase request\", \"TotalQpsLimitExceeded\", \"x-oss-qos-delay-time\", \"ActiveRequestLimitExceeded\", \"resource pool QoS\", \"dedicated bandwidth\". Not for one-off SlowDown / single-request error codes, client-tool connection timeouts, transfer acceleration selection, endpoint errors, or billing (use the matching OSS diagnosis skill); never applies changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-quota-throttling-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

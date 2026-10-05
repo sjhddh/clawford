@@ -1,0 +1,49 @@
+{
+  "skillId": "google-health-cli",
+  "displayName": "Google Health",
+  "description": "Read your Google Health data from any agent. Lists data points for every Google Health data type (heart rate, resting heart rate, sleep, steps, distance, weight, blood oxygen, VO2 max, exercise, and more), returns server-side daily roll-ups (one reconciled total per day), gives a parsed view of exercise sessions, and can GET any read-only v4 API path. A self-contained, read-only client for the Google Health v4 API: authenticates via OAuth2 (token cached locally and auto-refreshed) and emits JSON. It does NO filtering, merging, or writing — the caller decides what to do with the data. Single static binary, no Python or other runtime. NOTE: needs your own Google Cloud OAuth client and a one-time interactive browser login; runs headless afterward.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-health-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

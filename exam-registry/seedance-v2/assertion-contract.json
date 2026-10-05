@@ -1,0 +1,54 @@
+{
+  "skillId": "seedance-v2",
+  "displayName": "Seedance 2.0 Pro — Pro Pack on RunComfy",
+  "description": "Seedance 2.0 Pro on RunComfy. Seedance 2.0 Pro (ByteDance Seedance v2) is a multi-modal cinematic short-form video model with native lip-sync audio. This skill calls Seedance 2.0 Pro through the RunComfy CLI: `runcomfy run bytedance/seedance-v2/pro`. Seedance 2.0 Pro accepts up to 9 image references, 3 video references, and 3 audio references in one Seedance call, producing 4–15 second cinematic clips at 720p. Triggers on \"seedance\", \"seedance 2\", \"seedance v2\", \"seedance pro\", \"seedance 2.0\", \"ByteDance Seedance\", or any explicit ask to generate video with Seedance.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seedance-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

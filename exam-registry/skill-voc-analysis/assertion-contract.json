@@ -1,0 +1,49 @@
+{
+  "skillId": "skill-voc-analysis",
+  "displayName": "Voc Analysis",
+  "description": "通用顾客声音（VOC）分析技能。通过交互引导采集顾客原始反馈，系统化整理、分类、提炼关键需求，并转化为可测量的 CTQ（关键质量特性）与改善优先级。适用于顾客投诉分析、产品改进方向识别、服务质量设计等场景，质量反馈（投诉/退货/审核发现）是典型应用领域之一。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-voc-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

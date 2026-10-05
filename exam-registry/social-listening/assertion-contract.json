@@ -1,0 +1,49 @@
+{
+  "skillId": "social-listening",
+  "displayName": "social-listening",
+  "description": "Every Monday the week's public LinkedIn posts about the problem you solve are searched, judged against your ICP, and posted to Slack as one digest: the conversations worth joining, and the commenters in them who look like buyers, each quoted with a link. Triggers: \"tell me which linkedin posts we should comment on\", \"watch linkedin for people talking about our problem\", \"social listening on linkedin\", \"weekly digest of linkedin conversations in our space\", \"who is engaging with posts about our category\", \"monitor linkedin posts mentioning our competitors\". Cargo CDK, LinkedIn fetchPosts, searchPostComments, defineModel, defineAgent, Slack postMessage. Skip when: you want named target accounts checked for hiring, news or detection-feed events, once, which is monitor-buying-signals; or you want people who just took a role you sell to, which is new-hire-detection.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:social-listening"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "speak",
+  "displayName": "Speak",
+  "description": "Writes and converts text into natural speech-ready output for any TTS engine: normalization, prosody, pronunciation, and voice preferences. Use when a reply will be read aloud or sent to a voice channel, when writing voiceover scripts, spoken briefings, voice notifications, or dialogue turns, when TTS sounds robotic, reads markdown, URLs, or code aloud, mispronounces names, garbles numbers, dates, or acronyms, speaks too fast or in the wrong accent, or when the user corrects pronunciation, pacing, or voice choice. Not for speech-to-text or live two-way call setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:speak"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

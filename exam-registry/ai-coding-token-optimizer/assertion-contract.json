@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-coding-token-optimizer",
+  "displayName": "AI Coding Token Optimizer",
+  "description": "Make any repository cheap for an AI agent to work in. Measure the instruction file every session loads, cut it to the rules that bind every task, and move reference material behind short task routers (docs/map/ plus a README next to each code area) that agents open only when a task needs them. Use it when asked to adopt, apply or refresh this skill, or to \"map\", \"optimize tokens\" or \"slim CLAUDE.md/AGENTS.md\" in a project. Also offer it when an entry point grows past about 8 KB. For Codex, Claude Code, OpenClaw and any agent with file access. It edits documentation only, never application behaviour.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-coding-token-optimizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "fin-invoice-organizer",
+  "displayName": "票据整理与报销台",
+  "description": "报销被打回大多不是金额问题，而是票据要素不全、分类错、缺说明。整理时又要一张张看。 输入：票据类型清单（发票/收据/行程单/电子票）、金额、日期、用途、报销制度要点（可选）。输出：①分类表（按费用科目，如差旅/办公/招待/通讯）②要素核对（抬头、税号、日期、金额、事由是否齐全）③不合规票清单与补票建议 ④汇总表（可直接粘贴进报销单）⑤汇算提示（哪些科目有扣除限额）。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fin-invoice-organizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

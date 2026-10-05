@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-digest",
+  "displayName": "memory-digest",
+  "description": "Generate human-readable weekly/monthly reports from an AI agent's memory corpus. Use when the user asks \"what did my agent do this week\", \"generate a work report\", \"记忆周报\", \"述职报告\", \"weekly digest\", \"monthly summary of agent activity\", or when a periodic review of agent work is wanted. Reads date-named daily memory logs and produces a digest with activity timeline, project momentum, open threads, and metric changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-digest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "tam-building",
+  "displayName": "tam-building",
+  "description": "Stand up your account universe as a deployed model: an ICP read from your workspace context (or drafted from your website and customer stories when none is written), turned into an AI Ark company search that always sets industries, company size and countries, sized for free before it bills, and landed as one model in Cargo. Triggers: \"our TAM is a stale CSV\", \"build our account universe\", \"source every company that matches our ICP\", \"keep our market list in Cargo\", \"how big is our market, and give me the companies\", \"land our TAM as a model the other pipelines can read\". Cargo CDK, aiArk, countCompanies, fetchCompanies; FullEnrich, Apollo or Sales Navigator as swapped sources. Skip when: you want a list handed back in the chat or as a CSV rather than a model in the workspace, which is build-tam-list; or the accounts already exist and need tiering, which is account-scoring.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tam-building"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

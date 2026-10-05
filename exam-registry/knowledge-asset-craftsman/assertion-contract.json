@@ -1,0 +1,54 @@
+{
+  "skillId": "knowledge-asset-craftsman",
+  "displayName": "知识资产化巧匠",
+  "description": "把问答库、逐字稿、会议记录、培训材料、长文章、课程文档、制度文件、操作手册等任何原始资料，转成可追溯、可检索、可更新、适合 RAG 和问答智能体直接使用的结构化知识资产（JSONL 主数据 + Markdown 审核视图）。用户说\"把这些材料整理成知识库\"\"把这份文档存进知识库\"\"转成能检索的资料\"\"拆成知识块\"\"喂给智能体\"\"结构化一下\"\"做知识卡片\"\"增量入库\"\"去重查冲突\"时触发。比 AI 通用能力强在：单一事实源双视图机制、来源可追溯、检索与回答字段分离、冲突/版本/回滚可见可管、10 万字级增量接入。不用于直接回答领域问题，不补写原始资料中没有的专业知识。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:knowledge-asset-craftsman"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

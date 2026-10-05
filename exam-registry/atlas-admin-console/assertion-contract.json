@@ -1,0 +1,54 @@
+{
+  "skillId": "atlas-admin-console",
+  "displayName": "Atlas Admin Console",
+  "description": "面向MongoDB Atlas运维团队的企业级全功能管理控制台。在免费版基础上新增批量API调用与并发执行、调用结果导出（CSV/JSON）、调用历史记录与回放、多API编排（工作流）、监控告警自动化、Terraform集成、多项目统一管理等高级能力，配套面向DBA、SRE、平台工程的多角色场景指南",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:atlas-admin-console"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

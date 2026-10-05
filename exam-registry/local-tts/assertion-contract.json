@@ -1,0 +1,54 @@
+{
+  "skillId": "local-tts",
+  "displayName": "Local Tts Publish V2",
+  "description": "文本转语音（TTS）。三条通道：edge-tts（微软神经网络语音，免费无需 key，15 个中文音色可用）、Azure Speech 官方 API（75 个中文音色全解锁，含晓秋/晓辰/HD/MAI，50 万字符/月免费）、pyttsx3（Windows SAPI 离线兜底）。当用户/agent 需要把文本转成语音文件（mp3/wav）、生成语音播报、配音、解锁被 edge-tts 封锁的音色时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:local-tts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "runcomfy-cli",
+  "displayName": "RunComfy CLI — Pro Pack on RunComfy",
+  "description": "RunComfy CLI on RunComfy. The `runcomfy` CLI is one binary, one auth, hundreds of RunComfy model endpoints — image generation on RunComfy, image edit on RunComfy, video generation on RunComfy, image-to-video on RunComfy, lip-sync, face swap, video edit, inpainting, outpainting, extend, ControlNet, relight, upscale, LoRA training. Submit a request, poll, download the output. This RunComfy CLI skill teaches install, authentication, schema discovery, invoke, polling / no-wait modes, JSON output for scripting, exit codes, and error handling. Triggers on \"runcomfy cli\", \"install runcomfy\", \"runcomfy login\", \"runcomfy run\", \"runcomfy whoami\", \"runcomfy api\", or any explicit ask to call a RunComfy model from script or terminal.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:runcomfy-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

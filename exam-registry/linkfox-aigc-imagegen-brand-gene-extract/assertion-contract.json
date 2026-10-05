@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-aigc-imagegen-brand-gene-extract",
+  "displayName": "AIGC品牌基因提取",
+  "description": "品牌基因样式提取原子技能。根据商品图片与用户品牌基因参数（主色、字体、平台、地区、语言），提取统一的品牌视觉语言（Brand DNA），输出结构化 brandGeneJson 供下游原子技能消费。品牌基因提取、brand gene extract、brand DNA、品牌视觉定义、品牌调性提取、brand style extraction、visual identity extraction。被套图编排层（linkfox-aigc-imagegen-cloth / product 套图编排路径）在步骤三中调用；当用户说\"提取品牌基因\"、\"定义品牌风格\"、\"brand gene\"、\"品牌视觉\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-aigc-imagegen-brand-gene-extract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "clawsouls",
+  "displayName": "Clawsouls Skill",
+  "description": "Manage AI agent personas (Souls) for OpenClaw, Hermes Agent, ZeroClaw, and other agents that use Soul Spec workspace files (SOUL.md, IDENTITY.md, AGENTS.md). Installs/switches/restores persona files in the agent workspace, searches and publishes to the clawsouls.ai registry (network + token auth), optionally syncs encrypted agent memory via Git (explicit `sync`/`swarm` commands only), and detects the local agent platform. Use only when the user explicitly asks to manage personas — e.g. \"install a soul\", \"switch persona to X\", \"list souls\", \"restore my previous soul\", \"publish my soul\", or \"login to clawsouls\". Workspace-modifying and publishing actions should be confirmed with the user first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clawsouls"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

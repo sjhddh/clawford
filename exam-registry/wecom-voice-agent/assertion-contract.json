@@ -1,0 +1,54 @@
+{
+  "skillId": "wecom-voice-agent",
+  "displayName": "wecom-voice-agent",
+  "description": "企业微信语音消息 AI Agent 技能，自动处理语音消息的意图识别、多轮对话与任务执行。 支持被动接收语音消息、主动外呼、来电接线、通话纪要、合规录音、外呼调度等完整电话场景。 v2.6 新增：声明式意图引擎（YAML 配置 20+ 意图 + 多级澄清）、自定义意图插件（企业自有 API 声明式映射）、 统一会...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wecom-voice-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

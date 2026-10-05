@@ -1,0 +1,54 @@
+{
+  "skillId": "dsh-unlimited-ocr-skill-setup",
+  "displayName": "DeepSeek Harness Unlimited-OCR GUI Setup",
+  "description": "Install and configure the native Unlimited-OCR plugin for DeepSeek Harness (DSH) from its Settings GUI, using Baidu Cloud or a local SGLang/OpenAI-compatible service. Use for long-document OCR; PDF, OFD, Office, text, and scanned-image to Markdown; tables, formulas, and reading order; or DSH provider, credential, local inference, GUI setup, verification, and troubleshooting.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dsh-unlimited-ocr-skill-setup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-customer-feedback",
+  "displayName": "亚马逊-店铺买家反馈",
+  "description": "亚马逊商品与类目买家反馈洞察。用于按 ASIN 或 browse node 查询评论主题、主题提及量、星级影响、评价趋势、退货主题和退货趋势，帮助分析产品口碑及类目问题。用户提到亚马逊评论分析、评价主题、差评原因、评论趋势、退货原因、退货趋势、ASIN 口碑洞察、类目反馈、MENTIONS、STAR_RATING_IMPACT、Customer Feedback API 时触发。即使未明确提及 API，只要希望从聚合反馈中判断某个亚马逊商品或类目的常见好评、差评或退货问题，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-customer-feedback"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

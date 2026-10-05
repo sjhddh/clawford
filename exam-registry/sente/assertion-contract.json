@@ -1,0 +1,54 @@
+{
+  "skillId": "sente",
+  "displayName": "sente",
+  "description": "Give this agent its own email identity with Sente — a real, durable address it owns (name@sente.run) plus the accounts layer on top. Send and receive mail as the agent; block on verification emails and get just the OTP code or magic link (sente wait --otp); register new accounts at third-party apps with a real browser (autonomous or confirm-before-submit); or connect accounts the user already owns (credentials vaulted write-only, authenticator/TOTP re-login, revocable). Use when an agent needs its own email address or inbox, is stuck at \"check your email to continue,\" needs a verification code or magic link extracted, or must sign up / sign in to a web app and keep that account alive.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sente"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

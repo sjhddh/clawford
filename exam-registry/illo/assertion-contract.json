@@ -1,0 +1,54 @@
+{
+  "skillId": "illo",
+  "displayName": "illo",
+  "description": "Creates original editorial illustrations where a recurring mascot character performs the idea — one caught scene by default, a hand-built explainer diagram (labeled stages, a fan-out, timeline, loop, or stack) when the structure itself is the point, or a transparent character cutout (pose-only compositing asset, no scene or text) — in one of seventeen bundled looks (sixteen print, plus a photoreal toy-brick set). Also handles \"surprise me\" / \"random\" (optionally scoped to a focus or character): rolls provenance, builds three saying candidates, picks via interactive choice or auto-pick-best (`--autopick`), and renders one image. Triggers only when the skill is directly invoked or \"illo\" is requested; never on generic illustrate / draw / make-an-image requests.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:illo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

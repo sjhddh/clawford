@@ -1,0 +1,54 @@
+{
+  "skillId": "sql-review",
+  "displayName": "sql-review",
+  "description": "Pre-commit SQL code review for uncommitted database changes. Detects antipatterns that cause real production incidents — broken TRY/CATCH error handling, swallowed errors, retry patterns without loops, tables missing PK/indexes, type-mismatch truncation, dynamic-SQL injection, NOLOCK in write paths, UPDATE/DELETE without WHERE, hardcoded env values, cross-DB refs, and more (full catalog in the skill body). Reports BLOCKER/WARN/INFO findings with file:line citations and fixes. Never edits SQL. Use this skill whenever the user says \"/sql-review\", \"review my SQL\", \"review the SQL diff\", \"lint the SQL\", \"check my SQL changes\", \"SQL pre-commit check\", \"audit my stored proc\", or asks about SQL antipatterns in a diff — even if they don't name the skill. Distinct from code-review (general review) — this carries SQL-specific incident patterns.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sql-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

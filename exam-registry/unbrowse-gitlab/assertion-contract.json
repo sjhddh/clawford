@@ -1,0 +1,49 @@
+{
+  "skillId": "unbrowse-gitlab",
+  "displayName": "Unbrowse for Gitlab (unofficial)",
+  "description": "Gitlab (gitlab.com) for agents: View GitLab pricing tiers and plans; Search GitLab explore projects by name; Read a docs.gitlab.com page by name — through Unbrowse's scoped MCP for gitlab.com (unofficial), which replays gitlab.com's own first-party API (no browser, verified results). Use when the user wants anything from gitlab.com, e.g. view gitlab pricing tiers and plans.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unbrowse-gitlab"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

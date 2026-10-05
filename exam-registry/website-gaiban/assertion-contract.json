@@ -1,0 +1,54 @@
+{
+  "skillId": "website-gaiban",
+  "displayName": "云指网站改版助手",
+  "description": "企业网站改版 / 整站重设计的端到端编排 Skill。当用户要对已有网站做整站改版、视觉重设计、风格升级、信息架构重构、旧站内容迁移到新站，或给出一段改版流程（旧网站 → 审计 → 业务理解 → 用户理解 → 竞争对手 → 信息架构 → 设计策略 → 页面规划 → 组件规划 → 迁移内容 → 生成 → SEO → GEO → 询盘 → Preview → Publish）时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-gaiban"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

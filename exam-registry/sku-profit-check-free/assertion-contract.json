@@ -1,0 +1,54 @@
+{
+  "skillId": "sku-profit-check-free",
+  "displayName": "SKU级利润核算（免费版）",
+  "description": "按 SKU 复算真实毛利与毛利率（售价 − 成本 − 头程运费 − 平台佣金 − 广告费 − 退货损失，含汇率折算），逐行标出算错的与毛利率异常低的，并核合计行、重复行、空缺与负值。每条结论都带原文行号。触发词包括 SKU级利润核算、SKU 真实毛利、SKU 利润核算表对不上、亏损链接。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sku-profit-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

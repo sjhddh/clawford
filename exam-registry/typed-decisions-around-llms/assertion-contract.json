@@ -1,0 +1,54 @@
+{
+  "skillId": "typed-decisions-around-llms",
+  "displayName": "typed-decisions-around-llms",
+  "description": "Decide WHERE a typed judgment model (TypeSafe's Jev or any System One model) belongs relative to a generative LLM, and who is allowed to authorize what. Use when adding a guardrail, router, verifier, or approval gate around an LLM; when converting a free-text 'LLM-as-judge' step into a typed decision; when a model's own confidence score is being used to authorize its own output; when choosing thresholds, confidence bands, or fallback behavior; or when reviewing an agent/tool-calling pipeline for who holds authority. This is the architecture question — placement, ordering, and authority. For API mechanics, primitive selection, and question wording use the typesafe-ai skill and the live docs instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:typed-decisions-around-llms"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

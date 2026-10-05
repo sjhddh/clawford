@@ -1,0 +1,54 @@
+{
+  "skillId": "ipo-model",
+  "displayName": "IPO Model",
+  "description": "输入处理输出结构递归嵌套模型 — 万物基元与世界模型。 一切任务均可分解为 输入→处理→输出 的递归嵌套结构，任意层级的任意节点均可继续展开为子IPO。 不使用工具时：用IPO分析问题、生成产物（纯认知输出）。 使用工具时：在IPO分析产物基础上，进一步用IPO生成命令、脚本，调用 Tool / Skill /...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ipo-model"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

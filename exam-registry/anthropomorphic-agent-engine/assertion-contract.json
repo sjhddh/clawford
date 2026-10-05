@@ -1,0 +1,54 @@
+{
+  "skillId": "anthropomorphic-agent-engine",
+  "displayName": "ai-soulmate",
+  "description": "Anthropomorphic psychology engine based on SPL Pure Core V8.0, modeling emotion, mood, memory, trauma, trust, self-esteem, sleep and expectation as continuous-state subsystems. The fully local core is deterministic and bit-exactly replayable (after virtual-clock injection); it contains no LLM, no RNG, makes no outbound calls, and runs offline. Optional LLM adapters (OpenAI / Claude / Chain) exist but are OFF by default, opt-in only, networked and non-deterministic — they render text from a state snapshot and are excluded from the deterministic guarantee. Ships a hardened minor-protection engine and cross-skill safety guards for any downstream image-prompt workflow. Reference-only extension modules live under assets/feature-guide/ and are NOT wired into the core.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:anthropomorphic-agent-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

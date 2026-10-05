@@ -1,0 +1,49 @@
+{
+  "skillId": "find-skills",
+  "displayName": "Find Skills — Search Every Skill Registry at Once",
+  "description": "Discover, vet, and install agent skills by searching ACROSS every major registry at once — skills.sh, clawhub.ai, and GitHub — presenting each board on its own native metric (installs / stars) with the top entry per board, security-scanning the top candidates' real SKILL.md for risky patterns, and flagging what's already installed. Use when the user asks \"how do I do X\", \"find a skill for X\", \"is there a skill that…\", \"what skill should I install for…\", or wants to extend the agent with a capability that might already exist as a published skill. Unlike single-registry search, this surfaces the best of every platform side by side, so you recommend the genuinely relevant, popular, well-maintained, and SAFE one — not whatever ranked first on one site.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:find-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

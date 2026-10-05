@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-constraints",
+  "displayName": "agent-constraints",
+  "description": "给 coding agent 设置和治理约束——决定一条规则该落到 hook、AGENTS.md/CLAUDE.md、Skill、path-scoped rule 还是 prompt。当用户要写或改 AGENTS.md、CLAUDE.md、hooks、权限规则、Skill，或者问\"agent 老犯某个错该怎么办\"、\"这条规则该放哪\"、\"我的 CLAUDE.md 太长了\"、\"怎么禁止 agent 动某个目录\"、\"怎么强制它跑完测试再结束\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-constraints"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

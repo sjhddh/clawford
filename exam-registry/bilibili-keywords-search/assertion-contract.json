@@ -1,0 +1,49 @@
+{
+  "skillId": "bilibili-keywords-search",
+  "displayName": "B站关键词搜作品",
+  "description": "B站关键词搜作品工具。根据用户输入的关键词调用 Redfox 接口搜索B站最新视频，支持按排序方式和发布时间筛选，返回新鲜数据（非缓存/历史数据）。当用户要求搜索B站最新内容、查看某关键词下的视频数据时使用。触发词：B站搜索、B站最新视频、B站热门、B站搜作品、bilibili搜索。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilibili-keywords-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

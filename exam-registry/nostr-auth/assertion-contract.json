@@ -1,0 +1,54 @@
+{
+  "skillId": "nostr-auth",
+  "displayName": "nostr-auth",
+  "description": "Authenticate to Nostr sign-in challenges (NIP-07 style) without a wallet or browser extension. Signs kind-22242 AUTH challenge events with a secp256k1 (BIP-340) key derived from a local master secret and optionally submits them to the service callback. Use when a site or API asks for a signed Nostr event to prove key ownership. More methods coming: NIP-98 HTTP Auth, NIP-42 relay AUTH, NIP-05.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nostr-auth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

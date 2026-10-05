@@ -1,0 +1,54 @@
+{
+  "skillId": "ous-upload",
+  "displayName": "ous-upload",
+  "description": "将本地文件上传到 对象存储 并返回最终 CDN 链接。适用于已经拿到 token 响应中的 `ousToken`、`globalDomain`、`blockSize`。需要由 agent 自行分析本地文件、判断走单文件上传还是分片上传、在需要时拆分文件、调用 OUS 接口。获取 token 响应不在本 skill 的能力范围内。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ous-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ima-plus-skill",
+  "displayName": "ima.plus-skill-v1.0.8",
+  "description": "IMA.plus 技能（V1.0.8）——凭证来源于改成了环境变量需要重新设置，同时加入了自然语言目录和kb_id的缓存减少调用api的次数开销，缓存保存位置需要在安装skill后配置，否则无法正常使用。同时有任何skill的问题或建议，请到QQ频道：pd86156007。笔记管理与知识库操作。支持自然语言目录路径、上传/导出文件、打包导出知识库为 zip、创建文件夹、移动/重命名/置顶知识条目、创建与修改知识库、标签管理、权限管理、广场发现、添加网页到知识库、搜索/浏览/创建/编辑笔记。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ima-plus-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

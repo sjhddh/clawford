@@ -1,0 +1,54 @@
+{
+  "skillId": "web3-wabcd-identifier",
+  "displayName": "W-ABCD 真假 Web3 识别器",
+  "description": "当普通用户、投资人或内容创作者在评估某个自称\"Web3/产业区块链/RWA\"的项目，需要判断它是否真·Web3 产业应用（而非空概念包装或资金盘骗局）时激活本 skill。尤其适合辨别\"交易所/平台/共建社区\"类宣传的真伪，帮助普通用户降低受骗风险。适用：看到\"我们用 AI+区块链+大数据做产业 Web3\"类宣传、辨别项目真伪、投资/合作尽调、区分\"中式非金融赋能\"与\"美式代币融资\"叙事、识别打着 Web3 旗号的诈骗盘。不适用：需要区分通证化/代币化/稳定币等概念层级（用 S1 概念辨析器）；或已确认是 Web3 项目后需选三类主导模式（用 S3 模式判别器）。关键 trigger：用户说\"这个项目算不算真 Web3\"\"是不是伪概念/资金盘\"\"只是套了区块链壳吗\"\"它有真正的共建社区吗\"\"这个交易所靠谱吗\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web3-wabcd-identifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

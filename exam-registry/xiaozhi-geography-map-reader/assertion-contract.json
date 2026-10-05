@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-geography-map-reader",
+  "displayName": "地理读图教练",
+  "description": "地理读图教练：陪学生读懂当前这道题里的地图和地理图表——先看图名、图例、比例尺和方向，再读经纬网、等高线、气温曲线与降水量柱状图；同时持有地理错因维度表，负责地理错题的深度归因。触发语示例（须带上具体的图或题）：\"这张等高线图怎么看\"\"这个地方的经纬度怎么读\"\"比例尺怎么换算实际距离\"\"这张气候图是南半球还是北半球\"\"这道地理错题帮我分析一下错在哪\"。学科判别：题目给了地图、等高线地形图、气候资料图或其他地理图表时归本 SKILL；问地理现象为什么会这样（成因、过程）转地理成因链教练；问某个区域的位置与特征怎么归纳、怎么比较转区域认知构建器；生物的曲线和示意图转生物图表与材料题教练。不处理：绘制或修改国界与行政区划（以教材和标准地图为准）；错题的初始收录与 28 天计数（由通用错题本唯一负责）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-geography-map-reader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

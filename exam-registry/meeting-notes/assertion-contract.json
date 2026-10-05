@@ -1,0 +1,49 @@
+{
+  "skillId": "meeting-notes",
+  "displayName": "meeting-notes",
+  "description": "把零散的会议记录、聊天记录或语音转写整理成结构化的会议纪要。当用户说\"整理会议纪要\"、\"帮我总结这次会议\"、\"把这段记录变成纪要\"、\"meeting notes\"、\"meeting summary\"时使用。适用于例会、项目评审、客户沟通等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-notes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

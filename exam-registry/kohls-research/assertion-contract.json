@@ -1,0 +1,49 @@
+{
+  "skillId": "kohls-research",
+  "displayName": "kohls-research",
+  "description": "Researches Kohl's catalog by browsing its category taxonomy (products, prices, ratings, and facets), pulls product reviews by web_id, finds nearby Kohl's stores, and returns search-box typeahead suggestions — all via the Crawlora API as clean JSON. Use when the user asks to browse a Kohl's category, discover Kohl's product ideas for a query, pull reviews for a specific Kohl's item, or find nearby Kohl's stores — instead of scraping Kohls.com.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kohls-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

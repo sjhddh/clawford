@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-actiontrail-diagnosis",
+  "displayName": "alibabacloud-actiontrail-diagnosis",
+  "description": "Read-only query and diagnosis of Alibaba Cloud ActionTrail operation audit events: find out who performed which operation, when, from which source IP, and on which resource, across one or many regions, rendered as a 12-column event table or machine-readable JSON. Use when the user asks about the audit log or operation history of an Alibaba Cloud account; wants to know who changed, created, deleted, or operated on a resource; asks when a resource was operated on; needs to trace read/write operation records, console sign-ins, or API calls of a cloud service; or wants to investigate suspicious or failed operations recorded by ActionTrail. Triggers: audit log, operation history, operation records, who changed, who operated, who deleted, when was it operated, action history, read/write operations, ActionTrail, audit event, operation trace.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-actiontrail-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

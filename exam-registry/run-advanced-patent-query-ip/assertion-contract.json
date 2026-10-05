@@ -1,0 +1,54 @@
+{
+  "skillId": "run-advanced-patent-query-ip",
+  "displayName": "run-advanced-patent-query-ip",
+  "description": "Execute a user-supplied PatSnap advanced patent query containing field operators such as ANCS:, TAC_ALL:, DESC_B:, MAINF:, ALL_AN:, PN:, APD:, PBD:, APNO:, or PRNO:, then generate an evidence-backed competitor patent report with portfolio counts, company-level technical summaries, hierarchical patent details, optional literature context, Markdown output, and an accessible HTML rendering. Use when the user explicitly asks to run a PatSnap query or create a report from one; require verified PatSnap MCP or documented global API access and never collect credentials in chat.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:run-advanced-patent-query-ip"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

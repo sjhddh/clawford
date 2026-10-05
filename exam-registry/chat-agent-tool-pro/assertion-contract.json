@@ -1,0 +1,54 @@
+{
+  "skillId": "chat-agent-tool-pro",
+  "displayName": "聊天Agent工具专业版",
+  "description": "聊天Agent工具专业版是面向企业级多Agent系统的实时通信平台，在免费版临时聊天室的基础上，新增多房间并发管控、消息持久化与回放、企业级鉴权（OAuth/SSO）、端到端加密、自定义品牌Web。适用于独立开发者、企业团队和自动化工作流场景，提供结构化输出与错误处理机制，支持中文交互，即开即用。Use when 需要代码生成、编程辅助、调试测试、开发部署时使用。不适用于无明确技术栈的模糊需求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chat-agent-tool-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "finance-news-warmap",
+  "displayName": "finance-news-warmap",
+  "description": "金融/行业「新闻作战地图」构建 skill。把真实搜索新闻按经纬度落点，生成 Palantir 风格、可离线双击打开的单文件 HTML（ECharts 地理散点 + 中国/世界切换 + 可筛选可悬停 + 右侧数据驱动「建议区」）。配套 search→compile→fill 流水线，把每个细分领域自动补满 N 条真实新闻并去重，绝不编造数据。触发：做新闻情报地图、作战地图、创新动态地图、搜新闻自动补满、给高管出趋势与建议面板、要离线自包含 HTML 交付物。**调用前须由 agent 执行 WebSearch 联网能力探测（不可用则中止，不编造/不占位；此为 agent 侧流程约束，非代码强制断言）。所有库/字体/地图数据均随技能本地分发并在构建时内联，运行时无任何 CDN/外部请求。**",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:finance-news-warmap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

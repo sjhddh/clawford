@@ -1,0 +1,54 @@
+{
+  "skillId": "runapi-omnihuman",
+  "displayName": "omnihuman",
+  "description": "Create OmniHuman audio-to-video tasks and helper tasks for human identification and subject-mask detection through RunAPI. Use when the user asks an agent to generate talking-head video from an image and audio file, identify human regions, or detect subject masks with OmniHuman. Default to the RunAPI CLI for one-off calls; use SDKs only when integrating RunAPI into an app or backend.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:runapi-omnihuman"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

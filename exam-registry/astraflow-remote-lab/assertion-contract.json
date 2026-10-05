@@ -1,0 +1,54 @@
+{
+  "skillId": "astraflow-remote-lab",
+  "displayName": "智能体云沙箱 / 远程桌面",
+  "description": "智能体云沙箱 / 远程桌面 / 浏览器自动化环境。管理与调度 UCloud 星图 AstraFlow 智能体桌面沙箱（Ubuntu/Chrome GUI）以及按需 RDP 桥接 Windows Server 云主机。提供全球多地域（美西 us-ca、乌兰察布 cn-wlcb、上海 cn-sh）秒级桌面启动、Web noVNC 浏览器免客户端直连、网络连通探测与防休眠守护。涵盖桌面沙箱全生命周期管理，并提供可选的 Windows Server 2022 与国际 EIP 对接流水线。触发词：远程桌面、云沙箱、智能体沙箱、浏览器自动化、海外环境、noVNC、Linux 桌面、Agent Sandbox。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:astraflow-remote-lab"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

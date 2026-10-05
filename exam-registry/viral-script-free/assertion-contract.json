@@ -1,0 +1,54 @@
+{
+  "skillId": "viral-script-free",
+  "displayName": "爆款视频脚本拆解官（免费版）",
+  "description": "输入一份口播逐字稿，输出结构地图（钩子、痛点、干货、转折、CTA 五段哪段有哪段缺）、开场钩子判定、留存节奏诊断、口语度评分、CTA 强度，并列出按严重度分级的问题清单。引擎已打包在技能内，核对过程在本机运行，不需要联网、不需要 API Key、没有调用次数上限，逐字稿不会离开你的机器。免费版展示体检总览、结构地图与前 3 条问题。完整版给出全部问题的逐条位置、判定依据、可执行建议，另附金句候选与五段二创填空蓝图。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:viral-script-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

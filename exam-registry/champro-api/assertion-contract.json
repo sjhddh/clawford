@@ -1,0 +1,54 @@
+{
+  "skillId": "champro-api",
+  "displayName": "champro-api",
+  "description": "CHAMPRO supplier toolkit covering everything CHAMPRO's PromoStandards services cannot reach — per-warehouse inventory (CHAMPRO publishes no INV endpoint at any version), order status and package tracking (no ODRSTAT, no OSN), ordering with a real sandbox (CHAMPRO registers no PromoStandards PO test endpoint, so the generic client refuses to send), decorated team orders with rosters and proof files, MOQ increments and lead-time catalogs, warehouse routing with split-shipment suborders, and the Custom Builder web-to-print flow (design sessions, proof/view downloads, order-from-design). JSON-in/JSON-out CLI actions over CHAMPRO's REST API and Custom Builder API, with local pre-flight that catches the documented rejections before an order is sent and a hard escalation path for partially-placed orders. Use for CHAMPRO stock or custom apparel sourcing, inventory, ordering, tracking, or Custom Builder embedding — and keep using the promostandards skill for CHAMPRO product data and pricing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:champro-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "video-vl-replicate",
+  "displayName": "视频爆款拆解与二创文案生成",
+  "description": "视频爆款拆解与二创文案生成。输入一个短视频（抖音/B站/小红书/视频号等），通过抽取音轨与关键帧、转录带时间戳文案、OCR 提取画面字幕，按时间戳对齐成视听时间线，再基于拆解结果生成二创爆款文案。适用于：拆解爆款视频结构、仿写爆款文案、视频拆条分析、视听内容理解、二创脚本生成。当用户提到拆解视频、二创、爆款文案、视频视听分析、仿写爆款、视频拆条、分析这个视频为什么火时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-vl-replicate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "skill-csr-analyzer",
+  "displayName": "Csr Analyzer",
+  "description": "判断用户提供的文档是否属于汽车行业质量管理体系 IATF 16949 中的客户特定要求 (Customer-Specific Requirements, CSR)。直接触发词：判断CSR、客户特定要求、CSR审核、IATF CSR、CSR分析。语义触发：当用户消息中包含'客户要求'+'质量体系'、'OEM特殊要求...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-csr-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

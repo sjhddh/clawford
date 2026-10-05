@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-new",
+  "displayName": "WorkBuddy 自定义皮肤技能",
+  "description": "WorkBuddy 深度换肤工具：用一句话或一张参考图生成专属皮肤并注入界面。WorkBuddy 组件不吃 --vscode-* 变量而用自有语义类（.wb-home-header / .chat-container / .conversation-sidebar），本 skill 直接覆盖这些真实语义类实现深度换肤。由于运行时注入（CDP / V8 inspector）已被硬化拦截，本 skill 通过对 app.asar 做最小字节手术注入皮肤 CSS（自动备份 app.asar.bak、可一键还原），无需调试端口。支持人物 / 电影画面 / 意境 / 艺术风格 / 参考图多种意图。触发词",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-new"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

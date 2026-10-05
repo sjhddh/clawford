@@ -1,0 +1,49 @@
+{
+  "skillId": "asset-cleanup-daily",
+  "displayName": "asset-cleanup-daily",
+  "description": "每日资产清理器,Cron每日03:00清理过期临时文件/旧日志/无效缓存/过期素材,释放磁盘空间+写入清理报告。触发:asset-cleanup-daily Cron(每日03:00)/素材清理/资产清理/磁盘清理/临时文件清理。不触发:实时资产告警(health-monitor-mcp负责)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:asset-cleanup-daily"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "video-en2zh-dub",
+  "displayName": "video-en2zh-dub",
+  "description": "把英文视频变成中文配音视频，也支持生成中英双音轨。当用户提出\"把这个视频翻译成中文/中文化/视频汉化\"、\"给视频配中文音/中文解说\"、\"提取字幕并翻译\"、\"英文视频转中文\"、\"给视频加一条中文音轨\"等需求时使用。执行四步流水线，whisper 转写英文字幕、大模型翻译为中文字幕、edge-tts 合成中文配音、ffmpeg 音画合并，产出中文配音版 mp4。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-en2zh-dub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

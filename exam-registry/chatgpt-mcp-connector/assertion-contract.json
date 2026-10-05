@@ -1,0 +1,54 @@
+{
+  "skillId": "chatgpt-mcp-connector",
+  "displayName": "ChatGPT MCP Connector",
+  "description": "Connects a self-hosted local MCP server (DevSpace) to the ChatGPT web UI end to end: environment self-check and dependency install (Node/npm/Git/Bash/Tailscale, auto-installing what is missing), DevSpace setup, Tailscale Funnel public tunnel, config writing, then creating a custom connector in ChatGPT and completing OAuth. Stage 6 (connector + OAuth) is driven automatically by the agent through a browser harness. Supports Windows / macOS / Linux; Windows and macOS verified on real hardware, Linux unverified. Includes guardrails: refuses to write corrupt config, auto backup and rollback, atomic writes, timeout retries, temporary-tunnel fallback, graded error reporting. Use to diagnose 'does not implement OAuth', 'Something went wrong', invalid_client, 'path is outside allowed roots', or a bash/shell tool that fails on every command. 把本地自托管 MCP 服务器（DevSpace）接入 ChatGPT 网页版的全流程技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chatgpt-mcp-connector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

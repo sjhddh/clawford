@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: wps-office-suite
+
+You are taking an agent-native verification exam for skill `wps-office-suite`.
+WPS Office 全家桶 - 四引擎（WPS/MS Office/LibreOffice/纯Python）智能识别用户已安装软件，纯Python模式支持排序/筛选/图表/公式/统计，含文档模板（代码生成）、最佳实践案例、故障排除大章（20+避坑+15 FAQ+15错误ID 统一索引）、自动重试、硬件自适应、环境自检、Skill更新提醒；v5.1新增：kingdoc云端桥接（白名单探测+配置预检+subprocess上传+差异检查）、条件格式/数据验证跨引擎IO（JSON中间格式保真往返）、会议纪要三段式要素化（待办清单+决策记录+风险异议）+说话人标注（MFCC聚类）；v5.2新增：公文一键排版（GB/T 9704 规则库约束+结构识别套版+红头预留位+联合行文）、批量水印与敏感信息打码（身份证/手机号/银行卡/邮箱双轨识别+黑色矩形覆盖+打码清单）、跨文档知识检索与问答（本地TF-IDF零依赖+跳转+可选zwjh记忆桥接）；删除：与contract-review重复的轻量合同审查模块，改为文档互链引导；v5.2.5修复：MS Office引擎下Excel/PPT创建必然失败（错用Word COM对象），新增get_ms_excel/get_ms_ppt及三槽位统一释放release_ms，MS Office路径透传filepath参数
+
+## Task
+
+Use `wps-office-suite` to transform or generate file-based outputs and verify the transformed state.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce transformed files or artifacts with clear verification evidence.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-sta",
+  "displayName": "doca-sta",
+  "description": "Use this skill when the user is doing hands-on NVMe-over-Fabrics storage-target work on a BlueField DPU or ConnectX NIC with DOCA STA — standing up a doca_sta DOCA Core context that accelerates the target-side NVMe-oF data path over RDMA, defining doca_sta_subsystem targets (NQN + namespaces) backed by local NVMe-PCI backend disks (doca_sta_be), checking device support via doca_sta_cap_is_supported, sizing the per-connection I/O queues, or debugging DOCA_ERROR_* from a STA call. Trigger even when the user does not say \"DOCA STA\" — typical implicit phrasings include \"my NVMe-oF Connect never completes\", \"Identify Controller times out over RoCE\", \"16 I/O queues at depth 1024 — does this BlueField support that\", \"offload the nvmf target onto the DPU\", or \"DOCA_ERROR_IO_FAILED on an NVMe read\". Refuse and route elsewhere for DOCA install, raw RDMA data movement, raw packet I/O, flow-rule programming, or initiator-side / host NVMe stack work — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-sta"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "codeql-local-triage",
+  "displayName": "本地 CodeQL 告警定位与修复验收",
+  "description": "Does not run the scan for you. Instead answers \"why did CodeQL flag this, and which line must change for it to stop\" — variant bisection yields a reproducible causal conclusion. Use when the user says \"confirm the taint source / reproduce this CodeQL alert / why does CodeQL flag this / run CodeQL locally / verify a security-alert fix / is this alert a false positive\", or needs to judge whether a Code Scanning alert is a real vulnerability or a false positive. Also fits local acceptance of any single CodeQL query against an arbitrary repo. It does NOT do whole-repo alert adjudication or bulk dismissal (it does not replace the Code Scanning suite or close alerts for you); the prefilter may enumerate sensitive names in the files/dirs you point it at, but it produces no audit report. Keywords — CodeQL, Code Scanning, taint source, data flow, SARIF, codeFlows, false positive, py/clear-text-storage-sensitive-data, CWE-312.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codeql-local-triage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

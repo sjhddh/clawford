@@ -1,0 +1,54 @@
+{
+  "skillId": "review-times",
+  "displayName": "review-times",
+  "description": "Check how long AI app, connector and plugin store review takes (ChatGPT plugins, Claude connectors and plugins, Meta Muse, Grok, Cursor, Microsoft 365 Agent Store, Gemini CLI, Docker MCP) before submitting or while waiting, and report the user's own submission. Use when planning a launch to one of these stores, when a review seems stuck, or when the user asks how long approval takes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:review-times"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

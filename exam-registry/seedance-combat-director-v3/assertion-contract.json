@@ -1,0 +1,54 @@
+{
+  "skillId": "seedance-combat-director-v3",
+  "displayName": "seedance-combat-director",
+  "description": "为 Seedance 2.5 设计、诊断、续接和重写通用动作/打斗视频提示词。覆盖徒手格斗、武器对决、一对多、团队连携、Boss战、追逐战、现代动作、武侠、奇幻、科幻、动画/CG等。严格执行“先补齐必要输入，再生成提示词”；基于成片修改时必须先实际检查视频证据，不得凭历史对话或旧提示词猜测。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seedance-combat-director-v3"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

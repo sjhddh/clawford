@@ -1,0 +1,54 @@
+{
+  "skillId": "x-rss-feishu-daily",
+  "displayName": "x-rss-feishu-daily",
+  "description": "X(Twitter)博主监控→飞书群推送→触发智能体写日报的完整自建流水线。RSSHub(走代理)+Miniflux+自写 relay 中转，Docker Compose 一键部署；内置防 X 风控配置（60~120 分钟轮询、30 分钟缓存、温和刷新脚本）；含飞书开放平台全流程（自建应用、机器人进群、外部群对外共享与版本发布、用户身份 OAuth）；定时维护脚本（每日日报全量重推、温和刷新、token 轮换）与踩坑合集（webhook 内网开关、新订阅不触发 webhook、直写 integrations 表、open_id 跨应用隔离）。Use when the user wants to monitor X/Twitter bloggers and push updates to a Feishu group, build an RSS-to-Feishu daily report pipeline, deploy RSSHub+Miniflux with anti-ban polling, add X bloggers to Feishu push, or troubleshoot Feishu custom app bot/group/external-sharing/OAuth issues.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:x-rss-feishu-daily"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

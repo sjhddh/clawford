@@ -1,0 +1,54 @@
+{
+  "skillId": "html-prototype-to-prd",
+  "displayName": "HTML Prototype to PRD",
+  "description": "把单文件 HTML 交互原型做成「截图 + 文字说明」的产品需求文档（PRD，单文件自包含 HTML，可直接发人）。当用户要把 HTML 原型 / 网页 demo / 交互原型转成 PRD、需求文档、产品文档，或提到「原型截图写文档」「原型转 PRD」「把 demo 做成 PRD」「给原型出需求文档」时使用。覆盖全流程：读原型 JS 挖业务规则 → CDP headless Chrome 真实交互态截图 → 视图测高 → 写 PRD 模板 → base64 内嵌成单文件 → 坏图/结构验收。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:html-prototype-to-prd"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

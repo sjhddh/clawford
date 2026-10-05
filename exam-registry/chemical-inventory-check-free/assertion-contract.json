@@ -1,0 +1,54 @@
+{
+  "skillId": "chemical-inventory-check-free",
+  "displayName": "危险化学品出入库与领用台账核对（免费版）",
+  "description": "危险化学品出入库与领用台账逐项核对，每条结论都带原文行号与原文依据。本免费版只执行 6 项，即 数量勾稽、账实核对、领用与退库勾稽、重复登记检测、合计行逐列复核、空白占位符数值格式与负数检测。不执行 5 项，例如 超量储存、复检有效期到期、双人复核缺失、储存条件记录缺失与台账期间不连续、分品名分仓库汇总清单。触发词包括 危险化学品出入库与领用台账核对、危化品出入库与领用台账对不上。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chemical-inventory-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

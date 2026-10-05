@@ -1,0 +1,54 @@
+{
+  "skillId": "crm-deduplication",
+  "displayName": "crm-deduplication",
+  "description": "Keep CRM accounts and contacts duplicate-free: audit company and person identity, run recurring deduplication plays directly on CRM models, merge safe exact matches, and route uncertain clusters to manual review. Triggers: \"deduplicate our CRM accounts\", \"deduplicate CRM contacts\", \"our CRM has duplicate people\", \"merge duplicate contacts in HubSpot\", \"we keep creating duplicate account records\", \"merge duplicate companies in HubSpot\", \"set up recurring CRM deduplication\", \"review ambiguous duplicates\". HubSpot, Salesforce, Attio, Slack, LinkedIn profiles, phone numbers, Cargo CDK, findRecords, Scoring, Human Review, mergeRecords. Skip when: the request is to add or refresh CRM data rather than merge duplicate records; use crm-enrichment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:crm-deduplication"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

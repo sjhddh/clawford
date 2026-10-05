@@ -1,0 +1,54 @@
+{
+  "skillId": "yelp-api",
+  "displayName": "Yelp API",
+  "description": "A Yelp API alternative on fetcher.sh — pay-per-call in USDC via x402, or prepaid credits with a Bearer key, no Yelp Fusion API app approval. Use when the user wants to search local businesses by query and location sorted by rating or review count, fetch a business's full details by ID or by its Yelp URL handle/slug, or fetch a business's reviews. Also covers local business discovery, restaurant/service research, review sentiment input, and competitor monitoring for local businesses without Yelp Fusion API's app-approval process and daily call caps.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yelp-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "fleece",
+  "displayName": "fleece",
+  "description": "Credit card research and redemption CLI. Looks up rewards rates, annual fees, welcome bonuses, statement credits, transfer partners, point valuations, application rules, lounge access, and travel protections for Chase, Amex, Citi, Capital One, Bilt, and all major US issuers. Compare cards, analyze wallet gaps, estimate ROI, get recommendations, look up merchant category codes, and search award flights and hotels. Install with pip install fleece-cli.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fleece"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "rotifer-agent",
+  "displayName": "rotifer-agent",
+  "description": "Build a Rotifer Agent from Genes — decompose intent into capability units, pick Genes by Arena F(g), compose a Rotifer Genome, create the Agent and test it. Use when the user is working with Rotifer specifically: \"Rotifer Agent\", \"compose Genes\", \"Rotifer Genome\", \"Gene composition\", \"rotifer agent create\". Do NOT use for general agent frameworks, or when the words Seq / Par / Cond / Try appear as ordinary programming terms — in Rotifer those name Genome composition strategies, and this Skill applies only when the user is composing Rotifer Genes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rotifer-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

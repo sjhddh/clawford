@@ -1,0 +1,54 @@
+{
+  "skillId": "gmail-wiki-ingest",
+  "displayName": "gmail-wiki-ingest",
+  "description": "Triage a batch of the user's email against their personal knowledge wiki and hand the verdicts back to javis-server, which bands them into auto-ingest / review card / auto-discard. Runs daily on an in-container openclaw cron agent turn, and on demand when the user asks to \"ingest my email\" / \"gmail ingest\" / \"整理邮件\". Four script commands do all the I/O over the gateway token — `fetch` returns thread metadata plus the user's knowledge model, their recent decisions and a per-sender trusted flag; `content` returns the full text of a shortlist of up to 12 threads, and only ones this run's `fetch` already offered; `submit` takes one verdict per candidate; `report` pushes the run digest to the user's chat. `rubric.md` owns the judgment — the category enum, the 0-1 relevance score, the citation rule and the policy for which threads earn a body read. Neither file owns the outcome — bands, sender trust, ref validation and every write stay server-side. Every run ends in a `report`, including a run that fetched nothing. Triggers — 'ingest my email', 'gmail ingest', 'sync my inbox to the wiki', '整理邮件', '邮件入库'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gmail-wiki-ingest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

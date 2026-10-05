@@ -1,0 +1,54 @@
+{
+  "skillId": "git-worktree-decision",
+  "displayName": "git-worktree-decision",
+  "description": "Decide whether a piece of work deserves its own git worktree, before creating one. Use when about to start work that would disturb a dirty or warm working tree, when an urgent fix interrupts work in progress, when launching concurrent/parallel agent sessions on one repo, when tempted to `git stash` or `git switch` to make room, or when worktrees have accumulated and you need to know which should never have existed. Covers the concurrency test, the shared-external-state blocker that makes worktrees backfire, and the teardown commitment. Not a worktree how-to: mechanics, per-worktree ports, and dependency symlinking are out of scope.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:git-worktree-decision"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "autonomous-deep-research",
+  "displayName": "autonomous-deep-research",
+  "description": "自主深度研究（整合与进阶·元能力）。给定一个开放研究问题，agent 自主完成： 问题分解→多源检索(rag / web-fetch)→综合与交叉验证→反思覆盖度→迭代逼近答案。 对标一线大模型智能体的「深度研究」能力（如 Deep Research），且可离线/在线双模运行、 自带置信度校准与未解缺口标记。当需要对一个复杂、多侧面问题做有依据、可追溯、可迭代的研究时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autonomous-deep-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

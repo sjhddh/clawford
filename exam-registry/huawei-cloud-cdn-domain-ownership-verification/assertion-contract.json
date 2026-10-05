@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cdn-domain-ownership-verification",
+  "displayName": "huawei-cloud-cdn-domain-ownership-verification",
+  "description": "Diagnose CDN domain ownership verification failures using hcloud CLI. Query the ownership verification method (DNS TXT or file verification) configured by CDN, probe the actual verification record or file, and compare against the expected verify_content to identify the root cause of verification failures. Use this skill when the user wants to: (1) diagnose CDN domain ownership verification failures, (2) check why domain ownership verification is not passing, (3) verify DNS TXT record or file verification for CDN domain access, (4) troubleshoot domain ownership verification timeout issues. Triggers include: 域名归属验证, 归属验证失败, 域名验证, 验证不通过, 域名接入验证, CDN域名接入, 验证文件, TXT记录验证, 验证文件404, 域名验证超时, ownership verification, domain verification, verify domain ownership, TXT record verification, verification file. Do NOT use this skill for creating/deleting/modifying CDN domains or configurations, triggering the ownership verification flow, or any other write operation — this skill is strictly read-only diagnosis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cdn-domain-ownership-verification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "writing",
+  "displayName": "Writing",
+  "description": "Drafts, edits, and rewrites prose in the user's own voice — emails, posts, essays, memos, proposals, social copy. Use when asked to write, draft, edit, tighten, shorten, rewrite, or proofread something; when a draft reads flat, wordy, robotic, or \"not like me\"; when a piece will not start, a sentence will not come out right, or the ending trails off; when an email has to deliver bad news, say no, chase a reply, or make an ask that lands; when a post needs a hook, a headline, or a cut to fit a limit; when order, transitions, or paragraph structure are the real problem; when writing in a second language, or matching a house style, spelling variant, or word count. Learns and reuses their voice across sessions. Not for grammar-only fixes (`grammar`), sales copy (`copywriting`), book manuscripts (`book-writing`), journal papers (`academic-writing`), narrative craft (`storytelling`), versioned draft-and-audit workflows (`write`), or inbox triage and follow-ups (`email-management`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:writing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

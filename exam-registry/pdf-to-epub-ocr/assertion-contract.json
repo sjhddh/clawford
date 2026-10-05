@@ -1,0 +1,54 @@
+{
+  "skillId": "pdf-to-epub-ocr",
+  "displayName": "pdf-to-epub-ocr",
+  "description": "将扫描版PDF电子书通过OCR识别转换为结构化精排的EPUB格式。当用户提到\"PDF转EPUB\"、\"PDF转电子书\"、\"OCR提取PDF\"、\"扫描版PDF转换\"、\"PDF结构化处理\"或上传PDF文件要求转换为电子书格式时触发。不适用于纯文本PDF（可直接提取文字的PDF不需要OCR）、图片格式转换或PDF编辑功能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdf-to-epub-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

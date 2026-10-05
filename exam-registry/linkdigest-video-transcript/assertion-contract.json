@@ -1,0 +1,54 @@
+{
+  "skillId": "linkdigest-video-transcript",
+  "displayName": "抖音/小红书视频文案提取（口播逐字稿 + 画面文字）",
+  "description": "抖音/小红书视频文案提取：口播逐字稿、画面上的字（带大致时间）、要点和互动数据。用户发来抖音、小红书视频笔记、TikTok、YouTube 或 X 的视频链接或分享文案，要提取文案、视频转文字、扒口播、提取字幕或画面文字时使用。长视频会排队，脚本自动轮询取结果。通过 LinkDigest API 读取，不用下载视频，不需要平台账号或 Cookie。需要 LINKDIGEST_API_KEY；每条 1 积分，另加每开始的 1 分钟 1 积分（1 分钟视频共 2 积分，约 ¥0.29）。不支持 B站。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkdigest-video-transcript"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

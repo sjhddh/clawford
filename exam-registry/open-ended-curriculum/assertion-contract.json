@@ -1,0 +1,54 @@
+{
+  "skillId": "open-ended-curriculum",
+  "displayName": "open-ended-curriculum",
+  "description": "开放世界无限课程：让智能体自己造越来越难、且彼此不重复的挑战，把能力边界无限推开——课程永不饱和。 这是决定\"能否持续超越\"的元能力：一线大模型等人工喂题、题做完了就停，本技能让 agent 自主生成递增强度课程。 当用户要求永不饱和的课程、自主造题、能力边界无限推开、开放世界自训练时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:open-ended-curriculum"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

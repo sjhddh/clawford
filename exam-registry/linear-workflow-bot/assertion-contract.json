@@ -1,0 +1,54 @@
+{
+  "skillId": "linear-workflow-bot",
+  "displayName": "Linear工作流机器人",
+  "description": "把 Linear 任务自动接入\"通知-执行-回写-Git 同步\"流水线。面向独立开发者与一人公司， 解决免费自动化平台额度紧张、Webhook 触发不可靠、多服务配置散乱、Git 同步冲突四大痛点。 核心能力: - 三层自动化平台选型：Make.com（免费首选）/ Pipedream（即时触发）/ Zapier...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linear-workflow-bot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

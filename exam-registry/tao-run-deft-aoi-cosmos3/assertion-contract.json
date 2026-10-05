@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-run-deft-aoi-cosmos3",
+  "displayName": "tao-run-deft-aoi-cosmos3",
+  "description": "Run the disk-backed DEFT AOI improvement loop for NVIDIA Cosmos Reason 3 / Cosmos3 models, using Nano by default and Edge or Super when explicitly requested: evaluate the base model on Proxy and frozen Benchmark splits, mine real image pairs from Proxy gaps, assemble a per-iteration Train JSON from selected Mining samples, train with cosmos-rl LoRA SFT, and repeat through the selected platform's submit/status/logs/cancel contract. This migration supports bare labels only: the assistant response must be exactly OK or NG. Use for \"run Cosmos3 DEFT AOI\", \"CR3 AOI loop\", or \"improve Cosmos3 PCB inspection with bare OK/NG\"; do not use for rich/reasoning annotation, one-off Cosmos training, or generic anomaly generation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-run-deft-aoi-cosmos3"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

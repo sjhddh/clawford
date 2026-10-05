@@ -1,0 +1,54 @@
+{
+  "skillId": "qu-ai",
+  "displayName": "超能去AI",
+  "description": "对AI生成的文本进行深度改写，不止是换词换句式——从四个维度系统性去AI化： 语言层（句式、用词、意象模板）、叙事层（结构、逻辑闭环、人物真实感）、 细节层（私人印记 vs 通用模板）、设定层（文风一致性）。 内置13个专业编辑角色，自动匹配文字类型，用最合适的口吻改写。 专为中文文本设计。适用场景：创意写作、自媒体、非正式文体； 不适用：学术论文、法律文书、新闻报道等事实性文档。 触发词：「去AI痕迹」「去AI味」「去AI味儿」「改写，去AI」「帮我改一下，太像AI写的了」 「去机器味儿」「这看着太AI了」「太像AI了帮我改改」。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qu-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

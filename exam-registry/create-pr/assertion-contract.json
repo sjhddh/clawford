@@ -1,0 +1,54 @@
+{
+  "skillId": "create-pr",
+  "displayName": "create-pr",
+  "description": "End-to-end pull-request flow with a review gate — reviews the branch BEFORE publishing (code-review skill's branch scope if installed; blockers must be fixed or explicitly waived), pushes with user approval, creates one PR per repo for multi-repo work items with house defaults from config (title pattern, target branch, required reviewers, auto-complete, work-item link), cross-references sibling PRs with deploy-order coupling, verifies every setting after creation, and reports the URLs. Detects the provider from the git remote (Azure DevOps via the azure-devops skill, GitHub via gh). Use this skill whenever the user says \"create a PR\", \"open a pull request\", \"publish the branch and create a PR\", \"PR this\", \"ship this branch\", \"create the PRs for this task\", or \"raise a PR\" — even if they don't explicitly say \"create-pr skill\". For reviewing someone else's PR (not creating one), use a review skill instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:create-pr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

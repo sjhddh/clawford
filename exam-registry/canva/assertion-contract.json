@@ -1,0 +1,54 @@
+{
+  "skillId": "canva",
+  "displayName": "canva",
+  "description": "The Canva craft skill — produce on-brand social graphics, carousels, quote cards, infographics, and thumbnails at scale without a designer, and escape the \"Canva look.\" Use when someone wants to design in Canva, make social graphics, set up a Brand Kit, batch-produce graphics (Bulk Create), resize one design for every platform (Magic Resize), use Canva's AI (Magic Studio), or asks why their posts look like a template. Uses the SCALE framework. Reads brand-profile + design-and-templates + voice-builder first. The agent specs, and creates designs directly where the Canva MCP/Connect APIs are connected; the human approves every visual; the export publishes via WoopSocial. Never strips watermarks, impersonates another brand, or uses unpermitted likeness; AI-disclosure + accessibility floor apply. Distinct from design-and-templates (the brand system this executes), image-prompt + the image tools (dedicated generation), ai-image-editing (the edit router), and capcut/descript (video editing).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:canva"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

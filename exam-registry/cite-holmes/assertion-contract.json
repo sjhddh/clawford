@@ -1,0 +1,49 @@
+{
+  "skillId": "cite-holmes",
+  "displayName": "Cite Holmes — Deep Research × Hallucination-Free Citations",
+  "description": "Deep research that interrogates its own sources (Verified Deep Research): calibrates scope first (3-5 sharp questions), then searches iteratively across sources and languages and machine-verifies every citation. Also works as a standalone citation checker: paste any reference list and it will verify citations against official registries — full citation verification covering hallucinated references, fabricated DOIs, fake PMIDs and arXiv IDs, stitched fakes and retracted papers. A fact check for your bibliography, not just a search. Five verdicts (verified / partial / unverified / unreachable / invalid); unverified references never masquerade as real (AI hallucination detection). Medical evidence mode (Cochrane/BMJ/ClinicalTrials/ChiCTR/NMPA/ CDC/NICE/Wanfang presets, PMID existence check via NCBI E-utilities) and verified-bibliography export (BibTeX + audit CSV + JSON workpaper) built in.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cite-holmes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

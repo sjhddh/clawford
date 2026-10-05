@@ -1,0 +1,54 @@
+{
+  "skillId": "chaoxing-mcp-oauth",
+  "displayName": "超星智雅 MCP 一键接入",
+  "description": "指导用户将超星智雅/StudyAI MCP 服务接入 WorkBuddy 的完整流程：引导用户提供 OAuth2 凭据、本机起回调服务完成授权码换 JWT、写入 mcp.json、配置 refresh_token 常驻保活，并处理 grant_version_stale / scope_denied / invalid_scope 等故障。适用于用户要求连接超星智雅 MCP、令牌过期修复、或重新授权的场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chaoxing-mcp-oauth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

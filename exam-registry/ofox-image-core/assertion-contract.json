@@ -1,0 +1,54 @@
+{
+  "skillId": "ofox-image-core",
+  "displayName": "ofox-image-core",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai. Shared execution layer for the Ofox image API (api.ofox.ai) — validates parameters client-side, sends one synchronous request, base64-decodes the result, saves it to a file, and reports the real usage token counts and the computed dollar cost. Does both text-to-image (generate) and editing an existing image you supply as a local file (edit — change the background, recolour an element, alter a product photo, while leaving the rest of the picture intact). This is a library skill, not a standalone user-facing one — it is meant to be invoked by scenario skills that build model/prompt/size choices for a specific use case and then call into this skill's script rather than re-implementing the API calls — image-edit owns \"change this image so that...\", product-image owns a set of product images to choose between, and seedance-anime-drama owns character images for a video pipeline. Load this skill directly only when a user explicitly names the Ofox image API, asks to call it with specific low-level parameters, asks to debug a failed Ofox image request, or wants a plain \"generate an image of...\" from text — which is the one common case no scenario skill covers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ofox-image-core"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

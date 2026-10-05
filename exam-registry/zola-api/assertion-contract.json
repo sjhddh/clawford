@@ -1,0 +1,54 @@
+{
+  "skillId": "zola-api",
+  "displayName": "zola-api",
+  "description": "Query or update Zola wedding-planning data (vendors, budget, guests, seating, events/RSVPs, registry, gift tracker, inquiries, wedding website) straight from a shell with curl against mobile-api.zola.com, instead of running the zola-mcp server. Use when you want Zola data without the MCP, in a script, or on a machine where the MCP isn't installed. Triggers on \"check Zola\", \"Zola vendors/budget/guests/RSVP/seating/registry\", or any Zola wedding data request that should hit the API directly.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zola-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

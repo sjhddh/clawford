@@ -1,0 +1,54 @@
+{
+  "skillId": "java",
+  "displayName": "Java",
+  "description": "Writes, debugs, and tunes Java and the JVM: nulls, equality, collections, generics, concurrency, streams, memory, builds, and upgrades. Use when Java throws NullPointerException, ClassCastException, ConcurrentModificationException, NoClassDefFoundError, NoSuchMethodError, UnsupportedClassVersionError or OutOfMemoryError, when a service deadlocks, hangs, burns CPU, or leaks memory, when equals/hashCode, Optional, generics, streams, or CompletableFuture misbehave, when dates shift or text turns into question marks, when Maven or Gradle resolves the wrong version or a fat jar fails only after packaging, when @Transactional does not roll back or an entity throws LazyInitializationException, when tests silently do not run, or when moving from Java 8 to 17/21+ and javax became jakarta. Also for choosing collections, sizing heap in containers, thread dumps, profiling, JDBC connection pools, HTTP timeouts, and logging setup. Not for Kotlin, Android app development, or JavaScript.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:java"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

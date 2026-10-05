@@ -1,0 +1,54 @@
+{
+  "skillId": "negative-review-butler",
+  "displayName": "差评管家",
+  "description": "差评管家技能。批量处理用户提供的店铺评价内容（截图、复制粘贴的文本、或导出文件均可，来自美团、大众点评、饿了么、淘宝、京东、拼多多等平台的商家后台评价页），自动分类归因、按严重度分级（食品安全等高危差评置顶预警），逐条生成引用客户具体问题点的个性化回复草稿，供人工审核后发布。适用场景：差评回复、差评处理、回复顾客评价、评价管理、差评分析、店铺评分维护，以及用户提供一批店铺评价并希望获得回复建议的任务。内置餐饮/本地生活与电商两套行业模板。本技能面向中文评价设计。反馈与定制联系：zenobiazizi.skills@foxmail.com",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:negative-review-butler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

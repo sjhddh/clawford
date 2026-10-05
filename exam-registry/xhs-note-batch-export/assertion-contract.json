@@ -1,0 +1,49 @@
+{
+  "skillId": "xhs-note-batch-export",
+  "displayName": "小红书博主笔记批量导出 · XHS Notes Batch Export — 对标账号笔记存为本地 Markdown",
+  "description": "小红书笔记批量导出 / 博主笔记备份（XHS notes batch export）——把任意博主的公开笔记一键批量存为本地 Markdown：标题/正文/图片视频链接/赞藏评数据全保留，支持 count/offset/parallel，不需要任何第三方 API key。对标学习、长期备份、喂 AI 分析都用得上。English: batch-export any creator's public notes to local Markdown. 需要 webclaw3 浏览器运行时：clawhub.ai/fatmind/skills/webclaw3-browser-automation",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-note-batch-export"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

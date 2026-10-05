@@ -1,0 +1,54 @@
+{
+  "skillId": "resilience-hub-failure-mode-assessment",
+  "displayName": "resilience-hub-failure-mode-assessment",
+  "description": "Runs and interprets AWS Resilience Hub v2 failure mode assessments. Covers starting assessments, understanding findings (severity, categories, recommendations), triaging by achievability, working with AI-generated service functions, and resolving findings. Applies when the user wants to run an assessment, review findings, or understand failure modes, or has a specific finding and asks how to resolve, remediate, or fix it. Does not apply to initial setup (use resilience-hub-getting-started) or FIS experiments.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resilience-hub-failure-mode-assessment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

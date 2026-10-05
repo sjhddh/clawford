@@ -1,0 +1,49 @@
+{
+  "skillId": "human-in-loop-review",
+  "displayName": "human-in-loop-review",
+  "description": "给自主智能体/自动化流水线加一层「人类在环审核」：把中高危、不可逆、外发隐私、提权、支付等 有副作用的动作路由到人工审核队列，阻止无人值守 agent 越权执行。内置审核分级（needs_review）、 审核队列（add/pending/approve/reject/summary）、完整审计（提议者/风险/审核人/结论/理由/时间戳）。 与 safety-guardrails 互补：护栏做 ALLOW/CONFIRM/DENY 决策，本技能把 CONFIRM 类动作转人工队列。 触发词：人类在环、人工审核、审核队列、审批流、human-in-the-loop、操作确认、越权拦截、agent 审核。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:human-in-loop-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "three-party-adversarial-review",
+  "displayName": "Adversarial Review",
+  "description": "开发完成后的三方对抗式代码评审闭环：蓝军（敌意审查，须给证据链）→ 第三方（独立审计，不信双方文档、只读代码，专找\"修改引入的新缺陷\"并稽核蓝军漏审的维度）→ 中立裁定（逐条采纳/驳回、审查双方共同前提）。当用户说\"蓝军评审\"\"第三方复核\"\"对抗性审查\"\"红蓝互搏\"\"三方评审\"\"交叉验证\"\"发布前审查\"\"帮我挑刺\"\"adversarial review\"\"red team review\"\"pre-release review\"\"critique this\"\"find bugs in my code\"或要求提升代码质量、准备发布前把关时使用。也适用于用户想把当前会话变成\"多个 Agent 互搏\"来提升代码水平的场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-party-adversarial-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

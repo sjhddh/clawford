@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops-clinical",
+  "displayName": "iaiops-clinical",
+  "description": "Clinical-facility edition of iaiops — hospital / healthcare facilities as a distinct vertical from generic building management, with patient-safety framing. BACnet/IP BMS (isolation-room pressurization + medical-gas source monitoring), Modbus (medical-gas alarm panels / energy meters), OPC-UA (plant SCADA), plus the cross-protocol brain. Two signature safety checks: isolation_room_check (ASHRAE 170 / CDC negative/positive pressure) and medical_gas_check (NFPA 99 / HTM 02-01 O2 / medical air / vacuum source pressures). Use when the task mentions hospital, 医院, healthcare facility, clinical, 医疗设施, isolation room / 隔离病房 / 负压病房 / AII / PE, operating room / OR / 手术室, ICU, medical gas / 医用气体 / 医疗气体, oxygen / 氧气 / medical vacuum / 医用真空, or NFPA 99. Read-first; this edition's tool surface is read-only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops-clinical"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

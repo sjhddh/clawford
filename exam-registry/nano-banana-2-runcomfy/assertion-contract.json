@@ -1,0 +1,54 @@
+{
+  "skillId": "nano-banana-2-runcomfy",
+  "displayName": "Nano Banana 2 — Pro Pack on RunComfy",
+  "description": "Nano Banana 2 on RunComfy. Nano Banana 2 is Google's flash-tier text-to-image model in the Gemini family — fast iteration, predictable framing, in-image typography rendering, optional web-grounded context. This skill calls Nano Banana 2 through the RunComfy CLI: `runcomfy run google/nano-banana-2/text-to-image`. Nano Banana 2 is the right Nano Banana variant for marketing drafts, social thumbnails, and batch variants. Triggers on \"nano banana\", \"nano-banana\", \"nano banana 2\", \"nano-banana-2\", \"Google Nano Banana\", \"Gemini image\", or any explicit ask to generate with Nano Banana.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nano-banana-2-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

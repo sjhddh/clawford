@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-publisher-self-learning",
+  "displayName": "auto-publisher-self-learning",
+  "description": "自进化技能自动发布器。一键将本地 skill 发布到 ClawHub 市场，自动处理 各类已知错误和异常，并在每次执行中记录失败模式、学习最优策略、 持续迭代改进发布流程。内置质量门禁、智能重试、版本冲突自动解决。 触发词：发布技能、上架skill、publish skill、部署skill、自动发布。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-publisher-self-learning"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

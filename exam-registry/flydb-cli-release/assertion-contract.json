@@ -1,0 +1,54 @@
+{
+  "skillId": "flydb-cli-release",
+  "displayName": "flydb-cli-release",
+  "description": "使用和排查 Flydb CLI 发行包，包括安装、迁移预演与执行、本机 Web 工作台、JSON/Plan 输出、MCP 调用和 JDBC 驱动接入。用户提到 bin/flydb、flydb web、flydb.conf、flydb-cli ZIP、FLYDB 错误码、长迁移或失败恢复时使用。自带运行参考；迁移 SQL 编写与多环境流水线分别交给同族专门技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flydb-cli-release"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

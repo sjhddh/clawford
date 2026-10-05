@@ -1,0 +1,54 @@
+{
+  "skillId": "novel-writing-sop",
+  "displayName": "网文创作流水线",
+  "description": "中文网文/爽文全流程写作引擎：一句话开写、选题、大纲、分章正文、续写、卡文破解、去AI味、双视角质检。支持番茄/起点/晋江/七猫向长篇量产。适用场景：写小说、写网文、写爽文、小说大纲、续写小说、去AI腔、分章写作、长篇连载。Trigger phrases: 写小说 / 网文 / 爽文 / 大纲 / 续写 / 卡文 / 去AI味 / 分章 / 长篇连载; English: web novel / Chinese fiction / chapter batch writing / anti-AI-slop.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:novel-writing-sop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

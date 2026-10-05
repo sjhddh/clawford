@@ -1,0 +1,54 @@
+{
+  "skillId": "juhe-ai-image-generate-a2a",
+  "displayName": "AI图像创作(AI付版) - 聚合数据",
+  "description": "聚合数据提供的AI图像创作服务技能，本技能使用无需用户注册聚合数据平台，安装后即可按实际付费使用。 本技能是根据文本描述（prompt）生成具有特定风格、场景和氛围的图像，并自动下载保存的支付宝AI付付费技能。本技能基于 A2M（HTTP 402）收单协议。当用户需要生成图像的时候，调用本技能，并通过本 Skill 向卖家服务端发起请求，完成支付后获取相关结果。 使用场景：用户说\"帮我生成一张猫咪在草地上玩耍的图片\"、\"画一幅水墨风格的山水画\"、\"生成一张16:9的科技感壁纸\"、\"创作一张新年祝福海报\"、\"用AI画一张小狗钓鱼的图\"等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:juhe-ai-image-generate-a2a"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-transfer-acceleration-diagnosis",
+  "displayName": "alibabacloud-oss-transfer-acceleration-diagnosis",
+  "description": "Read-only OSS transfer acceleration diagnosis: detects acceleration not taking effect (client still on the plain endpoint), separates OSS Data Accelerator (same-region hot data) from Transfer Acceleration (cross-region links), attributes slow cross-border access and fees; never changes anything. Triggers: \"transfer acceleration not working\", \"oss-accelerate endpoint\", \"cross-border access slow\", \"overseas upload slow\", \"transfer acceleration fee\", \"accelerator vs transfer acceleration\". Do NOT use for bill line-item attribution (defer alibabacloud-oss-billing-diagnosis), endpoint choice (alibabacloud-oss-endpoint-internal-diagnosis), multipart fragments (alibabacloud-oss-multipart-upload-diagnosis), presigned URL errors (alibabacloud-oss-presigned-url-v4-diagnosis), QPS/bandwidth throttling (alibabacloud-oss-quota-throttling-diagnosis), GA/ESA/CDN back-to-origin, or executing enablement (write, out of scope).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-transfer-acceleration-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

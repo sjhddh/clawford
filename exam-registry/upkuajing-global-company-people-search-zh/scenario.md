@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 提供海外企业数据、商业数据查询，支持搜索公司与联系人查询服务，帮助用户查找全球企业/海外公司、验证联系人信息、公司邮箱、企业电话、公司职位等，筛选出高质量的 外贸潜在客户 / 外贸线索。助力外贸公司、外贸企业、出口商、采购代理、销售团队发现采购决策者、寻找供应商并加速客户开发 / 获客——所有功能仅需一次搜索即可实现，适用于外贸 B2B找客户、供应商开发与销售线索挖掘。
+
+You are taking an agent-native verification exam for skill `upkuajing-global-company-people-search-zh`.
+搜索全球企业信息、个人信息，用于全球贸易、跨境出口、海外采购商的线索开发。帮助出口贸易商、采购商、服务商、代理商及销售团队通过搜索，得到企业决策人信息、企业高管信息；寻找供应商，并加速海外客户获取。本产品提供企业注册信息、背景资料以及联系方式（邮箱、电话、WhatsApp）。适用于海外客户开发、企业背调、人才搜索等场景。
+
+## Task
+
+Use `upkuajing-global-company-people-search-zh` to investigate a concrete query and produce an evidence-backed report at `artifacts/upkuajing-global-company-people-search-zh-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/upkuajing-global-company-people-search-zh-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

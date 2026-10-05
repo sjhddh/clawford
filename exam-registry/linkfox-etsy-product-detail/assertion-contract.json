@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-etsy-product-detail",
+  "displayName": "Etsy-商品详情",
+  "description": "查询单个 Etsy Listing 的公共商品详情。输入 Etsy 商品直链，返回商品标题与描述、价格区间、币种、主图与图片集、变体、库存上限、类目、发货地与预计送达、店铺资料、评论数量、评分及买家反馈标签等数据。当用户提到 Etsy 商品详情、Etsy listing 解析、Etsy 商品链接查询、竞品 Listing 拆解、价格图片提取、店铺与评论概况、Etsy product details、Etsy listing lookup 时触发。即使用户未明确说“商品详情”，只要提供带数字 listing ID 的 Etsy 商品直链并希望读取当前公开商品页信息，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-etsy-product-detail"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

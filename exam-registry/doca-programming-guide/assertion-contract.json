@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-programming-guide",
+  "displayName": "doca-programming-guide",
+  "description": "Use this skill when the user is writing their first DOCA app or asking a library-agnostic programming question — picking a shipped sample to copy and modify, wiring the canonical pkg-config doca-{library} + meson build (or FFI from Rust / Go / Python against the public C ABI), walking the cfg-create → init → start → use → stop → destroy lifecycle, validating a spec before commit, or decoding a DOCA_ERROR_* return with doca_error_get_descr(). Trigger even when the user does not say \"DOCA programming guide\" — implicit phrasings: \"write my first DOCA program\", \"meson line for doca_rdma_*\", \"got DOCA_ERROR_BAD_STATE on my first call\", \"call DOCA from Rust without writing C\", \"built clean but nothing on the wire\", \"what order do doca_*_pipe calls go in\". Refuse and route for install / hugepages / pkg-config not resolving doca-{library} (doca-setup), docs or version lookup (doca-public-knowledge-map), and library-internal API construction like Flow pipe topology or RDMA QP setup (matching library skill).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-programming-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

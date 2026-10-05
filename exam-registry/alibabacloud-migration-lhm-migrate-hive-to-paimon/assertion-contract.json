@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-migration-lhm-migrate-hive-to-paimon",
+  "displayName": "alibabacloud-migration-lhm-migrate-hive-to-paimon",
+  "description": "Hive 到阿里云 DLF Paimon 数据迁移工具，覆盖存量迁移与增量迁移全流程。存量迁移：Hive DDL 自动转换为 Paimon DDL 与 format-table 外表、rclone 同步 HDFS 到 OSS、Spark Thrift Server 执行 INSERT OVERWRITE，支持 orc/parquet/csv/json/text；提供 --auto-create-db、--force、--max-parallel 并行、--verify 行数校验、--direct-read 直读模式（OSS-HDFS/DLS 场景跳过 rclone）、迁移报告自动生成。增量迁移：三阶段流水线（DDL → rclone → INSERT）执行 hive-exploration 增量探查结果。内置独立 ddl_converter 支持 Hive DDL 快速转换为 DLF Paimon/FORMAT 外表 DDL。使用场景：用户提到\"存量迁移\"、\"增量迁移\"、\"增量同步\"、\"Hive Paimon 迁移\"、\"Paimon 建表\"、\"Hive 数据湖迁移\"、\"format-table\"、\"direct-read\"、\"hive-to-paimon\"、\"migration-lhm-migrate-hive-to-paimon\"、\"转换 Hive DDL\"、\"建 DLF 表\"、\"生成 Paimon/外表 DDL\"、\"表记录数统计SQL\"时调用此 skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-migration-lhm-migrate-hive-to-paimon"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

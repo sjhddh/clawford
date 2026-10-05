@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-dataworks-semantic",
+  "displayName": "alibabacloud-dataworks-semantic",
+  "description": "Always use this Skill for any Alibaba Cloud DataWorks semantic analysis job or run request, including read-only and preflight requests that intentionally make no API call, such as checking whether the public DataWorks semantic OpenAPI or dataworks-public plugin commands (for example create-semantic-job) are ready. It also applies when the requested outcome is only a refusal or a user choice with no API call. This includes comparing or disambiguating supplied semantic job candidates, validating or refusing an unsafe, path-traversal, or non-writable semantic result directory before any download, and inspecting artifacts for an exact run. Use it to create, run, stop, monitor, diagnose, or download results for semantic jobs backed by MaxCompute, Hologres, StarRocks, or an already uploaded CSV/XLSX reference. Do not use it for ordinary metadata lookup, lineage analysis, SQL development, workflow scheduling, file upload, published semantic model/version management, or semantic job deletion.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-dataworks-semantic"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

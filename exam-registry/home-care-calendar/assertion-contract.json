@@ -1,0 +1,54 @@
+{
+  "skillId": "home-care-calendar",
+  "displayName": "home-care-calendar",
+  "description": "Use when you own a home (or apartment) and things keep breaking because nobody remembered the last service date — builds a whole-home maintenance registry from a guided 10-minute inventory (roof, HVAC, water heater, gutters, detectors, filters, seals, drains), generates a personalized seasonal task calendar with intervals from real maintenance science (filters 1-3 months, HVAC service yearly, water-heater flush yearly, detector batteries yearly, chimney every 2 years...), schedules via ICS export, tracks completion, and estimates the deferred-maintenance debt you're accumulating in dollars — because a $12 filter neglected for a year becomes a $1500 compressor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:home-care-calendar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

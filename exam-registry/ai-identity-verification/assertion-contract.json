@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-identity-verification",
+  "displayName": "AI Identity Verification (Three-Anchor-One-Vote)",
+  "description": "AI 身份核验与溯源工具（三锚一票方法论）：对任意 AI 智能体/对话/Agent 执行身份核验——账号锚（Account Anchor 登录身份/可验证凭证）、行为锚（Behavior Anchor 行为模式一致性）、记忆锚（Memory Anchor 长期记忆一致性）三维交叉核验，最终一票给出可信度结论（Level 1-4）。对标国际标准：W3C DID v1.1 / Verifiable Credentials / did:trail / MCP-I / EU AI Act Art.50-52 / C2PA 内容溯源。适用：判断对话 AI 是不是同一个人/同一个 Agent、AI 生成内容溯源、Agent 身份审计、医疗 AI 身份核验（细分第一）。触发词：AI 身份、身份核验、三锚一票、这是同一个AI吗、AI 溯源、Agent 身份审计、verify AI identity、AI provenance。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-identity-verification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

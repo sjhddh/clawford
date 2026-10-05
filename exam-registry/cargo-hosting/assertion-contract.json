@@ -1,0 +1,49 @@
+{
+  "skillId": "cargo-hosting",
+  "displayName": "cargo-hosting",
+  "description": "Put something on the internet from Cargo — hosted web apps (Vite by default, other static frameworks detected) and serverless edge workers that answer HTTP requests, plus the deployments that build and promote them, the env vars and secrets a worker reads, running a worker locally, and custom domains and search indexing for public sites. Triggers: \"build me a dashboard for this\", \"host this app\", \"give me a URL to share\", \"deploy this\", \"I need a webhook endpoint\", \"make it live\", \"promote to production\", \"ship a UI for my team\", \"give my worker an API token\", \"set a secret on the worker\", \"Missing CARGO_API_TOKEN\", \"my app cannot call my worker\", \"run the worker locally\", \"put it on my own domain\", \"make the site indexable by Google\". Skip when: the app or worker should be declared as committed workspace code — use cargo-project.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-hosting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

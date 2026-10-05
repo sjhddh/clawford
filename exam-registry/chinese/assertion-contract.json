@@ -1,0 +1,54 @@
+{
+  "skillId": "chinese",
+  "displayName": "Chinese",
+  "description": "Writes and edits Mandarin Chinese that reads as if a native wrote it — casual or formal, mainland or Taiwan. Use when composing anything in Chinese (WeChat message, work email, 小红书 or 公众号 post, resume, 请假条, speech, toast, 通知, contract clause), or when Chinese text sounds stiff, textbook, translated, or AI-generated; when choosing 你 versus 您, 口语 versus 书面语, simplified versus traditional, or mainland versus Taiwan vocabulary; when 的/地/得, 了, 把, 被 or measure words come out wrong; when full-width punctuation, Han-Latin spacing, or 万/亿 number grouping is off; when internet slang, 成语, emoji or 表情包 need calibrating to an audience; when a refusal, apology, compliment or request has to land politely; or when naming a product or a person in Chinese. Not for translating an existing source text (`translate`), Traditional-only writing (`traditional-chinese`), or travelling in China (`china`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chinese"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

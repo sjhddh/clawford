@@ -1,0 +1,49 @@
+{
+  "skillId": "patentmax-patent-search",
+  "displayName": "全球专利检索 · PatentMax",
+  "description": "全球专利检索与统计分析。当用户提到专利检索、找专利、现有技术、相似专利、引证分析、某家公司有多少专利、某个领域谁在申请、技术趋势分布，或直接给出一个专利号、公开号时使用。Use when the user asks to search patents, look up a patent, find similar patents, analyse citations, or profile a company patent portfolio. Requires a PatentMax API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patentmax-patent-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

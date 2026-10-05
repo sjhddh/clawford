@@ -1,0 +1,49 @@
+{
+  "skillId": "remote-browser-deploy",
+  "displayName": "Remote Browser Deploy",
+  "description": "一键部署远程可视化浏览器：Linux（云服务器/NAS/本地）noVNC + Chromium + CDP 三合一，Windows 本机 Edge/Chrome CDP 一键接管。技术栈：noVNC（Web VNC）+ Chromium（浏览器）+ CDP（Chrome DevTools Protocol）。解决...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:remote-browser-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

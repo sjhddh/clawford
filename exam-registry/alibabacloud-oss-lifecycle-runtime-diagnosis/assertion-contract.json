@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-lifecycle-runtime-diagnosis",
+  "displayName": "alibabacloud-oss-lifecycle-runtime-diagnosis",
+  "description": "Read-only OSS diagnosis for lifecycle runtime and archive restore. Use when a lifecycle rule does not take effect (loading window, prefix/tag matching, one-way transition, versioning), when an archive / cold archive / deep cold archive object cannot be read (restore tiers, archive direct read), or for storage tiering advice and restore/retrieval fee composition. Triggers: \"lifecycle rule not working\", \"archive file cannot download\", \"InvalidObjectState\", \"RestoreAlreadyInProgress\", \"Overlap for same action type\", \"The operation is not valid for the object's state\", \"restore fee\", \"storage class transition\", \"cold archive restore duration\", \"storage tiering\". Do NOT use for bill line-items (alibabacloud-oss-billing-diagnosis), data recovery (alibabacloud-oss-deletion-recovery-diagnosis), transfer error codes (alibabacloud-oss-transfer-error-code-diagnosis), backup-tool retrieval fees (alibabacloud-oss-backup-integration-diagnosis), or write operations.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-lifecycle-runtime-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

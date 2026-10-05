@@ -1,0 +1,54 @@
+{
+  "skillId": "migration-pack-deploy",
+  "displayName": "迁移打包与部署 (Migration Pack & Deploy)",
+  "description": "帮用户把 AI 助手（谢尔比）从一台电脑\"搬\"到另一台。用户说想迁移/换电脑/换平台/打包带走时，帮他打包成一个 zip；到了新电脑说部署/还原时，帮他自动放回原位，完成迁移闭环。对用户零技术要求，全程代劳。关键词：迁移、换电脑、换平台、打包、部署、新机器、还原、migrate、pack、deploy。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:migration-pack-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "case-retrieval-report",
+  "displayName": "中国裁判文书类案检索报告（得理科技）",
+  "description": "类案检索报告生成 Skill — 面向律师、法官助理及法务人员的类案检索全流程自动化工具。基于待决案件信息，通过调用得理案例检索 API 完成案件拆解、检索执行、类案筛选、比对分析与规则提炼，最终输出一份可直接向法院提交或供内部策略研判使用的标准化《类案检索报告》。当用户提出以下需求时触发：帮我检索一下类似案例、查一下这个案由的类案、做一个类案检索报告、法院对这类问题怎么判的、有没有支持我方观点的判决、找几个和本案类似的生效判决、我要向法院提交类案检索报告、类案检索、裁判观点查询、裁判倾向预判、案例对比参考。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:case-retrieval-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

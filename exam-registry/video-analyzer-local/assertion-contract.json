@@ -1,0 +1,49 @@
+{
+  "skillId": "video-analyzer-local",
+  "displayName": "Video Analyzer",
+  "description": "视频分析处理 — 本地视频反编译分析工具。将视频拆解为时间轴剧本、语音转文字、场景分析、跨模态关联和精华摘要，支持多ASR引擎切换（Whisper/Paraformer/SenseVoice）、中文NLP增强、PaddleOCR中文识别。v4.0 新增短视频平台适配（抖音/快手/B站/视频号）和自动剪辑建议（高光检测/冗余标记/EDL导出/字幕样式）。v4.1 新增tiny模型优先体验（75MB低门槛）、说话人分离质量评分、剪映draft.json导出。v4.2 新增场景管理（detect→slice一条链）、短视频爆款预测、实时直播分析（流式ASR+敏感词检测）。v4.3 新增纯音频输入（mp3/m4a/wav播客与录音）、批量队列（SQLite+硬件档位并发）、GPU自动加速（CT2 int8量化）、ASR配置统一（--asr-engine单参数）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-analyzer-local"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

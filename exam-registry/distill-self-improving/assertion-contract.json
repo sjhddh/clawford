@@ -1,0 +1,54 @@
+{
+  "skillId": "distill-self-improving",
+  "displayName": "Distill Self-Improving",
+  "description": "当用户明确指定文件、目录、项目或资料时，把确认范围加入本机知识库，建立便于查找的目录导航，并逐份读取和整理。对有长期价值的内容分别形成独立总结；对无法读取、敏感、重复或不适合保留的文件逐件说明处理结果。代码项目侧重关键入口和重要说明文档，资料目录按用户要求逐文件处理，是否由 Git 管理只作参考而不会单独决定类型。普通查看、问答或自动发现不会触发，原始文件始终保持不变。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:distill-self-improving"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

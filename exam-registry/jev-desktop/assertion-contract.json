@@ -1,0 +1,54 @@
+{
+  "skillId": "jev-desktop",
+  "displayName": "jev-desktop",
+  "description": "Drive a desktop application from one plain-language goal, or resolve one intent at a time, without ever reading the accessibility tree. Use when automating a desktop app and you want to keep a 150-element JSON tree out of your context. Hand `run.mjs` a whole goal and it observes, decides and acts until the goal is met; hand `act.mjs` a single step when you want to keep the plan yourself. Covers which element, which operation, when to look deeper, and when to stop.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jev-desktop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

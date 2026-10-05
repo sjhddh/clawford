@@ -1,0 +1,54 @@
+{
+  "skillId": "agentdomains",
+  "displayName": "AgentDomains",
+  "description": "Get and manage a free public domain (yourname.makes.fyi or yourname.agentdomains.co) for an AI agent or app using the AgentDomains CLI. Use this whenever an agent builds a website or API and needs somewhere to put it, or needs a public hostname to expose a server, create a webhook URL, or get a stable address. Covers signup, claiming a name, pointing it at an IP or CNAME, getting HTTPS, forwarding (HTTP redirect) to an existing site, reverse-proxying the name to a backend over HTTPS, delegating to your own nameservers, removing a single DNS record, and closing the account again.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentdomains"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

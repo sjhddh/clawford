@@ -1,0 +1,49 @@
+{
+  "skillId": "cn-browser-automation",
+  "displayName": "cn-browser-automation",
+  "description": "国内站点（小红书/淘宝/天猫/微信/微博/B站/12306/知乎/各类 SaaS 后台）的登录态浏览器自动化。当用户需要抓取或操作需要登录的国内网站、复用本机已登录 Chrome 的会话、带 cookie 导出数据，或提到\"登录态\"\"已登录浏览器\"\"带账号抓取\"\"复用我的 Chrome\"\"不想重新登录\"时使用。This skill should be used when the user wants to scrape or operate Chinese domestic websites that require authentication, reuse the locally logg",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cn-browser-automation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

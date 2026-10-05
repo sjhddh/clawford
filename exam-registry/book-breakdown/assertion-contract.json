@@ -1,0 +1,54 @@
+{
+  "skillId": "book-breakdown",
+  "displayName": "book-breakdown",
+  "description": "拆书家技能。输入一本书（PDF/EPUB/TXT/Markdown/书名/链接），输出结构化拆书笔记（总概括+核心提炼+逐章拆解+行动清单），并可一键生成美观的可视化 HTML 拆书报告。适合读书笔记、知识提炼、快速掌握一本书、做课程分享、写书评等场景。触发词：拆书、读书笔记、这本书讲了什么、帮我读一本书、书摘提炼、book breakdown、读书报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:book-breakdown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-amazon-store-pricing",
+  "displayName": "亚马逊-店铺定价",
+  "description": "亚马逊商品报价与竞争定价查询。用于按 ASIN 或卖家 SKU 获取商品价格、竞争价格、Listing Offers、Item Offers、批量报价、Featured Offer Expected Price（FOEP）和竞争摘要。用户提到亚马逊定价、商品报价、竞品价格、最低报价、购物车价格、Buy Box、Featured Offer、listing offers、item offers、batch pricing、FOEP、competitive summary、Product Pricing API 时触发。即使未明确提及 SP-API，只要希望比较亚马逊商品报价、判断竞争力或估算赢得 Featured Offer 的价格，也应触发此技能；修改 Listing 售价使用 linkfox-amazon-store-listings 或批量 Feed。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-pricing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

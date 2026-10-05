@@ -1,0 +1,54 @@
+{
+  "skillId": "html-code-painting",
+  "displayName": "HTML Code Painting",
+  "description": "用纯代码（HTML、SVG、Canvas、CSS）进行绘画创作，高度还原指定原画作或按文字描述作画。当用户要求画一幅画、临摹或还原某幅名画（如千里江山图、星空、富春山居图）、用代码生成艺术插画、制作水墨/油画/浮世绘/像素风/扁平风等风格的画作网页，或将图片转化为可交互 HTML 画面时使用本技能。产出为可直接打开的 .html 单文件，不依赖 AI 绘图 API，全部由代码绘制，可缩放可交互。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:html-code-painting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

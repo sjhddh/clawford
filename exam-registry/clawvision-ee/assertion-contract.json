@@ -1,0 +1,54 @@
+{
+  "skillId": "clawvision-ee",
+  "displayName": "clawvision-ee",
+  "description": "ClawVision East Edition 1.0.7 (中文版) — 本地导出工具。读取你选择的 OpenClaw 会话历史，使用本地 LLM 总结，并写入 HTML、Markdown、PowerPoint 和 PNG 导出文件到本地磁盘。需要权限：读取会话历史、列出会话、本地文件读写、执行本地 Python/Playwright 脚本、本地 LLM 推理。数据不会发送到外部 API。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clawvision-ee"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

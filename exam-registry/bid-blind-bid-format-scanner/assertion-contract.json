@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-blind-bid-format-scanner",
+  "displayName": "投标暗标格式合规扫描Bid Blind Bid Format Scanner",
+  "description": "本技能用于投标人在封装或上传投标文件前，对\"暗标\"部分（技术标/施工组织设计/技术方案）执行盲审格式化条款的机械合规扫描。当用户说\"暗标格式检查\"\"盲标排版\"\"暗标废标风险\"\"检查技术标格式是否符合暗标要求\"\"扫描标书里有没有泄露公司名/Logo/项目负责人\"\"页边距字体页码页眉页脚是否合规\"，或上传 Word/PDF 技术暗标要求做封标前体检时触发。技能逐条比对招标文件\"暗标编制要求\"与当前文件，输出\"要求 vs 现状\"差异清单、风险等级（废标级/扣分零分级）与一键修订指令，并扫描文档元数据与全文是否残留投标人身份信息。仅做机械格式检查，不评价技术方案内容优劣。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-blind-bid-format-scanner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

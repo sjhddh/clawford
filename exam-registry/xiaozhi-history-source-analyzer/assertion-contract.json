@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaozhi-history-source-analyzer",
+  "displayName": "历史材料解析题教练",
+  "description": "历史材料解析题教练：按\"读出处 → 提取信息 → 结合所学 → 得出结论\"四步，陪学生做当前这道材料题；同时持有历史错因维度表，负责历史错题的深度归因。触发语示例（须带上具体材料或题目）：\"这道材料题怎么答\"\"这段史料说明了什么\"\"这则材料可信吗\"\"我材料题为什么总答不全\"\"这道历史错题帮我分析一下错在哪\"。学科判别：题目给了史料原文、历史图片、统计图表或历史地图，问概括、原因、影响、比较、评价时归本 SKILL；问文言字词怎么翻译转语文文言技能；问时间先后与同期中外对照转时空线索构建器；要\"自拟观点、史论结合\"的开放性论述转历史论述题教练。不处理：错题的初始收录与 28 天计数（由通用错题本唯一负责）；道德与法治的题目。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-history-source-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

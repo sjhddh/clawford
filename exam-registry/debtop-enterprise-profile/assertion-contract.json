@@ -1,0 +1,49 @@
+{
+  "skillId": "debtop-enterprise-profile",
+  "displayName": "企业债务查询与画像",
+  "description": "企业债务查询与画像：给定一家企业名称，汇总其公开债务画像——债务规模（债权转让 / 处置的本金与利息）、关联债权人与债务人、公告时间线、保证人与抵押物。当用户说「XX 公司欠了多少钱」「负债多少」「债务情况怎么样」「债务画像」「风险画像」「XX 欠谁的钱」「这家企业有多少债务」，或给出企业名称要求汇总其公开债务、债权方与担保线索时使用。只需企业名称，免注册免登录。英文触发词：how much does a company owe, debt profile, risk profile, debt exposure。若用户只要公告清单或单条公告详情，改用 debtop-notice-search",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:debtop-enterprise-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

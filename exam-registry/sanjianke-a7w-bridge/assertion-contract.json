@@ -1,0 +1,54 @@
+{
+  "skillId": "sanjianke-a7w-bridge",
+  "displayName": "三剪客 · a7w 全量协议桥",
+  "description": "一行 base_url，让上百个开源 AI 项目瞬间用上算力集市 api.a7w.cn 的全部能力——75 个大模型 + 21 个生成应用（TTS / 音色克隆 / 语音转文字 / 出图 / 数字人 / 视频生成 / 超分 / 换装 / 音乐）。自动补齐 OpenAI 协议的语音与图像端点，把 ASR 的字级时间戳直接输出成 SRT / VTT / verbose_json 字幕；Dify、n8n、MoneyPrinterTurbo、pyvideotrans、VideoCaptioner、ComfyUI 等无需改一行代码即可接入。本地零依赖运行，一行命令启动，实测 12/12 通过。遇到问题可加技术微信 9872659。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sanjianke-a7w-bridge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

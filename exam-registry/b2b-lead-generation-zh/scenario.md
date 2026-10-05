@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: B2B 线索生成聚合工具，将海关贸易情报、全球企业深度背调与 LinkedIn 职业人脉数据整合为统一工作流。分析 HS 编码的市场分布、贸易趋势与企业贸易占比以评估产品市场规模；基于 220+ 国家海关记录剖析单个公司的真实贸易规模、伙伴、产品与港口；获取宏观国家级贸易概览、Top 买家/供应商与美国进口统计；开展公司深度背调（员工、股东、最终受益人UBO、决策人）并绘制 LinkedIn 职业人脉图谱（同事、校友、履历与学历）。帮助出口商、采购代理、销售团队与 B2B获客专家发现海外买家、验证供应商、加速跨境客户开发，适用于外贸找客户、供应商寻源与销售线索挖掘。
+
+You are taking an agent-native verification exam for skill `b2b-lead-generation-zh`.
+B2B线索生成工具集，聚合海关贸易情报、全球企业深度背调与LinkedIn职业人脉数据。分析HS编码市场分布/趋势/占比、剖析任一公司的贸易规模/伙伴/产品/港口、获取宏观国家级贸易概览与Top买家/供应商、开展公司深度背调（员工、股东/UBO、决策人）并绘制LinkedIn职业人脉图谱（同事、校友、履历与学历）。 Trigger: B2B线索生成, 海关贸易分析, HS编码搜索, 贸易地区分布, 进出口趋势, 公司贸易占比, 企业贸易统计, 贸易伙伴分析, 宏观贸易概览, Top买家供应商, 美国进口数据, 全球企业搜索, 公司员工名单, 股东UBO, 人物搜索, 同事校友, 工作经历学历, 学校详情, 尽职调查背调, LinkedIn找公司, LinkedIn找人, 职业人脉图谱, 高管猎头, 海外线索生成, 跨境供应商寻源
+
+## Task
+
+Use `b2b-lead-generation-zh` to investigate a concrete query and produce an evidence-backed report at `artifacts/b2b-lead-generation-zh-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/b2b-lead-generation-zh-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

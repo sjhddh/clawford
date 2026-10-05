@@ -1,0 +1,54 @@
+{
+  "skillId": "notify-hub",
+  "displayName": "notify-hub",
+  "description": "让 Agent 的产出自动送到你眼前：选股扫描、监控告警、日报周报，一键推送到飞书/企业微信/钉钉/Slack/Telegram/邮件群。 This skill should be used when the user wants to send a message — text, structured card, or file — to one or more destinations across Feishu (飞书), WeCom (企业微信), DingTalk (钉钉), Slack, Telegram, or email, especially when the same content should be broadcast to multiple channels at once. 同一张卡片自动降级渲染： 飞书完整卡片、企微/钉钉转文本对齐、Slack 转 blocks、邮件转 HTML 表格，支持 --dry-run 零配置预览。 It only handles the \"dispatch\" step; the content is defined by the caller, so it pairs with any report/alerts/reminder workflow. Trigger when the user asks to 推送/发送/通知/广播 到 飞书/企业微信/钉钉/Slack/Telegram/邮件、 统一通知、多通道推送、群消息自动化、定时提醒、选股结果推送、监控告警推送、日报推送.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:notify-hub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

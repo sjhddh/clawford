@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-litigation-drafting",
+  "displayName": "诉讼文书起草",
+  "description": "专为诉讼律师、法务设计的 AI 文书起草助手。告别“对着空白文档发呆”和“满世界找模板”的痛苦。只需输入案件事实与己方立场（或直接丢入对方起诉状/证据目录），AI 将为你定制起草结构严谨的起诉状、答辩状、质证意见或律师函初稿。每一项诉讼主张和答辩理由，AI 都会自动为你匹配现行有效的法条及类案参考。直接输出可编辑的 Markdown/Word 格式，律师稍作修改即可定稿，大幅节省案头撰写时间。 Triggers: 起草答辩状、起草质证意见、起草律师函、起草起诉状、起草上诉状、draft litigation document",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-litigation-drafting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

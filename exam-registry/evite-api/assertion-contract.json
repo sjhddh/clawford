@@ -1,0 +1,49 @@
+{
+  "skillId": "evite-api",
+  "displayName": "evite-api",
+  "description": "Query and act on Evite (evite.com) events, guest lists, RSVPs, and messages from a shell with curl and a cookie jar — instead of running the evite-mcp server. Does a headless EVITE_EMAIL/EVITE_PASSWORD login against evite.com's internal /services/, /ajax/, and /tsunami/ APIs, no browser or extension involved. Use when you want Evite data/actions without the MCP, in a script, or on a machine where the MCP isn't installed. Triggers on \"check my Evite\", \"Evite guest list\", \"RSVP on Evite from the shell\", \"curl Evite\", \"evite-api skill\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:evite-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "volcengine-sale",
+  "displayName": "volcengine-sale",
+  "description": "Use when the user asks to purchase, subscribe, provision, open, or place an order for any Volcengine commercial product, or uses Chinese verbs such as \"开通 / 购买 / 下单 / 买 / 售卖 / 想买 / 订购\" together with a Volcengine product name. Trigger even when the user does not mention \"sale\" but expresses a clear provisioning intent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-sale"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

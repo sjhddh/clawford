@@ -1,0 +1,49 @@
+{
+  "skillId": "xhs-product-trend-fit",
+  "displayName": "小红书选品与商品趋势分析 · Product Trend Fit — 发笔记前先判热度 + 找爆款参考",
+  "description": "小红书选品 / 商品趋势分析（product trend analysis）——发笔记前先看商品在小红书有没有热度：传入商品图片，自动判断品类/风格/场景方向，搜近 2 周热度趋势，深挖真实爆款笔记（赞≥100）做分维度拆解，输出宣传方向 + 爆款素材 HTML 报告，不需要任何第三方 API key。English: check product trend & heat on Xiaohongshu before you post. 需要 webclaw3 浏览器运行时：clawhub.ai/fatmind/skills/webclaw3-browser-automation",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-product-trend-fit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

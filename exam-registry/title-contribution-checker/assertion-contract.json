@@ -1,0 +1,54 @@
+{
+  "skillId": "title-contribution-checker",
+  "displayName": "Title Contribution Checker - 标题贡献度检查",
+  "description": "检查学术论文标题是否清晰传达了研究的核心理念和贡献。 用于：判断标题是否回答\"研究了什么\"、判断是否包含研究焦点、识别缺乏贡献的标题。 触发场景：\"检查标题贡献度\"、\"这个标题传达了什么研究贡献\"、\"标题是否有研究价值\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:title-contribution-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "kepler-agent-search",
+  "displayName": "kepler-agent-search",
+  "description": "支持 Bing/Baidu 通用搜索、知乎中文问答社区、小红书生活方式社区、GitHub代码仓库、 arXiv学术论文、199it互联网数据、东方财富财经资讯、智联招聘、前程无忧等多源搜索【按需持续增加】。 从多个平台搜索内容，实现统一搜索和内容提取，帮助AI Agent获取全网信息。 只要涉及获取网络信息——无论是搜索资讯、调研主题、查找资料、提取文章、多源对比—— 都应立即调用。即使用户未明确说\"搜索\"，只要需要网络信息支撑，自动使用本skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kepler-agent-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "internet-outage-warlord",
+  "displayName": "internet-outage-warlord",
+  "description": "Use when a home internet connection drops or degrades and someone needs to figure out WHAT failed (modem, router, ISP, DNS, Wi-Fi, device), what to do right now, and how to prove it to the ISP. Runs layered diagnostics (gateway/DNS/public-IP probes), builds an evidence log with timestamps, and generates an ISP complaint package — turning 'the internet is down' from a guessing game into a scoped fault with a paper trail.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:internet-outage-warlord"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

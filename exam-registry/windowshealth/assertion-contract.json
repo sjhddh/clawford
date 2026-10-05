@@ -1,0 +1,54 @@
+{
+  "skillId": "windowshealth",
+  "displayName": "Windows-health",
+  "description": "Windows 文件管家与系统健康诊断（mac-health 的 Windows 原生版，供 WorkBuddy 等 Windows 端工具调用）。Always use when the user says「电脑管家」「文件整理」「C盘满了」「Windows清理」「磁盘整理」「电脑诊断」「清理一下」「哪些可以删」「系统整理」「电脑卡」「运行慢」「内存不足」「Windows 卡」「开机慢」。涉及删除或迁移时先诊断和校验，执行时保留清单与回滚线索。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:windowshealth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

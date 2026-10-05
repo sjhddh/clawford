@@ -1,0 +1,54 @@
+{
+  "skillId": "smart-test-report",
+  "displayName": "智能测试报告",
+  "description": "从测试执行结果、日志文件或测试框架输出中自动生成专业的测试分析报告。支持 Allure、Pytest、Jest、JUnit 等多种格式。当用户需要生成测试报告、分析测试结果、统计测试通过率、生成质量看板、导出测试数据、或需要测试趋势分析时使用此技能。也适用于用户提到\"测试报告\"、\"test report\"、\"测试统计\"、\"测试分析\"、\"通过率\"、\"质量报告\"、\"测试看板\"等场景。支持导出为 HTML、PDF、Excel 格式。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smart-test-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

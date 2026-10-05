@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-eval-toolkit",
+  "displayName": "LLM Evaluation Toolkit（LLM评测工具链）",
+  "description": "LLM 评测工具链（可运行实现）——把评测方法论变成能直接跑的本地引擎：评测集管理（JSONL 建集/质量检查/规模统计）、幻觉检测引擎（数字一致性/引用校验/否定矛盾/关键论断互证四类规则检测）、RAG 指标计算（RAGAS 四指标的本地简化实现：忠实度/答案相关性/上下文精度/上下文召回）、回归对比（基线 vs 新结果差异判定）、报告生成与上线门禁（分场景得分/门禁判定/报告输出）。零依赖纯标准库，本地闭环不联网。与「LLM 质量评测」（方法论）互补——那个讲怎么做，这个给能跑的实现。面向 AI 工程师、测试与质量负责人。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-eval-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "github-flow",
+  "displayName": "github-flow",
+  "description": "GitHub issue/PR workflow automation. Topics — auth-scope (gh CLI priority + account mapping + batch scope refresh + 404 checklist), commit-message-discipline (commit message authoring + amend refresh + PUBLIC English enforcement), dependencies (blocked-by/sub-issues via GraphQL), epic-bundle (deferred findings → Epic + sub-issues), expand (expand-vs-split mid-work), identity-auth (gh account map + scope refresh + GH_TOKEN fallback), merge (CI/review gates + no autonomous push), plan-to-issue (MD → issue body), pr (PR with test plan), publish (branch + draft PR + CI watch + ready + merge, one topic), push-guards (branch/push-reject/force-push/main-push), register (dup check + strategy), review (structured comments), review-apply (deferred feedback apply), sanitize (PUBLIC repo personal data scan), upstream-issue (external OSS feature/bug). Use when: \"plan to issue\", \"issue register\", \"create PR\", \"PR body\", \"code review\", \"merge PR\", \"PR squash\", \"sanitize\", \"PII\", \"expand PR\", \"blocked by\", \"epic bundle\", \"upstream issue\", \"review apply\", \"sub-issue\", \"gh auth\", \"force push\", \"push reject\", \"branch change forbid\", \"auth scope\", \"account mapping\", \"scope refresh\", \"commit message\", \"PUBLIC repo English\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:github-flow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

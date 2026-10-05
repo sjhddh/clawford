@@ -1,0 +1,49 @@
+{
+  "skillId": "eia-process-intel",
+  "displayName": "eia-process-intel",
+  "description": "Investigation workflow that turns Chinese EIA filings (环评报告/环评公示) into investment due-diligence intelligence: structured extraction (product scheme, per-step process flow, equipment list, material balance), adversarial field-credibility grading, physics-based cross-validation (low-risk fields as trust anchors to back-calculate capacity/yield/emissions), process-to-equipment mapping inference, and an append-only triple ledger with provenance. Use when: (1) analyzing a company EIA filing or 受理公示, (2) verifying capacity claims / 产能真实性核验, (3) inferring equipment selection from a 设备清单, (4) back-calculating yield from 物料平衡 / material balance, (5) auditing EIA numbers for gaming patterns (批小建大), (6) building a process/equipment fact ledger across deals. Triggers: 环评, EIA report, material balance, equipment list, capacity verification, yield back-calculation, regulatory gaming audit.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:eia-process-intel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

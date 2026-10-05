@@ -1,0 +1,54 @@
+{
+  "skillId": "page-clone",
+  "displayName": "页面复刻分析器",
+  "description": "从用户提供的页面截图和描述中精准识别页面结构、布局尺寸、全量数据内容，输出结构化的页面复刻规格。当用户要复刻、还原、克隆、1:1复制某个页面，或提供了页面截图并要求生成对应代码时触发。识别页面类型、菜单名称、标签页标题、布局结构、字段、控件类型、按钮、分栏宽度比例、模块高度、全量文字/数据等全部UI要素。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:page-clone"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

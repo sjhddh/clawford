@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-contract-risk-review",
+  "displayName": "合同风控与合规审查",
+  "description": "站在指定一方立场逐条审查合同条款，核验主体与效力瑕疵、钱货闭环、违约责任与管辖约定， 输出带风险分级（高/中/低）和可直接采纳修改建议的排查表。支持上传合同文件，从现行法规、 司法类案、交易对手司法资信三路交叉核验，每条结论附法条或案号出处。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-contract-risk-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

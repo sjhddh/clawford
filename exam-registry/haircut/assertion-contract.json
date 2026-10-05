@@ -1,0 +1,54 @@
+{
+  "skillId": "haircut",
+  "displayName": "haircut",
+  "description": "The barber for your coding agents' config. Weighs everything every agent on this machine loads (instruction files, memory, MCP servers, hooks, skills, commands, subagents, plugins, leftovers), prices each item in tokens from your own transcripts, and parks the dead weight with a receipt and an undo. Use this skill whenever the user mentions config bloat, a heavy or slow session start, tokens burned before the first word, too many MCP servers, hooks that are slow or fire on every prompt, skills or commands or plugins nobody invokes, cleaning up or auditing CLAUDE.md or AGENTS.md, Codex config, or asks what does my agent actually load, why is my context full before I type, which of these servers can I turn off, or what is this plugin costing me. Use it even when they only say the session feels bloated or startup got slow, and even when they mention /context, /doctor or /skill-doctor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:haircut"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

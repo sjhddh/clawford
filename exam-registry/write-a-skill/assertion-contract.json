@@ -1,0 +1,54 @@
+{
+  "skillId": "write-a-skill",
+  "displayName": "write-a-skill",
+  "description": "Create a new Claude Code skill — scaffolds a properly-structured `SKILL.md` (with YAML frontmatter, trigger-rich description, workflow, examples, anti-patterns), drops it in the right location (this library's `skills/`, the project's `.claude/skills/`, or the global `~/.claude/skills/`), and — when adding to the `dennisrongo/claude-skills` library — also updates the README table. Use this skill whenever the user says \"create a skill\", \"write a skill\", \"new skill\", \"add a skill\", \"make a skill\", \"/write-a-skill\", or pastes a SKILL.md URL and asks for something similar — even if they don't explicitly say \"skill author\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:write-a-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

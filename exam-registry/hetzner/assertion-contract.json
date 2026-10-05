@@ -1,0 +1,54 @@
+{
+  "skillId": "hetzner",
+  "displayName": "Hetzner",
+  "description": "Runs Hetzner Cloud and Hetzner dedicated servers end to end: sizing, private networks, firewalls, volumes, backups, and the bill. Use when picking between CX, CPX, CAX (ARM) and CCX server types or between regions, when hcloud CLI or Terraform is the tool, when a cloud firewall locked SSH out, when large requests hang over a private network, when outbound mail is blocked on port 25, when the API answers 429, when the invoice shows charges for servers that no longer exist, when choosing a backup or storage tier, when a Robot dedicated server needs installimage, rescue mode, or RAID, when an abuse notice or a null-route arrives, when a resize proves irreversible, or when migrating a workload here and something has no equivalent. Covers EU data residency, VAT, and k3s. Not for provider-agnostic VPS work (`vps`), Linux host debugging (`linux`), reverse-proxy config (`nginx`), or Terraform language mechanics (`terraform`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hetzner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

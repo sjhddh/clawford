@@ -1,0 +1,54 @@
+{
+  "skillId": "longmemo-elite",
+  "displayName": "精英长记忆",
+  "description": "面向AI Agent的精英级长期记忆系统，解决跨会话遗忘、检索不准、成本失控三大核心痛点. WAL写前日志协议采用\"先写状态，再回复用户\"模式，在压缩/崩溃/重启场景下保证上下文不丢失. 向量+关键词+图谱三路混合检索，通过RRF融合排序解决单一向量检索\"相似但不相关\"的召回质量问题. 六层存储架构（L1热内存→...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:longmemo-elite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

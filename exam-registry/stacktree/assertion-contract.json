@@ -1,0 +1,54 @@
+{
+  "skillId": "stacktree",
+  "displayName": "stacktree",
+  "description": "Publish HTML to a private, unguessable link your human can open in any browser — no account for the viewer, passcode optional. Built for the pages a personal agent produces: a morning brief, a dashboard, a report, field notes, a visualization, anything a chat message can't hold. Free anonymous pages (24 hours), or pay $0.50 in USDC over x402 for a permanent page with no account at all — and the wallet that paid can keep updating the same URL free, forever. This skill publishes content to stacktr.ee, and makes paid HTTP requests only on the paths that say so. USE FOR: - \"publish this\", \"host this html\", \"put this on a page\", \"give me a link\" - Delivering a report, brief, dashboard, or write-up as a link instead of an attachment - A standing page you refresh on every run — same link, new content, no re-pay - Sharing privately: unguessable URL, optional passcode, optional expiry - Publishing with no API key and no human present (x402, USDC on Base or Solana) TRIGGERS: - \"publish\", \"host\", \"share this page\", \"make me a page\", \"send me a link\" - \"morning brief\", \"daily report\", \"dashboard\", \"status page\", \"field notes\" - \"update the page\", \"same link\", \"private link\", \"passcode\", \"x402\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stacktree"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

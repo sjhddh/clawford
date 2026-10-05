@@ -1,0 +1,49 @@
+{
+  "skillId": "tencent-weather-alert",
+  "displayName": "腾讯天气预警",
+  "description": "腾讯天气预警/异常天气查询工具，覆盖雨雪、雾霾、空气质量、寒潮、高温和台风等预警。当用户查询某地天气预警或最近有什么异常天气时使用；仅做一次性查询并返回结果，不提供订阅或主动推送。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencent-weather-alert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-creator-max",
+  "displayName": "skill-creator-max",
+  "description": "Build a NEW agent skill from scratch, end-to-end — a thin conductor dispatches fresh subagents through five gated roles (compose spec -> design structure -> red-green build -> compress -> independent attack). EXPENSIVE (large token cost): trigger ONLY on an explicit user request to author/build/create an agent skill — \"build me a skill\", \"create a new skill\", \"package this repeated workflow so it triggers automatically\", \"$skill-creator-max\". Do-NOT fire for: summarizing or writing daily/session memory or journaling (incl. Chinese \"总结/记录今天的记忆\"), or any generic \"create/make/summarize X\" that is not authoring an agent skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-creator-max"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

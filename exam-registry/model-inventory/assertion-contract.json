@@ -1,0 +1,54 @@
+{
+  "skillId": "model-inventory",
+  "displayName": "model-inventory",
+  "description": "Scan the machine for installed AI coding CLIs (claude, codex, gemini, copilot, opencode, ollama), detect whether each account is actually active and which models are usable, and cache the result to ~/.claude/model-inventory.json with role→model routing chains (planner/coder/scout/reviewer/fixer) that goal-runner and autopilot consume to pick the best available model per sub-agent while staying cost-efficient. Three evidence tiers — installed (binary found), likely-authenticated (zero-token credential heuristics), verified (a live one-line probe per model, the only ground truth for \"account active and model on the plan\"). Use this skill whenever the user says \"scan available models\", \"which models can I use\", \"what AI CLIs are installed\", \"refresh the model inventory\", \"is fable available\", \"check my model access\", or \"/model-inventory\" — even if they don't name the skill. Not for picking a model mid-task (consumers read the cached file, they don't rescan).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:model-inventory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

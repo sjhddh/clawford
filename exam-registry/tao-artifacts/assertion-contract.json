@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-artifacts",
+  "displayName": "tao-artifacts",
+  "description": "The contract home for TAO's SDK-free execution pipeline — authoritative JSON Schemas for the four typed artifacts (spec-bundle, job-record, results_dir layout, best_rec) plus the fixed job-status vocabulary and the nested-not-dotted spec rule. Use when authoring or validating a spec-bundle before submit, writing or reading a .tao/jobs job-record, resolving where results land, or consuming AutoML's best_rec.json. Trigger phrases include \"validate the spec bundle\", \"job record schema\", \"status vocabulary\", \"results_dir layout\", \"best_rec schema\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-artifacts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

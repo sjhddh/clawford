@@ -1,0 +1,54 @@
+{
+  "skillId": "shellmail",
+  "displayName": "ShellMail - Email Built for AI Agents",
+  "description": "Full email client for AI agents via the ShellMail API. Read inbox, extract OTP codes, and search messages; also send and reply to email, mark/archive/permanently delete messages, and create, recover, or delete the ShellMail address itself. Uses curl/python3 to reach the ShellMail API only. Trigger ONLY when the user explicitly asks to use ShellMail or their shellmail.ai address (e.g. \"check my shellmail\", \"get the OTP from shellmail\", \"send from my shellmail address\"). Do NOT trigger for generic email requests or other email providers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shellmail"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

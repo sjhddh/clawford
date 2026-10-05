@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-lesson",
+  "displayName": "元案 yotta-lesson",
+  "description": "教案设计（元案）—— 把课标映射包变成可复算的教案骨架：学习目标逐条带课标来源、重难点与易错点、五环节 + 分钟级时间分配（合计恒等于课时 × 每课时分钟）、板书与评价清单；check 子命令对已有教案做确定性缺口检查（未覆盖知识点 / 缺必填环节 / 缺来源 / 未标时间 / 合计时间不一致），支持 --gate findings=n 接入 CI；零依赖本地运行，不联网、不调用模型、不内置教材与题目原文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-lesson"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

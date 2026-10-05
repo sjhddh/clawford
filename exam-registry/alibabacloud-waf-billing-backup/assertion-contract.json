@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-waf-billing-backup",
+  "displayName": "alibabacloud-waf-billing-backup",
+  "description": "Query and back up Alibaba Cloud WAF 3.0 billing data. Use this Skill when a user asks to check WAF bills, export WAF cost details, back up WAF billing data locally, or analyze daily/hourly SeCU and Credit usage. The Skill retrieves instance information, daily bill summaries, and hourly cost breakdowns (function fees, traffic processing fees, Credit usage) via aliyun-cli, then exports the results as JSON and CSV files to the local workspace.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-waf-billing-backup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

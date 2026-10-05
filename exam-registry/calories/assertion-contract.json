@@ -1,0 +1,54 @@
+{
+  "skillId": "calories",
+  "displayName": "Calorie Tracker",
+  "description": "Tracks calories, macros, and weight trends from meal photos, text logs, and nutrition labels. Use when the user logs a meal or a drink, keeps a food diary, asks how many calories something has, wants a calorie or protein target for a cut, bulk, deficit, or maintenance, asks for their TDEE or maintenance calories, counts macros or carbs, reads a food label, asks whether to eat back exercise calories or workout burn, or asks why the scale is stuck, why they are not losing weight, or why it jumped overnight. Covers TDEE calibration from the user's own logs, restaurant, alcohol, and cheat-day estimates, plateaus and water weight, smart-scale body-fat readings, GLP-1 and medical guardrails, and eating disorder safety. Not for meal planning or recipes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:calories"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

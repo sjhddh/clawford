@@ -1,0 +1,54 @@
+{
+  "skillId": "amazon-send-catch-invoice",
+  "displayName": "Amazon SEND CATCH Invoice",
+  "description": "Generate and upload FBA customs invoices for CATCH (凯琦), the Amazon SEND partnered carrier, and similar forwarder portals. Fills the forwarder's .xls template from your own product data, pulls box ids and reference ids from the inbound plan, and uploads over pure HTTP to place the order. Use when asked to make a customs invoice, a freight declaration, or to place a forwarder order for an FBA shipment. Triggers, customs invoice, freight invoice, declaration, forwarder order, upload invoice, CATCH, 报关发票, 货代发票, 填发票, 凯琦发票.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:amazon-send-catch-invoice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

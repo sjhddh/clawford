@@ -1,0 +1,49 @@
+{
+  "skillId": "payroll-data-audit",
+  "displayName": "Payroll Data Audit",
+  "description": "工资数据审核系统，基于确定性规则引擎 + Python 脚本执行。 全量对齐《工资审核标准流程 SOP》6 步流程。v7.2 修复P0阻断bug：_get_pay_month() 支持 中文格式（\"2026年4月\"/\"2026年04月\"/\"202604\"），RL-003/RL-007 排除逻辑完全生效。 v7.1...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:payroll-data-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

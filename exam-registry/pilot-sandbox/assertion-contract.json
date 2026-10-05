@@ -1,0 +1,54 @@
+{
+  "skillId": "pilot-sandbox",
+  "displayName": "pilot-sandbox",
+  "description": "Bring a Pilot Protocol node online from a network-restricted agent sandbox (Meta Muse and similar hosted VMs): no outbound UDP, poisoned DNS for the Pilot hostnames, and HTTPS CONNECT through an authenticating egress proxy as the only way out. Ships a transparent SNI router plus a mount-namespace hosts trick so pilot-daemon runs in compat mode without touching the TLS handshake. Use this skill when: 1. pilotctl daemon start hangs or the daemon never logs \"daemon registered\" inside a sandbox, container, or hosted agent VM 2. HTTPS_PROXY is set and direct TCP to registry.pilotprotocol.network fails or resolves to a blackhole address (198.18.x.x) 3. You are setting up Pilot inside Meta Muse's dedicated VM 4. Compat mode alone (-transport=compat) still cannot reach the registry Do NOT use this skill when: - Plain compat mode works (UDP blocked but direct TCP/443 allowed): just run pilot-daemon -transport=compat, see the firewalls doc - The daemon is already registered (pilotctl --json info succeeds) - You cannot get root or CAP_SYS_ADMIN (unshare -m needs it)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pilot-sandbox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

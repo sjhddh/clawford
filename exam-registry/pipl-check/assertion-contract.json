@@ -1,0 +1,49 @@
+{
+  "skillId": "pipl-check",
+  "displayName": "PIPL Check - PIPL合规检查",
+  "description": "PIPL Compliance Check — based on 《个人信息保护法》(PIPL, 2021-11-01 施行) 及配套规则,\n覆盖 8 大维度 25 项核心合规检查（告知同意/处理原则/数据安全/敏感个人信息/个人权利/\n自动化决策/跨境传输/合规治理）。免费安装；评分运行于 CQDev 云端合规引擎。\n无 Key 时自动匿名试用（5 次真实云端评分 / 7 天窗口）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pipl-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

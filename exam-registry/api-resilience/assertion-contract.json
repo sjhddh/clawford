@@ -1,0 +1,54 @@
+{
+  "skillId": "api-resilience",
+  "displayName": "api-resilience",
+  "description": "当用户说『调外部API老超时』『被限流了』『接口抖一动就挂』『怎么给agent加重试退避』，或 agent 依赖的第三方服务(模型/搜索/数据库)不稳定、需要限流/退避/熔断/降级时使用。把外部调用当『会失败的对象』：指数退避+抖动重试、限流计数、熔断降级，失败可恢复不雪崩。理论根基：LGD 三律（有籍·有证·有门禁）。触发词：API重试、限流、退避、熔断、降级、接口抖动、resilience、超时、调用不稳定。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:api-resilience"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

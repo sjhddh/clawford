@@ -1,0 +1,54 @@
+{
+  "skillId": "sn-update",
+  "displayName": "sn-update",
+  "description": "Update SenseNova Skills (the sn-* bundle) inside an OpenClaw or hermes-agent install. ALWAYS use this skill when the user says any of: \"update SenseNova skills\", \"update SN skills\", \"更新 sensenova skills\", \"更新 sn skills\", \"刷新 sn-*\", \"升级 sn-* skills\", or names a specific sn-* skill to update (e.g. \"更新 sn-ppt-standard\", \"refresh sn-image-base\"). Default scope is the whole sn-* bundle; if the user names specific skills, update ONLY those.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-update"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

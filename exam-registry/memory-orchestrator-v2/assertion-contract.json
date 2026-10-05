@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-orchestrator-v2",
+  "displayName": "记忆编排器",
+  "description": "记忆编排器是面向 AI Agent 的智能记忆管理系统，针对\"分层体系不够清晰、自动摘要质量不稳定、并发写入冲突、缺乏记忆健康度指标\"四大高频痛点而设计。它用四层记忆架构（工作/短期/长期/重要）与多模式检索，提供从存储到检索到摘要的全生命周期编排，让 Agent 记忆真正可控可观测。 核心能力：四层记忆架构（工...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-orchestrator-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

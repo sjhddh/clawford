@@ -1,0 +1,49 @@
+{
+  "skillId": "sn-da-non-spreadsheet-analysis",
+  "displayName": "sn-da-non-spreadsheet-analysis",
+  "description": "Word / PDF / PPT 文档解析与数据分析引擎。覆盖三类文件格式的全量提取、表格数值化、图表理解与跨文档汇总分析。**遇到以下任一情况就主动使用本 skill**：①用户上传或指定了 .docx / .doc / .pdf / .pptx / .ppt 文件并要求分析、提取或统计其中内容；②用户出现触发词：Word分析 / PDF解析 / PPT提取 / 文档分析 / 报告解析 / 幻灯片分析 / 发票提取 / 合同分析 / 文档统计 / 错别字 / 语病 / 字号检查 / 简历分析 / 多文档对比；③任务涉及从文档中提取表格、数值、图表、格式（颜色/高亮/字号）、组织架构、时间线等结构化信息。仅不用于：Excel/CSV 数据分析（使用 sn-da-excel-workflow）、纯图片分析（使用 sn-da-image-caption）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-da-non-spreadsheet-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "retention-money-check-free",
+  "displayName": "工程质量保证金扣留与退还核对（免费版）",
+  "description": "工程质量保证金（质保金/保修金）扣留与退还台账逐项核对，本期扣留金额 = 本期结算金额 × 扣留比例、保修期届满日 = 保修期起 + 保修期月数 − 1 日（含首日）、应退金额 = 累计扣留金额 − 保修期内扣减，逐行复算并做合计勾稽、重复结算单号与空缺检测，每条结论引用台账原文行号。触发词包括 质保金对不上、保修金该退没退、扣留比例算错、保修期届满日、质保金台账核对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:retention-money-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "wenqu-image",
+  "displayName": "文曲·配图",
+  "description": "为内容设计并生成、质检、上传、嵌入架构图、流程图、信息图和示意图，覆盖提示词设计到 最终出图。当用户要求“画个架构图”“画流程图”“生成配图”“生成图片”“把图画出来” “渲染一下”或“帮我生图”，或使用 \"draw an architecture diagram\", \"generate an image\", \"create a flowchart\" 等英文表达时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wenqu-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

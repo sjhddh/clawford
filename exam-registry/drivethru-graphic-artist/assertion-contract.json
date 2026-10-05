@@ -1,0 +1,54 @@
+{
+  "skillId": "drivethru-graphic-artist",
+  "displayName": "drivethru-graphic-artist",
+  "description": "Graphic-artist tasks for Bacon & Co decorations — (1) generate product mockups by compositing a decoration (logo/graphic) onto a blank product photo (deterministic; no model-generated pixels; self-reviewed), (2) make a DTF decoration \"production-ready\" / \"drop the art\" — take the real thumbnail, size it to the decoration location, render at 300 DPI, upload the DTF production file, set size + colors, and create a print sample, driving the decoration toward the 'done' state via the drivethru_mcp decoration_* tools, and (3) clean up degraded / AI-generated flat art before production — deterministically snap it back to its true inks, rebuild faded/broken/jagged outlines, and re-render crisp at print size (fixes the \"looks fine as a thumbnail, falls apart at 13 inches\" problem). Use whenever the user wants to see a logo on a garment, place artwork on a blank, remove an image background (knock a solid color out of flat art, or segment a photographic subject), tune a print's size/position, clean up / fix / \"drop for production\" a low-quality or AI-generated logo (ghosting, haze, jagged or fading outlines, soft edges), OR make a decoration production-ready / drop art / get a DTF decoration to done.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:drivethru-graphic-artist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

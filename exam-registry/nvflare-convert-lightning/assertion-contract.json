@@ -1,0 +1,54 @@
+{
+  "skillId": "nvflare-convert-lightning",
+  "displayName": "nvflare-convert-lightning",
+  "description": "Convert existing PyTorch Lightning training code into an NVFLARE federated job using the Lightning Client API patch, local validation, and job export; use only when the request names federated/NVFLARE conversion or asks multiple sites to train collaboratively while keeping each site's data local, and either names PyTorch Lightning or preliminary source inspection identifies one Lightning owner; do not use for non-federated Lightning work such as DDP, profiling, inference serving, or training-loop changes, nor for plain PyTorch, TensorFlow/Keras, other frameworks, deployment, POC/production lifecycle, or experiment workflows.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nvflare-convert-lightning"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

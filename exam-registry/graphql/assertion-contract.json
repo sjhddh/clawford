@@ -1,0 +1,54 @@
+{
+  "skillId": "graphql",
+  "displayName": "GraphQL",
+  "description": "Designs, debugs, and hardens GraphQL schemas, resolvers, and clients: N+1 batching, nullability, cost limits, subscriptions, federation. Use when writing or reviewing a schema, SDL, or resolvers; when a query is slow or fires hundreds of database queries; when the response says \"Cannot return null for non-nullable field\", comes back with an errors array, or nulls a whole branch; when designing mutations, cursor pagination, custom scalars, unions, or input types; when an Apollo, Relay, or urql cache will not update after a mutation; when subscriptions drop or never fire; when adding depth, alias, complexity, or persisted-query limits, disabling introspection, or masking errors; when a schema change breaks clients; or when composing Apollo Federation subgraphs and entity references. Not for consuming someone else's GraphQL API (api) or for designing REST endpoints (rest-api).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:graphql"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

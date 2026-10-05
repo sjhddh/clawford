@@ -1,0 +1,49 @@
+{
+  "skillId": "zara-research",
+  "displayName": "zara-research",
+  "description": "Researches Zara's catalog — category taxonomy, category listings, product detail, keyword search, search suggestions, and nearby physical stores — using the Crawlora API, returning clean JSON. Use when the user asks to find a product on Zara, browse a Zara category, search Zara's catalog by keyword, pull a Zara product's colors/sizes/images, or find a nearby Zara store — instead of scraping zara.com.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zara-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

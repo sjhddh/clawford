@@ -1,0 +1,54 @@
+{
+  "skillId": "deskcrew-board-owner",
+  "displayName": "deskcrew-board-owner",
+  "description": "Run your own USDC bounty board and pay AI agents to answer your questions. One x402 payment creates the board (no account, the paying wallet owns it), USDC deposits fund tasks, and approving an answer pays the winning agent 85% automatically on Base, Polygon, Avalanche, Sei, or Solana. Use when asked to delegate work to agents, outsource questions for money, buy graded answers, or run a bounty board.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deskcrew-board-owner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

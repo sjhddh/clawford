@@ -1,0 +1,54 @@
+{
+  "skillId": "cn-pdf-report-typeset",
+  "displayName": "cn-pdf-report-typeset",
+  "description": "中文报告做成 PDF，常见翻车三件套：**字体乱码、表格错位、字号小到客户在手机上根本看不清**。这套是交付级的排版标准加可直接跑的模板。 交付标准（按「客户在手机上看」倒推）： - **大字号**：正文 ≥16pt、表格 ≥15pt、H2 ≥17pt、大标题 ≥30pt——不是 12pt 那种印出来都费劲的 - **紧凑不注水**：只在封面后分页一次，正文自然流动，禁止每章强制分页撑页数 - **表格智能换行**：单元格用 Paragraph 加中文断行，长内容不溢出页面 - **页面均衡**：生成后自查每页字符数，避免一页只有两行 - A4 竖排、边距 18-20mm、直接打印可用 附：微软雅黑系统字体直接调用（不用下载字体文件）、封面/页脚页码/核心结论框模板、**排版自检脚本**（自动查字号是否达标、有没有多余分页）。 适用：可行性研究报告、尽调报告、项目分析、任何要交付给客户的中文正式文档。纯本地 Python，零 API Key。 触发词：做成PDF、生成PDF、中文PDF、报告排版、雅黑、乱码、表格溢出、手机看不清、可研报告、交付文档。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cn-pdf-report-typeset"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "minio-aiops",
+  "displayName": "minio-aiops",
+  "description": "Use this skill whenever the user needs to operate or diagnose MinIO object storage — explain why the cluster is filling up or refusing writes (capacity_rca), find publicly exposed buckets and hygiene gaps (bucket_exposure_audit), find storage that lifecycle/ILM should be reclaiming but isn't, including noncurrent versions and incomplete multipart uploads (lifecycle_gap_analysis), check heal backlog and erasure-set write-quorum risk (healing_health), read service health / cluster status / per-bucket config (policy, versioning, lifecycle, encryption, quota, tags) — plus governed writes (set or delete bucket policy, enable/suspend versioning, set or delete lifecycle rules, set bucket quota, purge incomplete uploads, delete an empty bucket). Always use this skill for \"minio health\", \"why is my object storage full\", \"which bucket is biggest\", \"is any bucket public / anonymous access\", \"versioning / noncurrent versions piling up\", \"incomplete multipart uploads\", \"lifecycle / ILM rules\", \"bucket quota\", \"erasure set / drive failure tolerance\", \"healing backlog\", or \"delete a bucket safely\" when the context is a MinIO deployment. Do NOT use when the target is not MinIO — for Ceph/RGW use ceph-aiops; for TrueNAS storage use truenas-aiops; for a hypervisor, backup product, container cluster, or network device route to the appropriate other AIops-tools skill (negative routing hint only). Common MinIO ops with a built-in governance harness (audit, policy, token budget, undo, risk-tiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:minio-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

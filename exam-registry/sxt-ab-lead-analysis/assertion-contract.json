@@ -1,0 +1,49 @@
+{
+  "skillId": "sxt-ab-lead-analysis",
+  "displayName": "私信通AB留资分析",
+  "description": "私信通(私信AI) AB 实验留资效果分析全流程 playbook。从线上埋点表 CSV 出发, 完成「会话重建 → 留资信号标注(A/B/C+宽口径) → 组间对比与置信区间 → 行业 mix 分解/标准化/商家配对 → 漏斗分层 → OR 归因(规则版特征 + LLM 反向提取 rubrics 管道) → 在...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sxt-ab-lead-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

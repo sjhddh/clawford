@@ -1,0 +1,54 @@
+{
+  "skillId": "tool-use",
+  "displayName": "tool-use",
+  "description": "函数调用 / 工具编排助手（agent 行动力核心）。把自然语言意图转化为结构化 tool_call（名称 + 参数 JSON），生成符合 OpenAI 函数调用规范的 schema，并提供本地调度器（dispatch）：按 schema 校验参数、安全执行已注册工具、回收结果。当用户需要\"定义工具 schema\"\"做 function calling\"\"让 agent 调用工具\"\"tool dispatch\"\"注册并调用工具\"时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tool-use"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

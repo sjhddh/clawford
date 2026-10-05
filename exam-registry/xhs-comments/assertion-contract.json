@@ -1,0 +1,54 @@
+{
+  "skillId": "xhs-comments",
+  "displayName": "xhs-comments",
+  "description": "小红书笔记评论内容采集工具（用户洞察）。当用户需要采集/查询小红书笔记的评论内容——昵称、评论正文、点赞数、IP 属地、子评论数，提交一批笔记链接一键批量采集、导出评论明细 CSV（Excel 直开），或提到\"小红书评论采集/评论内容/评论抓取/用户评论/评论导出/舆情/笔记评论\"时使用本 skill。适合评论区舆情监测、用户反馈收集、爆款笔记评论洞察、KOL 粉丝声音分析等场景。**笔记链接必须带 xsec_token 参数；缺 token / xhslink 短链会自动调用转链 skill xhs-convert-url-pro 转换后提交**。收费服务（1 篇笔记 = 1 点数，注册送",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-comments"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

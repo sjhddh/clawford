@@ -1,0 +1,54 @@
+{
+  "skillId": "redis-store",
+  "displayName": "Redis",
+  "description": "Designs, tunes, and debugs Redis: data structures, memory limits, persistence, Streams and queues, locks, replication, and cluster. Use when writing Redis commands or Lua, choosing between a hash, a sorted set and a stream, setting expirations on cache keys, building a queue, distributed lock, rate limiter, leaderboard, session store or counter, or when Redis answers OOM, MISCONF, CROSSSLOT, MOVED, BUSY, LOADING or WRONGTYPE, latency spikes, memory keeps growing, keys vanish early or never expire, a replica lags or a failover loses writes, KEYS or a big DEL freezes the server, connections are refused, or a cluster reshard, a Valkey / ElastiCache / MemoryDB / Upstash move, or a persistence and backup plan is on the table. Covers redis-cli forensics, pipelining, eviction policies, keyspace notifications, ACLs and exposed-instance hardening, and the JSON, Search and TimeSeries modules. Not for store-agnostic cache hierarchy strategy (caching) or picking a rate-limit algorithm (rate-limiting).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:redis-store"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

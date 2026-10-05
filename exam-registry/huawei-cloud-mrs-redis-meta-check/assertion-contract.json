@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-mrs-redis-meta-check",
+  "displayName": "huawei-cloud-mrs-redis-meta-check",
+  "description": "Checks Redis cluster metadata files (nodes-*.conf) for integrity, detecting 7 categories of metadata issues that cause Redis instance startup failures, connection anomalies, and fault alerts. 执行7项检查：slot槽位完整性、master/slave实例个数、文件格式(4个模块)、文件名端口一致性、端口关系、主备关系、myself标记。 Use this skill when the user mentions Redis metadata file checks, nodes-*.conf checks, or Redis cluster configuration checks. Use it whenever the user asks about Redis startup failures or connection anomalies. Trigger: \"Redis元数据检查\", \"Redis nodes检查\", \"Redis cluster配置检查\", \"检查Redis元数据\", \"Redis元数据校验\", \"Redis启动失败排查\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-mrs-redis-meta-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

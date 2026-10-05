@@ -1,0 +1,49 @@
+{
+  "skillId": "sato-kit",
+  "displayName": "sato-kit",
+  "description": "Prepare and execute onchain agent actions (chain reads, swap quotes, swaps, x402 payments) through the Sato Kit CLI with a policy pre-flight, simulation and a receipt log. Use when an agent needs to read chain state, quote or build a swap, or prepare an x402 payment and hand it to a signer only after a person has seen the summary. Fork network by default.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sato-kit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

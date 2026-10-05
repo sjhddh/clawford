@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-apig-instance-management",
+  "displayName": "huawei-cloud-apig-instance-management",
+  "description": "Manage Huawei Cloud APIG (API Gateway, dedicated instances) via hcloud CLI: instance lifecycle (create/list/delete), API groups, API create/update/delete, publish/offline, request throttling policies, signature keys, access control (ACL) policies, and public ingress EIP binding, plus read-only diagnosis of public access (eip_address vs sl_domain), the instance -> group -> API -> publish chain, and policy effectiveness. Delete operations require explicit user confirmation; instance creation is a 5-15 minute async operation that must be polled until status == Running. Triggers include: APIG, API gateway, API 分组, API 管理, 流控策略, throttling, 签名密钥, signature key, 访问控制, ACL 策略, access control, publish API, 发布 API, 下线 API, 实例管理, 公网访问, ingress EIP, 策略生效诊断, API 网关排障.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-apig-instance-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

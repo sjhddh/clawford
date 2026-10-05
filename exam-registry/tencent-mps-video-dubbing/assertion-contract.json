@@ -1,0 +1,54 @@
+{
+  "skillId": "tencent-mps-video-dubbing",
+  "displayName": "Tencent MPS Video Dubbing",
+  "description": "Tencent Cloud MPS 一站式端到端视频译制专用 Skill，在单次任务中**不可拆分**地完成「提取原视频语音/字幕 → 翻译为目标语言 → 压制目标语言字幕 → AI 克隆原声配音」整条跨语言本地化流水线。**触发的硬条件（必须同时满足）：(1) 用户的输入是一段视频；(2) 明确要求变更音视频的语言（翻译 + 配音 / 翻译 + 换语言 / 做成另一语言版本）；(3) 是端到端产出一个全新语言版本的视频，而不是只做流水线中的某一步子任务**。满足硬条件的典型表达：把这段视频翻译成英文并配音、中文视频做成韩语版、韩剧中配、短剧出海译制、做一个日语配音版、 跨语言视频制作",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencent-mps-video-dubbing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

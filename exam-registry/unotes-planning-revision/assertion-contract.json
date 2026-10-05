@@ -1,0 +1,49 @@
+{
+  "skillId": "unotes-planning-revision",
+  "displayName": "Planning Revision",
+  "description": "Builds a revision plan from the user's uNotes flashcard decks, quizzes, study streak, and monthly quota. Use when the user asks 'what should I revise', 'which flashcards do I have', 'which quizzes are on my courses', 'how long is my study streak', 'did I study today', 'make a revision plan for my exam', or 'how much uNotes quota is left'. Read-only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unotes-planning-revision"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

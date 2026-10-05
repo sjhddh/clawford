@@ -1,0 +1,54 @@
+{
+  "skillId": "unit-convert",
+  "displayName": "단위 변환",
+  "description": "길이, 무게, 부피, 넓이, 속도, 온도, 디지털 용량 단위를 서로 변환한다. 번들에 들어 있는 변환표만 쓰기 때문에 네트워크도 API 키도 필요 없다. \"5km는 몇 마일\", \"화씨 100도면 섭씨로 얼마\", \"30평이 몇 제곱미터\" 같은 질문이 나오면 암산하지 말고 이 스킬을 쓴다. 암산에는 반올림 오차가 티 안 나게 섞여 들어간다.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unit-convert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

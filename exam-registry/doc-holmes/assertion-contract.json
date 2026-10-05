@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-holmes",
+  "displayName": "doc-holmes",
+  "description": "Layout-preserving precise translation for large PDFs (papers, guidelines, reports). Keeps formulas, figures, tables, TOC and annotations intact; outputs a bilingual side-by-side PDF plus a pure-translation PDF. Every file is triaged first into tier A (clean born-digital, high fidelity), tier B (noisy text layer, translated with a noise report), tier C (scanned/image-only, experimental OCR channel marked preview quality). Runs the BabelDOC engine (pdf2zh-next) as a subprocess on any OpenAI-compatible endpoint you configure (bring your own key; none bundled). Batch mode ships resume, per-file timeout, audit log and rollback. Triggers include PDF translation, PDF to Chinese, translate paper, translate document, full-text translation, bilingual PDF, side-by-side translation, keep original layout, layout preserved, formula preservation, scanned PDF translation, academic PDF translator, medical literature translation, docx translation, pptx translation, Word document translation, batch PDF translate.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-holmes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "kiaaccess-curl",
+  "displayName": "kiaaccess-curl",
+  "description": "Query and command a Kia vehicle directly with curl against the Kia Owners API (api.owners.kia.com), without running the MCP server. Use when the user wants a one-off read of their Kia's status, location, or EV charge state, or to lock/unlock/start climate from the shell — \"check my Kia\", \"is the car locked\", \"what's the EV9 charge\", \"lock the car from the terminal\". Requires KIA_USERNAME/KIA_PASSWORD and a one-time SMS/email MFA bootstrap.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kiaaccess-curl"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

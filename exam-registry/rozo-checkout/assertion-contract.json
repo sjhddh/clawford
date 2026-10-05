@@ -1,0 +1,54 @@
+{
+  "skillId": "rozo-checkout",
+  "displayName": "rozo-checkout",
+  "description": "Use when an agent needs to pay OpenRouter (or any Coinbase invoice) with the crypto it already holds: USDT/USDC on Solana, BNB Chain, Ethereum or Polygon, USDC on Base or Stellar, or BTC over Lightning, with no Coinbase account. A bridge creates a one-time deposit order for that coin, then a funder wallet settles the Coinbase invoice. Triggers on a payments.coinbase.com/payment-links/pl_* (or payment-sessions/paymentSession_*) URL, on \"rozo-checkout\" / \"pay this link with bitcoin\", or when a user asks to top up OpenRouter credits with crypto and has no link yet (OpenRouter's crypto credits API returns 410 Gone).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rozo-checkout"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

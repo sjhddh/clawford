@@ -1,0 +1,54 @@
+{
+  "skillId": "ioffice-mcp",
+  "displayName": "ioffice-mcp",
+  "description": "Access iOffice workspace and facility data via MCP. Use when the user asks about iOffice buildings, floors, spaces, reservations, visitors, maintenance requests, moves, or mail. Triggers on phrases like \"book a room in iOffice\", \"check who's visiting today\", \"file a maintenance request\", \"log a package\", \"schedule a move\", or any request involving workplace management in iOffice. Requires ioffice-mcp installed and the ioffice server registered (see Setup below).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ioffice-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

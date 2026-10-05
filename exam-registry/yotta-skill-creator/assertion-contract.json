@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-skill-creator",
+  "displayName": "元造 yotta-skill-creator",
+  "description": "元造 —— 从内嵌模板一键生成合规技能目录并做结构自检：命名校验（yotta- 前缀 / 小写连字符 / 元X 规范 / 目标不重复）+ 完整发布件脚手架（SKILL.md / README 中英四方式安装 / package.json / CHANGELOG / LICENSE / NOTICE / install.sh + bin/install.js / .gitignore / .npmignore / publish.yml / references / assets）+ 占位符替换 + 结构自检；--self-use 自用模式只生成技能本体（SKILL.md / references / 可选 CLI），不生成任何发布件。触发：新建一个 yotta- 技能、从零搭技能脚手架、想把发布规范里的坑固化成模板时；或用户说 元造 / 造技能 / 脚手架 / scaffold / 新建技能 等。边界（Do NOT trigger）：不替用户写技能正文与脚本逻辑（SKILL.md 正文 / scripts 需人工开发）；不做发布前校验与三源发布（那是元守 yotta-publish-guard）；不做既有技能目录的批量改造。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-skill-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

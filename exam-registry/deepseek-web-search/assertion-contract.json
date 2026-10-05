@@ -1,0 +1,49 @@
+{
+  "skillId": "deepseek-web-search",
+  "displayName": "deepseek-web-search",
+  "description": "DeepSeek's latest official web search tool, now built right into the server — powered by DeepSeek's own powerful reasoning engine. Crush your knowledge cutoff: ask about breaking news, live events, or anything happening right now, and DeepSeek's sharp understanding turns raw web results into a crisp, synthesized answer backed by real source URLs. No link dumps, no noise — just DeepSeek's intelligence doing the heavy lifting. Fresh, fast, and authoritative. Not for structured result lists.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepseek-web-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

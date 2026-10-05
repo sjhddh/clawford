@@ -1,0 +1,54 @@
+{
+  "skillId": "offline-quiz-builder",
+  "displayName": "offline-quiz-builder",
+  "description": "把任意学习资料（讲义、笔记、教材、PDF、Word、Excel、已有题库）转换成一个纯离线的智能复习题库网站，双击即可使用，内置艾宾浩斯遗忘曲线自适应排程、错题本、收藏夹与打卡日历，并可自动创建每日复习提醒任务。当用户想把资料变成刷题网站、做复习题库、生成练习题、搭建离线背题工具、或需要按遗忘曲线安排复习时，应使用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:offline-quiz-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

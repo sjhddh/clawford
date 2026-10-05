@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-newsletter-prompt",
+  "displayName": "ai-newsletter-daily",
+  "description": "Generate a daily AI news digest newsletter from fresh web sources. Use this skill whenever a user asks for AI news, wants a roundup or summary of recent AI/ML developments, asks what happened in artificial intelligence today or this week, requests a newsletter, briefing, or digest of model releases, research papers, funding rounds, product launches, regulation, or benchmark results — even if they don't explicitly say \"newsletter.\" Also use for follow-up requests like \"more AI news\" or \"catch me up on AI.\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-newsletter-prompt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

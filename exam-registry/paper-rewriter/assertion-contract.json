@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-rewriter",
+  "displayName": "Pkg Paper Rewriter Claw",
+  "description": "Academic writing style toolkit, bilingual CN/EN: AI flavor scan and style-pattern self-check reports (scan reports are detection only), deterministic text cleanup (model artifacts, punctuation, filler phrases), integrity guardrails (numbers, DOIs, PMIDs, terminology must survive untouched), and agent-guided style naturalization for clearer, more natural academic prose (de-templating, de-translationese, rhythm, concreteness). Built for scholars whose formal writing reads stiff, templated or machine-flavored — especially non-native (ESL) authors. Includes AIGC-disclosure compliance checks (China 2025-09 labeling rules) and academic-integrity guardrails: this tool improves writing quality for self-review; it does not help misrepresent authorship, conceal required AI disclosure, or defeat integrity review. 100% local, zero upload, Python stdlib only. Related: paper-polisher-pro (broad polishing), pubmed-verifier, cite-holmes, academic-figures, cn-med-oa, doc-holmes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-rewriter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

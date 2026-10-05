@@ -1,0 +1,54 @@
+{
+  "skillId": "resilience-hub-getting-started",
+  "displayName": "resilience-hub-getting-started",
+  "description": "Sets up AWS Resilience Hub v2 from scratch: creates resilience policies with SLO targets, registers systems and user journeys, onboards services with input sources, and runs a first failure mode assessment. Applies when the user wants to get started with Resilience Hub v2, create a policy, onboard a service, or run an assessment — including creating one concrete policy with specific availability/RTO/RPO targets and a DR approach for a single service (even a tier-1 one). Does not apply to FIS experiments or ARC routing controls.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resilience-hub-getting-started"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

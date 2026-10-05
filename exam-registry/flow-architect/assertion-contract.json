@@ -1,0 +1,54 @@
+{
+  "skillId": "flow-architect",
+  "displayName": "流程架构师",
+  "description": "流程架构师是跨平台自动化工作流的设计与执行能力包。它不只给JS示例，更解决四个高频 痛点：复杂分支逻辑难以调试、字段映射错位导致数据串列、重复触发造成重复处理、 API限流未处理导致批量失败。 核心能力： - YAML工作流DSL：用声明式YAML替代JS片段，可版本化、可diff、可dry-run - 干跑校验...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flow-architect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "dlazy-chat",
+  "displayName": "沙箱智能体对话 Chat",
+  "description": "Chat with the dlazy sandbox agent — a project-scoped assistant that runs skills end-to-end over multiple turns. Discover skills and projects with dlazy skills list / dlazy projects list. 与 dlazy 沙箱 agent 对话 —— 一个以项目为单位、可端到端运行技能的多轮助手。用 dlazy skills list / dlazy projects list 发现可用技能与项目。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dlazy-chat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

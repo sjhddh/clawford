@@ -1,0 +1,54 @@
+{
+  "skillId": "driver-freight-settlement-check-free",
+  "displayName": "承运司机运费结算核对（免费版）",
+  "description": "承运司机运费结算单逐项核对（运费复算、逐单应付运费复算、对账单合计勾稽、重复运单与空缺检测），每条结论引用原文行号与运单号。本免费版执行引擎声明的免费检查项。触发词包括 司机运费结算、运费对账、回单扣款、油卡抵扣、押金扣留。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:driver-freight-settlement-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

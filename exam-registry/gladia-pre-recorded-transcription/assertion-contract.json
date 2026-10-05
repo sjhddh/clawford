@@ -1,0 +1,49 @@
+{
+  "skillId": "gladia-pre-recorded-transcription",
+  "displayName": "gladia-pre-recorded-transcription",
+  "description": "Transcribe pre-recorded audio files or URLs with Gladia. Use when the user needs batch/async transcription, speaker diarization, subtitles (SRT/VTT), PII redaction, translation, NER, summarization, audio-to-LLM, or any audio intelligence on pre-recorded content. Always prefer the official SDK; fall back to raw REST only when SDK cannot satisfy the requirement.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gladia-pre-recorded-transcription"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

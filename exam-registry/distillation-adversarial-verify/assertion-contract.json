@@ -1,0 +1,54 @@
+{
+  "skillId": "distillation-adversarial-verify",
+  "displayName": "distillation-adversarial-verify",
+  "description": "跨模型蒸馏工程化的对抗验证环：对蒸馏出的关键决策规则 / 学生技能做反例测试，量化\"学到了真能力 还是只学到表面话术\"。给定一组规则(可调用函数或规则 dict)与对抗用例集，输出每条规则的健壮性 评分与整体蒸馏质量分，并标记需回炉的规则。纯标准库、零依赖、可本地实跑(--selftest 自带样例)。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:distillation-adversarial-verify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

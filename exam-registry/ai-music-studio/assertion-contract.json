@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-music-studio",
+  "displayName": "AI音乐生成歌曲写词作曲编曲演唱人声克隆翻唱伴奏分轨混音一键出歌",
+  "description": "输入一句话，AI 帮你写词、作曲、编曲、演唱，一首完整的歌只要 0.65 元。支持人声克隆与专属歌手风格，让 AI 用你的音色唱；支持 AI 翻唱、续写、混音、采样、母带重制、伴奏分离与分轨导出。含 17 种生成操作、13 个接口的完整参数表与真实计费口径。包内含完整操作文档与零依赖客户端（`SKILL.md` + `references/`）。需要自备 api.a7w.cn 的 API Key，注册领 Key 见 https://api.a7w.cn/ 。遇到问题可加技术微信 9872659。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-music-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "website-builder",
+  "displayName": "云指建站助手",
+  "description": "创建、修改云指建站系统的页面，支持新建网站、从零规划站点、搬站/仿站、生成/修改企业网站页面（自由页 HTML/CSS/JS、Twig 风格模板）、调用产品/文章/下载/相册/门店/栏目/FAQ 数据、制作自定义表单/产品询盘/在线查询、上传或修改产品/文章数据。通过用户指定站点的 MCP 服务查询并写入站点内容；与 WorkBuddy、Codex 等协同使用时，可实现从需求到页面的端到端自动交付，建站流程大幅简化。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

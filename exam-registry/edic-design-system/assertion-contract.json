@@ -1,0 +1,54 @@
+{
+  "skillId": "edic-design-system",
+  "displayName": "EDIC 设计系统",
+  "description": "Generate UI components, full pages, documents, emails, and assets aligned with the EDIC design system (Editorial × Olive Green, OKLch tokens for web/UI, dark-mode ready, CJK-optimized; emails use compatible static styles). Use this skill whenever the user asks to build, style, or refactor anything for EDIC, or explicitly requests the EDIC / \"editorial olive\" design system. Output token-driven, accessible, framework-agnostic HTML/CSS.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:edic-design-system"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

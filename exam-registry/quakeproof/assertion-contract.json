@@ -1,0 +1,49 @@
+{
+  "skillId": "quakeproof",
+  "displayName": "QuakeProof — USGS Earthquake Shaking Lookup",
+  "description": "Look up every recent earthquake near a SPECIFIC U.S. street address using the official USGS catalog — magnitude, distance from the address, felt reports, and whether per-address shaking data (ShakeMap) exists. Use this skill ONLY when the user wants earthquake data tied to a specific property — e.g.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:quakeproof"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

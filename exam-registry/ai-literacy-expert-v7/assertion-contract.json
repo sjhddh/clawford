@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-literacy-expert-v7",
+  "displayName": "ai-literacy-expert-v5",
+  "description": "「AI 通识课资深专家 V7.0 L4 调度版」——把 A→G 七大模块 + E·N 院校子模块 + 六大能力 + WorkBuddy 适配层，编排为可恢复可验证跨时间的工作流引擎（8 阶段管线 + L4 调度层 SCHEDULE）。⭐ L4 自动化：可注册为真实定时/周期任务（cron），到点在 automation 会话无人值守跑完；跨会话记住进度（IMA 权威状态）、幂等不重复产出、每次执行留痕可审计。六类运营流 OPS-1~6 覆盖全部模块与六大能力：4 周上手自动驾驶/每日速递/考前提醒/教研组周报/模块轮转课件/周检补学回流。⭐ 工作流：意图自动路由、控件由 Playwright",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-literacy-expert-v7"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-security-incident-forensics",
+  "displayName": "alibabacloud-oss-security-incident-forensics",
+  "description": "Read-only forensics for OSS traffic abuse and security incidents (overnight traffic spikes, suspected AK leak, hotlinking). Audits exposure (ACL, policy, public-access block, Referer), runs the 6-step SLS log query sequence, routes root causes, outputs containment checklists. Triggers: \"OSS traffic spike overnight\", \"traffic abuse\", \"strange files in my bucket\", \"suspected AK leak on OSS\", \"hotlinking abuse\", \"unexpected outbound traffic\", \"unauthorized downloads from my bucket\". Do NOT use: for transfer error codes use alibabacloud-oss-transfer-error-code-diagnosis; for billing use alibabacloud-oss-billing-diagnosis; for endpoint choice use alibabacloud-oss-endpoint-internal-diagnosis; for signed-URL use alibabacloud-oss-presigned-url-v4-diagnosis; for access-log tracing use alibabacloud-oss-access-log-trace-diagnosis; for direct-link issues use alibabacloud-oss-direct-access-link-diagnosis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-security-incident-forensics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

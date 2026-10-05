@@ -1,0 +1,54 @@
+{
+  "skillId": "kesha-voice-kit",
+  "displayName": "kesha-voice-kit",
+  "description": "Local multilingual voice toolkit — speech-to-text (STT), text-to-speech (TTS), speaker diarization, and language detection, over a CLI or an MCP server. Runs entirely offline on Apple Silicon, Linux, and Windows. No API keys, no cloud. NVIDIA Parakeet TDT for STT across 25 European languages, Kokoro-82M + Vosk-TTS for TTS in 9 languages, plus macOS AVSpeechSynthesizer for ~180 system voices with zero install.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kesha-voice-kit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

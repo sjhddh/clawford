@@ -1,0 +1,54 @@
+{
+  "skillId": "archmap",
+  "displayName": "archmap",
+  "description": "架构测绘 Agent。零参调用自动分流（无基线→full 全量初始化，有基线→lite 极简增量），full/lite 显式词强制兜底；项目路径+需求文本做增量影响面分析；+sync 同步变更并重生成全套报告；+diff 产出行级差异影响面与测试选择（diff_impact.json）并留痕变更历史（时间+修改内容，复盘前固定卡点）。实现精准开发、节约tokens。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:archmap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

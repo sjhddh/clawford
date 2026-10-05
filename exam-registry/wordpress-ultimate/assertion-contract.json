@@ -1,0 +1,54 @@
+{
+  "skillId": "wordpress-ultimate",
+  "displayName": "TinkerClaw WordPress",
+  "description": "Three env vars. One script. Your agent manages your WordPress site — and cannot quietly change it. Reads are free and new posts land as drafts; anything visitors would see (publishing, editing or trashing live content, uploading media, moderating comments) needs WP_ALLOW_PUBLISH=1 on that call, and plugins, themes, users, settings and any route the script does not know need WP_ALLOW_ADMIN=1. WP_URL is parsed strictly and credentials go only to that HTTPS host (pin it with WP_ALLOWED_HOSTS). Plugin install is code execution on your site and is named as such. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wordpress-ultimate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

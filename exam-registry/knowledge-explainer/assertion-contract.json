@@ -1,0 +1,54 @@
+{
+  "skillId": "knowledge-explainer",
+  "displayName": "Knowledge Explainer",
+  "description": "知识点原子化拆解与专业讲解技能。将任意知识点拆解为不可再分的原子概念，按依赖关系排序， 逐个进行包含定义、公式、推导、定量分析、常见误区辨析的专业讲解，最终串联回原始问题给出完整回答。 适用于：学科教学、概念梳理、备课、自学、知识体系构建。 Triggers: 讲解、解释、拆解概念、原子概念、知识体系、知识点分析...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:knowledge-explainer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "portage-shop-research",
+  "displayName": "shop-research",
+  "description": "Research products and stores for the user through the `portage` CLI without buying anything. Looks up what something costs, where to get it, whether it's in stock, what Portage knows about a store (whether it can be bought from automatically, what it supports, the business details and policy links it publishes, when the local index last saw it), and what the user ordered through Portage. It is read-only. It searches, checks stores and reads order history, and never creates a cart, a checkout or a payment. Use when the user asks how much something is, where they can get it, whether it's in stock, what a store is like, whether a store ships to them or what its returns policy is, or what they ordered through Portage. It reports what the store itself publishes and never vouches for a store. When the user wants to buy, order or reorder, switch to the `buy` skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:portage-shop-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

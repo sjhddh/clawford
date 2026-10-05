@@ -1,0 +1,49 @@
+{
+  "skillId": "self-improving-operations",
+  "displayName": "self-improving-operations",
+  "description": "Captures process bottlenecks, incident patterns, capacity issues, automation gaps, SLA breaches, and toil accumulation to enable continuous operations improvement. Use when: (1) An incident repeats within 30 days, (2) MTTR exceeds target thresholds, (3) A manual step exists in an automated pipeline, (4) Alert fatigue indicates noisy monitoring, (5) Change failure rate spikes, (6) Toil exceeds 50% of on-call time.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-operations"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

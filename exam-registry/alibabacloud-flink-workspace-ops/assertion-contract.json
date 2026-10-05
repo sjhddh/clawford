@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-flink-workspace-ops",
+  "displayName": "alibabacloud-flink-workspace-ops",
+  "description": "Use when user explicitly asks Flink/Ververica/Realtime Compute Console workspace operations: 草稿(draft), SQL校验/执行, 部署(deployment), 作业(job), Session Cluster, namespace, 表(table), 成员(member), 变量(variable), 或 checkpoint timeout 诊断, especially with workspace/deployment/job IDs (w-*, d-*, j-*, sc-*, draft-*). Also use when prompt asks to test/verify Flink Console lifecycle flow, safety guardrails, or parameter validation for these operations. This includes prompts such as create draft, deploy draft, list deployments, start/stop job, create/list session cluster, get tables, list variables. Also use when prompt explicitly asks to run `python scripts/flink_ververica_ops.py` for Flink Console workspace operations. Do not trigger for unrelated \"workspace\" contexts or generic cloud/platform tasks (ECS, OSS, RDS, Kafka, Spark, Kubernetes, billing, weather). Do not trigger for Flink instance lifecycle operations (create/scale/delete/renew); those belong to alibabacloud-flink-instance-manage.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-flink-workspace-ops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

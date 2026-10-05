@@ -1,0 +1,54 @@
+{
+  "skillId": "zh-humanizer",
+  "displayName": "中文去 AI 味",
+  "description": "中文文本去 AI 味与 AI 痕迹自查。当用户说「去 AI 味」「这段太像 AI 写的」「改得像人话」 「别这么机器」「润色一下读起来自然点」「帮我查一下有没有 AI 痕迹」「这是不是 ChatGPT 写的」 「读起来像说明书」「发之前帮我过一遍」时使用。 也用于：公众号、小红书、公文、课程稿、简历、对外邮件等中文文本发布前的自查， 或被人说过「像 AI 生成的」之后要返工。 Use when: removing AI-sounding patterns from Chinese text, diagnosing why Chinese prose reads machine-generated, rewriting Chinese copy so it does not read like a chatbot, or pre-publish self-check for Chinese content. 不适用：英文文本（用 humanizer）、虚构创作、以及用户想要「更正式更规范」的场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zh-humanizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

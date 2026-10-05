@@ -1,0 +1,54 @@
+{
+  "skillId": "suno",
+  "displayName": "Suno",
+  "description": "Creates music with Suno: crafts style prompts and structured lyrics, generates via API or browser, builds long tracks, covers, and personas. Use when the user wants a song, jingle, anthem, podcast intro, or background track, wants lyrics turned into audio or written for singing, asks to sound like an artist, or when a generation comes out generic, off-genre, cuts off mid-song, sings the style description, garbles words, or gets rejected by moderation. Also covers extending and stitching songs, stems, WAV export, credits, and commercial-use rights. Not for editing or mixing existing audio files.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:suno"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

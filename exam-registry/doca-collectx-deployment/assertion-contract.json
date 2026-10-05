@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-collectx-deployment",
+  "displayName": "doca-collectx-deployment",
+  "description": "Use this skill to deploy and operate a CollectX (clx) based DOCA telemetry collector on a host or BlueField — wiring providers / counters into the collector, running the collection daemon, and shaping its exporters (Prometheus pull, Fluent Bit push, NetFlow, file / IPC) so the metrics actually leave the box. Trigger even when the user never says CollectX or clx — implicit phrasings: {collector emits nothing downstream}, {add a provider to the clx collector}, {turn on the Prometheus endpoint}, {ship counters to Fluent Bit from the DPU}, {daemon starts but no schema rows appear}. This skill owns the CollectX collection mechanism plus the operator's own doca-telemetry / doca-telemetry-exporter usage; it ROUTES the productized DOCA Telemetry Service (DTS) to public docs (AGENTS.md Non-goal #7), the reader API to doca-telemetry, and the publisher API to doca-telemetry-exporter. Refuse to invent clx symbols, provider names, schema fields, flags, or config paths — describe the class and route to the live source.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-collectx-deployment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

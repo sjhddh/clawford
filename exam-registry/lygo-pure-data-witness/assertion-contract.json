@@ -1,0 +1,54 @@
+{
+  "skillId": "lygo-pure-data-witness",
+  "displayName": "LYGO Pure-Data Witness",
+  "description": "Teach agents to register pages into the LYGO Pure-Data lattice via the public register portal pack + safety-gated CLI. Archive URLs/files as digests (HTTPS-only, SSRF block, malware/ad heuristics, size cap), pack tiny eggs, rebuild ledger, emit Continuum claims and Star Chart NODE_PDW_* submissions. Use when user asks to witness, archive, pure-data register, PDW, or use the Data Vault register portal. Network only with --i-authorize-fetch; live chart writes need --i-consent. The pure_data_witness.py fetch path and all URL mode also require --i-authorize-fetch. The all chain additionally requires --i-confirm-chain (multi-step persistence warning). HF export pack is local-only and requires --i-consent + --i-authorize-hf-export.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lygo-pure-data-witness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

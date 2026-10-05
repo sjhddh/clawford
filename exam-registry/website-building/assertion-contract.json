@@ -1,0 +1,54 @@
+{
+  "skillId": "website-building",
+  "displayName": "website-building",
+  "description": "Build the company website on Cargo and serve it on your own domain: a statically exported Next.js app, one defineApp with its www hostname, and a defineDomain that publishes the records and forwards the apex, changed only through reviewed pull requests. Triggers: \"build our company website\", \"recreate our website on Cargo\", \"host our marketing site on Cargo\", \"put our website on our own domain\", \"capture our design system for the website\", \"keep our website updated through pull requests\". Cargo CDK, defineApp, defineDomain, domainRecords, Next.js, Tailwind, shadcn/ui. Skip when: you are researching another company's website, which is research-account; or you want a generic hosted app, dashboard or webhook, which is cargo-hosting in the Cargo skill pack.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-building"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "gitrakz",
+  "displayName": "gitrakz",
+  "description": "Drive a self-hosted gitrakz instance — the tool that syncs a GitHub user's activity into local SQLite, renders a filterable timeline and derived work sessions, and runs deterministic programmatic templates that export to CSV/PDF/JSON. Install or run it with Docker, then query its bearer-protected REST API under /api/v1 (owners, repos, timeline, sessions, sync + sync status, templates CRUD, LLM template generation, run, export) — or drive the same capabilities as MCP tools over streamable HTTP (/mcp) or stdio (`gitrakz mcp`). Use when the user wants to set up gitrakz, trigger or check a GitHub activity sync, pull a timeline or work-sessions timesheet, or run and export a template.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gitrakz"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

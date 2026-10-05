@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cdn-certificate-diagnosis",
+  "displayName": "huawei-cloud-cdn-certificate-diagnosis",
+  "description": "Triggers include: \"certificate diagnosis\", \"certificate expiry\", \"HTTPS certificate\", \"certificate configuration\", \"SSL certificate\", \"cert expiry check\". Diagnose CDN HTTPS certificate configuration and expiration status using hcloud CLI. Query the certificate configuration via ShowCertificatesHttpsInfo/v2, probe the actual certificate served by the CDN edge via a Python TLS probe script (scripts/cert_probe.py), and compute days remaining until expiration to identify certificate misconfiguration, impending expiry, or already-expired certificates. Use this skill when the user wants to: (1) diagnose CDN HTTPS certificate issues, (2) check certificate expiration status, (3) verify SSL/TLS certificate configuration on a CDN domain, (4) troubleshoot HTTPS certificate deployment failures. Do NOT use this skill for certificate configuration changes (upload/update/delete/renew), CDN domain management, or non-CDN domains — this is a read-only diagnosis skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cdn-certificate-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

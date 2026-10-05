@@ -1,0 +1,54 @@
+{
+  "skillId": "courier-settlement-check-free",
+  "displayName": "网点运费与代收货款结算核对（免费版）",
+  "description": "网点运费结算单与代收货款明细表逐项核对（运费复算、代收货款扣减与应结金额复算、计费重量低于实际重量、同一运单号重复行、关键字段空缺），每条结论引用原文行号与运单号。本免费版执行引擎声明的 6 项免费检查。触发词包括 网点运费结算、代收货款对账、代收手续费、应结金额、网点与总部对账。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:courier-settlement-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

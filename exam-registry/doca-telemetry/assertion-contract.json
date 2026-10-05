@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-telemetry",
+  "displayName": "doca-telemetry",
+  "description": "Use this skill to read DOCA hardware-counter events from a `doca_dev` through the per-domain Telemetry reader libraries: `doca_telemetry_pcc`, `_dpa`, `_diag`, `_adp_retx`, `_phy`, and `_pci`. It covers capability checks, context creation, startup, and per-domain reads or samples. Trigger for implicit requests such as \"read PCC counters from my BlueField app\", \"sample DPA counter exports\", or \"expose PHY, PCI, or DIAG counters from this doca_dev\". This is the counter-reader surface, not a NetFlow, IPFIX, or local-socket collector. Route publishing and export to `doca-telemetry-exporter`; route deployed DOCA Telemetry Service (DTS), collectors, and plain stdout logging elsewhere.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-telemetry"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

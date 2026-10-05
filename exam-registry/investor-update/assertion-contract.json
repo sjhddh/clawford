@@ -1,0 +1,54 @@
+{
+  "skillId": "investor-update",
+  "displayName": "investor-update",
+  "description": "Drafts a founder's periodic update to investors and LPs for review, then hands it back to the founder to send. This skill is the drafting engine, it does NOT connect to any source or send anything. It pulls the period's raw material from whatever is reachable in the session (a Slack MCP on the founder's updates, metrics, and team channels; a Gmail/Google Workspace MCP for customer-win, hire, partnership, and fundraise threads; an analytics or billing MCP like Stripe or Amplitude for numbers) or from material the founder pastes, and produces a complete email draft in the Elad Gil long or short format. Built for founders sending monthly or quarterly updates to investors and LPs. Use whenever the founder says \"draft my investor update\", \"investor update\", \"write my monthly update to investors\", \"LP update\", \"write my investor email\", \"monthly investor email\", \"update to our investors\", or \"/investor-update\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:investor-update"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

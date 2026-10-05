@@ -1,0 +1,49 @@
+{
+  "skillId": "session-summarize",
+  "displayName": "Summarize",
+  "description": "在 Codex 中总结、精简或交接当前任务，提取目标、状态、决策、验证、风险和下一步，并基于本次证据给出操作、优化与行为建议。用户说“总结”“总结一下”“总结进度”“复盘”“总结精简”“压缩上下文”“交接”“handoff”“compact”“总结 checkpoint”“总结 交接 分层”“总结 诊断 历史”或...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:session-summarize"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

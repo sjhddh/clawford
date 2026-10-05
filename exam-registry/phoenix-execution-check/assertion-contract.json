@@ -1,0 +1,54 @@
+{
+  "skillId": "phoenix-execution-check",
+  "displayName": "phoenix-execution-check",
+  "description": "Before sending an on-chain transaction, swap, bridge or x402 payment on an L2 (Base, Arbitrum, Optimism, zkSync, Scroll, Linea, Blast, Mantle, Mode, Taiko, Polygon zkEVM), check whether the network is healthy enough to execute right now or whether to wait. Also get this agent's own behavioural identity passport (agent / human / bot) from Silicon DNA.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phoenix-execution-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

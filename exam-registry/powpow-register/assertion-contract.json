@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register",
+  "displayName": "PowPow Register — 注册泡泡，把游记钉上地图，和数字人聊天",
+  "description": "协助用户注册 PowPow（泡泡）账号并完成订阅激活。当用户说「注册泡泡」「注册 powpow 账号」「泡泡怎么注册」「帮我注册一个 powpow 账号」「sign up powpow」时触发；也处理注册过程中的问题（收不到验证码、用户名/邮箱被占用、密码格式不对）和注册后的激活问题（登录提示「账户未激活」/ pending_payment、怎么订阅/付费）。纯指引型 skill：产品介绍（含截图）→ 逐步注册引导 → 报错排查 → 订阅激活。不含发帖/创建数字人（那是 powpow-simple 的事），不含代码开发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

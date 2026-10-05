@@ -1,0 +1,54 @@
+{
+  "skillId": "bash",
+  "displayName": "Bash",
+  "description": "Writes, debugs, and hardens Bash shell scripts — quoting, arrays, strict mode, traps, argument parsing, and macOS/Linux portability. Use when writing or reviewing any script, one-liner, cron job, deploy script, container entrypoint, or CI step; when a script breaks on spaces in filenames, exits silently, ignores set -e, hangs, or returns the wrong exit code; when quoting, IFS, globs, arrays, heredocs, process substitution, trap, getopts, or mapfile misbehave; when shellcheck flags SC2086 and friends; when unbound variable, bad substitution, command not found, ambiguous redirect, or unexpected end of file show up; when a script works by hand but fails under cron, systemd, sudo, or a CI runner; or when porting between macOS bash 3.2, GNU/Linux, WSL, and POSIX sh. Not for interactive zsh or fish configuration, not for PowerShell, and not for host-level cron, systemd, or permission failures (linux).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bash"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

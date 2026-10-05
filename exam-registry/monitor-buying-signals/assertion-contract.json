@@ -1,0 +1,49 @@
+{
+  "skillId": "monitor-buying-signals",
+  "displayName": "monitor-buying-signals",
+  "description": "Watch a list of target accounts for the public events that mean someone is in market, powered by Cargo — hiring for the role you sell into, saying something new, or turning up in a detection feed, each with a date and a link. Triggers: \"tell me when these accounts do something\", \"what changed at my target accounts\", \"who is in market right now\", \"set up intent monitoring\", \"watch these companies for me\", \"any triggers on this list\". Intent, triggers, watchlist, timing, freshness. Skip when: you have no account list yet — use build-tam-list; or you want a verdict on fit rather than on timing — use score-leads.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:monitor-buying-signals"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

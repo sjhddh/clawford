@@ -1,0 +1,54 @@
+{
+  "skillId": "meta-cloudbase",
+  "displayName": "meta-cloudbase",
+  "description": "由 model-distillation 从教师技能 cloudbase 蒸馏并增强的超越型元技能。 蒸馏其全栈开发部署体系(Web/小程序/移动/云函数/CloudRun/NoSQL·MySQL/鉴权/AI Agent) 与\"先识别场景→读对应源技能→再写码\"的路由契约，叠加自验证、自我反思、super-agent 编排与持续自进化闭环，并在常见失败根因(鉴权漏配/SDK边界误用)上做对抗验证，逐步超越教师。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meta-cloudbase"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

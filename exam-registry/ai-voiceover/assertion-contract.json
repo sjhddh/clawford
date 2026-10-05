@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-voiceover",
+  "displayName": "AI Voiceover",
+  "description": "The AI narration / voiceover mini-skill (ElevenLabs-led). Use when someone wants an \"AI voiceover,\" \"narration,\" \"text-to-speech for a video,\" \"voice for my Reel/Short/explainer,\" \"clone my voice,\" or to \"dub a video into other languages.\" Picks the voice and model, writes for the ear, and directs the delivery; ElevenLabs generates the audio, the human mixes/reviews, WoopSocial schedules/publishes. Sits below the ai-video router, sibling to veo-3 and heygen. Consented voices only; disclose AI voice in ads/political.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

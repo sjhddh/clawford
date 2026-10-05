@@ -1,0 +1,54 @@
+{
+  "skillId": "hot-video-breakdown",
+  "displayName": "hot-video-breakdown",
+  "description": "丢一条热门短视频链接，自动下载视频、本地转写（faster-whisper）、AI分析，输出交互式胶囊卡片 HTML 报告。需网络下载视频和 Whisper 模型（首次约 500MB），转写和分析完全本地。分析由调用方 AI 完成，无外部 API 调用。HTML 报告无外部资源依赖（不含 Google Fonts 等第三方请求）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hot-video-breakdown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

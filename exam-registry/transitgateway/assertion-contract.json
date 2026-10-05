@@ -1,0 +1,54 @@
+{
+  "skillId": "transitgateway",
+  "displayName": "transitgateway",
+  "description": "Configures AWS Transit Gateway: creating a hub and attaching VPCs, segmenting traffic with route tables, centralizing egress and inspection through a hub (appliances or a Gateway Load Balancer endpoint), forcing east-west traffic between VPCs through AWS Network Firewall, connecting on-premises networks over the transit-gateway side of a Site-to-Site VPN or Direct Connect attachment (including ECMP to aggregate bandwidth across multiple VPN tunnels), peering transit gateways across Regions, migrating from a VPC peering mesh, and routing IP multicast. Applicable when connecting many VPCs through one router, isolating environments, forcing VPC-to-VPC traffic through a central Network Firewall, reaching on-premises over the hub, linking Regions, or moving off a peering mesh. Not applicable for single-VPC routing, VPC peering between two VPCs (vpcpeering skill), Direct Connect gateway or virtual interface setup (directconnect skill), or Route 53 DNS work.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:transitgateway"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

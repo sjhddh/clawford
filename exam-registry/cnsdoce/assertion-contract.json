@@ -1,0 +1,54 @@
+{
+  "skillId": "cnsdoce",
+  "displayName": "Cnsdoce Publish V5",
+  "description": "中国工程造价技能，支持安装工程/建筑工程/市政工程/园林绿化工程定额查询、组价计算与报价表生成。 数据源支持两种模式（见下方说明）： · 默认模式：大模型推理数据（无需本地数据库，推荐新手） · 唯一来源模式：严格限定为山东省消耗量定额(2025版) + 济南市价目表(2026版) 核心依据：《建设工程工程量清单计价标准》GB/T 50500-2024（2025年9月1日起实施）。 当用户询问以下场景时触发本技能：定额子目查询（章节号+条款号溯源）、 安装工程组价（13分册）、建筑工程/市政工程/园林绿化工程取费计算、 Excel报价表生成、山东/济南价目表查询。 技能内置 quota_reference.db（34条全专业费率）与 fee_standard.md（完整取费标准）。 ⚡v2.0.0：组价前强制比对清单单位与定额单位（Step 0）；LLM端点迁移TokenHub； 信息价更新至2026年第6期；新增AI组价引擎/价格自检/指标引擎三大能力。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cnsdoce"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

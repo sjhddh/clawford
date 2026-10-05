@@ -1,0 +1,54 @@
+{
+  "skillId": "chameleon-ultra-cli-skill",
+  "displayName": "Chameleon Ultra Cli",
+  "description": "控制变色龙(Chameleon)Ultra 读写卡器，通过其 chameleon_cli_main 命令行程序操作设备。当用户想用命令行操作 Chameleon Ultra 设备时使用本技能：连接设备、扫描/读取高频(HF/NFC)或低频(LF)卡片、运行 MIFARE Classic 攻击(nested/darkside/hardnested)、管理模拟卡槽、载入/保存 dump、修改设备设置，或自动化任意 chameleon_cli_main 命令。本技能以非交互方式驱动交互式 REPL，并在首次配置后持久保存可执行文件路径。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chameleon-ultra-cli-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

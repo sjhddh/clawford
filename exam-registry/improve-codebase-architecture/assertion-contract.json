@@ -1,0 +1,54 @@
+{
+  "skillId": "improve-codebase-architecture",
+  "displayName": "improve-codebase-architecture",
+  "description": "Surface architectural friction in a codebase and propose **deepening opportunities** — refactors that turn shallow modules into deep ones, informed by the project's `CONTEXT.md` glossary and `docs/adr/` decisions. Walks the codebase with an Explore sub-agent, applies the **deletion test** to suspected pass-through modules, presents a numbered list of candidates with files / problem / solution / benefits, and drops into a grilling loop once the user picks one — naming new concepts into `CONTEXT.md` inline and offering an ADR only when a rejection is load-bearing. Writes no production code. Use this skill whenever the user says \"improve architecture\", \"improve the architecture\", \"architecture review\", \"find refactoring opportunities\", \"find deepening opportunities\", \"find shallow modules\", \"make this more testable\", \"this code is hard to navigate\", or invokes `/improve-codebase-architecture` — even if they don't name the skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:improve-codebase-architecture"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

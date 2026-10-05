@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-image-processing-diagnosis",
+  "displayName": "alibabacloud-oss-image-processing-diagnosis",
+  "description": "Read-only diagnostics for OSS image processing. Use when an x-oss-process error occurs, an image style or watermark is not applied, image preview fails or the default domain forces download, original image protection 403, unsupported-format BadRequest, WebP conversion errors, HEIC thumbnail 400 errors, image-processing action order differences, or dynamic WebP processing failures. Triggers: \"x-oss-process error\", \"image style not working\", \"original image protection 403\", \"watermark not applied\", \"image preview fails\", \"image forced download\", \"WebP conversion error\", \"HEIC thumbnail 400\", \"image-processing action order\", \"dynamic WebP processing\". Not for transfer error codes, endpoints, billing, presigned URL/V4, direct-access links, or static hosting (use the matching OSS diagnosis skill); video / blind-watermark / document-preview (IMM) is out of scope.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-image-processing-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

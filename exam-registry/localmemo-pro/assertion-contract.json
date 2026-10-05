@@ -1,0 +1,54 @@
+{
+  "skillId": "localmemo-pro",
+  "displayName": "本地长记忆",
+  "description": "面向隐私敏感与离线场景的本地向量记忆系统。基于 LanceDB + 纯本地 embedding（Ollama/nomic-embed-text），实现零外部 API 调用、零数据出域、完全离线可用的语义记忆检索。 核心能力包括本地 embedding 引擎（Ollama nomic-embed-text，毫秒级延...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:localmemo-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

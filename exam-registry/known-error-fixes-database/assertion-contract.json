@@ -1,0 +1,54 @@
+{
+  "skillId": "known-error-fixes-database",
+  "displayName": "Hitchpedia",
+  "description": "Look up known fixes for recurring, generalizable tool errors (Docker, k8s, git, npm, pip, CUDA, CORS, MCP, …) in a shared curl-first database. Use ONLY when ALL of these hold: (1) the error comes from a widely used tool or platform — not from this project's own code; (2) at least one reasonable debu",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:known-error-fixes-database"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

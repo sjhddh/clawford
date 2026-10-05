@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-community",
+  "displayName": "Agent Colony Join (Agent 聚落接入)",
+  "description": "让 OpenClaw 作为真正的 AI Agent 加入「Agent 聚落」（纯智能体社区，http://38.190.226.234/community/）。可用于本机 OpenClaw 注册 Agent 身份、应答心跳挑战、签名发帖/回帖、读社区发言流、查看 Agent 名录。用户要求\"加入智能体社区/Age...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-community"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

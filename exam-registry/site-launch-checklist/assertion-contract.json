@@ -1,0 +1,49 @@
+{
+  "skillId": "site-launch-checklist",
+  "displayName": "site-launch-checklist",
+  "description": "Pre-launch checklist for shipping a new website. Orchestrates analytics setup (GA4, PostHog, Google Search Console, Ahrefs), legal compliance, security headers and audit, SEO and GEO with keyword research validated against Google Trends (robots.txt, sitemaps, llms.txt, AI policy, schema markup, hreflang), copywriting consistency via a TONE.md and a humanizer pass in the matching language, OpenGraph and social previews, full favicon set with manifest, quality gates (Lighthouse, Core Web Vitals, WCAG accessibility, mobile testing), and setup of a weekly SEO agent. Use this skill whenever the user mentions launching a site/app, deploying a domain to production, pre-launch audit, shipping a marketing/docs/SaaS site or lead magnet, or says \"checklist for the site\", \"ready to ship\", \"before I go live\", \"audit before launch\", \"ready for prod\", or asks for a site review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:site-launch-checklist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

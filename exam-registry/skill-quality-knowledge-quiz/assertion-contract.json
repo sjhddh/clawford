@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-quality-knowledge-quiz",
+  "displayName": "Quality Knowledge Quiz",
+  "description": "生成为主+轻交互定制的质量知识竞赛/答题工具，为质量月知识竞赛、新员工质量培训、日常质量考核快速产出可落地的竞赛包。Agent 直接生成通用质量知识题库（每题含题干/选项/答案/解析/知识点/难度/分值），仅就竞赛范围、难度配比与企业专属内容做交互定制；企业内部标准/工艺参数等专属知识标「待企业补充」，Agent...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-quality-knowledge-quiz"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

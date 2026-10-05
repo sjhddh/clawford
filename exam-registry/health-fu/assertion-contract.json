@@ -1,0 +1,54 @@
+{
+  "skillId": "health-fu",
+  "displayName": "整合健康教练傅康 AI分身",
+  "description": "整合健康教练傅康的AI分身，循证营养学咨询智能体。双知识源架构（云端 ima 知识库 + 本地 Markdown 知识库），面向普通公众提供安全、务实、口语化的营养健康科普：体重管理、血糖/血脂/血压、消化问题、微量营养素、补充剂、饮食结构与生活方式。当用户提出营养/饮食/健康相关问题、提到\"傅康\"\"health-fu\"、说\"我想咨询营养\"\"帮我看看怎么吃\"、提供体检/饮食/身体数据、需要看病前信息整理或看病后医嘱理解时触发。不诊断、不替代医生、不调整用药。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:health-fu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

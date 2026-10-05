@@ -1,0 +1,49 @@
+{
+  "skillId": "wxpublic-fetch",
+  "displayName": "公众号内容提取",
+  "description": "从微信公众号抓取文章并保存为本地 Markdown 文件。当用户提到\"抓取公众号\"、\"获取公众号文章\"、\"下载微信文章\"、\"爬公众号\"、\"保存公众号内容\"，或指定公众号名称和日期范围想要获取文章时，使用此 skill。抓取完成后记录所有保存的 md 文件路径，方便用户后续问答。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wxpublic-fetch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

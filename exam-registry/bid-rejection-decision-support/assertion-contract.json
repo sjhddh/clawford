@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-rejection-decision-support",
+  "displayName": "bid-rejection-decision-support",
+  "description": "评标委员会（专家）侧否决/废标决策支持引擎。当用户提供\"某投标人的具体响应情况 + 招标文件对应条款\"并询问\"该不该否决\"\"应当否决还是澄清补正\"\"帮我写评标报告用的否决理由\"时触发。输出三类成果：① 是否构成否决的判断及法条/条款依据；② 应当否决与可澄清补正的区分判定（避免把可补正的形式瑕疵直接否掉，或把实质偏差误当可澄清）；③ 可直接写入评标报告的规范化否决理由措辞。核心目标：评得准、否得有依据、经得起投诉复核、不踩纪律红线。区别于\"废标风险雷达\"（扫描招标文件提取风险条款）、\"否决雷区体检\"（历史案例雷区）、\"招投标评标专家\"（通用评标问答）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-rejection-decision-support"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

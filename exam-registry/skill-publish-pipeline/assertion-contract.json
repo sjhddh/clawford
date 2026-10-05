@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-publish-pipeline",
+  "displayName": "Skill 发布与 GitHub 托管",
+  "description": "把本地 Skill 发布到 ClawHub（clawhub.ai）并同步到 GitHub 合集仓库，从而能被 find-skills 检索到、 也能让人看到源码。ClawHub 负责分发，GitHub 负责托管，两条链路独立。 当用户说「发布 skill」「把 skill 发出去」「上架技能」「让更多人用上这个 skill」「publish skill」 「发到 clawhub」「传到 GitHub」「上传 GitHub 了吗」「建个仓库」时使用。 包含：发布前内容审查与署名检查、description 场景化改写规范、dry-run 验证、 沙箱内自助 device-flow 登录、发布命令与发布后验证、GitHub 仓库创建与推送， 以及 Windows + WorkBuddy 沙箱下的已知环境陷阱。 不适用于：安装别人的 skill（用 find-skills）、发布 OpenClaw package（用 clawhub package）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-publish-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

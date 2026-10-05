@@ -1,0 +1,54 @@
+{
+  "skillId": "harness-engineering-skill",
+  "displayName": "Harness Engineering",
+  "description": "Agent Harness 构建规范——当 AI 通过编程构建 harness agent（coding agent / 自动化 agent / 长时运行 agent）时，读取本 skill 作为参考标准，确保产出符合 harness 工程架构：Loop / Provider / Tools / Permissions / Session / Compaction / Prompts & Skills / Extensions 七层 + Delivery。覆盖设计决策、可运行 Python 代码模板、长时运行模式。触发词：coding agent、agent loop、tool calling、context management、session persistence、agent harness、构建 agent。Use this skill when the user asks to build a coding agent / automation agent / long-running agent / agent harness.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:harness-engineering-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

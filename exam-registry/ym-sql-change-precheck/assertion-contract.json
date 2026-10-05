@@ -1,0 +1,54 @@
+{
+  "skillId": "ym-sql-change-precheck",
+  "displayName": "ym-sql-change-precheck",
+  "description": "在执行前审查 SQL 变更脚本：识别无 WHERE 的更新删除、锁表风险、隐式类型转换、缺失回滚方案、大表 DDL 风险与命名规范问题，输出可执行的风险清单与改写建议。当用户说「看下这个 SQL 能不能上」「变更脚本预检」「上线前检查 SQL」时使用。 也适用于「SQL预检」「变更脚本检查」「上线前检查SQL」「数据库变更」「sql review」这类说法。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ym-sql-change-precheck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

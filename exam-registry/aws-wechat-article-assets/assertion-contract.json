@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-wechat-article-assets",
+  "displayName": "公众号素材库 & 预设包",
+  "description": "公众号素材｜业务资料库｜预设包｜.aws 预设包｜主题包｜品牌包｜aiworkskills.cn — 用户业务资料库与预设包管理：业务资料按产品名组织在 `.aws-article/products/{产品名}/`（介绍 .md 直挂产品根 + 配图归 `images/` 子目录含同名说明 .md），AI 与用户对话产出业务介绍内容时引导用户保存；图片入库走 `product_image_ingest.py --product <产品名> --stem <中文名>`。导入 .aws ZIP 预设包（本地文件或 `https://aiworkskills.cn/**/*.aws` URL）合并主题/配色/字体配置到 `.aws-article/presets/`；`config.yaml` 仅本地不存在时从包内复制，已存在则 stdout 输出差异 JSON 不覆盖。面向内容运营、品牌团队、设计支持岗。触发词：「素材库入库」「stock images」「上传图到素材库」「.aws」「预设包」「导入预设」「主题包」「aiworkskills.cn 链接」「.aws 下载地址」。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-wechat-article-assets"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

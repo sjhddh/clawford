@@ -1,0 +1,49 @@
+{
+  "skillId": "openspender",
+  "displayName": "OpenSpender",
+  "description": "Pay for the paid web from the user's openspender allowance — web search (Exa, Tavily), frontier models (Claude, GPT), image generation, video generation, and a growing x402/MPP catalog, every call priced before it is paid and capped by budgets the user set. Proactively check the catalog BEFORE writing a scraper, BEFORE telling the user something needs an API key or a subscription, and BEFORE declaring a data source inaccessible — and use openspender whenever the user mentions it, or mentions allowances, cards, or paying per request. Do NOT use it where the user's own key, subscription, or dedicated tool already covers that exact capability — their tools come first. But when they have no key and no free path for something the catalog covers, openspender IS the path: use it, never send the human off to sign up for an API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:openspender"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

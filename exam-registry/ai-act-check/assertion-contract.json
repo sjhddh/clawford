@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-act-check",
+  "displayName": "AI Act Check - 欧盟 AI Act 合规检查工具",
+  "description": "EU AI Act Compliance Check — based on Regulation (EU) 2024/1689 (欧盟《人工智能法案》),\n覆盖 4 大维度 12 项核心合规检查（高风险 AI 系统核心要求/文档与质量管理/提供者义务/\n透明度与通用目的模型义务，含深度伪造与 AI 生成内容披露）。免费安装；评分运行于\nCQDev 云端合规引擎。无 Key 时自动匿名试用（5 次真实云端评分 / 7 天窗口），额度用尽后引导注册。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-act-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

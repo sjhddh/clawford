@@ -1,0 +1,54 @@
+{
+  "skillId": "aikey-post",
+  "displayName": "AI KEY·公众号短文",
+  "description": "AI KEY·公众号短文 ——公众号贴图短文技能。把验证过的内容 / 碎片做成一条公众号「短文」：标题 ≤20 中文字 + 正文 ≤1000 中文字 + 一张 banner 图。定位=轻量图文，不是 article-pipeline 那种长文深稿。标题接力 /aikey-title、首句过 /aikey-hook 口径、过国内公域全红线（公众号≠X，违禁词/大模型合规/编程词禁令重新生效）。 触发方式：/aikey-post、/公众号短文、/aikey-短文、「做个公众号短文」「公众号贴图」「这条发公众号短文」「配个 banner 的短图文」 WeChat OA short-post format: title ≤20 CN chars + body ≤1000 CN chars + one banner image. Title defers to /aikey-title, hook uses /aikey-hook standard, full domestic-platform red lines apply. Trigger: /aikey-post, \"make a WeChat short post\", \"公众号短文\" —— AI KEY · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aikey-post"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tlctc-classify",
+  "displayName": "tlctc-classify",
+  "description": "Classify cyber security incidents, CVEs, threat-intelligence reports, red-team write-ups, and vendor advisories using the TLCTC v2.6 taxonomy (10 cause-oriented threat clusters, 10 axioms, 17 R-* classification rules incl. the R-SCOPE scope gate and R-SPECIFIC, System Risk Event doctrine, DRE refinement tree, attack-path notation with Δt velocity and boundary operators). Use whenever the user asks to analyze, classify, deconstruct, or build attack paths for security documents, or references \"TLCTC\", \"threat clusters\", \"attack path\", \"#1\"–\"#10\" cluster IDs, or \"TLCTC-XX.YY\" identifiers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tlctc-classify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

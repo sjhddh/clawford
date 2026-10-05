@@ -1,0 +1,54 @@
+{
+  "skillId": "plan-to-eat",
+  "displayName": "plan-to-eat",
+  "description": "Use when the user wants to interact with Plan to Eat (plantoeat.com) via the connected plan-to-eat MCP server — viewing or updating their meal plan, managing recipes, scheduling notes/ingredients/leftovers on the planner, tracking the freezer, or working on the shopping list. Triggers on phrases like \"what's on my meal plan\", \"plan X for Wednesday dinner\", \"add a note to Tuesday breakfast\", \"move dinner to Friday\", \"freeze leftovers\", \"what's in the freezer\", \"what's on my shopping list\", \"add milk to the shopping list\", \"move that to Costco\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:plan-to-eat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

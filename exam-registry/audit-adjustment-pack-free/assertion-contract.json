@@ -1,0 +1,54 @@
+{
+  "skillId": "audit-adjustment-pack-free",
+  "displayName": "审计与账务调整技能包（免费版）",
+  "description": "把审计与账务调整底稿按 14 项检查（试算平衡与科目余额、审计调整分录、资产减值准备、资产处置损益、固定资产折旧、无形资产摊销、模具摊销、坏账准备计提、预提费用、预付款与预付账款核销、长期待摊费用摊销、存货跌价准备、现金盘点与长短款、罚款与违约金结算）逐单位核一遍，每个被审计单位一行结论，结论都带原文文件与行号。完全本地运行，核对过程不需要联网、不需要 API Key、没有次数上限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audit-adjustment-pack-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

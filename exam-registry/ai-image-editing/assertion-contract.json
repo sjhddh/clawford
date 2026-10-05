@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-image-editing",
+  "displayName": "AI Image Editing",
+  "description": "The AI image-editing router — inpainting/object removal, background removal, upscaling, outpainting, old-photo restoration, and retouch, routed task-first to the right engine. Use when someone wants to remove an object/person from a photo, cut out backgrounds, upscale an image, extend an image to new aspect ratios, restore an old photo, fix a generated image, or asks which editing tool to use. Uses the TOUCH framework. Reads brand-profile + design-and-templates first. The agent names the task, routes to the right engine, writes the spec, and can call APIs where connected; the HUMAN judges every result at 100%; WoopSocial publishes. Honesty spine: an edited real photo is an edited claim — creative upscalers hallucinate detail (never on products/documents), no defect concealment, body-retouch disclosure honored, no watermark/provenance stripping. Distinct from image-prompt/flux/nano-banana (generation), canva (the design workflow), and before-after-and-transformation (the claim rules).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-image-editing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

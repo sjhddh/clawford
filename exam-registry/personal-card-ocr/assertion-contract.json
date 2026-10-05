@@ -1,0 +1,54 @@
+{
+  "skillId": "personal-card-ocr",
+  "displayName": "personal_card_ocr",
+  "description": "将图片中的文字、身份证、银行卡、社保卡、户口本、出生医学证明、往来港澳通行证、往来台湾通行证、台湾居民来往大陆通行证、港澳居民来往内地通行证、中国香港身份证、外国人永久居留身份证、结婚证、不动产权证书、机动车行驶证正页、机动车行驶证副页、机动车驾驶证正页、机动车驾驶证副页、中国护照、学历证书、学历证书电子注册备案表、学位证书等信息识别并提取出来。本技能仅在用户明确要求对图片进行 OCR 识别，并同意将图片上传到第三方 OCR 服务（Scnet）处理时触发。只处理用户主动提供的本地图片路径，不会主动扫描或枚举文件系统。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:personal-card-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

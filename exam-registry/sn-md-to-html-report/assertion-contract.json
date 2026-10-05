@@ -1,0 +1,54 @@
+{
+  "skillId": "sn-md-to-html-report",
+  "displayName": "sn-md-to-html-report",
+  "description": "将 Markdown 报告、研究笔记、行业分析、战略备忘录、技术白皮书、复盘、周报等长文档，重组并创作为有编辑判断、网页美感和证据秩序的自包含 HTML 专题页。用户要求“转成 HTML”“网页化报告”“美化报告”“做成专题页”“便于分享”“提升可读性/设计感”“把报告做成网页”时使用。必须先写 plan.md 再写 HTML，保留原文事实断言和结论强度，不套模板，不做机械 Markdown 转换。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-md-to-html-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

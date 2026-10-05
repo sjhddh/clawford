@@ -1,0 +1,54 @@
+{
+  "skillId": "se-semantic-graph",
+  "displayName": "se-semantic-graph",
+  "description": "软件工程语义图谱——把项目全知识域（客户画像/需求/成本/架构/分层/模块运行逻辑/历史决策）落进 axolotl 图库，修 bug/加功能/重构时沿跨域语义边定向查询精确上下文，根治上下文爆炸与注意力分散。触发词：项目语义图谱、修 bug 前查上下文、这段代码为什么存在、功能来源、为何这么设计、影响面查询。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:se-semantic-graph"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

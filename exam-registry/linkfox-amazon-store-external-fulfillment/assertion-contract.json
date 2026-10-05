@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-external-fulfillment",
+  "displayName": "亚马逊-店铺External Fulfillment",
+  "description": "亚马逊 External Fulfillment 外部履约管理。用于 Seller Flex、FBA Onsite、Easy Ship、Self Ship、MFN Self Delivery 等项目中的按 location 库存查询或更新、履约货件处理、包裹与状态更新、配送选项、面单、发票和退货查询。用户提到 External Fulfillment、SmartConnect、Seller Flex、FBA Onsite、Easy Ship、Self Ship、batchInventory、location 库存、外部履约 shipment、EF 面单、EF 发票或 EF 退货时触发。即使未明确说“External Fulfillment API”，只要需求围绕这些外部履约项目的库存、货件、包裹或退货，也应触发此技能；普通卖家订单使用 linkfox-amazon-store-orders，FBA/MCF 使用对应 fulfillment 技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-external-fulfillment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

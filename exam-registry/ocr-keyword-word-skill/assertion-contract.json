@@ -1,0 +1,54 @@
+{
+  "skillId": "ocr-keyword-word-skill",
+  "displayName": "OCR 批量图片文字提取 + 关键词标注 + Word 导出",
+  "description": "批量提取图片文字、标注关键词、生成Word文档。当用户上传带文字的图片（单张或多张）时，自动识别文字，根据用户提供的关键词进行标注加粗，并输出为连续的Word文档格式。适用于学生整理课件重点、文献标注、复习资料制作等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ocr-keyword-word-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

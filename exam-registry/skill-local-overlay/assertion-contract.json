@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-local-overlay",
+  "displayName": "skill-local-overlay",
+  "description": "Local patch layer for marketplace, connector, and built-in skills that get overwritten on platform or plugin upgrades. Use BEFORE modifying any skill that is not agent-created, and AFTER an upgrade that may have wiped local edits. Snapshot before edit, record every change in a patch ledger (补丁台账), replay patches after upstream upgrades. Trigger keywords: 修改内置 skill, marketplace skill 更新覆盖, upgrade overwrote my changes, skill 修改丢失, 升级覆盖本地修改, overlay patch, patch ledger, 补丁台账, connector skill 定制, builtin skill 修改, keep local edits, re-apply patches.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-local-overlay"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

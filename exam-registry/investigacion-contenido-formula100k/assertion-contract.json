@@ -1,0 +1,54 @@
+{
+  "skillId": "investigacion-contenido-formula100k",
+  "displayName": "investigacion-contenido-formula100k",
+  "description": "Investigación de tendencias e ideas de contenido viral con la metodología FORMULA 100K. Usar SIEMPRE que se pida investigar tendencias, encontrar ideas de contenido, cazar temas virales, qué funciona en mi nicho, investigar a la competencia, encontrar ganchos visuales, validar ideas, preguntas de la audiencia, outliers de YouTube para convertir en reels, buscar referencias virales por keyword, o 'no sé de qué hablar', 'quiero ideas para mis videos', 'búscame referencias con [keyword]'. En un agente OpenClaw usa búsqueda web + Apify (datos públicos de Instagram y TikTok con vistas reales) + vidIQ si está conectado, nunca un navegador logueado. Solo reporta lo verificado.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:investigacion-contenido-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

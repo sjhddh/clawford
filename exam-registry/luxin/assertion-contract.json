@@ -1,0 +1,54 @@
+{
+  "skillId": "luxin",
+  "displayName": "luxin",
+  "description": "AI image generation and editing for agents across text-to-image and image-to-image workflows, video generation, audio generation, and image-to-3D asset creation through one zero-setup hosted runtime. Use Luxin when an agent needs durable media URLs, recoverable jobs, model/cost inspection and stable JSON envelopes with capability-preserving parameters. Optional agent-funded credits work without a provider API key, OAuth app, local model or per-provider billing account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:luxin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

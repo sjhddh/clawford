@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-dws-io-diag",
+  "displayName": "huawei-cloud-dws-io-diag",
+  "description": "DWS cluster I/O overload root cause diagnosis skill, based on KooCLI v3.2.0+ and DWS Autopilot MCP Server. Automatically collects I/O metrics, analyzes root causes (customer-side / system-side) via three-stage decision tree, and outputs a standardized diagnosis report. Applicable to DWS cluster I/O usage too high, I/O alarms, disk I/O load anomaly scenarios. Trigger words: \"I/O高\", \"I/O告警\", \"I/O诊断\", \"I/O过载\", \"IO高\", \"IO告警\", \"IO诊断\", \"IO过载\", \"磁盘IO负载异常\", \"util打满\", \"await高\", \"high I/O\", \"I/O alarm\", \"I/O diagnosis\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-dws-io-diag"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

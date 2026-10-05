@@ -1,0 +1,54 @@
+{
+  "skillId": "collab-workflow-ingest",
+  "displayName": "collab-workflow-ingest",
+  "description": "协作流程：业务流程梳理 → 数字资源入库。先用 workflow-structurer 逐步澄清流程，生成结构化步骤文档；再用 demo-asset-ingest 的打包规范将成果发布到 ClawHub 资源中心。适用场景：需要将模糊需求转化为可执行流程、并把最终产物沉淀到可检索仓库的工作。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:collab-workflow-ingest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

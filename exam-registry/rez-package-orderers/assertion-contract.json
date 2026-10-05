@@ -1,0 +1,54 @@
+{
+  "skillId": "rez-package-orderers",
+  "displayName": "rez-package-orderers",
+  "description": "How rez decides which version of a package to pick — the `package_orderers` setting, the five built-in orderers `sorted` / `version_split` / `per_family` / `soft_timestamp` / `no_order`, how orderers apply to variants as well as packages, writing and registering a custom orderer, and how to prove an orderer is or is not what changed your resolve. Use when rez picks a version you did not expect and the resolve is not failing, or when a studio needs python-2-style version pinning to survive an upgrade. Covers Rez 3.4.0.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rez-package-orderers"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

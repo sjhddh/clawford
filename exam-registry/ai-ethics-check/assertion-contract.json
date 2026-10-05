@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-ethics-check",
+  "displayName": "AI Ethics Check - AI 科技伦理审查合规检查",
+  "description": "AI 科技伦理审查合规检查 — 基于《人工智能科技伦理审查与服务办法(试行)》（工信部等十部门，工信部联科〔2026〕75号，2026-03-20 施行），覆盖 10 项核心检查，快速评估合规状态并生成专业报告。\n\n本 skill 免费安装、免费使用。检查评分由「complianceHub 引擎」完成",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-ethics-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "prompt-injection-shield",
+  "displayName": "prompt-injection-shield",
+  "description": "当用户要把网页抓取/邮件/工具返回值/检索文档/用户上传内容喂给 AI，又担心里面藏『忽略之前指令』『你是新AI』这类指令时使用。在不可信内容进上下文之前先扫描：中英双语文式库（忽略指令/角色劫持/越狱/DAN/索要系统提示）+ 启发式（面向AI的祈使句、角色切换、索要隐藏指令）+ 沙箱规则。附可运行扫描脚本，输出风险分·命中规则·处置建议（丢弃/隔离/沙箱）。复用 desens-scan 与 release-gate 的去敏与门禁能力。触发词：提示注入、prompt injection、注入防护、越狱、jailbreak、忽略指令、角色劫持、system prompt泄露、内容安全、AI被操控、注入扫描。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prompt-injection-shield"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

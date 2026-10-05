@@ -1,0 +1,54 @@
+{
+  "skillId": "release-flow",
+  "displayName": "release-flow",
+  "description": "redfoxhub-html 项目专用的 Git 发布流程编排器。当用户表达「我要做新功能 / 改个 bug / 优化一下 X / 帮我开个分支」时走 feature-start 子流程；当用户说「更新测试环境 / 发测试 / 部署到 test / 推 develop」时走 deploy-test 子流程；当用户说「更新正式环境 / 发线上 / 部署正式 / 推 master」时走 deploy-prod 子流程。负责分支命名、与 origin/master、origin/develop 同步、合并目标与冲突兜底。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:release-flow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

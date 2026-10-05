@@ -1,0 +1,54 @@
+{
+  "skillId": "sentinel-custom-provider-check",
+  "displayName": "Sentinel CUSTOM_PROVIDERS Redaction Check",
+  "description": "Verifies that Sentinel's PII/secret redaction guardrail survives routing through CUSTOM_PROVIDERS to a self-hosted OpenAI-compatible backend (vLLM, TGI, Ollama, or anything speaking /v1/chat/completions) — not just Sentinel's first-party Anthropic/OpenAI/Google routes. Starts the local Sentinel gate",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sentinel-custom-provider-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

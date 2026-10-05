@@ -1,0 +1,54 @@
+{
+  "skillId": "agnes-image-gen",
+  "displayName": "agnes-图片生成",
+  "description": "使用 Agnes AI 升级版图像生成模型 agnes-image-2.1-flash 生成图片。同时支持文生图（text-to-image）与图生图（image-to-image）。当用户说「用 Agnes 生成图片」「用 Agnes 画一张」「Agnes 生成」「用这张图生成/改成……」或明确要求使用 Agnes API 进行文生图/图生图时，加载本 skill。不消耗 WorkBuddy 积分，仅消耗 Agnes API 额度（当前图像生成免费）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agnes-image-gen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

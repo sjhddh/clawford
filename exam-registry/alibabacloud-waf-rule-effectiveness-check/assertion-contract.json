@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-waf-rule-effectiveness-check",
+  "displayName": "alibabacloud-waf-rule-effectiveness-check",
+  "description": "Diagnose why a configured Alibaba Cloud WAF 3.0 custom protection rule (custom ACL, CC / rate limiting, scan protection, IP blacklist) is not working: name the first broken link in the chain and hand back the console fix path. Read-only checks of configuration state only; never sends test traffic. Use it when a customer says a rule has no effect at all, a rule matches in the logs but nothing is blocked, an attack that should have been blocked got through, a rule worked yesterday but not today, or a CC or rate-limiting rule does not trigger or bans far too widely. Not for: explaining why one specific request was blocked or looking it up by trace_id, whitelist rule effectiveness itself, live attack sample validation, built-in rule toggles, config export, or reports. Triggers: \"规则不生效\", \"规则配了但不生效\", \"自定义规则不生效\", \"预期拦未拦\", \"该拦的没拦住\", \"漏拦截\", \"规则命中但没拦\", \"规则昨天还好今天失效\", \"CC不触发\", \"误封面过大\", \"规则为什么没生效\", \"WAF rule not effective\", \"rule not taking effect\", \"rule hit but not blocked\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-waf-rule-effectiveness-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

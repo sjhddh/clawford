@@ -1,0 +1,54 @@
+{
+  "skillId": "wan-2-7",
+  "displayName": "Wan 2.7 — Pro Pack on RunComfy",
+  "description": "Generate text-to-video with Wan 2.7 (Wan-AI's flagship motion model) on RunComfy. Documents Wan 2.7's strengths (multi-reference conditioning, audio-driven lip-sync via `audio_url`, smoother transitions, prompt expansion), the duration / resolution / aspect-ratio schema, and when to route to HappyHorse 1.0 / Seedance 2.0 / Kling / LTX 2 instead. Calls `runcomfy run wan-ai/wan-2-7/text-to-video` through the local RunComfy CLI. Triggers on \"wan\", \"wan 2.7\", \"wan-2-7\", \"wan video\", or any explicit ask to generate video with this model.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wan-2-7"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

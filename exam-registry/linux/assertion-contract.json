@@ -1,0 +1,54 @@
+{
+  "skillId": "linux",
+  "displayName": "Linux",
+  "description": "Debugs and hardens Linux hosts: permissions, disk full, OOM kills, stuck processes, systemd units, cron, networking, SSH, and boot failures. Use when a service starts by hand but fails at boot, a process ignores kill -9, df and du disagree, a box runs out of memory or inodes, sudo or ACLs deny access, SELinux blocks a write, a job works in the shell but not in cron, sshd rejects a key, an upgrade leaves packages half-configured, load is high while the CPU sits idle, or a host needs firewall rules, users, LVM, journald, kernel tuning, or a security baseline. Also for setting up a fresh server, deciding what to alert on, backups whose restore has never been tested, a host that may be compromised, and desktop or laptop trouble — GPU drivers, Wayland, suspend, audio, Wi-Fi. Covers Debian/Ubuntu, RHEL/Fedora, Arch, Alpine, SUSE and WSL. Not for shell-script syntax (bash) or container build and runtime internals (docker).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linux"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

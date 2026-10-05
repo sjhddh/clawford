@@ -1,0 +1,49 @@
+{
+  "skillId": "signal-search",
+  "displayName": "Signal-Search",
+  "description": "答案质量层搜索/增强检索 skill：搜信息、做调研、对比、查资料、信源比对、事实核查时启用。不做链接列表——返回带加权打分(SBA)、事实级来源锚定(M51)、分层深度(L0–L3)与 token 预算封顶的干净答案；无广告、零 key、可嵌入，被其它 skill 当检索原语调用（由调用方注入 LLM 与抓取能力）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:signal-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

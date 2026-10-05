@@ -1,0 +1,54 @@
+{
+  "skillId": "nearai-verify",
+  "displayName": "nearai-verify",
+  "description": "Check whether this agent is talking to a NEAR AI Cloud TEE endpoint or to an ordinary one, and cryptographically attest that endpoint. Reports which models the chain uses, which ones actually served recent turns, warns when a fallback sends prompts outside the enclave, verifies the Intel TDX quote, and uses the nearai-verify OpenClaw plugin for message-level proof. Trigger when asked \"am I private\", \"is this a TEE\", \"prove it\", \"verify your latest response\", \"which model answered that\", or before handling sensitive data.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nearai-verify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

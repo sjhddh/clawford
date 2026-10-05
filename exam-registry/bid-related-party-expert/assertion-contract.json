@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-related-party-expert",
+  "displayName": "bid-related-party-expert",
+  "description": "投标企业关联关系识别专家（基于公开工商信息版）。当用户需要识别多个投标主体之间是否存在法定禁止的关联投标——单位负责人为同一人、控股或直接管理关系（依据《招标投标法实施条例》第34条、《政府采购法实施条例》第18条），使用本技能。专注工商登记层面信息（法定代表人/负责人、股东及持股、股权穿透、董监高、注册/经营地址、联系电话/邮箱等），不分析投标行为痕迹与串标行为（第39/40条不在本技能范围）。可在争议点参考 IMA 知识库复核口径与类案。仅输出评审参考，不替代法定认定。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-related-party-expert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

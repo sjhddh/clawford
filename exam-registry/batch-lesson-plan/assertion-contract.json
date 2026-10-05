@@ -1,0 +1,54 @@
+{
+  "skillId": "batch-lesson-plan",
+  "displayName": "batch-lesson-plan",
+  "description": "把一份《授课计划》自动转成整套中专教案（.docx）。当用户提供\"授课计划\"/\"教学进度表\"并要求\"按计划生成教案\"\"批量生成教案\"\"整学期的教案\"时使用。流程：解析授课计划表 → 提取课次清单 → 读扫描版教材 PDF 原文 → 写内容 JSON → 批量生成 docx → 结构校验。中专电子/机械/计算机等专业的理论+任务一体化课程均适用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:batch-lesson-plan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

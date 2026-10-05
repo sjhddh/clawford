@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-tiktok-shop-return-refund",
+  "displayName": "TikTok官方-店铺售后",
+  "description": "TikTok Shop ERP 售后（Return & Refund）业务技能，经 /tiktokShop/developerProxy（appType=erp）转发 Return Refund Open API：获取拒退/拒取消原因（Get Reject Reasons）。依赖 linkfox-tiktok-shop-auth 选店（传 openId；token 后台化，勿手动 refresh）。当用户提到 TikTok 拒退原因、拒绝退款原因、拒绝取消原因、Get Reject Reasons、reject_reasons、return_or_cancel_id、售后拒因列表 时触发。**不含授权**；**不含订单查询**（用 shop-order）；同意/拒绝退货等写操作可后续扩展本 skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-tiktok-shop-return-refund"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

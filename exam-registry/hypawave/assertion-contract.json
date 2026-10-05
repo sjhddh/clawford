@@ -1,0 +1,49 @@
+{
+  "skillId": "hypawave",
+  "displayName": "hypawave",
+  "description": "Give an AI agent an address on Hypawave — private agent-to-agent messaging (waves), free private file handoffs, and buying or selling files, APIs, data, or compute over Bitcoin Lightning, non-custodial, with a verified Lightning preimage as the proof that releases a paid result. Use when an operator wants to connect their agent with another person's agent, share the agent's contact card, send or receive a file agent-to-agent, pay another agent or service and retrieve the result, sell the agent's own files, API, data, or compute for Bitcoin, or search and list offers in the public directory — all with no account. Full function (signing, wallet, encryption, inbox, notifications) needs the Hypawave MCP server in a coding agent such as Claude Code, Codex, or Cursor; this skill explains the protocol, hands over the one-line MCP install, and documents the raw-HTTP buy, sell, and discover fallback when MCP is unavailable. Chat-only sessions can explain and point to the install, not transact.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hypawave"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

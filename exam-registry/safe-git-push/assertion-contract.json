@@ -1,0 +1,54 @@
+{
+  "skillId": "safe-git-push",
+  "displayName": "safe-git-push",
+  "description": "从 agent 工作区推送文件到 GitHub 时的隔离检查与安全推送。触发：用户说「上传到 GitHub」「推到 GitHub」「创建 GitHub 仓库」「备份项目到 GitHub」等,且当前工作目录位于 OpenClaw workspace（~/.openclaw/workspace/）或任何被 git init 过的父级目录内。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:safe-git-push"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "dns-doctor",
+  "displayName": "DNS Doctor",
+  "description": "DNS diagnostics and email authentication for any domain, via the DNS Doctor public API. Scan SPF, DKIM, DMARC, MX, DNS health, blacklists and domain/TLS expiry; look up registration; see which close look-alike names resolve or accept mail; check a record on the domain's own nameservers and its propagation from six vantage points; count SPF lookups and audit SPF includes; validate or generate DMARC records. Fix records come from a validating engine, never guessed and are presented for a human to publish. Free per caller; x402 pay-per-call past the cap.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dns-doctor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

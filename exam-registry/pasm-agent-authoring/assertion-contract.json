@@ -1,0 +1,54 @@
+{
+  "skillId": "pasm-agent-authoring",
+  "displayName": "pasm-agent-authoring",
+  "description": "The base kit for building agents on the PASM cognitive engine. Ships a BaseAgent SDK (observe / recall / mood / act / feedback / save with persistent JSON state), an agent framework (registry, isolated repo probing, scenario simulation harness, core-contract check toolboxes) and a skill-packaging library producing the two archive layouts platforms require. Write an agent by subclassing BaseAgent and implementing an action pool plus a reply template; the engine tier (light / core / bionic) is always reported, never hidden. Zero LLM dependency, offline-runnable, stdlib only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pasm-agent-authoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

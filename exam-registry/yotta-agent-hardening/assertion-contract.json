@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-agent-hardening",
+  "displayName": "元安全 yotta-agent-hardening",
+  "description": "元安全 —— 给 AI 智能体 / Agent 技能自身做「体检 + 加固建议」：按 提示注入防护 / 工具调用边界 / 数据隔离 三域，对安装的 skills、MCP 服务器、工具描述、权限与数据读取面做配置面静态加固扫描，输出加固报告与可执行防御守则（零依赖 Python 3.8+，扫描只读、敏感读取检测默认开启、报告用「类」表述、每次扫描默认留痕）。触发：用户要求给智能体或技能环境做安全体检 / 加固、检查 MCP 服务器或技能是否可信、排查提示注入 / 越权 / 数据泄露风险、想了解装了一堆技能后的整体暴露面；或用户说 元安全 / 加固 / 安全体检 / 体检 / hardening / 扫一下我的技能 / 检查 MCP / 防御守则 / guardrails 等。边界（Do NOT trigger）：不产出可复制注入串 / 攻击 payload；只扫描用户自有、有权检查的目录与配置，不扫描无权访问的环境；不做运行时拦截（那是元盾）；不做单个技能装前审核（那是元审 / 元信）；不替代人工安全审计与最终决策。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-agent-hardening"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

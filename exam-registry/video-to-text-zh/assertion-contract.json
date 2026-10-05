@@ -1,0 +1,54 @@
+{
+  "skillId": "video-to-text-zh",
+  "displayName": "Video to Text (ZH)",
+  "description": "提取视频语音并转成中文文字稿。当用户给出抖音、B站（bilibili/b23.tv）、YouTube、快手、视频号等常见视频网站的链接，想要\"提取视频里说话的内容\"\"视频转文字\"\"语音转文字\"\"视频字幕提取\"时，必须使用本技能。即使用户只发了一个视频链接没说要做什么，也应主动用本技能识别并转写其中的说话内容。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-to-text-zh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

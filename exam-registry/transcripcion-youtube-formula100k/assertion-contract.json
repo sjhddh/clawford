@@ -1,0 +1,54 @@
+{
+  "skillId": "transcripcion-youtube-formula100k",
+  "displayName": "transcripcion-youtube-formula100k",
+  "description": "Convierte videos de YouTube en batches de guiones virales con FÓRMULA 100K. Usar SIEMPRE que alguien comparta una URL de YouTube y quiera extraer ideas, guiones o contenido de ese video. También con: \"transcribe este video\", \"sácame ideas de este YouTube\", \"convierte este video en guiones\", \"quiero hacer un batch de scripts de este video\", \"repurposea este video\", \"dame guiones basados en este video\", o cualquier variación que combine una URL de YouTube con intención de crear contenido nuevo. Obtiene la transcripción (Supadata, web o pegada por la usuaria) y aplica los frameworks de guionización de FÓRMULA 100K para producir varios guiones validados de un solo video.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:transcripcion-youtube-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-polisher-pro",
+  "displayName": "Paper Polisher Pro — AI Detector & Academic Polishing",
+  "description": "AI-rate self-check for academic writing, polish guidance (style, terminology, translation-smell), metaphor audit, quality report, AIGC compliance label check (China 2025-09 labeling rules), paragraph-level attribution, journal precheck, plus `--batch DIR` for thesis-scale batch rewriting guidance (per-file AI-rate scores and polish suggestions across a whole directory). Bilingual CN/EN, 100% local, zero upload, zero credentials. v3 delivers a recalibrated multi-layer rule engine (11 core layers + discourse/smoothness heuristics) + token-spectrum layer + length-routed fusion + optional supervised Qwen3-0.6B ONNX layer (AUROC 1.0 on held-out test) + LLM fingerprint attribution (GLM / DeepSeek / Qwen / Kimi / MiniMax / GPT / Claude / Gemini) + freshness pipeline. Base-engine numbers reproduce from the bundled held-out evaluation; supervised-layer columns are author-side held-out measurements (the model itself is not bundled).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-polisher-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

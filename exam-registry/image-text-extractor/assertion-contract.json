@@ -1,0 +1,54 @@
+{
+  "skillId": "image-text-extractor",
+  "displayName": "PDF和图片文字提取",
+  "description": "从图片或 PDF 文档中识别并提取文字内容，支持多种图片格式和 PDF 文件，自动判断是否包含文字并保留原始格式输出结构化结果；v2.1 采用零额外依赖方案：扫描版 PDF 自动渲染为图片交由 AI 视觉识别（无需 tesseract/rapidocr）、表格用 pymupdf 内置 find_tables 结构化提取（无需 pdfplumber）、批量处理目录（PDF+图片一次性提取）；当用户需要从图片或 PDF 提取文字、进行 OCR 识别、处理含文字的文档、提取 PDF 表格、批量处理文件夹或转换为可编辑文本时使用。该skill能力来自RedFoxHub，官网：https://redfo",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-text-extractor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

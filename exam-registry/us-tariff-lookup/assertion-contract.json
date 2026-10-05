@@ -1,0 +1,49 @@
+{
+  "skillId": "us-tariff-lookup",
+  "displayName": "US Tariff Lookup",
+  "description": "US import tariff toolkit: find HTS/HS codes for products, compute stacked US duties (MFN base + China Section 301 + global Section 301 + Section 232/338) with MPF/HMF fees, estimate landed cost, and check tariff-refund eligibility and deadlines (IEEPA/CAPE refunds, protest, drawback) — including fully offline parsing of ACE Form 7501 entry summaries. Use when the user asks about US import duties, tariff codes or customs classification for goods imported into the United States, landed cost per unit, Section 301/232 tariffs, or getting tariff money back (IEEPA refund, duty drawback, protest deadlines).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:us-tariff-lookup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

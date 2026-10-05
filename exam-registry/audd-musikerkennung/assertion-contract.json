@@ -1,0 +1,49 @@
+{
+  "skillId": "audd-musikerkennung",
+  "displayName": "audd-musikerkennung",
+  "description": "Musikerkennung und AudD-Kontoverwaltung über den offiziellen AudD-MCP-Server (https://mcp.audd.io) und/oder die direkte HTTP-API. Ein eigener api_token ist optional — funktioniert per OAuth-MCP ganz ohne Token, mit Trial-Plan und mit bezahltem Plan, ebenso mit dauerhaft hinterlegtem Token. Nutze diesen Skill bei Songerkennung — \"welcher Song ist das?\", Audio-Clip oder Datei identifizieren, Shazam-artig, Radio-/Twitch-/YouTube-Streams überwachen, DJ-Sets, Podcasts oder Videos nach Tracks durchsuchen, Tracklists, Airplay-Monitoring, Copyright-Check — und bei allem rund um das AudD-Konto: api_token eintragen, hinterlegen, aus der Zwischenablage in den Secret-Vault übernehmen, in .env setzen, rotieren; Request-Kontingent, Verbrauch, Trial-Restlaufzeit, Plan-Upgrade, Rechnungen. Auch anwenden, wenn AudD nicht namentlich genannt wird, aber ein Audio-/Video-Link oder eine lokale Audiodatei identifiziert werden soll.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audd-musikerkennung"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

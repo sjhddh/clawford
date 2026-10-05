@@ -1,0 +1,49 @@
+{
+  "skillId": "qq-group-homework-summarizer",
+  "displayName": "QQ群作业整理",
+  "description": "QQ群作业整理 —— 从 QQ 群「群作业」抓取指定日期的作业内容（含图片附件），生成排版规范的 A4 Word 文档（默认单页、可多页，支持多群合并、科目筛选、仅文字版），并可发送到指定邮箱或微信；内置 doctor 环境自检（CLI/daemon/连通性/登录态/产物），适合挂无人值守定时任务。This skill should be used when the user asks to organize, export, or send QQ group homework (群作业) as a document — for example \"把X月X日的群作业整理成Word\"、\"把今天的作业导出成文档\"、\"把作业发到我邮箱/微信\"。触发词：群作业、作业整理、作业文档、QQ作业、发作业给XX。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qq-group-homework-summarizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

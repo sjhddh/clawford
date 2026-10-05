@@ -1,0 +1,54 @@
+{
+  "skillId": "first-last-frame-video",
+  "displayName": "First & Last Frame Video",
+  "description": "Generate one short directed transition from an approved first frame to an approved last frame, turning two images into one clip that begins and ends on those images. This first-and-last-frame video and two-images-to-video generator creates outfit transformations, product reveals, before-and-after stories, day-to-night shifts, and scene teleports, and plans the motion, camera path, subject path, and reveal timing between the endpoints, then reviews that the clip truly starts and ends on the approved frames plus middle motion, direction, duration, and audio. Use it for transformations, product reveals, before-and-after stories, scene changes, and cinematic endpoints, with one transition per run and honest post-result review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:first-last-frame-video"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

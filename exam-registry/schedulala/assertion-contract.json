@@ -1,0 +1,54 @@
+{
+  "skillId": "schedulala",
+  "displayName": "schedulala",
+  "description": "Install, connect, and use Schedulala to schedule and publish social media posts to 12 platforms (Twitter/X, Instagram, TikTok, LinkedIn, YouTube, Facebook, Threads, Bluesky, Pinterest, Mastodon, Telegram, Google Business Profile). Use when the user asks to install or set up Schedulala, or wants to create, schedule, preview, or bulk-plan social posts, post photos/videos/PDFs, auto-post a first comment (link-in-first-comment), check post status or analytics, reply to or moderate comments, monitor keywords, or repurpose YouTube videos. Works through the schedulala CLI (any agent with a shell), the hosted MCP connector (claude.ai / ChatGPT, with interactive widgets), or the local @schedulala/mcp-server (Claude Desktop, Claude Code, Cursor, OpenClaw). Encodes key setup, the per-platform rules (TikTok privacy + postMode, Instagram media, YouTube titles, Pinterest boards, character limits), and the safe workflow draft → validate/preview → confirm → publish → verify.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:schedulala"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

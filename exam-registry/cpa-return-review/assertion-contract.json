@@ -1,0 +1,54 @@
+{
+  "skillId": "cpa-return-review",
+  "displayName": "CPA — Pre-Delivery Return Review",
+  "description": "Activate when: a prepared 1040 or 1120-S is going to review; you are the second set of eyes on someone else's return; a firm wants one consistent review standard across reviewers; onboarding a preparer to the review bar; something feels off about a return and you want a systematic pass; user says 'review this return', 'before we file', 'second review', 'preparer checklist', 'did we miss anything on this return?'. Do NOT activate when: the return is not yet prepared; the question is a single technical treatment; the work is chasing missing documents rather than reviewing; the question is what an examiner would attack or whether a position invites audit rather than whether the return is right (use tax-prep-pre-file-audit-premortem instead — it applies to 1120-S as much as 1040). More: deciqai.com/c/cpa-return-review",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cpa-return-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

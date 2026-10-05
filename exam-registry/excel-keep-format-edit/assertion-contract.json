@@ -1,0 +1,54 @@
+{
+  "skillId": "excel-keep-format-edit",
+  "displayName": "excel-keep-format-edit",
+  "description": "客户拿来一张老报表说「就在原表上改个数，格式一点都不要动」——用 openpyxl 重建一次，字体、边框、合并单元格、条件格式、列宽全丢，客户一打开就知道这不是他原来那张表。 正确做法：**用 Excel COM 打开原文件的副本，只改目标单元格的值，其余原样保留。** 这套 skill 解决三个真痛点： - **格式零丢失**：复制原件再改，不重建工作簿 - **别猜行号**：先扫科目名定位实际行列再改（附「资产负债表是左右双栏、科目在 E 列、数值在 G/H 列」这个反复踩的坑） - **改完保勾稽**：财务三表调整后自动校验「资产=负债+所有者权益」，不是改完就交 适用：审计调整分录、财务测算、错账更正、报表科目重分类。 环境：Windows + Office（用 pywin32 调 COM）。 触发词：Excel改数字、保格式修改、原表修改、不动格式、xls修改、财务三表、资产负债表调整、勾稽关系、审计调整。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:excel-keep-format-edit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

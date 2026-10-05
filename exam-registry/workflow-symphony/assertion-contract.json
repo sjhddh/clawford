@@ -1,0 +1,54 @@
+{
+  "skillId": "workflow-symphony",
+  "displayName": "工作流交响曲",
+  "description": "工作流交响曲是面向一人公司的无代码自动化编排能力包。它不只罗列Zapier/Make/n8n的对比表， 更解决四个高频痛点：不知道该自动化什么、选错工具反复迁移、上线后维护负担失控、 测试不充分就上线导致生产事故。 核心能力： - 自动化机会雷达图：用频次×耗时×重复度三维定位高价值机会 - 工具决策树：按工作流...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workflow-symphony"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

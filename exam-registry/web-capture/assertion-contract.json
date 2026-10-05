@@ -1,0 +1,54 @@
+{
+  "skillId": "web-capture",
+  "displayName": "web-capture",
+  "description": "Each Monday the company's own website, its competitors' pages and recent news about both land in context/ as one pull request: the first run seeds positioning, offerings, an inferred ICP with a disqualifier, competitors, clients and proof; every run after adds a dated note of what changed (pricing, a launch, funding, a customer) and never edits an existing file. Triggers: \"keep our context current from our website\", \"watch competitor pricing pages\", \"add our company news to the knowledge base\", \"our context repo is empty, seed it from our website\", \"set up the workspace context from our domain\". Cargo CDK, harness claudeCode, parallel, GitHub. Skip when: news about target accounts, which is monitor-buying-signals; one company researched before a call, which is research-account; or the ICP verified against won and lost deals, which is win-loss-review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-capture"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

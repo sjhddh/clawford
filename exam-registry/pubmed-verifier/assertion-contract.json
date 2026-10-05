@@ -1,0 +1,54 @@
+{
+  "skillId": "pubmed-verifier",
+  "displayName": "pubmed-verifier",
+  "description": "Reference checker for AI-fabricated citations: batch-verify PMIDs against PubMed and catch the hallucination existence checks miss — a REAL PMID pointing to a DIFFERENT paper. Five-state citation verification (correct / mismatch / partial / invalid / unknown), citation-context parsing, dual fuzzy matching, Crossref DOI cross-check, retraction detection (capped at partial), correct-PMID suggestion, arXiv ID verification, SQLite cache, CSV/JSON claims, HTML/JSON/text reports. Dual data sources with automatic Europe PMC fallback, optional NCBI API key, Crossref polite pool, Retry-After backoff, UA rotation, host circuit breaker. Network failures are honestly reported as unverified, never as \"not found\". Zero dependencies, runs fully local. Triggers: verify PMIDs, check citations, validate references, citation audit, reference check, PMID check, audit references, batch verify references, AI hallucination detection, verify DOI, DOI check, validate citations, PubMed citation verifier, BibTeX audit.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pubmed-verifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

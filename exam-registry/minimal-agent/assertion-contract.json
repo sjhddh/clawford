@@ -1,0 +1,54 @@
+{
+  "skillId": "minimal-agent",
+  "displayName": "Minimal Agent",
+  "description": "极简 AI 操作系统控制代理。通过执行协议驱动 system-controller 完成窗口管理、进程控制、硬件操作、GUI自动化、串口通信和IoT设备交互。 当用户需要操控 Windows 系统（打开/关闭应用、调整音量亮度、 截图OCR、管理进程、串口通信等）时使用此 Skill。 触发词：打开应用、关闭窗口...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:minimal-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

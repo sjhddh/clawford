@@ -1,0 +1,54 @@
+{
+  "skillId": "ym-doc-version-diff",
+  "displayName": "ym-doc-version-diff",
+  "description": "比对同一份文档的两个版本，逐处标出增删改与位置移动，区分实质性修改与纯格式措辞调整，并提示需要复核的高风险改动。当用户说「这两版文档有啥区别」「改了哪里」「版本对比」时使用。 也适用于「文档版本对比」「两版区别」「修订核对」「doc diff」这类说法。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ym-doc-version-diff"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

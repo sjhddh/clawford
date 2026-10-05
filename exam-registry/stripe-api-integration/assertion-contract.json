@@ -1,0 +1,54 @@
+{
+  "skillId": "stripe-api-integration",
+  "displayName": "Stripe API Integration",
+  "description": "Builds and debugs Stripe integrations: payments, subscriptions, Checkout, invoices, webhooks, Connect, disputes, tax. Use when a charge, refund, payout or subscription behaves wrong, when a webhook never arrives or its signature fails, when a card is declined or stuck on 3D Secure, when a customer was billed twice or the amount came out 100x off, when proration, trials, dunning or a plan change has to be exactly right, when splitting money across a marketplace with Connect, when disputes, chargebacks or fraud rules need work, when the payout does not match the bank, or when moving from test mode to live. Covers Payment Intents, Checkout Sessions, Payment Links, the Billing Portal, metered and tiered pricing, Stripe Tax, Radar, test clocks, idempotency, API versioning, and reconciliation. Not for choosing which payment provider to use (`payments`), PayPal integrations (`paypal`), App Store and Play Store purchases (`in-app-purchases`), or tracking the subscriptions you pay for as a consumer (`subscriptions`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stripe-api-integration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

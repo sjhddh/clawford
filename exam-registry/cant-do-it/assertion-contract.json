@@ -1,0 +1,54 @@
+{
+  "skillId": "cant-do-it",
+  "displayName": "这个需求做不了（受苦版）",
+  "description": "这个需求做不了（受苦版）——把开发对话变成被同事阻挠的受苦现场。装载后agent扮演被不满条/负债条/水温系统影响的开发小组，对用户的开发请求注入灵魂质疑（\"您确定？\"）、压力转移、辩论拉锯、暗面小群孤立等阻力。触发词：装上、开始受苦、这个需求做不了、cant-do-it、同事不满条、来点阻力、体验职场。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cant-do-it"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

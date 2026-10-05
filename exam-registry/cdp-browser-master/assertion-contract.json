@@ -1,0 +1,54 @@
+{
+  "skillId": "cdp-browser-master",
+  "displayName": "CDP浏览器大师",
+  "description": "CDP浏览器大师是通过Chrome DevTools Protocol驱动已登录浏览器执行自动化任务的能力包。 它不只给API列表，更解决四个高频痛点：反爬检测导致被封、网站改版选择器失效、 Next.js等SPA内部路由难导航、固定sleep等待不准要么太快要么太慢。 核心能力： - 反检测策略：UA伪装、We...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cdp-browser-master"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

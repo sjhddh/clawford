@@ -1,0 +1,54 @@
+{
+  "skillId": "literature-reading",
+  "displayName": "文献速读",
+  "description": "上传中英文学术论文PDF/文本，自动解析全文，精简生成摘要，精准提取研究问题、核心方法、关键结论、创新点，并输出该论文对用户课题的参考价值。结构化输出学术笔记，可直接用于课题参考与文献整理。Use when the user asks for 文献阅读、论文速读、精读论文、文献摘要、提取研究问题/方法/结论/创新点、整理学术笔记、论文参考价值，或上传学术论文 PDF/截图/文本要求结构化整理。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:literature-reading"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

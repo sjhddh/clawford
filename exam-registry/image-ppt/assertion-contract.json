@@ -1,0 +1,54 @@
+{
+  "skillId": "image-ppt",
+  "displayName": "image-ppt",
+  "description": "图片PPT（image-ppt）：将书籍、PDF 或任意文字材料转化为精美可编辑 PPT 的工作流技能。推荐运行环境：Codex + GPT-Image 2.0。适用于课堂汇报、读书分享、组会汇报、项目汇报、比赛路演等场景。通过三步流程（内容提炼与风格设计、图片版PPT生成、可编辑PPTX还原）完成从原始文档到可编辑演示文稿的全链路转换。平台无关：也可在任何具备文档阅读、图像生成与文件输出能力的 AI 助手中使用。包含三段核心提示词。别名：图片PPT、image-ppt、doc-to-editable-ppt。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-ppt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "token-concept-disambiguator",
+  "displayName": "通证/代币化概念辨析器",
+  "description": "当用户/创作者混淆\"上链\"\"发币\"\"RWA\"\"通证化/代币化\"等概念，或需判断某说法属于通证化、代币化、RWT/RWAT/RDA 哪一层、是否触碰金融属性时使用。不适用于：纯粹合规判定（转 S2 合规红线）、真伪 Web3 项目识别（转 S4 W-ABCD）、具体 RWA 落地流程（转 S8）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:token-concept-disambiguator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

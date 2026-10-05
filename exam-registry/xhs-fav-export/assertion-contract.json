@@ -1,0 +1,49 @@
+{
+  "skillId": "xhs-fav-export",
+  "displayName": "小红书收藏夹导出 · XHS Favorites Export — 收藏笔记一键备份为本地 Markdown",
+  "description": "小红书收藏夹导出 / 收藏备份（XHS favorites export & backup）——把你收藏的笔记一键存为本地 Markdown：标题、原文链接、正文、图片/视频链接全保留，支持分批断点续导、可重跑不重复，不需要任何第三方 API key。English: export & back up your Xiaohongshu favorites to local Markdown. 当你需要导出/备份/检索收藏内容、建个人知识库时唤起。需要 webclaw3 浏览器运行时：clawhub.ai/fatmind/skills/webclaw3-browser-automation",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-fav-export"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

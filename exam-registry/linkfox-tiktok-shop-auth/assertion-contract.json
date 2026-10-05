@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-tiktok-shop-auth",
+  "displayName": "TikTok官方-店铺ERP授权",
+  "description": "TikTok Shop ERP（小店）专用授权与管理技能，固定 appType=erp，提供 OAuth 授权、已授权 ERP 店铺查询；可选查询已入库令牌与手动刷新。业务调用经 developerProxy 时 token 已后台化（按 openId 取库，401/过期自动刷新），一般无需手动 refresh。region 支持 global / us。当用户提到 TikTok Shop 授权、绑定 TikTok 小店、TikTok ERP 店铺授权、查询已授权 TikTok 小店、TikTok Shop ERP authorization, bind TikTok Shop, authorized TikTok shops 时触发。只要需求涉及 TikTok Shop 卖家 ERP 账号授权或令牌管理，也应触发。**仅 ERP**；不含联盟 affiliate、不含达人/视频号（creator，请用 linkfox-tiktok-video-auth）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-tiktok-shop-auth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

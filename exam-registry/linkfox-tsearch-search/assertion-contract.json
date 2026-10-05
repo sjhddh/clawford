@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-tsearch-search",
+  "displayName": "Tsearch-网页实时搜索",
+  "description": "网络搜索、在线检索、实时信息查询、搜索引擎搜索、Reddit等社区平台讨论、外部站点帖子和热门话题。当用户需要搜索网络上的最新信息、查找近期新闻或趋势、查询实时数据、通过搜索引擎调研话题、浏览Reddit或社区讨论、发现外部站点帖子和热门话题、获取任何在线内容、web search, online lookup, real-time information, news search, Reddit, trending topics, search engine时触发此技能。即使用户未明确说\"搜索\"，只要其意图涉及获取实时网络信息或核实当前事实，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-tsearch-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

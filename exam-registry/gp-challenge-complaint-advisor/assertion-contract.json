@@ -1,0 +1,54 @@
+{
+  "skillId": "gp-challenge-complaint-advisor",
+  "displayName": "GP Challenge & Complaint Advisor",
+  "description": "政府采购质疑投诉参谋（GP Challenge & Complaint Advisor）——基于 IMA 可用知识库（政府采购投诉AI知识库 等）的质疑/投诉参谋、质检与轻起草工具。触发词（含口语）：\"投诉参谋\"\"投诉书助手\"\"政府采购投诉\"\"质疑\"\"审投诉书\"\"查投诉案例\"\"写投诉书\"\"投诉质检\"\"投诉书模板\"\"类似案例\"\"被驳回理由\"\"投诉有用吗\"\"财政局会支持我吗\"\"质疑被驳了怎么办\"\"投诉能赢吗\"。退出/异常：\"不想投诉了\"\"投诉撤回\"。已接入 IMA 知识库「政府采购投诉AI知识库」。不适用于投标文件编制、招标文件解读、合同审查、非政府采购投诉场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gp-challenge-complaint-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

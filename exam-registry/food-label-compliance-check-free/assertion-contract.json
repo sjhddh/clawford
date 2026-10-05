@@ -1,0 +1,54 @@
+{
+  "skillId": "food-label-compliance-check-free",
+  "displayName": "食品标签与配料表合规核对（免费版）",
+  "description": "食品标签与配料表台账逐项核对（配料表顺序、配料与投料记录一致性、致敏物质提示、营养成分表算术与 NRV% 复算、批次重复与同日两个标签版本、字段合法性），每条结论引用原文行号。触发词包括 食品标签与配料表合规核对、配料表与投料记录对不上、致敏物质没提示、营养成分表能量算不对、标签版本重复。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:food-label-compliance-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

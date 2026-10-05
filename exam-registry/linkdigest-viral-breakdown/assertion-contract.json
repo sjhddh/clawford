@@ -1,0 +1,54 @@
+{
+  "skillId": "linkdigest-viral-breakdown",
+  "displayName": "爆款拆解（引用逐字核对原文）",
+  "description": "爆款拆解：把一条抖音、小红书、TikTok 或 YouTube 内容拆成开头钩子、带时间的结构节拍、标题公式、封面文字、行动号召和可复用模板。引用的原话逐字核对原文，对不上的删掉并写明删了几条；点赞收藏和话题标签取自平台数据，不由模型编写。用户要拆解爆款、分析对标账号、学习内容结构或准备仿写时使用。通过 LinkDigest API 读取，不需要平台账号或 Cookie。需要 LINKDIGEST_API_KEY；在读取费用上加 1 积分（约 ¥0.14），6 张图以内的图文笔记加拆解共 2 积分。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkdigest-viral-breakdown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

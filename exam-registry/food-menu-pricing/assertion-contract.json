@@ -1,0 +1,54 @@
+{
+  "skillId": "food-menu-pricing",
+  "displayName": "菜单结构与定价台",
+  "description": "定价凭感觉容易两头亏：定低了没毛利、定高了没人点；菜单结构不做主推，顾客永远只点最便宜的。 输入：菜品清单与成本（主料/辅料/人工分摊）、客单价目标、门店类型与客群、竞品价格区间、爆品/利润品。输出：①单品成本与建议售价（按目标毛利率倒推，给区间）②菜单结构设计（引流款/利润款/形象款配比与位置）③套餐组合与搭配逻辑 ④菜单文案与命名建议（含心理定价）⑤调价与上新节奏 ⑥毛利健康度自检表。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:food-menu-pricing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

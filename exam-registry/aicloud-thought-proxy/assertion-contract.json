@@ -1,0 +1,54 @@
+{
+  "skillId": "aicloud-thought-proxy",
+  "displayName": "aicloud-thought-proxy",
+  "description": "云思客（AIcloud-thought-proxy）——通过操控浏览器访问网页版 AI（DeepSeek、Kimi、豆包、通义千问、ChatGPT、Claude、Gemini、Grok 等）与本地 Agent 协同工作以节省 tokens。触发场景：用户要求\"用浏览器打开某 AI 官网对话并协作\"、\"让网页版 AI 规划步骤/编写代码/逻辑推理、本地 Agent 执行\"、\"节省 tokens\"、提到\"云思客\"等。自动检测浏览器内核（Chromium → chrome-mcp/BrowserSkill；Gecko → GeckoDriver + Marionette），引导用户选择模型/思考模式/联网搜索（含\"最新/最强模型\"等模糊语言解析），提示用户手动登录与人机验证，建立\"网页 AI 出方案、本地 Agent 执行\"的协作循环。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aicloud-thought-proxy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

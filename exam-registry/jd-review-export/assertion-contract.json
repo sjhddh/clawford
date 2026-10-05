@@ -1,0 +1,49 @@
+{
+  "skillId": "jd-review-export",
+  "displayName": "京东商品评价导出 · JD Review Export — 商品评价一键采集为本地表格",
+  "description": "京东评价导出 / 商品评论采集（JD review export）——给一个京东商品链接，自动采集买家评价导出为本地 Markdown 表格：用户名、日期、SKU、正文、商家回复、有用数一列不落，边滚边采自动去重，可指定条数，不需要任何 API key。选品和差评分析直接用。English: export JD.com product reviews to a local Markdown table. 需要 webclaw3 浏览器运行时：clawhub.ai/fatmind/skills/webclaw3-browser-automation",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jd-review-export"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

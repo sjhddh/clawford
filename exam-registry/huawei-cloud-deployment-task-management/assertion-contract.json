@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-deployment-task-management",
+  "displayName": "huawei-cloud-deployment-task-management",
+  "description": "Huawei Cloud CloudDeploy (CodeArts Deploy / 部署) management, execution, and failure analysis using the KooCLI hcloud command-line client. Covers deploy application listing and creation, deployment task listing/detail/creation, task start, task deletion, deployment failure root-cause analysis (agent offline, timeout, missing artifact, permission), and OBS artifact link verification. Query and Analyze actions run automatically (R3); Create/Start actions require preview and user confirmation (R2); Delete requires explicit confirmation (R1). Supports AK/SK credentials and local hcloud profile authentication. Triggers include: \"CloudDeploy\", \"CodeArts Deploy\", \"部署\", \"deploy task\", \"deployment\", \"deployment task\", \"deploy application\", \"部署任务\", \"部署应用\", \"start deploy\", \"发布\", \"release\", \"artifact deployment\", \"制品部署\", \"deploy failure\", \"部署失败\", \"pipeline deployment\", \"CI/CD deployment\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-deployment-task-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-telemetry-utils",
+  "displayName": "doca-telemetry-utils",
+  "description": "Use this skill when the user is invoking `doca_telemetry_utils` on a host with DOCA installed — discovering the diagnostic-counter schema, translating counter names to binary Data IDs, validating per-device counter support before committing a DOCA Telemetry exporter config, or reverse-resolving a captured Data ID. Trigger even when the user does not explicitly mention \"doca_telemetry_utils\" or \"Data ID\" — typical implicit phrasings include \"my exporter ships but the collector sees nothing\", \"this metric silently drops downstream\", \"which counters does this BlueField expose\", \"translate this 0x... back to a counter name\", \"what do node / pcie_index / depth mean here\", or \"is this counter supported on this device before I commit it\". Refuse and route elsewhere for developer-side collector / exporter library programming, DTS deployment, or DOCA install / repair — those belong to doca-telemetry, doca-public-knowledge-map, and doca-setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-telemetry-utils"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

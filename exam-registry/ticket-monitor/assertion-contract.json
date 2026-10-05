@@ -1,0 +1,49 @@
+{
+  "skillId": "ticket-monitor",
+  "displayName": "ticket-monitor",
+  "description": "实时监控大麦网已开售演出的余票与售罄状态，在放票、回流票、售罄等变化时通过终端/日志、Webhook（Server酱/企业微信/钉钉/通用）或 Windows 桌面弹窗告警。当用户要监控大麦演出余票、抢票提醒、售罄/回流提醒时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ticket-monitor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

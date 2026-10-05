@@ -1,0 +1,49 @@
+{
+  "skillId": "smyx-crop-pest-identification-analysis",
+  "displayName": "Crop Pest Identification | 经济作物虫害识别",
+  "description": "Triggers when a user provides images or videos of crop leaves, buds or fruits (local file or URL) for pest identification; calls server-side APIs to detect common agricultural pests such as aphids, red spider mites, cotton bollworms and corn borers, outputting pest types with confidence scores. | 当用户提供作物叶片、嫩芽或果实的图像/视频（本地文件或网络URL）时，触发本技能进行虫害识别；调用服务端API检测蚜虫、红蜘蛛、棉铃虫、玉米螟等常见农业害虫，输出虫害类型与置信度。应用场景：番茄/玉米/花生的虫害早期发现与精准施药，减少农药滥用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smyx-crop-pest-identification-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

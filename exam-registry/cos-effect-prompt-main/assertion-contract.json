@@ -1,0 +1,54 @@
+{
+  "skillId": "cos-effect-prompt-main",
+  "displayName": "COS后期提示词",
+  "description": "为 COS 照片（cosplay 角色照 / 写真）生成专业级 JSON 后期指令，可直接配合 Nano Banana （Gemini 图像模型）使用。用户在给自己的角色照做后期时使用——加特效（魔法阵、火焰、雷电、 冰霜、翅膀、光环、圣光、粒子、辉光、霓虹、雨、雪、花瓣、赛博街景）、做综合修图（身体塑形 液化、服装焕新、裙摆/披风风动效果）都在范围内。本技能会输出一份结构化的 JSON 指令： 保底规则（构图/脸/姿势不变）+ 检测分析 + 按需启用的处理模块 + 约束与光影噪点一致性。 请务必在用户提到「给照片加特效」「COS 后期」「P 图」「修图」「加魔法阵/火焰/光环/翅膀」 「液化",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cos-effect-prompt-main"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

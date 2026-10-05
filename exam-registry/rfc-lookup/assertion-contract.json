@@ -1,0 +1,49 @@
+{
+  "skillId": "rfc-lookup",
+  "displayName": "RFC lookup",
+  "description": "Look up IETF RFCs and read what a specification actually says. Use whenever an RFC number comes up (\"RFC 9110\", \"RFC 2616\", \"rfc7231\"), when checking what a protocol spec requires, when quoting normative MUST/SHOULD/MAY language, when asked \"what does the spec say about X\", or when verifying whether an RFC is still current or has been obsoleted. Covers HTTP, TCP/IP, DNS, TLS, QUIC, SMTP, OAuth, JSON/JOSE and every other IETF standard. Finds the right RFC, reads one section instead of the whole document, and flags superseded specifications before they get cited.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rfc-lookup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

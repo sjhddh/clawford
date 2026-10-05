@@ -1,0 +1,54 @@
+{
+  "skillId": "dataquant-connector",
+  "displayName": "Dataquant Connector 量化数据通道",
+  "description": "对接 DataQuant 量化数据平台，为回测与选股提供 REST API 取数通道，覆盖 A股/港股/美股/加密货币/指数/ETF 六大市场，支持 K线、估值快照、条件筛选与宏观数据。 当用户需要从 DataQuant 查询行情、K线、估值快照、条件选股或宏观数据，或消息中出现 \"DataQuant\" / \"dataquant kline\" / \"dataquant screen\" 等取数指令时启用本 Skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dataquant-connector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

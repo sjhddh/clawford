@@ -1,0 +1,49 @@
+{
+  "skillId": "analyze-video-by-qwen",
+  "displayName": "Qwen视频智能分析",
+  "description": "基于 Qwen 3.5 Plus 多模态模型对视频进行智能分析。支持本地视频文件和远程 URL 两种输入方式, 可自定义分析提示词与抽帧频率(FPS),灵活控制分析精度与 API 调用成本. 核心能力涵盖场景描述、动作识别、物体检测、视频摘要生成、内容审核与问答式分析. 适用于内容创作辅助、视频内容索引、媒体资产...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:analyze-video-by-qwen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

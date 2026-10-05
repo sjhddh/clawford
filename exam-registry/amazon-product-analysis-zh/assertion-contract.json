@@ -1,0 +1,49 @@
+{
+  "skillId": "amazon-product-analysis-zh",
+  "displayName": "Amazon 商品转视频脚本",
+  "description": "把一个亚马逊商品链接变成可执行的社媒短视频脚本——自动提炼 Listing 卖点、挖掘评论区里的用户真实语言/高频痛点，最后按用户选定的方向（种草类/剧情类/直接转化类）产出带依据的分镜脚本。当用户甩来一个 amazon.com 或 amzn.to 商品链接，并提到要做短视频、带货视频、社媒素材，或者问\"这个产品适合拍什么视频\"\"帮我写个视频脚本/文案\"时，应该触发这个 skill，即使用户没有明确说出\"skill\"这个词。当前版本聚焦\"卖点+评论洞察\"出脚本，暂时跳过\"去社媒找爆款视频拆解\"这一步（原因见下方\"已知限制\"），也不生成视频本身（视频合成是下一轮迭代，遇到\"直接出个视频\"或\"分析一下同类爆款视频\"的要求，说明现状，别硬凑）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:amazon-product-analysis-zh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hekouwang-claude-md-doctor-skill",
+  "displayName": "hekouwang-claude-md-doctor-skill",
+  "description": "会勇禾口王的AI笔记 · Agent 运行时配置体检器。检查项目的 AGENTS.md（跨 Agent 推荐） 或 CLAUDE.md（及子目录本地配置）是否符合\"把它当运行时配置、不是项目说明书\"的最佳实践， 给出评分卡 + 按优先级的修复建议，并可代为修复。触发：用户说「检查我的 CLAUDE.md / AGENTS.md / 运行时配置体检 / claude-md-doctor / agents.md 规范吗 / audit CLAUDE.md / lint AGENTS.md / 看看我的 agent 配置合不合规」。 任何\"评估/审查/优化某个项目 AGENTS.md 或 CLAUDE.md 质量\"的请求都应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hekouwang-claude-md-doctor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

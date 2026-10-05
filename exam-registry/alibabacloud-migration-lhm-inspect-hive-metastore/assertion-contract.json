@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-migration-lhm-inspect-hive-metastore",
+  "displayName": "alibabacloud-migration-lhm-inspect-hive-metastore",
+  "description": "执行 Hive 数据表探查任务，支持全量探查和增量探查，提供两种连接方式：DB 直连（通过 Metastore MySQL/PostgreSQL 数据库）和 Thrift 直连（通过 HMS Thrift API 端口 9083）。全量探查导出所有表的元数据、存储大小和 DDL；增量探查识别指定时间节点之后的表创建、结构变更、数据变更和分区变更。使用场景：用户提到\"Hive 探查\"、\"全量探查\"、\"增量探查\"、\"Hive 元数据\"、\"hive_dive\"、\"metastore 变更\"、\"Thrift 探查\"、\"migration-lhm-inspect-hive-metastore\"时调用此 skill。不适用于数据迁移执行、DDL 转换、数据写入等场景，这些功能由 migration-lhm-migrate-hive-to-paimon 等下游 skill 承担。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-migration-lhm-inspect-hive-metastore"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

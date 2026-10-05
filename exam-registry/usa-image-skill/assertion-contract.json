@@ -1,0 +1,54 @@
+{
+  "skillId": "usa-image-skill",
+  "displayName": "USA零生图技能",
+  "description": "使用 usa0.top 的 OpenAI 兼容 GPT Images API 生成或编辑图片，支持文生图、本地或远程参考图、多图编辑和批量输出；当用户提出生图请求、首次使用、询问安装配置或缺少密钥时，检查 USA_API_KEY；如果未配置，在 Windows 上立即运行技能脚本打开本机安全输入弹窗，让用户在弹窗中输入并保存生图分组 API Key。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:usa-image-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

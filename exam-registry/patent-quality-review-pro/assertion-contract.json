@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-quality-review-pro",
+  "displayName": "patent-quality-review-pro",
+  "description": "专利申请文件质量审核工具（全量指标版）。上传PDF或Word版专利申请文件，自动对全部评审指标进行统一评审（无重点/非重点分档），结合复审无效实践中的常见决定要点辅助判断，并生成标准格式《专利申请文件质量评价表》Word文件（主表+附表1，两页分页）。支持化学/机械/电学/通用四领域AHP权重方案自动切换；权利稳定性须显式加载 novelty-check 与 non-obviousness-check。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-quality-review-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

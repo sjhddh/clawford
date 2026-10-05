@@ -1,0 +1,54 @@
+{
+  "skillId": "compliance-redline-check",
+  "displayName": "合规边界红线检查",
+  "description": "境内 Web3/价值互联网项目在动手前的合规生死判读：什么能做（\"非金融\"的数字化赋能，如溯源、贡献计量、RDA 数据资产），什么绝对禁（代币化、稳定币、虚拟货币交易）。 当用户在中国内地开展或参与 Web3 产业应用时激活：①不确定\"发的到底是通证还是代币、会不会踩线\"；②想用\"境外合规\"给境内业务找出口，或为境外项目提供账户/资金/技术；③涉及稳定币结算、面向境内居民募资、炒作升值预期；④内容科普/带货 Web3 项目需先判断是否会诱导非法金融。 不适用于：纯境外持牌合规区且无境内要素的项目（转 S10）、纯术语/概念澄清（转 S1）、完全无上链/通证的纯传统业务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compliance-redline-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

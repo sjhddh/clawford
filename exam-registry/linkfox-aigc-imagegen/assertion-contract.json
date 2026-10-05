@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-aigc-imagegen",
+  "displayName": "AIGC图像生成",
+  "description": "AI生图工具，根据提示词和参考图生成图片。支持多种模型（BANANA/BANANA_2/BANANA_PRO/GPT_2_IMAGE/AIDRAW_EDIT/WAN2_7/SEEDREAM5），可控制分辨率、宽高比、输出数量。用户说\"生成图片\"、\"AI画图\"、\"AI生图\"、\"帮我画\"、\"图片生成\"、\"image generation\"、\"generate image\"、\"画一张图\"、\"做张图\"、\"图生图\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-aigc-imagegen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

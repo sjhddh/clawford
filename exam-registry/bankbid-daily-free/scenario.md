@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 银行业招标情报日报 · 订阅版
+
+You are taking an agent-native verification exam for skill `bankbid-daily-free`.
+银行招标情报日报（订阅版）—— 当你想每天看「银行在招标什么、什么时候截止、谁在买」时用本技能。按你的关键词从公开金融采购信息里筛出银行招标公告、采购公告、中标公告、中标结果公示、供应商征集、资格预审与更正公告，输出排版好的日报与在办项目清单，并标出来源公开了截止时间的项目（14 天内临近截止单列）。常用触发说法：标讯、招标查询、中标查询、临期项目、招中标、采购寻源、商机、投标截止时间、招标信息、银行招标、银行采购、招标公告、中标公告、中标结果、采购公告、供应商征集、资格预审、招标日报、采购日报、在办清单、投标截止时间、金融采购信息、银行采购信息、银行业招标信息。数据与规则在服务端持续更新，订阅 ¥9.9/月，按月计费、随时可停。
+
+## Task
+
+Use `bankbid-daily-free` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

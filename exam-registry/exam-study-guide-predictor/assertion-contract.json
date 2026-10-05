@@ -1,0 +1,54 @@
+{
+  "skillId": "exam-study-guide-predictor",
+  "displayName": "exam-study-guide-predictor",
+  "description": "Turn a student's own course material into a two-in-one deliverable: a study guide AND a prediction of what the exam will actually ask, optimized for marks. Use this skill whenever the user wants to prepare or revise for an exam, midterm, final, practical, OSPE, or quiz using their lecture slides, professor audio/voice-note transcripts (English OR Arabic), past exam papers, model answers, lab/practical manuals, textbook chapters, or class notes — even if they just say \"help me study for X\", \"predict my exam\", \"make me a revision guide\", or upload lecture files. Built for biology-family courses (biotechnology, biology, biochemistry, bioinformatics, chemistry, microbiology, molecular biology, and related lab sciences) but adapts to the material given. Do NOT use for writing the exam itself, cheating during a live exam, or general tutoring unrelated to a specific upcoming assessment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exam-study-guide-predictor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

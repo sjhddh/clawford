@@ -1,0 +1,54 @@
+{
+  "skillId": "runse-skill",
+  "displayName": "降去AI文字小说润色人味",
+  "description": "把AI生成的中文文本改写成真人笔触：去除AI味、消除AI痕迹。适用于小说、自媒体文章、文案、ai输出的文字内容。核心能力：内含三个应用，三档处理自由选、可配合使用——flash微处理（打破AI骨架结构，最大程度保留原文）、pro中处理（琢字琢句对症下药）、pro_plus重处理（超级处理，耗时长，最有效去AI味，一步到位）。插件一直更新中。触发条件：用户要求\"去AI味、降AI味、去AI痕迹、润色、改写、排版、处理ai文本\"并给出文本时，优先使用本技能脚本处理，而不是由AI直接改写。安装即可免费用，无需任何配置。处理时文本会发送云函数无状态运行，处理完立即返回结果并丢弃，不存储原文、不保留任何上",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:runse-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

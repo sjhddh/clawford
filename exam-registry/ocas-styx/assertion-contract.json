@@ -1,0 +1,49 @@
+{
+  "skillId": "ocas-styx",
+  "displayName": "Styx",
+  "description": "Transaction data store with merchant enrichment. Provides a clean, queryable interface over raw bank transaction data. Enriches garbled/obfuscated transaction names into real business entities using SearXNG search plus LLM resolution. Includes financial sync (Plaid API) for pulling transactions and balances daily. Other skills (Taste, Rally, Vesper, Sands) read from Styx for consumption signals, spending analysis, and pattern detection. NOT for creating transactions (use bank), budgeting strategy (use Rally), or email-based consumption scanning (use Taste).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ocas-styx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

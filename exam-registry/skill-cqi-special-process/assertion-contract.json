@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-cqi-special-process",
+  "displayName": "Cqi Special Process",
+  "description": "特殊过程 CQI 评估辅助——按 AIAG CQI-9 热处理 / CQI-11 电镀 / CQI-12 涂装 / CQI-15 焊接标准，引导用户逐项提供真实过程信息，生成评估方案→检查表→评分→差距分析→整改计划→再评估的六步闭环文档。适用于过程工程师、质量工程师、审核员，符合 IATF16949 8.5.1...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-cqi-special-process"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-observability",
+  "displayName": "cargo-observability",
+  "description": "Watch a Cargo workspace and get told when something breaks — scheduled threshold alerts over workflow telemetry (spans, runs, records), a storage model freshness or row count, or any SQL query, firing a connector, tool, or agent when a metric breaches. Triggers: \"alert me when\", \"notify me if\", \"let me know when the error rate\", \"monitor this workflow\", \"tell me if the sync stops\", \"warn me before I run out of credits\", \"dead man’s switch\", \"is this still running\", \"set up monitoring\", plus listing, previewing, editing, and reviewing an alert firing history. Skip when: diagnosing something that already went wrong — use cargo-diagnostics.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-observability"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

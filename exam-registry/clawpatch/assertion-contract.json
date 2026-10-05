@@ -1,0 +1,54 @@
+{
+  "skillId": "clawpatch",
+  "displayName": "clawpatch",
+  "description": "This skill is specifically for the Clawpatch CLI (openclaw/clawpatch, https://clawpatch.ai) — an npm-installed automated code-review and per-finding fix tool. Use it ONLY when Clawpatch itself is in play: the user says \"review with clawpatch\", \"run clawpatch\", \"clawpatch fix\", \"find bugs with clawpatch\", \"clawpatch report/findings\", \"clawpatch open-pr\", wants to dispatch subagents to fix Clawpatch findings in parallel, or otherwise names Clawpatch or one of its commands. Do NOT use it for generic \"review this code\", \"find bugs\", or \"code review\" requests that don't involve Clawpatch — those belong to a different tool.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clawpatch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-uploads",
+  "displayName": "亚马逊-店铺上传",
+  "description": "亚马逊 SP-API 通用文件上传。用于为 A+ Content、Messaging 等业务创建 upload destination，计算 contentMD5，并将图片或附件上传到返回的预签名地址。用户提到亚马逊文件上传、A+ 图片上传、Messaging 附件、createUploadDestinationForResource、upload destination、contentMD5、预签名上传、Uploads API、SP-API 上传文件时触发。即使未明确说“Uploads API”，只要其他亚马逊 SP-API 操作需要先获得可引用的上传资源地址，也应触发此技能；Feed 文档上传使用 linkfox-amazon-store-feeds 的专用流程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-uploads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

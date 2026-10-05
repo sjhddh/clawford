@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-assistant",
+  "displayName": "Ai Assistant",
+  "description": "长文本推理优化器。针对商业合同、法律备忘录、提案、谈判文本等高风险长文档,提供结构化推理与风险检测. 覆盖六大核心能力:Document Assessment(文档评估,识别目的/受众/决策相关性)、Core Logic Extraction(核心逻辑提取, 区分主张/支撑逻辑/关键假设)、Risk Detect...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

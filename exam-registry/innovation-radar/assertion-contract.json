@@ -1,0 +1,54 @@
+{
+  "skillId": "innovation-radar",
+  "displayName": "innovation-radar",
+  "description": "研发创新点雷达：从研发周报、会议纪要、技术方案、实验记录等材料中， 自动发现潜在创新点，并给出保护建议、价值评分（新颖性潜力×技术完整度） 和后续补充问题。 触发场景： - 用户提交研发周报/项目进展，询问\"有没有值得保护的创新点\" - 用户粘贴会议纪要，询问\"这次会议有哪些技术变化点\" - 用户上传技术方案/架构文档，询问\"哪些部分可以申请专利\" - 用户直接描述一个技术改进，询问\"这个算不算创新\" - 关键词触发：创新点、专利点、可以申请专利吗、值得保护吗、技术交底",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:innovation-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

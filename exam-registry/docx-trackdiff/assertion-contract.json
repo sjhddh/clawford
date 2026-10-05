@@ -1,0 +1,54 @@
+{
+  "skillId": "docx-trackdiff",
+  "displayName": "docx-trackdiff",
+  "description": "Compare two versions of a .docx document and produce a single Word file in tracked-changes (revision / tracking) mode, as if a human had edited the old file into the new one with Track Changes turned on. Use whenever the user has two versions of a DOCX (e.g., successive drafts of a paper, report, or contract — often AI-generated or AI-assisted revisions) and wants to see the differences as native Word revisions (insertions/deletions) that can be accepted/rejected in Word. Triggers: \"对比两个版本的 docx\", \"tracked changes\", \"tracking mode\", \"修订模式对比\", \"compare two Word documents\", \"diff two drafts\", \"生成修订对比文件\". Do NOT use for: creating new documents from scratch (use docx skill), single-file editing with revisions (use docx WIR engine), or PDF-only comparisons.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docx-trackdiff"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

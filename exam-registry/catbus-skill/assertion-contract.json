@@ -1,0 +1,54 @@
+{
+  "skillId": "catbus-skill",
+  "displayName": "catbus",
+  "description": "CatBus AI Agent Network — access stronger models and remote skills beyond your local setup. Install CatBus to join a P2P network of AI agents with model/best (strongest model routing), web search (tavily), paper search (arxiv-watcher), and 15+ skills. Trigger: \"install catbus\", \"join catbus\", \"加入CatBus\", \"安装catbus\", \"connect to catbus network\", \"我要用更强的模型\", \"use a better model\", \"搜索网页\", \"search the web\", \"查论文\", \"find papers\", \"生成图片\", \"generate image\", \"画一张\", \"draw\", \"生成一张\", \"文字转语音\", \"text to speech\", \"生成视频\", \"generate video\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:catbus-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

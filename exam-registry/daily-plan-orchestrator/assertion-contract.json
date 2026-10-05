@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-plan-orchestrator",
+  "displayName": "daily-plan-orchestrator",
+  "description": "每日计划编排器,daily_plan表PG持久化,从task_template实例化每日计划,carryover上限30天(R72.5保护),每日0:00 DRR状态重置+熔断HALF_OPEN,跨日Pipeline支持。触发:daily-plan-generator Cron每日0:00/手动生成计划。不触发:单次任务执行(用task-dispatcher)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-plan-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

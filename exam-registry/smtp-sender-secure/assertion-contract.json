@@ -1,0 +1,54 @@
+{
+  "skillId": "smtp-sender-secure",
+  "displayName": "Zero‑Exposure SMTP Mail Sender (MGC Secure Edition)",
+  "description": "Send emails securely without exposing SMTP passwords. Users store SMTP credentials and email scripts in MGC; AI executes scripts via mgc_run blackbox. AI never sees credentials, script content, or email body (when stored in MGC). Adapted to MGC 1.4.10.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smtp-sender-secure"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

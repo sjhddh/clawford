@@ -1,0 +1,54 @@
+{
+  "skillId": "brief",
+  "displayName": "Brief",
+  "description": "Turns raw material into decision-ready briefs: executive summaries, status updates, meeting pre-reads, and decision documents. Use when asked to brief someone, write a TL;DR or weekly update, prepare a board, investor, or incident update, hand off a project, compare options with a recommendation, or condense a long report, thread, transcript, or doc pile into what the reader needs to act. Also when updates run long, readers skim past the point, or the lede keeps getting buried. Not for plain compression with no decision to serve, or for recurring digests pulled from external sources.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

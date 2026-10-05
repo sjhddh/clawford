@@ -1,0 +1,54 @@
+{
+  "skillId": "calendario-semanal-f100k",
+  "displayName": "calendario-semanal-f100k",
+  "description": "Módulo del Autopilot F100K que corre cada lunes: caza 7 virales de la semana anterior en TikTok para el nicho del usuario, genera un calendario completo de 7 días con guiones listos usando los frameworks de guionizacion-formula100k, exporta CSV + XLSX, y envía el digest por email. Usar cuando alguien diga: \"arma mi calendario de esta semana automáticamente\", \"genera mi calendario semanal\", \"ejecutar módulo calendario\", \"quiero mi semana lista\", o cuando el schedule automático lo invoque los lunes. Requiere config en cerebro/f100k-config.json.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:calendario-semanal-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

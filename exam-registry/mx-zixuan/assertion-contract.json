@@ -1,0 +1,49 @@
+{
+  "skillId": "mx-zixuan",
+  "displayName": "A股自选股",
+  "description": "当用户明确请求查询、添加或删除个人观察清单/自选列表中的股票时，可以使用此技能来进行操作。例如，可以使用诸如“我的自选”、“查询自选”、“加入自选”、“添加到自选”、“删除自选”或“从自选移除”等指令来实现这些操作。请勿将此技能用于报价/金融数据查询（请使用 mx-data）、新闻研究（请使用 mx-search）、筛选候选股票（请使用 mx-xuangu）或模拟交易（请使用 mx-moni）等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mx-zixuan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

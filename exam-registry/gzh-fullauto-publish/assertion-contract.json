@@ -1,0 +1,54 @@
+{
+  "skillId": "gzh-fullauto-publish",
+  "displayName": "WeChat Official Account Full-Auto Publisher",
+  "description": "Use when 用豆包智能体做公众号文章并自动发布到草稿箱。智能体产出 6 件套（标题／正文／排版HTML／配图清单／封面文案／摘要），随包脚本在你自己的电脑上完成扫码登录、渲染封面、存入草稿箱与回读验证。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gzh-fullauto-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cloud",
+  "displayName": "Cloud",
+  "description": "消费级云存储助手帮助用户在iCloud、Google Drive、Dropbox、OneDrive等个人云存储服务间 做出选择、整理、同步、分享与备份决策。覆盖服务选型、常见困惑澄清、存储满处理、备份策略、 文件分享与安全基础。不适用于AWS、Azure、S3等infrastructure基础设施场景.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cloud"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

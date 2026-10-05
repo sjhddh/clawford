@@ -1,0 +1,54 @@
+{
+  "skillId": "dexio-wiki-lint",
+  "displayName": "Wiki Lint (Dexio)",
+  "description": "Check an LLM wiki's health and fix what it finds: broken links, leaked credentials, orphaned and unreferenced pages, missing frontmatter or descriptions, stale pages, oversized pages and duplicate titles. Ships a zero-dependency Python checker for markdown folders ([[wikilinks]] and relative links, Obsidian-compatible). Use on a schedule, before committing or merging wiki changes, after a refactor, or when an agent reports it cannot find a page.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dexio-wiki-lint"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

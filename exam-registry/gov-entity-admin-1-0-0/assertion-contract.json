@@ -1,0 +1,54 @@
+{
+  "skillId": "gov-entity-admin-1-0-0",
+  "displayName": "政企行政助手Gov Entity Admin",
+  "description": "政府、企事业单位通用行政辅助——正式公文（备忘/指令/函/通知）、会议纪要、周/月/季/年报、会议准备、跨部门公文、合规节点提醒。 当用户要求起草、整理或跟踪上述行政文书与流程时激活。 本技能独立于招投标、政府采购等专业方向，仅做通用行政文书起草、流程跟踪与提醒；不做专业业务判定，不代签代发代章，不臆造文号与数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gov-entity-admin-1-0-0"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

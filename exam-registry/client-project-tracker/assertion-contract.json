@@ -1,0 +1,54 @@
+{
+  "skillId": "client-project-tracker",
+  "displayName": "client-project-tracker",
+  "description": "A saved, ongoing tracker for freelancers and consultants: clients, projects, deliverables, deadlines, invoices, and communication notes (a light CRM). Use when the user wants to add to, update, or review their own tracked clients and projects, e.g. 'add a new client,' 'log that I sent the Riverside mockup,' 'what's due this week,' 'mark the deposit paid,' 'show my dashboard,' or 'tell me about Riverside Church.' Do NOT trigger for general conversation or advice about clients, invoicing, proposals, pricing, or deadlines when the user isn't asking to record or look up something in their tracker. Saves data locally in client-data.json (no network); tells the user what's saved and deletes on request.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:client-project-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

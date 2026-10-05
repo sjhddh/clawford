@@ -1,0 +1,54 @@
+{
+  "skillId": "file-upload",
+  "displayName": "file-upload",
+  "description": "通过 Flyelep 开放接口把本地图片、视频、音频上传到云存储，返回可公网访问的直链。 当用户提供的是本地文件而不是 URL，或需要为其它 Flyelep 技能准备 imgUrls（抠图、翻译、延展、局部重绘等）、 referenceImageStr / referenceVideoStr / referenceAudioStr（生成视频）入参时使用此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:file-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

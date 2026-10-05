@@ -1,0 +1,54 @@
+{
+  "skillId": "feishu-send-file-free",
+  "displayName": "飞书发文件(免费)",
+  "description": "飞书机器人发送普通文件附件的基础技能。覆盖 HTML、ZIP、PDF、代码文件等普通文件的两步上传链路, 提供脚本化与手动两种调用方式。适用于个人开发者与轻量级文件投递场景. 本免费版仅支持普通文件链路,图片稳定发送与国际版 Lark 适配等高级能力请升级付费版.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-send-file-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "double6-pdf-translation",
+  "displayName": "Double6 PDF Translation",
+  "description": "Translate user-supplied text PDFs into Simplified Chinese and bilingual PDFs. Reads the PDF and only explicitly selected local LaTeX, sends extracted text to an explicitly approved OpenAI-compatible endpoint, runs local PDF/Python subprocesses, and writes outputs, diagnostics, and the default runtime cache under the chosen directory. Local proxy, arXiv download, Docker compilation, and external cache paths require explicit command-line opt-in.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:double6-pdf-translation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

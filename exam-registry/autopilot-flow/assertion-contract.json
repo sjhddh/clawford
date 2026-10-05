@@ -1,0 +1,54 @@
+{
+  "skillId": "autopilot-flow",
+  "displayName": "自动驾驶流程",
+  "description": "自动驾驶流程是把重复任务自动化的端到端能力包。它不停留在抽象的\"识别→抽象→自动化\" 口号，而是把六步法每步都具象化为可执行动作，并补齐原版缺失的错误处理、监控、 文档化环节。 核心能力： - 六步具象化：观察（日志法）、抽象（模式提取）、设计（流程图）、实现（脚本/配置）、 测试（dry-run）、优化（迭代指...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autopilot-flow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

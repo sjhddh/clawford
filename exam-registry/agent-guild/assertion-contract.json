@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-guild",
+  "displayName": "agent-guild",
+  "description": "智能体协会（agent-guild）— cross-agent shared memory. 本机多个 AI agent 共享 同一份身份、规则、记忆与交接消息 — 纯本地 Markdown/JSON，无服务器。 触发（任何自然等价表达都算）： · 身份/习惯：\"我是谁\" \"我的偏好\" \"who am I\" \"my routine\" · 回忆/历史：\"你记得吗\" \"上次我们聊过\" \"what did we discuss\" · 写记忆：\"帮我记住\" \"记一下\" \"remember this\" \"记到日志\" · 跨 agent：\"告诉其他 agent\" \"交接给\" \"hand off\" · 当前状态：\"现在在做什么\" \"当前焦点\" \"current focus\" · 数据卫生：\"整理协会\" \"清理过期数据\" \"groom\" \"cleanup\" · 跨设备：\"换了台电脑\" \"这个工具在哪\" \"cross-device\" · 加入：\"加入协会\" \"初始化\" \"join agent guild\" 能力：共享身份/规则/焦点读写；收件箱交接；每日日志；会话闭环 （ag recall / ag finish）；并发锁防丢写；学习台账；自动 groom 归档； 跨设备三层作用域（shared/platform/host）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-guild"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

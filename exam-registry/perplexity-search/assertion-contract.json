@@ -1,0 +1,49 @@
+{
+  "skillId": "perplexity-search",
+  "displayName": "perplexity-search",
+  "description": "Grounded web search & research via Perplexity, keyless and pay-per-call over SELAT. Use when asked to \"search the web for <topic>\", \"what's the latest on <topic>\", \"research <topic> with sources\", \"do a deep-research report on <X>\", or \"give me a grounded answer with citations\". Runs Perplexity's cheap web Search by default, and can escalate to a one-shot Agent answer or an async deep-research report when a plain search isn't enough. Paid per call in USDC (on Base) from the user's own self-custody Circle Agent Wallet — no Perplexity API key, no signup. Dry-run first to see live prices; every price the CLI shows already includes SELAT's ~5% routing markup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:perplexity-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

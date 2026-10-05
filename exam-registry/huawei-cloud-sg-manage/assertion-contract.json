@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-sg-manage",
+  "displayName": "huawei-cloud-sg-manage",
+  "description": "Use when managing or diagnosing Huawei Cloud security groups (安全组) — VPC subnet-level firewalls. Covers listing/querying security groups and rules, port connectivity diagnosis (ingress/egress rule matching), rule conflict detection, over-exposure security audit (e.g. 0.0.0.0/0 world-open rules), and full CRUD (create/update/delete security groups and rules). Managed actions run with preview + explicit confirmation (R2/R1); query and diagnose actions are read-only and auto-execute (R3). Uses the local hcloud (KooCLI) VPC CLI with AK/SK environment variables or a local hcloud profile. Provides 11 huawei_* actions: huawei_list_security_groups, huawei_list_security_group_rules, huawei_get_security_group, huawei_diagnose_sg_port_connectivity, huawei_analyze_sg_rule_conflict, huawei_audit_sg_overexposed_rules, huawei_create_security_group, huawei_create_sg_rule, huawei_update_security_group, huawei_delete_security_group, huawei_delete_sg_rule. Triggers include: \"安全组\", \"安全组规则\", \"防火墙规则\", \"端口连通性\", \"端口诊断\", \"规则冲突\", \"过度开放\", \"全开放\", \"0.0.0.0/0\", \"security group\", \"security group rule\", \"SG rule\", \"ingress\", \"egress\", \"inbound\", \"outbound\", \"port connectivity\", \"port diagnosis\", \"rule conflict\", \"over-exposed\", \"world-open\", \"VPC\", \"安全审计\", \"防火墙\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-sg-manage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

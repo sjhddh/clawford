@@ -1,0 +1,54 @@
+{
+  "skillId": "ace-step",
+  "displayName": "ACE Step — Pro Pack on RunComfy",
+  "description": "Generate, inpaint, and outpaint music with ACE Step on RunComfy via the `runcomfy` CLI. ACE Step is StepFun-AI's open-weights music foundation model — tag-driven composition (genre, mood, instruments), multilingual lyrics with section markers, 5 s to 4 min stereo output, $0.0002–0.0003 per second (≈ 27× cheaper than ElevenLabs Music). Four endpoints: ACE Step text-to-audio (the default), ACE Step 1.5 text-to-audio (50+ language lyrics, refined structured-lyric handling), ACE Step audio-inpaint (regenerate a time range inside an existing track), ACE Step audio-outpaint (extend an existing track before or after). Triggers on \"ace step\", \"ace-step\", \"acestep\", \"ACE music\", \"open music model\", \"cheap AI music\", \"inpaint audio\", \"audio inpaint\", \"extend music\", \"audio outpaint\", \"lengthen track\", \"music with tags\", or any explicit ask to generate or edit music with ACE Step.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ace-step"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tinker-backlink-audit",
+  "displayName": "TinkerClaw Backlink Audit",
+  "description": "Discover all inbound links (backlinks) to a domain, subdomain, or GitHub repo, then classify each as \"ours\" (we created/control the source) vs \"organic\" (someone else). Use when the user asks to find/audit backlinks or inbound links to a site, check who links to a domain or a GitHub repo, separate self-made links from organic ones, or refresh an inbound-links graph. Wraps four sources (GitHub repo referrers, a list of URLs you found, the backlinks.sh Common-Crawl API, and a Google Search Console CSV export) behind one classify-and-report CLI. Two of the four need no account at all; the one optional API key is stored in your OS keychain and cleared by --logout. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tinker-backlink-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

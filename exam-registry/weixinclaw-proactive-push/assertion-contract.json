@@ -1,0 +1,54 @@
+{
+  "skillId": "weixinclaw-proactive-push",
+  "displayName": "weixinclaw-proactive-push",
+  "description": "通过 WorkBuddy 已连接的 ClawBot 微信 bot 通道（weixinClawBot / ilink bot，非微信客服号）主动向老板微信推送文本/图片/文件/视频。当用户要求\"通过 ClawBot 主动推送/给老板发微信/微信主动推送测试/微信独立消息/发图片给老板/发文件给老板\"时使用。协议严格对齐腾讯官方插件 @tencent-weixin/openclaw-weixin@2.4.6（src/api + src/messaging + src/cdn）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weixinclaw-proactive-push"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

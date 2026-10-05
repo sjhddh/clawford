@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-standup-summarizer",
+  "displayName": "daily-standup-summarizer",
+  "description": "Condense scattered chat messages, notes, or logs into a concise structured daily standup summary. Use when: (1) asked to summarize a team's daily standup from raw chat logs or messages, (2) converting unstructured notes into a standup format (What I did / What I'll do / Blockers), (3) preparing a standup report from multiple sources of team activity, (4) generating a daily progress update for agile/standup meetings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-standup-summarizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

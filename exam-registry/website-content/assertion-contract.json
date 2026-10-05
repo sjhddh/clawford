@@ -1,0 +1,54 @@
+{
+  "skillId": "website-content",
+  "displayName": "雄韬CRM - 官网自动化精准营销",
+  "description": "通过开放 API 向客户的线上官网写入内容(文章/产品/案例)。注意:写入即时生效、对外公开可见,且没有删除接口。用于「给官网发一篇文章」「上架一个产品」「加一个客户案例」这类任务。执行写操作前必须先与用户确认目标站点和内容。触发词:官网发布/发文章/上架产品/加案例/更新官网内容。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-content"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

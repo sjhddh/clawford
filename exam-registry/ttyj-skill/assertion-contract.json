@@ -1,0 +1,49 @@
+{
+  "skillId": "ttyj-skill",
+  "displayName": "天台研究",
+  "description": "天台宗教理研究与结构化报告生成。支持简单问答和深度研究两种模式。遵循两步工作流（检索→审核标注），所有论断标注CBETA出处。当用户提问天台宗教义、判教、观心、止观、祖师著作等相关问题时使用。触发词：天台宗、天台、教观、止观、法华、蕅益、智者大师、四教、一念三千、三谛圆融、六即、四种三昧、法华三昧等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ttyj-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "vid-note",
+  "displayName": "vid-note",
+  "description": "视频转文字并直接产出成品文案，省去人工校对。云端大模型转写视频（本地文件或抖音、小红书等链接），转写即润色：剔除口误、语气词与重复内容，输出结构化通顺文案；可用 Prompt 一步生成总结、二创改写、金句、分镜头、翻译，无需再手动整理。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vid-note"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

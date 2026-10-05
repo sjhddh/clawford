@@ -1,0 +1,54 @@
+{
+  "skillId": "nemotron-voice-agent-builder",
+  "displayName": "nemotron-voice-agent-builder",
+  "description": "Create, refine, or fix NVIDIA voice agents (Cascaded or Omni) with Pipecat or LiveKit. Use when building, scaffolding, or iterating on a real-time voice-agent pipeline, including speech (ASR/TTS) customization and cloud or local deployment. Not for offline/batch speech-to-text, text-only chat or RAG, or generic Docker or CUDA work unrelated to a voice agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nemotron-voice-agent-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

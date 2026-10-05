@@ -1,0 +1,54 @@
+{
+  "skillId": "humantoday",
+  "displayName": "humantoday",
+  "description": "Edit AI-assisted drafts without flattening the writer's voice, detect named AI-writing patterns without rewriting, or generate deliberately exaggerated AI copy for satire and before-and-after examples. Use when the user wants writing clearer, more direct, more opinionated, or less AI-sounding; asks whether a draft reads as AI; or explicitly requests intentionally bad AI-style copy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:humantoday"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

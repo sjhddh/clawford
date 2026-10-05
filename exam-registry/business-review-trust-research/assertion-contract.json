@@ -1,0 +1,54 @@
+{
+  "skillId": "business-review-trust-research",
+  "displayName": "business-review-trust-research",
+  "description": "Researches software/SaaS products, business reputation, and crowdfunding campaigns via the Crawlora API — Product Hunt launches/makers/alternatives, Trustpilot business reviews, TrustMRR revenue-verified startups, Capterra software reviews, BBB (Better Business Bureau) business profiles/complaint history/Scam Tracker reports, and Kickstarter campaign discovery/funding/updates/comments — returning clean JSON. Use when the user wants a product's launch/review history, a company's Trustpilot or BBB reputation, a startup's verified revenue, software alternatives/reviews before buying, or a crowdfunding campaign's funding status and backer updates.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:business-review-trust-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

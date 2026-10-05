@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-video-generation-runcomfy",
+  "displayName": "AI Video Generation — Pro Pack on RunComfy",
+  "description": "AI video generation on RunComfy. This RunComfy video generation skill is a smart router across the RunComfy video-model catalog — HappyHorse 1.0 (Arena #1, native in-pass audio), Wan-AI Wan 2-7 (open weights, audio-driven lip-sync), ByteDance Seedance v2 / 1-5 / 1-0 (multi-modal cinematic), Kling 3.0 / 2-6, Google Veo 3-1, MiniMax Hailuo 2-3, ByteDance Dreamina 3-0. RunComfy video generation covers text-to-video (t2v), image-to-video (i2v), and Veo's video-extend endpoint. The RunComfy video generation skill picks the right model for intent (Arena #1 quality, multi-shot character identity, in-pass audio, cinematic motion, fastest path, sub-15s clip, longest duration) and ships each model's documented prompting patterns plus the minimal `runcomfy run` invoke. Calls `runcomfy run <vendor>/<model>/text-to- video` or `/image-to-video` through the local RunComfy CLI. Triggers on \"generate video\", \"make a video\", \"text to video\", \"t2v\", \"image to video\", \"i2v\", \"animate\", \"AI video\", \"make X move\", \"video from prompt\", \"video from image\", or any explicit ask to produce a video clip from prompt or still with RunComfy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-video-generation-runcomfy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

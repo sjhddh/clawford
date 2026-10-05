@@ -1,0 +1,54 @@
+{
+  "skillId": "fact-check-guard",
+  "displayName": "fact-check-guard",
+  "description": "当用户说『AI胡说八道』『内容发出去怕有错』『怎么验证模型给的事实』『引用要有出处』，或要把 agent 生成的内容(文章/报告/回复)对外发布、必须可溯源时使用。把每条关键声明当『待证主张』：对照检索来源逐条标注 已支撑/无来源/存疑，无来源的不许当事实对外。理论根基：LGD 三律（有籍·有证·有门禁）。触发词：事实核查、fact check、幻觉检测、引用溯源、内容可证、AI胡说、出处校验、grounding。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fact-check-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

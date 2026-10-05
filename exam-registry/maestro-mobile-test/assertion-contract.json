@@ -1,0 +1,54 @@
+{
+  "skillId": "maestro-mobile-test",
+  "displayName": "maestro-mobile-test",
+  "description": "Write and run E2E tests for React Native / Expo apps using Maestro CLI — the open-source tool that drives the **real native app** on an Android emulator or iOS simulator, not a web build. Covers what browser-based e2e (Playwright, Expect, e2e-verify) cannot reach: native components, biometrics, secure storage, push notifications, platform-specific modules. Write YAML flows, run headed for authoring or headless for CI. Scripts currently automate the Android workflow end-to-end (Java + SDK detection, emulator boot, adb reverse); iOS simulator setup requires Xcode + `xcrun simctl` and is documented but not automated by the setup script. Use this skill whenever the user says \"test my react native app\", \"e2e test the mobile app\", \"write maestro tests\", \"test the expo app\", \"automate emulator testing\", or \"/maestro-mobile-test\" — even if they don't name the skill. Not for web apps (e2e-verify), unit/component tests (write-tests with RNTL + Jest), or API contract tests.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maestro-mobile-test"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

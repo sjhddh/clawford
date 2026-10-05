@@ -1,0 +1,54 @@
+{
+  "skillId": "weekly-planning",
+  "displayName": "weekly-planning",
+  "description": "Every Monday last week's GTM work is ranked against active initiatives, declared infra, and live runs, as one reviewable pull request per initiative — or one workspace pull request when there are none. Triggers: \"what should we work on this week\", \"rank our initiatives against what is actually running\", \"weekly GTM plan from the cadence log\", \"recommend next work from infra and runs\", \"the play is deployed but I don't think it ran\". Cargo CDK, defineAgent, harness claudeCode, GitHub, cargo-ai CLI reads, initiatives, cadence. Skip when: you want today recapped and posted to Slack, which is standup; or you want call transcripts scribed into context, which is call-capture.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weekly-planning"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

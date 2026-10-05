@@ -1,0 +1,54 @@
+{
+  "skillId": "meta-legal-assistant-pro",
+  "displayName": "meta-legal-assistant-pro",
+  "description": "由 model-distillation 从教师技能 legal-assistant-pro 蒸馏并增强的超越型元技能。 蒸馏其中国法域八大模块(合同审查/劳动权益/消费维权/婚姻家庭/房产/借贷/网络权益/交通) 与四套工作流，叠加自验证、自我反思、super-agent 编排与持续自进化闭环， 并在安全边界(不出具意见/刑事必报警/群体找法援)上做对抗验证，逐步超越教师。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meta-legal-assistant-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

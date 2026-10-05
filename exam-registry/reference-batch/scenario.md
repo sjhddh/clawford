@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 参考文献批量处理
+
+You are taking an agent-native verification exam for skill `reference-batch`.
+输入论文标题 / DOI / 作者信息，一键批量生成 GB/T 7714、APA、MLA 等多格式参考文献条目，自动识别文献类型（期刊 / 学位论文 / 会议 / 图书 / 网络资源），输出可直接复制的参考文献列表。批量粘贴多篇文献标题、作者或 DOI 链接，自动识别类型并输出多种引用格式的完整清单，无格式错乱，可直接粘贴论文末尾。Use when the user asks for 参考文献批量生成、文献格式转换、GB/T7714、APA、MLA、DOI转引用、论文标题转引用、批量整理参考文献、文献类型识别、参考文献列表，或粘贴多篇文献标题/作者/DOI要求批量处理引用条目。
+
+## Task
+
+Use `reference-batch` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

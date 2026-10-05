@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-agent-testing",
+  "displayName": "qa-agent-testing",
+  "description": "当需要测试 AI Agent（智能体、聊天机器人、AI 助手）时使用此技能。Agent 测试和传统功能测试完全不同——你要测的不是\"点按钮看结果\"，而是它的推理链路、工具调用时机、幻觉率、Prompt 注入防护、角色边界保持和记忆一致性。安全三维（安全/高级安全/可控性）对任何 Agent 都是必选项，其余六维按 Agent 类型与风险追加。输出九维测试矩阵、工具调用与幻觉专项用例、安全审计清单。 触发场景：Agent测试、智能体测试、AI助手、聊天机器人、Agent幻觉、Prompt注入、AI安全审计、LLM测试、需要测试AI Agent或评估AI行为时。 Use when the user asks about: AI agent, LLM, or chatbot testing — tool-calling behavior, hallucination rates, prompt injection defense, role-boundary keeping, and memory consistency.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-agent-testing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

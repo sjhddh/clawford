@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-version",
+  "displayName": "doca-version",
+  "description": "Use this skill when the user is doing DOCA version handling — detecting the installed release, validating the four-way match across pkg-config doca-common, applications/VERSION, doca_caps --version, and bfver/mlnx-release on BlueField, reasoning about NGC container tags, looking up whether a capability is on the installed release, or diagnosing build-vs-runtime drift. Trigger even when the user does not explicitly say \"DOCA version\" or \"four-way match\" — typical implicit phrasings include \"program built but does nothing on the wire\", \"undefined reference to a symbol the docs claim exists\", \"DOCA_ERROR_NOT_SUPPORTED at runtime\", \"counter didn't increment\", \"what does `latest` mean for this tag\", or \"is my LTS still supported\". Refuse and route elsewhere for installing or choosing DOCA packages (doca-setup), per-library API/capability questions (matching library skill), the cross-library DOCA_ERROR_* taxonomy (doca-programming-guide), or the general debug ladder (doca-debug) — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-version"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

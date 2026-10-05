@@ -1,0 +1,54 @@
+{
+  "skillId": "radar-tendencias-f100k",
+  "displayName": "radar-tendencias-f100k",
+  "description": "Módulo del Autopilot F100K que detecta tendencias emergentes ANTES de que lleguen al pico, dando 24-72h de ventana para publicar primero. Corre junto al radar diario de lunes a viernes. Usar cuando alguien diga: \"qué está despegando en mi nicho\", \"detectar tendencias emergentes\", \"qué va a ser viral pronto\", \"ejecutar radar tendencias\", \"dame las tendencias del día\", o cuando el schedule automático lo invoque. Si no hay tendencia emergente real, NO envía email (sin spam). Requiere cerebro/f100k-config.json.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:radar-tendencias-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

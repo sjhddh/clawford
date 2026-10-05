@@ -1,0 +1,54 @@
+{
+  "skillId": "scholar-access",
+  "displayName": "Scholar Access 学术通道",
+  "description": "通过中国教育网官方学术通道（scholar.edu.cn / scholar.work，即官方学术浏览器 scholartools 所使用的智能 DNS + 反向代理）访问 GitHub、HuggingFace、Docker Hub、Google Scholar、Wikipedia 等境外学术资源，让任何 Agent 无需翻墙即可合规访问。Routes blocked academic sites through the official CERNET \"Scholar\" reverse proxy used by the official scholartools academic-browser client — compliant, VPN-free access for any Agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scholar-access"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

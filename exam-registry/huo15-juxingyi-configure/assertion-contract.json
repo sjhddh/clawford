@@ -1,0 +1,54 @@
+{
+  "skillId": "huo15-juxingyi-configure",
+  "displayName": "Huo15 Juxingyi Configure",
+  "description": "用聚星逸 fsk- 密钥调 /v1/models 接口,把最新模型列表写入 openclaw.json。模型列表完全来自接口实时返回,不依赖本地硬编码数据。支持日常更新(--update 保留主模型)、切换、查看。一个 Key 调 50+ 顶级大模型。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huo15-juxingyi-configure"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

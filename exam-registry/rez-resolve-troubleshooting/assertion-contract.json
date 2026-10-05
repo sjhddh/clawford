@@ -1,0 +1,54 @@
+{
+  "skillId": "rez-resolve-troubleshooting",
+  "displayName": "rez-resolve-troubleshooting",
+  "description": "Diagnosing Rez resolve failures — a command-by-command triage path for 'The context failed to resolve', package conflicts, request version conflicts, implicit package failures, variant selection failures, missing packages or versions, filtered or ignored packages, and stale resolve caches. Use when rez-env, rez-build or rez-test fails to resolve and you need to find the culprit, not just read the solver. Covers Rez 3.4.0.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rez-resolve-troubleshooting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

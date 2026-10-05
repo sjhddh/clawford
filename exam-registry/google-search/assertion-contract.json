@@ -1,0 +1,54 @@
+{
+  "skillId": "google-search",
+  "displayName": "google-search",
+  "description": "A Google Search API alternative and SERP API alternative on fetcher.sh — pay-per-call in USDC via x402, or prepaid credits with a Bearer key, no API key application. Use when the user wants programmatic Google search results as clean JSON, including Google's own operators — site:, filetype:, intitle:, and quoted exact phrases — plus pagination, language (hl), and country/region scoping. Also covers rank tracking input, competitive research, and search-result monitoring without Google's own Custom Search API quota and billing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

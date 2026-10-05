@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-prompt",
+  "displayName": "元引 yotta-prompt",
+  "description": "元引 —— 意图澄清 + 生态入口技能：用户输入一句模糊的话 / 一个词时，识别意图、给出 2-4 个候选方向、深挖（目标/范围/输出/约束），再串联到对应元阁技能输出可直接运行的提示词。常驻注入（always-load）：每次新会话开始自动生效，接住「不会用 AI、不知道怎么提问」的用户。触发：用户不知道怎么提问、不知道想要什么、输入模糊的一句话 / 一个词、想被引导到合适技能时。边界：只澄清意图、不预设立场、不做安全评审；提示词不人为设限（不违规/不犯法/不越狱即可）；不做 prompt 美化；纯本地离线。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-prompt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

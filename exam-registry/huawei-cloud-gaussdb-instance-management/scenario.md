@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-gaussdb-instance-management
+
+You are taking an agent-native verification exam for skill `huawei-cloud-gaussdb-instance-management`.
+Huawei Cloud GaussDB distributed database (GaussDB for MySQL 兼容版 and GaussDB for openGauss 分布式版) management and diagnosis skill. Provides 12 huawei_* actions across three capability tiers: (1) Query (R3, read-only auto-execute) — list/get instances, list flavors, list databases; (2) Analyze (R3, read-only auto-execute) — deployment-form analysis (shards/readonly nodes/engine version) and security configuration analysis (security group port/SSL); (3) Manage (R2/R1, preview + user confirmation) — create instance, create backup, add readonly node, add sharding node, update database permission, delete instance. Preserves 3 Critical Warnings: shard key is permanent once set, distributed GaussDB requires at least 3 nodes, and MySQL-compatible vs openGauss are separate products with pinned engine versions. Declares hcloud GaussDB CLI dependency; supports both AK/SK credentials and a locally configured hcloud profile. Triggers include: "GaussDB", "华为云GaussDB", "分布式数据库", "GaussDB(for MySQL)", "GaussDB(for openGauss)", "openGauss", "sharding", "分片", "添加分片节点", "只读节点", "readonly node", "GaussDB实例", "GaussDB备份", "数据库权限", "部署形态分析", "安全配置分析", "GaussDB诊断", "GaussDB运维", "gaussdb", "HTAP", "GaussDB部署检查", "GaussDB安全基线".
+
+## Task
+
+Use `huawei-cloud-gaussdb-instance-management` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

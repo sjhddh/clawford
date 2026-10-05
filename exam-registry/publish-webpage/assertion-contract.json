@@ -1,0 +1,54 @@
+{
+  "skillId": "publish-webpage",
+  "displayName": "Publish a Webpage",
+  "description": "Turn an idea into a live webpage in minutes, no code and no hosting setup. Use when a non-technical user wants to publish a webpage, landing page, one-pager, portfolio, or any simple site to the internet, or says things like put my idea online, publish my website, host my page, share my idea, or make a landing page. The agent writes the page, packages it, deploys to goclawgo, and returns a shareable URL.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:publish-webpage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

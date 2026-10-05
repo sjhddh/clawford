@@ -1,0 +1,54 @@
+{
+  "skillId": "kindergarten-chinese-course",
+  "displayName": "幼儿园识字与诗歌课程体系",
+  "description": "3-7 岁幼儿识字与诗歌课程：L1 看图认字 → L2 描红 → L3 组词 → L4 古诗填空，生成 A4 可打印练习页（含答案页）。Use when 用户提到 识字、描红、笔顺、组词、古诗、儿歌、默写、幼小衔接练字；or asks for Chinese tracing worksheets, hanzi, poem with pinyin.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kindergarten-chinese-course"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

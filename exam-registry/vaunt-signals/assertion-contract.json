@@ -1,0 +1,54 @@
+{
+  "skillId": "vaunt-signals",
+  "displayName": "Vaunt signals",
+  "description": "Real-money trading evidence from a live Hyperliquid engine, pay-per-call in USDC on Base via x402. Ask \"is this a buy right now?\" and get BUY or NO with a buy price and a sell price from Vaunt's live real-money strategies, get evidence for or against your own trade, see what a trade actually costs to execute, and check the free answer key afterwards. No account, no API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vaunt-signals"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

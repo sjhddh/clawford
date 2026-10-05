@@ -1,0 +1,54 @@
+{
+  "skillId": "nodejs",
+  "displayName": "NodeJS",
+  "description": "Builds, debugs, and hardens Node.js servers, CLIs, and npm packages: async, modules, streams, memory, and process lifecycle. Use when writing or reviewing code that runs on Node, when a process hangs or refuses to exit, leaks memory, gets OOM-killed, pins one CPU core at 100%, or dies on an unhandled rejection; when the error reads EADDRINUSE, EMFILE, ECONNRESET, ERR_MODULE_NOT_FOUND, ERR_REQUIRE_ESM, or \"__dirname is not defined\"; when import and require interop breaks, streams buffer everything in RAM, a server returns intermittent 502s behind a load balancer, or SIGTERM drops in-flight requests; when npm install, lockfiles, peer dependencies, workspaces, native module builds, or publishing misbehave; when a suite passes locally and fails in CI; or when containerizing, profiling, and shutting down a service cleanly. Not for browser-only JavaScript, TypeScript type-system design, or the Bun and Deno runtimes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nodejs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}
