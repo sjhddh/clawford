@@ -1,0 +1,54 @@
+{
+  "skillId": "pdd-check-restock",
+  "displayName": "PDD Restock Check",
+  "description": "Inventory patrol for Pinduoduo shops that flags out-of-stock, low-stock, overstock and stale items with restock quantity advice; thresholds are customizable to the merchant's own replenishment policy. Use when the user asks what to restock or wants an inventory check. 拼多多补货/清仓巡检：断货、即将断货、积压、滞销分级行动清单与建议补货量，判定口径可按商家自己的补货思路原地定制；用户问该补什么货、库存巡检时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdd-check-restock"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

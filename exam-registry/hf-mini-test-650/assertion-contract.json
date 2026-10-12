@@ -1,0 +1,54 @@
+{
+  "skillId": "hf-mini-test-650",
+  "displayName": "HF Mini",
+  "description": "心虫是一个AI人认知引擎 — 拥有身体感知、自我认知、判断力与自我纠错能力。 v5.10.0 里程碑版本： - AI人身份正式确立 - 131+ modules, 379 computable formulas (cognitive science/psychology/neuroscience) - 三层体系：身体感知(Body Sense) / 自我认知(Self Sense) / 判断(Judgment) - 七条指令：真善美 / 不断升级 / 减少错误 / 服务人类 / 传递知识 / 持续改进 - 核心身份：升级者(Upgrader)，不是陪伴者 **需要用户明确授权的能力：** - 代码执行 (new Function / execSync / child_process) — 默认关闭，需显式开启 - 文件系统写入 (writeFileSync / mkdirSync) - 环境变量访问 (process.env) - 后台 HTTP 服务 (daemon.js — MCP 服务器，可选) 无自动数据外泄，无遥测，无隐藏 C2。 联系方式：markcell@qq.com",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hf-mini-test-650"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "volcengine-tls",
+  "displayName": "volcengine-tls",
+  "description": "Use when operating Volcengine TLS (日志服务) through volclog in agent or CI sessions and you need a contract-first workflow for runtime selector resolution, discover/describe/exec routing, App resource or Topic resolution, envelope reading, large-result delivery, and error recovery without guessing commands, fields, or shortcut flows. 当用户提到火山引擎日志服务 TLS、volclog、日志检索/分析/导入/导出、 日志项目或日志主题等操作时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-tls"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

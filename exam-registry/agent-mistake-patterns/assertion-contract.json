@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-mistake-patterns",
+  "displayName": "Agent Mistake Patterns 智能体犯错模式库",
+  "description": "AI agent mistake pattern vault and self-correction discipline: memory-recall failures (notes exist but not consulted before acting), missing workflow steps, edit-anchor mistakes, inefficient debugging paths. Teaches the pre-action recall habit (grep your own notes first), mistake archiving, root-cause classification, and fix-verification loops. AI智能体犯错模式库与自我纠错纪律：记忆检索失败（笔记在、动手前没翻）、流程步骤缺失、编辑锚点错误、低效排查路径。强调动手前先检索自己的笔记、错误归档、根因分类与修复验证闭环。Keywords: agent mistakes, self-correction, memory recall, note retrieval, error patterns, root cause, 智能体纠错, 犯错模式, 记忆检索, 笔记纪律, 自我改进, error archive, 防错机制",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-mistake-patterns"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

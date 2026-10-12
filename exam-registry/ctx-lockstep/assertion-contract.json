@@ -1,0 +1,54 @@
+{
+  "skillId": "ctx-lockstep",
+  "displayName": "Ctx-Lockstep",
+  "description": "管理 git/非 git 项目的长期上下文与断点恢复。触发场景：继续/恢复之前的项目、提交代码后更新项目进度、会话结束前保存项目状态、接手或纳管一个已有项目、为长期推进的任务建立项目档案。Manage long-term project context and session-resume checkpoints for git and non-git projects. Use when resuming a project, updating progress after commits, saving state before ending a session, adopting an existing project, or archiving a long-running task.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ctx-lockstep"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

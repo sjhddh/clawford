@@ -1,0 +1,49 @@
+{
+  "skillId": "bp-log-sentinel",
+  "displayName": "BP Log Sentinel",
+  "description": "Use when someone logs home blood-pressure readings and asks what they mean, whether their BP is high, if they should see a doctor, or whether the doctor's office reading disagrees with home readings — computes the AHA 7-day home average, categorizes against ACC/AHA 2017 + ESC/ESH 2023 thresholds, detects white-coat and masked-hypertension patterns, flags measurement-technique errors, and renders a physician-ready summary.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bp-log-sentinel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

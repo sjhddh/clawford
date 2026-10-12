@@ -1,0 +1,49 @@
+{
+  "skillId": "shorty-researching-summary-library",
+  "displayName": "Researching Summary Library",
+  "description": "Searches and reads the user's saved Shorty summaries and transcriptions, answers questions from them with each source named, and reports remaining Shorty quota. Use when the user asks 'what did I summarize this week', 'find my notes about pricing', 'what did that video I saved say', 'compare these summaries', 'search my transcripts', 'how much Shorty quota is left', or wants to research their summary library. Read-only; never starts a job.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shorty-researching-summary-library"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

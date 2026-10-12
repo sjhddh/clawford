@@ -1,0 +1,54 @@
+{
+  "skillId": "patentmax-disclosure",
+  "displayName": "技术交底书 · PatentMax",
+  "description": "技术交底书生成。当用户要写技术交底书、专利交底、把研发材料或技术方案整理成交底书、挖专利点、只有一个想法想看看能往哪几个方向申请，或说「帮我写个交底书」「这个能写成专利吗」时使用。Use when the user wants to turn R&D materials or an idea into a patent technical disclosure document (Word). Requires a PatentMax API key.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patentmax-disclosure"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

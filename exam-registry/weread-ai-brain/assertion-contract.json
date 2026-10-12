@@ -1,0 +1,54 @@
+{
+  "skillId": "weread-ai-brain",
+  "displayName": "weread-ai-brain",
+  "description": "微信读书/WeRead 专用阅读数据与笔记分析 skill。仅当用户明确提到“微信读书”或“WeRead”，并请求生成微信读书看板、微信读书 HTML 看板、微信读书书籍分析、微信读书跨书关联、微信读书导出笔记、微信读书阅读人格/MBTI 时使用。会通过用户提供的 WEREAD_API_KEY 读取书架、阅读统计、划线和个人想法；导出本地文件前必须先说明内容与路径并取得用户确认。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weread-ai-brain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

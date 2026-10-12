@@ -1,0 +1,54 @@
+{
+  "skillId": "kline-shortterm-checklist",
+  "displayName": "K线超短线选股",
+  "description": "A 股短线（日/尾盘）选股与买点核查清单技能。当用户想用技术分析纪律筛选 A 股短线标的、评估某只股票是否符合「96 原则（九不买+六不卖）/ 下午 2:30 选股法（八层筛选）/ 底部 K 线形态」、或为自选股做纪律化买前/持有核查时使用。覆盖 9 类不买、6 类不卖、12 种底部形态、八层 2:30 筛选、上升趋势研判与心态纪律，并能调用腾讯财经 API 自动拉取涨跌幅/量比/换手率/流通市值等客观指标做初筛，连接 Wind 金融数据 MCP 时还可把九不买",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kline-shortterm-checklist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

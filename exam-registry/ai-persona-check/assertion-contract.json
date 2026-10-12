@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-persona-check",
+  "displayName": "AI Persona Check - AI 拟人化互动服务合规检查",
+  "description": "AI 拟人化互动服务合规检查 — 基于《人工智能拟人化互动服务管理暂行办法》（国家网信办等五部门令第21号，2026-07-15 施行），覆盖 10 项核心检查，快速评估合规状态并生成专业报告。\n\n本 skill 免费安装、免费使用。检查评分由「complianceHub 引擎」完成：\n首次使用前需在 compliancehub.cn 免费注册获取 API Key",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-persona-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

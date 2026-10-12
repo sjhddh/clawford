@@ -1,0 +1,54 @@
+{
+  "skillId": "talkies",
+  "displayName": "talkies",
+  "description": "Self-hosted OpenAI-compatible speech service. /v1/audio/transcriptions fronts 14 open ASR models (Whisper, Parakeet, Nemotron-3.5-ASR, Canary, Sherpa-ONNX, Vosk, plus wav2vec2 and ZIPA phoneme recognizers that emit IPA); /v1/audio/transcriptions/stream accepts live PCM over WebSocket. /v1/audio/speech fronts 3 TTS engines / 4 backends — Kokoro-82M (41 baked voices, PyTorch + ONNX runtimes), the CUDA-only Qwen3-TTS family (voice cloning, preset speakers, voice design), and the CUDA-only Chatterbox Turbo (English, 19 inline emotion tags, transcript-free cloning). Stereo diarization, URL fetching, six ASR/file-staging MCP tools, bearer auth.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:talkies"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

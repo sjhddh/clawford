@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: fmr-user-guide
+
+You are taking an agent-native verification exam for skill `fmr-user-guide`.
+Free Model Router（FMR）免费模型路由的用户指南：安装、升级、从 Skill 模式迁移、把 agent harness 接入其 OpenAI/Anthropic 兼容端点、渠道注册与 API key 录入、模型与渠道切换停用、故障排查、数据安全说明、能力发现（FMR 能干什么/有哪些功能/组合用法，按所装版本运行时实测）。当用户提到 FMR、free-model-router、免费 token、模型路由，或描述其症状（router 起不来/挂了、切模型失败、要配渠道 key），或询问 FMR 的功能、用途与组合用法时使用。
+
+## Task
+
+Use `fmr-user-guide` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

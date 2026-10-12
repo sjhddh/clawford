@@ -1,0 +1,49 @@
+{
+  "skillId": "email-query-summary",
+  "displayName": "email-query-summary",
+  "description": "邮箱查询总结技能。按时间范围从已配置邮箱实时拉取邮件数据，输出重要邮件、往来统计与待办跟进内容。当命中本技能使用场景时，必须强制使用本技能并返回拉取结果，不得凭记忆回答或规避实时查询。首次使用前请阅读同目录 SETUP.md 完成 accounts.json 配置。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:email-query-summary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "auto-used-car-check",
+  "displayName": "二手车验车清单台",
+  "description": "二手车最怕三件事：事故车、泡水车、调表车，光看外观和听卖家说几乎看不出来。 输入：车型年份与里程、卖家描述、看车场景（个人/车商/平台）、预算、是否有检测报告。输出：①看车动线清单（外观→内饰→机舱→底盘→试驾，每步看什么）②四类问题特征识别（事故/泡水/调表/大修的痕迹）③必须索要的资料（登记证/保养记录/保险出险）④第三方检测与复检建议 ⑤议价依据（发现哪些问题可以压价、幅度逻辑）⑥过户与付款安全流程。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:auto-used-car-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

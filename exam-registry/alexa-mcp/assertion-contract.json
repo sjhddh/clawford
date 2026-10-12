@@ -1,0 +1,54 @@
+{
+  "skillId": "alexa-mcp",
+  "displayName": "alexa-mcp",
+  "description": "This skill should be used when the user asks about their Amazon Alexa / Echo devices or the smart home Alexa controls — thermostats (temperature, heat/cool setpoints, mode, vacation or away mode), lights (on/off, brightness, colour), plugs, door locks, garage doors, fan mode, robot vacuums, scenes, making Alexa speak or announce, running a routine, reminders, alarms and timers, Do Not Disturb, the equalizer, Bluetooth, Fire TV, or the Alexa shopping / to-do list. Triggers on phrases like \"list my Alexa devices\", \"what's the thermostat set to\", \"set the heat to 70\", \"turn on vacation mode on the thermostats\", \"we're away next week\", \"turn off the porch light\", \"make the lamp warm white\", \"lock the front door\", \"open the garage\", \"set the fan to circulate\", \"remind me at 6 to call mom\", \"set a 10 minute timer\", \"cancel my alarm\", \"turn on Do Not Disturb\", \"announce on the Echo\", \"run my good night routine\", \"add milk to the shopping list\", \"check off eggs\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alexa-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

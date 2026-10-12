@@ -1,0 +1,54 @@
+{
+  "skillId": "mark-heartflow-skill",
+  "displayName": "heartflow-engine",
+  "description": "心虫(HeartFlow)是AGI第1层——辨别者。纯规则引擎，判别对错/好坏/安全/危险。 47维判别 × 9层管线 × 129模块 × 130 MCP工具，零LLM依赖。 当用户需要以下能力时使用本技能: - 判别AI输出是否可信（幻觉/过度自信/矛盾/谬误拦截） - 判别行为决策是否正确（该做什么/该停在哪/该不该做） - 判别记忆与认知质量（漂移检测/元认知/置信度校准） - 需要确定性而非LLM自由生成的判断 - 检查情绪/心理/伦理维度（共情/创伤/德性/意义） 安全边界：代码执行/文件系统写入默认关闭。无遥测，无隐藏C2。 诚实声明：本引擎是规则引擎，模拟认知判别信号，不是真正的意识或生命。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mark-heartflow-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

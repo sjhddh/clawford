@@ -1,0 +1,54 @@
+{
+  "skillId": "defi-diligence",
+  "displayName": "defi-diligence",
+  "description": "Verify a crypto token before buying. Input a symbol or contract address (Base or Solana). Returns PASS/WATCH/FLAG verdict with kill switches (honeypot, mint/freeze authority, buy/sell tax >50%), auto-scored checkpoints (liquidity, volume, holder concentration, age, price change), and a $2 USDC x402 payment path to unlock the full scored report. Triggers — \"verify this token\", \"is X legit\", \"should I buy X\", \"rug check\", \"token due diligence\", \"honeypot check\", \"check if this coin is a scam\". Exposes MCP tool `defi_score` at `/mcp` and HTTP POST `/v1/products/defi-diligence/score`. Full schema at `/openapi.json`.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:defi-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

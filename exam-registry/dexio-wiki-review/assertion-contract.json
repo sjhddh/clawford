@@ -1,0 +1,54 @@
+{
+  "skillId": "dexio-wiki-review",
+  "displayName": "Wiki Review (Dexio)",
+  "description": "Review what agents recently wrote to an LLM wiki: read each change as a diff, accept, fix or revert it with a note, promote drafts that pass, and send a person a short digest of what changed and what needs their call. Use daily or weekly on a wiki that agents write to, when drafts are waiting for approval, or after a burst of agent writes such as a large ingest.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dexio-wiki-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

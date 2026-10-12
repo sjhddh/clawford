@@ -1,0 +1,54 @@
+{
+  "skillId": "code-reviewer",
+  "displayName": "Code Reviewer",
+  "description": "本技能从 6 个维度对代码进行全面审核：安全性、性能、代码质量、错误处理、测试和文档。适用于审核代码变更、Pull Request 或整个代码库（支持所有主流编程语言）。触发词包括：「帮我 review 这段代码」「检查安全问题」「审查这个 PR」「找出代码中的 Bug」，或用户请求代码质量分析时使用。技能内置自...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-reviewer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

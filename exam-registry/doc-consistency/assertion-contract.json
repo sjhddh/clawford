@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-consistency",
+  "displayName": "Doc Consistency · U-King",
+  "description": "Check a long document against itself — dangling cross-references, numbering gaps and duplicates, TOC-vs-body mismatch, missing standard sections, terminology drift, leftover placeholders (TODO/TBD/XXX), stale years, and paragraphs lost in a merge. Reads .docx / .md / .txt and emits a located findings list plus a re-check command you can put in a contract. Runs fully offline with zero dependencies: no network, no upload, no model calls, so the document never leaves the machine. Use when the user asks to proofread, QA, sanity-check, or verify the internal consistency of a textbook, manuscript, bid or RFP response, manual, thesis, or contract set; or asks for a cross-reference audit, numbering audit, continuity check, or editorial consistency check; or says 长文档一致性 / 交叉引用 / 编号跳号 / 重号 / 术语不统一 / 合稿丢段 / 目录对不上 / 标书自检 / 稿件体检 / 定稿前检查 / 教材编号核对.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-consistency"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

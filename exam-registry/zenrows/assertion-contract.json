@@ -1,0 +1,49 @@
+{
+  "skillId": "zenrows",
+  "displayName": "zenrows",
+  "description": "Fetch live web pages, extract structured data and run browser automation through the official Zenrows MCP server. Use when the agent needs the current content of a URL, specific fields from a page, many URLs fetched as one job, or a multi-step browser session (login, forms, pagination), especially for JavaScript-heavy pages where a plain fetch returns little. Requires the Zenrows plugin or a Zenrows MCP server configured in OpenClaw, and a Zenrows account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zenrows"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

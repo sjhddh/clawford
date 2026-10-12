@@ -1,0 +1,54 @@
+{
+  "skillId": "eplan-drawing-parser",
+  "displayName": "EPLAN Drawing Parser",
+  "description": "EN: Extract structured data from EPLAN/CAD vector PDF electrical drawings — component list (位号/型号/数量), wire/pin topology (导线连接、串并联、电能流向), terminal table, and title-block metadata. Uses PDF vector geometry (100% accurate, no OCR) instead of visual models. Use when the user provides an EPLAN or vector PDF electrical schematic and asks \"解析EPLAN图 / 抽元件清单 / 看导线怎么连 / 提取位号型号 / parse EPLAN drawing / extract components / wire topology\". 中文：从 EPLAN / CAD 矢量 PDF 电气图纸中抽取结构化数据 —— 元件清单（位号/型号/数量）、导线连接拓扑（串并联、电能流向）、端子表、标题栏。基于 PDF 矢量几何直接提取（100%准确，无OCR误差），不依赖视觉模型。当用户提供 EPLAN 或矢量 PDF 电气原理图并要求\"解析EPLAN图/抽元件清单/看导线怎么连/提取位号型号\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:eplan-drawing-parser"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

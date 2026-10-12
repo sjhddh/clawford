@@ -1,0 +1,54 @@
+{
+  "skillId": "agentguard-burn",
+  "displayName": "AgentGuard Burn",
+  "description": "Find out what used up a Claude Code or Codex usage limit. Runs `npx agentguard-burn why` on this machine's session transcripts, explains where the tokens went, relays the one \"Next:\" step it prints, and can install the free AgentGuard plugin that holds runaway sub-agent launches. Use when the user hit their Claude Code or Codex limit, asks where their tokens went, why a session cost so much or ran out so fast, or mentions runaway sub-agents.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentguard-burn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

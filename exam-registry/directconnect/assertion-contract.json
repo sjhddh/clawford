@@ -1,0 +1,54 @@
+{
+  "skillId": "directconnect",
+  "displayName": "directconnect",
+  "description": "Configures AWS Direct Connect: choosing a connection model (dedicated, hosted, or a link aggregation group) and completing the cross connect; creating private, public, and transit virtual interfaces and bringing up BGP; reaching many VPCs through a Direct Connect gateway including cross-account transit gateway associations; encrypting traffic with MACsec or a private IP Site-to-Site VPN; making the connection resilient and tuning failover; managing link aggregation groups; SiteLink; and migrating from a virtual private gateway to a transit gateway. Use when the user wants a private, consistent network link between a data center and AWS, or operates an existing Direct Connect setup and needs to extend, encrypt, or harden it. Routes to the right per-task procedure in references. Do NOT use for transit gateway route tables and attachments (transitgateway skill), Site-to-Site VPN without Direct Connect (sitetositevpn skill), or Route 53 DNS routing (route53 skill).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:directconnect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

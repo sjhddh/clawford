@@ -1,0 +1,54 @@
+{
+  "skillId": "baidu-netdisk-skills",
+  "displayName": "baidu-netdisk-skills",
+  "description": "百度网盘(Baidu Drive, pan.baidu.com)文件管理 — 上传、下载、转存、分享、搜索、移动、复制、重命名、创建文件夹、删除（高风险，需用户确认）。 同时支持 Agent 记忆备份/恢复（kimiclaw/maxclaw/qclaw/openclaw）。 TRIGGER: 用户消息明确提及\"百度网盘 / 百度云盘 / bdpan / baidu netdisk / baidu pan / baidu drive / pan.baidu.com\"并涉及具体文件操作； 或用户提及\"备份记忆 / 恢复记忆 / 查看记忆备份\"等记忆相关操作。 DO NOT TRIGGER: 仅泛指\"网盘 / 云盘 / 云存储 / 百度云\"而未明确指向百度网盘时；用户在讨论其他云盘服务（OneDrive/Google Drive/阿里云盘/夸克网盘等）；本地记忆整理/清理操作；PPT 生成操作（已独立为 baidu-wenku-aippt skill）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:baidu-netdisk-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

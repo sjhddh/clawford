@@ -1,0 +1,54 @@
+{
+  "skillId": "fore-vip-ds-harness",
+  "displayName": "fore-vip-ds-harness",
+  "description": "DeepSeek Harness（dsh）傻瓜式本地启动助手。一句话讲清 DSH 是什么，引导在 DeepSeek 开放平台获取 API Key，按本机系统（macOS/Windows/Linux）实时装好 Node、配置 npm 国内镜像、安装并启动 dsh，并就地生成桌面快捷方式（启动服务并打开 http://localhost:3080）。运行脚本由 Agent 按系统环境实时写出，不依赖任何随包文件。触发词：DSH、DeepSeek Harness、dsh、本地部署 DeepSeek、DeepSeek Agent 框架、傻瓜式启动。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fore-vip-ds-harness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

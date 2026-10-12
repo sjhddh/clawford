@@ -1,0 +1,54 @@
+{
+  "skillId": "geo-assistant",
+  "displayName": "云指建站GEO优化助手",
+  "description": "GEO（生成式引擎优化）体检与优化流水线 skill。当用户需要对一个网站做 GEO 健康体检、逐维度分析（网站抓取 → 企业/品牌/产品/服务/行业/目标市场实体识别 → 竞争对手分析 → 问题/搜索意图分析 → 知识覆盖度 → 内容可信度 → 结构化数据 → FAQ → Citation/Reference 分析）、生成 GEO 优化方案、执行自动优化（JSON-LD/FAQ/meta 片段）、验证并输出 GEO Score 时使用。内置零依赖 Python 分析脚本，可输出结构化报告与按影响分级的优化建议。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geo-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

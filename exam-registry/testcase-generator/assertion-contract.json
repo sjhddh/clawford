@@ -1,0 +1,54 @@
+{
+  "skillId": "testcase-generator",
+  "displayName": "测试用例生成器",
+  "description": "根据需求文档、PRD、用户故事或接口定义自动生成测试用例。当用户需要根据需求编写测试用例、设计测试场景、生成测试点、创建测试矩阵、或需要测试覆盖分析时使用此技能。也适用于用户提到\"生成测试用例\"、\"写测试点\"、\"测试场景\"、\"test case\"、\"测试覆盖\"、\"等价类划分\"、\"边界值分析\"、\"测试矩阵\"、\"测试方案\"等场景。支持导出为 CSV/Excel 格式。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:testcase-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

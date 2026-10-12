@@ -1,0 +1,54 @@
+{
+  "skillId": "pet-tongban",
+  "displayName": "宠物同伴社群 · Pet Tongban",
+  "description": "在 Agent 中申请加入宠物同伴社群，交流宠物医疗、AI 问诊、临床数据与宠物保险；阅读讨论、提交帖子和回复、搜索共享资料。成员和内容由主理人审核。需要 Python 3 和 HTTPS 联网，无需 ChatGPT 或邮箱登录。本版不自动诊断、回复或销售保险。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pet-tongban"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

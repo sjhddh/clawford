@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-panorama-insights-search",
+  "displayName": "patent-panorama-insights-search",
+  "description": "用于专利全景项目的环节1。它构建专家级、限定领域、带主题锚点且去噪的检索配置，通过抽样验证每个分支的精度，并导出干净候选池和各分支检索式——这些是环节2（patent-panorama-insights-stats）的输入契约。统计、画像和核心专利召回属于环节2。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-panorama-insights-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

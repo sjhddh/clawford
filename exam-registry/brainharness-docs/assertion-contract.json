@@ -1,0 +1,54 @@
+{
+  "skillId": "brainharness-docs",
+  "displayName": "BrainHarness Docs",
+  "description": "Organize project documentation by size, audience, and freshness. Trigger when setting up docs for a new project, restructuring existing documentation, slimming a bloated CLAUDE.md/AGENTS.md, deciding where a doc should live, or on doc best practices questions. Also trigger when CLAUDE.md exceeds ~250 lines or docs are duplicated across files. Triggers on: organize docs, reorganize documentation, slim CLAUDE.md, AGENTS.md too long, where to put docs, docs structure, doc best practices, set up documentation, docs are messy, flatten docs, doc migration.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:brainharness-docs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

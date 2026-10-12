@@ -1,0 +1,54 @@
+{
+  "skillId": "corrector-guiones-formula100k",
+  "displayName": "corrector-guiones-formula100k",
+  "description": "Skill para diagnosticar y corregir guiones de video aplicando la metodología completa de FÓRMULA 100K. Usar SIEMPRE que alguien pida \"corrige este guion\", \"revisa este guion\", \"diagnostica este guion\", \"qué le falta a este guion\", \"mejora este guion\", \"audita mi guion\", \"este guion no funciona\", \"por qué no retiene este guion\", \"analiza mi script\", \"corrige mi reel\", \"diagnóstico de guion\". Detecta propósito (TOFU/MOFU/BOFU), pilar de valor, estructura usada, ganchos detectados, gatillos activados y entrega un score de Escala Viral + versión corregida del guion.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:corrector-guiones-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

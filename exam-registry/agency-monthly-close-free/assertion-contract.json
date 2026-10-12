@@ -1,0 +1,54 @@
+{
+  "skillId": "agency-monthly-close-free",
+  "displayName": "代账月结交付技能包（免费版）",
+  "description": "代账公司月结交付前的批量核对，一次跑完目录里所有客户，每个客户一行结论（各项通过 / 有问题 / 材料不足未执行），每条结论都引用原文文件与行号。触发词包括 代账月结、批量核对、客户月结交付、月度自查、一次跑完所有客户。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agency-monthly-close-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

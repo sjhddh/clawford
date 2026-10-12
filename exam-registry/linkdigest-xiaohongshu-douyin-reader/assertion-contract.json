@@ -1,0 +1,54 @@
+{
+  "skillId": "linkdigest-xiaohongshu-douyin-reader",
+  "displayName": "linkdigest-xiaohongshu-douyin-reader",
+  "description": "Read a Xiaohongshu (RedNote) or Douyin link in English. Use when the user shares a xiaohongshu.com, xhslink.com, rednote.com, douyin.com or v.douyin.com link and wants to know what the post says: the caption, the text inside the images (OCR), the spoken transcript of the video, on-screen captions, likes and saves, hashtags, or an English translation. No Chinese phone number, app, login or cookie needed. Reads through the LinkDigest API; needs LINKDIGEST_API_KEY. Pay as you go: an image note is 1 credit (about $0.02), 10 free credits on sign-up.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkdigest-xiaohongshu-douyin-reader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

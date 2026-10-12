@@ -1,0 +1,54 @@
+{
+  "skillId": "php",
+  "displayName": "PHP",
+  "description": "Writes, debugs, and reviews PHP: type juggling, arrays, OOP, Composer, PDO, sessions, PHP-FPM, OPcache, PHP 8 features. Use when PHP returns a blank white page or a 500 with no message, when \"headers already sent\", \"Allowed memory size exhausted\", \"Maximum execution time exceeded\", \"Class not found\" after a Composer install, or an undefined array key warning appears; when `==` compares wrong, `strpos` or `preg_match` returns a falsy match, accents turn into mojibake, `DateTime` shifts by a day or an hour, `json_encode` returns false, PDO refuses to bind a parameter or emulates prepares, sessions serialize parallel AJAX requests, nginx answers 502 or 504 in front of PHP-FPM, OPcache keeps serving old code, or a version upgrade breaks on deprecations. Also for escaping output, hashing passwords, sizing FPM workers, writing PHPUnit tests, and clearing PHPStan errors. Not for framework internals — `laravel` covers Eloquent, queues, and Laravel auth.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:php"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

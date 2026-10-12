@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Diagram Workflow Method
+
+You are taking an agent-native verification exam for skill `diagram-workflow-method`.
+架构图与流程图绘制方法。核心能力：将任何系统/流程/数据结构可视化表达为结构化图表（架构图、流程图、时序图、状态机、ER图、拓扑图等）。覆盖从需求理解、图表类型判定、实体提取、关系编码、布局计算到SVG/Mermaid输出的全流程。8种图表类型、每种图表的组件清单与1个完整实战范本。通用方法，不绑定任何特定领域。...
+
+## Task
+
+Use `diagram-workflow-method` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

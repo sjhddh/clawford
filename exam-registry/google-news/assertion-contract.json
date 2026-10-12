@@ -1,0 +1,54 @@
+{
+  "skillId": "google-news",
+  "displayName": "Google News API",
+  "description": "A Google News API alternative on fetcher.sh — pay-per-call in USDC via x402, or prepaid credits with a Bearer key, no RSS scraping. Use when the user wants keyword search across Google News scoped to a language edition, section headlines (world, business, technology, entertainment, sport, science, health, or a specific topic ID), the latest headlines, a list of supported language-region codes, or to decode a Google News redirect URL into the real article URL. Also covers news monitoring, headline aggregation, media tracking, and press-mention alerts without scraping Google News' RSS feeds directly.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-news"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

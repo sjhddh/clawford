@@ -1,0 +1,54 @@
+{
+  "skillId": "three-period-radar-v2",
+  "displayName": "three-period-radar-v2",
+  "description": "A股三周期趋势雷达 v2.0（融合版）：月线/周线/日线共振分析 + 分时四层职权 + 大盘-板块-个股空间联动 + 持仓适配。当用户要求'盘一下持仓'、'三周期分析'、'共振买点'、'这个票能不能买/卖'、'板块龙头扫描'、'调仓建议'，或给出持仓表格要求技术面建议时触发。与《股市成长手册》均线体系、分时线三周期滤网、道格拉斯心理分析完全对齐。每日盘后自动调用，输出结构化JSON供agent解析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-period-radar-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

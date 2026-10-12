@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh-xuanpin",
+  "displayName": "ljh-xuanpin",
+  "description": "选品判断器。你报一个候选品，我按五步逐项核对，给出值不值得打的结论。 触发方式：/ljh-xuanpin、「这个品值不值得打」「帮我判断一下这个候选品」「选品怎么判断」 Product selection judgment. Give a candidate product, get a five-step go/no-go verdict. Trigger: /ljh-xuanpin, \"should I pursue this product\", \"judge this product candidate\" 选购个人消费品、挑选股票基金这类非打品选品场景，不要自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh-xuanpin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

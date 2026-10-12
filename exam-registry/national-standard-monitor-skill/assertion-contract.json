@@ -1,0 +1,49 @@
+{
+  "skillId": "national-standard-monitor-skill",
+  "displayName": "National Standard Monitor Skill",
+  "description": "跟踪国家标准（GB/GB/T）更新变化，支持任意ICS分类。从openstd.samr.gov.cn获取最新现行标准列表，自动比对本地已下载标准，发现新增/废止/状态变更，支持批量下载PDF。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:national-standard-monitor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

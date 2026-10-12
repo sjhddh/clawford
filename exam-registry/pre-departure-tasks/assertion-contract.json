@@ -1,0 +1,54 @@
+{
+  "skillId": "pre-departure-tasks",
+  "displayName": "pre-departure-tasks",
+  "description": "出差/长时间离线前的任务提前执行 + 「离线前清单化」+ 「触发器冗余」工作流——盘点离线期自动化任务、先出一份离线前清单、逐个提前执行、给关键机制配三重触发器、防回归重复、固化回归必做清单。当用户说\"明天不登录/出差/休假/长时间离线/把明天的任务现在执行\"时触发。2026-08-15 首次跑通；2026-09-18 按 18 天离线实测修订（旧\"登录补跑\"假设被推翻）。关键词：出差、离线、提前执行、离线前清单、触发器冗余、回归必做。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pre-departure-tasks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

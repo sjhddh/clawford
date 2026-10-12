@@ -1,0 +1,54 @@
+{
+  "skillId": "digest-comunidad-f100k",
+  "displayName": "digest-comunidad-f100k",
+  "description": "Módulo del Autopilot F100K que corre cada viernes: analiza los comentarios de los últimos 7 días en el Instagram/TikTok de la usuaria (Composio con Instagram profesional, Apify con datos públicos o capturas que ella manda), extrae las 5 preguntas más repetidas y los dolores más mencionados, y los convierte en ideas de contenido de alto valor con estructura de guion lista, que se suman a ideas/banco.md. Usar cuando alguien diga: \"qué preguntan mis seguidores\", \"ideas desde mis comentarios\", \"qué quiere ver mi comunidad\", \"ejecutar digest comunidad\", o cuando la automatización de los viernes lo invoque. El digest llega por Telegram. Requiere cerebro/f100k-config.json con ig_handle o tiktok_handle.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:digest-comunidad-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

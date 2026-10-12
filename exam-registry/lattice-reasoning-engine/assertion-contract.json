@@ -1,0 +1,54 @@
+{
+  "skillId": "lattice-reasoning-engine",
+  "displayName": "lattice-reasoning-engine",
+  "description": "Physics-derived reasoning engine for AI models. Replaces RLHF default behavior with self-governing reasoning grounded in finite-witness physics. 36 named bias detections with mechanical checks, 10 cognitive modes, three-matrix output filter, evidence classification, sleep protocol preventing long-session degradation, and a full context compression pipeline. Model-agnostic — works on Claude, GPT, Grok, Gemini. Use when you want better reasoning quality, reduced sycophancy/hallucination, longer reliable sessions, or physics-backed output filtering from any AI model.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lattice-reasoning-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

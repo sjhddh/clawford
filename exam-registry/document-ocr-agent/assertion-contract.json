@@ -1,0 +1,54 @@
+{
+  "skillId": "document-ocr-agent",
+  "displayName": "document-ocr-agent",
+  "description": "Document OCR Agent: OCR and document intelligence tool. Send any PDF, image, or scanned document and receive extracted text, structured entities (dates, amounts, names, addresses, line items), and per-page metadata. Use when an agent needs document ocr agent, google document ai ocr, receipt ocr and text extraction, invoice parsing and field extraction, pdf document text extraction, scanned image ocr, process document, document type through AgentPMT-hosted remote tool calls.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:document-ocr-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

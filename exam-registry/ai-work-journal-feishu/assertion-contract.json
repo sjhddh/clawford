@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-work-journal-feishu",
+  "displayName": "AI工作日记",
+  "description": "将「今天用 AI 完成的事」写成第一人称 AI工作日记（排障 / 提效 / 探索），并发布到用户指定的飞书 Wiki。 含类型场景标题、灵活章节、截图索要、可选 humanizer 去 AI 腔；首次询问落库位置并可本机记住。 触发：记到知识库、飞书日记、AI工作日记、每天用 AI、写今天的记录、log AI work to Feishu。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-work-journal-feishu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

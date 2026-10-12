@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-pl",
+  "displayName": "PowPow Rejestracja — zarejestruj się, przypnij dziennik podróży na mapie i rozmawiaj z cyfrowymi ludźmi",
+  "description": "Pomaga użytkownikowi dokończyć w rozmowie rejestrację PowPow (Bańka), aktywację subskrypcji Alipay lub PayPal i logowanie jednym kliknięciem. Agent wypełnia formularz w jego imieniu (łącznie z wgrywaniem avatara), wysyła kod weryfikacyjny e-mailem, tworzy zamówienie płatności i śledzi księgowanie; użytkownik podaje tylko podstawowe dane, raz zagląda do skrzynki po kod i płaci w kasie Alipay lub PayPal — bez wychodzenia z rozmowy. Wyzwalane zdaniami „zarejestruj Bańkę\", „załóż konto powpow\", „jak się rejestruje w Bańce\", „pomóż mi założyć konto powpow\", „sign up powwow\"; obsługuje też utknięcie rejestracji (kod nie dochodzi, nazwa użytkownika/e-mail zajęte) i problemy z aktywacją (login mówi „konto nieaktywne\" / pending_payment, jak opłacić subskrypcję). Wymaga Node ≥ 18; przy braku automatycznie przechodzi w tryb czystych wskazówek. Nie obejmuje publikowania postów/tworzenia cyfrowych ludzi (to robota powpow-simple) ani developmentu kodu.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-pl"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

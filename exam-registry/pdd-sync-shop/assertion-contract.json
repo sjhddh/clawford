@@ -1,0 +1,54 @@
+{
+  "skillId": "pdd-sync-shop",
+  "displayName": "PDD Shop Sync",
+  "description": "Syncs a Pinduoduo merchant shop's live catalog, 30-day trade history and change events into a zero-setup local SQLite store or enterprise ClickHouse, with multi-shop rotation. Use when the user wants to pull or refresh their PDD shop data. 同步拼多多店铺在售商品、30天交易与商品改动记录到本地零部署数据库（或企业 ClickHouse），支持店群多店轮转与登录保活提醒；用户要同步、更新店铺数据时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdd-sync-shop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

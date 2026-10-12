@@ -1,0 +1,54 @@
+{
+  "skillId": "wms-reconciliation",
+  "displayName": "WMS仓库收费对账",
+  "description": "第三方仓库收费对账技能。用于将仓库方提供的Excel收费清单与WMS（仓库管理系统）OpenAPI中的实际业务记录逐笔核对，验证每笔收费是否真实发生、业务是否实际完成。已适配TopWMS（极欧云仓）系统，其他WMS系统可扩展适配。触发词：仓库对账、核账、WMS对账、收费核对、仓租费核对、出库费核对、包装费核对、退件费核对。当用户需要核对仓库收费清单与WMS系统数据是否一致时使用此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wms-reconciliation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

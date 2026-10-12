@@ -1,0 +1,49 @@
+{
+  "skillId": "scraper-skill-main",
+  "displayName": "search-harvester",
+  "description": "ScrapeBox-style candidate discovery for link building and outreach. Rotates Tor exit nodes (and optionally public HTTP proxies) so the server's datacenter IP never touches the search engine, harvests candidate URLs from multiple engines (DuckDuckGo html, Marginalia), dedupes, triages liveness/barrie",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scraper-skill-main"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

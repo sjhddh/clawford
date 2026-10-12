@@ -1,0 +1,54 @@
+{
+  "skillId": "publish-quality-gate",
+  "displayName": "publish-quality-gate",
+  "description": "发布质量门禁：发布任何 Skill/专家包/文档/工具到外部（分享、上架市场、对外发布）前后的质量检查。发布前执行四层敏感信息检查（公司信息→本机信息→个人信息→机密信息），发布后按 TRACE 五维（Trust/Reliability/Adaptability/Convention/Effectiveness）执行 AI 自测。当用户说'准备发布'、'发布前检查'、'发布后自测'、'TRACE 评测'、'检查一下发布物'、'脱敏检查'、'发布质量'时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:publish-quality-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

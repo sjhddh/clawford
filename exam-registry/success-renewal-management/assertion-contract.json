@@ -1,0 +1,54 @@
+{
+  "skillId": "success-renewal-management",
+  "displayName": "success-renewal-management",
+  "description": "Use when 存量客户合同临近到期（180/120/90/60/30 天节点）需要系统化推进续约——判断健康/风险档位、按档位走续约动作、出续约方案、开续约对话、收续约成交。Triggers: '续约','续费','合同到期','续约风险','续约预测','续约方案','续约对话','save 计划','续约健康分','renewal','renewal playbook','churn prevention','续约率','NRR','GRR','多年期续约'. Do NOT use for new-deal pricing (clinch-negotiation-pricing), account expansion (success-expansion; only renews existing contract), or lost-customer win-back (churn-recovery).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:success-renewal-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

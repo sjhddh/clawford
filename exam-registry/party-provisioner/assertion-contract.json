@@ -1,0 +1,54 @@
+{
+  "skillId": "party-provisioner",
+  "displayName": "party-provisioner",
+  "description": "Calculate exact quantities of drinks, ice, food, glassware, and supplies for parties and events from headcount, duration, guest mix, and weather. Uses bartender-standard consumption math (drinks per guest-hour), splits beer/wine/spirits by drinker preferences, applies food-per-hour catering rules, and sizes ice in pounds. Use when planning any party, BBQ, wedding, holiday dinner, or gathering and asking how much alcohol, soda, ice, or food to buy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:party-provisioner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

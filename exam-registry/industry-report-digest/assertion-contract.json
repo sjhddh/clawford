@@ -1,0 +1,49 @@
+{
+  "skillId": "industry-report-digest",
+  "displayName": "industry-report-digest",
+  "description": "This skill should be used when the user provides a long industry report, market research, or analyst PDF and wants the key points extracted. Trigger phrases include '行业报告拆解', '提炼核心观点', '这份报告讲了什么', '关键数据', 'report summary', 'extract insights'. It outputs an executive brief with core arguments, a data dashboard with units and sources, trend drivers, opportunity and risk points, and flagged uncertainties.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-report-digest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

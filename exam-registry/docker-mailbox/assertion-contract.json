@@ -1,0 +1,49 @@
+{
+  "skillId": "docker-mailbox",
+  "displayName": "docker-mailbox",
+  "description": "Multi-mailbox IMAP/SMTP control plane exposed as a REST API + MCP server (streamable HTTP) on a single port. Read, search, send, mark-seen, and delete mail across multiple inboxes in one call — `GET /inbox` fans out across every IMAP account in parallel and returns a merged, newest-first feed. Use when you need an agent (or a script, or a curl one-liner) to drive one or more real mail accounts without standing up a webmail UI, a message store, or any per-provider client library. Stdlib `imaplib`/`smtplib` under the hood, FastAPI on top, bearer-token auth optional.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docker-mailbox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

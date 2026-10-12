@@ -1,0 +1,49 @@
+{
+  "skillId": "literature-review-paper-screener",
+  "displayName": "literature-review-paper-screener",
+  "description": "Literature Review Paper Screener V1.4.6. The local agent (internet-enabled, free) searches for literature, collects evidence, builds per-paper Evidence Records with Evidence Availability Levels A-D, submits ONE paper per workbook row to the private LoomLoom Cloud template (rows run as independent parallel tasks, so screening never exceeds the platform per-activity timeout), then audits and merges the returned screening results and renders Excel Paper Sheet + Reading List. Cloud has no internet access; you gather the evidence and it evaluates it. Use it for Literature Review tasks in the Medical Science focus only; do not use it as a general citation manager, for other task types, or for disciplines it is not configured for. The bundled files are local helpers only — a pre-flight checker, a result validator, and an Excel renderer. All searching, downloading, and cloud submission is performed by the agent through the loomloom CLI, which this skill requires.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:literature-review-paper-screener"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

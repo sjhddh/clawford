@@ -1,0 +1,54 @@
+{
+  "skillId": "wx-huitu",
+  "displayName": "Wx Huitu",
+  "description": "公众号数据绘图专家。输入文章或数据描述，输出PNG图表包。当用户说'文章绘图'/'绘图图表'/'画个图表'/'数据图'/'公众号图表'时触发。18种版式(C01-C18)，三轴决策+8条拦截规则，生成HTML+Puppeteer截图。可选飞书云盘同步(需用户确认)。Do NOT use for 封面/封底/金句图...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wx-huitu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

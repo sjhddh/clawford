@@ -1,0 +1,49 @@
+{
+  "skillId": "skill-collision-guard",
+  "displayName": "skill-collision-guard",
+  "description": "Use only when the user explicitly asks to inspect or compare coding-agent skills before installation or invocation. The workflow uses bounded local discovery, optional read-only Git candidate retrieval, deterministic comparison of names, capabilities, policies, and behavior, and reversible session suppression; it reads SKILL.md files only, never executes candidate code or installs/removes skills, and leaves conflict decisions with the user.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-collision-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

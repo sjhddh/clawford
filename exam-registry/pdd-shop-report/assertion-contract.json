@@ -1,0 +1,54 @@
+{
+  "skillId": "pdd-shop-report",
+  "displayName": "PDD Shop Report",
+  "description": "Generates business-grade HTML dashboards for Pinduoduo shops - single-shop report or multi-shop cockpit - from data synced by pdd-sync-shop. Use when the user asks for a PDD shop report or operations overview. 基于 pdd-sync-shop 同步的数据生成商务版经营报表（KPI、趋势、库存健康、待办清单）与店群驾驶舱；用户要看报表、经营情况时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdd-shop-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

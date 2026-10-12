@@ -1,0 +1,54 @@
+{
+  "skillId": "lygo-llm-console",
+  "displayName": "LYGO LLM Console",
+  "description": "Use when an operator wants a sovereign LOCAL LLM runtime instead of Ollama: scan GGUF on disk, boot llama.cpp on loopback, chat with an agent portal and allowlisted tools. Ships the public kit UNPACKED (v1.5.6, 152 files, per-file SHA-256) so every file that would run can be read first. Map scripts do no network, no subprocess, no writes; the kit itself listens on loopback, fetches public HTTPS, writes only inside its own folder, and can run workspace shell/Python (not a sandbox). No steward vaults, keys or weights. Pinned install: npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console. Do NOT use for cloud inference, for serving untrusted users, or where you cannot run Python as an unprivileged user.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lygo-llm-console"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ctf-web-reverse-audit",
+  "displayName": "CTF Web & Reverse Audit",
+  "description": "Web攻击与逆向审计助手：HTTP应用漏洞（SQLi/SSRF/SSTI/XXE/JWT/文件上传）利用，以及 Ghidra 无头反汇编与 semgrep 源码审计。遇到 web 题、源码审计、逆向分析、JWT、注入类题目时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ctf-web-reverse-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

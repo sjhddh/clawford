@@ -1,0 +1,49 @@
+{
+  "skillId": "personal-wiki",
+  "displayName": "Personal Wiki",
+  "description": "个人知识库（LLM Wiki）操作 skill。 当用户提到以下意图时触发： - Ingest：处理新内容、更新知识库、\"处理IMA新内容\"、\"处理印象笔记\"、\"处理raw里的文件\"、\"帮我ingest\" - Query：查 wiki、\"wiki里有没有关于XX\"、\"从知识库里找XX\" - Lint：整理wiki...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:personal-wiki"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "web-console-cdp-upload",
+  "displayName": "web-console-cdp-upload",
+  "description": "平台只有网页后台、没有上传 API 时，用本机已装的 Chrome/Edge + CDP 自动化走完上传/发布/填表流程——复用真实登录态、零安装（不下载 500MB Chromium）、能给文件选择框塞文件；并实测富文本编辑器（公众号 / CMS / 邮件模板）里到底哪些 CSS 能活下来，以及在决定是否接入平台自带的「一键排版 / AI 美化」前先抓它输出做结构化 diff。当用户说「只能网页上传」「后台发布」「网页填表自动提交」「发布到技能市场/各平台控制台」「复用已登录的浏览器」「公众号排版样式不生效/保存后样式没了」「一键排版要不要用」「点了按钮没反应/提交没成功也没报错」时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-console-cdp-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

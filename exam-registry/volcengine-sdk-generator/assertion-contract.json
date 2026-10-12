@@ -1,0 +1,54 @@
+{
+  "skillId": "volcengine-sdk-generator",
+  "displayName": "volcengine-sdk-generator",
+  "description": "Generate accurate Volcengine SDK examples by locating an API through API Explorer search, fetching its swagger, and calling api/common/explorer/make-code with user-provided Params. Use when the user asks how to write Volcengine SDK code, generate SDK samples, or call a Volcengine API in Python, Go, Java, PHP, cURL, Node.js. Supports Chinese and English API names such as \"角色扮演\", \"AssumeRole\", or \"STS AssumeRole\". Also use for explicit SDK configuration questions about retry, timeout, AK/SK, STS, AssumeRole, temporary credentials, proxy, connection pooling, SSL, debug mode, request signing, response parsing, and error handling. If the user only needs API parameters, enum values, required fields, error codes, response schemas, pagination, or API comparisons, hand off to volcengine-api. If they need CLI-based operations, hand off to volcengine-cli.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-sdk-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

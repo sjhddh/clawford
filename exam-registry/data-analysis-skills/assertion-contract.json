@@ -1,0 +1,49 @@
+{
+  "skillId": "data-analysis-skills",
+  "displayName": "data-analysis-skills",
+  "description": "只要用户提交表格/CSV/Excel/数据块，或提到\"分析数据\"\"找关系\"\"盘数据\"\"串表\"\"对数据\"\"看表\"\"两表对比\"\"数据有没有问题\"，都应调用此技能。即使用户没说\"分析\"，只要给了表格数据并问\"有没有猫腻\"\"帮我看看\"\"这数据对不对\"，也触发。不适用于：写代码处理CSV、解释数据库概念、画图表可视化、纯日志排查、代码审查、非结构化文本分析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:data-analysis-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

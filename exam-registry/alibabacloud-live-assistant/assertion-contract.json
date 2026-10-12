@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-live-assistant",
+  "displayName": "alibabacloud-live-assistant",
+  "description": "Read-only diagnostics for Alibaba Cloud Live: stream quality checks (codecs, bitrate, GOP, B-frames, A/V sync), CDN edge-node probing, local recording/snapshot, traffic-theft analysis on abused live domains, and signed push/pull test URL generation; never changes any configuration. Use when the user reports live stream stuttering, pixelation or latency, push/pull stream failures, audio-video out of sync, wants to probe live CDN nodes or record a stream, suspects live traffic theft or anomalous billing, needs a URL authentication check, or asks for push/pull test URLs. Triggers: \"live stream stuttering\", \"live stream pixelation\", \"live stream latency\", \"push stream failed\", \"pull stream failed\", \"audio video out of sync\", \"live CDN node check\", \"live traffic theft\", \"anomalous live billing\", \"live URL authentication check\", \"live stream recording\", \"generate push stream URL\", \"generate pull stream URL\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-live-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

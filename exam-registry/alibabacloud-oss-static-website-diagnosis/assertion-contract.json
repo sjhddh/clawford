@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-static-website-diagnosis",
+  "displayName": "alibabacloud-oss-static-website-diagnosis",
+  "description": "Read-only diagnosis of OSS static website hosting: hosting config checks (homepage / 404 rules, IndexDocument / ErrorDocument), \"website opens as a download\" attribution, and domain filing (ICP) guidance. Triggers: \"static website shows download\", \"index.html not rendered\", \"website hosting config\", \"404 page rule\", \"static site domain filing\", \"ICP filing for OSS domain\", \"static site opens as download\", \"custom domain filing\". Do NOT use for hotlink protection, domain binding procedures or generic default-domain direct access links (use alibabacloud-oss-direct-access-link-diagnosis), endpoint selection (use alibabacloud-oss-endpoint-internal-diagnosis), image processing (use alibabacloud-oss-image-processing-diagnosis), browser upload CORS (use alibabacloud-oss-browser-upload-cors-diagnosis), signed URL / V4 (use alibabacloud-oss-presigned-url-v4-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-static-website-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

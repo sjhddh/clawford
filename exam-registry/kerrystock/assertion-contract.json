@@ -1,0 +1,54 @@
+{
+  "skillId": "kerrystock",
+  "displayName": "Kerrystock",
+  "description": "个股/ETF 的「日历效应（季节性）买卖点分析」端到端工作流。当用户要求分析某只股票或基金的 月度/年度季节性规律、确定基于日历效应的买入卖出时间点与买卖策略、或做\"季节性 + 技术指标\" 复合选股时使用本技能。本技能串联 westock-data（行情/技术指标/投资日历）、 neodata-financial...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kerrystock"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

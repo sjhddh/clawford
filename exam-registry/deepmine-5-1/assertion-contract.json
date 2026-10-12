@@ -1,0 +1,54 @@
+{
+  "skillId": "deepmine-5-1",
+  "displayName": "Deepmine 5.1",
+  "description": "苏格拉底式深度追问技能。用户想梳理思路、复盘经验、生成方案、理清需求时触发。不给答案，通过 SOLO 五层级诊断 + 结构化追问把用户自己的判断问出来，最终输出由用户原话构成的结构化结论文档。触发词：帮我想清楚、我有个事想复盘、帮我做个方案、帮我梳理需求、我有点纠结、我不知道该怎么办。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepmine-5-1"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

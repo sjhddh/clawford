@@ -1,0 +1,54 @@
+{
+  "skillId": "xcpng-aiops",
+  "displayName": "xcpng-aiops",
+  "description": "Use this skill whenever the user needs to operate an XCP-ng virtualization fleet through Xen Orchestra — a one-shot fleet health overview; VMs (list/get/RRD stats), hosts, pools, storage repositories (SRs) and VDIs, VM snapshots, backup jobs and run logs, XO tasks; four RCA analyses (VM health, SR usage, backup-job failures, pool patch & HA posture); and governed writes (VM start/stop/reboot/migrate, snapshot create/delete/revert, SR rescan). Always use this skill for \"xcp-ng vm\", \"xen orchestra\", \"xo backup failed\", \"sr full\", \"orphaned vdi\", \"xcp-ng snapshot\", \"migrate vm to another host\", \"xcp-ng patches\", or \"pool HA\" when the context is explicitly XCP-ng / Xen Orchestra / a Xen-based fleet. Do NOT use when the target is not an XCP-ng fleet managed by Xen Orchestra — other hypervisors (Do NOT use for Proxmox VE — use proxmox-aiops), NAS/storage appliances, backup software suites, container clusters, and network devices are out of scope (negative routing hints only). Common XCP-ng-via-XO operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xcpng-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

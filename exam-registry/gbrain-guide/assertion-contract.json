@@ -1,0 +1,54 @@
+{
+  "skillId": "gbrain-guide",
+  "displayName": "gbrain-guide",
+  "description": "指导 agent 规范操作 GBrain 本地知识库（经 MCP 接入 WorkBuddy）。涵盖 GBrain 概念与安装形态、分类规范（路径前缀→类型）、资料入库、链接/标签关联、schema pack 切换、健康度治理、100G 大库分批处理与 Obsidian 联动。当涉及\"把资料存进 GBrain / 用 GBrain 检索 / 整理知识库 / gbrain MCP 调用\"时加载。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gbrain-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

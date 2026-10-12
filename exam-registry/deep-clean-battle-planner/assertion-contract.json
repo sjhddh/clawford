@@ -1,0 +1,54 @@
+{
+  "skillId": "deep-clean-battle-planner",
+  "displayName": "deep-clean-battle-planner",
+  "description": "Use when planning a whole-house deep clean (spring cleaning, move-out, post-illness, before-guests) — turns rooms + available hours into ordered cleaning waves (dusty-first, top-down, machines working while you do), maps waves onto real weekend time blocks with a 15% buffer, matches surfaces x soils to the correct cleaner chemistry with never-mix warnings (bleach+acid, bleach+ammonia), and prints per-room zone playbooks with running time markers and upkeep recurrence cadences.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deep-clean-battle-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

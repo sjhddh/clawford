@@ -1,0 +1,54 @@
+{
+  "skillId": "study-workbench",
+  "displayName": "study-workbench",
+  "description": "学习工作台模板生成技能。基于已验证的引擎模板，一句话生成学生每日学习工作台（按开学日进度排课、每日知识点+讲解+练习、每日积累、每日任务、单元复习、考试倒计时），默认内置八年级上册语数英（人教版·英语2024）。支持换年级/学科/教材版本——提供 content-pack JSON 即可裂变出任意学习台。单文件 HTML、手机电脑通用、localStorage 存储、可部署。触发词：学习台、学生台、做个学习台、每日学习、按进度排课、备考台、课程表、xx年级、xx科、人教版。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:study-workbench"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

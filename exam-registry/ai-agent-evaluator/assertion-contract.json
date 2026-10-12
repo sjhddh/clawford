@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-agent-evaluator",
+  "displayName": "AI Agent Evaluator",
+  "description": "AI-powered agent evaluation and benchmarking assistant — design evaluation suites, run structured assessments (task completion rate, latency, safety, reasoning accuracy), compare multi-agent frameworks (CrewAI, LangChain, AutoGen), generate benchmark reports, and guide developers in selecting the right evaluation methodology. Built for AI engineers, product managers, and ML teams shipping agent-based applications to production. Keywords: AI agent evaluation, agent benchmarking, LLM testing, CrewAI, AutoGen, LangChain, SWE-bench, AgentBench, AI quality assurance, agent reliability.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-agent-evaluator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

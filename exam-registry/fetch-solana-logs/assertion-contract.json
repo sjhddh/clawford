@@ -1,0 +1,49 @@
+{
+  "skillId": "fetch-solana-logs",
+  "displayName": "fetch-solana-logs",
+  "description": "Auto-fetch Solana address/program transactions and optionally decode Anchor IDL instructions. Trigger whenever the user asks to get/pull/fetch/sync Solana txs, program logs, instruction data, 交易, 交易日志, or gives a base58 Solana address and wants its txs — e.g.「帮我获取这个 Solana 地址的 tx」「拉一下这个 program 的交易」",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fetch-solana-logs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

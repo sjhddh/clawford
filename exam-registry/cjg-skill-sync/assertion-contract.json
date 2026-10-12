@@ -1,0 +1,54 @@
+{
+  "skillId": "cjg-skill-sync",
+  "displayName": "cjg-skill-sync",
+  "description": "扫描你本机已安装的技能，向藏经阁查询作者是否已发布新版本，列出变更说明并帮你安全更新。核心承诺：更新前自动备份、失败自动回滚、检测到你改过的文件绝不覆盖（先问你）、大版本升级必须你点头。默认只做\"检查\"，不会在你不知情时改动任何文件；自动更新默认关闭，需你主动开启，开启后也只自动应用\"同主版本且无本地改动\"的安全更新。触发词：检查技能更新、更新技能、技能有新版本吗、升级技能、技能版本、同步技能、skill update、check skill updates、update my skills、sync skills。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cjg-skill-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

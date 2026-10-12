@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-resilience-lifecycle",
+  "displayName": "aws-resilience-lifecycle",
+  "description": "Guides the end-to-end AWS resilience lifecycle integrating Resilience Hub v2, Fault Injection Service, and Application Recovery Controller. Covers the Define → Test → Operate workflow: from policy creation through failure mode assessment, to FIS experiment validation, to ARC operational controls. Applicable when the user wants a complete resilience strategy, needs to connect findings to experiments to controls, or is planning a resilience program. Also applicable for the meta question of whether marking NGRH findings as resolved is enough, whether they are \"done\" after resolving findings, or how to validate findings before resolving them. Not applicable for resolving or remediating a specific individual finding (see resilience-hub-failure-mode-assessment), or when a single service is explicitly named (e.g. \"what FIS experiment should I run\").",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-resilience-lifecycle"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

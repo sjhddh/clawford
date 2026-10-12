@@ -1,0 +1,54 @@
+{
+  "skillId": "fasting",
+  "displayName": "Fasting Tracker",
+  "description": "Tracks intermittent fasting and extended fasts: logs start and break times, computes elapsed hours, fasting stages, and eating windows. Use when the user starts, breaks, or checks a fast, plans 16:8, 18:6, OMAD, 5:2, alternate-day, time-restricted eating, or multi-day water fasts, asks whether coffee, sweeteners, gum, or supplements break a fast, or when ketosis or autophagy starts, reports headaches, dizziness, hunger waves, or insomnia while fasting, needs electrolyte or refeeding guidance past 24h, checks fasting against medications, diabetes, or the menstrual cycle, observes Ramadan or another religious fast, trains fasted, hits a weight-loss plateau, or interprets glucose and ketone readings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fasting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

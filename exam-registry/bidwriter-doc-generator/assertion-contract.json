@@ -1,0 +1,54 @@
+{
+  "skillId": "bidwriter-doc-generator",
+  "displayName": "投标文件生成官（免费版）",
+  "description": "输入项目名称、投标人信息、资质业绩清单与招标文件关键条款，输出投标文件全册骨架——资格/商务/技术三册目录、每章撰写要点与建议字数、条款逐条响应表（响应或需补充或待确认，每条附可复核的依据）、否决投标条款专项自查表、材料清单与盖章要求、按项目类型给出的废标雷区库，以及材料完整度评分与补全建议。覆盖货物、工程、服务、政府采购四类项目。引擎已打包在技能内，本地离线运行，不需要联网、不需要 API Key、没有调用次数上限，项目资料不会离开你的机器。免费版输出全册目录与前 5 条条款的响应结论。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidwriter-doc-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

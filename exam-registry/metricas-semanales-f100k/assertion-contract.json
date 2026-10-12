@@ -1,0 +1,54 @@
+{
+  "skillId": "metricas-semanales-f100k",
+  "displayName": "metricas-semanales-f100k",
+  "description": "Módulo del Autopilot F100K que corre cada domingo: extrae las métricas de los posts de la semana del perfil del usuario en Instagram y/o TikTok, identifica el post ganador y por qué funcionó, compara con la semana anterior, y envía un reporte claro con la recomendación de qué replicar la semana siguiente. Usar cuando alguien diga: \"muéstrame mis métricas de la semana\", \"qué funcionó esta semana\", \"cuál fue mi mejor post\", \"reporte semanal de métricas\", \"ejecutar módulo métricas\", o cuando el schedule lo invoque los domingos. Requiere cerebro/f100k-config.json con ig_handle o tiktok_handle configurado.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:metricas-semanales-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

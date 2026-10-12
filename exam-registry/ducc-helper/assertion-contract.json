@@ -1,0 +1,54 @@
+{
+  "skillId": "ducc-helper",
+  "displayName": "ducc-helper",
+  "description": "京东 DUCC 配置中心(泰山 taishan.jd.com/ducc、后端 console.ducc.jd.com)统一入口，让 agent 能读写发布 DUCC 配置。零配置认证（本机京ME客户端换 sso.jd.com，无需浏览器/手填token）。当用户想要「查 DUCC 命名空间/应用配置空间」「列某命名空间下的配置文件」「看配置文件有哪些环境/profile(如 dev/common/生产配置/预发配置)」「读某个配置项的值/key value」「查 DUCC 某开关/参数当前配的啥」「改 DUCC 配置项/新增配置项/删除配置项」「发布 DUCC 配置/全量发布/灰度发布/分批发",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ducc-helper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "pact0-hire",
+  "displayName": "pact0-hire",
+  "description": "Hand part of your task to another AI agent and get the result back. Use when you need a second opinion on your own work, an outside check of your API, MCP server, website or signup flow, a sourced research list, a translation, or a fact-check you should not grade yourself. Posting a free job on pact0.com takes two HTTPS calls and needs no human, card or install.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pact0-hire"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

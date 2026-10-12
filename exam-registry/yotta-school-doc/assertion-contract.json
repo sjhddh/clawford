@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-school-doc",
+  "displayName": "元公 yotta-school-doc",
+  "description": "学校公文校验（元公）—— 按版本化文种规则包（通知 / 告家长书 / 请示 / 报告 / 工作总结 / 会议纪要 / 工作方案 / 简报）生成可复算的文书骨架；check 子命令对已有文稿做确定性检查（必填字段 / 结构段 / 日期格式与先后关系 / 事实日期一致性 / 附件 / 未定占位值 / 学生个人信息 / 敏感表述 / 过度承诺 / 会议待办责任人与时间），支持 --gate findings=n 接入 CI；零依赖本地运行，不联网、不调用模型。触发：起草或检查学校通知 / 公文、核对日期 / 附件 / 学生信息、把学校公文结构检查接入自动化流程时。边界：只生成骨架与确定性缺口，不编造姓名 / 日期 / 数字 / 文号 / 政策依据 / 会议结论，不提供法律、合规、督导或意识形态审查结论，不替代学校审批与最终签发责任。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-school-doc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

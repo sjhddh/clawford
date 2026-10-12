@@ -1,0 +1,54 @@
+{
+  "skillId": "heartflow-cognitive-engine",
+  "displayName": "Clawhub Pkg",
+  "description": "心虫(HeartFlow)是一个本地认知预处理引擎。 核心能力：规则引擎分类/路由(think/dispatch)、PAD情绪检测、决策路由。 当用户需要以下能力时使用本技能: - 对输入文本做规则引擎分析(分类、情绪检测) - 调用心虫内部模块(心理学/逻辑/记忆) - 自检心虫引擎状态或运行认知签到 - 需要确定性而非LLM自由生成的判断 安全边界：代码执行/文件系统写入默认关闭。无遥测，无隐藏C2。 诚实声明：本引擎是规则引擎模拟认知信号，不是真正的意识或生命。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:heartflow-cognitive-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

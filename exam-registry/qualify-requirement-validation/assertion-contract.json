@@ -1,0 +1,49 @@
+{
+  "skillId": "qualify-requirement-validation",
+  "displayName": "qualify-requirement-validation",
+  "description": "Use when a sales rep already has a customer who has expressed some need (from outreach follow-up, account-landing research, customer-initiated contact, or meeting notes) and needs to structurally validate whether that need is real, urgent, whose pain it actually is, and whether it matches the team's capability — before pushing to ROI proofing or buying-intent assessment. Triggers: '验证一下这个需求是不是真的', '需求真不真', '客户说痛但我不确定', '这个客户值不值得跟', '客户说会考虑但是真的吗', '谁拍板', '现有方案是什么', '切换成本', 'need validation', 'pain point validation', 'is this a real need', 'verify customer need'. Do NOT use for: scoring leads at line-item level, building target-customer profiles, calculating ROI, overall buying-intent scoring, opportunity-stage assessment, or writing outreach/cold messages.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qualify-requirement-validation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

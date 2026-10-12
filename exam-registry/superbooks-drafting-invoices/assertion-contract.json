@@ -1,0 +1,54 @@
+{
+  "skillId": "superbooks-drafting-invoices",
+  "displayName": "Drafting Invoices",
+  "description": "Drafts a SuperBooks invoice for a customer, optionally from tracked time, creates the customer if needed, and sends it only after an explicit confirmation naming the invoice and recipient. Use when the user asks to 'invoice Cedar Valley Books for 6 hours of design at $125', 'bill my September hours on Harbor & Pine', 'create an invoice', 'turn my tracked time into an invoice', 'add a new customer', or 'send this invoice'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:superbooks-drafting-invoices"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

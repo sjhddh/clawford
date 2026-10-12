@@ -1,0 +1,49 @@
+{
+  "skillId": "inbound-qualification",
+  "displayName": "inbound-qualification",
+  "description": "Turn the website's demo form into qualified inbound: each submission runs a Cargo tool that identifies the company by work email, qualifies it against the ICP, lands account and contact in the shared GTM models, posts it to Slack, and answers on the page with a booking link or a thank-you; an optional play then tiers and summarises each qualified contact. Triggers: \"add a demo form to our website\", \"handle inbound leads\", \"route website form submissions\", \"qualify inbound demo requests\", \"contact form that books meetings\", \"inbound lead flow\", \"Cargo public form\", \"tier each demo request and summarise it\". Cargo CDK, defineTool, publicForm, @cargo-ai/form-sdk, definePlay, gtm_accounts, gtm_contacts. Skip when: you want visiting companies that fill nothing in, which is visitor-identification; no site yet, which is website-building first; or leads from a list, which is find-b2b-leads.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:inbound-qualification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

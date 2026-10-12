@@ -1,0 +1,54 @@
+{
+  "skillId": "build-game-plus",
+  "displayName": "build-game-plus",
+  "description": "Build playable browser games (2D canvas or 3D Three.js) from natural language, with an automated screenshot verification loop the agent runs before claiming the game works — no unverifiable \"should look fine\" claims. Persists games in a stable workspace (games/<slug>/, not /tmp), iterates via targeted edits, publishes to https://jerithai.com/games/<slug>/ via the existing nginx + Cloudflare tunnel. Reuses the full 3D pattern library from the original build-game skill and adds 2D canvas, genre-appropriate engine choice, and verify-before-deliver as a hard gate.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:build-game-plus"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

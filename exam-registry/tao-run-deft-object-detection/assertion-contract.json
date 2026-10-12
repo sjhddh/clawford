@@ -1,0 +1,49 @@
+{
+  "skillId": "tao-run-deft-object-detection",
+  "displayName": "tao-run-deft-object-detection",
+  "description": "Run the full DEFT smart-data-augmentation loop for NVIDIA TAO Grounding DINO object detection: zero-shot baseline inference, KPI analysis, per-class gap analysis, SigLIP embedding of weak images, unique-neighbor mining against a source pool, ODVG dataset staging, and retraining — repeated for a fixed number of iterations. Also prepares the source pool the loop mines from, as a separate run: Co-DETR pseudo-labeling, folding to the target classes, KITTI→COCO→ODVG conversion, and embedding. Use for prompts like \"run the DEFT OD loop\", \"run smart data augmentation for grounding dino\", \"mine and retrain my detection model\", \"improve OD mAP with gap analysis and mining\", \"prep the source pool\", or \"pseudo-label my unlabeled images for mining\"; do not use for standalone TAO training, one-off inference, or gap analysis alone.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-run-deft-object-detection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

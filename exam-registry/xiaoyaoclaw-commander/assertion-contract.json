@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaoyaoclaw-commander",
+  "displayName": "OpenClaw Cross-Tool Commander",
+  "description": "Drive OpenClaw with Claude Code, Codex, OpenCode, Trae, DSH etc. — command the gateway, its agents and channels, from any Agent Skills tool. Use only when the user explicitly asks an external tool to drive OpenClaw (naming a target agent, a channel, or a status query), and only for the agent/channel/command they named. Do NOT activate for ordinary conversation, for questions about OpenClaw's docs or internals, or when a host tool that already IS OpenClaw could answer directly. Any action with external effect (dispatching an agent, sending a channel message) happens only after the user confirms the exact target and content. 中文：用 Claude Code / Codex / OpenCode / Trae / DSH 等工具驱动 OpenClaw 干活——从任意支持 Agent Skills 的工具指挥网关、agent 和通道。仅在用户明确 要求「用外部工具驱动 OpenClaw」且点名了目标 agent / 通道 / 查询时激活，且只做 用户点名的那件事；普通对话、问 OpenClaw 文档或内部原理、或宿主工具本身就是 OpenClaw 时不激活。任何有外部效果的动作（派任务、发消息）都必须先让用户确认 确切目标与内容再执行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-commander"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

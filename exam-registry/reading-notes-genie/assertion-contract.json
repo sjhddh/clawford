@@ -1,0 +1,54 @@
+{
+  "skillId": "reading-notes-genie",
+  "displayName": "閱讀筆記精靈",
+  "description": "閱讀筆記精靈：輸入書名 / 上傳 PDF 或 EPUB，AI 自動生成章節摘要、精華語錄、讀書心得、知識點卡片，並匯出成 Markdown、Anki 卡片、PDF 等多種格式。差異化：結構化輸出而非普通摘要。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:reading-notes-genie"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

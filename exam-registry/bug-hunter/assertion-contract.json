@@ -1,0 +1,54 @@
+{
+  "skillId": "bug-hunter",
+  "displayName": "缺陷猎人",
+  "description": "智能分析 Bug 模式、定位根因、追踪修复进度。当用户需要分析 Bug 原因、定位问题根因、分类缺陷、生成 Bug 报告、追踪修复进度、或进行 Bug 趋势分析时使用此技能。也适用于用户提到\"Bug分析\"、\"缺陷分析\"、\"根因分析\"、\"RCA\"、\"Bug追踪\"、\"问题定位\"、\"bug report\"、\"缺陷管理\"等场景。支持对接 Jira、禅道等缺陷管理工具。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bug-hunter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

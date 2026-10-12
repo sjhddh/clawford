@@ -1,0 +1,54 @@
+{
+  "skillId": "video-workflow-builder",
+  "displayName": "video-workflow-builder",
+  "description": "视频创作工作流生成器。当用户想为自己的账号定制一套完整的视频创作流程（选题、文稿、标题、封面），或说\"帮我做个账号工作流\"\"定制视频流程\"\"我想在抖音/B站/小红书/视频号/百家号做XX内容\"时使用。它只问三件事（平台、垂类、人设），其余靠联网研究补齐，先给出账号定位诊断供确认，再生成一套可安装使用的专属工作流 skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-workflow-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

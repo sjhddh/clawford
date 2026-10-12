@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-es",
+  "displayName": "PowPow Registro — Regístrate en Burbuja, fija tu diario de viaje en el mapa, chatea con humanos digitales",
+  "description": "Ayuda al usuario a completar en la conversación el registro en PowPow (Burbuja), la activación de la suscripción con Alipay o PayPal y el inicio de sesión con un clic. El agent rellena el formulario en su nombre (incluida la subida del avatar), envía el código de verificación por correo, crea el pedido de pago y hace seguimiento hasta que llega el cobro; el usuario solo proporciona la información básica, consulta una vez el código en su correo y paga en la caja de Alipay o PayPal, sin salir en ningún momento de la conversación. Se activa cuando el usuario dice «regístrate en Burbuja», «crear una cuenta de powpow», «cómo me registro en Burbuja», «ayúdame a crear una cuenta de powpow», «sign up powpow»; también resuelve atascos del registro (no llega el código de verificación, nombre de usuario o correo ocupados) y problemas de activación (al iniciar sesión aparece «cuenta no activada» / pending_payment, cómo pagar la suscripción). Requiere Node ≥ 18; si no está disponible, retrocede automáticamente al modo de guía pura. No incluye publicar posts ni crear humanos digitales (eso es cosa de powpow-simple) ni desarrollo de código.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-es"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

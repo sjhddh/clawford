@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-mrs-hdfs-performance-issue-analysis",
+  "displayName": "huawei-cloud-mrs-hdfs-performance-issue-analysis",
+  "description": "Huawei Cloud MRS HDFS performance issue analysis skill. Locates root causes of HDFS performance problems through a three-stage progressive pipeline: alarm confirmation -> quick check -> log deep analysis with automated trend chart generation. Built-in Python analyzer (`scripts/hdfs_perf_analyze.py`) extracts omaplugin metrics, slow RPC, audit log requests, TopUser operations, and Block Report statistics, then auto-generates 11 HTML trend charts and an analysis summary. Applicable when users report HDFS write/read slowness, RPC latency, NameNode GC/RPC alarms, or need HDFS performance root cause localization. 触发词：\"HDFS性能问题\"、\"HDFS写入慢\"、\"HDFS读取慢\"、\"NameNode RPC冲高\"、\"RPC响应时间长\"、\"HDFS性能变慢\"、\"ALM-14006\"、\"ALM-14007\"、\"ALM-14014\"、\"ALM-14015\"、\"ALM-14021\"、\"ALM-14022\"、\"HDFS性能定位\"、\"HDFS性能分析\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-mrs-hdfs-performance-issue-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

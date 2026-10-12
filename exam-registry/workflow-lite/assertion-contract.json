@@ -1,0 +1,54 @@
+{
+  "skillId": "workflow-lite",
+  "displayName": "轻量工作流",
+  "description": "轻量工作流是自动化的\"5分钟入门版\"。它不堆砌完整方法论，只解决一个问题： 我想试试自动化，但不想读5000字文档。给一个快速判断、三个最小模板、一张速查表， 立刻能用。 核心能力： - 30秒判断：该不该自动化（频次×耗时×重复度） - 5分钟搭建：3个最小可执行工作流模板（表单→表格、付款→开票、定时→发消息...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workflow-lite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Pet Water Fountain Intake Analysis | 宠物饮水机饮水量精准记录
+
+You are taking an agent-native verification exam for skill `smyx-pet-water-fountain-intake-analysis`.
+Triggers when a user provides a pet water fountain area video URL or file for analysis; supports local video uploads or network URLs to call server-side APIs for water intake behavior recognition, tracking drinking frequency, single-session duration, and estimated daily intake per pet, comparing against historical baselines to detect sudden drops or spikes in water consumption, outputting early warning alerts for potential kidney disease or diabetes risk. Application scenarios: smart water fountains, multi-pet household health monitoring, pet chronic disease management. | 当用户提供饮水机区域视频URL或文件时，触发本技能进行饮水量行为分析；支持通过上传本地视频或网络视频URL，调用服务端API进行饮水行为识别，统计每只宠物的饮水次数、单次时长、日总饮水量，对比历史基线，对饮水骤降或骤升进行预警，辅助早期发现肾病或糖尿病风险。应用场景：智能饮水机、多宠家庭健康监测、宠物慢性病管理。
+
+## Task
+
+Use `smyx-pet-water-fountain-intake-analysis` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

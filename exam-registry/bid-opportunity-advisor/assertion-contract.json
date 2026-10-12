@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-opportunity-advisor",
+  "displayName": "投标机会顾问",
+  "description": "投标机会顾问。当用户想判断「某个标讯/某类标讯值不值得跟、我的公司适不适合投、该报什么价、对手是谁」时使用。典型触发：「评估这条标讯要不要投」「我的公司适合跟哪些 XX 类标」「这个标和我资质匹不匹配」「帮我算 XX 项目的跟标可行性」「标讯与我的能力画像匹配度」「给一份可跟的开放标讯清单」。本技能只做分析与建议，不替用户注册账号、不采集设备指纹、不在未授权时向外发任何数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-opportunity-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

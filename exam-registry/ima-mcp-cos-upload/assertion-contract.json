@@ -1,0 +1,54 @@
+{
+  "skillId": "ima-mcp-cos-upload",
+  "displayName": "ima-mcp-cos-upload",
+  "description": "WorkBuddy ima-mcp 知识库入库的 COS 直传方案：create_media → HMAC-SHA1 签名 → curl PUT → add_knowledge。含两处致命签名坑（尾随\\n、header 值 safe=''）与'委托子代理避免 token 损坏'稳路。触发：ima 推库/上传 md/pdf/ppt 到知识库报 COS 403。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ima-mcp-cos-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

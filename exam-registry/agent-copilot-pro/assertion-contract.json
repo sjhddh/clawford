@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-copilot-pro",
+  "displayName": "代理副驾驶",
+  "description": "代理副驾驶是面向 AI Agent 开发者的工程化副驾驶，针对\"Prompt 答非所问与幻觉、上下文腐烂（Context Rot）、工具选择不当、任务拆解颗粒度失控\"四大高频痛点而设计。它把零散的 Prompt 工程经验沉淀为可复用的模板库、评估器与循环工程（Loops Engineering）工作流，让 Age...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-copilot-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

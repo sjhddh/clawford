@@ -1,0 +1,54 @@
+{
+  "skillId": "token-efficiency-guide",
+  "displayName": "TinkerClaw Token Efficiency Guide",
+  "description": "Reference material, not an executable tool: one document (GUIDE.md) with ten concrete steps for cutting OpenClaw token consumption on a Claude subscription — heartbeat model, session compaction, cron model and frequency, bash-ified crons, workspace file size, cache retention. Read it when asked why token usage is high or how to lower it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:token-efficiency-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "multiplatform-publish-core",
+  "displayName": "多平台发布编排（状态机 /幂等 / 门禁）",
+  "description": "把一份内容分发到多个内容平台时的**编排层**：落盘清单状态机、幂等判据、 批量串行约束、以及三条质量门禁（回读校验、禁`| tail` 截断、平台合规预检）。 当用户说「发到几个平台」「批量发」「一条都没发成功但脚本报成功」 「重复发了」「草稿箱对不上」「点了保存但远端没变」「内容被判违规下架」 「多平台发布状态怎么对账」时使用。 ⚠ 只管编排，不管各平台的具体接口 —— 平台适配见 `cn-social-platform-adapters`。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multiplatform-publish-core"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

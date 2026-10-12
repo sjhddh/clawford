@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-tls-cert-diagnosis",
+  "displayName": "alibabacloud-tls-cert-diagnosis",
+  "description": "Diagnose TLS/SSL certificate problems for a user-provided domain - trust chain verification, hostname/SAN matching, expiration check - with automatic DNS resolution and TCP connectivity root-cause analysis when a check fails. Use when the user reports a browser certificate error, HTTPS access fails and needs certificate-layer diagnosis, wants to verify a domain's TLS configuration, or asks for a certificate expiration check. Read-only diagnostics. Only checks domains the user explicitly provides. No write operations, no credentials required. Triggers: \"certificate expired\", \"certificate not trusted\", \"SSL handshake failed\", \"hostname mismatch\", \"certificate check\", \"TLS certificate diagnosis\", \"HTTPS certificate error\", \"certificate validity check\", \"SAN mismatch\", \"certificate chain verification\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-tls-cert-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

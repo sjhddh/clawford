@@ -1,0 +1,49 @@
+{
+  "skillId": "twzrd-clawrouter",
+  "displayName": "TWZRD Preflight for ClawRouter",
+  "description": "TWZRD Preflight for ClawRouter / BlockRun / OpenClaw. The independent pre-spend gate for agents using ClawRouter (for LLM models, Surf crypto data, Predexon, voice, image, etc.) or paying BlockRun. The one rule: Before using ClawRouter or paying BlockRun, call free TWZRD preflight (decision=block → abort) and free merchant_card (wash_flagged → do not pay). Composes with AgentCash or direct; Solana-native receipt proof after. Use before any x402 spend through ClawRouter proxy or BlockRun gateway. WHAT YOU GET FREE: ReadinessCard (allow / warn / block + trust_score + caveats) from Solana x402 payer graph before routing spend. PAID (x402, USDC on Solana): full trust + portable Ed25519-signed v6 receipt (when querying TWZRD intel alongside). TRIGGERS: clawrouter preflight, blockrun spend gate, surf data safe, openclaw before pay, pre clawrouter, x402 router gate, blockrun trust, preflight claw",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:twzrd-clawrouter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

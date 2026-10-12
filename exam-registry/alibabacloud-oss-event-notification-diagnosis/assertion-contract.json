@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-event-notification-diagnosis",
+  "displayName": "alibabacloud-oss-event-notification-diagnosis",
+  "description": "Read-only OSS event notification and upload callback diagnostics. Use when event notifications do not trigger (rule configuration check, dependent service activation, event type matching) or upload callbacks fail (CallbackFailed, callback 502, 5-second response limit, certificate and network issues), plus configuration-correctness advice. Triggers: \"event notification not triggering\", \"upload callback failed\", \"CallbackFailed error\", \"callback 502\", \"callback timeout 5 seconds\", \"OSS event to MNS\", \"x-oss-event-status\". Only checks and advises; never creates or modifies notification rules. Do NOT use for access-log tracing (use alibabacloud-oss-access-log-trace-diagnosis), error codes (use alibabacloud-oss-transfer-error-code-diagnosis), endpoint issues (use alibabacloud-oss-endpoint-internal-diagnosis), or billing (use alibabacloud-oss-billing-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-event-notification-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

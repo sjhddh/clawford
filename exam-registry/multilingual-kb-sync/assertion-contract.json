@@ -1,0 +1,54 @@
+{
+  "skillId": "multilingual-kb-sync",
+  "displayName": "Multilingual KB Sync",
+  "description": "Add new language translations to customer service response templates and sync them across Feishu Wiki, GitHub, and local files. Use when: (1) adding new languages to KB templates, (2) updating multilingual customer service responses, (3) syncing template changes to Feishu Wiki knowledge base, (4) creating GitHub issues to document template updates, (5) running the full multilingual template update pipeline. Triggers on phrases like \"add language\", \"translate template\", \"sync to wiki\", \"update customer service templates\", \"多语言模板\", \"新增语种\", \"同步知识库\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multilingual-kb-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

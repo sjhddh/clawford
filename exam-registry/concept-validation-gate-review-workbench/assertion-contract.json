@@ -1,0 +1,54 @@
+{
+  "skillId": "concept-validation-gate-review-workbench",
+  "displayName": "概念验证 验证总监工作台",
+  "description": "概念验证中心验证总监工作台。当用户需要主持Gate评审、进行四灯制判定、管理蓝灯条件、追踪多路线资源分配时使用。本技能是老胡（验证总监）的核心工具，支持5-Gate评审总控、四灯制判定、蓝灯追踪、多路线决策。适用于项目筛选评审、阶段性Gate评审、出站评审等场景。与中试基地所长工作台形成衔接，概念验证毕业后交付完...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:concept-validation-gate-review-workbench"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

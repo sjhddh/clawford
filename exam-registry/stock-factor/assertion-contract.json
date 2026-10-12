@@ -1,0 +1,54 @@
+{
+  "skillId": "stock-factor",
+  "displayName": "stock-factor",
+  "description": "股票因子（Stock Factor）技能 —— 当前已收录 **1101 个因子（18 个因子族）**，为 AI 提供一套已收集、已转写、可由 QuantAll（全A解析）直接运行的 A 股因子清单（含 IC / IR / time_potential 等评估指标）。既可直接读取因子清单（scripts/output/*.xlsx）， 也可通过 run_task_file 执行 scripts/task/*.json 用 QuantAll 实时重算/更新因子参数。 已汇总 Qlib Alpha158、Qlib Alpha360、国泰君安 GTJA Alpha191、WorldQuant Alp",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stock-factor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

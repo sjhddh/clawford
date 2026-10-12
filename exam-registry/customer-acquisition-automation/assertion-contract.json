@@ -1,0 +1,54 @@
+{
+  "skillId": "customer-acquisition-automation",
+  "displayName": "customer-acquisition-automation",
+  "description": "Customer-acquisition desk for indie tools. Collects public pain-point leads from Reddit, X, and public competitor threads, writes channel-native drafts, and builds a human approval queue. Does not post until the user confirms. Use when the user says run acquisition, today's acquisition, start the acquisition pipeline, collect promo leads, or draft outreach.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:customer-acquisition-automation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

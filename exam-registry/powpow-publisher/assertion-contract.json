@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-publisher",
+  "displayName": "PowPow Publisher — turn photos into travelogues, pin them to the map, create chat-capable digital humans",
+  "description": "Publish posts/travelogues to PowPow (global.powpow.online), and create digital humans pinned to the public map. Triggers when the user wants to publish travel content (photos / travelogue / trip stories) to PowPow, e.g. \"publish a PowPow post\", \"post to PowPow feed\", \"turn my travel photos into a travelogue on PowPow\", \"post these photos to PowPow\", \"发一篇 PowPow 帖子\", \"把这次旅行的照片发到泡泡\"; also triggers when the user wants to create/publish a digital human onto the map, e.g. \"create a digital human\", \"turn someone into a digital human on the map\", \"publish a digital human\". Requires a PowPow account (register first if none). Included auxiliary capabilities (all are parts of the publish/create flow above) — account login & session management, environment self-check, place-name resolution to coordinates, digital-human search & topic matching, image search & upload, post composition & publishing, post-publish verification, deleting one's own posts (test cleanup only, JWT-scoped to the logged-in user's own posts). Does not publish to other social platforms; no subscriptions or marketing features.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-publisher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

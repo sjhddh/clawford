@@ -1,0 +1,54 @@
+{
+  "skillId": "debtop-creditor-disposal",
+  "displayName": "债权人债权处置清单",
+  "description": "债权人债权处置清单：给定银行、AMC 或其它出让方名称，汇总其在公开渠道发布的债权转让 / 处置 / 招商 / 挂牌公告——公告清单、类型分布、本金与总额合计、涉及债务人、公告时间线与重点标的。当用户说「XX 银行 / XX AMC 最近在处置哪些债权」「这家出让方有哪些债权转让公告」「某资产公司有哪些资产包 / 债权货源」，或给出债权人名称要求汇总其处置公告时使用。一个债权人名称即可，免注册免登录。英文触发词：creditor disposal list, AMC debt disposal, debt transfer list, asset package sourcing。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:debtop-creditor-disposal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

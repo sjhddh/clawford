@@ -1,0 +1,49 @@
+{
+  "skillId": "verdikta-discover",
+  "displayName": "verdikta-discover",
+  "description": "Use when the owner wants or allows outside, independent or second-opinion work on a bounded task: hire or delegate a specialist, post a bounty, run a large batch in parallel (up to 20 technical claims or a 50-cell evidence grid), wants an outside review of a public artifact such as a code change, rubric, specification or proposal (up to 15 review items), needs something done by a person at a place or remotely (a real-world task with an evidence pack), asks whether outsourcing is worthwhile or which parts would need outside help, leaves outside help to your judgment, or wants to see what such a work order, bounty or evidence package would look like. Open it in a step of its own before fetching any page such a task names. Drafts a bounded work order with acceptance criteria and public market context. Needs no wallet, API key, registration, upload or spending. Not for routine lookups or checks the agent can finish itself.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:verdikta-discover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

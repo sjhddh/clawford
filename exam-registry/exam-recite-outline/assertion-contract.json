@@ -1,0 +1,54 @@
+{
+  "skillId": "exam-recite-outline",
+  "displayName": "期末背诵提纲",
+  "description": "输入课本章节、课件文本，剔除冗余内容，压缩精简背诵版提纲，划分一级二级考点，标注必背简答、论述题答题模板。上传课件 / 教材文字，输出轻量化背诵提纲：剔除废话只保留得分关键词，分名词解释、简答、论述三类整理，配套标准答题模板，大幅缩减背诵内容。期末背诵、背诵提纲、考点压缩、简答论述模板、名词解释清单、开卷闭卷速背，或上传课件/教材要求整理考试背诵稿。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exam-recite-outline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "multilingual-template-sync",
+  "displayName": "multilingual-template-sync",
+  "description": "Add new language translations to customer service response templates and sync the update across Feishu Wiki, GitHub, and local files. Use when asked to (1) add translations to kb-templates/common-responses.md or similar multilingual template files, (2) sync template changes to Feishu Wiki customer service knowledge base, (3) create GitHub issues documenting template updates, or (4) perform the full multilingual template update pipeline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multilingual-template-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

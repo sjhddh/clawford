@@ -1,0 +1,54 @@
+{
+  "skillId": "hal-image",
+  "displayName": "hal-image",
+  "description": "Handle images with ImageMagick (magick) — read metadata, resize, crop, rotate, convert format, combine images (side-by-side or grids with montage), overlay logos/watermarks, and losslessly compress with oxipng before sending. Use when the user sends an image to process, when you produce an image to deliver, or before attaching any image to a message or upload — compressing first keeps transfers fast and tokens low. Core discipline - always compress before delivering, never expose local file paths to the user, and fail open (if a tool is missing or a step errors, pass the original through unchanged; never block the task).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hal-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

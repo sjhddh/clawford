@@ -1,0 +1,54 @@
+{
+  "skillId": "slow-cooker-converter",
+  "displayName": "slow-cooker-converter",
+  "description": "Use when you want to cook a regular stovetop/oven recipe in a slow cooker or Instant Pot (or vice versa) — converts cooking times across 7 appliance modes with the physics of WHY (collagen→gelatin at 60-70°C, milk curdles at 2h+, rice liquid ratios change in sealed pots), checks capacity fill (half-full min, two-thirds max), detects ingredients that must be added late or omitted entirely (dairy, pasta, fresh herbs, thickening), and produces a step-rewritten recipe with an insert-at-mark timeline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:slow-cooker-converter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

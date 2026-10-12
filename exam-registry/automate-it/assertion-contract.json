@@ -1,0 +1,54 @@
+{
+  "skillId": "automate-it",
+  "displayName": "automate-it",
+  "description": "Create content tasks and automations in Automate It, do the content work yourself or leave it to the built-in worker, poll task status through the human review gate, and fetch links to published posts. To support that it also reads and writes the surrounding workspace — skills (brand voice and house style), workspace files and folders, connected publishing integrations, link shortening — all bounded by the API key's scopes and the caller's workspace role. Deleting tasks, content items, automations, or folders is possible but requires explicit confirmation on each command. Use when asked to draft, schedule, or publish social content via Automate It, or to check the status or published results of a submitted task.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:automate-it"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "metacognitive-monitoring",
+  "displayName": "metacognitive-monitoring",
+  "description": "元认知监控：在任务执行全过程实时监控自身的置信度、不确定性、能力边界与新奇度， 输出 继续 / 降级 / 求助 / 暂缓 的元决策，并在\"高置信同时高不确定\"时触发过置信校准告警， 防止幻觉式过度自信。纯标准库、可本地实跑，是\"超级智能体\"可靠性的守门层。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:metacognitive-monitoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

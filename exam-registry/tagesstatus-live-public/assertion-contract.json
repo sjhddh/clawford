@@ -1,0 +1,54 @@
+{
+  "skillId": "tagesstatus-live-public",
+  "displayName": "tagesstatus-live-public",
+  "description": "Öffentliche, umgebungs-unabhängige Version des Tagesstatus-Reports. KEINE eingebetteten Keys, NICHT mit einer Umgebung verbunden. Tokens werden beim Lauf abgefragt bzw. aus keys.env gelesen; fehlt ein Key, wird die Quelle übersprungen (\"keine Daten\"). Quellen: GitHub, Vercel, Docker Hub, OpenRouter, OpenAI, Anthropic/Claude, Tailscale, ClawHub (plus Perplexity/Codex nur als Hinweis). Wichtig: Je nach Quelle sind neben dem Token zusätzlich Identifikatoren nötig – Anmeldename/Namespace (Docker), Repo owner/repo (GitHub), Team- und Projekt-ID (Vercel), Tailnet (Tailscale), Skill-Slugs (ClawHub); manche Logins erfolgen mit Benutzername/E-Mail + Token (z. B. Docker-Login).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tagesstatus-live-public"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

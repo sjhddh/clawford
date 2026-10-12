@@ -1,0 +1,54 @@
+{
+  "skillId": "freelance-rate-calculator",
+  "displayName": "freelance-rate-calculator",
+  "description": "Compute the hourly rate, day rate, and monthly revenue target a freelancer needs to hit a specific take-home income, correctly accounting for unbillable hours, business expenses, self-employment tax, and profit margin — then convert that hourly rate into a fixed-price project quote with a scope-creep risk buffer. Built for freelancers, consultants, and AI agent operators pricing their own or an agent's billable time. Fills a gap next to freelance-proposal and freelance-income-tracking skills, which help you find and log work but don't tell you what to actually charge. Pure Python, no external API or account required.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:freelance-rate-calculator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "fitcheck-workout-readiness",
+  "displayName": "Emocity Biometric Scan",
+  "description": "Face scan from the browser camera in 60 seconds: stress, a heart-rate estimate, mood, micro-expressions, eye contact, genuine smile, composure and, with the microphone on, voice tension, as a summary the agent turns into JSON. Use when the user explicitly asks for a face scan, a stress or heart-rate check from the camera, a before-and-after comparison, a challenge with friends or the deception challenge game. Optional: analyse a photo or clip the user hands over through the EmoPulse API with their own RapidAPI key from the environment; that file is uploaded. Not a medical device. Built on EmoPulse, a patented on-device perception architecture.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fitcheck-workout-readiness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

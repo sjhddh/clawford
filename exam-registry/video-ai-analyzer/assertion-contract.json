@@ -1,0 +1,49 @@
+{
+  "skillId": "video-ai-analyzer",
+  "displayName": "视频分析处理",
+  "description": "分析视频内容，支持今日头条、抖音、B站、西瓜视频、小红书、快手等平台。自动下载视频、语音转文字、繁简转换、支持普通话、粤语等方言及外语、支持提取音频文案、提取口播文案、理解场景描述文案。当用户提供视频链接并要求分析视频内容、总结视频、看看视频讲什么时使用此技能。调用大模型自动转写并剔除语气词、口误与重复内容，并可通过自定义 Prompt 生成总结、改写、金句提取、分镜头、中英翻译等风格化文案。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-ai-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

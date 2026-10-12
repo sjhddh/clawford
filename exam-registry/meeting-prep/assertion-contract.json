@@ -1,0 +1,49 @@
+{
+  "skillId": "meeting-prep",
+  "displayName": "meeting-prep",
+  "description": "The moment an external meeting is booked on anyone's Google Calendar, one card lands in Slack: who is joining, the open deal, the line that mattered last time, one recent public event, and an opener grounded in your positioning, with reschedules and cancellations threaded under it. Triggers: \"tell me in slack whenever someone books\", \"a card for every external meeting\", \"briefer on our google calendar\", \"watch our calendars for new meetings with prospects\", \"post who is joining before each booked meeting\". Cargo CDK, defineAgent, Google Calendar agent trigger, domain-wide delegation, getEvent, Slack postMessage, gtm_ native models, workspace context, webSearch. Skip when: you want one company looked into now, in this chat, which is research-account; or you want the call scribed after it happened, which is call-capture.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-prep"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

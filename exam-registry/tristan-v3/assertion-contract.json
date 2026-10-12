@@ -1,0 +1,54 @@
+{
+  "skillId": "tristan-v3",
+  "displayName": "Tristan RFQ overseer",
+  "description": "Use this skill to run an end-to-end RFQ (Request for Quotation) pipeline for a procurement/sourcing operation: intake from email or Telegram, Obsidian-vault storage, pricing calculation, supplier quote comparison, and confirmed-send drafting. Trigger on the wake phrase \"T, we live?\", on inbound RFQ",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tristan-v3"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "terraform",
+  "displayName": "Terraform",
+  "description": "Writes, debugs, and refactors Terraform — HCL and modules, plan and apply failures, state surgery, drift, and provider pinning. Use when writing or reviewing HCL, when terraform plan or apply errors out, when a plan shows a permanent diff, an unexplained destroy, or \"forces replacement\", when renaming, importing, or moving resources between modules and states, when a state lock is stuck or state is lost or corrupted, when for_each fails because a value is not known until apply, when pinning providers or surviving a major version upgrade, or when wiring plan-on-PR, apply-on-merge, drift detection, and policy gates. Covers OpenTofu, tfstate, backends, workspaces, and infrastructure-as-code review. Not for choosing which cloud services to build — see aws, gcp, or azure.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:terraform"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

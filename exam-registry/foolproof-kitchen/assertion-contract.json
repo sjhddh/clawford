@@ -1,0 +1,54 @@
+{
+  "skillId": "foolproof-kitchen",
+  "displayName": "foolproof-kitchen",
+  "description": "傻瓜厨房：根据用户身体数值和现有食材调料厨具，参照中国居民膳食指南自动生成早中晚加餐快手健康食谱，10-15分钟分步操作指南，厨房零基础可用。适合人群：厨房新手、减脂增肌人群、上班族、独居一人食、特殊饮食需求者（糖尿病/高血压/孕期等）。This skill should be used when the user provides personal body metrics, available ingredients, seasonings, and cooking tools, and asks for healthy quick meal planning or recipe gene",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:foolproof-kitchen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

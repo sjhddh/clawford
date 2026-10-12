@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-google-patent-search",
+  "displayName": "谷歌专利检索",
+  "description": "通过 Google Patents 公开专利数据库检索全球专利，支持关键词、发明人、受让人、国家、日期、专利状态等多维筛选，返回专利公开号、标题、发明人、申请/公开/授权日期、受让人、CPC 分类、PDF 链接等核心著录数据。当用户提到谷歌专利、Google Patents、专利检索、专利搜索、查专利、专利防侵权、FTO 排查、prior art search、专利侵权排查时触发此技能。即使用户未明确提及\"Google Patents\"，只要用户希望通过关键词或著录条件检索专利文献，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-google-patent-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

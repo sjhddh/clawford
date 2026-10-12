@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-multipart-upload-diagnosis",
+  "displayName": "alibabacloud-oss-multipart-upload-diagnosis",
+  "description": "Read-only diagnostics for OSS multipart upload. Use when a multipart upload is stuck or interrupted, a large file upload fails, or multipart fragments occupy storage. Finds fragments via read-only ListMultipartUploads, checks part size/concurrency limits, attributes server/client/network causes; cleanup guidance is manual-only. Triggers: \"multipart upload stuck\", \"upload stuck at 0%\", \"resume interrupted upload\", \"multipart fragments occupy storage\", \"large file upload fails\", \"fragment cleanup\", \"resumable upload\", \"breakpoint resume\". Do NOT use for single-request upload errors (use alibabacloud-oss-transfer-error-code-diagnosis), billing (use alibabacloud-oss-billing-diagnosis), endpoints (use alibabacloud-oss-endpoint-internal-diagnosis), signed URL V4 (use alibabacloud-oss-presigned-url-v4-diagnosis), browser/mini-program direct upload with CORS (use alibabacloud-oss-browser-upload-cors-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-multipart-upload-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

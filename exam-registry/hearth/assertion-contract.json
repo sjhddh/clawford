@@ -1,0 +1,54 @@
+{
+  "skillId": "hearth",
+  "displayName": "hearth",
+  "description": "A fast, READ-ONLY health-check sweep across every device in a homelab — ping, uptime/load, memory/disk, services, and app health, in ~14 seconds with output you can scan in 30. Configuration-driven: ~/.hearth/devices.yaml describes the lab; the skill itself is generic and contains no lab-specific knowledge. Use when the user asks about their homelab/estate health — \"how is the lab?\", \"homelab status\", \"check all my servers\", \"is <device> up?\", \"homelab health check\", \"anything down in the lab?\". Supports Linux, macOS, Raspberry Pi, Android (Termux/chroot), and Windows hosts (HTTP-only probe). Honest reporting — devices that can't be probed at a layer are reported as such, never faked green. Read-only by design — never restarts services, never installs anything, never writes to remote hosts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hearth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

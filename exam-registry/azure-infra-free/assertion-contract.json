@@ -1,0 +1,54 @@
+{
+  "skillId": "azure-infra-free",
+  "displayName": "azure-infra-free",
+  "description": "Azure Infra Free 是 Azure Infra 技能的免费精简版，通过本地 Azure CLI（az 命令） 提供 Azure 资源的只读查询能力。支持基础的资源清单查询与简单的健康检查， 不包含写操作、安全审计、成本分析等高级功能. 核心能力： - 资源清单查询：资源组、虚拟机、存储账户、虚拟网络等基础资源的列举 - 简单健康检查：查看虚拟机电源状态、查询失败的活动日志 - 只读优先：所有操作默认只读，不执行任何写操作或破坏性变更 适用场景： - 快速盘点订阅内的虚拟机与存储资源 - 查看虚拟机...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:azure-infra-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

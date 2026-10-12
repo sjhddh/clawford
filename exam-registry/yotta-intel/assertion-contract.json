@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-intel",
+  "displayName": "元情 yotta-intel",
+  "description": "元情 —— 跨智能体的威胁情报 IOC 提取与规范化技能：零依赖自研从文本 / 日志 / 报告中提取 IP（IPv4/IPv6）、域名、URL、邮箱、哈希（MD5/SHA1/SHA256/SHA512）与 CVE 编号，识别并还原 defang 写法，去重、归一化后输出 CSV / JSON / STIX-lite。触发：用户给出含可疑 IP / 域名 / URL / 哈希的威胁情报文本、恶意样本分析报告、钓鱼邮件或日志，要提取 IOC、规范化、去重、转格式、共享情报时。边界：纯本地离线提取与规范化；不联网查证、不下载样本、不主动扫描任何系统；仅用于已获授权 / 自有资产 / 教学环境的安全分析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-intel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

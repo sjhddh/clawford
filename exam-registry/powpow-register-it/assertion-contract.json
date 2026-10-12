@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-it",
+  "displayName": "PowPow Registrazione — Registrati su Bolla, appunta il tuo diario di viaggio sulla mappa, chatta con gli umani digitali",
+  "description": "Aiuta l'utente a completare la registrazione a PowPow (Bolla), attivare l'abbonamento via Alipay o PayPal e accedere con un clic direttamente in conversazione. L'agent compila il modulo al posto suo (caricamento avatar incluso), invia il codice di verifica via email, crea l'ordine di pagamento e ne segue l'accredito; l'utente deve solo fornire le informazioni di base, leggere una volta il codice nella propria casella di posta e pagare alla cassa Alipay o PayPal, senza mai uscire dalla conversazione. Si attiva quando l'utente dice «registrati su Bolla», «crea un account powpow», «come ci si registra su Bolla», «aiutami a creare un account powpow», «sign up powpow»; gestisce anche registrazioni bloccate (codice di verifica che non arriva, nome utente/email già in uso) e problemi di attivazione (il login restituisce «account non attivato» / pending_payment, come pagare l'abbonamento). Richiede Node ≥ 18; in assenza torna automaticamente alla modalità di sola guida. Non comprende pubblicazione post/creazione di umani digitali (compito di powpow-simple), né sviluppo di codice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-it"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

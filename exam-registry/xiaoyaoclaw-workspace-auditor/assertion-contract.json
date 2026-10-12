@@ -1,0 +1,49 @@
+{
+  "skillId": "xiaoyaoclaw-workspace-auditor",
+  "displayName": "OpenClaw Workspace Auditor",
+  "description": "OpenClaw workspace health auditor (read-only inspection): scans an agent workspace for directory-structure compliance, task/PROGRESS.md health, memory-log gaps, knowledge-base index orphans and junk files; outputs a severity-graded report (red/yellow/green) with fix suggestions via a zero-dependency Python script (scan_workspace.py, stdlib only). Use when user asks to audit/inspect/health-check the workspace (工作区体检/审计/健康 检查/看看工作区乱不乱/检查目录规范). 中文：OpenClaw 工作区体检工具（只读审计）。 扫描 agent 工作区健康度：目录结构合规（initializer 规范）、任务进度卡健康 （tracker PROGRESS.md）、记忆日志空窗（memory-distill 约定）、知识库索引 同步与孤儿文件（kb-retriever data_structure.md）、垃圾/临时文件；通过零依赖 Python 脚本（scan_workspace.py，纯标准库）输出分级报告（🔴/🟡/🟢）与修复 建议。只读不修：脚本永不修改/删除任何文件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaoyaoclaw-workspace-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

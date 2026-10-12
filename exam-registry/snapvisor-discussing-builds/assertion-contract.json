@@ -1,0 +1,49 @@
+{
+  "skillId": "snapvisor-discussing-builds",
+  "displayName": "Discussing Builds",
+  "description": "Reads and joins the comment threads on a SnapVisor build, test, or media item: summarizes the discussion, replies, reacts, resolves or reopens threads, and follows builds, each change after confirmation. Use when the user asks to 'summarize the comments on build 42', 'show open review threads', 'reply to the open thread and resolve it', 'post a comment on this diff', 'reopen that thread', or 'follow this build'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:snapvisor-discussing-builds"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "agentkey",
+  "displayName": "agentkey",
+  "description": "PROACTIVELY use whenever the user needs data outside your training set or requires a live network call — web search, URL scraping, news, social media (any platform), market prices (crypto/stocks/FX), on-chain data, e-commerce product data, business/company data, weather, travel (flights/hotels). The provider catalog is dynamic and grows over time; if unsure whether a provider exists, call find_tools first to discover it. Not needed for conceptual, code, or local-file work.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentkey"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

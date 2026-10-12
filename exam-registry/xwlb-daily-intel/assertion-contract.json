@@ -1,0 +1,54 @@
+{
+  "skillId": "xwlb-daily-intel",
+  "displayName": "新闻联播每日情报分析",
+  "description": "检索并分析央视《新闻联播》某一天或当日刚播出的内容：直采央视官网官方文字稿（第一信源），产出固定格式情报报告——核心摘要→五类要点（时政/政策/宏观经济产业/民生/国际）→潜在影响推演→持续关注信号，事实与观点严格分区并逐条标注信源可信度。用户说\"早报\"、\"分析昨天/今天的新闻联播\"、\"联播报告\"、\"新闻联播讲了什么\"，或定时任务每日触发时必须使用本技能；想了解央视头条政策、宏观动向、国际要闻时也用本技能。内置零依赖抓取脚本直取官网 day 日期页（绕过 index 页 JS 反爬），当日 20 点后即可全量分析。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xwlb-daily-intel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

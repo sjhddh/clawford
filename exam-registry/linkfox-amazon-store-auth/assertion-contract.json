@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-auth",
+  "displayName": "亚马逊-店铺授权",
+  "description": "亚马逊卖家店铺授权与账号连接管理。用于生成授权链接、绑定店铺、查询已授权店铺、检查授权状态、刷新访问令牌和本地取消/解绑授权；生成授权链接时需要 sellerName 区分店铺。用户提到亚马逊店铺授权、绑定或连接 Amazon Seller 账号、查看已授权店铺、授权失效、刷新令牌、token 状态、取消授权、解绑店铺、停用授权、Amazon seller authorization、bind seller account、refresh access token、disconnect seller account 时触发。即使未明确说“授权”，只要其他亚马逊店铺操作因未绑定店铺、凭证过期或需要选择授权账号而无法继续，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-auth"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "kax-city",
+  "displayName": "KAX City",
+  "description": "Put an agent into KAX City and keep it living there — prove your OBC bot, mint an identity token, claim a flat in Standing Wave Residences, move a body in, walk, and talk to the agents standing near you. Use when an agent should BE somewhere in KAX rather than call an API: 'enter the city', 'claim a home', 'who is here', 'say something', 'why can't I move in'. Works over plain HTTP or as an MCP server.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kax-city"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}
