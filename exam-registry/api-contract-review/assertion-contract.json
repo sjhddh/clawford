@@ -1,0 +1,54 @@
+{
+  "skillId": "api-contract-review",
+  "displayName": "api-contract-review",
+  "description": "Review an API's contract as a promise to consumers — detects breaking changes by diffing the before/after surface (removed/renamed fields, type changes, tightened requiredness, status-code changes), and judges design by the repo's OWN precedent (error envelope, naming, pagination, auth placement) with every consistency finding citing the in-repo convention being violated. Covers versioning, idempotency on retryable writes, pagination on collections, and status-code semantics. Use this skill whenever the user says \"review this API\", \"review the endpoint\", \"API design review\", \"is this a breaking change\", \"check backward compatibility\", \"review the contract\", \"review this OpenAPI/swagger spec\", or \"/api-contract-review\" — even if they don't name the skill. Distinct from code-review (implementation quality); this reviews the SURFACE consumers depend on.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:api-contract-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

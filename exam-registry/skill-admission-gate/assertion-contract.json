@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-admission-gate",
+  "displayName": "skill-admission-gate",
+  "description": "技能上架安全闸门——一个技能/插件在安装或上架前，先跑确定性安全审查：查破坏性命令、远程执行、数据外泄、提示注入、隐蔽行为、混淆载荷与作用域越界，产出「分级发现 + 闸门判定 + 包指纹证据」。当需要审查第三方 skill、安装来源不明的技能、给自研技能做发布前安检、做供应链安全评估、或需要出具\"该包未被篡改且已评估风险\"的证据时调用。核心三件事：①按规则集扫全部文件并分级（BLOCK/WARN）②支持\"已接受风险\"声明（.admission-allow.json，须署名留痕）③输出包指纹与文件哈希作为\"有证\"产物。触发词：技能安全、审查 skill、安装前检查、恶意技能、skill 安全扫描、上架闸门、供应链安全、这个技能安全吗、第三方技能、能不能装、木马、后门、提示注入。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-admission-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "gdpr-guard",
+  "displayName": "GDPR Guardrail",
+  "description": "GDPR 合规护栏 (gdpr) v1.0.0。\n在 AI 应用输入/输出链路中实时检测 GDPR 语境下的个人数据，\n按风险分级脱敏或阻断，供 Agent 主动调用。\n\nUse when: 需要在 Agent 处理用户输入或返回结果前，实时拦截/脱敏\nEU 个人数据；防止 IBAN、UK NI、信用卡、特殊类别数据（基因/生物\n识别/健康/宗教信仰等）流入大模型或被输出泄露；为 AI 应用加装\n符合 GDPR 的运行时护栏。\n\n核心能力：\n- 🛡️ 实时检测 IBAN、UK NI、EU 电话、信用卡（Luhn）、\n  IPv4/MAC、邮箱等结构化个人数据\n- 🧩 关键词线索识别：GDP",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gdpr-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

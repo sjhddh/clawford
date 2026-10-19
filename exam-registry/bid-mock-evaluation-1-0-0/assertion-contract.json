@@ -1,0 +1,54 @@
+{
+  "skillId": "bid-mock-evaluation-1-0-0",
+  "displayName": "投标模拟评标 · 评标表逆向工程Bid Mock Evaluation 1.0.0",
+  "description": "投标人侧「评标表逆向工程」三合一技能：A 模拟评标（魔鬼评委逐项打分找最弱项）、B 得分点导航+响应覆盖审计（得分地图+隐性丢分/废标风险+形式瑕疵+评分索引表）、C 评标表合规审查（找歧视/违规条款、生成可质疑点清单与法条依据）。支持无脚本降级（LLM 直接结构化抽取）、输入完整性预检、多标段识别、多包差异比对、价格分开标前策略（含边界防幻觉）、法条核验声明；内置 is_knockout 否决红线标记、覆盖初判脚本、format-risk 形式瑕疵状态、禁编造证据/禁骗分/只识别不捏造护栏。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-mock-evaluation-1-0-0"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

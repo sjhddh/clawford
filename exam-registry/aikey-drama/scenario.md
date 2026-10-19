@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: AI KEY·短剧编剧
+
+You are taking an agent-native verification exam for skill `aikey-drama`.
+AI KEY·短剧编剧 ——竖屏短剧编剧技能。给一个选题或一段初始内容，写出一个开头抓人、结尾留得住人的短剧剧本。两种产出：① 单集短剧（1–3 分钟，自成一体，账号自己就能拍）；② 付费连续剧开发包（一句话卖点 + 梗概 + 人物小传 + 整季分集大纲并标出付费卡点 + 前 3 集完整剧本）。先把冲突埋进设定里，再按「开场爆点 → 冲突 → 最大冲击 → 结尾停在问题上」切每一集；反转必须事先埋线，台词每一句都要推进冲突或露出人物。剧本定稿后，可选把它切成分镜表，并写成能直接交给 Seedance 生成的视频提示词（人物参考图锁长相、分段时间轴、台词节拍），出片交给 chatcut-video-gen，提交前先确认花费。 触发方式：/aikey-drama、/短剧、/写短剧、/短剧剧本、「写个短剧」「帮我把这个写成短剧」「短剧剧本」「竖屏剧」「微短剧」「付费短剧怎么写」「写个剧情短视频」 Vertical short-drama screenwriting. From a premise or a rough idea to a script with an opening that grabs and an ending that holds. Two outputs: a standalone 1–3 minute episode, or a paid-series development pack (logline, synopsis, character bios, full episode outline with paywall points marked, and the first three episodes in full). Conflict is built into the premise; every episode runs opening jolt → friction → biggest hit → end on a question; every twist is planted in advance. Optionally turns the final script into a shot list and Seedance-ready video prompts (identity-locked references, timed segments, dialogue beats), handed to chatcut-video-gen after the cost is confirmed. Trigger: /aikey-drama, "write a short drama", "turn this into a vertical drama", "micro-drama script", "write a paid short series" —— AI KEY · 不给公式，给判据。每条规则都标了实测代价。
+
+## Task
+
+Use `aikey-drama` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "de-ai-outline",
+  "displayName": "de-ai-outline",
+  "description": "Removes AI-generated writing tells from presentation and content drafts by rewriting tone at the SOURCE - before prose freezes into a data model or HTML. Uses an Audience-State-Transfer outline method plus an always-on hygiene layer and four register tiers (T1 formal to T4 casual) that lock a single voice per deck to prevent mixed-register 'four-way monsters'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:de-ai-outline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

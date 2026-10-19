@@ -1,0 +1,54 @@
+{
+  "skillId": "yihaiyoudao",
+  "displayName": "内容审核与原创改造",
+  "description": "内容审核与原创改造专家方法论。适用于：(1) 审核文章/文案的原创性，判定是否拼凑、洗稿、AI套话，并给出原创性等级；(2) 预判公域平台（公众号/知乎/小红书/抖音/朋友圈）的限流与审核红线，识别敏感词、风险表述并按三级风险分级给出替换方案；(3) 把资讯、感悟、故事改造成有立场、有判断、有认知框架的观点性内容；(4) 按固定风格（冷峻、锋利、有格局感）创作新媒体内容；(5) 不同平台间的表达适配与改写。当用户要求\"审核原创性/避免限流/替换敏感词/改成观点文/按我的风格写/多平台改写\"时使用本 Skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yihaiyoudao"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

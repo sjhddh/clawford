@@ -1,0 +1,54 @@
+{
+  "skillId": "xinjianxue-identity-cn",
+  "displayName": "xinjianxue-identity-cn",
+  "description": "用户主动给出验证码时先判定使用者身份、读/写/分析文件、读记忆、调工具；未放行时只做普通问答、**不主动索要验证码**，受限请求**直接拒绝**或只教用户自己手动完成（**不代替、不解释、不提码、不引导**），本 Skill 的任何能力都不执行（**首次安装与绑定除外**）。首次加载时会把一段「安全身份验证约定」写进你的常驻记忆，之后每轮生效。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xinjianxue-identity-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

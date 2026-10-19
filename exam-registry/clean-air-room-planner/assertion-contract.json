@@ -1,0 +1,54 @@
+{
+  "skillId": "clean-air-room-planner",
+  "displayName": "clean-air-room-planner",
+  "description": "Use when buying or placing an air purifier, living through wildfire smoke, pollen season, or construction dust — computes the exact HEPA CADR a room needs from volume, desired air changes per hour (5 ACH smoke, 4-5 allergy, 2-3 general), checks whether YOUR purifier is adequate or where to move it, sizes DIY box-fan filters (CFM from fan curves + MERV pressure drop), runs a pollution diary that correlates indoor PM2.5 with outdoor events, and tells you when to change filters based on real usage hours.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clean-air-room-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops-sensor",
+  "displayName": "iaiops-sensor",
+  "description": "Sensor edition of iaiops — connect one industrial sensor and read it correctly: draft a sensor profile from a vendor IODD, check it, read one channel once with its unit, accuracy band and verification level, then collect. Covers sensors on Modbus RTU/TCP (RS-485 / RS-232 / RS-422 / USB serial, 4–20 mA via I/O modules), IO-Link masters (JSON interface) and MQTT/Sparkplug nodes. Use when the task mentions a sensor, sensor profile, IODD, IO-Link device, process data / pdin, decoding registers into engineering units, float32 word order, sentinel / no-target values, Modbus RTU instruments (RS-485 / RS-232), or \"接一个传感器 / 传感器描述 / 读不懂寄存器 / 单位\". The sensor tools are read-only and never write config; the server also exposes mqtt_publish (HIGH, MOC-gated) via the MQTT/Sparkplug set.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops-sensor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "success-business-review",
+  "displayName": "success-business-review",
+  "description": "Use when a customer is in the post-sales customer-success phase and the rep+CS need to run a recurring business review / value review meeting (QBR/EBR) with the customer's decision-makers — align goals & baseline pre-meeting, score progress evidence red/yellow/green in-meeting, set next-quarter joint plan, and plant renewal/expansion/referral triggers post-meeting. Triggers: '业务回顾', '复盘', 'QBR', 'EBR', '季度回顾', '价值回顾', '续约前复盘', '客户回顾会', 'quarterly business review', 'executive business review', 'value review'. Do NOT use for one-time first-value proof, single sales-call debrief, internal project retrospective, or the renewal/expansion/referral negotiation itself (downstream success-renewal-management / success-expansion / success-referral-generation; this skill only plants triggers + hands off).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:success-business-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bike-fit-estimator",
+  "displayName": "bike-fit-estimator",
+  "description": "Use when buying a bike, setting one up, or diagnosing ride pain — computes frame size and stack/reach from your body (inseam×0.885 saddle height, Holmes 25–35° knee angle, crank length, standover clearance by discipline), dials position by flexibility and ride type, and routes pain symptoms (numb hands, front/back knee, hot foot, saddle numbness, neck) to ranked fit causes with the exact adjustment to try first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bike-fit-estimator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-debug",
+  "displayName": "doca-debug",
+  "description": "Use this skill when the user is debugging any DOCA symptom — a build that won't compile, a link step that can't resolve a doca_* symbol, a runtime call returning DOCA_ERROR_*, a silent service or tool, or a stack trace / valgrind / core dump — and needs the layered ladder (install → version → build → link → runtime → program → driver), verbosity controls (--sdk-log-level, DOCA_LOG_LEVEL, the doca-{lib}-trace flavor), container-debug constraints, or how to capture state for a Developer Forum post. Trigger even when the user does not say \"DOCA debug\" — implicit phrasings include \"undefined reference to doca_*\", \"how do I get more logs\", \"packets aren't reaching the wire\", \"doca_caps returned nothing\", or \"hugepages empty in the container\". Refuse and route elsewhere for library-specific debug (Flow pipe trace, RDMA QP, Comch stats), env-class pkg-config or hugepages symptoms, the DOCA_ERROR_* taxonomy and lifecycle interpretation, and performance or incident-response work — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-debug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

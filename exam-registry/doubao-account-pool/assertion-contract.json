@@ -1,0 +1,54 @@
+{
+  "skillId": "doubao-account-pool",
+  "displayName": "doubao-account-pool",
+  "description": "想用豆包网页版做出图、出视频，又不想办会员、不想申请 API key？这套把「一个已授权账号 = 一个独立浏览器实例 → 扫码授权 → 批量出图 → 出视频 → 取件 → 关掉浏览器还能回捞」封成配置驱动的命令行工具。实例之间互不串数据、互不踢下线；授权二维码自动裁切放大，可直接发手机扫；出图内置「基线闸」防止拿到上一轮的旧图；出视频先读确认卡再走，遇到付费弹层立即中止、绝不点升级；关掉浏览器后还能回捞最近会话里的图和视频，已生成没抓到链的可以单独重抓，不重跑、不重复消耗。所有命令只返回结构化短行，页面文本/DOM/截图绝不回流；长任务产物先落盘再筛。换机器、换智能体，只改配置就能跑——包内不含任何个人路径、cookie 与密钥，登录态在本机扫码产生。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doubao-account-pool"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

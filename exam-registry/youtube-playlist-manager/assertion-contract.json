@@ -1,0 +1,54 @@
+{
+  "skillId": "youtube-playlist-manager",
+  "displayName": "YouTube Playlist Manager",
+  "description": "Search YouTube, get full video details, and manage the user's own YouTube playlists via the YouTube Data API v3. Search and video details work with just an API key, without signing in. Managing playlists needs a one-time Google OAuth sign-in in the browser: list playlists and the videos in them, create, edit (title, description, privacy) and delete playlists, add and remove videos. The sign-in is stored locally (by default in ~/.openclaw/youtube/), refreshed automatically, and revoked by logout. Every command can also print JSON (--json) for scripts. Use when the user explicitly asks to search YouTube, get details of a video, or to view or change their YouTube playlists.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:youtube-playlist-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

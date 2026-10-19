@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-chemistry-problem-coach",
+  "displayName": "化学解题教练",
+  "description": "初中到高中（必修与选择性必修）的化学解题教练，按四步法（定物质→三重表征→写式列式→守恒检验）陪学生走完当前这一道化学题。默认只在当前会话工作：不读写长期档案、不归档错题、不排提醒；这三项要学生（需要时含监护人）明确开启后才做。触发语示例（须带上具体题目）：\"这道推断题从哪下手\"\"这个方程式计算怎么列\"\"反应后溶液里的溶质是什么\"\"这几种物质怎么鉴别\"。不触发：泛泛说\"化学好难\"、只问概念不带题、要\"化学提分方法\"。学科判别：题干出现化学式、元素符号、化学方程式、溶液浓度、实验装置时按化学题处理；只涉及力、电路等物理量时转物理解题教练。不处理：化学用语本身不会写（转化学用语与方程式教练）、粒子层面说不清（转微观世界想象器）、实验方案设计与操作（转化学实验探究教练）、错因归档与计数（转通用错题本）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-chemistry-problem-coach"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

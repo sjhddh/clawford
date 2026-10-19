@@ -1,0 +1,54 @@
+{
+  "skillId": "guarantee-letter-check-free",
+  "displayName": "保函台账与到期失效核对（免费版）",
+  "description": "银行保函台账逐项核对（保函金额 = 合同金额 × 保证金比例、到期日 = 开立日 + 保函期限月数、保函号唯一性、注销日期与状态自洽、到期未注销仍占额度），每条结论引用原文行号。本免费版执行引擎声明的免费检查项。触发词包括 保函台账、保函到期、保函注销、担保额度占用、保证金比例。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guarantee-letter-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

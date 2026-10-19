@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-deletion-recovery-diagnosis",
+  "displayName": "alibabacloud-oss-deletion-recovery-diagnosis",
+  "description": "Read-only OSS diagnosis of accidental-deletion recovery and deletion residue: uses versioning to decide if a deleted object is recoverable, explains delete markers, leftover fragments, and why capacity/cost does not drop. States honestly when data is unrecoverable by official policy (versioning never enabled, lifecycle noncurrent version expiration, overdue-payment release). Triggers: \"accidentally deleted how to recover\", \"delete marker\", \"BucketNotEmpty\", \"failed to delete bucket\", \"capacity not reduced after deletion\", \"file/object suddenly disappeared or returns 404, can it be recovered\", \"restore the deleted object to its previous version\". Not for bill line-items (alibabacloud-oss-billing-diagnosis), the fragment cleanup procedure (alibabacloud-oss-multipart-upload-diagnosis), transfer or endpoint/region issues, lifecycle rule design, or restore/delete writes. Invoke immediately; missing bucket/region/object details are handled internally, never ask for supplements before invoking.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-deletion-recovery-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

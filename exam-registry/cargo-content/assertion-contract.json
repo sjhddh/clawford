@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-content",
+  "displayName": "cargo-content",
+  "description": "Manage the knowledge a Cargo workspace holds — upload files (PDF, CSV, text), rename and organize them, and build native or connector-backed libraries that sync from an external source, so agents can retrieve them (RAG). Triggers: \"upload this PDF\", \"add these docs as knowledge\", \"build a knowledge base\", \"sync our help center into Cargo\", \"what files are in the workspace\", \"index this folder\", \"attach our pricing sheet\". Skip when: wiring the file or library into an agent — use cargo-ai; uploading a CSV that drives a batch run — that is a workspace-management file upload.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-content"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

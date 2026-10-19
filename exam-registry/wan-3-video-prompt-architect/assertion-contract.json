@@ -1,0 +1,54 @@
+{
+  "skillId": "wan-3-video-prompt-architect",
+  "displayName": "Wan 3.0 Video Prompt Architect",
+  "description": "Build and review production-ready prompts and short shot plans for WAN-30.video text-to-video or image-to-video work. Use when a user needs clearer subject motion, camera direction, scene continuity, audio direction, reference-image roles, or a pre-generation configuration check; do not use this Skill to claim official Alibaba or Wan affiliation, call a model provider, access an account, or spend credits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wan-3-video-prompt-architect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "privacy-search",
+  "displayName": "privacy-search",
+  "description": "隐私优先的多引擎并行搜索 Skill，十大搜索引擎并行检索。V1.9 新增可信度标记和口语化错误建议，SKILL.md 瘦身至 ≤12KB。V1.8 新增可信合成与垂直搜索。V1.7 新增 MCP Server 形态。V1.6 新增 Perplexity 式答案合成。V1.5 新增网页正文抓取、结果导出、LLM 摘要。V1.2 统一 HTTP 出口、SimHash 去重、多因子排序、结果缓存、SearXNG 本地部署、隐私模式切换。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:privacy-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

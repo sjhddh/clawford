@@ -1,0 +1,54 @@
+{
+  "skillId": "did-my-message-go-out",
+  "displayName": "Did my message actually go out? Delivery verified on the wire",
+  "description": "Did my message actually go out? Was it delivered, or did the send only look successful? Use this after any message send whose delivery matters — a notification, a reply the user is waiting for, a forward to another chat — and before telling the user it was sent. Cross-checks the runtime's send result (message_sent success/error) against the wire: the request this process made to the channel API (api.telegram.org, discord.com, slack.com, graph.facebook.com, api.twilio.com, graph.microsoft.com) and its status code. Returns exactly DELIVERED, NOT_DELIVERED, CLAIMED_ONLY, CANCELLED, PENDING or NO_SEND. Do not use to confirm channels that deliver outside this process (WhatsApp Web, Signal, iMessage); for those it tells you the wire cannot confirm and what to do instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:did-my-message-go-out"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

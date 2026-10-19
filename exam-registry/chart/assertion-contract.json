@@ -1,0 +1,54 @@
+{
+  "skillId": "chart",
+  "displayName": "本地图表生成引擎",
+  "description": "本地优先（local-first）的图表生成引擎，将数字转换为清晰的可视化输出. 基于Python与matplotlib，支持柱状图、折线图、饼图、散点图四种核心类型. 所有数据与产物仅落地本地，不依赖任何第三方图表API或云同步. 核心能力： - 四种图表类型：bar/line/pie/scatter - 智能...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chart"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

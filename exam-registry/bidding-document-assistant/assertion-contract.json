@@ -1,0 +1,54 @@
+{
+  "skillId": "bidding-document-assistant",
+  "displayName": "投标文件编制助手",
+  "description": "通用投标文件格式排版技能。按照招标文件格式要求自动生成投标文件骨架。 支持四种编号体系（阿拉伯级联、符号转换、政府格式、工程格式）； 支持解析招标文件 docx 提取章节结构和格式信息； 支持自定义项目编号、封面【正本】标签、X/100 页脚格式。 技能不包含任何公司专属信息，可以自由分享和使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bidding-document-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "ccpa-guard",
+  "displayName": "CCPA Guardrail",
+  "description": "CCPA 合规护栏 (ccpa-guard) v1.0.0。\n在 AI 应用输入/输出链路中实时检测 CCPA/CPRA 语境下的个人信息，\n按风险分级脱敏或阻断，供 Agent 主动调用。\n\nUse when: 需要在 Agent 处理用户输入或返回结果前，实时拦截/脱敏\n加州消费者个人信息；防止 SSN、信用卡、加州驾照、精确地理位置、\n生物识别数据、商业信息等流入大模型或被输出泄露；为 AI 应用加装\n符合 CCPA/CPRA 的运行时护栏。\n\n核心能力：\n- 🛡️ 实时检测 SSN、信用卡（Luhn）、美国电话、银行路由号、\n  加州驾照/身份证、美国护照号、IPv4/MAC、邮箱等",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ccpa-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

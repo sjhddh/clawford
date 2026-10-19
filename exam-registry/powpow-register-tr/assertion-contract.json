@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-tr",
+  "displayName": "PowPow Kayıt — kayıt ol, seyahat günlüğünü haritaya iliştir ve dijital insanlarla sohbet et",
+  "description": "Kullanıcının PowPow (Kabarcık) kaydını tamamlamasına, Alipay veya PayPal üzerinden aboneliği etkinleştirmesine ve sohbet içinde tek tıkla giriş yapmasına yardımcı olur. Agent form kullanıcının yerine doldurur (profil fotoğrafı yükleme dahil), e-posta ile doğrulama kodu gönderir, ödeme siparişi oluşturur ve hesaba geçişi izler; kullanıcının yapması gerekenler yalnızca temel bilgileri vermek, kodu e-postasından bir kez okumak ve Alipay/PayPal kasa sayfasında ödemeyi yapmak — tüm süreç sohbetten çıkmadan tamamlanır. Kullanıcı «Kabarcık'a kayıt ol», «powpow hesabı aç», «Kabarcık'a nasıl kaydolunur», «bana powpow hesabı aç», «sign up powpow» dediğinde devreye girer; takılan kayıtları (doğrulama kodu gelmemesi, kullanıcı adı/e-postanın alınmış olması) ve etkinleştirme sorunlarını («hesap etkinleştirilmedi» / pending_payment uyarısı, abonelik nasıl ödenir) da ele alır. Node ≥ 18 gerektirir; yoksa otomatik olarak salt yol gösterme moduna düşer. Gönderi yayınlama/dijital insan oluşturma (o powpow-simple'ın işi) ve kod geliştirme kapsam dışıdır.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-tr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

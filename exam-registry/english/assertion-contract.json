@@ -1,0 +1,54 @@
+{
+  "skillId": "english",
+  "displayName": "English",
+  "description": "Writes and corrects English that reads like a native wrote it — any variety, any register. Use when text sounds stiff, robotic, translated, or AI-generated; when a sentence is grammatically fine but \"sounds wrong\"; when choosing between US, UK, Australian, Canadian, Irish or Indian spelling, vocabulary and punctuation, or when a document mixes them; when a first language keeps leaking through — articles, prepositions, tense, false friends, word order; when formality must be calibrated for an email, a client, or a meeting; when idioms, phrasal verbs, slang or collocations land wrong or sound dated; when commas, hyphens, capitalization, quotes, dates or numbers need a house rule; when confusable words, jargon or hedging blur the meaning; and for pronunciation, small talk, and improving on purpose. Not for grammar-only fixes (`grammar`), translation (`translate`), IELTS or TOEFL prep (`ielts`, `toefl`), or drafting in your own voice (`writing`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:english"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

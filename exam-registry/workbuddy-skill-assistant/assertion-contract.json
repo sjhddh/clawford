@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-skill-assistant",
+  "displayName": "workbuddy-skill-assistant",
+  "description": "WorkBuddy skill 使用管理指南：围绕真实任务帮助用户选择、安装、调用、组合和维护 skill。 积木式管理：已装/自建 skill 登记进积木注册表统一调用；验证过的 skill 组合固化为工作流卡片接力执行复杂任务。 分类标准：采纳七类基础分类（编程开发/智能体/写作创作/数据分析/设计创意/效率工具/教育学习）并可积木式扩展。 外部来源：找优秀 skill 优先检索阿里 SkillsHub（含检索脚本），再适配安装到 WorkBuddy 目录。 先理解目标，再给最小可行的 skill 方案；执行后验证结果，并把可复用经验沉淀下来。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-skill-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

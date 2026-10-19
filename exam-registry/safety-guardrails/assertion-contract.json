@@ -1,0 +1,54 @@
+{
+  "skillId": "safety-guardrails",
+  "displayName": "safety-guardrails",
+  "description": "给自主智能体/自动化流水线装上一道「预执行安全护栏」：对任何待执行动作做风险分级 （low/medium/high/critical）并给出 ALLOW / CONFIRM / DENY 决策。内置破坏性强、不可逆、 越权、外发隐私的 deny 规则与高影响 confirm 规则，强制拦截 rm -rf、强推、下载即执行、 删表、关机等高危动作，并要求用户显式确认中高危操作。适配自动化每小时触发的无人值守场景， 防止自主 agent 在没有护栏时造成不可逆损害。触发词：安全护栏、危险动作拦截、操作确认、 safety guardrails、agent 安全、预执行校验、destructive 拦截。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:safety-guardrails"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

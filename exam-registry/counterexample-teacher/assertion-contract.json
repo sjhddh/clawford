@@ -1,0 +1,54 @@
+{
+  "skillId": "counterexample-teacher",
+  "displayName": "counterexample-teacher",
+  "description": "This skill should be used when the user asks when a claim, rule, or piece of advice does NOT hold — including phrases like \"什么时候不适用\", \"有什么例外\", \"边界在哪\", \"这说法靠谱吗\", \"举个反例\", \"counterexample\", \"when does this fail\", or any request to test the limits of an idea. It answers only with concrete failure cases, never with definitions.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:counterexample-teacher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

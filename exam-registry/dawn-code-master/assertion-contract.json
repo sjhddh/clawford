@@ -1,0 +1,54 @@
+{
+  "skillId": "dawn-code-master",
+  "displayName": "代码大师｜编程铁律",
+  "description": "AI 写的代码一上生产就崩——不是它不会写，是没人给它立规矩。 代码大师把「写、审、测、重构」的标准炼成一条硬规矩，整合 80k★ agent-skills、23k★ claude-skills 等顶级技能集，让每一行 AI 代码都过验收。 触发词：写代码、修bug、代码审查、PR review、重构、设计评审、API设计、测试用例、spec 驱动开发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dawn-code-master"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

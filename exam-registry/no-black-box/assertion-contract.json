@@ -1,0 +1,54 @@
+{
+  "skillId": "no-black-box",
+  "displayName": "不留黑箱的交接讲解",
+  "description": "不留黑箱的交接讲解：Agent 自主完成一段较长的工作（理解需求材料、写代码、改数据、部署、验证）之后，把需求背景、落地方案、验证结果和未决事项讲给使用人，让他能先自己吃透、再去和客户、同事、专家沟通。产出一份讲解文档（自己读，也能投屏、转给别人），有需要外部确认或拍板的事项时再加一份确认单（给对方逐条回复），单文件 HTML 或在线文档；结论写明出处，源文件配截图，条目多时用标杆例子讲。当有人说“我得先理解你做了什么”“给我讲讲背景”“对照原材料讲一下”“做个需求导读”“我要拿去和客户/同事沟通”“这些我都没看过”“做个 html 方便我理解”“写份汇报材料，我要投屏讲”“附上源文件截图”，或 Agent 刚独立做完一大段工作需要交接时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:no-black-box"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

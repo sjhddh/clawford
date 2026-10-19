@@ -1,0 +1,54 @@
+{
+  "skillId": "wm-report-extract",
+  "displayName": "wm-report-extract",
+  "description": "财报 PDF（年报/半年报/季报，A 股 + 港股 IFRS）内容理解与按需可溯源提取。双轨转换（Docling FAST + PyMuPDF 有框线表格接管 + ACCURATE 报表页精修）→ 可提取性 meta → adapt-plan 提取剧本 → 全表 records 预提取 → materialize 分表 → 定型晋升 + 质量门（勾稽校验/数值存在性/quote 回验）→ review-extract 独立审核。每个数值带页码与原文 quote 溯源，无 quality.json / review.json 不得给下游。Standalone——`fetch --pdf-url` 无需任何 API key 即可全链路运行；可选接入 WinMale 平台启用 symbol 模式。Use when the user asks to extract or locate data in a financial report PDF (annual/semi-annual/quarterly), e.g. 货币资金、前十大股东、分红方案、全量核心数据、第 N 页内容。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wm-report-extract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

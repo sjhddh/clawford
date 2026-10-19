@@ -1,0 +1,54 @@
+{
+  "skillId": "django",
+  "displayName": "Django",
+  "description": "Builds, debugs, and hardens Django apps: models, the ORM, views, templates, forms, the admin, DRF APIs, and deployment. Use when a page fires one query per row (N+1, select_related, prefetch_related, annotate double-counting); when makemigrations conflicts, a migration locks a live table, or InconsistentMigrationHistory blocks a deploy; on 403 CSRF verification failed, DEBUG=False turning every request into 400 DisallowedHost or a blank 500, or SECURE_SSL_REDIRECT looping behind a proxy; on SynchronousOnlyOperation, AppRegistryNotReady, or NoReverseMatch; when a background task runs before its transaction commits, signals fire on rows that roll back, or update() skips auto_now; when the admin times out on a big table, collectstatic breaks static files, or workers exhaust database connections; when writing serializers, formsets, a custom user model, permissions, or assertNumQueries tests; or upgrading Django across a deprecation. Not for plain Python, FastAPI or Flask services, or engine-level SQL tuning.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:django"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "szzz-case-study-lite",
+  "displayName": "SZZZ Case Study Lite｜案例分析技能",
+  "description": "SZZZ Case Study Lite 基础版。用于对用户已有的本地 PDF、DOCX、DOC 民事裁判文书执行批量提取、案号去重、增量入库、逐案专家摘要、Master Report、案例库问答和原文回溯。用户要求分析判决书、整理本地案例库、追加新案例或向已提取材料提问时使用；不包含外部案例检索和 Obsidi...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:szzz-case-study-lite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

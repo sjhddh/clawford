@@ -1,0 +1,54 @@
+{
+  "skillId": "tiktok-upload",
+  "displayName": "tiktok-upload",
+  "description": "Upload and publish a video (or a photo carousel of up to 35 images) to TikTok from your AI agent, now or scheduled, through TikTok's official Content Posting API: no developer app, no audit, no browser automation or cookies. Writes the caption, asks the account owner who can see the post as TikTok requires, then returns the live TikTok link. Optionally sends the same video to Instagram Reels and YouTube Shorts. Use when the user wants to post, upload or schedule a TikTok, automate TikTok posting, or turn text into a TikTok video.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tiktok-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

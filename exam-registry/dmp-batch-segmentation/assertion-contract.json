@@ -1,0 +1,54 @@
+{
+  "skillId": "dmp-batch-segmentation",
+  "displayName": "明日dmp批量圈包",
+  "description": "基于明日DMP开放平台API，提供批量圈包功能。支持LBS批量点位圈选和组合人群多规则拆分组合（支持标签+已有人群包作为规则条件，多对一、一对多、多对多三种模式），可查询已有人群包列表供选择。通过自动任务拆分、批次调度和进度跟踪，实现从\"单次圈包\"到\"批量圈包\"的能力升级。适用于大批量lbs圈选、多标签/人群包组合拆分等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dmp-batch-segmentation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

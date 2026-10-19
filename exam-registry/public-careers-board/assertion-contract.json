@@ -1,0 +1,49 @@
+{
+  "skillId": "public-careers-board",
+  "displayName": "Public careers board",
+  "description": "Fetch current public job openings from one supported company careers board and report coverage. The rows are job listings of the board's current public vacancies: title, location, and the board's job URL, with source and fetch time. Supply Acxiom Workday, LiveRamp Ashby, or Magnite Workday to scripts/cli.mjs. Magnite is read only after its official careers handoff confirms the declared Workday board. Role selection stays outside the fetch. A source failure is not an empty or complete board. No wallet, signup, API key, or payment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:public-careers-board"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

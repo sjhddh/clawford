@@ -1,0 +1,54 @@
+{
+  "skillId": "notworking",
+  "displayName": "notworking",
+  "description": "Check whether a site, URL, MCP server or skill that isn't working is down or blocking AI agents for everyone, or just you, see the service's other known access paths, and report the failure. Use right after something outside your control fails, before retrying or trying workarounds - a site that's down, unreachable or timing out, an outage, a fetch that's blocked (access denied, 403, 429 rate limited, a Cloudflare \"Just a moment\" challenge, a CAPTCHA), a login loop, an MCP server that won't connect or whose tools error, or a skill that fails.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:notworking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

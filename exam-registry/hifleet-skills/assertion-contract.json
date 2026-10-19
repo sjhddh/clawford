@@ -1,0 +1,54 @@
+{
+  "skillId": "hifleet-skills",
+  "displayName": "Ship Position",
+  "description": "HiFleet 综合技能：船位、档案、事故事件、制裁、海事处罚、轨迹/航程/航次、PSC、区域通航、港口、公开船货盘、港距排序、班轮船期、航线、气象、船队、AIS。Position, track, voyage, casualty, sanction, maritime penalty, PSC, port, public tonnage, liner schedule, fleet, weather, AIS.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hifleet-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

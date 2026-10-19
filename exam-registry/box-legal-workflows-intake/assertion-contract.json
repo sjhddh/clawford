@@ -1,0 +1,54 @@
+{
+  "skillId": "box-legal-workflows-intake",
+  "displayName": "box-legal-workflows-intake",
+  "description": "Automate legal client intake and onboarding with Box MCP — review intake documents for completeness against firm requirements, summarize risk for attorney review, route incomplete or high-risk submissions to the right attorney, extract client and matter metadata to Box, and generate engagement letters from Box DocGen templates. Use this skill when the user mentions client intake, client onboarding, new client review, intake documents, or engagement letters.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:box-legal-workflows-intake"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

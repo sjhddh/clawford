@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-aisc-skill-inspection",
+  "displayName": "alibabacloud-aisc-skill-inspection",
+  "description": "使用阿里云 AISC 做 Skill 安全检查：提交扫描、查询 rootTaskId、解读 check-report.json 风险报告、诊断 AISC Skill 检测报错。用户问“这个 Skill 安不安全”“能放心安装吗”“有没有恶意代码、敏感凭据或提示词注入”时使用。也处理候选 Skill 选择和缺少下载链接的安全检测请求，先加载本 Skill 再澄清输入。普通 Skill 编写、安装或无安全意图的泛泛请求不触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-aisc-skill-inspection"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

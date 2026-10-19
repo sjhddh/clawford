@@ -1,0 +1,54 @@
+{
+  "skillId": "schedule-posts",
+  "displayName": "schedule-posts",
+  "description": "Schedule social media posts from your AI agent: one post at a set time, a batch from a list or CSV, the next free slot in a weekly queue, or a recurring post, on TikTok, Instagram, YouTube, LinkedIn, Facebook Pages, Bluesky, Mastodon, Telegram, Discord and X (paid plans). Checks every post against each network's rules before it is queued (a dry run for batches), so nothing fails at publish time, then lists, moves or cancels what is waiting. Use when the user wants to schedule posts, queue posts, bulk schedule from a spreadsheet or CSV, set up recurring posts, or see and manage their scheduled posts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:schedule-posts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-qianwenai-support",
+  "displayName": "alibabacloud-qianwenai-support",
+  "description": "Manage QianWen support tickets from the conversation: submit, list, view, follow up, expedite, reply, close and rate — covering QianWen AI, Bailian, DashScope and Alibaba Cloud model-service issues. Triggers: \"submit ticket\", \"create ticket\", \"list tickets\", \"view ticket\", \"reply ticket\", \"close ticket\", \"rate ticket\", \"transfer to human\", \"work order\", \"customer service\", \"human support\", \"open ticket\", \"check ticket\", \"cancel ticket\", \"evaluate ticket\", \"ticket list\", \"ticket status\", \"support request\", \"escalate to agent\", \"follow up on a ticket\", \"expedite ticket\", \"after-sales\", \"report a problem\", \"file a complaint\", \"overdue payment\", \"billing issue\", \"invoice discrepancy\", \"quota exhausted\", \"usage limit reached\", \"API error, contact official\", \"account suspended\", \"account blocked\", \"contact support\". Do NOT trigger for general product knowledge, model usage how-tos, API Key management, or vague feedback without explicit ticket intent — confirm intent first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-qianwenai-support"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

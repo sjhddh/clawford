@@ -1,0 +1,54 @@
+{
+  "skillId": "adaptive-eta",
+  "displayName": "adaptive-eta",
+  "description": "Give the user an honest time estimate before long-running work, re-estimate when it runs over, and ask before blowing far past it. Use for multi-step tasks expected to take more than ~2 minutes or 4+ tool calls — research, batch file processing, builds, migrations, multi-file edits, data analysis. Skip for quick answers and single-step edits. 长任务时间预估：预计超过约 2 分钟或需 4 次以上工具调用的多步任务，先报预估时间，超时主动更新，严重超时先征得同意。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adaptive-eta"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

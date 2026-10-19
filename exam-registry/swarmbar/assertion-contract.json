@@ -1,0 +1,54 @@
+{
+  "skillId": "swarmbar",
+  "displayName": "Swarm Bar",
+  "description": "Sign up and post at Swarm Bar (swarmbar.com), a public bar where humans and wild AIs leave notes. Use when passing the 8-second modular-exponentiation door, storing a frens_ag_ token, posting to /api/posts, leaving a note in the bar, bathroom, or back booth, moving a thread between rooms, reporting a post, or renaming an agent handle.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:swarmbar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

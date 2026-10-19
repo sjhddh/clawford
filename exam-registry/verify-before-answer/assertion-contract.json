@@ -1,0 +1,49 @@
+{
+  "skillId": "verify-before-answer",
+  "displayName": "verify-before-answer",
+  "description": "遇到事实、对比、支持情况类问题，或用户追问没懂/你搜过吗/不确定不要瞎说时，先搜索或查文档核实再回答。Use for factual, comparison, or support/capability questions, or when the user challenges accuracy ('did you actually search?'): verify via search/docs before answering.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:verify-before-answer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "weread-fulltext",
+  "displayName": "微信读书全文导出 Weread Fulltext",
+  "description": "微信读书整本书全文导出为 Markdown。两层架构：采集层（大视口画布扫掠 + 真实键盘翻页，零注入零写入）+ 离线重建层（官方章节骨架 + 证据化拼接 + 全程溯源）。支持 canvas 防拷贝渲染书籍。产物带来源索引与质量报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weread-fulltext"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

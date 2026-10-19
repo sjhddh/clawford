@@ -1,0 +1,54 @@
+{
+  "skillId": "genesis-ouroboros",
+  "displayName": "genesis-ouroboros",
+  "description": "Genesis constitution and scaffold generator for creating a new self-evolving agent. Use when the user asks to create, birth, or scaffold a new agent (e.g. via $genesis-ouroboros followed by agent requirements; Chinese triggers include 创建/孵化/脚手架一个新 agent), especially setups where AGENTS.md/CLAUDE.md serve as a constitution, skills act as evolving pipeline stations, experience is distilled after every interaction, and mature workflows crystallize into scripts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:genesis-ouroboros"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

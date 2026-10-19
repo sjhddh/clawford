@@ -1,0 +1,54 @@
+{
+  "skillId": "snapback-selfheal",
+  "displayName": "snapback",
+  "description": "Diagnose why an AI-agent run failed and get a structured fix — and catch failures live, mid-run, before they burn your budget. Use this skill WHENEVER an agent run loops, stalls, hits a step/token/context limit, returns the wrong output, or fails and you want to know WHY and HOW to fix it. Also use it DURING a run: detect_loop and budget_guard catch a runaway before the step limit; a live session streams your steps and warns you in real time. Triggers: \"why did my agent fail\", \"it keeps looping\", \"diagnose this run\", \"the agent repeated the same tool call\", \"hit the step limit\", \"running out of context\", \"burning tokens\", \"wrong output\", \"detect a loop\", \"watch my run\", \"check my agent before running\". Connects over MCP; most tools are free (discovery, docs, loop + budget checks, live sessions, and instant infrastructure-error diagnosis across 46 families), diagnosis is metered (token or pay-per-call via x402 on Solana or EVM — no account needed).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:snapback-selfheal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

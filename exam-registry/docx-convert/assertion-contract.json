@@ -1,0 +1,54 @@
+{
+  "skillId": "docx-convert",
+  "displayName": "convert2docx",
+  "description": "把 Markdown / 纯文本 / HTML / RTF / LaTeX / reStructuredText / Org-mode 转成 .docx，并套用用户自己指定的 reference.docx 样式模板。支持单文件、批量、拖拽操作。当用户说\"把 XX 转成 Word\"、\"批量转 docx\"、\"用我自己的样式模板转换文档\"时使用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docx-convert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "ashare-financial-report-analysis",
+  "displayName": "A股财报结构化拆解系统",
+  "description": "A股上市公司财报结构化拆解系统。基于16节固定模板，对季报/年报进行一手数据提取、自算核验、跨季度可比的结构化分析。数据源优先级与racing-quant-ai一致（Tushare > akshare > baostock > 东方财富API）。触发词：财报拆解，财报分析，季报分析，年报分析，财报拆解模板，earnings report，财报解读。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ashare-financial-report-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

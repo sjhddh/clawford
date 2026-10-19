@@ -1,0 +1,54 @@
+{
+  "skillId": "risk-assessment-antipattern",
+  "displayName": "风险评估与反例库",
+  "description": "对 RWA/Web3 项目做产业/产品/合规三层体检，并嵌入三大爆雷反例（伪 RWA、责任真空、慢资产快金融）作边界警示。 当用户在立项前、投资前或审计一个\"上链/通证化/RWA\"项目时激活：①想识别\"伪 RWA\"\"慢资产快金融\"\"责任真空\"等结构性风险；②面对\"高收益稳定、上链即安全\"\"回款慢却承诺 T+0 流动性\"等话术；③尽调资产自偿性、SPV 破产隔离、预言机责任边界是否到位。 不适用于：纯境内概念澄清（转 S1）、纯合规生死判读（转 S2）、纯 RWA 落地路径设计（转 S8）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:risk-assessment-antipattern"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ecommerce-customer-service",
+  "displayName": "商品客服问答",
+  "description": "当用户需要回答商品咨询、整理售前FAQ或起草售后解释时使用。输入商品链接或资料、买家问题与已确认的店铺规则，输出可复制回复和商家待核实事项。在线商品详情支持抖音与小红书，已有资料可直接起草；不自动发送消息或办理售后。来自 SocialDataX 社媒数据助手。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ecommerce-customer-service"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

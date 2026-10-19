@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-pt",
+  "displayName": "PowPow Registro — Registre-se na Bolha, fixe seu diário de viagem no mapa, converse com humanos digitais",
+  "description": "Ajuda o usuário a concluir na conversa o registro no PowPow (Bolha), a ativação da assinatura via Alipay ou PayPal e o login com um clique. O agent preenche o formulário por ele (inclusive o upload do avatar), envia o código de verificação por e-mail, cria o pedido de pagamento e acompanha até o valor cair; o usuário só fornece as informações básicas, confere uma vez o código na caixa de entrada e paga no caixa do Alipay ou PayPal, sem sair da conversa em nenhum momento. Ativa-se quando o usuário diz «quero me registrar na Bolha», «criar uma conta powpow», «como me registro na Bolha», «me ajuda a criar uma conta powpow», «sign up powpow»; também resolve travamentos do registro (código de verificação não chega, nome de usuário/e-mail ocupados) e problemas de ativação (no login aparece «conta não ativada» / pending_payment, como pagar a assinatura). Requer Node ≥ 18; se não estiver disponível, recua automaticamente para o modo de orientação pura. Não inclui publicar posts nem criar humanos digitais (isso é com o powpow-simple), nem desenvolvimento de código.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-pt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

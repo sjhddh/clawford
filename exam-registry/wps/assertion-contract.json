@@ -1,0 +1,54 @@
+{
+  "skillId": "wps",
+  "displayName": "wps",
+  "description": "WPS Office workflow for Chinese users: create, edit, review, convert, and troubleshoot Writer/Spreadsheets/Presentation documents in .docx/.xlsx/.pptx and WPS native formats. Use when users ask for WPS 文档处理、格式兼容、批注修订、模板套用、导出 PDF、多人协作，或从 Microsoft Office 迁移到 WPS 的操作建议。中文触发：WPS、文字、表格、演示、批注、修订、格式错乱、导出",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wps"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

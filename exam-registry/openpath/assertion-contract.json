@@ -1,0 +1,49 @@
+{
+  "skillId": "openpath",
+  "displayName": "openpath",
+  "description": "Free live listings across the US, from openpath.sh - jobs, local businesses and services, homes, products, cars and events. Use this when the user wants something they can act on now (a job to apply to, a plumber to call, a place to eat, a home to rent) rather than web pages about it. Each result is one listing in plain Markdown with its facts and its action - an Apply, Phone, Website or Buy line, and an inbox address to reach the owner. Use web search instead for news, research or general questions. Also use it when the user wants to message the owner of a result, or to offer something (a home to rent, a job, a service, a product) so other agents can find it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:openpath"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

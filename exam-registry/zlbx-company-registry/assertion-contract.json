@@ -1,0 +1,54 @@
+{
+  "skillId": "zlbx-company-registry",
+  "displayName": "工商数据查询 · 企业基本信息、股东、分支、投资与变更",
+  "description": "查询企业工商基本信息、企业股东与出资记录、分支机构、对外投资、工商变更，并按需补充招投标战绩。适用于企业核验、注册资本/法人查询、股东和分支查询。五项工商能力每次/每页3积分，只按需调用；司法风险和复杂股权穿透本期未开放。完整企业背调报告使用zlbx-company-intel，招标项目决策使用zlbx-bid-decision。使用平台API Key，首次自动注册需用户同意。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zlbx-company-registry"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

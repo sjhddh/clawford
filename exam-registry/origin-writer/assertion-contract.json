@@ -1,0 +1,54 @@
+{
+  "skillId": "origin-writer",
+  "displayName": "origin-writer",
+  "description": "百万字小说写作引擎——把长篇写作变成事务性写作。AI 每写一章提交一个语义事务（正文+状态变更），门禁逐条复核（禁区/伏笔状态机/正文对照）后才落盘。角色不会突然用上他不知道的信息，物品不会凭空易主，伏笔不会收了又埋。新会话秒恢复：state 一条命令拿到全部世界状态。当需要写长篇小说、续写长篇、维护小说世界观一致性、管理伏笔/人物状态/时间线时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:origin-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

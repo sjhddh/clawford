@@ -1,0 +1,54 @@
+{
+  "skillId": "resilience-program-design",
+  "displayName": "resilience-program-design",
+  "description": "Designs a resilience program: how to structure and standardize resilience policies across an organization, team, or portfolio (tiered policy model with availability/RTO/RPO targets and DR approach selection), and how often to run resilience activities (operational cadence). Applies when the user asks how to structure policies org-wide, what tiers/targets to set, which DR approach fits a tier, or how frequently to run assessments, FIS experiments, GameDays, or autoshift practice. Does not apply to creating or configuring a specific policy or resource for a single workload (use resilience-hub-getting-started), to step-by-step lifecycle execution (see aws-resilience-lifecycle), or to service-specific setup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resilience-program-design"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

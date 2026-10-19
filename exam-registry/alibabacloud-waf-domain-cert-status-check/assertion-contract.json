@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-waf-domain-cert-status-check",
+  "displayName": "alibabacloud-waf-domain-cert-status-check",
+  "description": "Read-only inventory of SSL certificates bound to domains onboarded to Alibaba Cloud WAF (CNAME access, WAF 3.0 and 2.0): collects each domain's certificate, resolves its validity, classifies it as expired / expiring / healthy, and returns a summary table with renewal guidance so HTTPS is not interrupted by a silently expiring certificate. Use when a customer asks which WAF certificates are about to expire, wants an expiry audit across onboarded domains, worries about HTTPS breaking after expiry, or needs a periodic certificate health check. Not for: why one request was blocked, protection rule effectiveness, certificate-chain / TLS handshake troubleshooting, cloud-product-access domains (CLB / ALB / ECS), or performing the renewal itself. Triggers: \"WAF证书到期\", \"证书快过期了吗\", \"证书有效期\", \"证书过期检查\", \"证书到期提醒\", \"证书巡检\", \"证书续期\", \"域名证书状态\", \"HTTPS证书会不会断\", \"cert expiry check\", \"certificate about to expire\", \"WAF certificate status\", \"certificate validity audit\", \"renew certificate before expiry\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-waf-domain-cert-status-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

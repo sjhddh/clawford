@@ -1,0 +1,54 @@
+{
+  "skillId": "bilingual-md-sync",
+  "displayName": "bilingual-md-sync",
+  "description": "Keeps English Markdown and Chinese Markdown pairs in structural and topical sync, with reciprocal language links at the top of each file. Use when the user edits or mentions README.md and README-zh.md/README-en.md, any *-zh.md or *-en.md with a sibling *.md, bilingual docs, 中英文同步, language switch links, or translating between zh/en markdown files.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilingual-md-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

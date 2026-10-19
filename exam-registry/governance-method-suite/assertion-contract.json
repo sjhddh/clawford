@@ -1,0 +1,54 @@
+{
+  "skillId": "governance-method-suite",
+  "displayName": "governance-method-suite",
+  "description": "One playbook for the full AI-agent governance loop: red-team drill -> prompt-injection shield -> prompt-leak scan -> document desensitization -> kill-switch -> badge issue/verify -> skill & publish quality gates. Orchestrates 9 independently published sub-skills by slug; does not vendor their internals. Use when the user wants an end-to-end governance plan, a security audit, or a release-compliance review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:governance-method-suite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

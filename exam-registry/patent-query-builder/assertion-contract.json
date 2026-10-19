@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-query-builder",
+  "displayName": "专利检索式 · PatentMax",
+  "description": "专利检索式构建、专利检索策略。当用户说「帮我写一个专利检索式」「这个技术怎么检索专利」「检索式怎么扩同义词」「检索结果太多 / 太少怎么调」「帮我把技术需求整理成检索式」时使用。输出宽、中、窄三档检索式和实测命中数（Excel 能打开）。 Builds patent search queries from a technical description. Expands concepts and synonyms, gives broad, medium and narrow versions, and validates each against the PatentMax database with hit counts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-query-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

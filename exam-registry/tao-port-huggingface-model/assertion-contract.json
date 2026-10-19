@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-port-huggingface-model",
+  "displayName": "tao-port-huggingface-model",
+  "description": "Integrate a HuggingFace Computer Vision model into the NVIDIA TAO Toolkit ecosystem (tao-core config, tao-pytorch trainer, tao-deploy TensorRT pipeline). Use when the user asks to \"integrate a HuggingFace model into TAO\", \"add an HF model to TAO Toolkit\", \"wire a HuggingFace ViT/DETR/ SegFormer into tao-pytorch\", \"build a TAO trainer + deploy pipeline for an HF CV model\", or pastes a HuggingFace model URL/ID and wants it turned into a TAO model. Covers the full 7-phase loop: prerequisites check, HuggingFace inspection and validation, codebase exploration, tao-core configuration and native trainer implementation, ONNX export plus TensorRT deploy integration, packaging and L0 testing, container-based end-to-end validation, and (conditional) accuracy/latency tuning. Supports classification, object detection, semantic / instance / panoptic segmentation, zero-shot detection, and depth estimation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-port-huggingface-model"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "chatgpt-exporter",
+  "displayName": "ChatGPT Exporter",
+  "description": "Export your ChatGPT conversations to local files — titles, timestamps and, if you ask for it, full message text. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. Invoke it BY NAME — \"chatgpt-exporter-ultimate: export my conversations\" — so ordinary talk about ChatGPT cannot trigger it. Rides the ChatGPT session your browser already holds — browser relay or a bookmarklet you paste yourself. It reads NO access token, no cookie jar and no credential file. The relay enumerates your conversation list and writes JSON and Markdown copies to a private directory; it defaults to index-only (titles and timestamps, no message text) and refuses to run without an explicit confirmation of destination and scope. The bookmarklet can also find conversations inside Projects, by running searches against your history, and downloads one JSON file after three dialogs. Relay destinations are resolved through symlinks before anything is written, so a relay export cannot land in a synced folder, a git repo or outside your home, and a symlink or hard link left inside a reused export directory is refused instead of written through. A validated --purge deletes an export again. Off switch documented in the skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chatgpt-exporter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

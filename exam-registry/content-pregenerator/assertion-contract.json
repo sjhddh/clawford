@@ -1,0 +1,54 @@
+{
+  "skillId": "content-pregenerator",
+  "displayName": "content-pregenerator",
+  "description": "内容预生成器,凌晨低谷期(01:00-05:00)为所有租户预生成当天内容,复用content-orchestrator的15条管道执行'生成+质检'(跳过发布),结果缓存到PG content_pre_cache表,发布时直接取已生成内容实现秒级发布。DRR三阶段公平调度确保多租户Jain≥0.8。分层降级:PL-VIDEO→PL-IMAGE→TEXT→E0兜底。触发:预生成/内容预生成/凌晨生成/批量生成内容/pregenerate 不触发:实时发布/内容生成/单条生成/客服回复/数据分析",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-pregenerator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

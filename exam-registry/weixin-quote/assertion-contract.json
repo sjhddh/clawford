@@ -1,0 +1,54 @@
+{
+  "skillId": "weixin-quote",
+  "displayName": "weixin-quote",
+  "description": "微信渠道『引用即上下文』的『功能装载器』（纯指导型）。**仅在用户明确要求为 openclaw-weixin 渠道启用/修复引用追问时**使用（触发短语：启用微信引用上下文、修复 openclaw-weixin 引用匹配）。本技能指导 agent 先取得明确同意并完成可校验的备份，**之后**才修改用户本机的微信渠道插件源码；完成后引用 bot 消息追问可被准确理解。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weixin-quote"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

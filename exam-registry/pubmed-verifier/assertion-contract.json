@@ -1,0 +1,49 @@
+{
+  "skillId": "pubmed-verifier",
+  "displayName": "pubmed-verifier",
+  "description": "Reference checker for AI-fabricated citations: batch-verify PMIDs against PubMed and catch the hallucination existence checks miss — a REAL PMID pointing to a DIFFERENT paper. Five-state citation verification (correct / mismatch / partial / invalid / unknown), citation-context parsing, Crossref DOI cross-check, retraction detection (capped at partial), correct-PMID suggestion, arXiv ID verification, plain-text reference list parsing, formatted reference lists (GB/T 7714 / Vancouver / APA / AMA), OpenAlex DOI fallback for non-Crossref registries, Chinese-reference title search, CSV/JSON claims, HTML/JSON/text reports. Four data sources: NCBI, Europe PMC fallback, Crossref, OpenAlex. Network failures are honestly reported as unverified, never as \"not found\". Zero dependencies, runs fully local. Triggers: verify PMIDs, check citations, citation audit, reference check, citation check, batch verify references, AI hallucination detection, verify DOI, DOI check, citation formatting, reference formatter, GB/T 7714.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pubmed-verifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

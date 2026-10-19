@@ -1,0 +1,54 @@
+{
+  "skillId": "mearl",
+  "displayName": "mearl",
+  "description": "Use when/适用于以下三个场景：1) 需要登录态的请求 —— 复用浏览器已登录的 Cookie/签名调用接口（mtop/http 请求）；2) 操作浏览器 —— 打开/切换/关闭标签页、点击、输入、滚动、按键、导航、上传文件、执行 JS、截图、页面快照等；3) 调试页面 —— 获取页面请求/控制台日志/埋点事件、查看与设置 mock、添加请求规则（重定向/改请求头）、获取 API schema、查看选中元素信息。通过统一的 mearl CLI 调用 Mearl 能力，兼容本地、CDP 直连与云端连接。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mearl"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

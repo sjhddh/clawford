@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-shopee-store-logistics",
+  "displayName": "Shopee-店铺物流",
+  "description": "Shopee（虾皮）店铺物流发货（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API Logistics 模块全部 46 个接口：get_shipping_parameter、ship_order、get_tracking_number、create_shipping_document、download_shipping_document、get_channel_list 等。当用户提到 Shopee 物流、发货、ship_order、运单号、面单、tracking、揽收地址、物流渠道、READY_TO_SHIP 发货 时触发。即使未明确提及\"物流\"，只要涉及已授权 Shopee 店铺的发货、面单或物流轨迹查询，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-logistics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

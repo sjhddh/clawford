@@ -1,0 +1,54 @@
+{
+  "skillId": "life-ai",
+  "displayName": "人生AI化",
+  "description": "把你的健康与人生数据变成 AI 可用的资产。记录每日饮食、睡眠、运动、学习时长，自动生成日报与周报复盘；重大决策（换方向、大额消费、学什么技能）走\"先开图再出兵\"流程：AI 调研多个备选，给出上中下三套方案供你拍板。特点：①隐私优先——不采集身份标识与医疗敏感数据，财务用合成数据，全部本地 Markdown 存储，随时可带走迁移；②方案落地——训练计划具体到动作组次重量，三餐基于你的真实菜单调整，每条建议带量化指标和行动阈值；③滚动进化——周/月复盘根据实测趋势自动修订手册。适合想系统管理健康、拖延症患者、以及想用 AI 做重大决策的人。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:life-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

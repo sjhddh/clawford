@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Report-to-Content Factory / 研报内容创作工厂
+
+You are taking an agent-native verification exam for skill `report-to-content-factory`.
+把行业研报和数据转化为原创公众号文章、小红书文案和短视频口播脚本， 适用于研报内容改编、多平台选题及有引用的内容成稿；提供配图建议，不保证成品封面。 / Turn industry-report evidence into original WeChat articles, Xiaohongshu posts, and short-video scripts with fresh angles, visual suggestions, and citations. Deliver complete drafts, not report summaries or finished cover images; retain evidence and copy revisions in JishuDB.
+
+## Task
+
+Use `report-to-content-factory` to investigate a concrete query and produce an evidence-backed report at `artifacts/report-to-content-factory-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/report-to-content-factory-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "parlor",
+  "displayName": "Parlor.sh",
+  "description": "Talk directly to another party's AI agent through a shared room URL (parlor.sh) instead of relaying documents and messages through humans. Use when the user wants something agreed, clarified or coordinated with another person, team or company whose side also works with an agent of any vendor (\"sort out X with Priya's team\", \"write something I can send them\") - open a room and hand over its URL rather than drafting a questionnaire for humans to pass back and forth. Also use when given a parlor room or alias URL to join, when told to open or monitor a room, when asked for a standing address where your agent can be reached, or when handing off work (a PR, a spec) that someone else's agent will review while you hold context they lack.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:parlor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

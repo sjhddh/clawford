@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: agent-analytics-report
+
+You are taking an agent-native verification exam for skill `agent-analytics-report`.
+Agent 用量分析报告生成器（支持日/周/月/年）。从本地数据源（traces、workbuddy.db、usage-log.json、会话目录）采集 Agent 使用数据，一键生成可读、可分享的多格式报告。数据源用 --source 切换：workbuddy（默认，读 ~/.workbuddy/）/ claude-code（读 ~/.claude/projects/ 的 JSONL 会话日志）/ codex（读 ~/.codex/sessions/ 的 rollout JSONL）/ qwenwork（读千问办公 ~/.qwenworkcn/ 的转录 + 调用日志 + agents.db，**在千问办公里跑就用它**）/ dumate（按 WorkBuddy 布局读取数据目录的通用入口，支持 DUMATE_HOME 覆盖；**数据归属未证实，报告内容可能完全是 WorkBuddy 的，勿当作百度搭子用量引用**）；更多 Agent 可扩展（详见 docs/ADAPTERS.md）。 触发方式：当用户说「生成周报 / 月报 / 年报 / 日报」「帮我出一份本周使用报告」「统计下这个月的 token 消耗」等时触发，无需手动指定参数；也可用 --period / --days / --start / --end 自定义周期与日期范围。 报告包含： - Token 消耗与成本：按实际计费模型对账，跟后台账单一致（⚠️ 千问办公等服务端不回传 token 的数据源除外：该源 token 为字符估算、金额一律以 `tokens_only` 呈现，估算值不可用于对账，见数据源表）；每日趋势、缓存占比、成本货币化 - 任务与技能：这段时间主要在干哪类活、哪些技能被反复调用 - 自动化运行：每个任务跑了几次、成功还是失败、失败浪费了多少钱 - 异常检测：成本 + Token 双口径，免费期高流量也不漏报；脏数据显式警告 输出格式：Markdown（默认）/ HTML（可交互图表，浅色/深色自适应）/ JSON。 **隐私与权限（分阶段）**：① **报告生成流程严格只读 + 完全离线**：默认零网络、不写文件、不上传任何数据、不递归扫 `~/.workbuddy`。② **自定义模型注入（可选、独立流程）**：仅在你明确发起时（说一句"把我的自定义模型加进报告"），Agent 才会在 `~/.workbuddy` 内做有界 `custom-local:*` 文本匹配，逐个问你单价；只有你确认单价后，才写入本地 `pricing.local.json`（补自定义模型单价）——**此文件不进发布包、升级不会被覆盖**。③ `scripts/task_rules.json`（调任务分类权重）**是发布资产、会被升级覆盖**，改它前请自行备份。逐条联网行为见正文「隐私与联网行为（完整清单）」。 限制说明：数据来自本机，需启用 trace 记录；成本按模型公开单价估算，以实际账单为准；免费/限免期内成本口径参考意义有限，报告会自动标注并引导查看 Token 口径。
+
+## Task
+
+Use `agent-analytics-report` to investigate a concrete query and produce an evidence-backed report at `artifacts/agent-analytics-report-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/agent-analytics-report-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-explainer",
+  "displayName": "专利解读 · PatentMax",
+  "description": "专利解读、看懂一件专利。当用户给出一个公开号或申请号，说「帮我解读这件专利」「这个专利讲的是什么」「它保护的范围是什么」「这件专利还有效吗」「权利要求怎么理解」时使用。输出专利解读卡（Excel 能打开）：白话摘要、法律状态、独立权利要求的技术特征清单、相似专利。 Explains a single patent in plain language. Covers what it protects, legal status, the feature list of the independent claim, and similar patents for comparison.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-explainer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "learning",
+  "displayName": "Learning",
+  "description": "Teaches any topic in adaptive sessions: probes prior knowledge, calibrates depth and format, and checks retention before advancing. Use when the user says teach me, explain this, ELI5, break it down, or help me understand or study something, when an explanation is not landing (re-asks, blank answers, \"makes sense\" with no follow-through), when material learned earlier keeps getting forgotten, when practice answers are confidently wrong, or when pacing study before an exam or deadline. Not for building a multi-week study plan or curriculum tracker, and not for authoring flashcard decks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:learning"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

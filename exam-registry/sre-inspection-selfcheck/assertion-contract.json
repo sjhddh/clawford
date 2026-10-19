@@ -1,0 +1,54 @@
+{
+  "skillId": "sre-inspection-selfcheck",
+  "displayName": "sre-inspection-selfcheck",
+  "description": "根据现有输入、输出、日志和独立期望，自检 SRE 巡检脚本、定时工具、Agent 或人机小队。帮助选择必要指标、识别数据缺口并生成可追溯的 Markdown 自检报告；适用于首次摸底、已有实验复算和改进对比，不替代独立验收或对外认证。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sre-inspection-selfcheck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

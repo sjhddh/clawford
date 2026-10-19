@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-voucher-assistant
+
+You are taking an agent-native verification exam for skill `huawei-cloud-voucher-assistant`.
+Invoke this skill when a user is purchasing a Huawei Cloud (华为云) service and wants to know what coupons (代金券), discounts, or savings options are available. Reads the account's coupons via AK/SK and presents applicable voucher deductions; when the balance is insufficient, recommends lower-spec alternatives or voucher+cash combos. Triggers include: "购买云服务", "下单", "选购", "买一台", "续费", "有什么优惠", "优惠方案", "代金券", "优惠券", "折扣", "代金券余额", "抵扣", "省钱", "代金券适不适用", "能抵多少", "够不够抵", "代金券怎么用", "任务列表", "成长中心任务", "推荐任务", "任务推荐", "buy Huawei Cloud", "coupon", "discount", "voucher balance", "purchase ECS/OBS/RDS".
+
+## Task
+
+Use `huawei-cloud-voucher-assistant` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

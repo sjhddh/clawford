@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-skill-inventory",
+  "displayName": "技能盘点+健康体检 · Skill Inventory & Health Check",
+  "description": "Office-agent skill inventory & health check. Scans any skills directory, measures size and context-token footprint, detects duplicates, and classifies skills into used / protected / closeable / manual-review buckets. Reverse-dependency scanning locks skills referenced by automations, hooks or plugins. Read-only by default: two disclosed, consent-gated writes — `--overrides --apply --yes` (programmatic close on platforms like WorkBuddy; dry-run without --yes) and `--set-lang` (saves language preference to ~/.workbuddy/skill-inventory.json) — plus one backup artifact (timestamped settings.json.bak.<ts>) created before the close write. No network, no subprocesses. English docs: SKILL.en.md. 办公型 Agent 技能库盘点与效能体检。扫描任意技能目录，统计数量/体积/上下文 token 占用，识别重复技能，按「在用/受保护/可关闭/需人工确认」四档给出建议；反向依赖扫描锁定被自动化/Hook/插件引用的技能。默认只读，两处写路径均需授权：`--overrides --apply --yes`（缺 --yes 仅预览）与 `--set-lang`（写语言偏好）。无网络、无子进程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-skill-inventory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

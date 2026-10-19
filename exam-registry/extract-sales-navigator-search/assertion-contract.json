@@ -1,0 +1,49 @@
+{
+  "skillId": "extract-sales-navigator-search",
+  "displayName": "extract-sales-navigator-search",
+  "description": "Extract a Sales Navigator search that is bigger than one extraction can hold: count it, split it under the cap, merge the pieces back to the fewest searches, and load them into a handful of models, for accounts (1,000 per search) or people (2,500 per search), powered by Cargo. Triggers: \"my Sales Nav search has 30,000 results\", \"extract more than 1,000 accounts from Sales Navigator\", \"get past the 2,500 lead limit\", \"split a large LinkedIn search\", \"Sales Navigator search optimizer\", \"the extraction stopped at 1,000\", \"pull every company in this Sales Nav search\". Providers: salesNavigator. Skip when: the search is already under the cap or you want a quick list today — use build-tam-list for companies or find-b2b-leads for people; or you want the list kept current — use tam-building.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:extract-sales-navigator-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

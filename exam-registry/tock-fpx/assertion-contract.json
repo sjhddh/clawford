@@ -1,0 +1,49 @@
+{
+  "skillId": "tock-fpx",
+  "displayName": "tock-fpx",
+  "description": "Query Tock (exploretock.com — restaurant discovery, availability, and the signed-in user's reservations) from a shell with the fpx CLI (@fetchproxy/cli) instead of running the tock-mcp server — list metros, search a metro's restaurants, get a venue's bookable calendar, and list reservations, all through a signed-in browser tab. Use when you want Tock data without the MCP, in a script, or on a machine where the MCP isn't installed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tock-fpx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

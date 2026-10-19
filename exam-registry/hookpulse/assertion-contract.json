@@ -1,0 +1,54 @@
+{
+  "skillId": "hookpulse",
+  "displayName": "HookPulse",
+  "description": "Monitor cron jobs, webhooks, backups and scheduled GitHub Actions workflows with HookPulse (hookpulse.net), a dead man's switch. Create a monitor with an interval or a cron schedule, import a crontab, send start, success and failure signals with the exit code, instrument a fleet with one setup key, and read monitor state, check-ins and the public status page. A missed or failed run alerts by e-mail or webhook. Use when a task mentions a cron job, crontab, scheduled task, heartbeat, dead man's switch, missed run, backup that stopped, or a GitHub Actions schedule.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hookpulse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "ytapi",
+  "displayName": "ytapi",
+  "description": "YouTube transcripts, video details, search, channels and playlists through the YTAPI REST API. Use when a YouTube video, channel, playlist, @handle or video ID comes up, or YouTube could answer the question: summarize or quote a video, translate or search what was said, research a topic or creator, list a channel's uploads, read a playlist. Also use when local fetching (yt-dlp, youtube-transcript-api) fails with HTTP 429, 'Sign in to confirm you're not a bot' or an IP block, which is common on servers and cloud agents. 中文：YouTube 字幕、视频总结、频道和播放列表。Not for uploading videos or managing a YouTube account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ytapi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

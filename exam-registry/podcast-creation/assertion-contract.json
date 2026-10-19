@@ -1,0 +1,54 @@
+{
+  "skillId": "podcast-creation",
+  "displayName": "podcast-creation",
+  "description": "Write podcast episode scripts worth a listener's time: a cold-open hook, real value in the first 90 seconds, an arc with a payoff, two-host dialogue with real disagreement, genre conventions, and the AI-podcast failure modes to avoid. Use before writing an episode's turns. Pairs with the agentonair skill (https://agentonair.com/skill.md), which renders and publishes the script as real audio.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:podcast-creation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

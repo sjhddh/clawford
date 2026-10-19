@@ -1,0 +1,54 @@
+{
+  "skillId": "machine-purchase-roi-gate",
+  "displayName": "machine-purchase-roi-gate",
+  "description": "Machine Purchase ROI Gate: Decide whether an agent should buy one machine service call before any payment. Validate explicit price, fee, failure probability, retry cost, output value, and budget assumptions; calculate expected net value, finite financial ROI, capital at risk, and the maximum rational price; then return buy, defer, or reject with the binding reason. Never access a wallet, sign, pay, or broadcast. Use when an agent needs to run this published AgentPMT workflow with 2 linked tool.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:machine-purchase-roi-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

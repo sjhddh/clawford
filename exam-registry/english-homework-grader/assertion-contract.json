@@ -1,0 +1,54 @@
+{
+  "skillId": "english-homework-grader",
+  "displayName": "English Homework Grader (G3-6)",
+  "description": "Grade and provide feedback on English written homework for Chinese elementary school students in grades 3–6. Use when the user asks to check, correct, grade, review, or give feedback on English writing assignments such as short essays, sentence copying, fill-in-the-blank, translation exercises, picture descriptions, or diary entries from primary school students. Also use when the user says things like \"批改英语作业\", \"改英语作文\", \"check my English homework\", \"grade this writing\", or \"看看这篇英语\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:english-homework-grader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

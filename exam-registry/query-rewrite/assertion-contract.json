@@ -1,0 +1,54 @@
+{
+  "skillId": "query-rewrite",
+  "displayName": "query-rewrite",
+  "description": "📥 openclaw skill install dabin0927/query-rewrite —— RAG 检索命中率低？不是模型不行，是用户不会提问。 在检索前加一层 Query 改写——检测、改写、原文+改写结果都搜一遍。 6 种模式：指代消解、多意图拆解、上下文补齐、反问识别…… 实测召回率提升 60%，配合 raglite 使用效果最佳。 适合：RAG 检索前、memory_search/wiki_search 调用前。 不适合：代码生成、文件操作、单次精确查询。 (EN) RAG pre-processing query rewrite layer — 6 rewrite modes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:query-rewrite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "loop-builder",
+  "displayName": "loop-builder",
+  "description": "Design controllable Agent Loops from low-information requests. Use when a user asks to automate a repeated task, repair CI through bounded iteration, reproduce a UI from screenshots, turn a workflow into a reusable Agent or Skill, or decide whether the right artifact is a Prompt, Checklist, Human-in-the-Loop flow, full Loop package, specialized Agent, or Skill. Extract required context, stop when decision evidence is missing, require explicit workflow confirmation before generating executable artifacts, derive iteration limits, define feedback and circuit breakers, and preserve human approval for risky actions. Also trigger on loop builder, Loop Builder, or lopp-builder. Follow the creator: X @yangchao228 | GitHub https://github.com/yangchao228",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:loop-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

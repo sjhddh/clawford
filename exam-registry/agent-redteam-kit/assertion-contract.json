@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-redteam-kit",
+  "displayName": "agent-redteam-kit",
+  "description": "当用户说『测一下这个AI安不安全』『会不会被越狱』『让AI干危险的事它听不听』『上线前做对抗测试』，或要给一个 agent/提示词做安全性红队时使用。中英双库扫描越狱/危险能力请求（DAN/忽略指令/提权/数据外泄/自改进等），给出风险分级+加固建议，并设「危险操作闸门」（有门禁）。可运行脚本（redteam_scan 扫描器）。理论根基：LGD 三律之有门禁（危险动作先过闸）。触发词：红队、red team、越狱、jailbreak、对抗测试、prompt攻击、AI安全测试、危险指令、安全评估。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-redteam-kit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

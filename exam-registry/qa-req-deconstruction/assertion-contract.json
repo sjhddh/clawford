@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-req-deconstruction",
+  "displayName": "qa-req-deconstruction",
+  "description": "将模糊的需求描述系统化拆分为输入、操作、状态、输出、规则五个可测试维度，同时挖掘显性需求之外的那些\"没写出来但必须满足\"的隐性需求和衍生需求。当用户的需求描述只有一两句话、或者看起来功能很简单但你可能遗漏了什么的时候，一定要用此技能做深度解构。适用于任何测试任务的第二步骤——无论需求文档有多详细，解构之后总能发现盲区。每条需求带唯一 ID（REQ-{模块缩写}-{序号}）。 触发场景：分析这个需求、需求解构、挖掘隐含需求、需求挖掘、需求分析、拆解需求、业务规则提取、需求模糊需要深挖时。 Use when the user asks about: deconstructing a vague requirement into testable dimensions — inputs, operations, states, outputs, and rules — plus mining implied and derived requirements.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-req-deconstruction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

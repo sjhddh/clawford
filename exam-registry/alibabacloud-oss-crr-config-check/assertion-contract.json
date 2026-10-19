@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-crr-config-check",
+  "displayName": "alibabacloud-oss-crr-config-check",
+  "description": "Read-only OSS cross-region replication (CRR) configuration checks. Verify a replication rule and explain why replication is not starting; never creates or modifies a rule. Covers whether a bucket has any replication rule configured before it is relied on for DR, the authorization role, prefix scope, delete-marker and historical-data sync switches, and cold archive or cross-border transfer-acceleration mis-configurations. Also use for a replication investigation plan before execution. Triggers: \"cross-region replication not starting\", \"replication rule config error\", \"AliyunOSSRole authorization\", \"replication delete marker sync\", \"verify whether a bucket has cross-region replication configured\", \"rely on replication for DR\", \"replication investigation plan\", \"replication check\", \"cold archive replication\", \"transfer acceleration not enabled for cross-region replication\", \"replication slow\", \"replication capacity\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-crr-config-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

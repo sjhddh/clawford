@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-tiktok-shop-analytics",
+  "displayName": "TikTok官方-店铺数据分析",
+  "description": "TikTok Shop ERP 数据分析（Analytics）业务技能，经 /tiktokShop/developerProxy（appType=erp）转发 Analytics Open API：获取店铺视频表现（Get Video Performances）。依赖 linkfox-tiktok-shop-auth 选店（传 openId；token 后台化，勿手动 refresh）。当用户提到 TikTok 视频表现、店铺视频数据、视频 GMV、Get Video Performances、shop_videos/performance、视频销量/浏览量分析、analytics video 时触发。**不含授权**；**不含达人侧视频发布**（用 linkfox-tiktok-video）；商品/店铺绩效等可后续扩展本 skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-tiktok-shop-analytics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

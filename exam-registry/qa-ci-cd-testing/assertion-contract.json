@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-ci-cd-testing",
+  "displayName": "qa-ci-cd-testing",
+  "description": "当需要把测试集成到 CI/CD 流水线中、或者现有流水线的测试环节跑起来效率低不可靠时使用此技能。覆盖流水线各阶段的分层测试卡点设计（提交检查→单元测试→接口测试→UI 测试→回归测试）、工具集成策略和质量门禁配置。不要在 CI 里堆满慢的 UI 测试——而是构建测试金字塔：提交阶段跑最快的（<5min），合码阶段跑核心的（<15min），夜间跑全量的。 触发场景：CI/CD、持续测试、流水线测试、质量门禁、自动化回归、提交即测试、构建流水线需要加入测试环节时。 Use when the user asks about: integrating tests into a CI/CD pipeline — layered quality gates, fast commit-stage tests, and release blocking criteria.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-ci-cd-testing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "biz-auto-hub",
+  "displayName": "商业自动中枢",
+  "description": "商业自动中枢是面向一人公司与小团队的自动化架构师能力包。它不只教你怎么搭工作流， 更解决三个高频痛点：自动化做完不知道省没省钱、自动化失败却无人察觉、不该自动化的 任务也硬自动化反而增加维护负担。 核心能力： - 自动化准入评分卡：用频次/时长/错误影响/复杂度/集成度五维打分，过滤低ROI任务 - 静默故障防护...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:biz-auto-hub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "jd-quicklearn",
+  "displayName": "jd-quicklearn",
+  "description": "分析陌生岗位 JD 并生成零基础可读的岗位学习指南，覆盖公司与业务背景、岗位职责、核心知识体系、技能拆解和学习路径。用于用户提供或描述 JD、要求研究岗位、快速理解职位、了解部门业务或补齐岗位知识时。不生成或收集面试题库、历史真题、预测题或答题框架。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jd-quicklearn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

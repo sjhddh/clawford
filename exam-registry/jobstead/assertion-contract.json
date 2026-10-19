@@ -1,0 +1,49 @@
+{
+  "skillId": "jobstead",
+  "displayName": "jobstead",
+  "description": "Helps a job-seeker decide whether a role is actually worth their time, then tells their story for it — beautifully. Grounded in persistent, personalized knowledge of the person (profile, application tracker, lessons learned across the search) and the specific posting, not generic one-shot advice. Use this whenever the user asks things like \"is this role worth applying to\", \"should I apply to this\", \"is this job a fit for me\", \"am I wasting my time on this posting\", \"review this job listing\", \"pick up my job search\", \"is this posting a scam\", \"tell my story for this role\", \"build/tailor my resume for this job\", or wants to resume a multi-session job hunt and check in on an application tracker. Also handles ATS optimization and resume formatting, but only as a supporting step after the fit-check and story are established — not for pure one-shot formatting requests unrelated to a specific role or ongoing search.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jobstead"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "rebar-table-audit",
+  "displayName": "钢筋数量表核对 / Rebar Table Audit",
+  "description": "从结构图纸（DWG/DXF）里找出设计方自带的“钢筋/材料工程数量表”（LINE 网格 + TEXT/MTEXT），还原成结构化表格，做 R001–R006 确定性算术核对（单根长×根数=总长、总长×单位理论重量=重量、行重量之和=表内声明合计等），输出 evidence.json、钢筋数量表.xlsx、report.md，每个单元格值和每条疑点都带图元 handle。适用于隧道/地下结构等算量审图场景，用户要“钢筋量”“导出钢筋表”“核对数量表”“钢筋表有没有算错”时使用。不适用：不做配筋图几何独立算钢筋（翻样），不处理扫描件/PDF/BIM 模型，不对算术不一致下“设计错误”结论。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rebar-table-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

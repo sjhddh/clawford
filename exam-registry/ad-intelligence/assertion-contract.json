@@ -1,0 +1,49 @@
+{
+  "skillId": "ad-intelligence",
+  "displayName": "Ad intelligence",
+  "description": "When the user wants to see what a company is running in paid ads — on Meta (Facebook, Instagram, Threads), Google, LinkedIn and TikTok — what the ads say, which creatives have run longest, where they send people, and how the messaging differs by platform. Also use when the user mentions \"competitor ads\", \"ad library\", \"what are they advertising\", \"ad teardown\", \"their Meta ads\", \"Google Ads transparency\", \"swipe file\", \"what hooks are they using\", or wants to compare several advertisers. Input is one or more company names or domains; output is a per-advertiser teardown with every cited ad linked to its public ad-library page, plus a cross-advertiser comparison when there is more than one. Runs on Glasser (paid per call). For a company's whole competitive picture beyond ads, see competitor-research. For what is trending organically, see social-trends.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ad-intelligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

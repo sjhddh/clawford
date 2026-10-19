@@ -1,0 +1,49 @@
+{
+  "skillId": "bocha",
+  "displayName": "Skill",
+  "description": "博查 Web 搜索（Bocha Web Search）——中文优先、中国大陆直连的联网搜索。适用于中文查询、时效性信息、事实核查与带引用的回答。(Chinese-first web search with direct China mainland access. Use for Chinese-language queries, time-sensitive information, fact-checking, and citation-backed answers.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bocha"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

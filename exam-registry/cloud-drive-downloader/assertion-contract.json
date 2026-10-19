@@ -1,0 +1,54 @@
+{
+  "skillId": "cloud-drive-downloader",
+  "displayName": "网盘通",
+  "description": "通用下载调度层：Agent/MCP/CLI、Web UI 与浏览器插件三类入口；支持 macOS/Windows/Linux；local 默认，NAS/服务器 Docker 可选。优先走官方网页会话/官方接口/浏览器捕获直链，不破解登录/付费/限速/风控/DRM。用户自行确保下载合法。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cloud-drive-downloader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

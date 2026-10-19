@@ -1,0 +1,49 @@
+{
+  "skillId": "constraint-aware-safe-routing",
+  "displayName": "Constraint-Aware Safe Routing",
+  "description": "Design, review, or operate AI-agent workflows that route among local responses, cloud models, tool calls, and abstention while separating competence, authorization, availability, OOD escalation, constraint shifts, and token budgets. Use for tool-using agent architecture, routing policies, safety gates, blindspot analysis, or evaluations; do not use for ordinary one-off tool calls.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:constraint-aware-safe-routing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

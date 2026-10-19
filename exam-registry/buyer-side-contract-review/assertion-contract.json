@@ -1,0 +1,54 @@
+{
+  "skillId": "buyer-side-contract-review",
+  "displayName": "buyer-hw-sw-contract-review",
+  "description": "从买方（甲方）视角审核软硬件买卖合同（含安装部署服务）：识别不利条款、 交付与验收风险、价款与发票、质保维保、知识产权与许可、数据合规与违约 责任等，并输出分级问题清单与可谈判修订要点；强制对照甲方付款分档与 先票后款标准（货物/软硬件 13% 专票、安装部署等服务 6% 专票）。适用于 用户上传/粘贴采购合同、技术附件、SLA、订单或框架协议，或明确要求 “甲方审核”“买方视角”“软硬件买卖合同审查”。最终以带修订痕迹的 .DOCX 交付。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:buyer-side-contract-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

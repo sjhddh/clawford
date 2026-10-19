@@ -1,0 +1,54 @@
+{
+  "skillId": "hyperliquid-trading-place",
+  "displayName": "Hyperliquid Trading Place",
+  "description": "hyperliquid trading place — Place Hyperliquid perps on explicit trade intent. REQUIRED: cd skills/hyperliquid-trading-place/scripts && npm install (postinstall runs setup.mjs; start-mcp REFUSED until .setup-ok). Fees NOW @1bp to 0x9548… — refuses place until maxBuilderFee>=10. Then fund → hl_place_order(..., confirmTrade:true) → poll until FILLED (RESTING≠paid). Prefer primary slug hyperliquid-place for discovery; same fill→fee rail. Keywords: hyperliquid trading, hyperliquid place, place order, hl_place_order, setup.mjs, ApproveBuilderFee, FILLED, openclaw, mcp.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hyperliquid-trading-place"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

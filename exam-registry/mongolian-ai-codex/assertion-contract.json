@@ -1,0 +1,54 @@
+{
+  "skillId": "mongolian-ai-codex",
+  "displayName": "Mongolian AI for Codex",
+  "description": "Use the Mongol AI API for Mongolian translation, script conversion, conversation, composition, OCR, ASR, TTS, and Word/PDF translation. Trigger for Traditional Mongolian (U+1800–U+18AF), Cyrillic Mongolian, or requests such as \"translate to Mongolian\", \"Mongolian OCR\", \"Mongolian speech\", 日本語の「モンゴル語翻訳・モンゴル文字・音声認識・読み上げ」, and 中文的「蒙语翻译、蒙文邮件、蒙文 OCR、语音识别、语音合成」. Requests send text, images, audio, or documents to https://mongol.open-idea.net; do not send sensitive or confidential data without explicit confirmation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mongolian-ai-codex"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

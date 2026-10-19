@@ -1,0 +1,54 @@
+{
+  "skillId": "source-verification",
+  "displayName": "信源甄别·反投毒信息过滤器",
+  "description": "被软文和垃圾信息源包围？AI 搜索时代内容农场泛滥，同一篇'TOP 榜单'通稿出现在几十个网站，融资额、估值、市场份额全是抄的。信源甄别在信息入口执行三层过滤（域名信誉→内容指纹→交叉验证），输出 P0/P1/P2 可信度分级，拦截营销通稿与内容农场，让调研、简报、选题只吃干净信息。内置信源黑白名单（持续维护），单一来源自动标注'待验证'，软文丢弃必留痕。适合自媒体调研、行业研究、资讯采集、内容创作前的信息源质检。Source credibility triage & content-farm filter.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:source-verification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

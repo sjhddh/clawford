@@ -1,0 +1,49 @@
+{
+  "skillId": "weather-openmeteo",
+  "displayName": "Weather (Open-Meteo 全免费能力版)",
+  "description": "Query current, hourly, 15-minutely, 16-day weather, history/archive, air quality + pollen, marine waves, river flood, weather alerts, elevation for any city or coordinates via free Open-Meteo APIs (no key). Units switching, model choice, batch/compare, geocoding filters. Use for temperature/rain/snow/wind/UV/AQI/pollen/waves/flood/packing advice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weather-openmeteo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

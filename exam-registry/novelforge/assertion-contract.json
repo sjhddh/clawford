@@ -1,0 +1,54 @@
+{
+  "skillId": "novelforge",
+  "displayName": "NovelForge",
+  "description": "通用小说创作与叙事引擎系统。面向短篇、中篇与长篇连载等各类小说，通过故事筑基 SOP 驱动题材对齐、规模承载力评估、总纲与世界观立项；通过自动化流水线驱动原生 Markdown Wiki 构建、蓝图校验、上下文编译、正文起草、双独立审查与事实结算；支持从小说或文章语料中两阶段提炼与构建自定义叙事引擎。当用户输入包括「新书立项」「故事筑基」「设计世界观」「规划总纲」「规模评估」「题材对齐」「写小说」「写下一章」「写第X章」「改写」「补充伏笔/钩子」「规划大纲」「检查质量」「章节结算」「继续流水线」「暂停写作」，或要求「参考某小说/文章提炼引擎」「构建叙事引擎」等任意小说创作与引擎构建任务时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:novelforge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

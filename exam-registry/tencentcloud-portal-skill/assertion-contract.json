@@ -1,0 +1,49 @@
+{
+  "skillId": "tencentcloud-portal-skill",
+  "displayName": "腾讯云官网文档搜索 SKILL",
+  "description": "在用户需要使用腾讯云官网公共（Tencent Cloud Portal）能力时加载。公共能力是腾讯云官网（cloud.tencent.com）的统一服务入口，通过 TCCLI 的 ``portal`` 系列接口调用。当前提供的能力：文档搜索（查询云产品文档、操作指南、API 文档、最佳实践、故障排查等）。触发词示例：\"搜索腾讯云文档\"、\"腾讯云官网搜索\"、\"查一下腾讯云…怎么配置\"、\"腾讯云文档搜索\"、\"帮我搜腾讯云…的文档\"、\"查云产品文档\"、\"portal search\"、\"search tencent cloud docs\"。不适用于：操作云资源（CVM/轻量服务器/VPC 等）——本技能面向官网门户信息类能力，不管理资源。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencentcloud-portal-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

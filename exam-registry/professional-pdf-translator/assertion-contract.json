@@ -1,0 +1,54 @@
+{
+  "skillId": "professional-pdf-translator",
+  "displayName": "professional-pdf-translator",
+  "description": "通用长篇文献/小说多页PDF逐页自动提取、匹配用户提供的本地术语表并翻译追加至DOCX的自动化工作流。适用于任何具有特定受众、包含大量专有名词的长文献、小众长篇小说、学术论文、技术白皮书等PDF翻译场景。用户自行提供原文PDF、专业术语对照表及输出路径。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:professional-pdf-translator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "pikpak-search",
+  "displayName": "pikpak-search",
+  "description": "在 PikPak 中遍历目录并本地匹配文件名/路径，支持 AND/OR、正则、file/folder/any、排序及 JSON。用于云盘搜索、找文件或文件夹。 Use when searching a PikPak drive for files or folders by name or path: keyword, AND/OR, regex, sort by name/size/time, JSON output. Traverses directories locally; does not rely on a server-side search API.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pikpak-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

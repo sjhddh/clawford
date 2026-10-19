@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-iac-reverse",
+  "displayName": "huawei-cloud-iac-reverse",
+  "description": "Reverse-engineer existing Huawei Cloud resources into deployable Terraform IaC code. Queries all resources via RMS (Config/配置审计) API, analyzes specs and topology service-by-service, then synthesizes Terraform HCL configurations with provider validation. Use when the user wants to generate IaC from existing cloud resources, migrate infrastructure to code, or reverse-engineer cloud topology. Triggers include: \"逆向生成IaC\", \"反向生成Terraform\", \"从现有资源生成代码\", \"reverse engineer IaC\", \"generate Terraform from existing resources\", \"infrastructure to code\", \"cloud to IaC\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-iac-reverse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

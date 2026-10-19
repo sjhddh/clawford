@@ -1,0 +1,54 @@
+{
+  "skillId": "mu-multi-agent",
+  "displayName": "多Agent协作指挥官",
+  "description": "✨ 一个Agent变一支队伍，还告诉你什么时候不用组队\n\n【主要适用场景】\n1、多个方向要同时调研，最后汇总成一份报告\n2、批量同类任务（简历初筛、文档翻译、多版本文案）并行处理\n3、高风险输出（评估报告、对外文档）需要独立评审把关\n4、不确定任务该不该拆、怎么拆的时候\n\n【重要功能/亮点】\n1、🧭 三模式自动路由——指挥官/流水线/混合，不用手选\n2、🚦 前置判断清单，简单任务直接劝退不硬并行\n3、🔎 评审Agent分离，五维评分表只挑错不夸奖\n4、📊 每次跑完一张统计卡，并行收益一眼可见\n5、🪂 零依赖纯方法论，无子Agent能力也能降级使用",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mu-multi-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

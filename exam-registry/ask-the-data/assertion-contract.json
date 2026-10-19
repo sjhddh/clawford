@@ -1,0 +1,49 @@
+{
+  "skillId": "ask-the-data",
+  "displayName": "ask-the-data",
+  "description": "Part of the Overpowered skill suite. Answer reproducible questions from structured data files such as Excel, CSV, JSON, TSV, or Parquet by discovering useful inputs, reading data dictionaries, loading durable relations when helpful, inspecting schema, querying only what is needed, and returning traceable results. Use when the answer is in tabular/structured files rather than prose documents.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ask-the-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

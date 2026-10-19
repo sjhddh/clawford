@@ -1,0 +1,54 @@
+{
+  "skillId": "listen",
+  "displayName": "Listen",
+  "description": "Repairs garbled speech-to-text input: fixes mistranscribed names, numbers, and commands in voice-dictated messages. Use when a message arrived by voice and a word breaks the sentence, dictation mangles proper nouns, jargon, amounts, times, or email addresses, the user says \"no, I said X\" or repeats themselves, transcripts contain filler, spoken punctuation, or hallucinated sentences, the user dictates an email or document by voice, or an STT engine (Whisper or cloud speech) needs vocabulary tuning for recurring terms. Not for transcribing audio files or for typed-text typos.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:listen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

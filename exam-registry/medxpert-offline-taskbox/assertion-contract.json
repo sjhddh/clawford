@@ -1,0 +1,54 @@
+{
+  "skillId": "medxpert-offline-taskbox",
+  "displayName": "MedXpert 跨机任务箱·低配省算力",
+  "description": "AI 任务太烧钱？低配电脑也能跑大模型——白天派活，晚上回家让本地模型免费跑完，断网也不停。MedXpert 跨机任务箱：WorkBuddy×DSH（DeepSeek Harness）×本地 Ollama 三级协同，批量/重复/文档/敏感任务零云端消耗，复杂推理才上云端。L1-L5 分级路由已代码级实现（add 自动打标 + route 查询）、失败自动重试、同步包双机合并、防僵尸续跑，纯 Python 零依赖即下即用，旧电脑也能当执行节点。模型 API 涨价？跟它无关。省积分、断网续跑、离线任务队列、任务路由与成本控制都找它。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:medxpert-offline-taskbox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

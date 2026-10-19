@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-provider-whisper-v1-tool-pro",
+  "displayName": "Whisper v1转录专业版",
+  "description": "基于 Whisper v1 稳定版本的企业级语音转文字工具(专业版)。核心能力: - 涵盖免费版全部能力(v1 稳定 CLI、多格式输出、翻译) - 批量处理:目录递归与任务队列 - 模型管理:多版本预加载与热切换 - 性能调优:GPU 加速、半精度推理、批处理 - 自定义词典:initial_prompt 注入领域术语 - 服务化部署:FastAPI 封装,支持远程调用 - 质量评估:置信度分析与校对流程 - 任务监控:进度追踪与日志审计 适用场景: - 企业会议纪要自动化 - 视频/播客批量字幕生成...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-provider-whisper-v1-tool-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

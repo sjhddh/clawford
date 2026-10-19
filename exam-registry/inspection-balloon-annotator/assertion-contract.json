@@ -1,0 +1,54 @@
+{
+  "skillId": "inspection-balloon-annotator",
+  "displayName": "检验气泡标注",
+  "description": "机械图纸(矢量/扫描PDF或图片)检验气泡标注一体化工具：生成红色圆圈+编号的\"检验气泡标注图\"(PDF+PNG)，并产出单一合并检验表(5 sheet：检验记录表/标注图纸(气泡图)/未注公差基准/汇总/关键特性专项)。当用户要求\"做气泡图/检验气泡图\"\"标关键尺寸/形位公差\"\"生成检验表/首件检验清单(FAI)/全尺寸检验报告/IQC-OQC检验表\"\"尺寸与公差 Excel 报表\"时使用。自动高分辨率渲染、多方向OCR精确定位、编号自动避让+吸附、一般公差(GB/T1804-f / GB/T1184-H)套用、覆盖性自检。关键词：检验气泡图 气泡标注 首件检验 FAI 全尺寸检验 品质QC",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:inspection-balloon-annotator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-network-topology-audit",
+  "displayName": "huawei-cloud-network-topology-audit",
+  "description": "Orchestrator skill that audits Huawei Cloud network topology for security and configuration risks. Given a user-described access path (e.g., \"ELB web-elb → CCE prod-cce → RDS prod-db\"), it resolves the real topology, expands to the full VPC network surface, evaluates risks against an extensible rule directory, and produces a Markdown audit report with a Mermaid topology diagram. Triggers include: \"组网审计\", \"网络拓扑审计\", \"安全组审计\", \"网络合理性检查\", \"网络风险审计\", \"network audit\", \"topology audit\", \"security group audit\", \"network risk check\", \"组网评估\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-network-topology-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "startup-analysis",
+  "displayName": "Startup analysis",
+  "description": "When an investor wants to evaluate a startup as a potential investment — is the market big enough, is the team right, is the traction real, does it have a moat — and come away with a verdict. Also use when the user mentions \"analyze this startup\", \"is [company] a good investment\", \"evaluate [company]\", \"research this startup\", \"what do you think of [startup]\", \"startup assessment\", \"should we take a look at\", or names a startup and asks for an investment read. Input is a startup name or domain; output is an investment analysis scored by stage, with a thesis, key risks, and a verdict. Runs on Glasser (paid per call). For a sourced diligence memo before committing — red flags, legal and regulatory checks, open questions for the data room — see investor-diligence. For rivals to the user's own product, see competitor-research.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:startup-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

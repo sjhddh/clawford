@@ -1,0 +1,54 @@
+{
+  "skillId": "pharmaceuticals-exploration-zhcn",
+  "displayName": "pharmaceuticals-exploration-zhcn",
+  "description": "用于回答药物相关问题。对于早期药物，搜索并汇总相关专利、学术文献、数据库记录、临床试验、专利和授权交易文件来回答问题。 当用户明确提及特定药物时激活，或在调用 disease_investigation_skill 或 target_intelligence_skill 时作为辅助： - 指定输出某药物的特征或其他记录 - 搜索与特定疾病相关的药物 - 搜索靶向特定靶点的药物 典型查询 - 请告诉我靶向 GLP-1R 治疗糖尿病的司美格鲁肽 - 瑞德西韦是什么药？ - 用于治疗乙型肝炎的药物 - ALN-F12",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pharmaceuticals-exploration-zhcn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

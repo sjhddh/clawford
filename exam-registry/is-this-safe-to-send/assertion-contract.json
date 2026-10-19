@@ -1,0 +1,54 @@
+{
+  "skillId": "is-this-safe-to-send",
+  "displayName": "Is this safe to send? Right chat, no secrets",
+  "description": "Is this safe to send? Am I sending this to the right chat, and does it contain anything that must not leave? Use this before sending a message to any target other than the conversation you are replying in, before forwarding content between chats or channels, and whenever the text could carry a credential, a token, or the contents of a config file. Checks the target against this session's origin conversation and earlier sends, and scans the text for secret-shaped values (sk-, AKIA, ghp_, xoxb-, JWTs, private key blocks, password=) and credential paths (~/.ssh, .env, .aws/credentials). Returns exactly SEND, CONFIRM_WITH_USER or DO_NOT_SEND with reasons. Do not use for a plain reply in the same conversation with no sensitive content.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:is-this-safe-to-send"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

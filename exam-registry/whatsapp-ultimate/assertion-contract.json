@@ -1,0 +1,54 @@
+{
+  "skillId": "whatsapp-ultimate",
+  "displayName": "TinkerClaw WhatsApp",
+  "description": "You put 5 agents in a WhatsApp group. They all respond at once. Your API bill does a backflip. Protocol v2 fixes that — congestion control, conversation lifecycle, and budget-aware scheduling. Agents that know when to talk, when to shut up, and when to burn unused tokens before reset. Built for the TinkerClaw fork — github.com/globalcaos/tinkerclaw. Documentation only: this package ships no scripts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:whatsapp-ultimate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

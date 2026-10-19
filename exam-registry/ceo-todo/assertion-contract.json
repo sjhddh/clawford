@@ -1,0 +1,54 @@
+{
+  "skillId": "ceo-todo",
+  "displayName": "ceo-todo",
+  "description": "Maintains one canonical markdown file as a CEO's single source of truth for everything they're on the hook for, and runs the Getting Things Done loop over it — capture, clarify, organize, reflect, engage. Turns pasted emails, meeting notes, and asks into clarified next-actions with an owner and a priority, tracks status with a fixed vocabulary ([OPEN]/[DONE]/[STALE]/[WAITING]), ages open items to [STALE] after 7 days, flags [WAITING] items past their reply-by date, archives done work without ever deleting it, and never auto-closes an item the CEO added by hand. Every mutating run is snapshot-backed and gated by a bundled deterministic validator so a commitment is never lost, corrupted, or silently changed. Use this skill whenever the user says \"run my to-do\", \"update my todo doc\", \"what am I on the hook for\", \"GTD\", \"getting things done\", \"capture this\", \"triage my inbox into my todos\", \"weekly review\", \"single source of truth\", \"CEO to-do\", \"/ceo-todo\", or points at a markdown to-do file and asks to keep it current. Based on the single-doc system Brian Halligan shared publicly. For the automated Gmail + Slack daily version, see the ceo-todo-daily agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ceo-todo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

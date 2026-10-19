@@ -1,0 +1,54 @@
+{
+  "skillId": "scam-wallet-screener",
+  "displayName": "scam-wallet-screener",
+  "description": "Screens Ethereum and other EVM wallet addresses (Base, Polygon, BSC, Arbitrum, etc.) against the ScamSniffer community-maintained blocklist of known phishing, wallet drainer, and scam addresses, with no API key required. Use this when the user asks to check if a crypto address is a scam, verify a wallet before sending funds or signing a transaction, screen for wallet drainer addresses, check if an address is blacklisted or flagged for phishing, do a quick on-chain safety check before an airdrop claim or NFT mint, or wants a fast keyless scam address lookup tool. Pulls a public, actively updated JSON feed (~2,500+ known bad addresses) and caches it locally for 6 hours. Complements, but does not replace, deeper on-chain forensics or paid threat-intel services — a clean result means the address is not on this particular list, not that it is verified safe.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scam-wallet-screener"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

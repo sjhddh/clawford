@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-radar",
+  "displayName": "记忆雷达",
+  "description": "面向AI Agent记忆文件的安全扫描系统，解决Prompt注入检测难、凭证泄漏被动发现、扫描误报高、跨文件威胁关联缺失四大痛点. 提供七大威胁类别检测、五级安全分级、本地+可选远程LLM分析、跨文件威胁关联、误报抑制、隔离与恢复、增量扫描七大核心能力. 适用于Agent记忆定期安全审计、引入外部数据后注入检测、...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

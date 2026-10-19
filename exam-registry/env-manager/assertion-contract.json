@@ -1,0 +1,54 @@
+{
+  "skillId": "env-manager",
+  "displayName": "env-manager",
+  "description": "Scaffolds dev project files (package.json, Dockerfile, Cargo.toml, etc.) for Python, Node, Docker, Go, and Rust, AND tracks project service/port inventory and runtime state (metadata only — no process control). Returns a list of toolchain commands for the calling agent to run. Writes scaffold files and JSON state (environments/ports/services) only inside the project workspace (repo root), or a descendant directory set via the ENV_MANAGER_WORKSPACE env var (confined to within the repo root).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:env-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

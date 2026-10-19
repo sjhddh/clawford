@@ -1,0 +1,54 @@
+{
+  "skillId": "music-video",
+  "displayName": "music-video",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai, plus the music file the finished video must carry. Your audio never reaches the API (measured) — the visuals are written to the track's tempo, mood and sections, then your own file is laid on locally at zero cost. One job caps at 30 seconds, so a three-minute song is six jobs minimum and the cost table says that before anything is spent. Use when a user has a specific piece of music and wants visuals for it, e.g. \"make a music video for this track\", \"visuals for my song\", \"an MV for this instrumental\", \"generate footage cut to this beat\". Do not use for cheap vertical social drafts (shorts-reels), a brand film that happens to have a music bed (seedance-ad-creative), or when there is no particular audio file the finished video has to carry.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:music-video"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "pikpak-telegram-bot",
+  "displayName": "pikpak-telegram-bot",
+  "description": "用 Telegram Bot 遥控 PikPak：授权私聊或群内授权发送者提交链接、查询任务与根目录。标准库长轮询，持久 update/message 去重，提交未知不自动重放；部署与发送必须获明确授权。 Must use when 用户提到 Telegram 遥控 PikPak、TG 机器人存磁力、telegram bot for PikPak、send magnet via Telegram。 Use when controlling PikPak from Telegram: submit links in an authorized chat or group, query task status and root listing. Long polling with persistent dedup; never auto-replays an unknown submission. Deployment and outbound sends each need explicit authorization.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pikpak-telegram-bot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

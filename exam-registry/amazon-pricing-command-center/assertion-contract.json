@@ -1,0 +1,49 @@
+{
+  "skillId": "amazon-pricing-command-center",
+  "displayName": "amazon-pricing-command-center",
+  "description": "Data-driven pricing strategy engine for Amazon sellers. Given one or more ASINs, auto-detects each product's leaf category, analyzes the pricing landscape, and delivers RAISE/HOLD/LOWER signals with profit simulation. Supports single ASIN or batch (multiple ASINs, auto-grouped by category). Uses ZooData API endpoints with cross-validation. Use when user asks about: pricing strategy, how much to price, optimal price, price optimization, competitor pricing, price war, BuyBox strategy, profit margin, pricing analysis, should I raise price, should I lower price, price comparison, price positioning, repricing, should I raise or lower price. Requires ZOODATA_API_KEY.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:amazon-pricing-command-center"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

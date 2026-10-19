@@ -1,0 +1,54 @@
+{
+  "skillId": "software-license-check-free",
+  "displayName": "软件许可与云资源费用核对（免费版）",
+  "description": "软件许可与云资源台账逐项核对（许可数量乘每许可年单价乘折扣、月均等于年费用除以12、订阅起止与账期月数勾稽、装机或账号数超许可数、重复行与合计勾稽、空缺负值与日期倒挂检测），每条结论引用原文行号。本免费版执行引擎声明的免费检查项。触发词包括 软件许可核对、许可超装、闲置账号、云实例超配、订阅到期提醒、许可台账对不上。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:software-license-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

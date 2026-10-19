@@ -1,0 +1,54 @@
+{
+  "skillId": "neo-ppt-skills",
+  "displayName": "neo_ppt_skills",
+  "description": "以 GordenSuperPPTSkill 为主线的端到端 PPT 生产技能：阶段一用 imagegen 逐页生成「图片型 PPT」，阶段二把每页图四层还原为可编辑 PPTX（背景图/骨架图/元素图标/真文本），同时交付图片型 PPT 与可编辑 PPTX。另内置 bank-all（27 套 577 页）与 bank-lite（18 套 339 页）银行营销合辑模板的 GordenPPTSkill 快线换字，以及图片矢量复刻备选管线。当用户要\"端到端出一份既好看又能编辑的 PPT\"、\"按主题/文章出 PPT\"、\"用 bank 模板换字出稿\"、\"把图片转成可编辑 PPTX\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:neo-ppt-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

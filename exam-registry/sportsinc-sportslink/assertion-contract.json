@@ -1,0 +1,54 @@
+{
+  "skillId": "sportsinc-sportslink",
+  "displayName": "sportsinc-sportslink",
+  "description": "Sports Inc SportsLink API adapter — pull a dealer's invoices (\"documents\") from the Sports Inc SportsWeb Invoice Center and mark them consumed. Sports Inc is a buying group that does NOT send individual vendor invoices; its SportsLink REST API is where the invoices live. Use when you need to retrieve Sports Inc invoices for payables — \"get the Sports Inc invoices\", \"pull SportsLink documents\", \"fetch this month's SI invoices to match against POs\". This is the SOURCE adapter only: it authenticates, pages, normalises each SI document into a common invoice shape (po_number, invoice_number/date, lines[], charges, total, is_credit), and marks documents historical once imported. Some documents are scanned rather than EDI, so the API returns their header totals with NO line items (`has_lines: false`) — every retrieval names those in `needs_line_recovery`, and they are not billable as returned. For each, this skill logs in to the SportsWeb portal, downloads the invoice PDF, OCRs the scanned vendor invoice into text for the agent to read, and then checks the extracted lines against the API's own merchandise total before any of it is billable. It is customer-agnostic (every Sports Inc dealer uses this same API) and touches no ERP — pair it with a payables workflow (e.g. `drivethru-payable-matching`) to match against POs and create the bill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sportsinc-sportslink"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "pikpak-batch-backup",
+  "displayName": "pikpak-batch-backup",
+  "description": "按 PikPak 文件夹树生成下载计划并安全复制到新的本地目录；不覆盖已有文件，校验大小，生成本地 SHA-256 清单。尚不支持增量、字节续传或远端内容校验。 用于云盘备份到本地、批量下载、备份计划与完整性边界咨询。 Use when backing up a PikPak folder to local disk in one pass: download plan, never overwrite existing files, verify size, write a local SHA-256 manifest. No resume, no incremental sync, no remote content verification.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pikpak-batch-backup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "mc-mod-translate",
+  "displayName": "Mc Mod Translate, English to Simplified Chinese",
+  "description": "Translate Minecraft Java Edition mod content from English to Chinese using a community-maintained dictionary (Dict-Sqlite.db, 900K+ entries from i18n-Dict-Extender) and zh.minecraft.wiki for vanilla game terms. Use when translating mod language files (.lang/.json), FTB Quests SNBT files, config files, Patchouli books, or any text content in Minecraft mods. Prioritizes dictionary matches, falls back to wiki lookup, then context-based agent translation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mc-mod-translate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-waf-openapi-error-diagnosis",
+  "displayName": "alibabacloud-waf-openapi-error-diagnosis",
+  "description": "Diagnose why an Alibaba Cloud WAF OpenAPI call failed: find which request parameter's name, format, value, or required-ness disagrees with the official spec, and return a corrected call in the same channel. Covers BOTH generations -- WAF 2.0 (version 2019-09-10) and WAF 3.0 (version 2021-10-01) -- across CLI, SDK, and raw RPC. Read-only: fetches the authoritative parameter spec and diffs the request; never runs a write action and needs no credentials for the core diff. Use when a call returns InvalidParameter / MissingParameter / a malformed-parameter error, when parameters filled per the docs still fail, when a CLI action is \"not available in the current API version\", or when asked which parameter is wrong. Not for: credential/signature, RAM denials, throttling, not-purchased, server 5xx, rule-not-effective, or why one request was blocked. Triggers: \"WAF OpenAPI 报错\", \"InvalidParameter\", \"MissingParameter\", \"参数格式错误\", \"哪个参数错了\", \"not available in the current API version\", \"which parameter is wrong\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-waf-openapi-error-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

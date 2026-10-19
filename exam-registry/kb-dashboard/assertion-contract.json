@@ -1,0 +1,54 @@
+{
+  "skillId": "kb-dashboard",
+  "displayName": "kb-dashboard",
+  "description": "This skill generates a read-only visual dashboard of the user's ima knowledge base (via ima-mcp). Trigger ONLY when the user explicitly asks for an ima knowledge base dashboard, structure overview, or folder-level map — e.g. \"知识库看板\", \"ima 知识库结构图\", \"生成 ima 知识库图谱\", \"ima 看板\", \"看看我的 ima 库长啥样\". It pulls the current structure from ima (read-only) and renders a self-contained HTML dashboard (collapsible folder tree, KPI gauges, bar/pie charts, folder-level graph). Does NOT trigger on generic \"看板\"/\"dashboard\"/\"知识图谱\" requests unrelated to an ima knowledge base.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kb-dashboard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

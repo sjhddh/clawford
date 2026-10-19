@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-release-gate",
+  "displayName": "skill-release-gate",
+  "description": "所有 skill / MCP / 专家上架前必过的\"上架三铁律\"发布闸门——① 国家+国际合规 ② AI 特别友好 ③ 理念文化·强IP·好故事。含 A/B/C/D 分级加闸、GB45438 内容标识、五件套植入规范。内置可离线运行的安全扫描执行器（PII/密钥扫描、去敏复核）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-release-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

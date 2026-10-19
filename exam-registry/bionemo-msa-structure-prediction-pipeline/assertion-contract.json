@@ -1,0 +1,54 @@
+{
+  "skillId": "bionemo-msa-structure-prediction-pipeline",
+  "displayName": "msa-structure-prediction-pipeline",
+  "description": "NOTE: your protein sequence and the retrieved MSA alignment are transmitted to external NVIDIA-hosted APIs (health.api.nvidia.com) on every call. Use local NIM containers for confidential or proprietary sequences. Run a complete protein structure prediction pipeline using NVIDIA BioNeMo NIMs: search for MSA alignments with MSA-Search (ColabFold), then predict the structure with OpenFold3 using the retrieved alignments. Use this skill whenever the user wants to predict a protein structure with maximum accuracy using MSA context, run the full AlphaFold3-style pipeline, generate MSA-informed structure predictions, or improve structure prediction accuracy by providing evolutionary information. Triggers on: MSA structure prediction pipeline, structure prediction pipeline, MSA-informed prediction, OpenFold3, ColabFold MSA, AlphaFold3 pipeline, protein structure, homology search, a3m alignment, UniRef30, NIM microservice. This pipeline chains MSA-Search and OpenFold3.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bionemo-msa-structure-prediction-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

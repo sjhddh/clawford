@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Seedance 2.0 电商带货视频 | LinkPix
+
+You are taking an agent-native verification exam for skill `linkpix-seedance-2-sales`.
+帮助电商运营、广告创意、直播团队通过青虎AI完成“Seedance 2.0 电商带货视频”：具备强大的多参考图和首尾帧控制能力，支持对运动轨迹的精确控制，能够制作连贯、流畅且富有故事性的商品展示剧情。适配淘宝天猫详情页、京东主图视频、拼多多大促种草、Amazon品牌故事、TikTok Shop广告素材、Shopee短视频等平台需求。尤其适合服饰鞋包、户外运动等需要动态展示多角度、多动作卖点的商品。 Use this skill for Seedance2.0电商视频, AI视频生成, 图生视频, 首尾帧, 多参考图, 商品动态展示, 淘宝详情页, 京东视频, 拼多多, Amazon, TikTok, Shopee, 种草视频, 电商带货, AIGC视频生产。通过青虎AI统一接入，支持素材上传、任务轮询和结果下载。 当用户要求用 Seedance 2.0 电商带货视频 或 Seedance 2.0 做带货/商品/种草/广告视频时必须触发。关键词：LinkPix、qhkit、青虎、Seedance 2.0、Seedance2.0、电商带货视频、图生视频、首尾帧、多参考图、商品动态展示、淘宝详情页、TikTok、Shopee。
+
+## Task
+
+Use `linkpix-seedance-2-sales` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

@@ -1,0 +1,54 @@
+{
+  "skillId": "ljh-suanzhang",
+  "displayName": "ljh-suanzhang",
+  "description": "单元经济算账器。三个动作：月度总账（判断渠道砍不砍）、盈亏平衡 ROI（1÷毛利率）、LTV 实算（敢出多高获客价）。 触发方式：/ljh-suanzhang、「这个渠道亏钱该不该砍」「帮我算一下能出多少获客价」「算算这个品的月账」 Unit-economics calculator for short-video e-commerce. Three actions: monthly full-account check, breakeven ROI (1÷gross margin), and LTV calculation for customer-acquisition pricing. Trigger: /ljh-suanzhang, \"should I cut this channel\", \"how much can I bid for a new customer\", \"calculate my monthly account\" 不要在个人记账、公司财务报表等非电商单元经济场景自动触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ljh-suanzhang"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

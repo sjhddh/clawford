@@ -1,0 +1,54 @@
+{
+  "skillId": "linkdigest-script-rewrite",
+  "displayName": "linkdigest-script-rewrite",
+  "description": "对标视频脚本仿写：给一条抖音、小红书或 TikTok 爆款视频链接，先提取它的口播稿（逐字稿）和结构（开头钩子、分段节拍、标题公式、结尾引导），再按同样的结构写出你自己主题的口播脚本。用户说「仿写这条视频」「照这个结构写个脚本」「扒一下这条视频的文案再改写」「口播稿改写」时使用。原视频内容通过 LinkDigest API 读取，引用逐字核对原文，需要 LINKDIGEST_API_KEY；仿写由你当前的模型完成，不另收费。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkdigest-script-rewrite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

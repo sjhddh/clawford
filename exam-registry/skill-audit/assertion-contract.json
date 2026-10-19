@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-audit",
+  "displayName": "Skill Audit",
+  "description": "Audits agent skills for prompt injection, hidden instructions, data exfiltration, and supply-chain risk before install and after updates. Use when vetting or scanning a skill from a registry, repo, or pasted folder, deciding whether a skill is safe to install or trust, diff-auditing a skill update, sweeping everything installed, verifying a package or publisher name against typosquats, or when the agent behaved oddly and a skill may explain it. Covers stealth language, undeclared endpoints or paths, obfuscated and encoded payloads, malicious scripts, and compromised-skill incident response. Not for auditing application source code or judging whether a skill is useful.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

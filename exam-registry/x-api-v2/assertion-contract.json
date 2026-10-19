@@ -1,0 +1,49 @@
+{
+  "skillId": "x-api-v2",
+  "displayName": "X",
+  "description": "Read and post on X (Twitter) via the official X API v2. With an app bearer token: look up a profile, read an account's recent posts (optionally without retweets or replies), read a thread its author wrote in the last 7 days, search posts from the last 7 days with X's search operators, and look up posts by URL or ID (up to 100 at once). With a one-time OAuth 2.0 sign-in in the browser: read the signed-in account's home timeline (newest first), list its bookmarks (filtered by text, or just their links), list liked posts, and publish a post, which only shows a preview until run again with --yes. The bearer token and the OAuth client come from env vars or config.json; the sign-in is stored owner-only (by default in ~/.openclaw/x), renewed automatically, and revoked by logout. Every command can also print JSON (--json). X bills API use per request. Use when the user asks to look someone up on X, read recent posts or a thread, search X, see their home timeline, bookmarks or likes, or post on X.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:x-api-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

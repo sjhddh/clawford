@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-learn",
+  "displayName": "元习 yotta-learn",
+  "description": "元习 —— 跨智能体的知识库技能：把跨项目可复用的经验、方法、避坑与教程沉淀进分类知识库（草稿 → 审核 → 可检索），供所有智能体与项目复用；首次使用由 AI 引导初始化知识库位置并自动接入 MCP。触发：值得沉淀的时刻（命令失败 / 被用户纠正 / 发现更好做法 / 知识过时 / 请求缺失能力 / 外部接口故障）与需要查询知识的时刻（开工前 / 动手解决不显然问题前 / 用户问\"以前怎么解决的\"）；或用户说 知识库 / kb / 查知识 / 记一笔 / 沉淀 / 经验 / 踩坑 / self-improvement / learnings 等。边界：私密 / 敏感信息不写入知识库（走元忆私密区）；项目专属经验写项目自身文件；不自动改动系统文件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-learn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

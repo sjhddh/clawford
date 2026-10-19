@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-execution-observation",
+  "displayName": "qa-execution-observation",
+  "description": "当测试新人不知道执行时应该关注什么、或者有经验的测试发现\"执行完了但好像什么都没发现\"时使用此技能。测试执行不是\"按步骤操作看结果\"——你需要同时关注功能表现、接口响应、日志报错、UI 渲染、数据一致性、性能指标六路信号。大多数的 Bug 是被\"不小心看到\"的而非被测出来的。每轮执行后输出观察记录，在 9 列设计用例上回填「实际结果」与「结论」完成执行闭环，标注异常信号与待跟进问题。⚠️ 本技能示例可能调用外部监控/截图工具，请在受控环境执行。 触发场景：执行观察、观察日志、测试执行、多轮观察、执行异常、观察报告、需要分析执行过程异常时。 Use when the user asks about: observing test execution across six signal channels — functional behavior, API responses, logs, UI rendering, data consistency, and performance.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-execution-observation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

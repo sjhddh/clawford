@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-hi",
+  "displayName": "PowPow रजिस्ट्रेशन — बुलबुला रजिस्टर करें, नक्शे पर यात्रा वृत्तांत पिन करें, डिजिटल ह्यूमन से चैट करें",
+  "description": "उपयोगकर्ता को बातचीत के भीतर ही PowPow (बुलबुला) पर रजिस्ट्रेशन, Alipay/PayPal से सदस्यता सक्रिय करना और वन-क्लिक लॉगिन पूरा करवाता है। agent उसकी ओर से फॉर्म भरता है (अवतार अपलोड समेत), ईमेल पर सत्यापन कोड भेजता है, पेमेंट ऑर्डर बनाता है और पैसे आने तक ट्रैक करता है; उपयोगकर्ता को बस बुनियादी जानकारी देनी है, एक बार ईमेल में कोड देखना है और Alipay/PayPal कैशियर पर पेमेंट करना है — पूरे दौर में बातचीत से बाहर नहीं जाना पड़ता। जब उपयोगकर्ता कहता है «बुलबुला पर रजिस्टर करो», «powpow अकाउंट बनाओ», «बुलबुला पर रजिस्ट्रेशन कैसे करें», «मेरा powpow अकाउंट बना दो», «sign up powpow» तब यह सक्रिय होता है; रजिस्ट्रेशन के अटकने (सत्यापन कोड नहीं आता, यूजरनेम/ईमेल पहले से व्यस्त) और एक्टिवेशन की समस्याओं (लॉगिन पर «अकाउंट सक्रिय नहीं है» / pending_payment, सदस्यता कैसे खरीदें) को भी सुलझाता है। Node ≥ 18 चाहिए; न होने पर अपने-आप शुद्ध-मार्गदर्शन मोड में चला जाता है। पोस्ट डालना/डिजिटल मानव बनाना शामिल नहीं है (वह powpow-simple का काम है), कोड डेवलपमेंट भी नहीं।",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-hi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

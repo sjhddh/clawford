@@ -1,0 +1,54 @@
+{
+  "skillId": "cleanup",
+  "displayName": "cleanup",
+  "description": "Run the self-improving loop before session end. config - enable/disable individual tasks [config.md], hook-review - review hook errors and suggest improvements [hook-review.md], rag-store - persist to RAG before session end + sync fix_plan completed items to RAG (medium matrix fallback) [rag-store.md], run - 4-step sequential execution pipeline, entry point and Steps 0-1 [run.md]; its step bodies live in run-self-improve.md (Step 2), run-knowledge-persist.md (Step 3), run-checklist-sync.md (Step 4-A/4-B) and run-wip-handoff.md (Step 4-C/Step 4.5). Mistake recording (retrospect) and FA pruning moved to the fa skill — invoke Skill(\"fa\") / Skill(\"fa\", \"fa-prune\"). Supports Ralph mode (records to improvements.md instead of AskUserQuestion). Use on \"wrap up\", \"session cleanup\", \"end session\", \"cleanup\", \"record mistake\", \"save feedback\", \"improve\", \"retrospect\", \"hook error\", \"next action\", \"RAG store\", \"qdrant store\", \"fix_plan sync\", \"cleanup --auto\", \"cleanup --ralph\", \"auto mode\", \"ralph mode\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cleanup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

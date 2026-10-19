@@ -1,0 +1,54 @@
+{
+  "skillId": "enterprise-due-diligence",
+  "displayName": "企业尽调-分析生成",
+  "description": "企业尽调技能。对目标企业进行法律、财务、业务三维度尽职调查，自动从公开数据源（企查查等）获取工商信息，结合用户提供的文档，生成结构化Word尽调报告和检查清单。支持双模板：轻量版（默认，5章公开信息初筛，快速背景调查）与基础版（7章完整尽调，投资/并购级）。适用场景：投资尽调、并购尽调、合作前背景调查、IPO前初步评估等。当用户提出'帮我做尽调'、'DD一下这家公司'、'企业背景调查'、'轻量版尽调'、'基础版尽调'、'due diligence'等需求时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:enterprise-due-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}
