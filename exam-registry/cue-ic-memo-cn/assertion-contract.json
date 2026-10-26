@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-ic-memo-cn",
+  "displayName": "cue-ic-memo-cn",
+  "description": "投决备忘录草稿生成：输入是一家公司名／六位代码或你手上的材料，产出七节备忘录——摘要、事实与数字、业务要点、风险与反方、缺数与未决、人工复核、来源索引；每个数字带披露或监管源＋字符/页定位，取不到的行直接写「未取到」，正反两方各至少一条否则机检拦下。适合投前材料整理、内部讨论稿、需要「每条数都能回原文核」的场合。Do NOT use for: 评级、目标价、买卖建议（一律 `[待人工]`）、最终决议（本件只起草，用户负终审）、估值测算（无行情与持仓数据腿，只做适用性声明）、整体风险打分。Triggers: 投决备忘录 / IC 备忘录 / 投前材料 / 讨论稿逐条可回查",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-ic-memo-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

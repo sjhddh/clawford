@@ -1,0 +1,54 @@
+{
+  "skillId": "mexico-vat-precheck",
+  "displayName": "Mexico VAT Pre-Check",
+  "description": "Mexico VAT (IVA) pre-check for cross-border sellers (Amazon MX, Mercado Libre). Upload draft filing data and platform statements to check six high-frequency error categories: rate & zone, RFC registration, platform withholding tiers, import & pedimento handling, filing frequency, pricing & CFDI e-invoicing — outputs a structured risk report. Trigger words: Mexico VAT pre-check, Mexico IVA check, RFC withholding, Mercado Libre tax, Amazon Mexico tax.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mexico-vat-precheck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

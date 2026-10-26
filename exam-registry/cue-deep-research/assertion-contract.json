@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-deep-research",
+  "displayName": "Cue 深度研究（通用版）",
+  "description": "Cue 深度调研通用版——通过 Cue 服务端调用公开数据源完成多维度交叉验证研究。覆盖A股/港股/美股/工商/司法/监管/研报/资金流/招投标等公开数据，每条结论带原链接可回查。仅限公开信息检索，不处理个人数据或非公开信息。支持仿写（mimic），让报告模仿指定文档的写作风格。触发词：深度研究、调研分析、竞品对标、行业趋势、基本面分析",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-deep-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

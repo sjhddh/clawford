@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-dcs-list
+
+You are taking an agent-native verification exam for skill `huawei-cloud-dcs-list`.
+1. List Huawei Cloud DCS (Distributed Cache Service, Redis / Memcached) instances in a tenant region through KooCLI (hcloud DCS ListInstances — read-only GET /v2/{project_id}/instances), with an automatic fallback to the official huaweicloudsdkdcs v2 SDK when hcloud is not installed. 2. Default output is the compact instance-name list (名称列表, also available via --names-only); --table renders the full-field table (名称/ID/引擎/版本/容量/规格/状态/连接地址/端口/可用区), and --json outputs the raw response array. 3. Supports --name (server-side fuzzy query, plus --name-equal exact match), --instance-id / --ip / --status / --tags filtering (all real server-side ListInstances query parameters), region override, and automatic limit/offset paging. 4. Explicit error hints for empty instance lists (「当前区域无 DCS 实例」), 403 / insufficient IAM permission (「无权限访问分布式缓存服务（DCS）」), missing or invalid AK/SK credentials, missing project_id on the SDK fallback, and hcloud not installed. 5. Built-in write-intent guard: any mutating intent (create / delete / update / resize / restart / flush / clear / restore / backup / freeze) or any operation other than ListInstances is rejected before execution — this skill is strictly read-only. 6. Triggers include: "list DCS instances", "DCS instance list", "查询 DCS 实例列表", "DCS 实例列表", "Redis 实例列表", "缓存实例列表", "查询缓存实例", "DCS inventory", "list cache instances", "华为云 DCS 列表". 7. Offline unit tests (mocked hcloud subprocess) cover output modes, filters, paging, error scenarios, SDK fallback, and the write-intent guard.
+
+## Task
+
+Use `huawei-cloud-dcs-list` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

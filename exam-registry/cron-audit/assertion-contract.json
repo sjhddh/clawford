@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-audit",
+  "displayName": "cron-audit",
+  "description": "Audit OpenClaw cron jobs for failures that stay silent — announce delivery that cannot resolve a recipient (channel \"last\" in an isolated session, Discord with no \"channel:\" target), error streaks nobody saw, output or failure alerts that were never delivered, bestEffort muting, jobs without failure alerts, overdue schedules and jobs that never ran. Use when the user asks why a cron job \"does nothing\", whether scheduled jobs are healthy, wants a cron health check or watchdog, or before re-enabling an old job.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "engram",
+  "displayName": "engram",
+  "description": "Local associative memory graph for an OpenClaw workspace, shipped as a set of CLI scripts: engram.py (store/recall/msgctx/task ledger over SQLite+FTS+embeddings), engram-migrate.py (markdown to nodes), engram-serve.py and bq.py (optional warm daemon over a Unix socket), embeddings.py (ONNX e5 vectors), engram-backup.py (nightly SQLite backup with retention), engram-sleep.py (nightly consolidation, optional local-Ollama distillation), engram-maintenance.py and engram-hygiene.py (dedupe/orphan/archive tiering), engram-aliases.py (alias curation), engram-rewire.py (opt-in: slims MEMORY.md, adds marked cron lines, asks first), engram-uninstall.py (full revert). Task evidence strings run through the shell. No network calls except to localhost Ollama, and only if you enable it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:engram"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

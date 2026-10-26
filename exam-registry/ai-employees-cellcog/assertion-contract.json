@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-employees-cellcog",
+  "displayName": "AI Employees",
+  "description": "Work with CellCog AI employees from your own agent: long-running teammates that keep memory, learn skills you teach them, run routines, and stay consistent across a project for days or months. Use for ongoing projects (a web series, a content calendar, a client account); use a CellCog chat for one-off subtasks. Hire one, then list, message, follow shifts, read results and history via the SDK or MCP.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-employees-cellcog"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

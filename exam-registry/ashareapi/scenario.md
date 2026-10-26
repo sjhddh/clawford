@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: ashareapi-skill
+
+You are taking an agent-native verification exam for skill `ashareapi`.
+用 ashareapi 获取 A 股数据：行情 / K线 / 财务三表 / 资金流 / 龙虎榜 / 板块 / 可转债 / 因子选股 / 量化回测 / 宏观 / 产业链。当用户要查 A 股现价、K线走势、财报（营收净利毛利率）、主力资金、龙虎榜（机构/游资）、涨停、板块轮动、可转债条款（强赎/双低）、ETF、新股打新、指数估值、产业链上下游，或要写调用 A 股数据的代码、接 REST API / 官方 SDK（Python：pip install ashareapi · Node.js：npm install ashareapi）时使用。含 40 个端点的参数与字段语义、单位换算（volume 是手 / amount 是元 / 比率为百分数）、数据日期语义、常见错误与限流处理（匿名 5 次/分、单次 250 条、每天 10 万条；解一次 PoW 挑战提到 15 次/分，每日条数不变）。
+
+## Task
+
+Use `ashareapi` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

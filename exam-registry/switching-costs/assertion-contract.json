@@ -1,0 +1,54 @@
+{
+  "skillId": "switching-costs",
+  "displayName": "switching-costs",
+  "description": "Activate when: user asks why customers don't switch to a better product, how to make a product stickier or build a moat, how to compete against an entrenched incumbent, why churn is low but revenue growth stalled, or mentions lock-in / vendor lock-in / stickiness / data moat / Klemperer. Do NOT activate when: the product is a one-shot transaction with no ongoing relationship, or the user is designing adversarial lock-in and needs ethical pushback first. More: deciqai.com/c/switching-costs",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:switching-costs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

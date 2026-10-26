@@ -1,0 +1,49 @@
+{
+  "skillId": "pyai-recap",
+  "displayName": "PyAI Recap — Conversation Summaries",
+  "description": "Retrieve summaries with `pyai recap get`, or summarize timed customer/agent transcripts with `pyai request`. Use for PyAI Recap IDs, key points and action items. This skill is guidance for the `pyai` CLI; `pyai-recap` is not an executable or MCP tool. Requires recap:read and Recap enabled; does not record calls or send follow-ups.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pyai-recap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

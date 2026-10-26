@@ -1,0 +1,54 @@
+{
+  "skillId": "tokei-agent",
+  "displayName": "tokei-agent",
+  "description": "Tokei (tokei.io) is a pre-launch, waitlist and giveaway platform — launch pages, competition giveaways, sweepstakes, referral and viral-loop campaigns, Product Hunt launch drives, Gleam-style and KickoffLabs-style entry pages. This CLI controls them from the command line — list, clone, update, publish and unpublish pages, upload images and video, set prizes, reward tiers and deadlines, restyle pages, and read stats, leaderboards, top referrers, signups, survey responses, winner selections and the webhook event catalog, plus manage webhooks (all 5 events) — all via the Tokei v1 REST API.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tokei-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

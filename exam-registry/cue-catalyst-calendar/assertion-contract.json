@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-catalyst-calendar",
+  "displayName": "持仓催化剂日历",
+  "description": "给你持仓列表 + 时间窗，产出按日期排的盯盘日历：每条事件的日期要么已有披露在场且含明确 YYYY-MM-DD，要么 statute 原文推导且适用条件在锚内可判；未披露的推测事件、任何日期算术都进不了表。机检对评级词与褒贬零容忍（词族以机检现值为准，本文所举为常见例）；豁免只有两条口径：类型列整列不扫、官方披露词组按词形豁免。适合：财报季前置、组合盯盘节奏、投研会材料。不适合：涨跌与择时建议、事件影响判断（本件只陈述不判断，也没有留白判断位）。 Do NOT use for: trade timing, impact calls, rumour-sourced events.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-catalyst-calendar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

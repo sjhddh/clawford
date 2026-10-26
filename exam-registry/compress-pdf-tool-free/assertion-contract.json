@@ -1,0 +1,54 @@
+{
+  "skillId": "compress-pdf-tool-free",
+  "displayName": "PDF压缩工具（免费版）",
+  "description": "PDF压缩工具免费版，通过API上传PDF文件进行压缩处理，支持图像质量参数调整（如75/85/95）和DPI分辨率设置（如144/300）。上传后通过轮询机制获取任务状态，完成后返回下载链接供用户获取压缩后的文件。适用于文档归档、邮件附件优化、网页上传文件大小限制等需要减小PDF文件体积的常见场景。 功能涵盖: compress。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compress-pdf-tool-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

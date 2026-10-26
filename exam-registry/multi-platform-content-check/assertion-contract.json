@@ -1,0 +1,54 @@
+{
+  "skillId": "multi-platform-content-check",
+  "displayName": "多平台内容检测&安全改写",
+  "description": "多平台内容检测&安全改写技能。对任意中文文本执行三维一体检查：广告法合规（绝对化用语、虚假宣传、特殊品类限制等）、主流平台内容规范（微信公众号、小红书、抖音、快手、知乎、B站、微博、百家号、头条号、搜狐号）、去AI化（基于Wikipedia完整模式清单的30+种AI写作特征检测）。每次检查前强制执行实时联网搜索，获取最新的广告法动态、平台政策变更、新增敏感词和监管执法案例，确保检查依据不过时。检查完成后输出可直接复制发布的合规版本，已按目标平台格式适配（标题字数、排版、标签、emoji等），用户无需二次修改。本技能不读取用户本地文件，不向第三方发送用户内容；联网搜索仅用于获取最新政策信息。触发",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multi-platform-content-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

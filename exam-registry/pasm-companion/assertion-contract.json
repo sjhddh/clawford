@@ -1,0 +1,54 @@
+{
+  "skillId": "pasm-companion",
+  "displayName": "pasm-companion",
+  "description": "Elderly companion agents built on the PASM cognitive engine. ElderlyCompanion stores key facts (medication, allergies, family, self) at salience 5 on first start and retrieves them by label at 100% hit rate - it can never forget what the user is allergic to. detect_crisis() recognises four crisis classes (chest/cardiac, fall/trauma, altered consciousness, self-harm) and escalate() writes an unevictable emergency memory and returns the escalation context (contact, suggested action, snapshot) for your notifier. due_medication() does time-based medication prompting. Zero LLM dependency, offline-runnable. NOT a medical device. Keywords: pasm, elderly care, companion, medication, crisis escalation, memory, offline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pasm-companion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-weekly-menu",
+  "displayName": "huawei-cloud-weekly-menu",
+  "description": "Randomly generate a one-week menu (7 days by default, with breakfast / lunch / dinner every day) from a self-contained dish library. Picks dishes at random, avoids repeating the same dish within the same meal slot across the week when the pool allows, prints a readable Markdown or plain-text menu, and is reproducible through a --seed flag. Implemented with the Python 3 standard library only; it does not call the Huawei Cloud CLI, any Huawei Cloud SDK, or any REST API, and it touches no cloud resource. Triggers include: \"生成一周菜单\", \"随机生成菜单\", \"一周食谱\", \"规划一周饮食\", \"帮我排一周菜谱\", \"weekly menu\", \"random menu\", \"meal plan\", \"weekly meal planner\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-weekly-menu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "octopost",
+  "displayName": "octopost",
+  "description": "Post, schedule, queue and thread posts to X (Twitter) through Octopost, with a human approval queue (Threads after Meta approval; Bluesky, LinkedIn and Mastodon in testing). Use when the user says \"post this to X\", \"tweet this\", \"post on Twitter\", \"cross-post this\", \"share this launch\", \"announce the release\", \"schedule a tweet for tomorrow at 9\", \"queue these posts\", \"post this as a thread\", \"turn this into a thread and post it\", \"put this up for approval\", \"approve the queued post\", \"what's in my post queue\", \"reschedule that post\", \"cancel the scheduled post\", \"retry the failed post\", or \"post a changelog update\". For drafting copy the user hasn't asked to publish, write it in chat and call Octopost only once they want it posted. Octopost doesn't send DMs, reply to mentions or report analytics.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:octopost"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

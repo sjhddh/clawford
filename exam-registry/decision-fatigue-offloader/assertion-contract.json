@@ -1,0 +1,54 @@
+{
+  "skillId": "decision-fatigue-offloader",
+  "displayName": "决策疲劳卸载器",
+  "description": "低价值日常决策卸载工具。用户说'随便''不想选''午饭吃什么''今天穿什么'时触发，读取预设规则和所在城市消费水平后直接拍板，不列利弊矩阵。最多只追问一个字段；城市未知时按默认城市或全国均值处理。触发词：不想做决定、随便、帮我选、决策疲劳、午饭吃什么、今天穿什么。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:decision-fatigue-offloader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

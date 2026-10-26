@@ -1,0 +1,54 @@
+{
+  "skillId": "representativeness-heuristic",
+  "displayName": "representativeness-heuristic",
+  "description": "Activate when: user says 'this person/startup looks like a winner', 'I know one when I see it', 'they have the profile of a great hire', 'this reminds me of [famous success]', or any judgment where a vivid profile drives a probability estimate without an explicit base rate. Also activate when auditing for the conjunction fallacy or when pattern-matching is cited as the basis for a high-stakes decision. Do NOT activate when: probability is computed directly from data with no narrative element; base rate and profile have already been reconciled via explicit Bayesian reasoning. More: deciqai.com/c/representativeness-heuristic",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:representativeness-heuristic"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-client-tools-diagnosis",
+  "displayName": "alibabacloud-oss-client-tools-diagnosis",
+  "description": "Read-only diagnosis of OSS client tool failures. Use when the customer reports an ossbrowser login failure or 403, an ossutil error such as InvalidAccessKeyId, AccessDenied, a missing or expired STS token, a connect timeout while uploading files, or a RequestTimeTooSkewed clock skew, when a client cannot connect to OSS, or when the customer asks which ossbrowser or ossutil version to standardize on. Also use for a troubleshooting plan or information checklist. Triggers: \"ossbrowser login failed\", \"ossbrowser 403\", \"ossutil AccessDenied\", \"ossutil InvalidAccessKeyId\", \"client cannot connect to OSS\", \"RequestTimeTooSkewed\", \"SecurityTokenExpired\", \"SigningContext.Credentials\", \"region must be set in sign version 4\", \"The Security Token may be lost\". Answers only; runs no client commands, calls no cloud API. Do NOT use for SDK/API errors not naming ossbrowser or ossutil, endpoint selection, presigned URL, billing, or throttling (503/SlowDown).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-client-tools-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

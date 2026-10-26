@@ -1,0 +1,54 @@
+{
+  "skillId": "context-token-budget",
+  "displayName": "context-token-budget",
+  "description": "Guard AI context usage with a fail-closed token budget — stop burning tokens. 用 fail-closed 的 token 预算守护 AI 上下文，防止积分烧光。 适用场景：当需要估算上下文 token 用量并执行 fail-closed 预算（防止超限烧积分）时使用本技能；触发词：context、token、budget、上下文预算、限额。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:context-token-budget"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

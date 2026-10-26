@@ -1,0 +1,54 @@
+{
+  "skillId": "document-engine",
+  "displayName": "Document Compliance Audit Engine",
+  "description": "Deterministic, offline compliance audit engine for Chinese business documents (contracts / regulations / official docs / generic). Pure Python standard library, zero third-party dependencies, no network, no LLM. Pipeline: segmentation -> clause-level rule scan -> document-level audit (completeness / consistency / rights-duty balance / official-doc format) -> responsibility anchoring -> scoring -> HTML / JSON / Markdown report. All verdicts are deterministic (a hit is a verdict); no probability estimates are ever emitted. Ships 15 built-in rules (generic + per-type) and supports external rule directories via --rules-dir. Fully local: reads only the input file you pass, writes only the report file you name.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:document-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "radar-virales-f100k",
+  "displayName": "radar-virales-f100k",
+  "description": "Módulo del Autopilot F100K que corre diariamente: caza el HECHO más reaccionable del día —un lanzamiento de IA, una movida de marketing de una marca grande, o un formato viral SIN cara— evitando a propósito reaccionar a creadores del mismo nicho (eso le entrega la audiencia a un competidor). Elige 1 ganador con scoring + filtro de exclusión, genera un guion de reacción listo para grabar con la voz del usuario donde ÉL es el intérprete del hecho, y envía todo por email. Usar cuando alguien diga: \"corre mi radar\", \"qué hay viral hoy\", \"dame el viral del día\", \"ejecutar radar diario\", \"qué puedo reaccionar hoy\", o cuando el schedule automático lo invoque. Requiere config en cerebro/f100k-config.json — si no existe, instruir a correr /rutina-maestra-formula100k primero.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:radar-virales-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "audio-upload-aioz-stream",
+  "displayName": "Audio Upload Aioz Stream",
+  "description": "基于 AIOZ Stream API 的音频上传技能，通过三步流程 (Create → Upload Part → Complete) 将本地音频文件上传至 AIOZ 流媒体平台。支持默认快速上传与自定义编码配置 (质量预设、码率、采样率、标签、元数据)，上传完成后触发 服务端转码并返回 HLS/DASH 流媒体...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audio-upload-aioz-stream"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

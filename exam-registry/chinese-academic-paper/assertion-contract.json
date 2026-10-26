@@ -1,0 +1,54 @@
+{
+  "skillId": "chinese-academic-paper",
+  "displayName": "chinese-academic-paper",
+  "description": "中文课程论文综述写作与排版导出。触发词：算法综述 / 课程论文 / 作业综述 with 小四 + 宋体 + 双倍行距 + docx+pdf 输出要求；GB/T 7714 参考文献排版；学术作业类长文（约 20 页）。流程覆盖参考文献真实性核查、章节大纲、正文写作、docx+pdf 双格式导出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chinese-academic-paper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cuishu",
+  "displayName": "萃书",
+  "description": "萃书——书籍精华萃取与信息图生成。输入书名，自动获取书籍素材，生成：100字简介、3个核心观点、5条行动建议，并生成一张高质量信息图。适用于：(1) 用户说\"萃书 + 书名\" (2) 用户说\"帮我萃取/总结/提炼某本书的精华\" (3) 用户要求生成书籍信息图 (4) 用户想快速了解一本书的核心内容并落地为行动。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cuishu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

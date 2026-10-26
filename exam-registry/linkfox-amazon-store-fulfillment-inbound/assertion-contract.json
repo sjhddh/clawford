@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-fulfillment-inbound",
+  "displayName": "亚马逊-店铺Fulfillment Inbound",
+  "description": "亚马逊 FBA 入仓与 Fulfillment Inbound 全流程管理。用于创建和管理 inbound plan，处理装箱、placement、shipment、货件内容更新、送达窗口、自配送预约、运输方案、商品合规、预处理、箱唛标签、提单及异步操作状态。用户提到 FBA 入库计划、Send to Amazon、创建入仓计划、packing option、placement option、transportation option、货件箱唛、入仓标签、送仓预约、shipmentConfirmationId、createInboundPlan、Fulfillment Inbound API、v2024-03-20 或 v0 入仓接口时触发。即使未明确说“Fulfillment Inbound”，只要希望把库存发往亚马逊运营中心并完成建仓、装箱、分仓、运输或交仓步骤，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-fulfillment-inbound"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

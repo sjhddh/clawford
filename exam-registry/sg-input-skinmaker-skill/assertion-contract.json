@@ -1,0 +1,54 @@
+{
+  "skillId": "sg-input-skinmaker-skill",
+  "displayName": "搜狗输入法皮肤制作skill",
+  "description": "搜狗输入法「热词/热梗皮肤」生成 skill，运行于各种 AI client 应用中（如 workbuddy、Codex、Trae 等）。 当用户上传一张图片，希望「基于这张图做风格化图生图、生成一张皮肤/背景图」时使用。典型触发语：「用这张 图做一张热词皮肤」「把这张图改成 XX 风格做皮肤」「根据这张图生成搜狗输入法皮肤」。该 skill 把预设生图 规范与用户的风格描述（可选）融合后，对用户上传的图片做图生图，最后把生成的图片与「校园AI创意皮肤大赛 互动页面」一并返回给用户，由用户自行打开。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sg-input-skinmaker-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

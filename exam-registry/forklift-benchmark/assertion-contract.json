@@ -1,0 +1,49 @@
+{
+  "skillId": "forklift-benchmark",
+  "displayName": "forklift-benchmark",
+  "description": "FK-Bench v2 叉车具身智能评测基准。让当前模型(无需任何外部 API)直接读题作答并自动评分、生成可视化图表报告。从 722 道题(6 模块×7 场景×3 难度)中抽题、用三层打分引擎(红线否决+LCS+参数IoU)打分。当用户提到叉车任务评测/评估、给模型或动作方案打分、自测/跑分、抽叉车操作题、动作方案是否合规、具身智能(embodied AI)benchmark、FK-Bench 时使用——即使没有明说\"benchmark\"。也用于解答叉车作业标准(GB/T 43756、ISO 3691-1、TSG 11)相关问题。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:forklift-benchmark"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

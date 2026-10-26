@@ -1,0 +1,54 @@
+{
+  "skillId": "title-diagnostic-report",
+  "displayName": "Title Diagnostic Report - 综合诊断报告",
+  "description": "综合诊断学术论文标题，生成完整的分析报告。 用于：一次性检查标题的各个方面（贡献度、结构、语法、声明、关键词）并生成完整报告。 触发场景：\"综合诊断\"、\"完整分析这个标题\"、\"帮我全面检查标题\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:title-diagnostic-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

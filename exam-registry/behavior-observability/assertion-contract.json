@@ -1,0 +1,54 @@
+{
+  "skillId": "behavior-observability",
+  "displayName": "behavior-observability",
+  "description": "给自主智能体/自动化流水线提供「行为可观测性」：把每一次动作（工具调用、LLM 调用、决策门、 审核结论）以结构化事件落盘，支持多维查询、指标聚合（错误率/平均时延/P95）与行为时间线回放， 便于事后审计、故障归因与策略调优。与 safety-guardrails（决策）和 human-in-loop-review（审核） 互补：它们的决策/审核事件都应 emit 到本日志，形成完整可信行为轨迹。 触发词：行为可观测性、行为追踪、审计日志、事件溯源、observability、trace、agent 监控、 行为时间线、错误率统计。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:behavior-observability"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

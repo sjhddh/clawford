@@ -1,0 +1,49 @@
+{
+  "skillId": "empiriolabs-transcribe",
+  "displayName": "EmpirioLabs AI Transcribe",
+  "description": "Transcribe audio or video files to text with EmpirioLabs AI, from an https URL or a local file. Use when the user asks for a transcript of a recording, meeting, interview, podcast, voice note, or video, wants speaker-labeled text, or needs the spoken words as text for notes, summaries, or captions. Runs a bundled Python script that picks a transcription model from the live catalog (or the one you name) and waits for the result.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:empiriolabs-transcribe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

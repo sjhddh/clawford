@@ -1,0 +1,54 @@
+{
+  "skillId": "code-refactor-all",
+  "displayName": "code-refactor",
+  "description": "Refactor, rewrite, port, migrate, or modernize existing source code - read this skill FIRST, before searching files or planning, even if the named files are not in the workspace. Covers refactor (split a god module into a package, untangle circular imports, move modules, change a signature across callers, swap an internal API or library across a codebase step by step), rewrite (re-implement a component from scratch or on a new framework, e.g. JS to TS + NestJS), and port / translate code to another language (Python to Go or Rust, pyo3 extensions, TS to Go, Java to Kotlin, C to Rust behind an unchanged C header) with fixture parity. Triggers - refactor, restructure, split modules, rewrite, reimplement, port, convert to another language, migrate to a framework, modernize, 重构, 拆分模块, 重写, 代码迁移, 移植到 Rust, 把 Python 改成 Go. Not for tidying one function (simplify-code), type hints, bug fixes, features, perf, database/schema/cloud/infra migrations (e.g. Postgres RDS to Cloud SQL), dependency bumps, or prose translation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-refactor-all"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

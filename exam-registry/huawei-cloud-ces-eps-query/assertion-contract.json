@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-ces-eps-query",
+  "displayName": "huawei-cloud-ces-eps-query",
+  "description": "1. Read-only Huawei Cloud **management-plane** queries for CES (Cloud Eye) and EPS (Enterprise Project Service), triggerable from natural language. 2. CES (7 query categories): alarm rules (告警规则), alarm histories (告警历史), alarm templates (告警模板), dashboards (仪表盘), notification masks (通知掩码), resource groups (资源分组), one-click alarms (一键告警). 3. EPS (5 query categories): enterprise project list (企业项目列表), enterprise project detail (企业项目详情), enterprise project quotas (企业项目配额), resources bound to an enterprise project (绑定资源), migration records (迁移记录). 4. Execution order: KooCLI (`hcloud CES|EPS <Operation>`) first, then the official `huaweicloudsdkces` v2 / `huaweicloudsdkeps` v1 SDK, then a token-based REST GET fallback. A write-intent guard rejects every mutating intent before any command runs. 5. Explicitly OUT OF SCOPE: raw metric data points (`ShowMetricData` / `ListMetrics` / `BatchListMetricData`), service-level metric values (RDS / DCS / DMS / EVS / ELB ...), and every write operation (create / update / delete / enable / disable / migrate / batch-*). 6. Triggers include: \"查询告警规则\", \"告警历史\", \"告警模板\", \"仪表盘\", \"通知掩码\", \"资源分组\", \"一键告警\", \"企业项目列表\", \"企业项目详情\", \"企业项目配额\", \"企业项目绑定资源\", \"迁移记录\", \"CES query\", \"EPS query\", \"cloud eye\", \"enterprise project\", \"alarm rule list\". 7. Offline unit tests (mocked hcloud / SDK) cover intent routing, the write-intent guard, output normalization, backend fallback and all CLI output modes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-ces-eps-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

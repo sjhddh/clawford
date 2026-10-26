@@ -1,0 +1,54 @@
+{
+  "skillId": "nexdoc-mcp",
+  "displayName": "NexDoc MCP",
+  "description": "Generate, iterate, preview, and export production-ready designs (landing pages, slide decks, reports, invoices, resumes, business cards, social cards, email newsletters, and 30+ formats) through the NexDoc Design MCP tools (create_design, update_design, wait_for_run, notify_run_email, export_design). Use whenever the user asks to design, lay out, make a deck, PDF, page, or card, or to edit an existing NexDoc design, and MCP tools are available. Never publish unless asked.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nexdoc-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

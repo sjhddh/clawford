@@ -1,0 +1,49 @@
+{
+  "skillId": "ocas-multipass",
+  "displayName": "Multipass",
+  "description": "Accomplishes tasks that need tools the agent does not have. Plans approaches, fills capability gaps with sandboxed tools, executes within an isolated session. Disposable identity, parallel discovery, incremental checkpoints, graceful degradation. Output: task result plus replay script. No global installs, no real identity, clean state in and out. Do not use for tasks solvable with installed skills, permanent skill installs, skill builds (use Forge), or general web research (use Sift).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ocas-multipass"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

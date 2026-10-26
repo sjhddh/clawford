@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-cdn-origin-config-diagnosis",
+  "displayName": "alibabacloud-oss-cdn-origin-config-diagnosis",
+  "description": "Read-only diagnostics for CDN back-to-origin to OSS. Use when CDN fetching from an OSS origin fails or looks wrong: back-to-origin 403 on a private bucket, traffic bypassing the CDN straight to OSS, wrong origin host or port, or a CDN domain that is offline or never configured. Checks configuration and attributes the cause; never changes any CDN or OSS setting. Triggers: \"CDN back-to-origin 403\", \"private bucket CDN origin\", \"traffic bypasses CDN\", \"origin host misconfigured\", \"CDN domain offline\", \"origin port check\", \"OSS origin authorization\". Do NOT use for refresh/preload tasks (use alibabacloud-cdn-refresh-preload), CDN traffic anomaly analysis (use alibabacloud-cdn-traffic-anomaly), OSS endpoint selection or internal-endpoint errors (use alibabacloud-oss-endpoint-internal-diagnosis), or OSS billing (use alibabacloud-oss-billing-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-cdn-origin-config-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

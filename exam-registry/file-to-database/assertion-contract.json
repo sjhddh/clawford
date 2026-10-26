@@ -1,0 +1,54 @@
+{
+  "skillId": "file-to-database",
+  "displayName": "file-to-database-skill",
+  "description": "Use when the user wants to build a database from data files (CSV/Excel/JSON/JSONL/TSV), design a schema from raw data, or turn flat files into tables — AND when the user later talks to that database in natural language (add, query, update, delete records; 'how many...'; 'show me...'). Scans files, infers column types, detects candidate foreign keys, applies the methodology in references/methodology.md to produce DDL, ERD, seed scripts, and validation; runtime operations follow references/operations.md (intent → SQL → safe execution → natural-language report). Do NOT use for ORM code generation or pure database concept discussions.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:file-to-database"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

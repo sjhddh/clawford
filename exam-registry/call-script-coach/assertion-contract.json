@@ -1,0 +1,54 @@
+{
+  "skillId": "call-script-coach",
+  "displayName": "call-script-coach",
+  "description": "Use before any difficult phone call you're anxious about or that has stakes — calling customer service to dispute a fee, negotiating a bill, cold-calling a client, delivering bad news to a vendor, calling a landlord about repairs, insurance disputes, or handling collections calls — builds a branching call script from your situation (goal, leverage, fallback), generates objection→response trees for the specific counter-arguments you'll hear, produces a one-page printable cheat sheet, and includes a practice-drills mode that plays the other side and scores your responses.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:call-script-coach"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "gongwen-docx",
+  "displayName": "gongwen-docx",
+  "description": "Convert Markdown into Chinese official-document (公文) Word files that strictly follow GB/T 9704-2012 党政机关公文格式及通用公文排版规范. Use this skill when the user asks to turn a markdown / IMA-exported md / text into a 公文 Word, or to reformat / revise a 公文 / 标准起草说明 / 请示 / 报告 / 通知 / 函. Also apply it whenever the us",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gongwen-docx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

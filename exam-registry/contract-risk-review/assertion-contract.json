@@ -1,0 +1,54 @@
+{
+  "skillId": "contract-risk-review",
+  "displayName": "contract-risk-review",
+  "description": "This skill should be used when the user provides a contract text and wants risk points identified. Trigger phrases include '合同风险核查', '帮我看看这份合同有没有坑', '审一下条款', '缺失条款', '合同修改建议', 'review this contract'. It checks coverage of essential clauses, flags risky wording by severity, lists missing clauses, and provides concrete redline suggestions. Informational only, not legal advice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:contract-risk-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

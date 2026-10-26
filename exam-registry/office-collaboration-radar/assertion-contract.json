@@ -1,0 +1,54 @@
+{
+  "skillId": "office-collaboration-radar",
+  "displayName": "office-collaboration-radar",
+  "description": "把用户明确提供的中文群聊记录、会议纪要或项目更新整理为证据可追溯的协作状态卡片。 仅在用户明确要求分析项目进展、决策、Owner 与截止时间、风险、阻断、依赖或需确认项时使用。 不因用户仅粘贴文本而自动触发，不发送催办，不写入外部系统；读取和写入本地文件都必须使用用户明确指定的路径。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:office-collaboration-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

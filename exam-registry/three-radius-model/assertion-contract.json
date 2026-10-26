@@ -1,0 +1,49 @@
+{
+  "skillId": "three-radius-model",
+  "displayName": "Three-Radius Model — 认知/能力/行动三半径",
+  "description": "Activate when: user says 'I know what to do but I'm not doing it', 'we understand the problem but can't fix it', 'effort isn't translating to results', 'why isn't our team executing?', or 'I feel stuck despite being competent'. Also activate for pre-planning skill development or post-mortem gap analysis. Do NOT activate when: the gap is already identified and the solution is purely tactical (just execute); or when organizational constraints (not individual gaps) are clearly the sole cause. More: deciqai.com/c/three-radius-model",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-radius-model"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

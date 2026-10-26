@@ -1,0 +1,54 @@
+{
+  "skillId": "jishudb",
+  "displayName": "JishuDB Setup / JishuDB 安装连接助手",
+  "description": "安装或连接 JishuDB，适用于首次设置、找不到服务、配置 Agent MCP、 连接失败、OAuth 或 Token 授权，以及选择本机或远程连接方式。 不用于知识库问答或完整 MCP 验收。 / Install, locate, connect, or troubleshoot JishuDB for an agent, including Desktop setup, service discovery, MCP transport, connection failures, and OAuth or Token authorization. Reuse a working servi",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jishudb"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "recursive-self-improve",
+  "displayName": "recursive-self-improve",
+  "description": "递归自我改进（元之元）：让技能生态对自身与子技能做递归元改进，越迭代越强。 扫描技能目录识别改进机会（缺自进化闭环/缺前置/YAML 非法），生成安全补丁提案， 在沙箱内试应用并回写元进化记忆，构成「感知→提案→试应用→校验→记忆」的递归闭环。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:recursive-self-improve"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

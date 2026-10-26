@@ -1,0 +1,49 @@
+{
+  "skillId": "utility-model-search",
+  "displayName": "实用新型检索",
+  "description": "实用新型检索、申请实用新型还是发明。当用户说「查一下有没有类似的实用新型」「我这个小改进能申请实用新型吗」「实用新型和发明选哪个」「同类结构的实用新型有哪些」时使用。输出实用新型清单（Excel 能打开）、代表附图和申请类型建议。 For structural improvements. Finds similar Chinese utility models with drawings and validity, then suggests whether to file a utility model or an invention based on the results.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:utility-model-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

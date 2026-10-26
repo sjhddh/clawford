@@ -1,0 +1,54 @@
+{
+  "skillId": "deepseek-harness-desktop-shell",
+  "displayName": "deepseek-harness-desktop-shell",
+  "description": "把已在本地运行的 DeepSeek Harness Web UI（默认 http://127.0.0.1:3080）用 Electron 包装成桌面应用的实战指南：前置依赖、最小可运行壳、启动 Harness 与加载本地 URL 的方式、打包分发。仅覆盖桌面套壳本身；Harness 的安装 / 构建 / 排错由 deepseek-harness-windows-deploy 技能负责。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deepseek-harness-desktop-shell"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

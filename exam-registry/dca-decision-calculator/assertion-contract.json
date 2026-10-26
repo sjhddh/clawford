@@ -1,0 +1,54 @@
+{
+  "skillId": "dca-decision-calculator",
+  "displayName": "dca-decision-calculator",
+  "description": "左侧定投决策计算器。输入当前指数点位、近一年最高点、持仓成本、汇率，输出是否触发定投、加仓倍数、换汇建议、风险提示。基于以近一年最高点为锚的左侧定投策略。触发词：定投、基金、纳斯达克、指数、加仓、换汇、人民币、汇率、投资、贬买、买入、锁定成本、持仓、成本。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dca-decision-calculator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

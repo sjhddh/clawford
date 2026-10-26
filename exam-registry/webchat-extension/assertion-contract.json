@@ -1,0 +1,54 @@
+{
+  "skillId": "webchat-extension",
+  "displayName": "webchat-extension",
+  "description": "部署「网页划线对话」浏览器扩展（Chrome MV3 / 兼容 Chrome·Edge·千问·夸克 等 Chromium 内核浏览器）。在任意网页选中文字，点工具栏图标唤起可拖动对话浮层，带着网页上下文用 CodeBuddy AI 流式问答。包含本地 Express + SSE 后端（CodeBuddy Agent SDK）与前端扩展。当用户要「做一个网页划词对话插件 / 给浏览器装个网页对话工具 / 选中文字问 AI / 部署小虾网页对话扩展 / web highlight chat extension / 把网页内容丢给 AI 聊」时使用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:webchat-extension"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

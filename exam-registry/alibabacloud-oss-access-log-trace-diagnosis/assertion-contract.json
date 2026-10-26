@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-access-log-trace-diagnosis",
+  "displayName": "alibabacloud-oss-access-log-trace-diagnosis",
+  "description": "Read-only diagnosis of OSS request failures and access-log tracing from the customer's own log and configuration. Use when a request returns 403 AccessDenied, 404 NoSuchKey, SignatureDoesNotMatch or an unexplained EC error code, when a bucket policy seems to deny a request that should be allowed, when anonymous access is rejected, when the customer asks who accessed or deleted an object, or when log enablement must be checked. Shows which policy statement matched, degrades to console statements when logs cannot be read, and states which causes need a ticket. Never changes configuration. Do NOT use for billing, traffic abuse, endpoint or transfer-acceleration errors. Triggers: \"OSS 403 error diagnosis\", \"bucket policy denied my request\", \"SignatureDoesNotMatch\", \"presigned upload fails\", \"OSS EC error code lookup\", \"NoSuchKey diagnosis\", \"who accessed my files\", \"who deleted my object\", \"access log not enabled\", \"which IP accessed my bucket\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-access-log-trace-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

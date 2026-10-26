@@ -1,0 +1,49 @@
+{
+  "skillId": "prelaunch-patent-check",
+  "displayName": "上市前专利排查",
+  "description": "上市前专利排查、新品专利风险初筛。当用户说「新产品上市前查一下有没有专利风险」「这几个功能有没有别人的有效专利」「产品专利排查」「要不要做 FTO」「出货前专利自查」时使用。输出专利排查清单（Excel 能打开），按功能点分组。 Before a product launch, checks each feature for relevant in-force patents, listing the closest ones, their owners and remaining term, as a screening list to decide whether to commission a formal legal analysis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prelaunch-patent-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

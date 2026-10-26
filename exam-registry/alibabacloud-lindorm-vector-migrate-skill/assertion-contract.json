@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-lindorm-vector-migrate-skill",
+  "displayName": "Alibabacloud Lindorm Vector Migrate Skill",
+  "description": "向量数据库迁移助手 — 从 Milvus、Elasticsearch、Lindorm 或 Qdrant 迁移向量数据至阿里云 Lindorm。支持从源库导出为 CSV 文件后上传 OSS 再导入。通过对话收集参数，直接生成并执行代码完成迁移。支持断点续传、字段排除、DDL 预览确认等。 Triggers: \"迁移...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-lindorm-vector-migrate-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

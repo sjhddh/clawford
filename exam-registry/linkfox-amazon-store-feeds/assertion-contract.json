@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-store-feeds",
+  "displayName": "亚马逊-店铺数据上传",
+  "description": "亚马逊店铺 Feed 批量数据提交与处理状态管理。用于创建 Feed 文档、向预签名地址上传 Feed 内容、提交库存或 Listing 等批量文件、查询或列出 Feed、获取结果文档以及取消 Feed。用户提到亚马逊 Feed、批量更新库存或商品、提交 Listing Feed、POST_FLAT_FILE、feedType、feedDocumentId、feedId、Feed 处理状态、Feed 结果、取消 Feed、Feeds API 时触发。即使未明确说“Feed”，只要希望通过亚马逊 SP-API 批量提交结构化商品或库存数据，也应触发此技能；单个 Listing 的增删改查使用 linkfox-amazon-store-listings。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-store-feeds"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

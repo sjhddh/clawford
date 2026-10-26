@@ -1,0 +1,54 @@
+{
+  "skillId": "apartment-scorecard",
+  "displayName": "apartment-scorecard",
+  "description": "Use when comparing apartments or rental homes and torn between options, when deciding if a listing is actually affordable, when touring rentals and needing to score them consistently instead of by vibes, when the advertised rent hides fees/parking/pet rent/utilities/commute, when preparing to negotiate rent or lease terms, or when defining what you actually need (bedrooms, pets, commute ceiling) before searching — applies hard constraints first (budget, commute, bedrooms, pets, move date) to kill unqualified listings, scores survivors on 16 weighted criteria YOU prioritize, computes the true all-in monthly cost with every fee amortized, runs affordability analysis (30/33/50% rules, 3x-income approval math), compares finalists side-by-side with the quality-vs-cost premium quantified, and generates a leverage-based negotiation script with anchoring targets.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:apartment-scorecard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

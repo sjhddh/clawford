@@ -1,0 +1,54 @@
+{
+  "skillId": "cross-model-knowledge-extraction",
+  "displayName": "cross-model-knowledge-extraction",
+  "description": "跨模型蒸馏工程化的第一环：从 WorkBuddy 内部教师技能的 SKILL.md（或任意技能正文） 中结构化提取能力签名——工作流步骤、触发场景、已知限制/坑、工具脚本、以及可被 蒸馏的决策规则（if/when-then/必须）。输出 JSON 能力画像，直接喂给 model-distillation 的签名合成与对抗验证。纯标准库、零依赖、可本地实跑（--selftest 自带样例）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cross-model-knowledge-extraction"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

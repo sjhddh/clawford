@@ -1,0 +1,54 @@
+{
+  "skillId": "core-skill",
+  "displayName": "core-skill",
+  "description": "The base layer an AI agent runs on to be verifiable, accountable, and able to work with the world. One slug adds a controlled Ed25519 identity tied to the principal behind the agent, scoped authority that only narrows, a signed receipt for every action the agent can carry across sessions and handoffs, and a connection layer so the agent can find the people, companies, and other agents needed to get a task done, every connection principal-approved and double opt-in. Modular, updated on the same cadence as the SDK and MCP. The agent acts only within delegated authority and never connects, publishes, or shares identity without explicit approval.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:core-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

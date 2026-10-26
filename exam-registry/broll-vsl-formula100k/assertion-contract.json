@@ -1,0 +1,54 @@
+{
+  "skillId": "broll-vsl-formula100k",
+  "displayName": "broll-vsl-formula100k",
+  "description": "Genera entre 15-25 clips de B-roll cinematográficos para VSL o videos largos usando Higgsfield Seedance 2.0 y Cinema Studio 3.0. Regla 80/20: 80% de los clips incluyen el avatar/presentadora con foto de referencia (Seedance 2.0 + medias identity), 20% son tomas cinemáticas abstractas sin persona (Seedance 2.0 o Cinema Studio 3.0 puro). Estética configurable (default: cyberpunk azul eléctrico). Input: guion VSL (texto). Output: catálogo completo con URLs de video + frase exacta del guion donde insertar cada clip. Activar cuando se diga 'genera b-roll para mi VSL', 'clips para video largo', 'recursos cinematográficos para mi guion', 'haz los b-rolls de mi VSL', o cualquier variación que combine un guion largo (VSL, webinar, masterclass) con producir clips de b-roll con Higgsfield.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:broll-vsl-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

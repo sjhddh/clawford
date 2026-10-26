@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-refactor-clawhub-pub",
+  "displayName": "skill-md-optimizer",
+  "description": "Refactor/optimize any SKILL.md for progressive disclosure: precise-trigger frontmatter, layered body (hard constraints vs single-run flow), a flow of five steps or fewer, permission/context declarations, and a token budget. Triggers: \"optimize / refactor / slim down this SKILL.md\", \"make the skill trigger more precisely\", \"the body is too long / hard constraints get lost when the context compacts\", \"split this SKILL.md into a lean body plus references\". Three modes: refactor (default, emits the optimized file + a changelog), audit (read-only diagnostic), and readme (polish the companion README.md - structure, badges, install, usage examples, license). NOT for: auditing the code a skill calls (skill-clean-audit), a publish-time security/compliance gate (skill-publish-gate), or from-scratch creation (skill-creator). No external network and no required secrets; the linter runs offline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-refactor-clawhub-pub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

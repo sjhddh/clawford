@@ -1,0 +1,54 @@
+{
+  "skillId": "kwdb-text2sql-aiot",
+  "displayName": "KWDB Text2SQL AIoT",
+  "description": "Convert natural language queries to KWDB SQL for time series data, relational data and cross-model analysis. Use this skill whenever users ask to query KWDB databases, write SQL for KWDB, or convert natural language to KWDB-specific SQL syntax. Supports: CREATE DATABASE/TABLE, downsampling, interpolation, latest value queries, aggregation analysis, cross-model queries, window/session/event analysis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kwdb-text2sql-aiot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

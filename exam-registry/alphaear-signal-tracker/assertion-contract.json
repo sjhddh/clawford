@@ -1,0 +1,49 @@
+{
+  "skillId": "alphaear-signal-tracker",
+  "displayName": "A股信号追踪",
+  "description": "使用这项技能来跟踪现有金融或投资信号的演变情况。当用户提供现有的论点/信号后，可以询问新的市场信息是对信号的支持、削弱、虚假报道、证实还是毫无影响。需要对比基准逻辑与更新后的新闻、价格和基本面数据，然后输出一个结构化的信号更新结果。如有需要，可以使用 mx-search 和 mx-data 来获取最新信息；但不要仅用于简单的新闻查询、原始数据查询、股票筛选或仅查看图表等任务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alphaear-signal-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

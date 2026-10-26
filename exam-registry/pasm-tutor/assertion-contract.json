@@ -1,0 +1,54 @@
+{
+  "skillId": "pasm-tutor",
+  "displayName": "pasm-tutor",
+  "description": "Learning tutor agents built on the PASM cognitive engine. LearningTutor tracks per-topic mastery with an EMA (single bad attempt does not crater it), selects the weakest topic next (with 20% jitter to avoid grinding one topic), replies in an encouraging template that admits difficulty and offers the smallest actionable step, and exports a stable machine-readable snapshot (mastery / weakest / average / history_size / tier) for downstream profile engines. Wrong answers are stored as salience-3 memories so related mistakes can be recalled. Zero LLM dependency, offline-runnable. Keywords: pasm, tutor, mastery, adaptive practice, student profile, offline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pasm-tutor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

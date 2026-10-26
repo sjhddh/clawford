@@ -1,0 +1,54 @@
+{
+  "skillId": "content-compliance-review",
+  "displayName": "内容合规审核·违禁词敏感词检测",
+  "description": "发布前怕文案踩红线、被限流封号？违禁词检测+敏感词扫描+内容合规审核一次搞定：覆盖小红书、抖音、视频号、快手、B站、公众号、闲鱼 7 个平台独立词库（叠加通用词库），本地离线检测 20+ 类违规词——绝对化用语、极限词、医疗功效、收益承诺、导流引流、谐音变形词、涉赌涉政，输出 P0/P1 分级+安全替代话术+发布前检查清单。常被搜的问题：文案有没有敏感词？会不会被限流？笔记为什么不过审？小红书/抖音/公众号哪些词不能用？广告法极限词有哪些？适合自媒体运营、小红书博主、短视频创作者、公众号编辑做发布前文案自检。全程本地运行，无需 API Key，稿件不上传。Banned words & sensitive word checker / content compliance review for Chinese social platforms.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-compliance-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

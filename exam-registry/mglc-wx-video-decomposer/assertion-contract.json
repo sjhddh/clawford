@@ -1,0 +1,54 @@
+{
+  "skillId": "mglc-wx-video-decomposer",
+  "displayName": "视频号拆解诊断助手",
+  "description": "基于曼格云 API 的视频号视频拆解。输入视频号分享链接或本地视频，两阶段产出：脚本采集作品元信息、互动数据与视觉深度拆解（镜头/运镜/转场/情绪/时间线/屏幕文字），再由 AI 注入深度分析层（受众画像、结构解读、爆款归因、爆款公式、六维评分、运营建议、总体评估），一键导出 Markdown / Excel / HTML 看板。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mglc-wx-video-decomposer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

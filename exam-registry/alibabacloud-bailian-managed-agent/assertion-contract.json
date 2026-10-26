@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-bailian-managed-agent",
+  "displayName": "alibabacloud-bailian-managed-agent",
+  "description": "Version v20261015 (date-based release, YYYYMMDD). Explain, evaluate, demonstrate, provision, and integrate Alibaba Cloud Bailian Managed Agent (CMA / ManagedAgents). Use for Bailian Managed Agent product selection, sales pitches, customer solutions, hands-on PoCs, scheduled report agents, managed environments, and Python/Java backend integration. Prefer Bailian CLI (bl) for quick trials and resource provisioning; use HTTP API or verified SDKs for customer system integration, and API fallback when CLI capability remains unavailable after an update attempt. Not for generic agent development or unrelated cloud sandboxes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-bailian-managed-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

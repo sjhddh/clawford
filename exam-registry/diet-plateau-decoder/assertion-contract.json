@@ -1,0 +1,54 @@
+{
+  "skillId": "diet-plateau-decoder",
+  "displayName": "diet-plateau-decoder",
+  "description": "Use when the scale hasn't moved in 2+ weeks: separates TRUE plateaus (real energy-balance stalls) from water-retention masks (sodium, cortisol, menstrual phase, new training damage) and logging drift, using 7-day rolling averages, trend-vs-noise statistics, and expected-rate physics. Verdicts: NOT A PLATEAU / TRUE PLATEAU / LOG BROKEN with a per-verdict action plan.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:diet-plateau-decoder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "regression-to-the-mean",
+  "displayName": "Regression to the Mean",
+  "description": "Activate when: someone says 'things always bounce back,' wonders why an intervention seemed to work on a struggling team, is surprised their star performer regressed, is evaluating whether a coaching/bonus/firing had an effect, or is interpreting before-vs-after performance changes without a control group. Do NOT activate when: the measurement is genuinely noise-free (e.g., deterministic process outputs); the underlying signal has demonstrably changed due to a structural shift (new product launch, technology change). More: deciqai.com/c/regression-to-the-mean",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:regression-to-the-mean"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

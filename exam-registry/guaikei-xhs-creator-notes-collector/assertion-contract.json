@@ -1,0 +1,49 @@
+{
+  "skillId": "guaikei-xhs-creator-notes-collector",
+  "displayName": "guaikei·小红书博主笔记采集",
+  "description": "获取小红书博主公开作品及单篇笔记的真实点赞/评论/收藏数据，评估其互动质量。当用户要筛选小红书 KOL、判断博主数据是否注水、或为合作决策准备依据时使用本技能；即使用户没提\"KOL\"，只要想了解某个小红书博主的真实互动水平也适用。不用于粉丝数估算或后台数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guaikei-xhs-creator-notes-collector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-panorama-insights-tag",
+  "displayName": "patent-panorama-insights-tag",
+  "description": "用于专利全景项目的环节3。本 Skill 推荐标引体系，包括 4 列技术拆解表（≤40 个三级节点，彼此互斥）、≥10 个关键技术问题、≥10 个推荐专利包（每包≥3 个同族，六项推荐规则），并提供 20–30 条记录的标引示范和待标引导出文件。全量逐条标引在客户 SaaS 标引工具中完成，不在本 Skill 中完成。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-panorama-insights-tag"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

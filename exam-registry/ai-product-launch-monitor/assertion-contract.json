@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-product-launch-monitor",
+  "displayName": "AI Product Launch Monitor",
+  "description": "One-command AI product launch monitoring pipeline. Use when the user wants to track, discover, or analyze new AI product launches, releases, or announcements. Runs four stages automatically - RSS feed monitoring, web search enrichment, page screenshots, and trend analysis/scoring. Outputs a markdown report and structured JSON. Triggers on phrases like monitor AI product launches, track AI releases, AI launch report, what new AI products launched, product hunt AI monitoring, AI news roundup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-product-launch-monitor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

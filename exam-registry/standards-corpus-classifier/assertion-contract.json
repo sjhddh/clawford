@@ -1,0 +1,54 @@
+{
+  "skillId": "standards-corpus-classifier",
+  "displayName": "标准语料分类器",
+  "description": "将一批标准 PDF（国家 GB / 行业 QX·JB·YY… / 地方 DB11·DB31…）按「级别 × 领域」自动归置： 解析文件名中的标准代号，查注册表得级别与归属，按名称关键词分入编号领域子文件夹， 并产出 CSV 编目与 HTML 可视化报告，支持按分类/年份/标准号/名称筛选打包下载。 This skill should be used when a user has a folder of standard PDFs (国家标准/行业标准/地方标准/团体标准/企业标准) and wants them classified, organized into domain subfolders, or inventoried — e.g. \"把这批标准按建筑、食品、交通等分类\", \"整理一下地方标准文件夹\", \"给这些 PDF 出个分类目录\", \"下载某分类/某年度标准\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:standards-corpus-classifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

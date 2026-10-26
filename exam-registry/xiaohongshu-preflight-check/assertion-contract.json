@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaohongshu-preflight-check",
+  "displayName": "小红书发布前检测 · 笔记合规自查 · 标题·导流·AI声明",
+  "description": "小红书发布前文本合规自查（4 组）。把「发一篇笔记之前要人工过的那些关」变成一条命令 + 一个退出码：违禁词·敏感词·限流词检测（复用离线词库）、标题与篇幅规范、AI 声明与强制标注、导流风险。纯本地、零依赖、不调用付费 API，退出码 0/1/2/3 可直接卡住发布流程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaohongshu-preflight-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

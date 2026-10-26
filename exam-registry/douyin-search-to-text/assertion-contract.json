@@ -1,0 +1,49 @@
+{
+  "skillId": "douyin-search-to-text",
+  "displayName": "Douyin search to text 抖音搜索转文字",
+  "description": "抖音按关键词搜视频再转文字 / Search Douyin by topic, then turn the videos into text. 给一个话题（中文或英文，如 露营装备、AI 编程、camping gear），返回网页已收录的 douyin.com/video 链接和标题；再挑几条读成口播逐字稿、画面文字、要点和点赞评论数。用于找对标视频、选题调研、竞品内容整理。搜索 0 积分；读一条 1 分钟视频 2 积分。不登录抖音、不要 Cookie、不下载视频。需要 LinkDigest API Key（注册送 10 积分）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douyin-search-to-text"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

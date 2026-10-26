@@ -1,0 +1,54 @@
+{
+  "skillId": "country-forms-cv-invoice",
+  "displayName": "Country Forms: CV, Invoice & Estimate (5 countries)",
+  "description": "Fill country-specific CVs and invoices/estimates with the user's own details — US résumé, German Lebenslauf and Rechnung, Japanese 履歴書・職務経歴書・請求書 (源泉徴収), Spanish/Colombian currículum, Europass, Brazilian currículo and nota fiscal withholding. Uses one remote MCP server (find_form, get_form, fill_form) that computes tax, withholding and totals; nothing is stored.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:country-forms-cv-invoice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "a-share-daily-review",
+  "displayName": "a-share-daily-review",
+  "description": "全球市场每日复盘生成器(免API Key)。当用户说\"A股复盘\"\"今日复盘\"\"大盘复盘\"\"收盘总结\"\"全球市场\"\"今天股市怎么样\"\"生成复盘报告\"等,需要生成当日全球市场复盘时使用本技能。基于 akshare 公开数据本地直连,无需注册任何账号、无需配置 API Key,装完即用。输出:A股指数+情绪+行业板块+概念板块+涨停梯队+龙虎榜 + 港股/美股/日韩/欧洲指数 + 北向资金的结构化 Markdown 日报,附确定性摘要和异动提醒。仅陈述市场事实,不构成投资建议。v1.2 新增洞察层和纯文本输出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a-share-daily-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

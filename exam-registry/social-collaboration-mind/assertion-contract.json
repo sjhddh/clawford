@@ -1,0 +1,54 @@
+{
+  "skillId": "social-collaboration-mind",
+  "displayName": "social-collaboration-mind",
+  "description": "社会协作心智：心智理论(ToM)+自适应协作策略。从协作伙伴的信号(专业度/置信度/忙碌度/情绪/历史失信) 推断其状态，动态选择协作策略——委派/咨询/监督/结对/回避，让 agent 像\"懂事的人\"一样与人及他者 agent 协作，而非机械执行。纯标准库、零依赖、可本地实跑(--selftest 自带样例)。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:social-collaboration-mind"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "four-leaf-coach",
+  "displayName": "four-leaf-coach",
+  "description": "Job search and interview prep coach. Pulls real postings, role intelligence, rubric-scored answer feedback, resume scoring, and the user's application tracker from the hosted Four-Leaf MCP. Use when the user wants to find jobs, prep for interviews, practice answers and have them scored, score a resume against a JD, track applications, or work through compensation negotiation. Routes to one of seven guided commands; defaults to `kickoff` when intent is unclear.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:four-leaf-coach"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

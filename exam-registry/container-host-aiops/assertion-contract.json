@@ -1,0 +1,54 @@
+{
+  "skillId": "container-host-aiops",
+  "displayName": "container-host-aiops",
+  "description": "Use this skill whenever the user needs to operate a single container host through the Docker Engine API, Portainer, or Podman — a one-shot host overview; container reads (list/inspect, logs tail, CPU/memory stats, top processes, restart summary); image reads (list, inspect with history, dangling, disk usage); volume reads (list, inspect, dangling); network reads (list, inspect); system reads (info, version, df disk-usage, recent events); Portainer stacks + endpoints; Compose-project rollups (list_compose_stacks, docker+podman); Podman pods (list_pods, podman-only); three flagship analyses — restart-loop RCA (crash-looping containers + cause/action), resource-pressure analysis (CPU/memory vs limits), and image & volume bloat (prune candidates + reclaimable bytes); and eight guarded writes (restart/stop/start/remove a container, prune images/volumes, update resource limits, recreate a Portainer stack). Always use this skill for \"Docker host overview\", \"which containers are crash-looping\", \"restart loop\", \"why does this container keep restarting\", \"container CPU/memory usage\", \"docker logs\", \"which containers are near their limits\", \"resource pressure\", \"dangling images/volumes\", \"reclaim disk\", \"prune images\", \"stop/start/restart a container\", \"update a container's memory limit\", \"Portainer stacks\", \"compose stacks\", \"Podman pods\" when the context is a Docker, Portainer, or Podman container host. Do NOT use when the target is a cluster orchestrator, a hypervisor, a storage appliance, a backup product, network device config, or OT/industrial equipment — route those to the appropriate other AIops-tools skill. This is for NON-orchestrator container hosts. Governed Docker/Portainer/Podman container-host operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). Exercised against a live Docker Engine 27.5.1 daemon (doctor, overview, the three flagship analyses, and a governed stop_container with audit + undo recorded); the Portainer and Podman API paths are covered by the mock suite only. See docs/VERIFICATION.md.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:container-host-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

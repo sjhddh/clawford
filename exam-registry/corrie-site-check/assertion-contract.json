@@ -1,0 +1,49 @@
+{
+  "skillId": "corrie-site-check",
+  "displayName": "corrie-site-check",
+  "description": "Checks any public website's HTTPS setup, TLS certificate expiry and security headers with Corrie's free, read-only checker, and reads uptime, response time and recent checks for sites a user monitors with Corrie. Use when the user asks 'is my site secure', 'check the headers on example.com', 'when does my certificate expire', 'is my site up', 'what was my uptime today', or wants a quick website health or security-header review. No account is needed for the site check.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:corrie-site-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

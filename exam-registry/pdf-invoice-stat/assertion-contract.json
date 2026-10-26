@@ -1,0 +1,54 @@
+{
+  "skillId": "pdf-invoice-stat",
+  "displayName": "pdf-invoice-stat",
+  "description": "多格式增值税发票提取 skill v2.4.6（稳定版）。支持 PDF / XML / OFD / ZIP / RAR 五种格式，涵盖增值税电子普票、铁路电子客票、通行费、餐饮、过路费等类型，本地运行无外部 API 依赖，输出 v2.4.0 原版 15 列 Excel 报表。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdf-invoice-stat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

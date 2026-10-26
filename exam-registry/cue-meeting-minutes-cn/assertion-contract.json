@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-meeting-minutes-cn",
+  "displayName": "cue-meeting-minutes-cn",
+  "description": "企业会议纪要：给我会议录音（本地文件，当前实证边界=单件 ≤256MiB（闸按字节不按时长），以通道返回为准）与可选材料，产出五段纪要——基本信息、逐字带时间锚、话题分段（归类是笔记法非原文）、决策与待办每条挂原话锚、待核清单。适合「这段录音整理成纪要」「会是哪几件事谁负责」「纪要逐条对回原话」等场景。Do NOT use for: 实时转写、单件超 256 MiB 的整场录音直投（闸按字节不按时长）、替你把纪要改写成「更漂亮」的版本。Triggers: 会议纪要 / 录音整理 / 谁负责什么 / 待办提取 / 逐字回查； meeting minutes / audio to notes",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-meeting-minutes-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

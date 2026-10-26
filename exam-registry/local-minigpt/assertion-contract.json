@@ -1,0 +1,54 @@
+{
+  "skillId": "local-minigpt",
+  "displayName": "Local MiniGPT",
+  "description": "从零实现的本地小型 GPT(Python + PyTorch,字符级分词,默认约 150 万参数,CPU 可训练)。当用户想在本地训练/微调一个自己的小型语言模型、学习 Transformer/GPT 的从零实现、用 Python 写一个\"本地AI大模型\"演示、或需要用自有语料做本地文本风格模仿与续写(不追求真实大模型质量)时使用。附带:零 Key 网页搜索工具、检索增强开卷对照、代码能力考试、MiniViT 手写数字识别。典型触发:训练一个小模型、从零实现 GPT、字符级语言模型、用我的语料训练模型、mini GPT、nanoGPT 式实现。不适用于:直接运行现成开源大模型(Qwen/LLaMA 等请用 transformers 或 Ollama)、生产级 NLP 任务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:local-minigpt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

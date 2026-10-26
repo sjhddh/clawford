@@ -1,0 +1,54 @@
+{
+  "skillId": "solo-company-bookkeeping",
+  "displayName": "一人公司记账管家",
+  "description": "给一人公司/个体户做全套账：适用判定→输入契约→分录→月结→申报底稿→凭证归档，附中国财税口径卡（每月复核更新，引用必带版本号）。适用小规模纳税人、查账征收、月流水≤200笔、无员工社保；一般纳税人/社保场景只出初稿并提示复核。触发词：记账、对账、月结、报税、申报提醒、一人公司、个体户、小规模、公私混用、税期日历。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:solo-company-bookkeeping"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

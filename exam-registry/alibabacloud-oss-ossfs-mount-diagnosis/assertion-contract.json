@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-oss-ossfs-mount-diagnosis",
+  "displayName": "alibabacloud-oss-ossfs-mount-diagnosis",
+  "description": "Read-only diagnostics for ossfs and container OSS mounts. Use when an ossfs mount fails, a mounted directory disappears, an ACK/ACS storage volume mount returns 403, or reading archive objects through a mount returns 403. Attributes causes (credential file, endpoint region, RAM permission, FUSE dependency) and checks bucket region/storage class read-only for the archive direct-read judgment; never executes mounts, never changes anything. Triggers: \"ossfs mount failed\", \"mount directory disappeared\", \"mount OSS in container\", \"storage volume mount 403\", \"ossfs archive read 403\". Do NOT use for endpoint selection (use alibabacloud-oss-endpoint-internal-diagnosis), authorization config (use alibabacloud-oss-cross-account-auth-diagnosis), archive restore or lifecycle (use alibabacloud-oss-lifecycle-runtime-diagnosis), or transfer acceleration error codes (use alibabacloud-oss-transfer-error-code-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-ossfs-mount-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

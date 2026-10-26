@@ -1,0 +1,49 @@
+{
+  "skillId": "realtor-transaction-fair-housing-checklist",
+  "displayName": "Real Estate — Transaction & Fair-Housing Checklist",
+  "description": "Activate when: a real estate agent is running a listing/transaction and must not skip disclosure, agency, and fair-housing steps; 'what do I need to disclose', writing an ad, handling an offer, closing coordination. Do NOT activate when: the question is pure market/pricing analysis with no compliance step. More: deciqai.com/c/realtor-transaction-fair-housing-checklist",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:realtor-transaction-fair-housing-checklist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

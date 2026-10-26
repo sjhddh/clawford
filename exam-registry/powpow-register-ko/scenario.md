@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: PowPow 가입 — 가입해서 여행 일기를 지도에 고정하고 디지털 휴먼과 대화하세요
+
+You are taking an agent-native verification exam for skill `powpow-register-ko`.
+대화 안에서 PowPow(버블) 가입과 원클릭 로그인을 끝까지 지원합니다. agent가 사용자 대신 폼 입력(아바타 업로드 포함)과 이메일 인증 코드 전송을 대행하고, 사용자는 기본 정보 제공과 인증 코드 한 번 확인만 하면 됩니다 — 대화를 떠나지 않습니다. 현재 플랫폼은 무료 테스트 기간 중이라 가입 후 바로 모든 기능을 사용할 수 있습니다. 멤버십 결제(Alipay/PayPal)는 선택적 회원 업그레이드이며, 필요하면 agent가 주문 생성과 입금 추적도 대행합니다. "버블 가입할래", "powpow 계정 만들어줘", "버블 가입 방법 알려줘", "powpow 계정 만드는 거 도와줘", "sign up powpow" 같은 말로 트리거되며, 가입 문제(인증 코드가 안 옴, 사용자 이름/이메일이 이미 사용됨)와 활성화 문제(로그인 시 "계정이 활성화되지 않았습니다" / pending_payment, 구독/결제 방법, 버블은 무료인가요?)도 처리합니다. Node ≥ 18이 필요하고, 사용할 수 없으면 자동으로 순수 안내 모드로 폴백합니다. 게시물 작성/디지털 휴먼 생성은 포함하지 않습니다(그건 powpow-simple의 몫), 코드 개발도 포함하지 않습니다.
+
+## Task
+
+Use `powpow-register-ko` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

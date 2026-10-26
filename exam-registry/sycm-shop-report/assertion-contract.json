@@ -1,0 +1,54 @@
+{
+  "skillId": "sycm-shop-report",
+  "displayName": "sycm-shop-report",
+  "description": "Generate illustrated (chart-rich) Simplified-Chinese .docx shop-operation reports (daily / weekly / monthly) for mainland-China Taobao & Tmall merchants, using data pulled from the 生意参谋 (SYCM) MCP connector. Each invocation must specify a shop name, a report period, and the merchant's own connected 生意参谋 account; the skill does not run on guessed context. Outputs Chinese text and defaults to Asia/Shanghai timezone because the underlying data source (生意参谋 / 千牛 / 万相台) is a mainland-China merchant console. Use ONLY when a merchant explicitly asks for a 日报 / 周报 / 月报 or 经营分析 based on 生意参谋 store data. Do NOT use for generic \"make me a report\" requests, non-e-commerce analytics, or stores outside the Taobao/Tmall ecosystem.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sycm-shop-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

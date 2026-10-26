@@ -1,0 +1,54 @@
+{
+  "skillId": "enterprise-report-merger",
+  "displayName": "企业报表合并·模板填充·分析报告生成",
+  "description": "企业报表合并技能。将多个 Excel/PDF/图片格式的企业报表（财务三大表、部门预算表、业务数据表等）按指定模式合并为统一报表，并将合并结果无缝嵌入 Word 模板生成专业报告。内置三种合并策略：多表纵向堆叠、关键科目映射匹配、合并报表+抵销分录。当用户明确要求生成分析报告（如贷后分析报告）且无模板时可自动构建含财务比率、风险评估与战略建议的完整分析报告。触发词：合并报表、汇总报表、填入Word模板、集团合并报表。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:enterprise-report-merger"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

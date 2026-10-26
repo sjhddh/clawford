@@ -1,0 +1,54 @@
+{
+  "skillId": "life-insurance-policy-checkup",
+  "displayName": "寿险保险代理人保单体检助手",
+  "description": "为寿险保险代理人做老客户保单体检、家庭保单检视与年度保障回顾。根据保单截图、责任摘要或手工清单整理已有保障、识别待核对责任与可能缺口，生成客户版摘要和顾问跟进建议；养老资金不足时先补数据，不凭保额推算退休收入。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:life-insurance-policy-checkup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "pikpak-ad-cleaner",
+  "displayName": "pikpak-ad-cleaner",
+  "description": "扫描 PikPak 资源包的广告/推广可疑文件，分 high/review/protected 报告；只读扫描，不自动删除。 适用于清理广告、垃圾文件、推广文件、scan folder for junk、remove promo files。 只有明确批准冻结清单后才打印清理命令；未核验可恢复语义前不得执行。 Use when scanning a PikPak share or folder for bundled ad files, promo junk, fake readme, or spam videos. Read-only grading report; cleanup commands are only printed after an explicit frozen-list approval and are never executed automatically.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pikpak-ad-cleaner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

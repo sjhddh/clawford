@@ -1,0 +1,54 @@
+{
+  "skillId": "taskhold",
+  "displayName": "taskhold",
+  "description": "Work from the task list the user shares with their coding agents through the Taskhold MCP server (https://taskhold.com/api/mcp, Bearer key from a Taskhold setup URL). Use at the start of a coding session and when the user says \"work on the next task\", \"what's next\", \"what's on my list\", \"pick up my next todo\", \"check my task list\", \"file this as a task\", \"add a TODO for later\", \"put this on the backlog\", \"remind me to fix this later\", \"mark that done\", \"leave a note on the task\", \"what did the agent do\", \"turn these TODO comments into tasks\", \"what's in progress\", or \"I'm blocked on this\". Also use when you need the human to decide something (block the task with a question). For the session's built-in todo checklist or a repo TODO.md the user points at, use those directly. For production errors and crash reports, use the user's error tracker.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taskhold"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

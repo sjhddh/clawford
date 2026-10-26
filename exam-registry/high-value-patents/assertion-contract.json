@@ -1,0 +1,54 @@
+{
+  "skillId": "high-value-patents",
+  "displayName": "高价值专利",
+  "description": "高价值专利筛选、核心专利识别。当用户说「这个领域的核心专利有哪些」「帮我挑出公司最有价值的专利」「哪些专利值得重点保护 / 收购」「高价值专利培育要选哪些」「专利质押 / 评估前先筛一遍」时使用。输出高价值专利清单（Excel 能打开），每件附入选理由。 Screens a technology area or a company portfolio for high-value patents using visible indicators such as long maintenance, citations, ranking and claim breadth, with the reason for each pick.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:high-value-patents"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

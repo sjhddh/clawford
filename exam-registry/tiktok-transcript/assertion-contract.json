@@ -1,0 +1,54 @@
+{
+  "skillId": "tiktok-transcript",
+  "displayName": "tiktok-transcript",
+  "description": "TikTok video to transcript: the spoken words with timestamps, on-screen captions, title, hashtags, key points and like/comment counts. Use when the user shares a tiktok.com or vm.tiktok.com link and wants the transcript, the captions, a summary or a translation. Works without a key for one free summary a day; with a free API key (10 credits on sign-up, no card) you get the full transcript, 2 credits per minute of video. No download, no TikTok account or cookie needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tiktok-transcript"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

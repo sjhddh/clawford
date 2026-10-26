@@ -1,0 +1,54 @@
+{
+  "skillId": "masheev-cli",
+  "displayName": "masheev-cli",
+  "description": "Operate a Masheev workspace from the terminal with the masheev CLI. Use when asked to log in to Masheev from a shell, script inbox or contact tasks, get JSON output for automation, reply to a customer from the command line, run Masheev as a local MCP server (masheev mcp serve), or install the Masheev MCP server into Claude, Codex, Cursor, OpenClaw or Hermes (masheev mcp install).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:masheev-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

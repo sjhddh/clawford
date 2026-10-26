@@ -1,0 +1,54 @@
+{
+  "skillId": "cynefin",
+  "displayName": "cynefin",
+  "description": "Activate when: 'our best practices keep failing', 'experts disagree on the right answer', 'the old playbook isn't working', 'we're in crisis and don't know what to do first', 'best practice doesn't apply here', 'we need a different approach'. Do NOT activate when: situation is unambiguously routine (execution only); a specialized tool (OODA, expected value) already fits. More: deciqai.com/c/cynefin",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cynefin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

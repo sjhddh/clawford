@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-distiller-v2",
+  "displayName": "记忆蒸馏器",
+  "description": "记忆蒸馏器是面向 AI Agent 日志的智能压缩系统，针对\"日志日均膨胀 2500 词、压缩后关键信息丢失、压缩结果难以回溯细节、不同内容需不同压缩策略\"四大高频痛点而设计。它借鉴古文压缩哲学（去重复、留转折、去过程、留白），把冗长的原始日志蒸馏为高密度结构化摘要，实现 4-8 倍压缩比且零关键事件损失。 核心...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-distiller-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-study-plan-generate",
+  "displayName": "huawei-cloud-study-plan-generate",
+  "description": "Randomly generate a structured, configurable study-practice plan (学习实践表). Lays the plan out as day x time-slot cells, assigns every cell a study topic and a concrete practice item, keeps topics from repeating until the topic pool is exhausted, keeps a day's time slots non-overlapping, varies each session length inside a reasonable interval, and prints the result as a Markdown table (or plain text / JSON). A --seed flag makes any run reproducible. Implemented with the Python 3 standard library only; it does not call the Huawei Cloud CLI, any Huawei Cloud SDK, or any REST API, and it touches no cloud resource. Triggers include: \"生成学习实践表\", \"随机生成学习计划\", \"学习安排\", \"帮我排学习计划\", \"生成学习表\", \"study plan\", \"random study plan\", \"study schedule\", \"learning plan\", \"practice plan\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-study-plan-generate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "airline-miles-value-ranker",
+  "displayName": "airline-miles-value-ranker",
+  "description": "Use when deciding how to spend frequent-flyer miles or credit-card points — comparing redemption options, judging a \"deal,\" choosing between pay-with-miles, booking awards directly, or transferring points to partners — computes cents-per-point for each option with fare-comparison math, checks against 12 known partner sweet spots, prices the cash-fare floor, and issues BURN / HOARD / NEVER verdicts so a 300k-point balance never gets flushed at 0.4¢.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:airline-miles-value-ranker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

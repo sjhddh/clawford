@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-roi-business-case",
+  "displayName": "AI ROI Business Case",
+  "description": "Activate when: user says 'is this AI project worth doing?', 'calculate the ROI of AI', 'how long until this agent pays back?', 'build the AI business case for my boss/investors', 'what does this AI tool really cost us?', or is about to pay for an AI tool/agent or replace a manual workflow with one. Do NOT activate when: exploratory personal use with negligible cost; the system is already live and only needs an operating review (use agent-ops-monitoring); the pilot is funded and the question is how to run it to a scale/kill verdict (use ai-pilot-to-scale); the question is general CAC/LTV unit economics, not an AI project (use unit-economics-cac-ltv-payback). More: deciqai.com/c/ai-roi-business-case",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-roi-business-case"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

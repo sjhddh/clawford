@@ -1,0 +1,54 @@
+{
+  "skillId": "metarun-release-handoff",
+  "displayName": "MetaRun: release handoff",
+  "description": "Finish an iOS release after the build is uploaded. When a build has been uploaded to App Store Connect by any tool (fastlane, asc, Xcode, Xcode Cloud, CI) and the user wants it shipped: attach the build to the version, clear export compliance, run the readiness sweep, fix what blocks, and submit for review through MetaRun. Also the way back after App Review rejects a version: read the verdict, fix, resubmit. Trigger phrases: \"ship it\", \"submit the build\", \"finish the release\", \"send 2.4 to review\", \"the build is up\", \"Apple rejected it\", \"resubmit\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:metarun-release-handoff"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

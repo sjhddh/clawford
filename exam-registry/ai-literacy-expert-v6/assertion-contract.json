@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-literacy-expert-v6",
+  "displayName": "玩转AI校园(BNBU)",
+  "description": "「AI 通识课资深专家 V6.0 工作流引擎版」——在 V5.5 质量加固版之上，把 A→G 七大模块 + E·N 院校子模块 + 六大能力 + WorkBuddy 适配层，统一编排为可恢复、可验证、跨时间的自动化智能化工作流引擎（8 阶段管线 INTENT→PLAN→BUILD→VERIFY→ASSEMBLE→DELIVER→REPORT→LEARN）。⭐ 自动化：意图自动分类路由、互动控件由 Playwright 自动实测闭环（生成→实测→修复→复测，预算 3 次，见 assets/playwright-control-test-harness.js）、WorkBuddy 原生分发（IMA",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-literacy-expert-v6"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

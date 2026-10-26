@@ -1,0 +1,49 @@
+{
+  "skillId": "context-budget-analyzer",
+  "displayName": "context-budget-analyzer",
+  "description": "Agent 上下文预算分析器。扫描一次 Agent 会话的对话记录、Transcript 或手工提供的 上下文清单，按\"系统指令 / 任务目标 / 约束 / 工具输出 / 对话历史 / 中间推理 / 状态与记忆\"分类统计 Token 占用，识别上下文污染与 Compaction 风险： 超长工具输出、重复粘贴内容、失效假设、约束丢失风险，并给出分层治理建议 （原文保留 / 结构化 / 留指针 / 可丢弃）。 触发词：分析上下文，上下文预算，Token 都花在哪了，上下文为什么这么长， 压缩会丢什么，context budget，analyze context，context usage， token breakdown，compaction risk，会话太长了，上下文污染， 上下文增长，usage 轨迹，context growth，compaction 检测。 NOT for: 模型参数量估算、API 计费账单分析、Prompt 写作优化。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:context-budget-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

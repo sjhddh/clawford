@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-domain-modeling",
+  "displayName": "qa-domain-modeling",
+  "description": "通过构建状态机、数据流图和服务依赖图来理清复杂的业务逻辑和系统边界。当需求文档复杂、涉及多个子系统交互、或者你搞不清楚数据在不同模块之间怎么流转的时候，应当使用此技能。领域建模不是为了画图而画图——它帮你发现那些\"需求文档里没写的\"隐式业务规则和系统边界。适用于复杂业务流程的测试范围可视化。 触发场景：画状态图、数据流、服务依赖、建模、领域建模、状态转换、数据流向、服务调用关系、需求文档复杂难以理解时。 Use when the user asks about: state machine, data flow, and service dependency modeling to expose implicit business rules and system boundaries.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-domain-modeling"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

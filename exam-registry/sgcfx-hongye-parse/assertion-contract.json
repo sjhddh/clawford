@@ -1,0 +1,54 @@
+{
+  "skillId": "sgcfx-hongye-parse",
+  "displayName": "宏业计价文件解析导出",
+  "description": "本地解析宏业清单计价专家 .SGCFX 工程文件，免软件授权导出分部分项工程量清单、工料机材料汇总、费用汇总六段式，并做送审/审核多版本核减对比，输出规范 Excel。触发词：SGCFX、计价文件导出Excel、工程量清单、材料用量、核减对比、送审审核。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sgcfx-hongye-parse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "markitdown",
+  "displayName": "markitdown",
+  "description": "Convert documents to Markdown (PDF, Word, Excel, PowerPoint, HTML, CSV, images OCR, audio) with Microsoft MarkItDown for AI/RAG ingestion. Use when the user asks to convert files to markdown, extract document content, read or parse PDF/Word/Excel/PPT, 转换文件为 Markdown, 提取文档内容, 读取 PDF/Word/Excel/PPT, 文档转文本. Includes safe local conversion, batch workflows, environment check, and an offline fallback when markitdown is missing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:markitdown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

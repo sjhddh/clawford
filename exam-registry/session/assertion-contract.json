@@ -1,0 +1,54 @@
+{
+  "skillId": "session",
+  "displayName": "session",
+  "description": "Claude Code & Antigravity session management. Topics — id (lookup UUID), list (enumerate), search (keyword validate), import, summarize, analyze (stats), archive (flat bak), classify, clean-profanity (sanitize JSONL), split (boundaries), compress (MCP), context (usage measurement pull/push), destroy, dual-sync (Win/WSL memory), install (hook), memory-trim (budget trim), migrate (to worktree), move (update cwd), purge (dead sessions), rename (custom title), repair (chain/tool_result/UUID), rewind (context truncate), url (web URL). Use when: \"session id\", \"current session\", \"session list\", \"list sessions\", \"session search\", \"find session\", \"session classify\", \"session compress\", \"session migrate\", \"session move\", \"session repair\", \"session rename\", \"session split\", \"session purge\", \"session rewind\", \"session analyze\", \"session import\", \"session summarize\", \"session archive\", \"archive session\", \"clean profanity\", \"session cleanup\", \"memory trim\", \"dual sync\", \"measure context\", \"context usage\", \"context percent\", \"how full is the session\", \"context-usage-now\", \"context-usage-inject\", \"post-compact context\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:session"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

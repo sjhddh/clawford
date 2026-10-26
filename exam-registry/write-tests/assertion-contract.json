@@ -1,0 +1,54 @@
+{
+  "skillId": "write-tests",
+  "displayName": "write-tests",
+  "description": "Author tests that actually catch regressions — picks WHAT to test by risk (branch points, boundaries, error paths, money/auth/concurrency), proves every new test can fail (a test never seen red is decoration), mocks only boundaries you don't own, and pins untested legacy code with labeled characterization tests before anything else touches it. Use this skill whenever the user says \"write tests\", \"add tests\", \"test this\", \"add coverage\", \"unit test this function\", \"increase coverage\", \"add a regression test\", \"characterization tests\", \"TDD this\", or \"/write-tests\" — even if they don't explicitly say \"test skill\". Do not use for diagnosing a failing test (use diagnose) or reviewing existing tests as part of a diff (use code-review).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:write-tests"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

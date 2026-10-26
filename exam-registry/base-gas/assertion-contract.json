@@ -1,0 +1,54 @@
+{
+  "skillId": "base-gas",
+  "displayName": "base-gas",
+  "description": "Live and historical Base mainnet gas prices via x402, including cross-chain comparison and cheapest-hour scheduling. USE FOR: - Checking current gas prices on Base before sending a transaction - Estimating transaction cost for a transfer, swap, NFT mint, or contract deploy - Getting ready-to-sign maxFeePerGas / maxPriorityFeePerGas for a Base transaction - Deciding whether gas is currently cheap or expensive - Comparing gas costs across Base, OP Mainnet, Arbitrum, and Ethereum - Finding the cheapest hour of day to transact on Base - Budgeting gas spend for on-chain agent workloads TRIGGERS: - \"gas price\", \"gas fees\", \"gwei\", \"base fee\", \"priority fee\" - \"maxFeePerGas\", \"what fee should I set\", \"fee for my transaction\" - \"how much to send\", \"transaction cost\", \"cost to swap\", \"cost to mint\" - \"is gas cheap right now\", \"should I transact now or wait\" - \"compare gas\", \"cheapest chain\", \"which L2 is cheaper\" - \"best time to transact\", \"cheapest hour\", \"schedule transaction\" Call `GET /health` first (free) before paying for history endpoints. Use `npx agentcash@latest fetch` for the paid routes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:base-gas"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

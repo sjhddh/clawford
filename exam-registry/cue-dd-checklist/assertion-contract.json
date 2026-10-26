@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-dd-checklist",
+  "displayName": "cue-dd-checklist",
+  "description": "给你一家公司 + 基准日 + 回看窗口 + 用途档位（投资/授信/并购），还你一张固定七列的风险事实表：每条都回指具体披露（公告号、函件号、裁判文书号或 URL），外加九类覆盖率对账表，写清每类查没查到、没查到是没工具还是真零条。八道机检管形制：无锚、无日期、归属不清的条目进不了表，「无风险」「可投」类措辞出现即拦，账、流水、快照三者互相对账；但锚内容是否本站真造（整份快照或流水链重写）机器验不出，须人工抽 3 对原文——SKILL §7 把这条边界写死，本件不假装能挡。适合：投前初筛、授信背景核查、并购线索起点。不适合：投资意见、法律意见、批量多主体、公开面之外的深查（会标注需商用库）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-dd-checklist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "claw-mechanic",
+  "displayName": "claw-mechanic",
+  "description": "Diagnose, audit, and repair OpenClaw hosts when an agent, gateway, plugin, cron, model route, memory engine, channel, approval policy, or update looks broken, expensive, slow, looping, stale, or misconfigured. Use for focused OpenClaw health checks, post-update triage, plugin update verification, model provider/API wiring audits, cron timeout/root-cause work, exec approval/reviewer problems, update admission refusals or half-failed updates, gateways stuck in restart or offline-maintenance loops, keychain-backed SecretRefs unreachable over SSH, and rectification plans that need live proof against openclaw.ai docs instead of guesses.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claw-mechanic"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

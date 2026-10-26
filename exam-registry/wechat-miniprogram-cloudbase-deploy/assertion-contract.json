@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-miniprogram-cloudbase-deploy",
+  "displayName": "WeChat MiniProgram CloudBase Deploy",
+  "description": "WeChat Mini Program deployment onto WeChat CloudBase (云开发): deploy cloud functions via tcb, manually create database collections in the console, and upload the frontend via miniprogram-ci. Covers real-environment pitfalls: CLI cannot create collections, tcb fn invoke returns a Namespace metadata bug, the upload IP-whitelist only accepts IPv4 (so an IPv6 egress is always rejected), and the trial env defaults to ap-shanghai. Trigger when the task involves 部署微信小程序, 云开发, CloudBase, tcb 部署云函数, or miniprogram-ci 上传.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-miniprogram-cloudbase-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

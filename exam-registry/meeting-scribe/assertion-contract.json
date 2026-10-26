@@ -1,0 +1,54 @@
+{
+  "skillId": "meeting-scribe",
+  "displayName": "meeting-scribe",
+  "description": "Turn a meeting transcript into structured meeting memory — a dated meeting note, one appended mention line per entity the transcript names (person, organization, or meeting you already track), and a recap email drafted for review but never sent. Matches names against your own entity files first; an unmatched name becomes a proposed new entity instead of a guess, and an ambiguous name lists every candidate and writes nothing. Inspired by USV's Meeting Scribe agent (https://blog.usv.com/meet-the-agents), rebuilt generic for any team that keeps a folder of who and what it tracks. Use whenever the user says \"run meeting scribe\", \"turn this transcript into meeting memory\", \"log this meeting against my contacts\", \"who did we mention on this call\", \"draft a recap from this transcript\", \"/meeting-scribe\", or points at a transcript plus a folder of people/company files.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-scribe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bayesian-reasoning",
+  "displayName": "bayesian-reasoning",
+  "description": "Activate when: user says 'Bayesian', 'prior', 'posterior', 'base rate', 'likelihood ratio', or 'update my belief'; someone treats 'the evidence is consistent with X' as proof of X; a high-stakes decision rests on interpreting a test result, security alert, fraud flag, A/B result, or hiring signal; base rates are being ignored in favor of a vivid story. Do NOT activate when: the decision is genuinely deterministic and probabilities do not apply; there is no data or domain knowledge to anchor a prior (Bayes amplifies information, it does not create it from nothing). More: deciqai.com/c/bayesian-reasoning",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bayesian-reasoning"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

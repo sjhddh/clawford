@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-code-verification-guard",
+  "displayName": "AI Code Verification Guard",
+  "description": "Deterministic code-verification guard for AI coding agents. Runs syntax, type, lint and test checks before and after code changes, and decides PASS / FAIL / REGRESSION / UNVERIFIED purely by script exit codes. The agent may only quote the verdict, never overrule it. Use when the user asks to modify code, implement features, fix bugs, or verify change reliability (trigger phrases - verify this, run the tests, regression check, confirm it works, 验证一下, 跑测试, 回归检查, 确认没问题). Not for general code review or security audits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-code-verification-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-novelty-cn",
+  "displayName": "专利查新检索 · PatentMax",
+  "description": "专利查新与可专利性判断。当用户问一个技术方案有没有人做过、能不能申请专利、有没有新颖性或创造性、申请前要做查新、立项前要筛查方向是否被占，或要一份可交付的查新报告时使用。常见说法：「帮我查新」「查新检索」「这个能不能申请专利」「有没有人做过」「相似专利对比」，也可以直接给写好的交底书或专利初稿。Use when the user asks whether a technical idea is novel, patentable, or already disclosed in prior art. Also covers prior art search, novelty search, patentability check, or checking a finished invention disclosure.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-novelty-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

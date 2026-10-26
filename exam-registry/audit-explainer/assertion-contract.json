@@ -1,0 +1,54 @@
+{
+  "skillId": "audit-explainer",
+  "displayName": "audit-explainer",
+  "description": "Explains your own OpenClaw security audit in plain English. It runs openclaw security audit --json on your machine (never --fix or --deep), lists the risky settings the audit reports by severity, shows which to look at first, and points you to OpenClaw's own fix guidance, so you know where to start hardening. It changes nothing, adds no checks of its own and doesn't review the code inside skills itself, beyond what OpenClaw's audit reports. The skill itself sends the output nowhere, but your agent's AI model will read it. Made by Is My Agent Safe (ismyagentsafe.com), run by Your Evenings Ltd. Is My Agent Safe is independent and isn't affiliated with or endorsed by OpenClaw or its maintainers. Free and open source (MIT-0). Optional $29 report on our website; the skill works fully without it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audit-explainer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

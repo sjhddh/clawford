@@ -1,0 +1,49 @@
+{
+  "skillId": "upwork-research",
+  "displayName": "upwork-research",
+  "description": "Researches Upwork job postings and freelancer profiles via the Crawlora API — search Upwork's public job listings by keyword, pull full detail on a specific job posting, or look up a freelancer's profile (rate, Job Success Score, ratings, feedback) — returning clean JSON. Use when the user wants to search Upwork jobs, read a specific Upwork job posting, or research an Upwork freelancer.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:upwork-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

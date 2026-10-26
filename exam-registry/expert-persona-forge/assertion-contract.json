@@ -1,0 +1,54 @@
+{
+  "skillId": "expert-persona-forge",
+  "displayName": "专家人格锻造炉",
+  "description": "把\"给我一个 XX 专家\"变成一份可安装、可复用、经得起用的专家 SKILL.md——而不是一次性的角色扮演回答。 当用户说「给我造个XX专家」「把这个专家写成 skill」「帮我捏一个角色」「专家 prompt 怎么写」、 「这个角色不好使，帮我改」，或想让某个领域的专家固化下来反复使用时使用； 也用于审视已有的专家 prompt，找出它为什么不好使。 不适用于：只想让 AI 换个口吻回答一次（直接说\"用XX的语气回答\"即可）、需要查证的领域知识本身、 需要真人资质背书的最终决策（医疗诊断、法律意见、审计结论）。 Use when: create expert persona, build an expert skill, expert prompt generator, role prompt writing, 造专家, 专家角色, 人格设定, 智能体人设。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expert-persona-forge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

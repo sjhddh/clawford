@@ -1,0 +1,54 @@
+{
+  "skillId": "account-pool-manager",
+  "displayName": "account-pool-manager",
+  "description": "自媒体多账户池管理，支持按部门（自营/社交部/电商部/外包客户）分组管理账号、Cookie健康检查、智能轮换发布。 触发词：账号池/多账号管理/部门账号/账号轮换/Cookie检查/账号健康 不触发：封号换号（用account-manager）/内容发布（用content-publisher）",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:account-pool-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

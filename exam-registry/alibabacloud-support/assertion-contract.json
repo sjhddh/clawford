@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-support",
+  "displayName": "alibabacloud-support",
+  "description": "Manage Alibaba Cloud (Aliyun) after-sales support tickets from the conversation: resolve the real product and issue category through the Workorder OpenAPI, apply the bundled per-category collection rules, build a redacted non-blocking draft, then list recent tickets and create, view, reply to, close and rate tickets. Use when a customer asks to open, follow up on, reply to, close or rate an Alibaba Cloud support ticket, asks for the ticket list, status or engineer reply, or wants human support instead of self-service. Triggers: \"submit a ticket\", \"create a support ticket\", \"list my tickets\", \"view ticket status\", \"reply to the engineer\", \"close the ticket\", \"rate the ticket\", \"transfer to human support\", \"escalate to Alibaba Cloud support\", \"support case\". Do not use for product knowledge, troubleshooting or solution discussion that carries no ticket intent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-support"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

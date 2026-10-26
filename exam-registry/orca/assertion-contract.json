@@ -1,0 +1,54 @@
+{
+  "skillId": "orca",
+  "displayName": "orca",
+  "description": "Launch and coordinate agent sessions inside the Orca IDE runtime (stablyai/orca). Topics: send - find a running Orca terminal by title/preview/worktree and deliver a prompt to it, always disambiguating with a question when more than one candidate matches and never targeting the caller's own pane [send.md]. launch - start a new agent session (claude, antigravity, openclaw, codex, and 30+ other supported agents) in a fresh or existing worktree [launch.md]. install - install the stablyai/orca skill bundle into Claude Code, OpenClaw, or Antigravity, asking whether to ghq-clone + symlink or use a plain marketplace install [install.md]. Use when: \"send this to the claude session working on X\", \"hand this off to another agent in Orca\", \"spawn a new codex/antigravity worktree\", \"which Orca terminal is running Y\", \"install the orca skills into openclaw/antigravity\", \"Orca worktree\", \"Orca terminal send\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:orca"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-shopee-store-orders",
+  "displayName": "Shopee-店铺订单",
+  "description": "Shopee（虾皮）店铺订单（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API Order 模块全部 22 个接口：get_order_list、get_order_detail、get_shipment_list、search_package_list、cancel_order、ship 相关 booking/invoice/FBS 等。当用户提到 Shopee 订单、虾皮订单列表、订单详情、包裹、拆单、取消订单、买家取消、订单备注、booking、FBS 发票、order_sn、READY_TO_SHIP、Shopee order processing 时触发。即使未明确提及\"订单\"，只要涉及已授权 Shopee 店铺的订单查询或订单处理，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-orders"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

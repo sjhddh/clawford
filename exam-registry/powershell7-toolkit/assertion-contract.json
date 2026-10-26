@@ -1,0 +1,54 @@
+{
+  "skillId": "powershell7-toolkit",
+  "displayName": "Ps7 Toolkit",
+  "description": "在 Windows 上部署 PowerShell 7 与 Rust 高性能命令行工具链（ripgrep / fd / fzf / bat / delta / jq），根治中文输出乱码，并把 pwsh 设为系统默认 shell。当 AI 助手在 Windows 上执行命令时遇到以下情况，应主动调用本技能：报「字符串缺少终止符」、中文输出乱码、内联命令的引号被拆散、连接 GitHub 下载超时、脚本里不能用 && 或 ?: 三元运算、Select-String 检索太慢。这些多半是系统自带的 PowerShell 5.1 太老所致。跨机器自包含、幂等、免管理员、断网可装。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powershell7-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "zero-to-one-secrets",
+  "displayName": "Secrets (Zero to One)",
+  "description": "Activate when: user asks 'what do we know that others don't,' 'where is our edge,' 'what important truth do few people agree with me on,' 'is this idea defensible,' or is hunting for a startup idea, an untapped market, or a hidden opportunity; a business plan claims uniqueness but can't name the truth it rests on; user says 'Zero to One,' 'Thiel secret,' or 'contrarian opportunity.' Do NOT activate when: 'secret' means credentials, API keys, passwords, encryption, secret management, or any security/privacy topic — this is a business-opportunity skill, not a security skill; the user wants execution help on an already-validated idea rather than the truth beneath it. More: deciqai.com/c/zero-to-one-secrets",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zero-to-one-secrets"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

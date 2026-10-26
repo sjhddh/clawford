@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-browser-upload-cors-diagnosis",
+  "displayName": "alibabacloud-oss-browser-upload-cors-diagnosis",
+  "description": "Read-only diagnosis of browser/mini-program direct-upload failures and OSS CORS: preflight OPTIONS rejected, CORS rule missing/not effective, no Access-Control-Allow-Origin, expose-headers gaps (ETag / x-oss-request-id), PostObject policy issues. Templates only; never writes. Triggers: \"upload reports CORS error\", \"CORS config not working\", \"browser direct upload 403\", \"mini program upload failed\", \"Please set the etag of expose-headers\", \"preflight OPTIONS failed\", \"No 'Access-Control-Allow-Origin'\". Do NOT use for transfer error codes (alibabacloud-oss-transfer-error-code-diagnosis), multipart (alibabacloud-oss-multipart-upload-diagnosis), endpoints (alibabacloud-oss-endpoint-internal-diagnosis), signed URLs (alibabacloud-oss-presigned-url-v4-diagnosis), billing (alibabacloud-oss-billing-diagnosis), direct-access links (alibabacloud-oss-direct-access-link-diagnosis), static hosting (alibabacloud-oss-static-website-diagnosis).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-browser-upload-cors-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

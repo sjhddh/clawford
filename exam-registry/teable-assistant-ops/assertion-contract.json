@@ -1,0 +1,54 @@
+{
+  "skillId": "teable-assistant-ops",
+  "displayName": "Teable Assistant",
+  "description": "Operate Teable projects — tables, fields, views, records, SQL queries, automations, headless routines, apps, image generation, and web scraping. Trigger when user mentions Cuppy, Teable, teable CLI, or Teable-style IDs (bseXXX, tblXXX, fldXXX, recXXX, viwXXX), or wants to manage tables/fields/records, build dashboards/apps, generate images or charts, create automations, import/export data, trigger AI fill, or scrape websites (LinkedIn, Amazon, YouTube, etc.) — even if they don't explicitly say \"Teable\" but are clearly working with a Teable project (called base in the API).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:teable-assistant-ops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

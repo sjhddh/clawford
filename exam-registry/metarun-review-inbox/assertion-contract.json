@@ -1,0 +1,54 @@
+{
+  "skillId": "metarun-review-inbox",
+  "displayName": "MetaRun: review inbox",
+  "description": "Work an app's customer reviews through MetaRun: triage what needs a reply, draft and post public responses, mine reviews for product and keyword signal, and turn the best quotes into social-proof screenshot slides. Trigger phrases: \"check my reviews\", \"reply to reviews\", \"what are users complaining about\", \"answer the 1-star reviews\", \"mine my reviews\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:metarun-review-inbox"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

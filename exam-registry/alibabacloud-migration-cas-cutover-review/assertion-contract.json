@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-migration-cas-cutover-review",
+  "displayName": "alibabacloud-migration-cas-cutover-review",
+  "description": "自动审查应用迁云、大数据搬栈等场景的割接手册（.xlsx）， 围绕 5 大核心维度 Review：停机公告、切流方式（阻流层）、 源端数据库只读与会话管理、阿里云应用重启策略、回滚决策条件。 默认仅审查「割接执行步骤」与「回滚步骤」两个 Sheet （CheckList / 域名清单 / 数据迁移需 --sheets 打开）， 输出「重点确认项 + 需关注项」两段式 Markdown / JSON 报告（含评分与风险等级）。 当用户给出割接手册 / 割接方案 / 割接计划 / cutover plan 的 xlsx， 或说\"审查割接手册\"、\"review 割接方案\"、\"评估割接风险\"、\"检查回滚方案\"、 \"割接 checklist 评审\"、\"看看这个割接方案有什么问题\"时触发。 以下情形同样由本 skill 处理，禁止自行写脚本解析 Excel： 要列出 / 查看手册里有哪些 Sheet、工作表、页签名称用 --list-sheets； 分批割接（含用户显式指定过程 Sheet / 回滚 Sheet 名称）用 --scenario batch 配合 --process-sheet / --rollback-sheet；全量割接 / 一次性切流用 --scenario full； 场景不确定或属纯 DNS 切换 / 域名切换 / 配置变更等其他类型用 --scenario other； 未给路径时先用 find / ls 定位文件再审查。 不适用于：MongoDB / MySQL / Redis 等数据迁移任务配置、 非结构化文档（Word / PDF）、英文关键词主导的手册、业务语义级深度评审。 纯 DNS 方案审查深度有限（仅通告、回滚决策等基本维度）。 本 skill 仅做结构匹配与关键词检测，不理解业务语义，评分仅供参考。 适用于任意支持本地 shell 执行的 Agent 平台（Qoder / Claude Code 等）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-migration-cas-cutover-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

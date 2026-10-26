@@ -1,0 +1,49 @@
+{
+  "skillId": "fmcsa-carrier-intelligence",
+  "displayName": "fmcsa-carrier-intelligence",
+  "description": "Vet a US interstate motor carrier by USDOT number before tendering freight: operating authority, insurance filings, out-of-service orders, safety history, and identity-linkage signals that help spot double brokering or a carrier re-registering under a new number. Free tools to try first; paid calls start at $0.01, are paid in USDC on Solana, Base or Polygon via x402, and are charged only when records are returned.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fmcsa-carrier-intelligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

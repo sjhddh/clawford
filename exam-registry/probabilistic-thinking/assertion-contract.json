@@ -1,0 +1,54 @@
+{
+  "skillId": "probabilistic-thinking",
+  "displayName": "probabilistic-thinking",
+  "description": "Activate when: user says 'what are the odds,' 'base rate,' 'Bayesian update,' 'calibration,' or 'what's the probability'; user is making a forecast or estimating a conversion/close/hire/outcome probability; someone claims 'I'm 90% sure' without any evidence grounding; a vivid story is being used in place of a prior frequency; team is treating an uncertain outcome as binary will/won't. Do NOT activate when: the problem has a deterministic answer from its inputs (math, well-defined engineering); the question is about identity, ethics, or meaning rather than fact. More: deciqai.com/c/probabilistic-thinking",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:probabilistic-thinking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

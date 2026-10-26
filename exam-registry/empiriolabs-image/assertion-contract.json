@@ -1,0 +1,54 @@
+{
+  "skillId": "empiriolabs-image",
+  "displayName": "EmpirioLabs AI Image",
+  "description": "Generate and edit images with EmpirioLabs AI. Use when the user asks to create, draw, illustrate, or render a picture, logo concept, product shot, poster, or social image, or to edit, restyle, or combine existing images from a URL or local file. Runs a bundled Python script that picks a model from the live catalog (or the one you name), waits for the result, and saves the files to the path you choose.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:empiriolabs-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

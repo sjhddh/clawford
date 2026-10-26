@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-first-cli",
+  "displayName": "ai-first-cli",
+  "description": "This skill should be used when designing, building, or reviewing a command-line tool that AI agents will call, not just humans. Use it when deciding output format (JSON vs text), error handling, exit codes, flags, discoverability, dependencies and packaging, or autonomous-operation safety for a CLI. Also use it when asked how to make an existing CLI agent-friendly, or to evaluate a tool against the agent-first design philosophy. Grounded in Vercel's cloud-for-agents methodology.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-first-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tunnel-vision-slack",
+  "displayName": "Tunnel Vision & Slack",
+  "description": "Activate when: user says 'I'm always firefighting,' 'I never have time to think,' 'everything feels urgent,' 'I can't get ahead,' or 'we keep pushing strategic work because of day-to-day fires.' Do NOT activate when: the urgency is a single bounded crisis with a clear end date; or the person lacks goal clarity and does not yet know what strategic work to protect time for. More: deciqai.com/c/tunnel-vision-slack",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tunnel-vision-slack"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

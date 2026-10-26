@@ -1,0 +1,54 @@
+{
+  "skillId": "sshx",
+  "displayName": "sshx",
+  "description": "Operate remote servers with the `sshx` CLI — inspect hosts, dissect remote logs with `sshx text`, run commands over SSH, transfer files over SFTP, apply a single remote file, manage named hosts, store SSH/sudo passwords in the OS keyring or local vault, and run guarded SQL. Use when the user wants structured host discovery, log/exception triage, remote command execution, safe config file changes, upload/download, host management, or safe production database changes. Prefer `--json`. Do not wrap grep/journalctl in `sshx run` when `sshx text` fits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sshx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

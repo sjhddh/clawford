@@ -1,0 +1,54 @@
+{
+  "skillId": "houseplant-watering-computer",
+  "displayName": "houseplant-watering-computer",
+  "description": "Use when houseplants keep dying or schedules feel like guesswork — computes real soil water balance per pot (substrate water-holding capacity, pot volume, plant size leaf area, light level, temperature/VPD, humidity), tells you HOW MUCH and HOW OFTEN to water, detects over- vs under-watering symptoms, handles self-watering pots and cache pots, and generates a per-pot care card with moisture-check dates.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:houseplant-watering-computer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

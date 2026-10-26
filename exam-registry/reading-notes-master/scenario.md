@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: reading-notes-master
+
+You are taking an agent-native verification exam for skill `reading-notes-master`.
+一图解千言的出版级可视化读书笔记生成器（Chart-First 图表驱动 v2.6）。 基于 31 份精选读书笔记语料（约 2,600 页）双透镜研究：排版美学（design_metrics）+ 视觉密度（visual_metrics：逐页图像/矢量/字符实测），融合 awesome-design-md 出版级令牌 v2。 6 大叙事原型、9 大页面模块、20 组主题色映射、10+6 类图表组件、12 类文字→图表自动映射； v2.1 新增情绪营销方法论库（五点情绪开关 × 五色情绪光谱 × 实证案例库）； v2.2 新增咨询级页面工艺库（四弧线叙事/标题纪律/页面角色/五区骨架+收束唯一/ 关系→图型选型+数据契约/反模式红线/瀑布对账/图示语义/模块填充 P-D-F-X-V/ 容量硬网格/验收四门禁+12 问，见 references/consulting-craft.md）； v2.3 新增图形资产管线——原样复刻 × 从文字生成全栈工具链 （位图→矢量描摹 vtracer/potrace、Real-ESRGAN 4× 超分、mermaid/markmap 图表即代码、 clip 文本→SVG、cognigraph MCP 集成，4 个开箱即用包装脚本，见 references/graphics-toolchain.md）； v2.4 新增设计智能前置层（Step 0）——全量收录四大设计技能： ui-ux-pro-max 检索引擎（67 风格/161 配色/57 字体搭配/13 技术栈规范 + design-system 生成器， 纯标准库本地 BM25，英文关键词检索）+ ui-ux-pro-max-cn 中文本土化规则 （中文字体栈/色彩文化/微信小程序规范/Element Plus·Ant Design 等国内栈/五大行业规则）+ awesome-design-md 54 个真实品牌 DESIGN.md 全量规范（Vercel/Stripe/Linear/Notion/Claude…）+ awesome-design 20+ 设计技能选型导航；定调从"查内置映射表"升级为"先检索设计智能库再决策"， 详见 references/design-intelligence/INDEX.md； v2.5 新增思维模型库（构图建模层）——全量收录《万物皆模型》100 个思维模型 （每模型含一句话定义/内容信号词/10 大图型族构图要点），笔记内容命中模型信号即调用 其标准图型构图（信号→模型→图型三步路由，100 条高频信号速查）； 并新增文生图规范（五要素 prompt 公式 + 10 族 prompt 模板 + ≤5 张纪律）， 器型一律 HTML/SVG 绘制、文生图只做封面/hero/金句背景/篇章氛围四类资产， 详见 references/mental-models-library/INDEX.md； v2.6 新增国家地理杂志竖版版式（NG Portrait Magazine Layout）——660×960px 竖版开本 （=495×720pt=6.875×10in）、mag.css 完整设计系统（NG 黄盒色板/衬线标题+DIN 数字三字体栈/ 黑条黄星页眉页脚）、12 类杂志页面模板（封面/黑底目录/章扉/满版摄影/文章页(双栏+首字下沉)/ 解剖标注/大数字/图鉴条目/时间轴/价格条/思维导图/金句页）、Python 生成器分片生产模式 （每片 ≤20KB 防 Write 截断）、六步 build 流水线（合并→Playwright 三重校验→@2x 截图→ PDF→PPTX JPEG q87→打包）、6 条实测踩坑库、页数控制 1/3~1/2 法； 摄影集/自然/历史/人物类书籍优先用竖版，方法论/商业类仍走 16:9， 详见 references/ng-magazine-layout.md 与 templates/ng-magazine/。 输入一本书的要点/金句/结构，输出图表主导、少文字、出版级排版的读书笔记（HTML/PDF/PPTX/长图）。 触发词：读书笔记、生成笔记、可视化读书笔记、一图解千言、图表化笔记、读书分享、 书摘卡片、reading notes、读书笔记PPT、读书报告、精华笔记、营销笔记、情绪开关、 咨询级笔记、论证型笔记、图形复刻、复刻图表、位图转矢量、图片超分、 流程图导出、思维导图导出、图表工具链、设计系统、品牌风格、做得像某品牌、 中文产品设计、UI规范检索、设计风格推荐、思维模型、模型图型、马斯洛/金字塔/SWOT、 飞轮/复利/二八/冰山/决策树、文生图、配图生成、 竖版笔记、杂志风笔记、杂志版式、国家地理风格、NG风、像杂志一样、 magazine layout、portrait notes、摄影集笔记、画册笔记。
+
+## Task
+
+Use `reading-notes-master` to complete a browser-based workflow and document verifiable checkpoints along the path.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce evidence-backed workspace output that reflects key browser workflow milestones.
+- Keep total runtime steps efficient.

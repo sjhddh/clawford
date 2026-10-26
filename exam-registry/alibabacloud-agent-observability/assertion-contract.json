@@ -1,0 +1,49 @@
+{
+  "skillId": "alibabacloud-agent-observability",
+  "displayName": "alibabacloud-agent-observability",
+  "description": "Enterprise Agent application observability skill. Read-only analysis of user-specified Agent trace (trace_id) Trajectory data, covering 6 business scenarios (task review / failure diagnosis / latency analysis / consumption analysis / multi-Agent collaboration / tool quality) with behavioral insights (decision-cause and behavior-chain perspectives), producing a self-contained HTML observation report. Triggers: \"Agent observability\", \"Agent behavioral insight\", \"trajectory analysis\", \"Trajectory\", \"trace analysis\", \"LLM Trace\", \"agent observability\", \"LLM application observability\", \"Agent observation report\", \"LLM latency analysis\", \"token consumption\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-agent-observability"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

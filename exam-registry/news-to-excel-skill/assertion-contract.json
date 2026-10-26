@@ -1,0 +1,54 @@
+{
+  "skillId": "news-to-excel-skill",
+  "displayName": "网页新闻关键信息提取器",
+  "description": "自动提取网页中新闻列表的时间和事件简介，生成Excel。当用户提供包含多篇新闻或活动报道的网址时，逐篇提取时间和一句话信息，整理成第一列为时间、第二列为事件简介的表格，并输出为Excel文件。适用于整理机构月报、新闻汇总、活动记录等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:news-to-excel-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

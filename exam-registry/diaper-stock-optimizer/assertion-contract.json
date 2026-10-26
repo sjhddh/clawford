@@ -1,0 +1,54 @@
+{
+  "skillId": "diaper-stock-optimizer",
+  "displayName": "diaper-stock-optimizer",
+  "description": "Use when buying diapers in bulk, planning a Costco/Amazon stock-up run, checking how long current diaper stock will last, or deciding size transitions — size-by-size quantity math from the baby's birthday (growth-band durations + tapering changes/day), days-of-stock countdown with order verdicts, and per-size box-lifespan and cost estimates.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:diaper-stock-optimizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

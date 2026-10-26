@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-journal-draft",
+  "displayName": "cue-journal-draft",
+  "description": "给你栏目 + 本期素材（或先做公开检索），产出可编辑成稿：提纲、成稿、引证逐条回源，后接版面与编辑定位两道脚本门禁（查定位落地、字数、读者动作、句长、自填 taboo 词表与术语密度），终了 QA 清单人工逐项核（引证回源、极限词在清单内）。仿写参考样式只学语气、不编事实。适合：月刊/季刊内刊、客户通讯、投资者信、ESG 特刊。不适合：替代编辑签发（门禁给清单、拍板在用户）、编造客户案例、承诺刊发效果。 Do NOT use for: editorial sign-off, invented client cases, promised outcomes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-journal-draft"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

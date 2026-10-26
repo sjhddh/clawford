@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-research-brief",
+  "displayName": "cue-cn-research-brief",
+  "description": "多源研究速览起草：输入是一批中文来源（网页／公告／报道／解析件）或一个待查问题，产出是四节速览——一句话结论、逐条发现（每条一个 [S#] 锚）、未取到与口径、来源（逐条带 URL 与检索日）。机检 check_brief.py 四道：形制／锚／判断词／未取到点名，零网络。适合投前初筛、行业快讯、竞品多点对照、政策多源核对。Do NOT use for: 评级、目标价、买卖与时机建议（一律 [待人工]）、单一来源的转述（那只是摘要）、逐数核口径的财报深度点评（走姊妹件那一路）、最终决议（本件只起草，用户负终审）。Triggers: 多源速览 / 研究速览 / 中文源核对 / 带出处的要点清单",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-research-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

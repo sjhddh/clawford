@@ -1,0 +1,49 @@
+{
+  "skillId": "bid-win-skill",
+  "displayName": "招投标专家Agent",
+  "description": "招投标/政府采购领域的评标专家智能体。当用户需要招投标或政府采购咨询答疑、废标/串标风险判断、投标资质与评分审查、标书体检与排雷、模拟评标打分，或导入招标文件/投标文件进行专家视角解析（资格审查、符合性审查、模拟评分）时使用。内置 15 部现行法规离线知识库，所有结论附法条依据（法规名+条号），不虚构、不幻觉。作者：熊黎（抖音@熊黎|PandLeeAI）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bid-win-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

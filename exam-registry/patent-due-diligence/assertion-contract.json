@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-due-diligence",
+  "displayName": "专利尽调",
+  "description": "专利尽调、知识产权尽职调查。当用户说「投资前查一下这家公司的专利」「并购尽调要看专利」「这家公司的专利有没有质押」「核心专利是不是买来的」「专利权属核查」时使用。输出专利尽调清单（Excel 能打开）和风险点摘要。 Checks a target company's patents before investment, M&A or partnership, covering valid count, ownership, transfers in, pledges and licenses, and lists risk points.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-due-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

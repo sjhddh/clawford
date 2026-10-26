@@ -1,0 +1,54 @@
+{
+  "skillId": "med-visit-prep",
+  "displayName": "就医准备清单台",
+  "description": "很多人进了诊室才发现：忘了带以前的检查单、说不清什么时候开始的、医生问什么答不上来，白白浪费一次面诊。 输入：主要不适、起始时间与变化、既往病史与用药、已做过的检查、就诊科室。输出：①病史时间轴（按日期列关键事件）②症状描述卡（部位/性质/诱因/缓解因素/伴随症状）③资料清单（带哪些报告与片子）④面诊必问 5 问 ⑤就诊后记录模板（用药与复诊时间）。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:med-visit-prep"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

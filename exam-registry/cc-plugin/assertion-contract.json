@@ -1,0 +1,54 @@
+{
+  "skillId": "cc-plugin",
+  "displayName": "cc-plugin",
+  "description": "Claude Code plugin lifecycle management. cache - clean old cache versions (cleanup only — NOT for cache miss diagnosis) [cache.md], clustering - skill affinity scoring (coupling/dep/hook-ownership) → plugin bundle membership [clustering.md], create - plugin authoring guide (structure, plugin.json, components) [create.md], dev-reflect - reflect local dev repo into marketplace clone for pre-push testing [dev-reflect.md], hud - OMC HUD statusline (omcHud elements, omcLabel, wrapper sed fallback) [hud.md], marketplace - clone/list/update marketplace repos [marketplace.md], troubleshoot - cache miss/error, install fail, cache sync, HUD diagnostics — ALL plugin errors route here [troubleshoot.md]. \"plugin\", \"marketplace\", \"plugin install\", \"plugin not installed\", \"cache miss\", \"cache error\", \"plugin error\", \"load error\", \"reload errors\", \"dev reflect\", \"plugin clustering\", \"bundle skills\", \"skill affinity\", \"OMC HUD\", \"omcHud\", \"omcLabel\", \"statusline\", \"[OMC#\" triggers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cc-plugin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

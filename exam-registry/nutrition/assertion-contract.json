@@ -1,0 +1,54 @@
+{
+  "skillId": "nutrition",
+  "displayName": "Nutrition",
+  "description": "Closes micronutrient gaps and raises diet quality: vitamins, minerals, fiber, supplements, and food-drug interactions. Use when the user asks if they get enough iron, B12, vitamin D, magnesium, calcium, zinc, folate, iodine, potassium, or omega-3, reports fatigue, hair loss, cramps, tingling, or mouth sores, brings blood work to read (ferritin, 25-OH D, homocysteine), builds or prunes a supplement stack with doses, forms, and upper limits, checks a food or supplement against a medication, needs the gaps of a vegan, vegetarian, keto, gluten-free, low-FODMAP, DASH, or Mediterranean diet, eats for pregnancy, older age, celiac, IBD, kidney disease, or bariatric surgery, wants more fiber or less ultra-processed food and sodium, or reads a label's %DV, NRV, or ingredients. Not for calorie and macro counting (`calories`, `dietitian`), meal plans and recipes (`meal-planner`, `meals`), food logging or eating habits (`food`, `nutritionist`), hydration (`water`), or fasting windows (`fasting`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nutrition"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

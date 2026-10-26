@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-forensic-audit",
+  "displayName": "AI Forensic Audit (Evidence Chain)",
+  "description": "AI 溯源审计技能：对 AI 生成内容/Agent 行为/对话记录执行溯源审计——采集证据链（来源/时间线/操作日志/生成痕迹）→ 交叉验证 → 输出结构化审计报告（证据清单+可信度+风险点+建议）。对标国际标准：C2PA 内容溯源 / SLSA 供应链 / EU AI Act Art.50 / 审计准则（ISSAI/COBIT）。适用：AI 内容是否由某 AI 生成、Agent 操作合规审计、泄密溯源、医疗 AI 审计（细分第一）。触发词：溯源、审计、证据链、AI 审计、这是谁生成的、provenance、forensic、audit trail、内容溯源。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-forensic-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

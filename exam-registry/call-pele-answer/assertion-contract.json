@@ -1,0 +1,54 @@
+{
+  "skillId": "call-pele-answer",
+  "displayName": "call-pele-answer",
+  "description": "按块路由的解释技能：给回答里的每一段内容挑最合适的形式（文字、表格、图、步骤、滑杆）。先画出回答的全貌， 拆成内容块，按每块的信息形状和理解障碍选形式：STE 风格文字、表格、Mermaid 图（内置渲染，30+ 种）、 滑块、标签页、分步播放；再决定载体：聊天里直接答，还是生成一页离线 HTML。模型只写 Markdown 稿件， bundled CLI 负责排版、配色、图的坐标和检查。用于：讲原理、讲流程/架构/状态、比较方案、复盘诊断、 教学演示，或用户说“讲讲 / 没看懂 / 画个图 / 对比一下 / 做成一页 / explain / how does X work”。 可选用 classifier.dev / TypeSafe System One 在 1 秒内逐块路由，并给同一块内容生成可切换的多种看法。 一句话能答清的问题、闲聊、用户要纯文本时不用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:call-pele-answer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

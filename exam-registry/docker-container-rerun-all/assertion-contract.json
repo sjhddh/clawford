@@ -1,0 +1,54 @@
+{
+  "skillId": "docker-container-rerun-all",
+  "displayName": "docker-container-rerun-all",
+  "description": "Sequentially check and optionally update all docker run containers that already have fixed recreate commands recorded in long-term memory. Use when the user wants a batch refresh of remembered docker-run-managed containers, wants dynamic discovery from MEMORY.md instead of a hardcoded list, and wants the results grouped into updated, already up-to-date, and failed containers with image tag and image Id change details.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docker-container-rerun-all"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

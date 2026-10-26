@@ -1,0 +1,54 @@
+{
+  "skillId": "tender-bid-opportunity",
+  "displayName": "招投标商机筛选｜招标中标与标讯分析",
+  "description": "按业务范围筛选招投标商机：查询招标中标标讯、采购意向和拟建项目，核对业务相关性、地区、预算、阶段与关键日期，区分可跟进候选、早期线索和历史参考。适用于已有行业或产品条件的项目初筛；完整投标决策和持续监控使用专用技能。基于知了标讯API，需平台Key及积分。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tender-bid-opportunity"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

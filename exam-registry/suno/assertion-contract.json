@@ -1,0 +1,54 @@
+{
+  "skillId": "suno",
+  "displayName": "suno",
+  "description": "The Suno craft skill — generate full songs, brand music, and audio (vocals, lyrics, stems) with the right tier, honest rights, and structure control. Use when someone wants to make music with Suno/AI, create a brand sound/theme/jingle/podcast intro, control song structure (meta-tags), build a consistent sonic identity (Personas, Voices), split stems, distribute AI music to Spotify/YouTube, or asks whether they own their Suno songs. Uses the TRACK framework. Reads ai-music-and-sound (the router) + brand-profile + the content skill the music serves first. The agent writes briefs/lyrics and can drive the API where connected; the HUMAN's ears judge every track; WoopSocial publishes the content it scores. Rights: paid plan from the first note, commercial rights not ownership, no indemnification while litigation runs, AI-disclosure at distribution; never clone a real artist's voice. Distinct from ai-music-and-sound, ai-voiceover/elevenlabs (spoken TTS), capcut, and podcast-and-audiograms.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:suno"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

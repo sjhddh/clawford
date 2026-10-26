@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-event-brief-cn",
+  "displayName": "cue-event-brief-cn",
+  "description": "A股公告事件速读卡：把一份临时公告（回购/增减持/业绩预告/重大合同/处罚问询等）变成可核对的五段卡——逐字关键数+出处、影响链候选、同类对照、待核清单。评级与目标价一律[待人工]，不预测走势。适合「刚出了公告先看什么」「这份公告讲什么」。Do NOT use for: 投资建议或买卖决策、未检索到的数据编造、收益承诺。Triggers: 公告速读 / 公告解读 / 这份公告 / 回购公告 / 增减持 / 业绩预告 / 处罚 / 问询函 / 刚出公告； announcement triage / A-share filing quick-read",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-event-brief-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

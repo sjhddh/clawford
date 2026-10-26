@@ -1,0 +1,54 @@
+{
+  "skillId": "goodharts-law",
+  "displayName": "Goodhart's Law",
+  "description": "Activate when: our KPI is going up but the real outcome isn't improving; people seem to be gaming the metric; we're about to tie bonuses or promotions to a number; an algorithm is producing results nobody intended; a test or audit system is being designed. Do NOT activate when: the metric IS the goal with no proxy gap; measurement is purely descriptive with zero stakes attached. More: deciqai.com/c/goodharts-law",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:goodharts-law"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

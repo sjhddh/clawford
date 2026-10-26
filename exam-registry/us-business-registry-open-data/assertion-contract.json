@@ -1,0 +1,49 @@
+{
+  "skillId": "us-business-registry-open-data",
+  "displayName": "US Business Registry Open Data",
+  "description": "Activate when: user needs US company registration data (LLCs, corporations, formation dates, registered agents) in bulk — lead lists by state, formation-trend analysis, entity matching, TAM sizing from registries; user asks 'where can I get company registration data,' 'Secretary of State data,' 'business registry API,' or hits OpenCorporates pricing walls. Do NOT activate when: user needs business *license* data, SEC filings, or non-US registries; user needs Delaware/California/Texas bulk data (paid or unavailable — this skill explains why, then stops). More: deciqai.com/c/us-business-registry-open-data",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:us-business-registry-open-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

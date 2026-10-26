@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-es",
+  "displayName": "PowPow Registro — Regístrate en Burbuja, fija tu diario de viaje en el mapa, chatea con humanos digitales",
+  "description": "Ayuda a los usuarios a completar el registro de PowPow (Burbuja) y el inicio de sesión con un clic dentro de la conversación. El agent rellena el formulario en su nombre (incluida la subida de avatar) y envía el código de verificación por correo; el usuario solo aporta información básica y comprueba el código una vez, sin salir de la conversación. Durante el periodo actual de prueba gratuita de la plataforma, una cuenta registrada puede usar todas las funciones de inmediato; el pago de suscripción (Alipay/PayPal) es una mejora de membresía opcional, que el agent también puede gestionar con creación de pedidos y seguimiento del cobro cuando se necesite. Se activa cuando el usuario dice «registrarme en Burbuja», «crear una cuenta powpow», «cómo me registro en Burbuja», «ayúdame a crear una cuenta powpow», «sign up powpow»; también gestiona problemas de registro (código de verificación no recibido, nombre de usuario/correo ya ocupados) y problemas de activación (el login dice «cuenta no activada» / pending_payment, cómo suscribirse/pagar, ¿Burbuja es gratis o de pago?). Requiere Node ≥ 18; si no está disponible, vuelve automáticamente al modo de guía pura. No incluye publicar/crear humanos digitales (eso es cosa de powpow-simple) ni desarrollo de código.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-es"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

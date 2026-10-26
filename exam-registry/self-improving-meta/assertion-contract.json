@@ -1,0 +1,54 @@
+{
+  "skillId": "self-improving-meta",
+  "displayName": "self-improving-meta",
+  "description": "Logs agent-infrastructure issues (prompt drift, rule conflicts, hook failures, context bloat). Default is log-only. Claude/Codex project hooks fire only on explicit meta signals (self-improving-meta, prompt-governance, stackability). The optional OpenClaw agent:bootstrap hook is session-start and not matcher-gated; if enabled it injects a log-only reminder and must not edit files. Does not edit AGENTS.md, SOUL.md, TOOLS.md, MEMORY.md, hooks, or skills unless the user requests a reviewed diff in the current session. Use when prompt-file instructions are misread, a hook fails, a skill does not activate, rules conflict, prompt files waste context, memory is stale, or a skill template is incomplete.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-meta"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

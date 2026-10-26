@@ -1,0 +1,54 @@
+{
+  "skillId": "build-buy-partner-ai",
+  "displayName": "Build / Buy / Partner (AI Capabilities)",
+  "description": "Activate when: user says 'should we build this AI feature or buy it?', 'should we develop our own agent?', 'which AI vendor should we partner with?', 'build vs buy', 'should we train our own model?', 'the vendor raised prices / changed terms — do we switch?', or is about to sign an annual AI contract, hire an ML team, or commit to a platform for an AI capability. Do NOT activate when: trying a free tool that can be dropped any time; a personal productivity tool unrelated to business outcomes; the solution is already chosen and the question is how to run the pilot to a verdict (use ai-pilot-to-scale); the question is general lock-in economics, not an AI sourcing decision (use switching-costs). More: deciqai.com/c/build-buy-partner-ai",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:build-buy-partner-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

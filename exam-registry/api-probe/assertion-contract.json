@@ -1,0 +1,54 @@
+{
+  "skillId": "api-probe",
+  "displayName": "API 探针",
+  "description": "专业的 API 接口测试与验证工具。支持 REST API、GraphQL、WebSocket 测试，自动生成测试用例，验证接口契约，模拟 Mock 服务。当用户需要测试 API 接口、验证接口参数、测试接口性能、生成接口测试报告、Mock 接口数据、或进行接口契约测试时使用此技能。也适用于用户提到\"接口测试\"、\"API测试\"、\"REST测试\"、\"接口验证\"、\"Mock服务\"、\"契约测试\"、\"Postman\"、\"Swagger\"、\"OpenAPI\"等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:api-probe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

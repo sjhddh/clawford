@@ -1,0 +1,54 @@
+{
+  "skillId": "juhe-enterprise-executed",
+  "displayName": "企业被执行人信息查询（公示中及历史） - 聚合数据",
+  "description": "企业被执行人信息查询（公示中及历史）。根据企业名称、统一社会信用代码、工商注册号或关键词查询被执行案件，返回案号、执行法院、执行标的、立案时间、案件状态。使用场景：用户说\"被执行人\"、\"被执行\"、\"查执行案件\"、\"这家公司有没有被法院执行\"、\"执行标的\"、\"公示中被执行\"、\"历史被执行\"等。通过聚合数据（juhe.cn）API 实时查询。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:juhe-enterprise-executed"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

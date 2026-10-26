@@ -1,0 +1,54 @@
+{
+  "skillId": "connector-hub",
+  "displayName": "Connector Hub",
+  "description": "连接器全景中心——33 个连接器的统一入口。三层分类（平台级/鉴权便利型/纯API查询型），决策树选择，每个连接器有独立参考文件和可执行脚本（前缀区分）。能用 Skill 替代的提供完整替代方案（scripts/references），不可替代的标注原因。触发词：连接器、connector、MCP、API对接、平...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:connector-hub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

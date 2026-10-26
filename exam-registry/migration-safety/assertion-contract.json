@@ -1,0 +1,54 @@
+{
+  "skillId": "migration-safety",
+  "displayName": "migration-safety",
+  "description": "Review a schema migration for production safety under live traffic — destructive operations (dropped/renamed columns or tables, type narrowing) gated behind expand-contract plans, lock-taking DDL flagged with the specific lock and its duration driver, the deploy-order contract checked both ways (old code on new schema during rollout, new code on old schema during rollback), backfills separated from DDL and batched, and a rollback path stated per migration. Never executes migrations or DDL. Use this skill whenever the user says \"review this migration\", \"is this migration safe\", \"will this lock the table\", \"zero-downtime migration\", \"check the schema change\", \"expand and contract\", \"review the EF migration / alembic / prisma migrate diff\", or \"/migration-safety\" — even if they don't name the skill. Distinct from sql-review (T-SQL antipatterns in procs); this reviews SCHEMA CHANGES against live traffic and deploys.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:migration-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

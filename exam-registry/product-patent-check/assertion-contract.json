@@ -1,0 +1,49 @@
+{
+  "skillId": "product-patent-check",
+  "displayName": "产品专利查询",
+  "description": "产品专利查询、这个产品有没有专利。当用户说「某品牌的扫地机器人有哪些专利」「这款产品有专利吗」「采购前看看供应商产品的专利」「电商卖货前查一下产品专利」「拆解竞品看专利」时使用。输出产品专利清单（Excel 能打开），按部件分组。 Finds the patents behind a brand's product by resolving all company name variants, then searching by product and component for inventions, utility models and designs, grouped by component.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-patent-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "euthyna-en",
+  "displayName": "euthyna (English)",
+  "description": "The adjudication discipline and delivery gate for code security audits. Use when the user asks to audit the security of a piece of code, a pull request, a change, or to verify an existing vulnerability claim. It does three things: supply the deterministic facts a model cannot compute (callers, test coverage, git history origins), judge every claim against six gates, and downgrade any claim that cannot produce evidence to \"observation\" rather than a finding. Not for: asking about the details of a single CVE, running an existing scanner once, pure documentation or formatting changes, or when the user explicitly wants a quick summary and accepts the risk.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:euthyna-en"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "commit",
+  "displayName": "commit",
+  "description": "在 Git 仓库中分析当前变更，生成符合项目规范的 commit message，自动判断单次提交还是按功能拆分多次提交；正常情况全自动不询问，命中异常规则（不能或无须提交的文件等）才请用户确认。 TRIGGER（中文）：\"提交一下代码\"\"帮我 commit\"\"这次改动提交了吧\"\"生成 commit message 并提交\"\"/commit\"\"按 fix 提交\" \"先看看变更别提交\"\"改一下上次的 commit\"。 DO NOT TRIGGER：用户只想看变更且未表达提交意图（直接执行 git status/diff 即可）； push、rebase 等远端或历史操作（按普通指令处理并单独确认）；非 Git 仓库环境。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:commit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

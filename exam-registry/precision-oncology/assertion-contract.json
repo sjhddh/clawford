@@ -1,0 +1,54 @@
+{
+  "skillId": "precision-oncology",
+  "displayName": "precision-oncology",
+  "description": "Combine the academic literatures, epidemiological reports, clinical and pharmaceutical guidance & clinical trial reports, then give a report about the cancer and its treatment Detailed molecular biology and histology profiling based on carcinogenesis Load the skill when the queries are about - Cancer or tumour - carcinogenesis - treatment for the cancer or tumour Typical queries - How does breast cancer occur? - The first- and second-line treatments of leukemia - Progress of CAR-T therapies treating pancreatic cancer - Incidence and prevalence of colorectal cancer in Asia - What are the unmet medical needs in glioblastoma treatment?",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:precision-oncology"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

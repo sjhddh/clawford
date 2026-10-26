@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-output-verification-trust-tiers",
+  "displayName": "AI Output Verification Trust Tiers",
+  "description": "Activate when: user says 'can we use the AI's output directly?', 'what needs human review and what doesn't?', 'how do we verify AI output?', 'the AI made up data again', or needs review rules for AI outputs, or is deciding where an agent may act automatically and where a human must sign off. Do NOT activate when: the output is a personal draft that never leaves the user's hands and is never booked or sent; a regulator already mandates a fixed review procedure for this output; redoing a wrong output costs nothing; the task is brand voice and fact-base design for high-volume content (use ai-content-factory-brand-consistency). More: deciqai.com/c/ai-output-verification-trust-tiers",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-output-verification-trust-tiers"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

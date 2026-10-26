@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-presigned-url-v4-diagnosis",
+  "displayName": "alibabacloud-oss-presigned-url-v4-diagnosis",
+  "description": "Zero-cloud-API diagnosis of OSS presigned (share) URL failures and V1-to-V4 migration: parses a pasted URL, routes to causes (expired, clock skew, V1 signature forbidden, credential rotation, method mismatch, malformed x-oss-credential, SDK config misuse, proxy header tampering). Triggers: \"share link expired\", \"SignatureDoesNotMatch on presigned URL\", \"V1 signature is forbidden\", \"x-oss-credential error\", \"signed URL stops working\"; Chinese ticket wording routes via the embedded catalog keyword layer. Do NOT use for transfer error codes, billing, endpoints, traffic abuse / AK-leak, CDN back-to-origin or Referer hotlink configuration requests, or other OSS domains (backup / image processing / direct-access links / static hosting) — route to the matching alibabacloud-oss-* skill. A presigned-URL signature failure stays here even when a CDN or a proxy sits in front of the bucket.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-presigned-url-v4-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

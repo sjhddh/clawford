@@ -1,0 +1,54 @@
+{
+  "skillId": "doubao-asr-flash",
+  "displayName": "Doubao ASR Flash",
+  "description": "火山引擎豆包语音识别 API（录音文件极速版）。把本地音频/视频文件或公网音频 URL 转成文字：录音转写、会议纪要、播客字幕、语音输入、视频伴音提取文字。 一次 HTTP POST 返回结果，无需轮询。支持 WAV/MP3/OGG 直传，其他格式 （m4a/flac/aac/视频等）自动用 ffmpeg 转码。Use whenever the user wants to 转写/识别/听写 音频或视频中的语音，生成文字稿、字幕(SRT)、会议纪要等。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doubao-asr-flash"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

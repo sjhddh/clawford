@@ -1,0 +1,54 @@
+{
+  "skillId": "three-mode-classifier",
+  "displayName": "三类主导模式判别器",
+  "description": "判断一个产业 Web3 项目属于哪类主导模式（原生型 / 产业变革型 / 链改-资产支持型），并据此选型、设计组织形态与合规路径。 当用户/企业想\"上链\"却不知走哪条路、对三类模式的差异与合规边界拿不准时使用。 触发信号：\"我们想做个通证/上链项目\"\"传统产业怎么用 Web3 转型\"\"用充电桩/电站收益权融资、发 RWA\"。 不适用于：纯 RWA 工程落地流程（见 S8 RWA 路径）、真假 Web3 识别（见 S4 W-ABCD）、纯合规红线判定（见 S2 合规红线）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-mode-classifier"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

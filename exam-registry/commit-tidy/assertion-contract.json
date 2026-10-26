@@ -1,0 +1,54 @@
+{
+  "skillId": "commit-tidy",
+  "displayName": "commit-tidy",
+  "description": "Analyze staged/committed changes and recommend split, squash, or commit-message strategy. Topics — conflict-commit-review (per-chunk review gate for conflict-residue commit messages), hunk-split (single-hunk staging via git apply --cached), interactive-amend (worktree-based amend+rebase loop), soft-reset-amend (soft-reset top N + selective re-commit), staging-discipline (staged-set audit + sensitive-dir gate), security-scan (PUBLIC repo secret pattern check), message-discipline (Conventional Commit tags, PUBLIC English, --amend refresh). Use when: \"commit split\", \"squash commits\", \"tidy commits\", \"amend earlier\", \"interactive amend\", \"soft reset\", \"rewrite commits\", \"PUBLIC repo commit\", \"secret in commit\", \"commit message\", \"commit author identity\", \"commit message English\", \"staging discipline\", \"hunk split\", \"stage one hunk\", \"git apply --cached\", \"non-interactive git add -p\", \"conflict commit\", \"Conflicts message\", \"review conflict resolution\", \"bad merge resolution\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:commit-tidy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

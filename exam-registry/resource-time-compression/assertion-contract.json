@@ -1,0 +1,54 @@
+{
+  "skillId": "resource-time-compression",
+  "displayName": "Resource-Time Compression",
+  "description": "Activate when: user says 'this will take years', 'we need to build this from scratch', 'we don't have the resources to move faster', 'how do we compress our timeline', 'competitors are already ahead and we can't catch up sequentially', or when a goal is achievable but the default sequential plan is too slow for the market window. Do NOT activate when: the bottleneck is a genuine sequential dependency that cannot be parallelized (e.g., regulatory approval must precede launch); or when required external resources do not yet exist and the problem requires first-principles innovation rather than resource configuration. More: deciqai.com/c/resource-time-compression",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:resource-time-compression"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

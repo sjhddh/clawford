@@ -1,0 +1,54 @@
+{
+  "skillId": "codebuddy-cli-delegation",
+  "displayName": "codebuddy-cli-delegation",
+  "description": "把大批量编码任务派给「独立无头 CodeBuddy CLI」执行的标准流程。CodeBuddy CLI 专用（非通用 CLI 技能）：干净环境启动（避免宿主注入环境变量导致 0 字节静默挂死）、指令预算与并行准入（四隔离 + 写集不相交）、模型与参数分配（模型由派发方指定，参数按阶段分配）、独立审计验收（对抗性探针 + 变异对照，不采信 CLI 自述）。含 21 个可用模型清单与厂商档位映射、启动器模板，全部结论基于 CodeBuddy CLI 2.156.0 实测。用于批量改造、批量补测试、批量文档回填、无人值守跑批次等前台会超时的大任务。触发词：用 CLI 派活、让 CLI 干一批、无人值",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codebuddy-cli-delegation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

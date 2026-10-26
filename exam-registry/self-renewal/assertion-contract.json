@@ -1,0 +1,54 @@
+{
+  "skillId": "self-renewal",
+  "displayName": "Self-Renewal",
+  "description": "Activate when: someone says \"I keep reverting to old habits,\" \"our strategy worked five years ago but not now,\" \"I know I should think differently but can't seem to,\" \"how do I stay relevant,\" or a leader/team is operating on prior-era assumptions in a changed environment. Do NOT activate when: the underlying belief is still valid and the environment hasn't changed (renewal for its own sake produces instability), or someone is in acute crisis and needs stability rather than dismantling. More: deciqai.com/c/self-renewal",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-renewal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

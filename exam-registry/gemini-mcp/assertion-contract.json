@@ -1,0 +1,54 @@
+{
+  "skillId": "gemini-mcp",
+  "displayName": "gemini-mcp",
+  "description": "Generate and edit images, video, and music with Google Gemini models via MCP. Use when the user asks to generate, create, or edit images (Gemini / Nano Banana), produce a consistent set of images, compose/blend multiple images, generate a short video (text→video or image→video, via the omni model), or generate music/audio clips (via Lyria). Triggers on phrases like \"generate an image of\", \"edit this image with Gemini\", \"create a set of consistent images\", \"make a video of\", \"generate a video\", \"generate music\", \"make a song/audio clip\", \"use Nano Banana to make\", or any request to produce images, video, or music via the Gemini API. Requires the @chrischall/gemini-mcp package installed and the gemini server registered (see Setup below).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gemini-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

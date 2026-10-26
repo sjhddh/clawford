@@ -1,0 +1,54 @@
+{
+  "skillId": "rendermark",
+  "displayName": "RenderMark",
+  "description": "Professional markdown rendering, export, and publishing via MCP. Use when user asks to \"render markdown\", \"export to PDF\", \"convert to DOCX\", \"create a document\", \"publish a document\", \"share a link\", \"make a slide deck\", \"diff two markdown files\", \"export to HTML\", \"create a shareable document\", \"sync docs from GitHub\", or \"generate an image of this markdown\". Do NOT use for simple markdown editing, code generation, or general writing that doesn't need styled output.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rendermark"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

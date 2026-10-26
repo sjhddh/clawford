@@ -1,0 +1,54 @@
+{
+  "skillId": "mr-market",
+  "displayName": "Mr. Market",
+  "description": "Activate when: user says 'the market is telling us X', 'valuation has dropped/risen so we should act', 'everyone is selling/buying so I should too', or is making an investment/fundraising decision based on a quoted price under emotional pressure. Do NOT activate when: the market quote genuinely reflects new economic information about the underlying business (not mood); or the user must transact at quoted price for forced-sale/liquidity reasons. More: deciqai.com/c/mr-market",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mr-market"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

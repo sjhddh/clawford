@@ -1,0 +1,49 @@
+{
+  "skillId": "premortem",
+  "displayName": "premortem",
+  "description": "Activate when: user says 'let's check what could go wrong before we commit', 'I want to stress-test this plan', 'we're about to launch and I'm worried we're missing something', 'premortem', or is about to make a hard-to-reverse decision with a team that has converged on one plan. Do NOT activate when: the decision is small and easily reversible (overhead exceeds value); the situation is time-critical and analysis would prevent timely response. More: deciqai.com/c/premortem",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:premortem"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

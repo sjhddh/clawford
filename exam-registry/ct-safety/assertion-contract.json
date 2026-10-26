@@ -1,0 +1,49 @@
+{
+  "skillId": "ct-safety",
+  "displayName": "Clinical Trial Safety Signal / 临床试验安全信号专家",
+  "description": "Screen drug–event safety signals via disproportionality analysis (PRR / ROR / IC / EBGM with 95% CIs) on FDA FAERS, with Safety Signal Score (0–100, T1–T4). Sources: FDA FAERS (openFDA drug/event.json), FDA Label (drug/label.json), China NMPA PV bulletins (cdr-adr.org.cn), DailyMed SPL, RxClass MED-RT, openFDA enforcement recalls, Hong Kong ADR Alerts. Public data only; zero confidential input. / 基于 FDA FAERS 筛查药物-事件安全信号，计算 disproportionality（PRR / ROR / IC / EBGM，含 95% CI）与安全信号评分（0–100，T1–T4）。数据源：FDA FAERS（openFDA drug/event.json）、FDA 标签（drug/label.json）、中国 NMPA 药物警戒通报（cdr-adr.org.cn）、DailyMed 说明书、RxClass MED-RT、openFDA 召回执法、香港 ADR 警报。仅公开数据，零保密输入。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ct-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

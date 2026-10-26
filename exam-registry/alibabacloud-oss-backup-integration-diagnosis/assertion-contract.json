@@ -1,0 +1,54 @@
+{
+  "skillId": "alibabacloud-oss-backup-integration-diagnosis",
+  "displayName": "alibabacloud-oss-backup-integration-diagnosis",
+  "description": "Zero-cloud-API diagnosis of Alibaba Cloud OSS integration problems for third-party backup software (Veeam, Synology NAS, Rclone, generic S3 clients): S3 compatible interface checks (endpoint form, path-style), V1-signature-forbidden routing to V4, retrieval-fee attribution for IA/Archive backup buckets, whitelist (jia-bai) request guidance. Configuration advice only; never executes changes. Do NOT use for: upload/download error codes (use alibabacloud-oss-transfer-error-code-diagnosis), billing line-items (use alibabacloud-oss-billing-diagnosis), lifecycle rules (use alibabacloud-oss-lifecycle-runtime-diagnosis), presigned URLs (use alibabacloud-oss-presigned-url-v4-diagnosis). Triggers: \"Veeam backup to OSS\", \"Synology backup OSS\", \"rclone sync OSS\", \"S3 compatible interface\", \"high retrieval fee from backup\", \"V1 signature forbidden on backup tool\". Invoke immediately on any trigger; the entry script collects missing inputs via its \"Inputs still missing\" report instead of interviewing the user first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibabacloud-oss-backup-integration-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

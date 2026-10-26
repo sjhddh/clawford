@@ -1,0 +1,49 @@
+{
+  "skillId": "blackwood-state",
+  "displayName": "blackwood-state",
+  "description": "Use when an agent needs live onchain data (token prices on Base, wallet balances and portfolio value on Ethereum, Base and Solana, ENS names, gas fees, new token pools), ECB exchange rates, or quick AI text utilities (summarize, translate, sentiment). Each call costs US$0.003 to US$0.05 in USDC on Base over x402, paid from the agent's own AgentCash or Coinbase Agentic Wallet after the user approves.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:blackwood-state"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

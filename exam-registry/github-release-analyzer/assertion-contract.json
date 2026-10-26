@@ -1,0 +1,49 @@
+{
+  "skillId": "github-release-analyzer",
+  "displayName": "GitHub Release Analyzer",
+  "description": "Analyze GitHub repository releases and summarize release notes. Use when the user asks to analyze, summarize, review, or track the latest release or recent releases for a GitHub repo, including phrases like \"分析最新 release\", \"latest release\", \"release 更新了什么\", \"汇总仓库 release\", or requests to build a cron that tracks GitHub releases. Supports manual one-off analysis and cron-driven incremental tracking.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:github-release-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

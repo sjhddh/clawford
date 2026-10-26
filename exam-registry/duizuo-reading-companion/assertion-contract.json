@@ -1,0 +1,54 @@
+{
+  "skillId": "duizuo-reading-companion",
+  "displayName": "Duizuo Reading Companion Skill",
+  "description": "对坐 Duizuo：有状态、防剧透的阅读陪伴。TRIGGER：用户开始聊一本书——'来看这本了'、'开始看X了'、'读到第X章'、'这本书…'、'陪我聊聊这本书'、上传EPUB、问读到一半的书的情节/人物/主题、读完想复盘。记得版本、媒介和与内容匹配的进度；核查文本说法；默认不剧透未读部分。Use when the user starts discussing a book they're reading, stuck on, or finished; remembers edition, medium, progress; verifies claims against text; never spoils unread parts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:duizuo-reading-companion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

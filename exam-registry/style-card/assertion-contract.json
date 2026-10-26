@@ -1,0 +1,54 @@
+{
+  "skillId": "style-card",
+  "displayName": "风格卡 · Style Card",
+  "description": "图生风格卡——从参考图反推结构化风格卡并入库，再用风格卡为任意文本生成同风格图片。触发场景：用户给一张图说\"总结这个画风/反推prompt/做成风格卡\"，或用户给文本要求\"用我的风格库/风格卡出图\"。Use when the user wants to reverse-engineer an image's visual style into a reusable, slot-based style card, or to generate images from text using the accumulated style card library.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:style-card"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

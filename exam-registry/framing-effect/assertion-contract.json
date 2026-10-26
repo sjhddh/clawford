@@ -1,0 +1,54 @@
+{
+  "skillId": "framing-effect",
+  "displayName": "framing-effect",
+  "description": "Activate when: user says 'how you say it matters', 'they're spinning the numbers', 'same data but sounds different', 'is this just framing?', wants to write a persuasive message, suspects a statistic is one-sided, or is evaluating options where the language feels loaded. Do NOT activate when: the different descriptions convey genuinely non-equivalent information (one frame omits real facts); the decision is trivial and multi-frame analysis exceeds the stakes. More: deciqai.com/c/framing-effect",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:framing-effect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

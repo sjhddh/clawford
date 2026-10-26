@@ -1,0 +1,54 @@
+{
+  "skillId": "capability-decay-watchdog",
+  "displayName": "capability-decay-watchdog",
+  "description": "能力退化预警与自愈：监测技能生态运行时健康，扫描各技能 learned_patterns.json，检测成功率 滑落（跌破阈值）与陈旧停滞（长期无操作），输出告警 + 推荐自愈动作（重注入 learner / 标 repair 缺口 / 重跑回归）。让元进化引擎在\"能力悄悄变弱前\"主动干预——一线大模型完全 不具备的元治理能力，是\"超越之后能否稳定存续\"的关键保障。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:capability-decay-watchdog"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

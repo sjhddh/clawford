@@ -1,0 +1,54 @@
+{
+  "skillId": "ssh-tunnel-swarm",
+  "displayName": "ssh-tunnel-swarm",
+  "description": "Bash tool that spins up and holds open MANY concurrent SSH tunnels — both forward (-L) and reverse (-R) — driven by a plain-text rules file. One connection block per host: a header line `user@host:port=/path/to/private/key` followed by one or more tunnel lines `forward|reverse local-iface:local-port:remote-iface:remote-port`, blocks separated by blank lines. Each host connection runs in its own background loop (`ssh -N -i <key> -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=yes`) and auto-reconnects with a 5s backoff on drop; SIGINT/SIGTERM tears every tunnel down cleanly. Configured entirely via env vars (RULES_FILE, LOG_ENABLED, LOG_FILE, LOG_LEVEL) — no CLI flags. No password auth, key-based only. Use when the user wants to set up/manage multiple SSH forward or reverse tunnels from a single rules file across one or many hosts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ssh-tunnel-swarm"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

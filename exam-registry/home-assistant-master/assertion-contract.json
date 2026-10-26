@@ -1,0 +1,54 @@
+{
+  "skillId": "home-assistant-master",
+  "displayName": "home-assistant-master",
+  "description": "Home Assistant OS (HAOS) operations skill for OpenClaw agents. Use for read-only audits, diagnostics, automation design/review, dashboard UX planning, voice intent mapping, integration risk assessment, backup/restore readiness checks, and maintenance playbooks. Default to read-only; require explicit approval before any write/reload/restart. Apply when users ask to troubleshoot entities/devices/integrations, improve reliability, design automations, or plan safe Home Assistant changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:home-assistant-master"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}
