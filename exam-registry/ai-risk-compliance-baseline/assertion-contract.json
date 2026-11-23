@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-risk-compliance-baseline",
+  "displayName": "AI Risk & Compliance Baseline",
+  "description": "Activate when: user says 'what are our compliance risks from using AI?', 'can we feed client data into AI?', 'do we have to tell customers we use AI?', 'who owns the copyright on AI output?', 'how do we stop prompt injection?', 'a client asked how we manage AI risk', or a small team is starting to use AI tools/agents in the business and needs a minimum baseline. Do NOT activate when: the organization already runs a mature AI governance program with dedicated compliance staff; purely personal, non-commercial use; the question is a specific number, deadline, fine or applicability test under a named law (route it to the current text of that law and its regulator — this skill answers none of them). More: deciqai.com/c/ai-risk-compliance-baseline",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-risk-compliance-baseline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

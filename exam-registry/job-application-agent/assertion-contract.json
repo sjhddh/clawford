@@ -1,0 +1,49 @@
+{
+  "skillId": "job-application-agent",
+  "displayName": "job-application-agent",
+  "description": "JobAppAgent, the open-source AI job application agent. Finds, evaluates, fills, submits (only with the candidate's approval), and tracks a candidate's own job applications using a verified resume, evidence-based targeting, secure local profile storage, and browser automation. Use only when the user names JobAppAgent or job-application-agent, or explicitly asks for a job-search or job-application task, such as onboarding or migrating their job-search profile, searching for jobs, assessing a job posting, applying to a specific job URL or batch, recording an application outcome, or reviewing their applications. Do not use for vague or general requests, general career advice, or other browser or form automation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:job-application-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

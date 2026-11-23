@@ -1,0 +1,54 @@
+{
+  "skillId": "decision-intelligence",
+  "displayName": "Decision-Intelligence",
+  "description": "把原始材料转成可据以行动的判断结论。按研判价值链组织为 9 域 54 项任务：委托界定、材料获取、结构化解析、口径统一、指标加工、对标识别、归因定性、结论合成、预警追踪；并内置财务、投研、市场、用户、合规、法规、人才、学情、代码、医疗、数据、文献 12 条预设管线。触发词：研判、分析、评估、诊断、审查、对标、回测、检索、尽调、核验、meta-skill-system。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:decision-intelligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

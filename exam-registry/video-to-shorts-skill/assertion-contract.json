@@ -1,0 +1,54 @@
+{
+  "skillId": "video-to-shorts-skill",
+  "displayName": "Video to Shorts Skill",
+  "description": "Video to shorts skill: turn a long video (podcast, interview, talk, webinar, stream, YouTube video) into vertical short clips for TikTok, Instagram Reels and YouTube Shorts, then post them to one or many accounts with WoopSocial. Transcribes with word timestamps (free local faster-whisper, your own Groq or OpenAI key, or an existing SRT/VTT), scores every candidate moment with a clip rubric (hook, standalone, payoff), cuts 1080x1920 clips with ffmpeg, removes pauses, keeps the speaker in frame, burns word-by-word captions and a hook line, normalises the audio, and writes titles and captions. Works on Mac, Windows and Linux with ffmpeg and Pillow; no paid API required. Use when someone says \"video to shorts,\" \"clip my podcast,\" \"turn this video into shorts,\" \"make reels from my video,\" \"podcast clips,\" \"long video to short clips,\" or \"repurpose my YouTube video.\" Clips only what the user owns or has permission to use, confirms before anything posts. Standalone: needs no other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-to-shorts-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

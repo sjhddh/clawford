@@ -1,0 +1,54 @@
+{
+  "skillId": "okdata-account-audit",
+  "displayName": "账号体检诊断 okdata",
+  "description": "How is this account doing? Gets one account's profile (followers, posts) and its latest page of posts, as one table: a row per post with the account's figures beside it. Two paid calls. Use when the user asks this about Douyin, Xiaohongshu (RedNote), WeChat Official Accounts, Bilibili, Weibo, TikTok, X (Twitter), Instagram, Reddit, Kuaishou, WeChat Channels. 这个号最近表现怎么样？取一个账号的资料（粉丝、作品数）和最新一页作品，排成一张表：每条作品一行，旁边带上账号本身的数据。两次计费调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:okdata-account-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

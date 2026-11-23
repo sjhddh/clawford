@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-image-desens",
+  "displayName": "huawei-cloud-obs-image-desens",
+  "description": "One-click OBS image desensitization skill for Huawei Cloud. Lists images in an OBS bucket/prefix, applies desensitization rules (full-image mosaic, Gaussian blur, region mosaic/blur/occlusion) locally via Pillow, and writes results back to a target bucket/prefix; optionally creates a FunctionGraph function + OBS event trigger for automatic on-upload desensitization. Use this skill when the user wants to: (1) desensitize/blur/mosaic images stored in OBS, (2) batch mosaic or blur all images under a bucket prefix, (3) occlude sensitive regions (faces, license plates, IDs) in OBS images, (4) set up automatic image desensitization when files are uploaded to an OBS bucket. Triggers include: \"OBS图片脱敏\", \"图片打码\", \"图片马赛克\", \"图片模糊\", \"人脸打码\", \"敏感区域遮挡\", \"OBS图片一键脱敏\", \"批量打码\", \"自动脱敏\", \"image desensitization\", \"mosaic image in OBS\", \"blur OBS images\", \"auto desensitize uploads\", \"打码\", \"脱敏\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-image-desens"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

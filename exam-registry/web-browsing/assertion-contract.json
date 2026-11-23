@@ -1,0 +1,49 @@
+{
+  "skillId": "web-browsing",
+  "displayName": "web-browsing",
+  "description": "浏览总结网站、从URL提取内容、搜索网络信息,一站式网页内容处理工具。Browse and summarize websites, extract content from URLs, search the。触发关键词: web, websites, browsing, summarize, content, browse, extract。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-browsing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

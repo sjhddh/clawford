@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-shopee-store-product",
+  "displayName": "Shopee-店铺商品管理",
+  "description": "Shopee（虾皮）店铺商品管理（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API Product 模块全部 57 个接口：get_category、get_item_list、add_item、update_item、update_price、update_stock、boost_item、search_item 等。当用户提到 Shopee 商品、虾皮 listing、上架、下架、SKU、库存、价格、类目、属性、get_item_list、add_item、商品评论、boost 置顶 时触发。即使未明确提及\"商品\"，只要涉及已授权 Shopee 店铺的商品查询、创建或更新，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-product"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

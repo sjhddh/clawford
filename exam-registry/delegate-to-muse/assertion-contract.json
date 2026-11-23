@@ -1,0 +1,54 @@
+{
+  "skillId": "delegate-to-muse",
+  "displayName": "Muse Skill",
+  "description": "Use when the user explicitly asks for repository work to be handed to Muse: \"delegate this to muse\", \"have muse do it\", or the slash command. Covers workspace trust, writing the handoff, running `muse exec`, reviewing the diff that comes back, and committing it. Never reach for it unasked: work you could do directly, do directly. Not for use from inside Muse unless the user asks for nested delegation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:delegate-to-muse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

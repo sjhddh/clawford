@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-look-matching",
+  "displayName": "Phantra AI: Look Matching",
+  "description": "Sets the visual look of a Phantra scene from the person's elements and from an image or frame they describe or attach, says what each photo is FOR (its role), and explains what the studio can and cannot match. Use when someone says \"make it look like this\", attaches a reference image, asks for a mood, light or texture, or wants a photo used only for its light or palette. NOT for writing the whole scene (write-scene), prices (credits-and-limits), or finding or copying a real person's face.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-look-matching"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

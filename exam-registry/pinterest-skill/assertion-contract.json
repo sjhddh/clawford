@@ -1,0 +1,54 @@
+{
+  "skillId": "pinterest-skill",
+  "displayName": "pinterest-skill",
+  "description": "Pinterest skill: make, check and schedule Pinterest pins from your AI agent. Turns a link (blog post, product, recipe, guide) and the user's own photos or vertical videos into several genuinely different 1000x1500 pins, with keyword titles, descriptions and alt text that match the page. Checks every pin against Pinterest's published limits and the spam patterns practitioners report (formats, sizes, 2:3, 100/800/500 characters, shorteners, redirects, the same picture on the same page, one page to many boards at once, daily pace), previews the batch in the home feed and close-up, spaces pins for one page a week apart and seasonal pins 45 to 90 days ahead, then schedules them with WoopSocial (Pinterest MCP, no Pinterest developer app needed) after a yes, and judges results from day 30. Use when someone says \"Pinterest pins\", \"make pins for this post\", \"schedule Pinterest pins\", \"Pinterest MCP\", \"Claude Pinterest\", \"pin generator\", \"Pinterest for my blog / Etsy / Shopify\" or \"which pins work\". Never invents results, never posts without a yes. Standalone.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pinterest-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

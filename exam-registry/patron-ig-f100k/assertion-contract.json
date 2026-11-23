@@ -1,0 +1,54 @@
+{
+  "skillId": "patron-ig-f100k",
+  "displayName": "patron-ig-f100k",
+  "description": "Módulo del Autopilot F100K para correr cada lunes: trae los videos de la cuenta de Instagram de la usuaria de los últimos 7 días (Composio o Apify), transcribe con Supadata si hay llave, calcula la mediana de views/likes/comentarios, clasifica videos virales (>1.5x mediana) y negativos (<0.7x), extrae qué funcionó y qué no, y actualiza cerebro/memoria/patterns_ig_<handle>.md para que la guionización aprenda semana a semana. Usar cuando alguien diga: \"analiza mis patrones de la semana\", \"qué patrones detectaste\", \"actualiza mi memoria de patrones IG\", \"qué me funcionó esta semana\", o cuando la automatización semanal lo invoque.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patron-ig-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

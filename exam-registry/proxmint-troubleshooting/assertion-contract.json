@@ -1,0 +1,49 @@
+{
+  "skillId": "proxmint-troubleshooting",
+  "displayName": "Proxmint troubleshooting",
+  "description": "Diagnose failing Proxmint proxy connections. Use when a request through Proxmint returns 407, 403, 500, 502 or 503, a CONNECT tunnel fails, SOCKS5 refuses a connection, the exit IP is in the wrong country, a sticky session changes IP, a browser leaks its real IP through DNS or WebRTC, or a site loads directly but not through the proxy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:proxmint-troubleshooting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

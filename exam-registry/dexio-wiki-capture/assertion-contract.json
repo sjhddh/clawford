@@ -1,0 +1,54 @@
+{
+  "skillId": "dexio-wiki-capture",
+  "displayName": "Wiki Capture (Dexio)",
+  "description": "Capture what an agent session settled into an LLM wiki before it is lost: at the end of a task or session (or over saved transcripts), pick out decisions, verified facts, corrections and working procedures, drop the chatter, and file each item on the page that owns it. Use when a session or task ends, before context is compacted, when a person says to remember something, or on a schedule over past agent sessions (Claude Code, Codex, Hermes, OpenClaw).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dexio-wiki-capture"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

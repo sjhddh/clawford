@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cdm-list",
+  "displayName": "huawei-cloud-cdm-list",
+  "description": "1. Query the Huawei Cloud CDM (Cloud Data Migration) clusters of the current account through KooCLI (`hcloud CDM ListClusters --cli-region=<region>`; official read-only GET /v1.1/{project_id}/clusters), with an automatic fallback to the huaweicloudsdkcdm v1 SDK (CdmClient) when KooCLI is absent. 2. Two read-only views: the project-wide cluster list (default, ListClusters) and single-cluster details incl. instance status (ShowClusterDetail, GET /v1.1/{project_id}/clusters/{cluster_id}) via --cluster-id. 3. Four output modes: aligned key-field table (default: id / name / status / status_detail / status_meaning / version / instance_count / instances / flavor_name / az_name / public_endpoint / is_frozen / created / updated), `--json` (raw API records), `--markdown` (GitHub-flavored table) and `--csv`; `--output` writes a file via a temp file + atomic rename. 4. Filters: `--name` (case-insensitive substring) and repeatable `--status` (status code 100/200/300/303/500/800/900/910/920 or Chinese meaning such as 正常/失败/冻结), both applied client-side — the official ListClusters API takes no query parameters at all (verified against ListClustersRequest.attribute_map being empty), so one call returns the whole list. 5. Explicit error hints for empty cluster lists, 403 / missing `cdm:cluster:list` permission, missing AK/SK credentials, a missing KooCLI backend, and bad export paths. 6. Built-in write-intent guard: any mutating intent (create / delete / update / restart / resize / start / stop / expand ...) or any operation outside the two read-only ones is rejected before execution — this skill is strictly read-only. 7. Triggers include: \"CDM 集群列表\", \"查询云数据迁移集群\", \"CDM 集群巡检\", \"cdm list clusters\", \"CDM cluster status\", \"迁移前集群盘点\", \"CDM 集群详情\", \"华为云 CDM 集群\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cdm-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

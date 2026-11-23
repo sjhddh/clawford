@@ -1,0 +1,54 @@
+{
+  "skillId": "my-style-writer",
+  "displayName": "my-style-writer",
+  "description": "我的风格文章创作——学习并复刻用户的写作 DNA，实现「替身式」文章创作。 此技能应在以下场景触发： (1) 用户要求「分析我的写作风格」「学习我的文章风格」「提炼我的写作DNA」时； (2) 用户要求「用我的风格写一篇文章」「替身写作」「帮我写公众号文章」时； (3) 用户提到「风格文章创作」「我的风格」等关键词时。 核心能力：扫描文章库 → 分析提炼风格特征 → 以用户风格创作 → 套用 HTML 模板输出公众号-ready 文章。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:my-style-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

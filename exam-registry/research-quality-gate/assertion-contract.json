@@ -1,0 +1,49 @@
+{
+  "skillId": "research-quality-gate",
+  "displayName": "Research Quality Gate（调研报告质量门禁）",
+  "description": "This skill acts as a quality gate for research reports and intelligence briefs: it checks whether the evidence actually supports the conclusions, flags overreach and unsupported inference, and audits the evaluation method itself for bias. It also sets rules for multi-agent collaboration so findings stay traceable. Use when you need to review a report before it goes to decision-makers, or when a conclusion looks too neat to trust. 调研 / 情报产物的质量门禁与多 agent 协作规范，用于回答「这份调研报告靠不靠谱」「结论有没有过度推断」「怎么判断评估本身有没有偏」这类问题",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:research-quality-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

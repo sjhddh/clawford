@@ -1,0 +1,54 @@
+{
+  "skillId": "migu-ai-guide",
+  "displayName": "migu-ai-guide",
+  "description": "咪咕AI导览助手。用户需要景点/城市/图片导览讲解、识别图片内容、根据上传图片生成中文讲解、或询问“介绍某地/讲解这张图/这是什么景点”时使用。通过咪咕旅游同产品的 guide_chat WebSocket 调用真实大模型；token 清洗、保存、诊断和 WebSocket 连接逻辑仿照 migu-trip-agent，但 token 文件保存在本 skill 自己的 secrets 目录中。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:migu-ai-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

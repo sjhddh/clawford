@@ -1,0 +1,49 @@
+{
+  "skillId": "chat-learnings-extractor",
+  "displayName": "chat-learnings-extractor",
+  "description": "Extract structured learnings (lessons, decisions, patterns, dead ends) from AI conversation exports using a local Ollama model or any OpenAI-compatible API. Pairs with chat-history-importer. Trigger phrases: extract learnings from conversations, analyze chat exports, mine conversation insights, extract lessons from chats, chat learnings extractor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chat-learnings-extractor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

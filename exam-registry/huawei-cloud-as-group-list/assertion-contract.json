@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-as-group-list",
+  "displayName": "huawei-cloud-as-group-list",
+  "description": "1. Read-only inventory of Huawei Cloud Auto Scaling (AS / 弹性伸缩) resources in one region: scaling group name / ID / status, desired vs current instance number, min-max instance number, associated VPC / subnet / ELB, and the instance members inside a scaling group. Aimed at troubleshooting \"scale-out did not take effect\", \"instance counts do not match\", and \"scaling group stuck in an abnormal state\". 2. Primary path: KooCLI call `AS ListScalingGroups` (read-only GET /autoscaling-api/v1/{project_id}/scaling_group) with `ListScalingInstances` (GET /autoscaling-api/v1/{project_id}/scaling_group_instance/ {scaling_group_id}/list) for drill-down; automatic fallback to the official huaweicloudsdkas v1 SDK when hcloud is unavailable. 3. Output modes: compact list (name / ID / status) by default, `--table` group view (11 columns) or, with `--group-id`, instance view (6 columns), and `--json` for the raw merged response. 4. Abnormal groups (desired != current or status != INSERVICE) and abnormal instances (life-cycle != INSERVICE or health != NORMAL) are placed in a separate highlighted section at the top of `--table` output; `--status abnormal` lists only abnormal resources. 5. Client-side filters: `--name` (exact, `--fuzzy` for substring), `--group-id`, `--status` (supports the abnormal alias), `--region` (default cn-north-4). `--limit` is 1-100 with automatic paging driven by total_number and the accumulated item count. 6. Built-in write-intent guard: create / update / delete / enable / disable / batch-add / batch-remove / policy-execute / ... are rejected before any cloud call with exit code 1 — this skill never writes to AS. 7. Explicit error hints for empty lists, 403 / insufficient IAM permission, missing credentials, missing hcloud, KooCLI [USE_ERROR], and a non-existent scaling group. 8. Triggers include: \"list AS scaling groups\", \"AS 伸缩组列表\", \"查询伸缩组\", \"弹性伸缩组\", \"伸缩组实例\", \"期望实例数与当前实例数不一致\", \"扩容没生效\", \"auto scaling inventory\", \"scaling group troubleshooting\", \"华为云弹性伸缩\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-as-group-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

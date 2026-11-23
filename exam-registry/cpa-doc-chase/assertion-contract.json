@@ -1,0 +1,54 @@
+{
+  "skillId": "cpa-doc-chase",
+  "displayName": "CPA — Client Document Chase",
+  "description": "Activate when: a tax or bookkeeping engagement is blocked on client paperwork; a client has gone quiet on a document request; drafting an initial PBC/document request; deciding whether to extend, deliver incomplete, or disengage; user says 'chase the client', 'missing documents', 'PBC list', 'client won't respond', 'what am I still waiting on?'. Do NOT activate when: the documents are in hand and the question is technical treatment; the request is to prepare or review the return itself. More: deciqai.com/c/cpa-doc-chase",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cpa-doc-chase"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

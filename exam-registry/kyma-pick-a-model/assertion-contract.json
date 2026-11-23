@@ -1,0 +1,54 @@
+{
+  "skillId": "kyma-pick-a-model",
+  "displayName": "Kyma API: pick a model",
+  "description": "Choose a model on Kyma API for a specific job by comparing real per-token price, measured 30-day uptime, and fit for the task. Use when the user asks which model to use, what the cheapest model for something is, whether a model is up or reliable, how two models compare on price, or wants a model configured for Cline, Cursor, Claude Code, Roo Code or another coding agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kyma-pick-a-model"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

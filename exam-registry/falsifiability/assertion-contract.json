@@ -1,0 +1,54 @@
+{
+  "skillId": "falsifiability",
+  "displayName": "falsifiability",
+  "description": "Activate when: user says 'what would prove this wrong', 'how do we know if our strategy is working', 'what would change your mind', 'this claim feels unfalsifiable', or is designing a hypothesis/experiment/investment thesis that needs to be made testable. Do NOT activate when: the claim is genuinely non-empirical (ethical, aesthetic, philosophical); or the cost of running the test exceeds the value of the knowledge. More: deciqai.com/c/falsifiability",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:falsifiability"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

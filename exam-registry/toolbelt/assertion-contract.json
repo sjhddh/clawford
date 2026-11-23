@@ -1,0 +1,49 @@
+{
+  "skillId": "toolbelt",
+  "displayName": "toolbelt",
+  "description": "Toolbelt is a collaborative substrate over your data. Upload any document — entities and relationships extracted automatically, queryable immediately. Ask questions that span structured tables, documents, and relationships in a single call. No stitching databases together. Toolbelt orchestrates semantic, structured, and hybrid retrieval through one MCP server — vector, knowledge graph, SQL, geospatial, streaming. Share the URL and any agent can query the same workspace — like a shared Google Doc for your data. Built by Kinetica. Use this skill at the start of any task where an agent needs to ingest documents and have entities/relationships auto-extracted, query structured + unstructured data together in natural language, or share findings with other agents across sessions. The skill handles first-time setup: provisions a free Toolbelt account if none exists, configures the MCP connection in the agent's client, and hands off to Toolbelt's MCP tools for the actual work. NOT for one-off lookups that don't benefit from automatic extraction, hybrid retrieval, or shared state — use the agent's native tools for those.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:toolbelt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

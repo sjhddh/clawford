@@ -1,0 +1,49 @@
+{
+  "skillId": "applysent",
+  "displayName": "ApplySent",
+  "description": "Search jobs that fit the user's résumé, tailor the résumé to a job and apply on the employer's own form through the ApplySent MCP server, one job at a time and only after the user says yes. Use when the user wants to find jobs, apply to a job, check application status or answer an employer's application question.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:applysent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

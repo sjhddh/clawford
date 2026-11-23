@@ -1,0 +1,54 @@
+{
+  "skillId": "tencentcloud-deploy-web",
+  "displayName": "Tencent Cloud Deploy Web",
+  "description": "Turns the agent into a non-technical user's long-term Tencent Cloud ops assistant (腾讯云运维) that deploys websites and manages DNSPod records, SSL certificates, EdgeOne CDN and Lighthouse servers. Use when the user wants to put a site online on Tencent Cloud, point a domain at it, or fix slow access from mainland China. 帮不懂技术的用户在腾讯云上线网站、配置域名解析与证书、改善国内访问速度；密钥通过本机网页向导录入、不经过对话，花钱、实名、备案等操作交给用户本人完成。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencentcloud-deploy-web"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "subclip-ai-generation",
+  "displayName": "subclip-ai-generation",
+  "description": "Discover and run Subclip cloud image, video, video-avatar, music, and speech generation, then inspect, reuse, import, or delete persistent AI outputs. Use for prompts that ask Subclip to generate new media or revisit previous AI generations; do not use for ordinary timeline edits to existing assets.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:subclip-ai-generation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

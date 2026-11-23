@@ -1,0 +1,54 @@
+{
+  "skillId": "mv-playbook",
+  "displayName": "MV Playbook",
+  "description": "The entry point to the accumulated MV skill family: a map of which skill governs what, plus the cross-cutting hard rules that were paid for with real mistakes (a parameter tweak invisible on 8-bit footage, a metric poisoned by grain, a metric that answers the wrong question, three different sharpness metrics all pointing the wrong way on the same batch, how to prove your own pipeline did not soften a deliverable). Use this before starting any MV task, when unsure which skill applies, or when adding a new lesson and deciding where it belongs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mv-playbook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "skin-analysis",
+  "displayName": "skin-pro",
+  "description": "人脸皮肤分析加强版。调用 RageHealth 开放接口 `/face/skin-pro`，对正脸照片做皮肤检测。输出肌肤总分、肤质、肤色、肌龄、痘痘/痘印/色斑/痣/黑头/毛孔/皱纹/黑眼圈/眼袋/敏感/色沉/油光的分数与严重程度，以及效果图。支持 skin-pro 默认计分与察颜计分两种策略。当用户上传正脸照要求\"皮肤检测\"、\"肤质分析\"、\"看毛孔痘痘皱纹\"、\"肌肤分数\"、\"skin-pro\"时使用此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skin-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

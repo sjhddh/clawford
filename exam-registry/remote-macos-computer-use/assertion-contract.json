@@ -1,0 +1,54 @@
+{
+  "skillId": "remote-macos-computer-use",
+  "displayName": "remote-macos-computer-use",
+  "description": "Set up and use cua-driver (an MCP server) so an AI agent running on a remote/cloud host can drive a macOS desktop, with a persistent background daemon + reverse-SSH-tunnel wiring that survives reboots and stays in the background. Use when you want an agent on server A to click/type/capture on a Mac on another network, or to onboard a remote desktop onto any MCP-capable agent (Hermes, Claude Code, Codex, Cursor, OpenCode). Covers install, macOS TCC grants, remote login, reverse tunnel, per-agent MCP config, health checks, and safety (bounded mode).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:remote-macos-computer-use"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hanlons-razor",
+  "displayName": "Hanlon's Razor",
+  "description": "Activate when: someone feels a colleague/partner/company did something on purpose to hurt them; a team believes another side is acting in bad faith; someone is about to escalate based on assumed malicious intent; a pattern of bad outcomes is being labeled a coordinated attack. Do NOT activate when: concrete documented evidence of malice already exists; the cost of being wrong about non-malice is catastrophic (e.g., safety-critical or abusive-relationship context). More: deciqai.com/c/hanlons-razor",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hanlons-razor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

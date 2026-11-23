@@ -1,0 +1,54 @@
+{
+  "skillId": "adaptive-skill-stack",
+  "displayName": "Adaptive Skill Stack",
+  "description": "自适应技能叠加技能——一个能够根据用户需求实时演化的元技能。每次使用时自动分析需求，叠加已有能力或构建全新能力实例，完成任务后将新获能力写入参考文件实现持续进化。此技能自身SKILL.md永不修改，但可自由改写自身的参考文件、脚本和资源文件。文件保护分四级：SKILL.md绝对不可触碰，结构脚本和格式契约仅用户授...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adaptive-skill-stack"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

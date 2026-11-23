@@ -1,0 +1,54 @@
+{
+  "skillId": "arkcli-deploy",
+  "displayName": "arkcli-deploy",
+  "description": "arkcli +deploy：普通创建推理接入点（Endpoint）的统一首选入口。用户说『创建/新建/create 一个 endpoint/接入点』或『部署/上线/deploy 某模型』时优先走这里；**但脚本化 / CI / 无护栏 / 原始 raw CRUD 创建是唯一例外，必须改走 `arkcli-infer-endpoint`，不能由本 skill 截获**。只有不命中该例外的普通创建，才在模型尚未选择、只给品牌/家族名，或当前轮只查询候选时进入本 skill 完成模型澄清；候选要用实时 search 返回的 `name` 与 `primary_version` 组合成可直接传给 `--model` 的完整 ID。对**已有** Endpoint 做获取/列表/启停/更新等全生命周期管理也走 arkcli-infer-endpoint；本 skill 只负责带产品护栏的一键创建。创建成功后会自动把多语言调用示例渲染到 ./ark-examples/<ep-id>/。反触发：TTS/ASR/语音模型不能 +deploy，只能转 models search 说明广场可搜但 arkcli 不支持 Endpoint 创建。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

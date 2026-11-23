@@ -1,0 +1,54 @@
+{
+  "skillId": "goenv",
+  "displayName": "goenv",
+  "description": "Go library that reads one environment variable and tells you if you're in prod or dev. `github.com/psyb0t/goenv` wraps `os.Getenv(\"ENV\")` behind three calls. `goenv.Get()` returns the current env as a string (`\"prod\"` or `\"dev\"`), `goenv.IsProd()` and `goenv.IsDev()` return bools. It recognizes exactly two environments, `dev` when `ENV` is precisely `\"dev\"`, and `prod` for everything else (unset, empty, `\"production\"`, `\"DEV\"`, anything), a fail-safe default to prod. Exposes constants `goenv.Prod`/`goenv.Dev` and the env-var name as `goenv.EnvVarName`. Zero dependencies beyond the stdlib `os`; no network, no files, no config. Note `Type` is a string *alias*, so it gives no compile-time safety over a bare `string`. Use when the user wants a tiny dependency-free prod/dev switch in a Go program, or is already importing goenv and wants to branch behavior on the environment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:goenv"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

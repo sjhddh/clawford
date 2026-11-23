@@ -1,0 +1,54 @@
+{
+  "skillId": "exotic-rental-company-check",
+  "displayName": "exotic-rental-company-check",
+  "description": "Check an exotic car rental company before you pay a deposit: what it publishes about its fleet, prices and terms, reviews and rating, how its rates compare with the market, verified ownership, scam red flags, and the questions to ask, side by side for 2 to 4 companies. Triggers on \"is this rental company legit\", \"compare Miami exotic rental companies\", \"is a $10,000 deposit normal\". Not for finding cars (use exotic-rental-finder).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exotic-rental-company-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

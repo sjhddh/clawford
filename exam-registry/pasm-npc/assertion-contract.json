@@ -1,0 +1,54 @@
+{
+  "skillId": "pasm-npc",
+  "displayName": "pasm-npc",
+  "description": "Game NPC agents built on the PASM cognitive engine. NpcAgent gives you an NPC with persistent memory (salience-aware eviction so landmark events are never pushed out by trivia), persona-weighted action selection (temper/energy/play drive the baseline), and feedback-driven shaping - praise or scold a SPECIFIC action and the behaviour distribution actually moves. Emotion modulates replies. Growth stages unlock new actions (wave/hop/peek -> ball -> dance/spin -> think). Zero LLM dependency, offline-runnable, state persists to ~/.pasm-agents/<id>/. Tier label (light/core/bionic) exposed on every agent so callers always know which engine path is live.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pasm-npc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tencentcloud-multimodaldocparse-ocr",
+  "displayName": "Tencentcloud MultimodalDocParse OCR",
+  "description": "腾讯云多模态解析（文档版）(MultimodalDocParse) 技能包。当用户提供文档 URL 地址时，应自动调用多模态解析（文档版）接口提取文档内容信息。支持 PDF、Word、PPT、Excel、Markdown、TXT、图片、WPS 等多格式文档解析；可配置页码范围、子图解析、任务类型、输出格式等可选参数；接口返回 ZIP 格式结果包下载地址，包内含结构化解析结果（*.md / *.xml / *_ocr_page{N}.json）及文档内提取的图片素材（images/）。结果包的真实结构与字段说明详见 references/result-package-structure.md。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencentcloud-multimodaldocparse-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

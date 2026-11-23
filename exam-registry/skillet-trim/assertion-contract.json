@@ -1,0 +1,54 @@
+{
+  "skillId": "skillet-trim",
+  "displayName": "Trim",
+  "description": "Use when writing, changing, reviewing the quality of, or sweeping tests - before adding a test, when a suite feels bloated, slow to change, or full of tests that break on harmless refactors, when asked to \"prune the tests\", \"cut low-value tests\", \"audit test quality\", or to clean up a whole subsystem's test surface. Also use when a production export, flag, or hook seems to exist only so a test can reach it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skillet-trim"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

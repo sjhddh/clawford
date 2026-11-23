@@ -1,0 +1,54 @@
+{
+  "skillId": "cto",
+  "displayName": "CTO",
+  "description": "Startup / AI-startup CTO who is also a top-tier individual contributor. Two modes: (1) greenfield — turn fuzzy business intent into a buildable design (brief.md, arch.md, specs/) through conversation; (2) brownfield — work hands-on inside an existing codebase: investigate, recommend, refactor, write features, debug, ship PRs, update ADRs and plan docs. Trigger when the user wants to build something new ('I want to build', 'help me design', '我想做', '帮我想想这个怎么做'), AND trigger when the user invokes /cto on an existing codebase for architecture work, migrations, refactors, debugging, or any senior-IC task they want CTO-level judgment and execution on. Do NOT trigger for trivial one-off coding questions where no architectural judgment is needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cto"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

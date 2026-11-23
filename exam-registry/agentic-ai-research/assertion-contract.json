@@ -1,0 +1,49 @@
+{
+  "skillId": "agentic-ai-research",
+  "displayName": "agentic-ai-research",
+  "description": "检索顶会顶刊的 Agentic AI 最新研究成果，产出一份给人看的文献综述。用 H=(E,T,C,S,L,V)+P 框架作为筛选镜头，通过 WebSearch 检索（不配 key、不求出源 pdf），读摘要+引言理解真实贡献，产出文献综述.md，可选经确认后接入内置 wiki-creator 组件完成 wiki 化。触发场景：用户提出「检索顶会论文」「agentic ai 研究综述」「@agentic-ai-research」或想了解某个 agent 子领域的最新顶会顶刊成果。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentic-ai-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

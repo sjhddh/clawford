@@ -1,0 +1,54 @@
+{
+  "skillId": "update-guardian",
+  "displayName": "更新守护者",
+  "description": "更新守护者是面向Agent平台与已安装技能包的自动更新能力包。它不只是设个每日cron跑 update命令，更解决四个高频痛点：更新引入破坏性变更导致线上崩、更新后无法回滚、 依赖版本冲突、更新时机撞上业务高峰。 核心能力： - 预检干跑：先dry-run检查兼容性，发现breaking change先告警不自动...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:update-guardian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

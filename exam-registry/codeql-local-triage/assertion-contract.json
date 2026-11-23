@@ -1,0 +1,54 @@
+{
+  "skillId": "codeql-local-triage",
+  "displayName": "codeql-local-triage",
+  "description": "Answers \"why did CodeQL flag this, and which line must change for it to stop\" — reproducible causal triage of ONE specific alert via variant bisection. Triggers on \"确认 taint 源 / 复现这个 CodeQL 告警 / 为什么 CodeQL 报这个 / CodeQL 误报 / 这个告警是不是误报 / 本地跑 CodeQL / 验证安全告警是否修好 / confirm the taint source / why does CodeQL flag this / is this alert a false positive / reproduce this CodeQL alert / verify a security-alert fix\", or when handed a .sarif file and asked where the taint starts. NOT for whole-repo alert audits or bulk dismissal — it never closes alerts for you and never replaces the Code Scanning suite. NOT for Java/JS/Go (Python only today). The prefilter lists candidate sensitive NAMES in files/dirs you point at; it draws no conclusion and produces no audit report. Keywords — CodeQL, Code Scanning, taint source, data flow, SARIF, codeFlows, false positive, py/clear-text-storage-sensitive-data, CWE-312.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codeql-local-triage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

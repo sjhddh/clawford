@@ -1,0 +1,54 @@
+{
+  "skillId": "jp-address",
+  "displayName": "jp-address",
+  "description": "Normalize, parse, validate and geocode Japanese addresses (住所の正規化・解析・検証) with JPVerify, and look up Japanese postal codes (郵便番号) — down to 丁目, block and building level, with the evidence behind each match. Use when a task involves cleaning or standardizing a Japanese address, checking that an address exists at a required precision, splitting it into components, finding coordinates, or finding the area for a postal code. Paid per call (API key credits or x402).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jp-address"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

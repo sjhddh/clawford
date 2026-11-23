@@ -1,0 +1,54 @@
+{
+  "skillId": "insurance-claim-compass",
+  "displayName": "insurance-claim-compass",
+  "description": "Use after any insured loss (burst pipe, theft, fire, hail, car accident, injury on your property) — builds the evidence file with a per-loss-type photo shot-list, generates the first-notice-of-loss letter, decodes ACV vs RCV depreciation math on your damaged items, shows the typical claim timeline, and drafts a denial/lowball appeal ladder (itemized-explanation demand, appraisal clause, insurance-department complaint).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:insurance-claim-compass"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

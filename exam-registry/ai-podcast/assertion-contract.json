@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-podcast",
+  "displayName": "AI播客生成",
+  "description": "基于MagicPodcast API将PDF文档、文本内容、笔记和网页链接转化为 自然流畅的双主持人对话式播客节目。支持多语言生成，返回可分享的 播客链接。适用于内容创作者、教育工作者、研究人员等需要将文字 内容转化为音频场景的用户。Use when 需要文本翻译、多语言转换、本地化处理时使用。不适用于专业医学法...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-podcast"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

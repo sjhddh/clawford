@@ -1,0 +1,54 @@
+{
+  "skillId": "dichotomy-of-control",
+  "displayName": "Dichotomy of Control",
+  "description": "Activate when: user says \"I can't stop worrying about something I can't control,\" \"I'm anxious about how this will turn out,\" \"I keep replaying what went wrong,\" \"I need them to change,\" \"this uncertainty is paralyzing me,\" or is processing a setback, preparing for a high-stakes unknown outcome, or stuck in anger/frustration at someone else's choices. Do NOT activate when: the user needs to grieve or feel first (premature Stoic framing suppresses healthy emotion); or the user is avoiding real responsibility by mislabeling a controllable thing as \"outside my power.\" More: deciqai.com/c/dichotomy-of-control",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dichotomy-of-control"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

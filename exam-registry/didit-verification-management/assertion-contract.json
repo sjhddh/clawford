@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-verification-management",
+  "displayName": "didit-verification-management",
+  "description": "Use when writing backend or API-key integration code that manages the whole Didit identity verification platform over the API: programmatic account and application setup, API keys, workflows, verification sessions (create, retrieve, list, approve, decline, resubmit, correct data, AML hit review, PDF, share, delete), bulk imports, questionnaires, block/allow lists, users (KYC) and businesses (KYB) with AML monitoring and biometric templates, KYB registry lookups, billing and top-ups, branding, and webhook destinations with signature verification. Use when someone needs to create a Didit account or API key, build a verification workflow, create or poll verification sessions, review or resubmit a session, manage users, businesses or lists, check or top up credits, configure webhooks, or verify Didit webhook signatures.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-verification-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

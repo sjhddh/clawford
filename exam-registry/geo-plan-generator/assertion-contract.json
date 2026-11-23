@@ -1,0 +1,54 @@
+{
+  "skillId": "geo-plan-generator",
+  "displayName": "GEO 营销方案生成器",
+  "description": "Generate a complete AI-GEO (Generative Engine Optimization) marketing plan for a client and deliver it as two artifacts: a Word document (the presenter's teleprompter, full detail) and a minimal display-only PPTX (10-12 slides, lots of white space, one core point per slide). Works in two input modes — detailed mode when the user supplies target keywords and/or a source plan, and light mode when the user supplies only a company website or basic company info, in which case the agent self-researches the industry and auto-generates about 10 core GEO demand keywords before proceeding. Use when a user asks to make or redo a GEO marketing plan, an AI 搜索优化方案, a 生成式引擎优化方案, or wants a client-ready Word plus PPT for GEO, especially built on the 360 智见 (360 Zhijian) GEO methodology.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geo-plan-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

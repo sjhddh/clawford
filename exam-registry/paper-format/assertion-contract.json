@@ -1,0 +1,54 @@
+{
+  "skillId": "paper-format",
+  "displayName": "论文格式排版",
+  "description": "按论文类型规范化中文或英文论文，接受 Word（.doc/.docx）及 LaTeX（单个 .tex 或可验证的工程 .zip）源文件；PDF、图片及其他格式不进入排版流程。区分毕业/学位论文、学术/期刊论文、课程论文及其他稿件，处理摘要、目录、页眉页脚、图表、公式及参考文献；学校或期刊模板优先。Use when the user asks to format a paper supplied as Word or LaTeX source, including a validated LaTeX project ZIP. Do not use it to format PDF, image,",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-format"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

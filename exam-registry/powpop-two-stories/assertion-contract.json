@@ -1,0 +1,54 @@
+{
+  "skillId": "powpop-two-stories",
+  "displayName": "风景一个人看，故事两个人讲",
+  "description": "你在某个地点发了一条帖子之后，把**同一个地点上别人留下的那些文字**找出来——不限时间，几个月前、一两年前的都算——原文端给你，然后指一条写得跟你最像的（只比文字，不猜作者是谁），再问一句：这几段里，有你想点赞的吗。用户说「我在X发了条帖子」「这地方有人留下过什么吗」「这儿有跟我像的人吗」「风景一个人看，故事两个人讲」时触发。地点靠**距离**判（500 米内算同一地点），不靠地名写没写一样；**一律不按时间过滤**；同一句话被投到多个点的重复内容只留一条。**必须依赖 PowPop MCP（https://global.powpow.online/api/mcp）才能工作，未连接时不得假装可执行。**",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpop-two-stories"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

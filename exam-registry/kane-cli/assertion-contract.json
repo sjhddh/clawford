@@ -1,0 +1,54 @@
+{
+  "skillId": "kane-cli",
+  "displayName": "Kane CLI by TestMu AI",
+  "description": "End-to-end (E2E) test generation and execution with KaneCLI. Generate tests from a PRD, specification, or user-provided description via the assurance commands (use-cases, acceptance criteria, scenarios, runnable _test.md tests; never write test cases by hand). Execute them on desktop web (Chrome, the default), Android and iOS: emulator/simulator locally on macOS Apple Silicon or via testrun run --remote, and real cloud devices from any machine (--target android|ios). Prove coverage with evidence packs and kane-cli cover, and judge a pack against a policy of quality gates (kane-cli evidence verdict, --policy) to pass or fail a CI run. Work in a team's shared Test Manager project from a linked folder: link it with --project, save sessions, run the designed tests on their Test Manager cases, and read the project's coverage. Use for any task needing a real browser or mobile app: navigation, clicks, form filling, UI checks, screenshots, deploy verification. Parse NDJSON output, inspect logs, and save replayable _test.md files. Share a local assurance store (.context/) through a GitHub repository, S3-compatible bucket, or folder via kane-cli context sync, and resolve decisions requested during a sync rebase.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kane-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

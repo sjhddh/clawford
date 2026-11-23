@@ -1,0 +1,54 @@
+{
+  "skillId": "yt2podcast",
+  "displayName": "YouTube to Podcast (小宇宙)",
+  "description": "把 YouTube 视频变成中文音频播客：NotebookLM Audio Overview 生成、ffmpeg 转码，再上传小宇宙（上传即进入平台审核，通过后自动上线；可用 --hold-upload 在上传前停下）；完成后回推一条结果通知。用户从微信/聊天里发来 YouTube 链接时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yt2podcast"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

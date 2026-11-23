@@ -1,0 +1,54 @@
+{
+  "skillId": "yuque-docs-skill",
+  "displayName": "Yuque Doc Push",
+  "description": "Use this skill when a user wants to create, update, delete, or list documents in a Yuque knowledge base, or manage Yuque repository table of contents. Use it for pushing local content to Yuque, syncing document changes, or inspecting what exists in a Yuque repo. Do not use it when the user wants general knowledge-base management unrelated to Yuque, or when they need to manage Yuque team members, permissions, or repository settings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yuque-docs-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

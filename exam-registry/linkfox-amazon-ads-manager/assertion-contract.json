@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-amazon-ads-manager",
+  "displayName": "亚马逊-广告管理",
+  "description": "亚马逊广告（Amazon Ads）管理技能，覆盖 SP/SB/SD 的查询与创建/修改。Sponsored Brands 同时支持 V3 Legacy 与 V4：新活动、多 Ad Group、Ad/Creative 默认走 V4，历史 Legacy 可显式走 V3，Keyword/Target 按 Campaign 结构通过版本化脚本调用 Amazon 共享 targeting 资源；禁止 V4 失败后自动回落 V3，禁止用 V3 静默截断多 Ad Group 数据。适用于查询、创建、调价、改预算、改状态及管理 SP/SB/SD 广告。本技能依赖 linkfox-amazon-ads-auth；不覆盖 Sponsored Television / DSP。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-ads-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

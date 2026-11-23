@@ -1,0 +1,49 @@
+{
+  "skillId": "long-video-transcript",
+  "displayName": "long-video-transcript",
+  "description": "长视频转文字（最长 2 小时）：讲座、课程、播客、直播回放的完整逐字稿（带时间）+ 每分钟一帧的画面文字 + 章节和要点。用户发来抖音、小红书、TikTok、YouTube 的长视频链接要全文逐字稿、课程笔记或总结时使用。走 transcript 省钱档：每 2 分钟 1 积分（1 小时约 ¥4.4），免费账户最长 60 分钟，Dev 月付最长 2 小时。不需要 Key 也能先免费看一条摘要；注册拿 Key 送 10 积分。不下载视频，不需要平台账号。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:long-video-transcript"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

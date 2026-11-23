@@ -1,0 +1,54 @@
+{
+  "skillId": "compute-sanitizer-diagnose-cuda-bugs",
+  "displayName": "compute-sanitizer-diagnose-cuda-bugs",
+  "description": "Detect and diagnose CUDA correctness bugs with NVIDIA Compute Sanitizer. Routes GPU memory errors, shared-memory data races, uninitialized-memory reads, and synchronization/barrier bugs to the right sub-tool (memcheck, racecheck, initcheck, synccheck) and explains how to build, run, and read the report. Use when debugging illegal memory access, out-of-bounds, misaligned access, leaks, WAW/WAR/RAW races, __shared__ hazards, uninitialized reads, garbage results, hangs, divergent __syncthreads/__syncwarp, or cuda::barrier / wgmma issues. Do NOT use for host/CPU-side bugs (use valgrind or AddressSanitizer) or global-memory data races (out of scope). Trigger keywords - compute-sanitizer, memcheck, racecheck, initcheck, synccheck, CUDA memory error, OOB, race condition, uninitialized memory, __syncthreads, barrier, deadlock.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compute-sanitizer-diagnose-cuda-bugs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

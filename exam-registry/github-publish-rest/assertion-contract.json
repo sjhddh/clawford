@@ -1,0 +1,54 @@
+{
+  "skillId": "github-publish-rest",
+  "displayName": "GitHub Publish (REST API)",
+  "description": "Publish a local folder to a GitHub repo as ONE commit via the REST Git Data API — the working method when the GitHub connector is read-only (create_repository / push_files return 403) and the bundled git has no credential helper. Reads the stored token (git credential fill, or GITHUB_TOKEN / GH_TOKEN env), then creates blobs → tree → commit → ref. Ships a ready-to-run zero-dependency Python script (scripts/github-publish.py), a post-publish blob SHA verification method, and documents the known pitfalls (account-rename 307, git credential fill hang, timezone-aware contribution graph). Use when the user says \"publish to github\", \"push to github\", \"upload code\", \"create repo\", \"deploy skill\", \"发到 github\", \"推到 github\", \"上传代码\", \"新建仓库\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:github-publish-rest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "gtrk-oralcut",
+  "displayName": "gtrk 智能口播剪辑",
+  "description": "智能口播剪辑闭环——开剪前主动检查同目录独立口播音频，有则先对轨换声，再通过同合云剪掉废话/重复/长停顿，产出客户端(gtrk)+剪映+PR 三方工程。当用户想「剪口播/剪个视频/智能剪辑/去掉废话和停顿/把这条口播剪一版/出剪映草稿/生成剪辑工程/oral cut」时使用本 skill。凡涉及把口播毛片做成可二次精修的剪辑工程，优先用本 skill 驱动 gtrk CLI，不要手搓 ffmpeg。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtrk-oralcut"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

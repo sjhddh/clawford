@@ -1,0 +1,54 @@
+{
+  "skillId": "gov-disclosure-check",
+  "displayName": "Gov Disclosure Check（政务公开披露校验）",
+  "description": "Check government disclosure documents for required fields — decision basis, responsible department, response deadline, remedy channel and data source — and list what is missing before publication. gov-disclosure-check — LGD 三律在政务 / 信息公开披露域的纵深合规工具（零依赖）：强制披露字段校验（决策依据/责任部门/时限/救济渠道/数据来源），对 AI 系统/数据做可执行合规校验。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gov-disclosure-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

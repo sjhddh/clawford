@@ -1,0 +1,49 @@
+{
+  "skillId": "privacy-search",
+  "displayName": "privacy-search",
+  "description": "隐私优先的多引擎并行搜索 Skill，十大搜索引擎并行检索。V2.1 新增可信答案 RAG-lite（本地 TF-IDF，结论/依据/反证三段，零 Key）和隐私量化报告（隐私分数+档案周报+DNS 泄露提示+SearXNG 一键自检）；无源论断标注保留；答案缓存「上次搜过」提示。V1.9 可信度标记与口语化错误建议。V1.8 可信合成与垂直搜索。V1.7 MCP Server。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:privacy-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "iso-lineart-pipeline",
+  "displayName": "iso-lineart-pipeline",
+  "description": "Produce isometric line art from a parametric 3D blockout instead of hand-placing polygons in 2D — solid primitives, orthographic projection, z-buffer hidden-line removal with per-sample visibility, stroke weight driven by distance to the silhouette, and a hard minimum feature size so detail survives at game resolution. Use when a structure sketch must lock silhouette and construction for an image-to-image model, or when a line drawing keeps coming out with floating roofs, hatching that eats the outer contour, or braces that read as scaffolding.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iso-lineart-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

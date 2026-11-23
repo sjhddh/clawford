@@ -1,0 +1,54 @@
+{
+  "skillId": "self-improving-security",
+  "displayName": "self-improving-security",
+  "description": "Captures vulnerabilities, misconfigurations, access control violations, compliance gaps, incident response patterns, and threat intelligence to enable continuous security improvement. Use when: (1) A CVE or vulnerability is discovered, (2) Secrets are exposed in logs or output, (3) Access control violations or unauthorized access attempts occur, (4) Compliance audit findings or gaps are identified, (5) Security misconfigurations are found in infrastructure or applications, (6) Incident response procedures are executed or improved, (7) Threat intelligence is gathered from advisories or pen test results.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-security"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "eeat-trust-review",
+  "displayName": "eeat-trust-review",
+  "description": "Review a page and its site for experience, expertise, authoritativeness and trust the way a Google quality rater would. Use for \"check our E-E-A-T\", \"do we need author bios\", \"is our site trustworthy enough for health or finance content\" or traffic lost after a core update. Returns trust gaps with fixes and spam-policy risks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:eeat-trust-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

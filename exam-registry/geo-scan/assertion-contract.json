@@ -1,0 +1,49 @@
+{
+  "skillId": "geo-scan",
+  "displayName": "geo-scan",
+  "description": "Audit the answer-engine readiness (ChatGPT, Perplexity, Claude, Gemini, AI Overviews) of one public website URL and produce a prioritised fix list. Use when someone gives a public site or page URL and asks whether AI engines can crawl, cite or quote it, or wants its robots.txt / snippet-permission / schema check or quotability score. Not for - private or intranet hosts, JS-rendered SPAs, SEO keyword research, writing content to beat competitors. English and German quotability scoring. No API key, no account, Python stdlib only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geo-scan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

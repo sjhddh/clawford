@@ -1,0 +1,54 @@
+{
+  "skillId": "amazon-product-analysis",
+  "displayName": "Amazon Product to Video Script",
+  "description": "Turn an Amazon product link into an evidence-based short-form video script — extract listing selling points, mine real buyer language from reviews, then produce a shot-by-shot script once the user picks a content direction (product-demo / narrative / direct-response). Trigger this skill when the user drops an amazon.com or amzn.to product link and mentions short video, UGC/ad video, social content, or asks 'what kind of video would work for this product' / 'write me a video script', even if they never say the word 'skill'. This version focuses on listing + review insight and does not scrape competing viral videos for teardown (see 'Known limitations' below), and does not generate the video itself (video synthesis is a future iteration — if asked to 'just produce the video' or 'analyze similar viral videos', explain the current scope instead of forcing it).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:amazon-product-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

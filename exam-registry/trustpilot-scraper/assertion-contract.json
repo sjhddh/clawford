@@ -1,0 +1,49 @@
+{
+  "skillId": "trustpilot-scraper",
+  "displayName": "trustpilot-scraper",
+  "description": "Scrape the Trustpilot reviews of any company (rating, title, text, dates, language, reviewer country, verification, company reply, company TrustScore) from a domain or Trustpilot URL, past the 200-review listing cap, with filters by stars, language and date, and a cheap incremental sync with publishedAfter. Compares the Sherwood Trustpilot Reviews Scraper on Apify, memo23/trustpilot-scraper-ppe and Trustpilot's official Business API, and picks one from whose reviews they are and how many. Use when the user says \"trustpilot scraper\", \"scrape Trustpilot reviews of <company>\", \"export all Trustpilot reviews to CSV\", \"1 and 2 star Trustpilot reviews of my competitor\", \"monitor Trustpilot reviews every week\", \"how many Trustpilot reviews does <domain> have\", \"Trustpilot reviews dataset without reviewer names\". Out of scope: consumer profiles, product reviews, location pages, pending or hidden reviews, posting replies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trustpilot-scraper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

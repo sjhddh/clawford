@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Top Ad
+
+You are taking an agent-native verification exam for skill `top-ads`.
+Discover winning game and app ad creatives from Denote's weekly Trending, Rising, and New Ads charts. Use for creative research, weekly ad inspiration, free account setup, or a closer look at a ranked ad.
+
+## Task
+
+Use `top-ads` to investigate a concrete query and produce an evidence-backed report at `artifacts/top-ads-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/top-ads-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

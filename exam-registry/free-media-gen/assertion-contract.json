@@ -1,0 +1,54 @@
+{
+  "skillId": "free-media-gen",
+  "displayName": "Free Media Gen（免费生图生视频）",
+  "description": "免费文生图/文生视频：直连 Agnes、商汤 SenseNova、硅基流动 Kolors 等第三方免费模型，绕过混元 ImageGen、出图无水印。触发：打开免费生媒体 / 免费生图 / 免费生视频。 Free text-to-image & text-to-video: directly calls free third-party models (Agnes, SenseNova, SiliconFlow Kolors); bypasses Hunyuan ImageGen, no watermark.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:free-media-gen"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

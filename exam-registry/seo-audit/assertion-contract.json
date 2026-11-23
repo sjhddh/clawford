@@ -1,0 +1,49 @@
+{
+  "skillId": "seo-audit",
+  "displayName": "SEO audit",
+  "description": "When the user wants to know how their own website is doing in search and what to do about it — an audit of technical health, rankings, keywords, backlinks and competitors, followed by a prioritised action plan; or a repeat of that audit to see what has changed. Also use when the user mentions \"SEO audit\", \"why am I not ranking\", \"my traffic dropped\", \"SEO health check\", \"what should we fix first\", \"keyword opportunities\", \"who outranks us\", \"backlink profile\", \"monitor our SEO\", or gives a domain and asks how it is performing in search. Input is the user's domain; output is an audit report with findings, an action plan, and a comparison to the previous audit when there is one. Runs on Glasser (paid per call). For researching rival companies rather than the user's own site, see competitor-research.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seo-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

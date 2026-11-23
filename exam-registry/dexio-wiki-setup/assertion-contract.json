@@ -1,0 +1,54 @@
+{
+  "skillId": "dexio-wiki-setup",
+  "displayName": "Wiki Setup (Dexio)",
+  "description": "Start a new LLM wiki or bring an existing folder of notes or Obsidian vault under maintenance: write the SCHEMA page that tells every agent the wiki's domain, folder layout, page types, frontmatter, tags and thresholds, and point each agent's instructions file at it. Use when creating a knowledge base that agents will maintain, when a wiki has no schema page, or when agents keep writing pages in inconsistent shapes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dexio-wiki-setup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

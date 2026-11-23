@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-portfolio-audit",
+  "displayName": "专利盘点",
+  "description": "专利盘点、专利资产清单。当用户说「盘点一下我们公司的专利」「某公司名下有哪些专利」「我们有多少有效专利」「哪些专利快到期了」「年度专利资产统计」「高新认定要的专利清单」时使用。输出专利资产清单（Excel 能打开）和盘点摘要。 Audits the patents held by a company or university. Counts valid, lapsed and pending patents by type and technology, flags ones nearing expiry, and exports an asset list.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-portfolio-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

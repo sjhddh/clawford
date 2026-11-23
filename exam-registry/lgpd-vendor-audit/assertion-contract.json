@@ -1,0 +1,49 @@
+{
+  "skillId": "lgpd-vendor-audit",
+  "displayName": "lgpd-vendor-audit",
+  "description": "Classify third-party privacy roles (operator, independent controller, joint controller) and conduct due diligence under LGPD Arts. 39 and 42. Use when user asks 'auditar fornecedor', 'vendor audit LGPD', 'operadores LGPD', 'devida diligência', or onboarding/reviewing external SDKs, APIs, cloud, payment, or analytics providers. Produces vendor role & tier assessments in `.lgpd/vendors/` and remediation items in `.lgpd/gaps.md`.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lgpd-vendor-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

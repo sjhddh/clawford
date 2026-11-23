@@ -1,0 +1,54 @@
+{
+  "skillId": "public-records-paper-trail",
+  "displayName": "public-records-paper-trail",
+  "description": "Pull the real paper trail on a place, company, or government body: find who holds the records, match the right law (federal FOIA vs state public-records act), scope a request that gets answered, ask for a fee waiver, and build a dated, cited timeline from what comes back. Use when a user asks what happened at a site, who knew what when, or wants the documents behind a news story or a decision.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:public-records-paper-trail"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

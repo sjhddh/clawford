@@ -1,0 +1,54 @@
+{
+  "skillId": "naming-machine",
+  "displayName": "naming-machine",
+  "description": "给宠物、项目、WiFi、播客、群聊、产品、活动、账号起名。按“正经 / 好玩 / 有梗”三档各出 3 个名字，每个名字配一句理由和一个避坑提示。强触发词为“起名器”“帮我起名”“起个名字”。当用户说“给猫起个名”“WiFi 叫什么好”“播客取名”时也可触发。轻量、卡片式输出，内置侵权、低俗、歧视、钓鱼 WiFi、恶意群名等合规边界。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:naming-machine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

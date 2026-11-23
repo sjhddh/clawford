@@ -1,0 +1,54 @@
+{
+  "skillId": "wb-hot",
+  "displayName": "wb-hot",
+  "description": "微博实时热榜采集工具。当用户需要获取当前微博热搜/热榜、热搜排名、热度值、话题链接，或导出微博热榜 CSV，或提到\"微博热榜/微博热搜/热搜榜单/热点采集/热榜导出\"时使用本 skill。服务端直接通过 HTTP 请求采集公开热榜，不需要微博登录态、微博 Cookie 或内网浏览器节点；每次采集 1 点数，失败全额返还。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-hot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

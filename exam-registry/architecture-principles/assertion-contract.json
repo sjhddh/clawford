@@ -1,0 +1,54 @@
+{
+  "skillId": "architecture-principles",
+  "displayName": "architecture-principles",
+  "description": "Architecture decision principles for technical selection, system design review, and build-vs-buy / self-developed-vs-open-source evaluation. Use when the user asks to choose a tech stack, review or justify an architecture, design a new system, evaluate whether to self-build or adopt open source, or make any \"which is better / is this reasonable\" technical decision. Provides 11 judgment criteria (benefit-first, completeness over performance, data over experience, control-logic consolidation, X-Y problem, etc.) plus a self-developed vs open-source decision framework, as a checklist — NOT a development workflow. Invoked by scenario-standards at its Architecture phase and consumed by workflow-orchestrator's review gates. Chinese triggers: 技术选型、架构评审、系统设计、自研还是开源、 架构合理性、该不该用、选型、架构决策、值不值得、设计方案评估.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:architecture-principles"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

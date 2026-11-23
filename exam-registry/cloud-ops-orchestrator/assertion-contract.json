@@ -1,0 +1,54 @@
+{
+  "skillId": "cloud-ops-orchestrator",
+  "displayName": "云运维编排器",
+  "description": "云运维编排器为 AI Agent 提供以基础设施即代码（IaC）为核心的多云运维能力。它明确划分 Terraform（资源生命周期）与 Ansible（系统配置）的职责边界，覆盖 AWS、GCP、Azure 三大云，并内置状态漂移检测、变更预演（plan）、安全销毁（带保护期）、凭证隔离与回滚机制。 核心能力：多...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cloud-ops-orchestrator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

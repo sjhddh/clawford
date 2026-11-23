@@ -1,0 +1,54 @@
+{
+  "skillId": "layoff-deadline-tracker",
+  "displayName": "layoff-deadline-tracker",
+  "description": "Use the day a layoff/severance offer lands — extracts the REAL deadline map from the offer letter (COBRA 60-day election vs 45-day notice, 401k loan repayment window before it becomes a distribution + 10% penalty, HSA/FSA use-it-or-lose-it, equity vesting cliff dates, non-compete consideration deadlines) computes severance-vs-notice-pay math, flags the WARN Act 60-day pay rule for group layoffs, and generates the unemployment filing script + benefits-election checklist ordered by what expires first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:layoff-deadline-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-biometric-age-estimation",
+  "displayName": "didit-biometric-age-estimation",
+  "description": "Use when writing backend or API-key integration code for Didit Age Estimation (POST /v3/age-estimation/), the standalone API that estimates a person's age from one selfie and runs a passive liveness check in the same call. Use when implementing an age gate, checking whether someone looks over 18 or 21, detecting underage users, or adding low-friction age assurance. Returns the estimated age, a liveness score and an Approved/Declined status against configurable age and liveness thresholds. Also covers the AGE_ESTIMATION workflow feature, where borderline ages fall back to ID verification and per-country age limits apply.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-biometric-age-estimation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

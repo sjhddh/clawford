@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-fraud-check",
+  "displayName": "didit-fraud-check",
+  "description": "Use when writing backend or API-key integration code for the Didit Fraud Check API and the IP Risk API. Use when the user wants to run one server-side fraud or identity risk check over an email, phone, government ID number, tax number, IP address or selfie; quote a check's price before running it with the plan endpoint; combine email risk, phone risk, IP risk, social enrichment, database validation, private network history and the global fraud network in one request; read separate identity, contact, device/network, behavioral and fraud-network risk dimensions and an approve/review/reject recommendation; bind a selfie to a Brazilian CPF; retrieve a stored check by check_id; make idempotent retries with client_reference; or risk-score a single IP address (geolocation, VPN/Tor, data center, claimed-country mismatch) using Didit.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-fraud-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

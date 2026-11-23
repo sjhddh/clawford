@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-elb-list",
+  "displayName": "huawei-cloud-elb-list",
+  "description": "1. List Huawei Cloud Elastic Load Balance (ELB) load balancers in a tenant region through KooCLI (hcloud ELB ListLoadbalancers — read-only GET /v3/{project_id}/elb/loadbalancers), with an automatic fallback to the official huaweicloudsdkelb v3 SDK when hcloud is not installed. 2. Output modes: standardized table (default, exactly two columns — ID and 名称, no other fields), --json (raw response array with every returned field), and --names-only (compact load balancer name list). 3. Every list query (default table or --names-only) also generates a Markdown document whose content is the standardized ID + 名称 list (Markdown table `| ID | 名称 |`). It is written to `elb-list.md` by default; use `--md-out <path>` to change the path (missing parent directories are created automatically) or `--no-md` to disable. `--json` never writes the document. 4. Supports --id / --name / --vpc-id / --provisioning-status / --operating-status / --enterprise-project-id / --vip-address filtering (all real server-side ListLoadbalancers query parameters), region override, --project-id, and automatic marker paging. 5. Explicit error hints for empty ELB lists (「当前区域无负载均衡器（ELB）」), 403 / insufficient IAM permission (「无权限访问弹性负载均衡（ELB）」), missing or invalid AK/SK credentials, missing project_id on the SDK fallback, and hcloud not installed. 6. Built-in write-intent guard: any mutating intent (create / delete / update / modify / clone / restore / enable / disable / associate / detach / change) or any operation other than ListLoadbalancers is rejected before execution — this skill is strictly read-only. 7. Triggers include: \"list ELB\", \"elb list\", \"负载均衡器列表\", \"查询 ELB\", \"查询负载均衡器\", \"ELB 实例列表\", \"elastic load balancer inventory\", \"list loadbalancers\", \"华为云 ELB\", \"负载均衡器名称列表\". 8. Offline unit tests (mocked hcloud subprocess) cover output modes, filters, marker paging, error scenarios, SDK fallback, the standardized output, the Markdown generation, and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-elb-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

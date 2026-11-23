@@ -1,0 +1,54 @@
+{
+  "skillId": "product-demo",
+  "displayName": "product-demo",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai, plus two real screenshots of one interface in two states. Animates the transition between them as one video — both go into a single Ofox video job, and the model cross-fades the values that changed while the rest of the layout holds. Use when a user wants a short software demo animation out of captures they already have, e.g. \"turn these two screenshots into a demo clip\", \"show the dashboard going from the free plan to the paid one\", \"animate this settings change for the docs\", or \"make a clip of the counter going from 3 to 25\". Do not use for a pair that is not a user interface (see keyframe-animation), for a screen recording (record it instead), or when only one screenshot exists.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-demo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

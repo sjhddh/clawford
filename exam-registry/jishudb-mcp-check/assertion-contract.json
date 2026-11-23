@@ -1,0 +1,49 @@
+{
+  "skillId": "jishudb-mcp-check",
+  "displayName": "JishuDB MCP Check / JishuDB MCP 验收助手",
+  "description": "按用户明确要求测试已配置的 JishuDB MCP，适用于只读冒烟测试、工具能力核对、 全工具验收和验收报告；全工具模式需另行授权临时读写及清理。 不用于普通知识库查询或首次连接配置。 / Run explicitly requested JishuDB MCP smoke checks or all-tools acceptance through a configured host connector, with fixtures, cleanup, and a Markdown report. Default to read-only smoke checks; not for init",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jishudb-mcp-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "withhuman-pipelines",
+  "displayName": "withhuman-pipelines",
+  "description": "Decide which AI agent tool calls need human approval in withHuman, and who approves them, by writing approval pipelines and escalation paths through the withHuman MCP server. Covers connecting the MCP server, reading the current rules and the agents' tool catalogue, drafting branch, outcome, delegate and webhook blocks, conditions on tools and arguments, escalation paths with teams, levels and working hours, team escalation policies, webhook endpoints, previewing sample requests, activating and rolling back revisions. Trigger keywords - withhuman, approval pipeline, approval rules, gate tool calls, require approval, human review, escalation path, on-call reviewers, who approves, auto-approve, deny tool call, delegate pipeline, preview pipeline, withHuman MCP server.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:withhuman-pipelines"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

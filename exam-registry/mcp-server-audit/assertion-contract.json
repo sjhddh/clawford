@@ -1,0 +1,54 @@
+{
+  "skillId": "mcp-server-audit",
+  "displayName": "mcp-server-audit",
+  "description": "MCP Server 配置安全审计器。把本机各宿主(Claude Code / Codex / Cursor / Windsurf / 项目级 .mcp.json)的 MCP server 配置集中采集,对每个 server 确定性标记风险形态 (shell 包装执行 / 包管理器拉取远端代码 / 凭据写进 URL / 明文 HTTP / 环境变量 暴露面 / 命令注入痕迹),再由 Agent 结合部署语境逐条做暴露面分析,输出分级清单 与加固建议。审查的是「配置给了 Agent 什么能力」,不是 server 的代码质量。 触发词: MCP 审计, MCP 安全, 检查 MCP 配置, MCP server 审查, mcp 配置体检, mcp 风险, mcp audit, mcp security review, check mcp servers, mcp config review, mcp server 检查, 审查工具权限。 激活条件: 用户给出 MCP 配置语境(要求检查/审计 MCP server、配置文件路径, 或询问某个 MCP server 是否安全);与 MCP 无关的通用安全审查不触发。 NOT for: Skill 质量评审(用 skill-review-pro)、代码质量评审(用 code-review-ProMax)、交付覆盖审计(用 delivery-spec-audit)、server 代码 漏洞挖掘(需要运行 server,本 skill 只读配置不执行任何 server)。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mcp-server-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

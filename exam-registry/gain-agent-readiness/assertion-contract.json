@@ -1,0 +1,49 @@
+{
+  "skillId": "gain-agent-readiness",
+  "displayName": "Skill V1.0.3",
+  "description": "Is my website agent-friendly? Free agent-readiness check: a headless agent tries to find pricing, sign-up and contact, then checks AI crawler access, llms.txt and MCP. Use to audit a website for AI agents, check llms.txt, or run an AI SEO / AEO readiness check. Returns a 0-100 score, category breakdown and report link. Also ranks a domain on a public index of about 570 software companies. Keyless, curl only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gain-agent-readiness"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

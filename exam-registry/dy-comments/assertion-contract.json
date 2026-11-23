@@ -1,0 +1,54 @@
+{
+  "skillId": "dy-comments",
+  "displayName": "dy-comments",
+  "description": "抖音视频评论采集工具（分步会话）。当用户需要采集抖音视频下面的评论——发布者昵称、IP属地、评论内容、时间、点赞数、回复@、评论回复，导出评论 CSV（Excel 直开），或提到\"抖音评论/评论采集/评论导出/评论分析/评论区舆情\"时使用本 skill。支持 douyin.com/video/<id> 直链与 v.douyin.com 短链（短链由节点自动还原）。分步会话制：start 建会话（免费）后按页采集主评论、按需展开回复，每一步实时返回最新增量结果，由 AI 询问用户是否继续（每步 1 点数，注册送 10 点）。适合评论舆情分析、用户口碑调研、评论区选题、直播/活动效果评估等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dy-comments"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

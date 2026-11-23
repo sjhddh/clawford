@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-orchestration",
+  "displayName": "cargo-orchestration",
+  "description": "Makes Cargo actually run something, or shows what it would run: executes one action on a record, runs a multi-step workflow, launches a batch over a whole list, messages an AI agent, builds or edits a workflow, draws a workflow, tool or play as a diagram and walks through its steps, and queries run history with SQL. Triggers: \"run this on all my contacts\", \"execute the action\", \"kick off a batch\", \"build a workflow\", \"schedule a play\", \"make it run every morning\", \"ask the agent\", \"show me the workflow\", \"what does this tool do\", \"visualize this play\", \"draw the graph\", \"explain this workflow\", \"how many runs failed today\", \"what is the output schema for this action\", \"add a step that\". Skip when: explaining why a run misbehaved, use cargo-diagnostics; downloading result files, use cargo-analytics; committing the workflow as code, use cargo-project.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-orchestration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

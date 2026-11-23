@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-quickstart",
+  "displayName": "cargo-quickstart",
+  "description": "Runs a two-minute guided Cargo demo for new users: one question with a fixed menu of three starter searches (companies like yours, a persona, fast-growing lookalikes), 25 real rows with a cost receipt, then saves the search as a recurring play. Needs nothing connected and works on a fresh account (100 free credits, no card). Triggers: \"show me what Cargo can do\", \"give me a demo\", \"take me on a tour\", \"quickstart\", \"getting started with Cargo\", \"I just installed Cargo\", \"my workspace is empty\", \"does this actually work\". Skip when: the user has a real job to run (build a list, enrich a CSV, find emails), use cargo-gtm; when they want CLI reference or routing, use the cargo router skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-quickstart"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

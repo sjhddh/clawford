@@ -1,0 +1,54 @@
+{
+  "skillId": "signature-splice",
+  "displayName": "signature-splice",
+  "description": "把若干张手写/电子签名图片，经预处理（去背景、去截图边框、紧裁、透明化）后，按指定顺序均匀插入 PDF 的目标区域（报名表/承诺书/审批单/合同等），并在插入后渲染自查。当用户提到\"报名表签字、把签名拼进 PDF、给 PDF 加签名、电子签名插入、签字版 PDF、签名均匀排布、按名单顺序签名、签名放到签名栏\"时使用。仅做\"签名图片\"的合成与排版；PDF 数字证书签名（加密签名域/签章证书）不适用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:signature-splice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "meeting-notes-to-actions",
+  "displayName": "Meeting Notes to Actions",
+  "description": "Turns raw US meeting notes into a decision log and an owned action list with due dates, left as a draft for the organizer to send. Use when the user asks for meeting notes to actions, action item list template, meeting notes summarizer. For US project managers, chief of staff and team leads running recurring internal meetings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:meeting-notes-to-actions"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

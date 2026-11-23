@@ -1,0 +1,54 @@
+{
+  "skillId": "vmware-privateai",
+  "displayName": "vmware-privateai",
+  "description": "Use for VMware Private AI Foundation with NVIDIA on vSphere 9.x/VCF 9.1: GPU inventory/readiness/utilization, vGPU consumers and profiles, DirectPath catalog, vGPU assignment, and PAIS served models, knowledge bases, catalogs/data sources and MCP gallery. Trigger on \"list GPU hosts\", \"which VMs use a vGPU\", \"GPU utilization\", \"assign a vGPU profile\" or \"list served models\" in VMware/NVIDIA context. Supporting commands check access, estimate model sizing locally and inspect local air-gap bundles without contacting a model provider. For backing VM power/snapshot/clone/migrate use vmware-aiops, general health/alarms vmware-monitor, or GPU-enabled Tanzu Kubernetes vmware-vks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-privateai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

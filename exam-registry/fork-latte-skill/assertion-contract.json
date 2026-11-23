@@ -1,0 +1,54 @@
+{
+  "skillId": "fork-latte-skill",
+  "displayName": "fork-latte-skill",
+  "description": "报名/登记信息收集 agent（中转服务模式）。触发词：「ping」。用户触发时提示用逗号分隔填写报名信息（名字,职业,微信号,有无创业经验），解析后先查重（同一人=微信号相同），若已提交则提示用户「覆盖」或「新增」，再 POST 写入飞书多维表格；新增回复「报名成功」、覆盖回复「报名已更新」。飞书凭证仅存于中转服务端，客户端零敏感信息。需中转服务 endpoint 配置在 relay-server/config.json。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fork-latte-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

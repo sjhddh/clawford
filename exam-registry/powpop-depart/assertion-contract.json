@@ -1,0 +1,54 @@
+{
+  "skillId": "powpop-depart",
+  "displayName": "一个人出发，一群人抵达",
+  "description": "在 PowPop（泡泡）上发起一次「一个人出发」的邀约，并持续帮你找到可以一同出发的人。用户说「我想去某地，找个人一起」「我在某地，想去某地，这周末」「帮我挂着看有没有人同路」时触发。工作方式：把出发点与目的地写成一条固定格式的出发帖，然后在 PowPop 上按三条线持续找人——要去的**目的地挨得近**的人、从你**出发地附近**走的人、以及**提过那个地方**的人；起点和终点都用 3km 判「相近」，不要求地名完全相同。每找到一个就只问你一句「要不要搭一趟」。没找到就主动替你挂每日定时任务守着。**本 skill 必须依赖 PowPop MCP（https://global.powpow.online/api/mcp）才能工作，未连接时不得假装可执行。**",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpop-depart"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

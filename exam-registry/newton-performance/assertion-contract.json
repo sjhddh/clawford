@@ -1,0 +1,54 @@
+{
+  "skillId": "newton-performance",
+  "displayName": "newton-performance",
+  "description": "Measure or improve the runtime, startup time, memory use, or throughput of a Newton simulation that already behaves correctly, or review a Newton step loop for performance problems such as CUDA graph capture mistakes and host synchronization. Not for setting up simulations, general solver or API questions, debugging unstable or incorrect physics without a performance goal, or optimizing Warp code that does not use Newton.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:newton-performance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

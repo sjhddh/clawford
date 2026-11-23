@@ -1,0 +1,54 @@
+{
+  "skillId": "image-editor",
+  "displayName": "image-editor",
+  "description": "Image Editor: Edit images: blur, crop, resize, rotate, invert colors. Use when an agent needs image editor, generating branded social media graphics by compositing logos onto product images, automating thumbnail creation by resizing and cropping uploaded images to standard dimensions, adding watermarks or copyright text overlays to protect visual content, creating placeholder images with custom colors and dimensions for ui mockups, blur, image base64, image url through AgentPMT-hosted remote.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-editor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

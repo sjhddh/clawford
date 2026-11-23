@@ -1,0 +1,49 @@
+{
+  "skillId": "summarize-pro-zh",
+  "displayName": "summarize-pro",
+  "description": "A faithful summarizer that picks one of five output format families (minutes / comparison / timeline / bullets / cards) by reader intent, then compresses under a strict no-hallucination discipline: nothing absent from the source, ambiguity flagged rather than resolved, every figure copied verbatim. Ships a zero-dependency, offline toolchain (extract / citecheck / selfcheck) plus a 14-case golden set, turning 'we do not fabricate' from a claim into a runnable assertion: citecheck traces each output sentence back to source tokens and lists anything untraceable, selfcheck asserts format-family completeness including mandatory strength labels, extract builds the skeleton and additionally grades decisions and commitments - every conclusion is labelled firm / provisional / proposal / conditional and every action item is labelled committed / named_unconfirmed / intent_only, so 'what was actually decided' and 'who actually took it' become checkable instead of assumed. Conditional clauses are kept out of the action table and markdown headings out of the sentence stream. Standard library only, no network, no replacement for human judgement. Triggers: summarize, summary, meeting minutes, minutes of meeting, decision log, action items, comparison table, timeline, key points, digest.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:summarize-pro-zh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

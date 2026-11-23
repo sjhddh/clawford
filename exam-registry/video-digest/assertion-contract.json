@@ -1,0 +1,49 @@
+{
+  "skillId": "video-digest",
+  "displayName": "Video Deep Reader · 视频深读",
+  "description": "把一段视频变成能读的笔记——公开字幕抓进本地私有缓存，按时间戳产出 Quick / Deep / Research 三档笔记，每句都能定位回原片。适合\"三十分钟的视频只想花三分钟\"和\"口播内容想存成可检索文字\"。Turn a video into timestamped Quick / Deep / Research notes from public captions or a supplied transcript, cached privately per user. Use when the user shares a video link and wants a summary, deep notes, or a citation-ready excerpt; also when they ask whether captions are available or why transcript fetching fails.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-digest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

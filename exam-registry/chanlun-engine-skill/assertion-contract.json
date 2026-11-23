@@ -1,0 +1,49 @@
+{
+  "skillId": "chanlun-engine-skill",
+  "displayName": "chanlun-engine-skill",
+  "description": "用缠论客观分析A股股票。当用户提到 缠论、分型、笔、线段、中枢、背驰、买卖点、K线结构，或想知道某只股票该买该卖该持有还是等待时使用。确定性脚本计算缠论结构并给出四态操作判定(买入候选/持有/卖出减仓/等待观察)与失效价位，AI 只负责解读转述，不心算结构。免费数据源开箱即用，无需注册。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chanlun-engine-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

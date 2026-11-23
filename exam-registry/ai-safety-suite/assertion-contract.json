@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-safety-suite",
+  "displayName": "PromptShield · AI 安全盾",
+  "description": "One install, your agent stops leaking secrets and obeying injected instructions: a lifecycle suite for agent runtime safety — red-team drill -> injection shield -> prompt-leak scan -> tool-call / loop / MCP guards -> skill admission gate. Orchestrates 9 independently published sub-skills by slug; vendors no internals. Use when the user wants prompt-injection defense, prompt/secret leak scanning, runtime call guarding, or a skill admission gate.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-safety-suite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

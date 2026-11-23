@@ -1,0 +1,54 @@
+{
+  "skillId": "short-squeeze-fuel",
+  "displayName": "short-squeeze-fuel",
+  "description": "Paid x402 endpoint: $0.014 USDC per call on Base. Returns short-squeeze setups while the squeeze is building: fires only when Hyperliquid cascade risk is 50-80 (above 80 is capitulation-alert's band), top wallets are crowded SHORT >70/100 with their liquidations stacked within 5% above price, and funding is negative; returns a LONG entry zone, target and invalidation (BTC, ETH, SOL).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:short-squeeze-fuel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

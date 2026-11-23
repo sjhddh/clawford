@@ -1,0 +1,54 @@
+{
+  "skillId": "icslint",
+  "displayName": "ICS Lint",
+  "description": "Lint an iCalendar (.ics) file against RFC 5545's actual requirements and the documented import failures of Google, Outlook and Apple Calendar. Use when asked to check, validate or lint an .ics or calendar file, debug a calendar import failure, or check calendar files in CI — for example \"check this .ics file\", \"why did Google Calendar fail to import this calendar\", or \"lint these calendar files before I ship them\". Checks structure, required properties, date/time forms, TZID and VTIMEZONE form, and RRULE syntax, each finding citing an RFC 5545 section or a named importer source. Not for ham-radio ADIF logs (that is adifcheck) or Darwin Core / GBIF occurrence files (that is dwccheck).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:icslint"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-inquiry-letter-reply",
+  "displayName": "问询函答复核对 · 监管问询逐条拆解",
+  "description": "A股监管问询函／关注函逐条拆解核对：输入一份问询函，拆成「问题 → 要求提供的材料 → 回复要点 → 回复文件」四栏，每栏挂原句与锚，每个问题都对到它的答复；没答的、没取到的显式点名，中介机构那几份没搜到会提示可能漏取。只做核对与拆条，不代拟答复、不出结论、不代公司表态。Do NOT use for: 帮我写回复（代拟不在本件范围）、审核能否通过（判断位一律 [待人工]）、公告事件速读卡（event-brief-cn）、尽调清单（dd-checklist）。Triggers: 问询函 / 关注函 / 逐条答复 / 监管问询拆解",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-inquiry-letter-reply"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

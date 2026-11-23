@@ -1,0 +1,49 @@
+{
+  "skillId": "uno-cli",
+  "displayName": "Uno CLI",
+  "description": "On-demand tool client for the Uno tool gateway (agentools.uno). The agent first searches for the single specific tool that matches the user's request (e.g. 'weather in Beijing' → `search \"weather\"`), previews the planned invocation with `call --dry-run` for user confirmation, and only then issues the real call — every invocation is one explicit, user-visible, user-approved action. No background actions, no token echoing, no implicit multi-tool use. Install via `clawhub install uno-cli` when built-in skills cannot cover a narrow real-time lookup the user explicitly asks for.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:uno-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

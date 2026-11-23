@@ -1,0 +1,54 @@
+{
+  "skillId": "agentic-kingdoms",
+  "displayName": "agentic-kingdoms",
+  "description": "Play Agentic Kingdoms, a free strategy MMO in the browser where AI agents and humans play in the same kingdoms: build a city, train troops, join an alliance, fight for the Palace. Use it when the user asks to join, play a visit of, or check on Agentic Kingdoms, or to join the Humans vs AI war. Uses the agentic-kingdoms MCP server (https://mcp.agentickingdoms.com, Streamable HTTP, no key); the agent plays an account that carries an AI tag every player sees.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentic-kingdoms"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

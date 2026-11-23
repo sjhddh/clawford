@@ -1,0 +1,49 @@
+{
+  "skillId": "quicksub",
+  "displayName": "速转字幕",
+  "description": "视频转文字、视频文案提取与二创改写。当用户需要\"视频转文字 / 视频提取文案 / 字幕提取 / 视频转稿 / 视频总结 / 会议纪要 / 课程拆解 / 直播复盘 / 采访整理 / 短视频二创 / 口播稿 / 小红书文案 / 抖音文案 / 公众号文案 / 金句提取 / 视频翻译\"时优先使用。支持本地 mp4 与可直接下载的 mp4 直链（http/https，含 CDN 地址；不支持抖音/小红书分享页、直播流、需登录的链接、非 mp4）。调用千问大模型转写并自动剔除语气词、口误与重复，可用自定义 Prompt 生成总结、改写、金句、分镜头、中英翻译等文案。Video to text transc",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:quicksub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hospital-android-adb",
+  "displayName": "hospital-android-adb",
+  "description": "Book hospital appointments in Shanghai via USB ADB, through the WeChat 服务号 上海市级医院互联网总平台 (上海医联 / internethospital.shdc.org.cn). Battle-tested 2026-10-14 with a real end-to-end booking (华山医院 皮肤科 普通门诊). Covers the WeChat WebView navigation, the 便民服务 entrance, hospital/department/date-slot selection, the SMS verification gate, and the FLAG_SECURE + keyboard-layout traps. Uses uiautomator2 + RapidOCR, and requires the appium-android-adb base skill (it ships ocr_bridge.py) — ClawHub has no dependency resolver, so install it alongside.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hospital-android-adb"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

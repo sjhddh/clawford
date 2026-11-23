@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-nickname-generate",
+  "displayName": "huawei-cloud-nickname-generate",
+  "description": "Randomly generate one nickname, or a de-duplicated batch, (随机昵称). A single call assembles each nickname from a built-in Chinese morpheme pool: a *pattern* (e.g. modifier + core) fixes the structure, an optional **style** (中性 / 文艺 / 可爱 / 简约) filters every slot to morphemes carrying that style, and an optional **length** bucket (short / medium / long — 短 / 中 / 长) selects patterns whose character count fits the bucket. `--count` controls how many are returned (default 1, max 20) and the batch never repeats a name; `--seed` makes any run reproducible (auto-generated seeds are printed). Output is readable Markdown by default, with plain-text and JSON alternatives, and `--output` writes to a file. Implemented with the Python 3 standard library only; it does not call the Huawei Cloud CLI, any Huawei Cloud SDK, or any REST API, and it touches no cloud resource. Triggers include: \"随机昵称\", \"生成昵称\", \"昵称生成\", \"起个昵称\", \"随机生成昵称\", \"取名字\", \"生成一批昵称\", \"nickname generate\", \"random nickname\", \"nickname generator\", \"generate a nickname\", \"batch nicknames\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-nickname-generate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

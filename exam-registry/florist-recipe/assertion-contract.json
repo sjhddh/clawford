@@ -1,0 +1,54 @@
+{
+  "skillId": "florist-recipe",
+  "displayName": "花艺配方引擎",
+  "description": "Generate executable florist recipes (flower formula, stem counts, budget breakdown, substitutions, assembly steps, care) from a natural-language occasion, budget, and style request. This skill should be used when a user asks to design a bouquet or vase arrangement, wants to know how many stems to buy for a given budget, needs a shopping list for a flower market, needs to substitute an out-of-stock flower while keeping the design intent, or asks for step-by-step assembly and care instructions.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:florist-recipe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

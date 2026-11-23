@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-im-reminder",
+  "displayName": "IM智能提醒",
+  "description": "全库唯一的提醒发送方：把其他 SKILL 入队的复习、错题复测、计划任务、探索任务合并成每天一条摘要发出。只在学生说出**明确的提醒动词**时激活：“帮我设置提醒”“提醒我复习二次根式”“我今天该复习什么”“暂停提醒”“查看我的提醒”。提到“提醒”但不是要操作提醒的话（“老师提醒过我”“提醒一下自己要早睡”）不激活；其他 SKILL 完成任务后也不自动入队，要学生当轮说“要”。提醒内容本身不在这里生成——错题由错题本、词卡由英语词汇 DNA、任务由 30 天学习计划提供，本 SKILL 只做排期、合并与发送。未获授权时只给“建议提醒方案”，不创建实际提醒，也不做闲置唤醒。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-im-reminder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

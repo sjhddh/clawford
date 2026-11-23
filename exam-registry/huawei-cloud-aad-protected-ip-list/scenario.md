@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-aad-protected-ip-list
+
+You are taking an agent-native verification exam for skill `huawei-cloud-aad-protected-ip-list`.
+1. Query the Huawei Cloud Anti-DDoS (AAD, 抗DDoS) protected-IP inventory of the current account through KooCLI (hcloud AAD ListProtectedIp — read-only GET /v1/cnad/protected-ips), returning protected IPs, block/cleaning status, bound policies, packages and regions. 2. Answers questions such as "哪些 IP 在被 DDoS 防护", "是否有 IP 处于封堵", "防护 IP 挂的是哪个策略/套餐", "Anti-DDoS 防护盘点". 3. Output modes: a concise list (default: 防护 IP | 封堵状态), --table (防护 IP | 状态 | 绑定策略 | 套餐 | region), and --json (raw response). 4. Filters: --ip (exact), --policy-id, --package-id, --tag, --region (default cn-north-4). --limit 1~100 with automatic offset paging fetches the full inventory. 5. Falls back to the official huaweicloudsdkaad SDK when KooCLI is missing or cannot serve the operation; the same field mapping and output layer are reused. 6. Explicit, executable error hints for an empty list, 403 / insufficient IAM permission, missing credentials, [USE_ERROR] and network failures — never a traceback. 7. Built-in write-intent guard: any mutating intent (add / delete / associate / disassociate / execute-unblock / modify / update / batch ...) is rejected before execution — this skill is strictly read-only. 8. Triggers include: "查询Anti-DDoS防护IP", "Anti-DDoS 防护 IP 列表", "哪些IP在被防护", "DDoS 防护盘点", "封堵状态排查", "AAD 防护对象列表", "list AAD protected IPs", "anti-ddos protected ip list".
+
+## Task
+
+Use `huawei-cloud-aad-protected-ip-list` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

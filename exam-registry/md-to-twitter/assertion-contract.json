@@ -1,0 +1,54 @@
+{
+  "skillId": "md-to-twitter",
+  "displayName": "md-to-twitter",
+  "description": "Convert a Markdown article into an X (Twitter) thread, and optionally post it with its images attached. X renders no rich text and cannot carry an image in a paste, so the equivalent of a \"paste payload\" is a numbered thread script plus an API path that uploads each image and posts the thread in order. Counting follows X's weighted rules: 1 per character, 2 for CJK and emoji, 23 per URL. Use when the user wants to publish a markdown draft to X or Twitter, asks for a thread, asks how to get an article's images onto X, or wants a long article turned into posts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:md-to-twitter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "wiro-github-action",
+  "displayName": "Wiro AI GitHub Action",
+  "description": "Write GitHub Actions workflows that call Wiro AI with the Wiro AI Action (wiroai/Wiro-Action@v1). It runs any of 1,000+ models for images, video, audio and 3D, runs a saved Wiro AI workflow, or asks an LLM through the Wiro AI gateway, and returns URLs, files, text and the cost for later steps. Covers the inputs and outputs, the WIRO_API_KEY secret, the price estimate and the max-cost limit, and ready workflows for an image, a pull request summary, release media and a workflow run. Use when the user wants AI images, video, audio, text or reviews in GitHub Actions, mentions wiroai/Wiro-Action or a WIRO_API_KEY secret, or wants to run Wiro AI from CI.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wiro-github-action"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

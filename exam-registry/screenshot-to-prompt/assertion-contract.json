@@ -1,0 +1,54 @@
+{
+  "skillId": "screenshot-to-prompt",
+  "displayName": "screenshot-to-prompt",
+  "description": "截图理解 + 页面结构抽取 + 实现 prompt 生成器。 输入页面截图，输出结构化识别结果和可直接发给 coding agent 的实现 prompt。 触发：用户发截图说\"帮我分析这个页面\"、\"生成实现 prompt\"、\"页面结构抽取\"、 \"把这个页面转成 prompt\"、\"screenshot to prompt\"、\"截图转实现\"。 NOT for: 直接写代码（除非用户明确要求）、业务分析、产品方案撰写、设计稿评审。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:screenshot-to-prompt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

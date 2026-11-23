@@ -1,0 +1,54 @@
+{
+  "skillId": "mihomo-skill",
+  "displayName": "Mihomo 排障与修复",
+  "description": "诊断并修复 mihomo / Clash.Meta / Clash 内核的代理异常，与部署平台无关——本机、远程 Linux/VPS、Docker、软路由/OpenWrt、群晖/绿联等 NAS、Clash Verge Rev / Mihomo Party 桌面客户端都适用。出现「代理时好时坏、节点全部延迟超时、面板全红、订阅拉不下来、日志 pull error、国内能上境外全断、重启后突然不能翻墙、明明有节点却像没走代理、分流或自动切换不生效、需要多订阅互为主备」时使用。覆盖 DNS 污染、SNI 阻断、订阅激活、provider 死锁、fallback 套策略组、GEOIP 误判直连等根因，可直接备份改配置、热重载或重启并复检。关键词：mihomo、clash、clash-meta、clash verge、mihomo party、proxy-provider、订阅、节点超时、分流规则、自动切换、主备、SNI 阻断、DNS 污染、docker、软路由、openwrt、nas、绿联、群晖、systemd。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mihomo-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

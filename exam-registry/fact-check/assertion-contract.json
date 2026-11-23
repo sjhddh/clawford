@@ -1,0 +1,49 @@
+{
+  "skillId": "fact-check",
+  "displayName": "快速事实核查",
+  "description": "Fast, source-backed answer to a factual question or \"is it true that…\" claim, returned within a hard time budget (simple ≤2 min, complex ≤5 min) — speed is the goal. Use for a quick verified answer: \"fact-check this\", \"is it true Y\", \"$fact-check\". NOT for an exhaustive research REPORT (→ deep-research).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fact-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

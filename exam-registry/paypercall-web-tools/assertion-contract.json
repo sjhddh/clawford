@@ -1,0 +1,49 @@
+{
+  "skillId": "paypercall-web-tools",
+  "displayName": "Pay-per-call web tools (Nano)",
+  "description": "Web tools an agent pays for per call in Nano (XNO), with no account and no API key - page extract, web search, link and status checks, CSS-selector and table extraction, page metadata, domain and IP lookup, PDF text, YouTube transcripts, screenshots. Five free calls a day, then about 0.0001 XNO per call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paypercall-web-tools"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

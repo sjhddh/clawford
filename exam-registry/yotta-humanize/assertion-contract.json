@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-humanize",
+  "displayName": "元真 yotta-humanize",
+  "description": "去 AI 味（元真）—— 把像 AI 写的中文改得更自然：粘贴文章、文案、报告或邮件，先得到 0-100 AI 味评分，再定位空泛升华、套话、AI 黑话、同义堆叠、机械排比、聊天残渣和标点滥用，输出可逐条核对的前后改写（词表替换 / 套话删除 / 残渣清理 / 标点限流）。触发：用户说「去 AI 味」「润色」「改写」「太像 AI」「像人写的」。边界：只处理已有文本，不生成内容、不改事实 / 数据 / 专有名词；需要判断的润色只给建议，不调用模型。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-humanize"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

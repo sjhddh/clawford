@@ -1,0 +1,54 @@
+{
+  "skillId": "video-editing-skill",
+  "displayName": "video-editing-skill",
+  "description": "Video editing skill: edit a talking-head video (YouTube video, course lesson, product demo, podcast on camera, vlog) the way an editor would. Transcribes with word timestamps (free local faster-whisper, your own Groq or OpenAI key, or an existing SRT/VTT), removes silences, \"um\"s and \"uh\"s, stutters and retakes (keeps the last take), adds jump-cut punch-ins, cleans and levels the audio, writes an SRT caption file and YouTube chapters, optionally burns captions or makes a vertical version, shows a cut list to approve before rendering, then posts to YouTube and other platforms with WoopSocial after you say yes. Works on Mac, Windows and Linux with ffmpeg and Pillow; no paid API required. Use when someone says \"edit my video,\" \"remove silences,\" \"cut the ums,\" \"remove filler words,\" \"jump cut my video,\" \"clean up this recording,\" \"edit this talking head video,\" or \"video editing with Claude Code.\" Never cuts what the user marked to keep, confirms before anything posts. Standalone: needs no other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-editing-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

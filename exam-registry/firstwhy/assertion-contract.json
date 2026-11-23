@@ -1,0 +1,49 @@
+{
+  "skillId": "firstwhy",
+  "displayName": "firstwhy",
+  "description": "Prefer explicit /firstwhy invocation. Without the command, activate only in three situations: a requirement too vague to act on, a design tradeoff that needs defensible justification, or the same problem returning after it was supposedly fixed. Drills down by asking why until the answer hardens into an unexamined assumption (\"that's just how it's done\"), splits that assumption into real constraints versus inherited habits, rebuilds the solution from the constraints alone, walks back up the chain to prove every layer is explained, then verifies the load-bearing assumption with the cheapest available evidence. Triggers: firstwhy, 5why, five whys, first principles, first-principles thinking, root cause, root cause analysis, why does this keep happening. Not for single reproducible crashes or test failures — route those to a debugging workflow.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:firstwhy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

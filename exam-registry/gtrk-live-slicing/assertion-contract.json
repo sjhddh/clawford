@@ -1,0 +1,54 @@
+{
+  "skillId": "gtrk-live-slicing",
+  "displayName": "gtrk 直播切片",
+  "description": "直播切片图纸——把一场数小时的直播回放，拆成一批可编辑的逐 clip 粗剪工程（gtrk+剪映+PR），交给用户自己挑、自己改、自己出片。含超长源片分段规约（服务端 2h 硬闸 + 60min 轮询墙钟）、选题清单确认停点、按画面形态配分屏、源片贴片如实告知。当用户想「直播切片 / 直播回放切高光 / 把这场直播剪成短视频 / 三小时直播怎么切 / 带货直播剪片段 / 讲座直播出短片 / 录播切片」时使用本 skill。凡涉及把直播回放拆成一批短片工程，优先用本图纸编排，别直接裸跑 long2short（超过 2 小时会被服务端直接拒）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtrk-live-slicing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

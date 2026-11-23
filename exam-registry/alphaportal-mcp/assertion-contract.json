@@ -1,0 +1,54 @@
+{
+  "skillId": "alphaportal-mcp",
+  "displayName": "alphaportal-mcp",
+  "description": "Access AlphaPortal (AlphaRoute) school-bus data — students, stops, live bus GPS location, arrival notifications — from a shell with curl instead of running the alphaportal-mcp server. Capture the signed-in web app's refresh token ONCE (a paste-in-console one-liner, or the fpx browser bridge), then mint access tokens and curl the REST API directly. Use when you want AlphaPortal data without the MCP, in a script, or on a machine where the MCP isn't installed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alphaportal-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

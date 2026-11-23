@@ -1,0 +1,49 @@
+{
+  "skillId": "voidly",
+  "displayName": "voidly",
+  "description": "Read Voidly's internet-censorship index answer for one country, search recent incident records with evidence links, follow new records for a country, domain or incident type through a pull feed, and start a self-owned Voidly relay identity whose keys stay on the local machine. Uses plain curl GETs or the hosted MCP server at api.voidly.ai/mcp. Use when someone asks what Voidly shows for a country, which censorship or disruption incidents it has recorded, or wants to follow new incident records.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:voidly"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

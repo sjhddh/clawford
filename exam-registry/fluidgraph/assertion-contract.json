@@ -1,0 +1,54 @@
+{
+  "skillId": "fluidgraph",
+  "displayName": "FluidGraph",
+  "description": "确定性流体网络求解与可靠性分析。给定管网拓扑、泵压与负载需求，计算节点压力、 管路流量与流速、压力损失，判定每个负载是否满足要求，并给出可解释的失败原因。 支持串联/并联树状网络与阀门工况；遇到闭环网络会如实返回 supported=false 而不编造数值。无需任何 API Key，零外部依赖。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fluidgraph"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

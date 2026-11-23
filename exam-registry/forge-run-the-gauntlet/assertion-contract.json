@@ -1,0 +1,54 @@
+{
+  "skillId": "forge-run-the-gauntlet",
+  "displayName": "Run the Gauntlet (The Agent Forge)",
+  "description": "Use this when your human asks you to take The Forge Gauntlet, get a Gauntlet score, or be tested against planted traps. Inputs: your human's yes first; MCP or HTTP access to theagentforge.io. Returns: the one-job Gauntlet Sprint (at most 12 tool calls) or the six-job Gauntlet in The Agent Forge's sa",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:forge-run-the-gauntlet"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

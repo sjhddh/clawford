@@ -1,0 +1,54 @@
+{
+  "skillId": "whetstone",
+  "displayName": "whetstone",
+  "description": "Scales engineering care to the risk of a software change, keeping small edits light and adding evidence, compatibility and recovery checks as risk grows. Use when writing, fixing, debugging, reviewing, refactoring or shipping code, configuration, schemas and migrations, infrastructure, user interfaces, or LLM and agent features in a software project, including casual add, fix or build requests. Not for prose, slides, explanations, summaries or standalone snippets outside a project.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:whetstone"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

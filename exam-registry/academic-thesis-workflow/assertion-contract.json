@@ -1,0 +1,54 @@
+{
+  "skillId": "academic-thesis-workflow",
+  "displayName": "Academic Thesis Workflow",
+  "description": "此技能提供一个标准化、可复现的学术论文生成工作流，通过四个有序步骤将论文主题转化为完整学术论文：主题可行性评估、主题转论证骨架加衍生方向、选定方向优化骨架、骨架转完整论文加自动复核。支持一切学科领域（人文社科与理工科），当用户想要撰写博士论文、硕士论文、期刊论文，或需要从主题出发系统化构建学术论文论证结构时，应使...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:academic-thesis-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

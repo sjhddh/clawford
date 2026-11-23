@@ -1,0 +1,54 @@
+{
+  "skillId": "batch-processor-pro",
+  "displayName": "批处理专家",
+  "description": "批处理专家是处理大量数据项的能力包。它不只说\"处理前dry-run、处理中报进度\"，更解决 四个高频痛点：大批量一加载就OOM、中断后无法恢复只能从头重跑、缺乏幂等性导致重复 处理、进度不可见不知道还要等多久。 核心能力： - 流式分块：按行/按文件分块处理，内存恒定不OOM - 检查点恢复：每N项存检查点，中断...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:batch-processor-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

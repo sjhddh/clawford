@@ -1,0 +1,54 @@
+{
+  "skillId": "curiosity-learning-curve",
+  "displayName": "curiosity-learning-curve",
+  "description": "Activate when: user says 'I used to love this but don't anymore', 'I feel like I've stopped learning', 'I go through the motions but nothing excites me', 'how do I stay curious as I get older', or a domain expert's knowledge has visibly stagnated despite continued effort. Do NOT activate when: the problem is burnout rather than curiosity deficit (burnout requires recovery first); the issue is capability or skill gap rather than curiosity; structural causes (bad environment, financial stress) are driving the motivation problem. More: deciqai.com/c/curiosity-learning-curve",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:curiosity-learning-curve"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

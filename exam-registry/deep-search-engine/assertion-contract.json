@@ -1,0 +1,49 @@
+{
+  "skillId": "deep-search-engine",
+  "displayName": "deep-search-engine",
+  "description": "中文互联网深度搜索与验证引擎：多通道扫描（Google News RSS site: 定向、百度搜索、搜狗微信、 媒体池三路扫描、海外 GDELT/GNews EN/HN）+ 三要素全文验证（标题+发布日期+正文指纹）， 输出带置信度分级的可核验结论（findings JSON）。输入目标内容/事件指纹/媒体名，输出验证过的条目。 适用：传播监测、发布核验、转载追踪、首发溯源、事实存在性验证、内容扩散面盘点。 不适用：单次简单事实查询（直接 WebSearch 即可）、订阅式源抓取（daily-brief 主流程）、登录墙后内容。 Multi-channel deep search & verification engine for the Chinese internet: channel-matrix scanning + three-element full-text verification (title + date + fingerprint), outputs confidence-graded verifiable findings. Triggers: 深度搜索, 传播监测, 发布核验, 转载追踪, 通稿监测, 首发溯源, deep search, verify publication, publication tracking, syndication tracking.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deep-search-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

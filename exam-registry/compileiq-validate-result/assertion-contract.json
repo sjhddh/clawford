@@ -1,0 +1,49 @@
+{
+  "skillId": "compileiq-validate-result",
+  "displayName": "compileiq-validate-result",
+  "description": "Use AFTER a Search has completed and BEFORE claiming any speedup or shipping an ACF. Loads the dump_results CSV, extracts top-K candidates (single-objective) or the Pareto front (multi-objective), re-measures each against the no-ACF baseline with 100+ trials on fresh caches, runs Welch's t-test plus Cohen's d, rejects three classic false-positive patterns (lucky-min / higher-variance / multiple-comparisons-of-N), and saves the validated winner as best.acf. Triggers on \"validate result\", \"extract best config\", \"Welch's t-test\", \"is my speedup real\", \"save best ACF\", \"pareto front\", \"claim speedup\", \"ship config\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compileiq-validate-result"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

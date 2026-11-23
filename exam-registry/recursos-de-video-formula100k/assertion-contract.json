@@ -1,0 +1,54 @@
+{
+  "skillId": "recursos-de-video-formula100k",
+  "displayName": "recursos-de-video-formula100k",
+  "description": "Convierte un video grabado por la usuaria en un set de RECURSOS de edición (B-roll, overlays, referencias visuales) y un MANIFEST.md para montarlos en su editor. 4 modos: (1) IA — pixel-avatar mascot e infografía pixel generados con Higgsfield, fondo quitado; (2) WEB — recursos reales de Pinterest, Google Imágenes, TikToks virales (como link) y noticias, sin stock; (3) HÍBRIDO — ambos por momento; (4) UI/TUTORIAL — capturas tipo terminal/callout/paso con capturas-tutorial-formula100k. Admite capturas propias. Trabaja sobre la transcripción o el .srt del video; no edita ni renderiza el video. Activar cuando la usuaria mande un video o su .srt y diga 'cázame recursos para este video', 'busca b-roll real', 'tráeme recursos web', 'mezcla IA + recursos reales', 'overlays UI para mi tutorial'. Entrega: carpeta en entregables/ + MANIFEST.md en .zip por Telegram.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:recursos-de-video-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

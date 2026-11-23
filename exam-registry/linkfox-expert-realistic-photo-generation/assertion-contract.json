@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-expert-realistic-photo-generation",
+  "displayName": "真人感照片生成专家",
+  "description": "帮用户生成去 AI 感的真人手持商品照片。从真实灵感参考图中提取色彩分级、构图、光线等摄影要素，转化为结构化 JSON prompt，再用 BANANA_PRO 模型生成具有真实摄影质感的照片。核心链路：分析商品图→搜灵感图→分析出 JSON prompt→调度出图→管理角色一致性。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-expert-realistic-photo-generation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

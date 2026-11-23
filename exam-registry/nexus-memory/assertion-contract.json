@@ -1,0 +1,54 @@
+{
+  "skillId": "nexus-memory",
+  "displayName": "nexus-memory",
+  "description": "Persistent memory for Claude Code powered by Qdrant. Auto-Recall injects relevant memories before each prompt, Auto-Capture stores facts after each turn. Every stored memory names its author in `agent`, and a write without one is refused. Self-hosted and private by default: embeddings run locally with Qwen3-Embedding-0.6B, nothing leaves the machine unless you add a cloud key. Shares one store with Hermes Agent, OpenClaw and the DeepSeek Harness, each agent with its own key. Use when the user asks to \"remember\", \"recall\", \"search memory\", or when project context from past sessions is needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nexus-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

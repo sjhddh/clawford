@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-gov-grant-quality",
+  "displayName": "政府补助 · 递延收益 · 利润依赖",
+  "description": "A股政府补助台账：补助项目、金额、确认时点与依据、计入损益还是递延、占利润比例五项逐项登记，每项挂「」原句与锚；占利润比例与占比只认披露值，不自己除。机检五道，零网络。Do NOT use for: 利润表逐数点评（走 cn-earnings-note）、税务政策口径（走 tax-policy-card-cn）、政策影响链（走 policy-impact-cn）、盈利质量总评、评级目标价。Triggers: 政府补助 / 补助计入损益 / 利润依赖 / 递延收益 / 补助占比",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-gov-grant-quality"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

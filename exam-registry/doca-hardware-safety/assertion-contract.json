@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-hardware-safety",
+  "displayName": "doca-hardware-safety",
+  "description": "Use this skill whenever the agent is about to recommend or apply a change that touches DPU / NIC hardware state on a live system — mlxconfig firmware-parameter write, NIC firmware burn, BFB reflash, NIC ↔ DPU mode flip, SR-IOV or device-emulation slot enable, kernel boot-parameter change (IOMMU, hugepages, VFIO), PCIe rebind / rescan / link-state flip, BlueField cold reboot, or remediation of a BlueField thermal shutdown. Wrap the change in pre-flight inventory, OOB reachability, a maintenance window, replica rehearsal, and rollback. Trigger on implicit phrasing: \"flip BlueField mode over SSH\", \"enable SR-IOV and reboot\", \"burned firmware but mlxconfig shows old value\", \"BlueField thermal shutdown\". Not for read-only inventory or version queries (doca-version, doca-caps). Refuse orientation (doca-public-knowledge-map), install or env debug (doca-setup), and program-side debug (doca-debug, doca-programming-guide).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-hardware-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

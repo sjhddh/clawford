@@ -1,0 +1,49 @@
+{
+  "skillId": "daily-funded-startup-radar",
+  "displayName": "daily-funded-startup-radar",
+  "description": "Daily briefing of startups and funds that just raised private money, built from new SEC Form D filings. Use when the user wants a funded-startup radar, alerts on new fund launches, or a daily/weekly digest of companies raising under Regulation D (Rule 506(b), 506(c), 504). Runs the magnova/sec-form-d-monitor Actor through the Apify plugin for OpenClaw; each filing record costs $0.01 on the user's own Apify account, empty days are free.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-funded-startup-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

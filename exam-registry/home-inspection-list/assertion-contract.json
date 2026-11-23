@@ -1,0 +1,54 @@
+{
+  "skillId": "home-inspection-list",
+  "displayName": "验房收房清单台",
+  "description": "收房只有一两个小时，容易漏看空鼓、渗水、门窗变形、电路漏接，签了字再返修就难了。 输入：房屋类型（毛坯/精装/二手房）、面积、交房状态、有无陪验人员。输出：①分区分项检查表（入户/客厅/厨卫/阳台/门窗/水电/暖通，每项写检查方法与合格标准）②必备工具清单（空鼓锤/卷尺/电笔/手电/插线板）③问题记录模板（位置-现象-照片编号）④整改单写法（要求量化与限期）⑤签字前 5 项确认。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:home-inspection-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

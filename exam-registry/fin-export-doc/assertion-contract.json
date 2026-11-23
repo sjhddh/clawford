@@ -1,0 +1,54 @@
+{
+  "skillId": "fin-export-doc",
+  "displayName": "出口单证准备台",
+  "description": "出口单证错一处就要重报：品名与 HS 编码不一致、金额与合同不符、单据缺签章，来回沟通成本很高。 输入：贸易方式、目的地、货物与 HS 编码（可选）、金额与币种、客户类型、是否需原产地证。输出：①单证清单（商业发票/装箱单/合同/报关单/许可证等，逐项说明要求）②一致性核对表（品名/数量/金额/重量四处必须对齐）③易错点提醒（HS 归类、币种、贸易术语）④流程时间轴（截单、报关、放行节点）⑤常见退回原因与预案。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fin-export-doc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

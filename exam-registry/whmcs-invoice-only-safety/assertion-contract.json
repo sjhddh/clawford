@@ -1,0 +1,54 @@
+{
+  "skillId": "whmcs-invoice-only-safety",
+  "displayName": "WHMCS Invoice-Only Safety Guard",
+  "description": "Use when building or reviewing an authorized WHMCS invoice-only order adapter that creates an unpaid invoice and never takes payment. Covers pinned-product preconditions, login/cart verification, checkout field discipline, single-submit semantics, and post-submit invoice validation. Use when creating a WHMCS order that stops at an unpaid invoice, or auditing automation for accidental payment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:whmcs-invoice-only-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

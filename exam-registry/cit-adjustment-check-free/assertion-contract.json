@@ -1,0 +1,54 @@
+{
+  "skillId": "cit-adjustment-check-free",
+  "displayName": "企业所得税纳税调整核对（免费版）",
+  "description": "企业所得税纳税调整表逐项核对（逐行复算、合计勾稽、重复与空缺检测），每条结论引用原文。本免费版执行引擎声明的免费检查项。触发词包括 企业所得税纳税调整核对、企业所得税纳税调整表对不上。本免费版只执行 6 项，即 应纳税所得额复算、调增/调减合计 = 各明细项之和复算、合计行逐列复核等。不执行 5 项判定，例如 业务招待费超限额未足额调增提示。详见 SKILL.md 的「这个免费版不包含」一节。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cit-adjustment-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

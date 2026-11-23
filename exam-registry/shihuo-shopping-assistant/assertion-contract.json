@@ -1,0 +1,54 @@
+{
+  "skillId": "shihuo-shopping-assistant",
+  "displayName": "识货购物助手",
+  "description": "TRIGGER：用户没有明确目标商品、只给品类用途预算或品牌就要求推荐、帮忙挑选、问哪款合适，或通过识货关键词或图片搜索查询商品、配色、尺码、SKU、历史价格、全网比价、哪里买或购买入口，或发来淘宝、京东、拼多多、得物、唯品会的商品链接、口令、分享文本，询问怎么买更合适、有没有隐藏券或补贴券时启用。SKIP：下单、加购、支付、订单、退款、售后、物流、独立库存和用户授权请求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shihuo-shopping-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

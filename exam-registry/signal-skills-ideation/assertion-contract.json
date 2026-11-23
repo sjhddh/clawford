@@ -1,0 +1,49 @@
+{
+  "skillId": "signal-skills-ideation",
+  "displayName": "Signal Skills: ideation",
+  "description": "Turn findings already mined by podcast/review-scout into prioritized \"build/test next\" proposals, each citing the specific finding(s) that motivated it. Use when the user asks \"what should we build next\", \"what's worth prioritizing\", or wants a synthesis across research + reviews instead of another raw findings dump.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:signal-skills-ideation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

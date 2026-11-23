@@ -1,0 +1,54 @@
+{
+  "skillId": "opensource-skill-to-github",
+  "displayName": "opensource-skill-to-github",
+  "description": "Quickly open-source a local skill to GitHub (primary) and optionally clawhub.com. Workflow: slug pre-check, fork to opensourceskills, strip internal info, normalize SKILL.md, generate LICENSE/README, init git, push to GitHub with configurable token source, and optionally publish to clawhub. Use when the user says \"open-source this skill\", \"把这个 skill 开源\", \"发到 github\", \"publish skill publicly\", or \"把本地 skill 发开源\". Hard rules: never modify the original skill in place, never auto-add force/yes flags, never write tokens to git/remote/memory, and ask the user at decision points.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:opensource-skill-to-github"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

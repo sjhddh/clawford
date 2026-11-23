@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-batch-ops",
+  "displayName": "Skill Batch Operations",
+  "description": "Batch operations across many skills (3+): inventory, batch patching, multi-platform publish, version alignment, and per-item verification. Use for stale-skill sweeps, fleet-wide version bumps, or bulk ClawHub / SkillHub / GitHub sync. Trigger keywords: 批量更新 skill, batch publish, 批量补丁, 批量发布, multi-skill sync, version phantom occupation, 版本空占, 429 rate limit, 两周未更新, stale skill sweep, skill 盘点, 批量同步, align versions, bulk publish verify. Companion to skill-audit-publish which handles single-skill governance; includes the platform restriction checklist.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-batch-ops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

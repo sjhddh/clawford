@@ -1,0 +1,54 @@
+{
+  "skillId": "codex-cross-provider-session-repair",
+  "displayName": "Ward Codex Session Repair",
+  "description": "Repair Codex Desktop sessions that fail after switching model providers or importing/forking old conversations. Use this skill whenever a user mentions an old Codex session becoming invalid, “model provider not found”, “Codex cannot load config.toml”, remote context compaction 404s, “Item with id rs_... not found”, repeated reconnecting during resume, or a migrated Codex conversation that cannot continue—even when the user only asks to inspect or explain the failure. Diagnose the target session across its JSONL rollout, root state_5.sqlite, config.toml, and logs_2.sqlite, then make a target-scoped backup-first repair with verification and restart instructions.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codex-cross-provider-session-repair"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

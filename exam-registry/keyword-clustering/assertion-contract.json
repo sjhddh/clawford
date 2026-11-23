@@ -1,0 +1,49 @@
+{
+  "skillId": "keyword-clustering",
+  "displayName": "keyword-clustering",
+  "description": "Group keywords into page-level clusters by search intent and map each cluster to an existing or new page, flagging cannibalization. Use when the user has a keyword list, saved keywords, or Search Console queries and asks which page should target which keywords, or wants a keyword map, content plan, topic clusters, or to fix pages competing for the same query.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:keyword-clustering"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

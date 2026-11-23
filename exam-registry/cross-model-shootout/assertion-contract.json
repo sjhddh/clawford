@@ -1,0 +1,54 @@
+{
+  "skillId": "cross-model-shootout",
+  "displayName": "大模型横评对比 / 模型选型",
+  "description": "大模型横评对比 / 跨模型对比测试。当用户想比较多个大模型的真实表现时使用——比如「这几个模型哪个好」「帮我横评一下 DeepSeek 和 Qwen」「同一段 prompt 在多个模型上跑一遍看差异」「测一下各模型的延迟和成本」「选型时给点实测数据」。会在多个模型上真实发起调用，收集延迟、token 用量和成本，产出对比表和结论。触发词：模型对比、大模型横评、模型选型、模型跑分、prompt 测试、多模型评测、model comparison。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cross-model-shootout"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

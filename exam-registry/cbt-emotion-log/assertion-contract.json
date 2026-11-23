@@ -1,0 +1,54 @@
+{
+  "skillId": "cbt-emotion-log",
+  "displayName": "CBT Emotion Log",
+  "description": "Keep a CBT thought record (an emotion event log) for the user through plain conversation — support them first, then quietly log what happened, the automatic thought, the emotions and any worried prediction; revisit and re-rate events, settle predictions against what actually happened, notice rumination, offer other angles and the good parts of an event, keep fact-based support and precious moments, and compute stats on request. Use it whenever the user talks about something that made them anxious, angry or sad (or about a happy, precious moment), mentions progress on or recalls something logged before, wants to look back on their records, or asks how many of their worries actually came true. Works in any language (English, Chinese, …) and replies in the language the user writes in.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cbt-emotion-log"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

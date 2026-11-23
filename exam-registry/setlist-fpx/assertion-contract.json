@@ -1,0 +1,54 @@
+{
+  "skillId": "setlist-fpx",
+  "displayName": "setlist-fpx",
+  "description": "Query and update setlist.fm from a shell without running the setlist-mcp server — search/read concert setlists, artists, venues, cities, and users via plain curl against the public REST API (an x-api-key header), and toggle \"I was there\" attendance on a setlist via the authenticated website, using an fpx-captured session cookie. Use when you want setlist.fm data or want to mark/unmark attendance without the MCP, in a script, or on a machine where the MCP isn't installed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:setlist-fpx"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

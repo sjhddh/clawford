@@ -1,0 +1,54 @@
+{
+  "skillId": "overwing",
+  "displayName": "overwing",
+  "description": "Check any text for safety, personal data, confidential leaks, self-harm, sexual content and severity before you send it, act on it, or show it to a person, identify any User-Agent string against Overwing Atlas, a registry of AI crawlers, fetchers and browser agents with verification classes (no key needed), check whether a website is reachable by AI agents with Overwing Beacon (llms.txt, MCP, A2A, OpenAPI and how the page reads to a model; a paid lookup with a free sample), and operate legacy business systems through Overwing Tower, which rules on each write (execute, ask a person, or reject) and signs a receipt. One API call returns a verdict, a recommended action (block, redact, review, allow) and per-rule results with calibrated confidence in under 500 ms. Pass context (who the recipient is, which channel, whether you own the data) so personal data the recipient already owns is not flagged. Use for moderating model output, screening incoming messages, scoring drafts, deciding whether to trust a bot, or entering orders into a system of record. Works with no key for light use (10 checks a day), with a free API key, or, for wallet-holding agents, pay-per-request in USDC with no account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:overwing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

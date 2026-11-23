@@ -1,0 +1,54 @@
+{
+  "skillId": "npmscan-ci-pr-gate",
+  "displayName": "npmscan CI PR gate",
+  "description": "Turn a dependency change — a before/after package.json/lockfile snapshot, or one or more named \"bump X from A to B\" upgrades — into one deterministic PASS/WARN/FAIL verdict formatted for a CI check or PR-comment bot, not a conversational report. Use when the user explicitly wants a mergeable/blocking verdict, a \"CI gate,\" a PR status comment, or asks \"should this PR be blocked,\" \"is this safe to merge,\" \"gate this dependency bump.\" Not for a plain explanation of what changed in a diff (dependency-audit's own snapshot-diff flow already covers that conversationally) and not for a single already-installed package's trust investigation (package-trust-check).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:npmscan-ci-pr-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

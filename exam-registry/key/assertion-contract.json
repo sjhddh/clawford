@@ -1,0 +1,54 @@
+{
+  "skillId": "key",
+  "displayName": "AI KEY·短命令",
+  "description": "AI KEY·短命令 ——AI KEY（AI 钥匙）工具箱的短命令。`/key` 和 `/aikey` 完全一样，只是少敲三个字母 —— 它把你交给总入口，由总入口按你卡在哪挑技能。 两套技能：做内容（选题 / 写稿 / 标题 / 开头 / 审核 / 剪辑 / 复盘）· 看生意（营收归因 / 大客户集中度 / 依赖风险 / 多产品线取舍 / 目标拆路径 / 趋势押什么 / 决策 / 到期追踪）。 触发方式：/key、/key 新手指南、/钥匙 ⚠️ **与 API key、密钥、密码、令牌无关**。用户问的是接口密钥、环境变量、凭据一类的事，**不要用本技能**。 Short command for the AI KEY toolbox: `/key` is the same entry point as `/aikey`. Not about API keys, secrets or credentials. Trigger: /key, \"/key 新手指南\" —— AI KEY · 不给公式，给判据。每条规则都标了实测代价。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:key"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

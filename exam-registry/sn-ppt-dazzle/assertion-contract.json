@@ -1,0 +1,54 @@
+{
+  "skillId": "sn-ppt-dazzle",
+  "displayName": "sn-ppt-dazzle",
+  "description": "需要把演示 / 幻灯片 / PPT / slides 做成单文件 HTML 动态 deck（动效、跨页过渡、键盘翻页、1280×720）时使用。本 skill 非入口：使用前必须先确认 sn-ppt-entry 与 sn-ppt-story 两个前置 skill 可用，依次执行 entry（建 DECK_DIR / task_pack.json）→ story（生成 outline.md）完成后才可开始；前置缺失或未完成时停止并回报，严禁绕过（如改用生图+手写 HTML 等方式）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sn-ppt-dazzle"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "content-template",
+  "displayName": "content-template",
+  "description": "内容模板管理(v25.0合并content-catalog)，Jinja2引擎变量替换/条件渲染/循环/继承，A/B测试和文案润色+内容品类目录查询。 触发词：内容模板/模板创建/变量替换/A-B测试/文案润色/去AI味/电商文案/Jinja2模板/内容品类/内容菜单 不触发：内容发布/趋势发现/视频生成",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:content-template"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "session-retrospective",
+  "displayName": "session-retrospective",
+  "description": "会话结束时给工作流做一次只读复盘：只提取真实发生的系统性问题——需纠正的错误答案、跳过的闸门、错误路由、MCP 错误、skill/文档缺口、多轮纠正——并以字段枚举校验的 JSONL 条目追加到本地反馈日志：同一问题复发即规则缺口，优先级自动升级；无事记一条 success，绝不编造。说一句\"开始修复\"即进入修复模式：按复发与优先级排序逐项出修复预案，一项一确认后执行，每项回写闭环条目保持 append-only 可审计，且修复模式只凭日志即可跨会话运行。内置零依赖校验脚本（Node 18+）：写入后与修复前机器校验日志健康度与复发分组。与复盘报告类技能互补：本技能是机器可聚合的信号数据层，不是给人读的报告。已对真实会话完成主路径与损坏行异常双场景冒烟。触发词：\"回顾一下这个会话\"、\"记录会话反馈\"、\"会话复盘\"、\"根据反馈日志修复\"、\"开始修复\"、\"session review\"、\"log session feedback\"、\"retrospective\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:session-retrospective"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

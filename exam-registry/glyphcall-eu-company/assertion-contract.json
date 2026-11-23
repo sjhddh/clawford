@@ -1,0 +1,54 @@
+{
+  "skillId": "glyphcall-eu-company",
+  "displayName": "Eu Company Check",
+  "description": "Know-your-business and e-invoice checks for EU counterparties in one call: official company registers, VAT (VIES) validation, sanctions screening and invoice format rules. USE FOR: - Verifying that an EU company exists and its VAT number is valid before paying an invoice - Screening a company or address against sanctions lists - Checking whether an XRechnung or ZUGFeRD e-invoice will be accepted TRIGGERS: - \"verify this company\", \"KYB\", \"VAT number check\", \"VIES validation\" - \"sanctions screening\", \"is this counterparty sanctioned\" - \"XRechnung validator\", \"ZUGFeRD check\", \"e-invoice valid\" Sold as x402/MPP pay-per-call tools on Base and Solana; agents pay per successful call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:glyphcall-eu-company"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

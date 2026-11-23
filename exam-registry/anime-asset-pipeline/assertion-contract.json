@@ -1,0 +1,54 @@
+{
+  "skillId": "anime-asset-pipeline",
+  "displayName": "anime-asset-pipeline",
+  "description": "Pipeline for producing anime/2D character art with an AI image model, focused on identity locking, per-region defect checking, and 8-bit quantization budget. Use when generating or iterating on anime character art, sprite sheets, key visuals, MV frames, or any task where the same character must stay recognisable across many images. Covers anchor-image workflows, failure modes that cost real credits, and when parameter tweaks are provably invisible.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:anime-asset-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

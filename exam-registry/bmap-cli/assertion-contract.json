@@ -1,0 +1,54 @@
+{
+  "skillId": "bmap-cli",
+  "displayName": "Baidu Map Cli（百度地图官方Cli工具）",
+  "description": "百度地图开放平台 CLI。凡涉及百度地图开发、HTML/demo、WebAPI/BMapGL、AK/个性化地图样式/配额等，须先触发本 skill 并完成环境与 AK 流程，再查文档或写代码。涵盖：CLI 安装、Skills/MCP 配置、账户与 AK、个性化地图样式、地点/路线/地址解析等；同时支持百度地图 Agent Plan（无需开发者账户，提供大模型友好调用的地图工具，支持语义化 AI 搜索、语义化 AI 路线规划、地理编码与逆地理编码、天气查询）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bmap-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

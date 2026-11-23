@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-event-monitoring",
+  "displayName": "didit-event-monitoring",
+  "description": "Use when writing backend or API-key integration code for Didit Event Monitoring, which sends non-monetary activity events to the same rule engine that scores transactions. Use when the user wants to send logins, signups, failed logins, sessions, page views, gameplay rounds, bets, P2P settlements, bonus claims, affiliate attributions, deposit or withdrawal events, chargebacks and disputes, password or MFA changes, or self-exclusion registry checks to Didit; batch up to 500 events; capture events from a browser or mobile app with a scoped monitoring token instead of an API key; list, filter or read events and a user's event timeline; delete an event; or write velocity, ratio, sequence and correlation rules over events to detect account takeover, bonus abuse, multi-accounting, chip dumping, opposite betting, minimal-play laundering, friendly fraud and bot play using Didit.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-event-monitoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

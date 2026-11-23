@@ -1,0 +1,49 @@
+{
+  "skillId": "frugal-subagents",
+  "displayName": "frugal-subagents",
+  "description": "On Claude Fable 5.1 or Opus, subagents inherit the session's expensive model and can spawn more of themselves, so one research fan-out can burn the usage limit in minutes; this plugin's PreToolUse hook runs every subagent on a cheap model unless one is named explicitly, blocks nested spawns and caps spawns per session, and this skill says how to delegate well under those rules. Use whenever the session is about to delegate — spawning agents, running web scans or research passes in parallel, \"fan out\", \"run a fleet of agents\", \"search across many sites\", comparing listings/prices/flights/apartments/suppliers across the web — and whenever the user says subagents burn through the limit, agents spawned more agents, asks to \"limit subagents\", \"run agents on a cheaper model\", \"set up frugal subagents\", \"which model did the helpers use\", or when Claude Code reports that the frugal-subagents hook failed to run (Node.js missing).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:frugal-subagents"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

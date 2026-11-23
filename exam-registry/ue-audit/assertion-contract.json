@@ -1,0 +1,54 @@
+{
+  "skillId": "ue-audit",
+  "displayName": "UE 工程体检",
+  "description": "UE 工程体检 / UE 审计 / UE 验收（Unreal Engine Audit / UE5 Audit / Project Health Check）：只读检查工程结构、基线变更、日志、打包就绪度，以及 Blueprint/DataTable/UMG/Material/AnimBP 结构；输出 JSON/Markdown/HTML/JUnit 与可携带证据包。不写工程、不自动修复、不主动编译；在线检查需本地编辑器桥。适用于 UE 5.1+ 工程，Windows 优先。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ue-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

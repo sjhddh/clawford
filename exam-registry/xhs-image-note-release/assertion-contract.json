@@ -1,0 +1,54 @@
+{
+  "skillId": "xhs-image-note-release",
+  "displayName": "xhs-image-note-release",
+  "description": "小红书笔记自动发布（图文 + 视频，按扩展名自动判断）。ego-browser 驱动全流程： 上传素材（图文逐张 / 视频单文件+转码轮询）、填标题正文、挂话题、设自定义封面 （COVER_IMAGE，留空用第一帧）、发布或存草稿。带分层退出码与结构化失败输出， 失败默认保留浏览器现场可直接接管。 三种收尾：publish 直接发 / draft 存草稿 / stage 只准备页面。 附 29 种样式卡片生成器（含照片背景氛围与历史古风主题），参数自由配置。 触发词：发小红书、发布图文笔记、发布视频笔记、小红书发帖、存草稿、推到草稿箱。 前置依赖：ego-browser (ego-lite) 运行中，小红书已登录。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xhs-image-note-release"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

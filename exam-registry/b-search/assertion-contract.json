@@ -1,0 +1,49 @@
+{
+  "skillId": "b-search",
+  "displayName": "b-search",
+  "description": "B站关键词搜索采集工具。当用户需要按关键词搜索 B站视频并采集结果列表——标题、简介、播放量、弹幕、收藏、点赞、UP主、封面、视频链接，导出搜索结果 CSV（Excel 直开），或提到\"B站搜索/关键词采集/搜索结果采集/话题找稿/竞品关键词调研\"时使用本 skill。提交 1 个关键词 + 页数，由内网浏览器节点真人翻页采集，按页计费（一页约 42 条 = 1 点数，注册送 10 点）。适合选题调研、热点监测、竞品内容分析、达人筛选等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:b-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

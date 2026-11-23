@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-programming-guide",
+  "displayName": "doca-programming-guide",
+  "description": "Use this skill when the user is writing their first DOCA app or asking a library-agnostic programming question — picking a shipped sample to copy and modify, wiring pkg-config + meson (or FFI from Rust / Go / Python against the public C ABI), walking the Core lifecycle (create → configure → start → connect → use → stop → destroy), or decoding a DOCA_ERROR_*. Trigger on implicit phrasing: \"write my first DOCA program\", \"meson line for doca_rdma_*\", \"DOCA_ERROR_BAD_STATE on first call\", \"call DOCA from Rust\", \"built clean but nothing on the wire\". Refuse install / hugepages / pkg-config (doca-setup), docs or version lookup (doca-public-knowledge-map), and library-internal API work (matching library skill).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-programming-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

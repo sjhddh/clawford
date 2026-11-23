@@ -1,0 +1,54 @@
+{
+  "skillId": "md-to-linkedin",
+  "displayName": "md-to-linkedin",
+  "description": "Convert a Markdown article into rich text for LinkedIn's article editor, which has no Markdown and renders no tables. Headings, bold, italics, lists, quotes, links and fenced code become real HTML; tables become bullet lists, because the editor cannot draw one, or screenshot to PNG when the grid matters. Writes an HTML file beside the article for the browser copy path. Use when the user wants to publish a markdown draft as a LinkedIn article, asks for LinkedIn rich text, or needs the article editor formatting preserved.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:md-to-linkedin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

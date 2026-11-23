@@ -1,0 +1,54 @@
+{
+  "skillId": "animehunt-list-your-series",
+  "displayName": "List Your Series",
+  "description": "Where to publish, list or promote an indie manga, webcomic, webtoon, light novel or anime. Helps creators list their series in the AnimeHunt anime & manga directory (free, hosted anywhere, accepts self-published, webtoon-platform, Western and AI-labelled work that AniList and MyAnimeList refuse), or claim a series that is already listed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:animehunt-list-your-series"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

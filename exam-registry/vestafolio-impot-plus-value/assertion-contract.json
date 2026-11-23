@@ -1,0 +1,54 @@
+{
+  "skillId": "vestafolio-impot-plus-value",
+  "displayName": "vestafolio-impot-plus-value",
+  "description": "Compute French real-estate capital gains tax (impôt sur la plus-value immobilière) with holding-period abatements using Vestafolio's simulator API, after asking the simulator's questions (prices, dates, résidence principale, investissement locatif, régime réel LMNP and amortissements, frais d'acquisition and travaux method). Use when a user asks \"plus-value immobilière\", how much tax they owe when selling a property or résidence secondaire in France, about the abattement pour durée de détention, the 22/30-year exemptions, LMNP amortization reintegration, or whether to sell now or wait.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vestafolio-impot-plus-value"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

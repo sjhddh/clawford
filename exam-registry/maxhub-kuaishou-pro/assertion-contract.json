@@ -1,0 +1,49 @@
+{
+  "skillId": "maxhub-kuaishou-pro",
+  "displayName": "快手数据助手",
+  "description": "快手（Kuaishou）公开数据查询与短视频分析 skill，通过 MaxHub API 查询作品详情、作者主页、评论、搜索、热榜、直播和相关内容。适合快手内容选题、达人分析、作品互动追踪、热门趋势监控和运营复盘。默认 read-only；agent 应按 recipes 选择单次或链式调用，使用字段流字典传递 photo_id/user_id 等参数，禁止自行拼接路径或猜测参数。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-kuaishou-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

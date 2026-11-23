@@ -1,0 +1,54 @@
+{
+  "skillId": "cross-post-video-skill",
+  "displayName": "cross-post-video-skill",
+  "description": "Cross-post one finished video, or a batch, to TikTok, Instagram Reels and YouTube Shorts from the user's AI agent (and send the same file to Facebook, LinkedIn, Pinterest, Threads, X and Bluesky): checks the file against every platform's limits before anything is uploaded and re-encodes a copy when needed, picks a cover from a sheet of frames, writes a separate text for each platform (TikTok caption, Reels caption, YouTube title, description and tags) with lengths counted the way each platform counts them, asks the settings only the account owner may choose (TikTok privacy and comment, duet and stitch switches, YouTube made for kids, AI and promotion labels), shows every post on one plan page, then posts or schedules all of them through WoopSocial after one clear yes and reads the result back per account. Accounts that aren't connected get a ready by-hand page. Use when someone says \"cross-post this video\", \"post this to TikTok, Reels and Shorts\", \"post this everywhere\", \"upload this video to all my accounts\", \"repurpose my TikTok for Reels and Shorts\", \"schedule this video on all platforms\" or \"post this to all my social media at once\". Works for several accounts per platform. Standalone.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cross-post-video-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

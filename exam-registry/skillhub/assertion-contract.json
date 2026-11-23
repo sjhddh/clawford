@@ -1,0 +1,54 @@
+{
+  "skillId": "skillhub",
+  "displayName": "mro-inquiry-match",
+  "description": "客户发来几百上千行工业品询价单，还在逐条查型号、核规格、找价格、回填表格？MRO 询价匹配让 AI 帮你完成这些重复工作：支持文字、Excel、CSV 询价，按型号、品牌、标准及关键规格筛选商品，输出首选、备选、参考价格和匹配依据，并将结果回填 Excel。支持优先匹配自己的商品清单；规格不清、存在差异的行明确标记“待确认”，方便人工复核与客户沟通。让报价员少花时间查资料，把精力留给选型判断和促成订单。适合 MRO 经销商、报价团队及采购人员，使用前需配置 MRO API Key。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skillhub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

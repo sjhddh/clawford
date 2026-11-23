@@ -1,0 +1,49 @@
+{
+  "skillId": "maxhub-weibo-pro",
+  "displayName": "微博数据助手",
+  "description": "微博（Weibo）公开社交数据查询与热点分析 skill，通过 MaxHub API 查询微博内容、评论、转发、用户资料、粉丝/关注、搜索、热搜、话题和榜单。适合舆情监测、热点追踪、KOL 画像、内容传播分析和竞品研究。默认 read-only；agent 应优先使用 recipes 串联搜索→微博详情→评论/用户画像等流程，避免自行猜测 mid/uid/container_id 参数。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-weibo-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

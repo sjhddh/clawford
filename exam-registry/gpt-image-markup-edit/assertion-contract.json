@@ -1,0 +1,54 @@
+{
+  "skillId": "gpt-image-markup-edit",
+  "displayName": "gpt-image-markup-edit",
+  "description": "Markup-guided image edits with GPT Image 2.6 on varg: draw circles, boxes, arrows and short notes on a transparent PNG the same size as the source (scripts/markup.py turns a JSON list of shapes into that PNG, a preview and the prompt lines), upload it, then edit with provider_options.fal.markup_image_url and a prompt written per colour (\"Red circle: … Blue circle: … Change nothing outside the marks.\"). Includes the measured example (two changes, the rest of the frame kept), how to check what changed, and when to use a black-and-white mask_url instead. Use when someone wants to change one or several specific spots in an image, says \"circle it\", \"only change this part\", \"fix this word\", \"add a hat here\", or an edit keeps changing things it should not. Not for whole-image restyles (gpt-image-2-6 recipes), animation (gpt-image-gif) or video edits (varg-ai).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gpt-image-markup-edit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

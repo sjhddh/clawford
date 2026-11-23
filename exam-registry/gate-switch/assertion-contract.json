@@ -1,0 +1,54 @@
+{
+  "skillId": "gate-switch",
+  "displayName": "gate-switch",
+  "description": "Claim-verification gate engine for LLM agent workflows. Whenever an agent claims 'X is done / written / synced / verified', write X as a spec JSON of mechanical checks; the engine verifies each check and returns a verdict (A=pass / B=block with violations / CLARIFY / VIOLATION). Cures three chronic LLM failures: skipped work, partial delivery, fabricated claims. 声称 X 已满足，就机械核验 X——判定禁止手写，照抄输出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gate-switch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

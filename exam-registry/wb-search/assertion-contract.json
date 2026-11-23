@@ -1,0 +1,49 @@
+{
+  "skillId": "wb-search",
+  "displayName": "wb-search",
+  "description": "微博关键词搜索采集工具。当用户需要按关键词搜索微博并采集结果列表——微博正文、转发数/评论数/点赞数、作者昵称、发布时间、微博链接，并按微博类型（全部/原创/关注人/认证用户/媒体/观点/网友讨论）、排序（综合/热门/实时）、起止日期筛选，导出搜索结果 CSV（Excel 直开），或提到\"微博搜索/搜微博/关键词采集/搜索结果导出/选题/竞品微博列表\"时使用本 skill。适合内容选题调研、竞品监测、达人初筛、品类微博盘点等场景。**一页（20 条）= 1 点数；预扣按请求量、结算按实采量退差；零结果或失败全额返还（注册送 10 点）。**",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

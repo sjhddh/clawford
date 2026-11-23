@@ -1,0 +1,54 @@
+{
+  "skillId": "nimble-decision",
+  "displayName": "nimble-decision",
+  "description": "用 Ollama 的 nimble-v3 决策模型对文本做分类、路由和评分，返回概率/分数而不是自然语言，并记录每次调用的轻量审计日志。Use when you need a fast, free, local label or number — intent or topic routing, pass/fail gates, urgency/spam/sentiment scoring, batch tagging — instead of asking a chat model. Not for writing text, multi-step reasoning, code, tool calling, or long-document work.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nimble-decision"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cc-list",
+  "displayName": "huawei-cloud-cc-list",
+  "description": "1. List Huawei Cloud Cloud Connect (CC) instances in a tenant region through KooCLI (hcloud CC ListCloudConnections — read-only GET /v3/{domain_id}/ccaas/cloud-connections), with an automatic fallback to the official huaweicloudsdkcc v3 SDK when hcloud is not installed. 2. Three output modes: full-field table (default, every returned field including 名称/ID/状态/带宽/网络实例数/企业项目), --json (raw response array), and --names-only (compact instance-name list). 3. Supports --name / --status / --id filtering (all real server-side ListCloudConnections query parameters), region override, and automatic marker paging. 4. Explicit error hints for empty instance lists (「当前区域无云连接（CC）实例」), 403 / insufficient IAM permission (「无权限访问云连接（CC）」), missing or invalid AK/SK credentials, and hcloud not installed. 5. Built-in write-intent guard: any mutating intent (create / delete / update / associate / disassociate / attach / detach / restart) or any operation other than ListCloudConnections is rejected before execution — this skill is strictly read-only. 6. Triggers include: \"list CC instances\", \"cloud connect list\", \"云连接列表\", \"查询云连接\", \"CC 实例列表\", \"cloud connection inventory\", \"list cloud connections\", \"华为云云连接\". 7. Offline unit tests (mocked hcloud subprocess) cover output modes, filters, marker paging, error scenarios, SDK fallback, and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cc-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

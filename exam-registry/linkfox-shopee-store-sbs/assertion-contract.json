@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-shopee-store-sbs",
+  "displayName": "Shopee-店铺SBS",
+  "description": "Shopee（虾皮）SBS 仓储服务（与 linkfox-shopee-store-auth 同系列），经 /shopee/developerProxy 转发 Shopee Open API SBS 模块全部 5 个接口：get_bound_whs_info、get_current_inventory、get_expiry_report、get_stock_aging、get_stock_movement。当用户提到 Shopee SBS、仓储库存、绑定仓库、get_bound_whs_info、库龄报表、效期报表、库存变动 时触发。即使未明确提及\"SBS\"，只要涉及已授权 Shopee 店铺的 SBS 仓储与库存数据查询，也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-shopee-store-sbs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

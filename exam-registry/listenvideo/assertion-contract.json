@@ -1,0 +1,49 @@
+{
+  "skillId": "listenvideo",
+  "displayName": "listenvideo",
+  "description": "把视频链接或本地视频文件转成干净文字稿。用户说「视频转文字」「提取文案」「视频总结」「字幕提取」「转写」时使用；支持抖音、小红书等平台链接直连，云端转写并去冗余，Prompt 可定制总结、改写、金句、翻译。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:listenvideo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

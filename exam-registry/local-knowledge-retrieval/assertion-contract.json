@@ -1,0 +1,49 @@
+{
+  "skillId": "local-knowledge-retrieval",
+  "displayName": "Knowledge Retrieval Publish",
+  "description": "A local-first document search skill with PPT/PDF support, dual-channel retrieval (keyword + AI semantic), and progressive description evolution. Designed for knowledge workers with years of local files. 给知识工作者和顾问的本地文件检索方案。支持 PPT/PDF 多格式、BM25+AI 双通道搜索、越用越聪明。适合手里有大量本地文档、不想搬上云的人。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:local-knowledge-retrieval"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

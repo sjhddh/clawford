@@ -1,0 +1,54 @@
+{
+  "skillId": "workspace-cross-drive-migration",
+  "displayName": "Workspace Cross-Drive Migration（工作空间跨盘迁移）",
+  "description": "把 WorkBuddy 工作空间整体迁移到另一个磁盘（例如 D 盘搬到移动硬盘以节省空间），并保留会话历史、项目记忆、项目级技能、自动化绑定与侧边栏显示名，迁移后做到无缝衔接。当用户说「工作空间搬家/迁移到移动硬盘/换盘/C盘D盘空间不够/把项目挪个位置/迁移后历史对话不见了/路径改了会话丢了」时使用。适用于 Windows 上的 WorkBuddy/CodeBuddy 工作空间，支持迁移前体检、执行、核对与回滚四个阶段，全程不删除源文件。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workspace-cross-drive-migration"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

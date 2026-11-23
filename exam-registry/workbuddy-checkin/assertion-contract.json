@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-checkin",
+  "displayName": "WorkBuddy 每日签到领积分",
+  "description": "仅在用户明确指 WorkBuddy（原 CodeBuddy）客户端的每日签到积分时使用。触发语句如「领取 WorkBuddy 今日积分」「WorkBuddy 签到」「每日礼包」「checkin」「今天领了吗」「签到周报」，或定时任务明确要求执行 WorkBuddy 签到。若用户只说「签到」「领积分」而未指明平台，须先询问确认。接口规格与脚本已固化，无需重新逆向客户端。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-checkin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

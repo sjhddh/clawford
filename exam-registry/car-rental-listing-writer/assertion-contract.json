@@ -1,0 +1,54 @@
+{
+  "skillId": "car-rental-listing-writer",
+  "displayName": "car-rental-listing-writer",
+  "description": "Write rental car listings that book: vehicle pages for an exotic or luxury rental website, Turo and Getaround listings, Google Business Profile products and posts, and directory profiles, with specs, price, deposit, mileage and age terms stated up front and SEO titles for \"<car> rental <city>\" searches. Triggers on \"write my Lamborghini listing\", \"Turo description\", \"vehicle page copy\". Not for social captions (use car-rental-social-posts).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:car-rental-listing-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

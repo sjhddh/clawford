@@ -1,0 +1,49 @@
+{
+  "skillId": "scrapingbee-cli",
+  "displayName": "ScrapingBee CLI",
+  "description": "Fetch and read any web page, search the web, crawl a site, or pull structured data out of pages. Use whenever a task needs content from a website or the internet: reading a page, finding a company's pricing, docs or contact details, listing every URL on a site, checking a product price, or collecting search results. Handles JavaScript-rendered pages, CAPTCHAs and anti-bot blocking that curl, requests, WebFetch and headless browsers fail on. Describe fields in plain English with --ai-extract-rules (no CSS selectors); --smart-extract trims a response to just the part you need. Dedicated Google, Amazon, Walmart, YouTube, ChatGPT and Gemini endpoints return clean JSON. Batch hundreds of URLs with --input-file, crawl with --save-pattern, schedule with cron. Only use plain HTTP for pure JSON APIs with no scraping defenses.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scrapingbee-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

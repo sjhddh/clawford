@@ -1,0 +1,54 @@
+{
+  "skillId": "iaiops",
+  "displayName": "Industrial-AIOps",
+  "description": "Route industrial/OT data-tap and troubleshooting tasks to the appropriate iaiops edition and governed MCP profile. Use for PLC/SCADA/CNC/RTU/IED, OPC-UA, Modbus, S7, MC, FINS, EtherNet/IP, EtherCAT, PROFINET, SECS/GEM, MTConnect, MQTT/Sparkplug, BACnet, HART, IO-Link and serial sensors; also factory, fab, process, building, water, pharma, clinical, warehouse, renewables and PLCnext work involving OEE, downtime, asset inventory or data quality. Read-first; device writes require MOC and are refused for safety: sis endpoints. Excludes IT/network gear, Kubernetes, hypervisors and backups.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:iaiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

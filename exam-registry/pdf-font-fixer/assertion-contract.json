@@ -1,0 +1,54 @@
+{
+  "skillId": "pdf-font-fixer",
+  "displayName": "pdf字体乱码修复神器",
+  "description": "PDF 中文字体乱码与「能显示但打印不出来」的体检与修复工具。导出前检测字体风险，交付前逐字符审计并做交付门禁，也能直接修复已有 PDF 的方块字、缺字、文字消失。支持 PDF 字体检测、字体字典结构校验、字体修复、PPT 转 PDF 递进导出、缺字兜底；不内嵌任何字体，自动发现本机可用的 TrueType 中文字体。其它 skill 导出 PDF 后必须调用 gate.py 作为交付门禁。当用户提到 PDF 乱码、方块字、问号、字体缺失、打印异常、打印机报错（如佳能「未导入太大的图像或格式不受支持的文件」）、手机预览异常、PPT 导出 PDF、PDF 字体检查时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pdf-font-fixer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

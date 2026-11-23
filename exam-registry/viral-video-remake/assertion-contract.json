@@ -1,0 +1,54 @@
+{
+  "skillId": "viral-video-remake",
+  "displayName": "爆款同款视频 Viral Video Remake",
+  "description": "爆款同款视频：给一条抖音、小红书、B站、TikTok 或 YouTube 爆款链接，先读出逐字稿和画面文字并拆成开头钩子、带时间的结构节拍、标题公式、封面文字和行动号召，再生成一份「只借结构、内容用你自己的」同款视频脚本说明，交给你已经装好的视频 skill（HyperFrames、huashu-art-motion、lemo-opuscar 等）去做。用户说「做同款」「照着这条爆款做一条」「仿这个结构做视频」时使用。通过 LinkDigest API 读取，不需要平台账号或 Cookie；需要 LINKDIGEST_API_KEY，在读取费用上加 1 积分拆解。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:viral-video-remake"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

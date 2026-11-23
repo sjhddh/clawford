@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-ad-variations",
+  "displayName": "Phantra AI: Ad Variations",
+  "description": "Makes A/B variants of a saved Phantra scene with `duplicate_scene`, changing one thing (the hook, the length, the first shot, the product photo or the video model), each a new scene priced on its own and read back later with `what_works`. Use when someone asks for versions, variants, an A/B test, \"try it shorter\" or \"same ad with the other photo\". NOT for the first version (write-scene), a first set of ads from one product photo (product-ad-set) or setting a look (look-matching).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-ad-variations"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

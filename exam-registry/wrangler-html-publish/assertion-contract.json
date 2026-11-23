@@ -1,0 +1,54 @@
+{
+  "skillId": "wrangler-html-publish",
+  "displayName": "Wrangler HTML Publish",
+  "description": "仅在用户明确要求 Wrangler 或 Cloudflare Pages 发布 HTML、单页或静态站点时使用，整理文件、部署并验证实际 HTTPS 地址。普通 HTML 生成或泛称生成网页链接不自动触发本技能，避免与默认发布流程重复上传。仅本地时只保存，公开上传须有授权，不处理 OSS 上传或动态后端。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wrangler-html-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

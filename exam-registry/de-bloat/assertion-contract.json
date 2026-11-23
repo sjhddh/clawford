@@ -1,0 +1,54 @@
+{
+  "skillId": "de-bloat",
+  "displayName": "de-bloat 至简",
+  "description": "用于任何会产生或修改代码的任务：写代码、新增功能、加接口、改代码、重构、修 bug、写脚本，涉及 C++、Go、Java、Python、Node.js 时同样适用。用户说「简单点」「别过度设计」「复用已有的」「抽一下公共方法」「按官方规范写」「至简」「de-bloat」「YAGNI」，或代码里出现重复造轮子、复制粘贴的相似代码、层层 try-catch、空兜底、为未来预留的抽象时，即使没有点名也应使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:de-bloat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

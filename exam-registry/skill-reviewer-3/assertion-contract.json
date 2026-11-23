@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-reviewer-3",
+  "displayName": "Skill Reviewer",
+  "description": "审查一个 Skill 并自动打分。当用户想「审查/评审一个 skill」「给 skill 打分」「这个 skill 能参赛吗」「帮我看看这个 skill 有什么问题」，或提供一个 Skill 包目录、SKILL.md 文件、或粘贴 SKILL.md 内容让你评估时使用。即使对方没有说「审查」二字，只要在让评估一个 skill 的质量，也主动使用本技能。Review a skill and score it automatically; use when the user wants to audit, score, or diagnose a skill's quality.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-reviewer-3"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

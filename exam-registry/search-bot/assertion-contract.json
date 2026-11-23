@@ -1,0 +1,49 @@
+{
+  "skillId": "search-bot",
+  "displayName": "search-bot",
+  "description": "Answer a question with a fresh web search through AIProx (aiprox.dev): one POST /v1/search for 35 sats, paid in Bitcoin Lightning (L402 or a LightningProx spend token). Returns a short AI answer with key findings and up to 5 source URLs. Use it when the user asks for current information from the web and agrees to pay.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:search-bot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

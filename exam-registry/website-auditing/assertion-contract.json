@@ -1,0 +1,54 @@
+{
+  "skillId": "website-auditing",
+  "displayName": "website-auditing",
+  "description": "Keep your site usable by AI agents: once a week Ora audits how agents discover, read and use your domain and up to three rival domains, one pull request applies the fixes your site source can make, and one Slack digest reports the Ora score and what moved. Triggers: \"make our site readable by ai agents\", \"track our ora score\", \"can ai agents read our site\", \"agent readiness audit\", \"compare our ora score with rivals\", \"fix llms.txt and agent discovery files\". Cargo project, defineAgent, harness claudeCode, Ora MCP server, mcpClients, native model, Slack postMessage, GitHub pull request. Skip when: the site itself is to be built or hosted, which is website-building; or rival pages and news belong in context, which is web-capture.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-auditing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

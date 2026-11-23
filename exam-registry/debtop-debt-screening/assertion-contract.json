@@ -1,0 +1,49 @@
+{
+  "skillId": "debtop-debt-screening",
+  "displayName": "债权标的筛选",
+  "description": "债权标的筛选：按行业或标的类型、地区与金额区间，批量检索公开的债权转让 / 处置 / 招商公告，定位「这类债权在哪些人手上」——按出让方（债权人）聚合命中标的数、本金合计与涉及债务人，并输出标的清单与分布。金额区间为「已扫描窗口内」筛选（检索接口不支持金额参数），输出会标注扫描覆盖率与时间窗。当用户说「找煤矿不良，金额 3000 万到 3 亿的债权都在哪些人手上」「某地区某行业的债权有哪些出让方在处置」「按金额区间筛一批债权标的」时使用。免注册免登录，只做公开公告的只读检索与汇总。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:debtop-debt-screening"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

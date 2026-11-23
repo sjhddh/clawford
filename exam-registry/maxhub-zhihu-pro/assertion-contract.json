@@ -1,0 +1,49 @@
+{
+  "skillId": "maxhub-zhihu-pro",
+  "displayName": "知乎数据助手",
+  "description": "知乎（Zhihu）公开内容与用户数据分析 skill，通过 MaxHub API 查询问题、回答、文章、专栏、评论、热榜、搜索和用户画像。适合问答内容研究、KOL 分析、舆情监控、选题挖掘和营销洞察。默认 read-only；agent 应按 recipes 选择问题/回答/文章/用户/搜索链路，正确传递 question_id/answer_id/article_id/url_token 等参数，避免混用 ID。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-zhihu-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

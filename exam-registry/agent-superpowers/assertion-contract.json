@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-superpowers",
+  "displayName": "TinkerClaw Agent Superpowers",
+  "description": "Your agent says 'done' — but did it check? Superpowers turns any OpenClaw agent into a disciplined engineer. Verification iron law (evidence before claims), three-agent code review (build → verify spec → verify quality), systematic debugging (4-phase root cause, three-strike rule), brainstorming gates (design before code), and anti-over-engineering rules. Use when: (1) coding tasks of any complexity, (2) debugging failures, (3) about to claim work is complete, (4) spawning sub-agents, (5) planning features, (6) reviewing code. Inspired by top coding agent methodologies, adapted for OpenClaw multi-agent architecture.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-superpowers"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

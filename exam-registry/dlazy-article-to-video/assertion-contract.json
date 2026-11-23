@@ -1,0 +1,54 @@
+{
+  "skillId": "dlazy-article-to-video",
+  "displayName": "文章转视频 Article to Video",
+  "description": "article to video, text to video, news to video, essay to video — turn a written article into a narrated explainer video: outline, storyboard, voiceover, build, validate. Use when the user pastes or gives an article and wants a video.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dlazy-article-to-video"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

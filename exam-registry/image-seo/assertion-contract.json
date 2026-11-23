@@ -1,0 +1,54 @@
+{
+  "skillId": "image-seo",
+  "displayName": "Image SEO",
+  "description": "Audit and fix a page's images for search, speed and accessibility. Covers alt text, filenames, WebP/AVIF, sizes and srcset, lazy loading, the LCP image, image sitemaps, og:image and licence metadata. Use for \"write alt text\", \"optimize my images\", \"images not in Google Images\", \"LCP is my hero image\", \"properly size images\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:image-seo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

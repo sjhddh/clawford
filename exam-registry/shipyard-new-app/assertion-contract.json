@@ -1,0 +1,54 @@
+{
+  "skillId": "shipyard-new-app",
+  "displayName": "Shipyard new-app",
+  "description": "Build and publish a new web app, or bring an existing app up to the full Shipyard standard (secrets, data rules, tests, deploy, legal pages, and a proposed look). Use for \"new app\", \"build me an app\", \"make a website\", \"publish my app\", \"upgrade my app\", \"review my app\", \"review an existing app\", \"run Shipyard on this app\", or \"improve this app\". If the folder has no .shipyard-app.json, follow references/upgrade.md. Do not stop.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shipyard-new-app"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

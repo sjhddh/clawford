@@ -1,0 +1,49 @@
+{
+  "skillId": "arkcli-resources",
+  "displayName": "arkcli-resources",
+  "description": "arkcli resources 实时控制面查询：列出当前/指定 profile 可见资源及其调用兼容性；把 Endpoint 解析为权威模型、模态与候选工作流。read-only，不写 profile.yaml。用户临时给出 ep-... 但未说明该走 Chat、Understand 还是 Gen 时优先使用。反触发：用户已观察到 Endpoint NotFound，并要判断 ID 是否不完整或仅存在于历史用量时，owning skill 必须是 arkcli-infer-endpoint。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-resources"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

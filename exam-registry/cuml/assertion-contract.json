@@ -1,0 +1,54 @@
+{
+  "skillId": "cuml",
+  "displayName": "cuml",
+  "description": "Use when writing, running, debugging or upgrading Python code that uses NVIDIA cuML (GPU machine learning), cuml.accel (zero-code-change GPU acceleration of scikit-learn, umap-learn and hdbscan), or GPU UMAP/HDBSCAN/RandomForest/KMeans/SVC, including through libraries that wrap cuML (BERTopic, rapids-singlecell). Covers APIs removed or renamed in 2025-2026 releases, verifying code really ran on the GPU, large-data UMAP/HDBSCAN memory recipes, and exporting trained models. Not for cuDF-only dataframe work, PyTorch or XGBoost.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cuml"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

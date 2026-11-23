@@ -1,0 +1,54 @@
+{
+  "skillId": "media-judge",
+  "displayName": "media-judge",
+  "description": "Judge a finished AI-made video, image or track by measuring it, then rank takes on the defects found. One command reads every frame and writes facts with timestamps and evidence: broken frames, banding after a simulated X or YouTube upload, numbers that jiggle, spelling, too much on screen, nothing leading the eye, motion with no cause, pinned graphics, sliding labels, a face, outfit or light that changed, sound after the cut, loudness, voice against the script, and distance to references against the template. A fresh agent settles only what eyes can settle. No score out of 10. Use when someone says \"review this video\", \"check my render\", \"self-review\", \"QA\", \"judge\", \"critique\", \"score these takes\", \"pick the best take\", \"does it match the reference\", \"it looks like a template\", \"is it ready to post\", \"reverse engineer this reel\", or after any agent finishes a film, short drama, reel or ad. Not for making or repairing media (varg-ai, varg-video-editing) or ad law (ai-ad-compliance-check).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:media-judge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

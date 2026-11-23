@@ -1,0 +1,54 @@
+{
+  "skillId": "pmclite-excel-import",
+  "displayName": "Excel 批量导入",
+  "description": "把客户手里格式不规范的 Excel（物料表、产品表、BOM、工单、库存）导进轻排：读懂表头、按导入契约转换列名、先预览再落库。 用户说“把这个 Excel 导进轻排”“这批物料怎么批量导进去”“我的表头对不上系统字段”“初始化一下基础资料”“BOM 表能不能直接导入”“库存盘点表导进去”时使用；用户拿着一张表说‘这个怎么进系统’也属于本技能。 不触发：排产、交期评审、缺料检查、插单测算、报工（用 pmclite-scheduler）；只解释已有排程（用 pmclite-schedule-explainer）。本技能只做基础资料与初始单据的导入，不改排程、不调整工单优先级。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pmclite-excel-import"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

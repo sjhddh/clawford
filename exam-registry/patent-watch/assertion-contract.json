@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-watch",
+  "displayName": "专利监控",
+  "description": "专利监控、专利预警。当用户说「帮我盯着这几个对手的专利」「每个月看看这个方向有没有新专利」「建一个专利监控」「跑一下上次的监控」「新公开的专利有哪些」时使用。输出监控清单（可反复使用）和每次的新增专利简报（Excel 能打开）。 Builds a reusable patent watch list of competitors and technologies with queries and a baseline; each later run finds patents published since the last run and summarizes them.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-watch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

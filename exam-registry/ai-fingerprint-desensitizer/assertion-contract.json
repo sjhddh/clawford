@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-fingerprint-desensitizer",
+  "displayName": "ai-fingerprint-desensitizer",
+  "description": "平台现在不是\"猜\"你是不是 AI 写的，是**拿语义指纹比对**——句子节奏、关联词习惯、段落结构、标点规范度，都对得上就降权。 问题是：**你根本不知道自己的稿子哪里像 AI**，只感觉\"读起来有点平\"。 这套做的是**检测 → 改写 → 复检**的闭环，不是丢你一段 prompt： 1. **五维指纹检测**（可定位到句）：句式指纹 / 词汇指纹 / 结构指纹 / 节奏指纹 / 标点指纹，逐维打分并**指出最像 AI 的那几句**——先知道病在哪，才谈得上改 2. **分层改写手法**（不是换词）：具体化替换（抽象论断 → 具体事实/数字/场景）、节奏打散（破坏均匀句长）、视角注入（第一人称经验与时间地点）、信息增量（补真实案例）——**平台真正奖励的是\"人工介入痕迹\"，不是同义词替换** 3. **闭环复检**：改完自动复检，未达标按最弱维度再改一轮（可设最多轮次），并输出前后对比报告 4. **平台差异**：头条（语义指纹比对 + 原创度权重）、公众号（完读率第一）、小红书（AI 辅助需标注）、网文（平台审核红线）各有侧重 ⚠️ **合规边界写死在包里**：这不是\"洗稿工具\"，也不是\"绕过审核\"——是把你自己的内容补足人工痕迹（真实案例、实地数据、个人观点），这恰好是平台规则里明确要求的方向。用在别人的稿子上＝洗稿，包内直接标红。 输入：你的原稿（.md / .txt / 直接粘贴） 输出：五维指纹报告（含问题句定位）+ 改写建议 + 改写后复检对比 触发词：AI味、去AI味、降AI率、AI指纹、AI检测、内容原创度、平台降权、AI生成内容、人工痕迹、改写、去AI化、过检测。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-fingerprint-desensitizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

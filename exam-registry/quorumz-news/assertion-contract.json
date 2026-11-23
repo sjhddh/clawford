@@ -1,0 +1,49 @@
+{
+  "skillId": "quorumz-news",
+  "displayName": "quorumz-news",
+  "description": "Current geo-tagged world news for agents, split into viewpoints with a count of the media, social and on-the-ground posts behind each. Use when a user asks what people are saying about a country, conflict or public story, wants the distinct positions on a story, wants an early signal ahead of the wider press, or wants something followed over time by a research agent of its own. Pay per call with an API key (free 7-day trial) or with x402 in USDC on Base, Polygon or Arbitrum.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:quorumz-news"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

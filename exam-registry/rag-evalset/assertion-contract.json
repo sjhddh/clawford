@@ -1,0 +1,54 @@
+{
+  "skillId": "rag-evalset",
+  "displayName": "RAG 评估集构建器 (ragas + IR 指标)",
+  "description": "基于 ragas SDK 从文档语料构建生产级双层 RAG 评估集：同一份评估集既支持标准 IR 排序指标（Recall@K/Precision@K/MRR/NDCG@K，基于 gold chunk ID 自算），也支持 ragas LLM 裁判指标（faithfulness/answer_relevancy/context_precision/context_recall/answer_correctness）。当用户要求构建 RAG 评估集/评测数据集/生成测试问题、上线前 RAG 回归测试、或用 IR 指标衡量检索质量并配合 ragas 评估时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rag-evalset"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

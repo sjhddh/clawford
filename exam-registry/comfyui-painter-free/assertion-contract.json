@@ -1,0 +1,54 @@
+{
+  "skillId": "comfyui-painter-free",
+  "displayName": "ComfyUI画图基础版",
+  "description": "ComfyUI 本地画图基础客户端（免费版）。通过 ComfyUI API 在本地 GPU 上生成图片, 支持文生图任务与基础参数控制。提供 ComfyUI 启动/关闭/状态检查与空闲自动关闭功能. 内置 3 种基础模型别名覆盖动漫与写实风格。用户需手动指定 Steps/CFG/采样器等参数. 不含 CivitA...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:comfyui-painter-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

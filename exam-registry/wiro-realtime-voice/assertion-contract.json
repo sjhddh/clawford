@@ -1,0 +1,54 @@
+{
+  "skillId": "wiro-realtime-voice",
+  "displayName": "Wiro AI Realtime Voice",
+  "description": "Build realtime voice features with Wiro AI, such as live voice conversation, streaming text-to-speech and streaming speech-to-text, by starting a task through the REST API and streaming PCM audio over the Wiro WebSocket. Use when the user wants a voice assistant, a live voice conversation, streaming text-to-speech or speech-to-text, or WebSocket audio in an app built on Wiro.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wiro-realtime-voice"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

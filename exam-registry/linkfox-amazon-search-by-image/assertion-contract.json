@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-amazon-search-by-image",
+  "displayName": "亚马逊-以图搜图",
+  "description": "基于图片的亚马逊跨站点视觉商品搜索，支持8个站点的以图搜图和视觉相似商品发现。当用户提到以图搜图、图片搜索、视觉搜索、找同款、外观相似商品、图片找货、竞品图片搜索、相似商品发现、image search, Amazon visual search, find similar products, reverse image lookup, visual search, similar items, competitor image search, product image match时触发此技能。即使用户未明确提及\"图片搜索\"，只要用户提供了图片URL并希望在亚马逊上查找匹配或相似的商品，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-amazon-search-by-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

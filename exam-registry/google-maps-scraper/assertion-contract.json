@@ -1,0 +1,49 @@
+{
+  "skillId": "google-maps-scraper",
+  "displayName": "google-maps-scraper",
+  "description": "Scrape Google Maps places by search term and location (name, category, address, phone, website, rating, review count, opening hours, booking links, coordinates, place ID) and deliver CSV or JSON, with optional emails and social profiles from each website and AI verdicts (independent or chain, size, price tier, fit with your ideal customer). Compares the Sherwood Google Maps Scraper on Apify, compass/crawler-google-places, the official Google Places API and the open-source gosom scraper, and picks one from budget, volume and whether reviews are needed. Use when the user says \"scrape Google Maps\", \"google maps scraper for dentists in Lyon\", \"list all restaurants in <city> with phone and website\", \"find businesses without a website in <area>\", \"export Google Maps results to CSV\", \"Google Places API alternative\", \"get local business leads from Maps\". Out of scope: Google Search results, Street View, posting or replying to reviews, people data (owner names, direct emails of decision-makers).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-maps-scraper"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

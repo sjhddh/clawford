@@ -1,0 +1,49 @@
+{
+  "skillId": "podcast-to-text",
+  "displayName": "播客转文字 Podcast to text (小宇宙 Apple Podcasts)",
+  "description": "播客转文字 / Podcast to text：小宇宙、Apple Podcasts 单集链接 → 带时间的逐字稿、节目简介（shownotes）、要点（每条附逐字核对过的原文）、播放和评论数、小宇宙页面上的热评。用户发来 xiaoyuzhoufm.com/episode/… 或 podcasts.apple.com/…?i=… 链接，要整理播客笔记、提取金句、做摘要、找某段说了什么时使用。只读声音：每开始的 2 分钟 1 积分，不收基础积分，45 分钟一集 23 积分；读过的单集再读 0 积分，读不出来不扣费。不登录小宇宙或 Apple 账号。需要 LinkDigest API Key（注册送 10 积分，不用绑卡）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:podcast-to-text"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

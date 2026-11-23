@@ -1,0 +1,54 @@
+{
+  "skillId": "contact-sourcing",
+  "displayName": "contact-sourcing",
+  "description": "Build a reusable on-demand tool that sources stakeholders at supplied accounts, qualifies their responsibilities, and returns all or up to N ranked by contact fit, with optional verified work email and phone enrichment. Triggers: \"build a contact sourcing tool\", \"set up stakeholder sourcing\", \"rank stakeholders by relevance\", \"install contact sourcing\", \"return an enriched shortlist per account\". LinkedIn, Sales Navigator, OpenAI, Cargo project. Skip when: the user wants people at named accounts once today; use find-stakeholders. Existing profiles needing data use enrich-linkedin-profile; CRM field maintenance uses crm-enrichment.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:contact-sourcing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

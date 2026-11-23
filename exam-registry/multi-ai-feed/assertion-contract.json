@@ -1,0 +1,54 @@
+{
+  "skillId": "multi-ai-feed",
+  "displayName": "多平台AI信息源",
+  "description": "多平台AI信息源 — 一个 Skill 同时查询快手、公众号、B站、视频号、小红书五大平台的 AI 爆款内容，可指定单平台、多平台或全部平台。按各平台主指标（点赞/互动）筛选热门，智能聚类话题后生成一份统一的多平台 HTML 日报，含跨平台总览、跨平台话题对比、封面图、互动数据与平台筛选 Tab。同步对每平台 TOP 话题执行 AI 情报调查，采用多引擎搜索与交叉验证，输出带可信度标注的结构化调查报告。支持自定义关键词定向查询与每日订阅。⚠️快手/B站数据每日15:00更新前一天内容，公众号/视频号/小红书每日16:00更新，目标日期无数据时必须先告知用户并等待确认后才能调用接口，禁止自动获取",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multi-ai-feed"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

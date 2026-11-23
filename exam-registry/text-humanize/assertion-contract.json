@@ -1,0 +1,54 @@
+{
+  "skillId": "text-humanize",
+  "displayName": "text-humanize",
+  "description": "Edit English and Chinese text for clarity and style: improve concision, structure, tone, rhythm, rhetoric, and typography while preserving meaning, facts, quotations, citations, and necessary authorship or AI-use disclosures. Adapt to comments, articles, and literary prose. Offers diagnosis or diagnosis with a comparison rewrite. Use for 润色、优化表达、 删冗余、调整语气、体裁适配、修辞分析、排版, or requests described as humanize / 去AI味 when the goal is ordinary editing. Does not infer human/AI origin or aim to evade review, detection, or required disclosure.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-humanize"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-sha",
+  "displayName": "doca-sha",
+  "description": "Use this skill when the user needs SHA-1, SHA-256, or SHA-512 digest acceleration on BlueField-2 silicon via doca_sha (absent on BF-3) — selecting one-shot `doca_sha_task_hash` versus incremental `doca_sha_task_partial_hash` for chunked input, consulting `doca_sha_cap_*` for per-algorithm digest-size limits and input alignment, or decoding DOCA_ERROR_* statuses such as BAD_STATE on a resumed partial hash. Also load it for implied asks like \"accelerate SHA-256 on the NIC\", \"streaming digest over chunks\", \"digest output size mismatch\", or \"is SHA-512 present on this card\". Refuse and route to the proper owner for cryptographic-hash theory (collision resistance, SHA-3 selection), the AES-GCM / Compress / DMA libraries, or SDK install and BFB bring-up.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-sha"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

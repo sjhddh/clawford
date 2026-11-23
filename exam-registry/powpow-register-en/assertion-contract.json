@@ -1,0 +1,54 @@
+{
+  "skillId": "powpow-register-en",
+  "displayName": "PowPow register — Sign up for Bubble, pin your travel journal to the map, chat with digital humans",
+  "description": "Helps users complete PowPow (Bubble) registration and one-click login entirely inside the conversation. The agent fills in the form on their behalf (including avatar upload) and sends the email verification code; the user only provides basic information and checks the verification code once — never leaving the conversation. During the platform's current free testing period, a registered account can use every feature right away; subscription payment (Alipay/PayPal) is an optional membership upgrade, which the agent can also handle with order creation and arrival tracking when needed. Triggers when the user says \"register for Bubble\", \"sign up for a powpow account\", \"how do I register for Bubble\", \"help me create a powpow account\", \"sign up powpow\"; also handles registration issues (verification code not received, username/email already taken) and activation issues (login says \"account not activated\" / pending_payment, how to subscribe/pay, is Bubble free/paid). Requires Node ≥ 18; automatically falls back to pure guidance mode when unavailable. Does not cover posting/creating digital humans (that's powpow-simple's job), nor code development.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:powpow-register-en"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

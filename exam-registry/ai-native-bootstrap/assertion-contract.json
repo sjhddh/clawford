@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-native-bootstrap",
+  "displayName": "AI Native Bootstrap",
+  "description": "为既有或新建代码仓库建立可审计的 AI 原生研发流程，生成工程规范、验证入口、证据模板与风险护栏；写入默认关闭、检查未配置即阻断、不伪造通过。触发词：初始化项目研发规范、AI 原生研发流程、接入 AGENTS.md、生成 Intent/Spec/Plan 模板、配置质量门禁、项目工程规则、bootstrap、AI-native SDLC、spec-driven workflow、evidence-based review、engineering guardrails。不适用于：普通功能开发与代码编写（应直接实现）、CI 与生产发布授权（应改用平台部署审批流程）、真实项目验收结论（应由人工结合真",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-native-bootstrap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

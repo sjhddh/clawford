@@ -1,0 +1,54 @@
+{
+  "skillId": "pixel-gaze",
+  "displayName": "像素级凝视",
+  "description": "让AI像人一样分层看图，不再扫一眼就下结论。4层视觉理解法：整体扫视→识别精度敏感区→专门细看关键细节→如实输出。解决AI看图时漏读数字、错认状态、忽视小字等常见问题。当用户要求分析图片、识别图中内容、读取图中文字/数字、对比图片细节时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pixel-gaze"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

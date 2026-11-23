@@ -1,0 +1,54 @@
+{
+  "skillId": "trade-show-exhibitors",
+  "displayName": "trade-show-exhibitors",
+  "description": "Build the exhibitor list of a trade show and, when wanted, the people who were there: exhibitor companies from the show's catalog (name, website, LinkedIn, country, hall, stand, categories), each judged against the kind of company the user wants (targetFit, companyType), plus people with public evidence of attendance (LinkedIn posts and comments, company news) and booth staff by role, each with a score. Compares the Sherwood Apify Actor, the unaffiliated Skython exhibitor list Actor, a generic crawl of the show's own exhibitor page and LinkedIn event pages read by hand. Use when the user says \"trade show exhibitors\", \"exhibitor list of <show>\", \"who exhibited at <show> <year>\", \"who attended <trade show>\", \"trade show leads\", \"booth staff of the exhibitors at <show>\", \"which exhibitors at <show> sell <product>\". Out of scope: visitor registration lists, emails and phone numbers, conferences without an exhibitor catalog.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trade-show-exhibitors"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

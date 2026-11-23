@@ -1,0 +1,54 @@
+{
+  "skillId": "normalize-whitespace",
+  "displayName": "normalize-whitespace",
+  "description": "Normalize indentation of a large reference text document (e.g. README.md) to a consistent TAB style while keeping content byte-identical. Use when asked to fix inconsistent leading spaces, align command blocks, or clean indentation spread across hundreds of lines in a prose-heavy, single-fence document. Built from the 2026-09 instguid README.md normalization session.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:normalize-whitespace"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

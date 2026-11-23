@@ -1,0 +1,54 @@
+{
+  "skillId": "undo-first",
+  "displayName": "undo-first",
+  "description": "Reversible-action infrastructure for AI agents. Use before any side-effecting action (writing/deleting/moving files, config changes, git pushes, sending messages, deploys, API calls) when the user asks \"can we roll this back?\", \"make this safe to try\", or when executing risky multi-step work. Provides hash-verified snapshots, a risk gate that demands an undo or compensation plan before acting, byte-identical restore, and a tamper-evident audit journal. Philosophy - no undo path, no action.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:undo-first"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

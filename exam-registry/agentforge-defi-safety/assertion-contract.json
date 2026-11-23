@@ -1,0 +1,54 @@
+{
+  "skillId": "agentforge-defi-safety",
+  "displayName": "AgentForge DeFi Safety",
+  "description": "Safety checks for agents that act on-chain. Call `preflight` once before any send, swap, approval, signature or x402 payment and get one proceed/caution/avoid verdict (transaction simulated, EIP-712 signature checked for permit phishing, recipients screened against OFAC sanctions and scam lists, tokens rug-checked). Also signature checks, transaction simulation, address screening, pre-trade token checks, batch rug checks, risk-scored new launches, Aave liquidation risk, and Solana simulation, on Ethereum, Base, Arbitrum, Optimism, Polygon, BNB Chain, Avalanche, Linea, Unichain, Sonic and Solana. Free over MCP up to a daily cap (no wallet); otherwise pay per call in USDC over x402, with the exact price quoted before any charge.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentforge-defi-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

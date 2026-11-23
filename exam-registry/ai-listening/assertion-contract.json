@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-listening",
+  "displayName": "ai-listening",
+  "description": "Collect what is new in AI in the last 24 hours across X, Hugging Face, GitHub and sitemaps, deduplicated, as one report of names that are starting to surge. Use when the user asks what is new or trending in AI today, wants a daily AI listening report, or needs fresh names of models, products and repositories to feed keyword research. Runs the new-term-radar command line; needs an AISA_API_KEY.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-listening"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "deplark",
+  "displayName": "Deplark / 速栈 — 快速部署站点，中国大陆高速访问",
+  "description": "Quickly deploy static websites and Node.js apps to Deplark / 速栈 for fast access from mainland China, using Codex or Claude Code. Use when the user asks to publish a site, deploy an app, or launch a website for mainland China users. 快速部署站点，让中国大陆用户高速访问；一次连接账号，跨项目复用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deplark"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

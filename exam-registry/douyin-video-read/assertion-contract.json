@@ -1,0 +1,54 @@
+{
+  "skillId": "douyin-video-read",
+  "displayName": "douyin-video-read",
+  "description": "读取抖音视频的内容——元信息、官方 AI 章节要点，以及通过逐帧截图 + 字幕 OCR 得到完整口播讲稿。用户分享抖音链接（v.douyin.com / douyin.com/video/xxx）并希望了解视频讲了什么、提取文案、拿到文字稿时使用。触发词：抖音链接、抖音视频、这个视频讲了什么、提取视频文案、抖音视频转文字、视频字幕、看看这个视频、视频内容。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douyin-video-read"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

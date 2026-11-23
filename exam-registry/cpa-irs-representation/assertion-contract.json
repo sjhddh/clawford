@@ -1,0 +1,54 @@
+{
+  "skillId": "cpa-irs-representation",
+  "displayName": "CPA/EA — IRS Representation",
+  "description": "Activate when: a client receives an IRS notice or letter; an examination opens or an IDR arrives; a client has unfiled returns, a balance owed, or a lien/levy pending; deciding whether to appeal an adjustment or collection action; scoping a representation engagement; user says 'IRS notice', 'audit letter', 'exam', 'IDR', 'levy', 'lien', 'back taxes', 'unfiled returns', 'Form 2848', 'appeal this', 'the IRS is after my client'. Do NOT activate when: the work is return preparation or review with no controversy; the matter is purely a state or local authority (different rules and timelines); facts suggest criminal exposure — stop and involve counsel. More: deciqai.com/c/cpa-irs-representation",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cpa-irs-representation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

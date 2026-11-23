@@ -1,0 +1,49 @@
+{
+  "skillId": "summarize-pro",
+  "displayName": "summarize-pro",
+  "description": "A faithful summarizer that picks one of five output format families (minutes / comparison / timeline / bullets / cards) by reader intent, then compresses under a strict no-hallucination discipline: nothing absent from the source, ambiguity flagged, figures copied verbatim. Ships a zero-dependency offline toolchain (extract, citecheck, selfcheck, redact, validate, render) plus a 22-case golden set, making 'we do not fabricate' runnable: citecheck traces each sentence to source tokens, selfcheck asserts format completeness with strength labels, extract grades decisions and commitments (firm / provisional / proposal / conditional; committed / named_unconfirmed / intent_only). Also ships deterministic views, relative-date anchoring that appends an ISO date without rewriting the source, and a neutral-language check for personnel / medical / legal / incident scenes. Standard library only. Triggers: summarize, meeting minutes, decision log, action items, comparison table, timeline, key points.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:summarize-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

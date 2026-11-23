@@ -1,0 +1,54 @@
+{
+  "skillId": "zero-sum-game",
+  "displayName": "Zero-Sum Game",
+  "description": "Activate when: someone asks 'are we fighting over a fixed pie?', 'should we cooperate or compete?', 'is the market growing or are we just stealing share?', uses phrases like 'winner-take-all', 'race to the bottom', or 'your gain is my loss', or needs to check whether a negotiation/market/policy situation is truly zero-sum before designing strategy. Do NOT activate when: the situation is already confirmed zero-sum (chess, derivatives, fixed-license auctions) and diagnosis is complete — go straight to minimax; or the question is already framed at the equilibrium level — use nash-equilibrium directly. More: deciqai.com/c/zero-sum-game",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zero-sum-game"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

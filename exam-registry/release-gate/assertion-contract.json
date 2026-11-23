@@ -1,0 +1,54 @@
+{
+  "skillId": "release-gate",
+  "displayName": "release-gate",
+  "description": "Enforces structured sign-off before irreversible actions. Use explicitly before systemctl restarts, file deploys, DB migrations, public launches, pricing changes, or emails to real users. Requires named reviewer roles (Dev, QA, Legal, Product) with explicit pass/fail per checklist item. Logs every decision. Does NOT auto-trigger on ambiguous actions — only invoke when the action is clearly irreversible.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:release-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

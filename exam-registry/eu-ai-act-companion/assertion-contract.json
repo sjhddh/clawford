@@ -1,0 +1,54 @@
+{
+  "skillId": "eu-ai-act-companion",
+  "displayName": "eu-ai-act-companion",
+  "description": "当用户问『我的AI产品要过EU AI Act吗』『高风险还是有限风险』『provider还是deployer义务』『合规要做什么』『截止日期』，或要把 AI 系统投放欧盟市场/在欧部署时使用。把 EU AI Act 从法规文本落成导航：风险四级分类（不可接受/高/有限/最小）、按角色的义务清单（provider/deployer/importer）、关键时间节点（2024-08 生效、2025-02 禁止类、2026-08 高危义务、2027-08 全量）、文档与合格评定路径。附可运行分类器，输入用例即输出风险级+义务+节点。泛化自 eu-ai-act-check。触发词：EU AI Act、欧盟人工智能法、AI合规、高风险AI、合格评定、provider义务、deployer义务、AI法案截止、CE标志、AI监管、 conformity assessment。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:eu-ai-act-companion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

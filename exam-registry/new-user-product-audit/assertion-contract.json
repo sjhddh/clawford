@@ -1,0 +1,49 @@
+{
+  "skillId": "new-user-product-audit",
+  "displayName": "新用户产品诊断",
+  "description": "新用户产品诊断：Agent 扮演第一次来的新用户，亲手操作真实浏览器使用 ZenStory AI 的 Web 产品（以 AI 写作类产品为主），站在用户视角判断产品动线和指引是否清晰、会不会用、有没有继续用下去的欲望；再以 AI 内容创作者身份按内容类型真实完成创作任务（写一篇完整短篇、长篇写满 5 章、短剧大纲加前 3 集、改写/续写/去 AI 味），记录过程中产品展示的一切信息、bug 与输出质量，产出带证据的中文诊断报告。当有人说“模拟新用户”“新用户视角试用”“产品动线诊断”“首次体验评测”“像新用户一样把产品用一遍”“first-run audit”“new-user walkthrough”“onboarding audit”时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:new-user-product-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

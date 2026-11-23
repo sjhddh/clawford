@@ -1,0 +1,54 @@
+{
+  "skillId": "aic-dashboard-free",
+  "displayName": "Aic Dashboard Free",
+  "description": "AI Commander 配套管理仪表盘免费版。轻量级只读 Web UI,读取 inbox.jsonl 展示最近 50 封入站邮件, 读取 session.json 展示浏览器会话状态。通过 token 保护的本地端口提供服务,每 5 秒自动刷新. 免费版支持本机访问与基础监控功能。局域网共享、自定义数据源路径等...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aic-dashboard-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

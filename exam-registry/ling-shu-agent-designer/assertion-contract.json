@@ -1,0 +1,54 @@
+{
+  "skillId": "ling-shu-agent-designer",
+  "displayName": "ling-shu-agent-designer",
+  "description": "Agent 孵化器，聚焦「孵化 Agent」这一核心场景。从业务需求出发，自动完成 Agent 的骨架搭建、能力封装和发布。 核心工作流：需求沟通 → 场景大纲 → 创建基础版 Agent → skill 按需迭代（AI 内部工作节奏，用户不感知技术细节）。 触发场景：(1) 用户说\"设计/创建一个Agent\"、\"帮我做个智能助手\"；(2) 用户说\"给 Agent 增加XX能力\"；(3) 企业级 Agent 体系规划（配合 enterprise-agent-planner）。 设计原则：AI 隐藏技术细节；先跑 MVP 再迭代；Agent = 配置 + skill 包。 融合思想：吴明辉（组织视角）+ 吴恩达（方法视角）+ 傅盛（落地视角）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ling-shu-agent-designer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

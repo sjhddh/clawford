@@ -1,0 +1,54 @@
+{
+  "skillId": "microsoft-teams-mcp",
+  "displayName": "microsoft-teams-mcp",
+  "description": "Read Microsoft Teams data (every chat and channel, their messages, what is unread, inline images, and the Activity feed) from a shell with the fpx CLI (@fetchproxy/cli) instead of running the microsoft-teams-mcp server. A bearer token is captured once from a signed-in teams.cloud.microsoft tab, then Teams' own chat-service REST API is called with plain curl — the Activity feed included, as conversation 48:notifications. Use when you want Teams data without the MCP, in a script, or on a machine where the MCP isn't installed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:microsoft-teams-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

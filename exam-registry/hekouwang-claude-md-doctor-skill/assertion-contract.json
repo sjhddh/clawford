@@ -1,0 +1,54 @@
+{
+  "skillId": "hekouwang-claude-md-doctor-skill",
+  "displayName": "CLAUDE.md / AGENTS.md 体检器",
+  "description": "审计 AGENTS.md / CLAUDE.md 与项目技能（skills）的运行时配置，给评分卡与按优先级的修复建议并可代修。可选编排宿主环境体检：scripts/run-all-doctors.sh 带 --with-env-doctor 时才调用已安装的 env-doctor，缺失则跳过。仅静态检测正文里的密钥模式，不读取任何密钥文件，也不读取环境变量做判断。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hekouwang-claude-md-doctor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

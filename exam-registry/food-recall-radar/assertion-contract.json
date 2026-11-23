@@ -1,0 +1,54 @@
+{
+  "skillId": "food-recall-radar",
+  "displayName": "food-recall-radar",
+  "description": "Use when you want to check whether food you actually bought is affected by an active recall, after hearing news of an outbreak or a brand recall, when organizing the pantry, after a grocery run, or on a schedule (weekly recall audit) — builds a personal pantry inventory of brands/products/UPCs, queries openFDA's live food-enforcement recall database, fuzzy-matches your items against ongoing Class I/II/III recalls with lot-code pattern extraction, and outputs a risk-ranked action list (check / discard / return-for-refund).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:food-recall-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

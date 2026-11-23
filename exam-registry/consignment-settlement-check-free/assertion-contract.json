@@ -1,0 +1,54 @@
+{
+  "skillId": "consignment-settlement-check-free",
+  "displayName": "寄售代销结算核对（免费版）",
+  "description": "寄售代销结算台账逐行复算，核 寄售结存 = 上期结存 + 本期发货 − 本期已销 − 退货数量、应结金额 = 代销方已销金额 − 代销手续费、代销手续费 = 代销方已销金额 × 手续费率，并复核合计行、重复清单号、空缺与负值、日期倒挂，每条结论引用原文行号。触发词包括 寄售对账、代销结算、已销未结、手续费多扣、寄售结存。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:consignment-settlement-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

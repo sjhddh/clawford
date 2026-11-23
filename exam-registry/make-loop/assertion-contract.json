@@ -1,0 +1,54 @@
+{
+  "skillId": "make-loop",
+  "displayName": "make-loop",
+  "description": "Turn a plain-language task into a written AI agent loop: a loop brief with a checkable goal, a per-round process, evidence, a log, and stop conditions that an agent can run on its own. Use when the user asks for an AI agent loop or an agentic loop, says \"make loop\", \"turn this into a loop\", \"keep iterating until it's good\", or pastes a task with /make-loop. By default, only write the brief; do not start executing it in this session unless the user explicitly asks to run it now and confirms the scope. Domain knowledge comes from the current conversation and other skills, not from this one. Not a video or GIF loop tool.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:make-loop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

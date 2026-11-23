@@ -1,0 +1,54 @@
+{
+  "skillId": "srv-guard",
+  "displayName": "srv-guard",
+  "description": "服务器安全防护一体化能力：扫描漏洞、修复漏洞、感知攻击、防御攻击，并生成安全报告。 当需要对 Linux 服务器进行安全加固、漏洞巡检、入侵检测或应急防御时加载此 Skill。 触发词：服务器安全、漏洞扫描、漏洞修复、攻击感知、入侵检测、安全加固、封禁 IP。 English triggers: server security hardening, vulnerability scan, patch/audit Linux config, intrusion detection, brute-force log analysis, block malicious IP, security report.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:srv-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

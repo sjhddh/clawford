@@ -1,0 +1,54 @@
+{
+  "skillId": "ppt-ai-flavor-remover",
+  "displayName": "ppt-ai-flavor-remover",
+  "description": "去除 PPT/文档中的 AI 味，按解决方案架构师提交客户正式材料的标准重写。覆盖语气、标题、句式、事实边界、版式统一、备注结构和交付前自检。Use when user says 去除AI味 / 去AI味 / 太AI了 / PPT文风 / 商务材料文风 / rewrite PPT tone / de-AI-ify.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ppt-ai-flavor-remover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

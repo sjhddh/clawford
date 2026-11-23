@@ -1,0 +1,54 @@
+{
+  "skillId": "empiriolabs-ocr",
+  "displayName": "EmpirioLabs AI OCR",
+  "description": "Read PDFs and images with EmpirioLabs AI document OCR and return their text as Markdown, with tables, formulas, and reading order kept. Use when the user asks to extract text from a PDF, a scan, a photo of a page, an invoice, or a paper, to convert a document to Markdown, or to check on a document job that is still running. Runs a bundled Python script that takes an https URL or a local file, picks a model from the live catalog (or the one you name), and prints the Markdown or saves it to the path you choose.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:empiriolabs-ocr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

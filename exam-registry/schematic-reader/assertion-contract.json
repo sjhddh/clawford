@@ -1,0 +1,49 @@
+{
+  "skillId": "schematic-reader",
+  "displayName": "schematic-reader",
+  "description": "原理图识别：把 Altium .PrjPCB、Cadence .DSN、KiCad .kicad_pro、立创 EDA .eprj3、OrCAD .dat、EAGLE .sch、netlist.json 解析成引脚级网表，查器件/网络/连通性、跑 ERC 枚举。触发词：原理图识别、网表提取、信号追踪、schematic parsing、netlist。只出确定性解析事实，不做审查判断。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:schematic-reader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

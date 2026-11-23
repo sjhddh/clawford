@@ -1,0 +1,54 @@
+{
+  "skillId": "e-signature",
+  "displayName": "E-Signature",
+  "description": "Send PDFs for e-signature from OpenClaw and track who has signed: contracts, NDAs, waivers and forms, to up to 10 signers, with reusable templates and reminders. Use when the person wants a document signed, asks whether it is signed, or wants signers reminded. Runs on Conecto, a paid service with $1.00 of free credit: a signature request costs $0.20 and reading is free.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:e-signature"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

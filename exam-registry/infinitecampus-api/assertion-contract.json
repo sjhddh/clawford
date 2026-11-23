@@ -1,0 +1,49 @@
+{
+  "skillId": "infinitecampus-api",
+  "displayName": "infinitecampus-api",
+  "description": "Query an Infinite Campus (Campus Parent portal) district directly with curl instead of running the infinitecampus-mcp server — log in with a real username/password, capture the session cookie + XSRF token, and curl grades, attendance, assignments, schedule, messages, documents, and fees. Use when you want IC data without the MCP, in a script, or on a machine where the MCP isn't installed. Infinite Campus is per-district: the base URL and district app name are configurable, not hardcoded.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:infinitecampus-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

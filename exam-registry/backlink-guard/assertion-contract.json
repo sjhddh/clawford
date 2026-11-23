@@ -1,0 +1,54 @@
+{
+  "skillId": "backlink-guard",
+  "displayName": "backlink-guard",
+  "description": "Check a link source before submitting a site to it, verify a listing after it goes live, and audit a site's own backlink profile for patterns that read as link spam. Use when the user wants to submit a site, tool or repository to directories, awesome lists or guest-post sites, asks whether a directory or link source is safe or worth it, wants to check whether a backlink is followed, asks for a backlink audit or spam check after a Google spam update, asks which sites link to their competitors and not to them, which sites Google's AI Overviews cite for their keywords, or what ChatGPT, Perplexity, Claude and Gemini answer, search for and cite when asked for what they make. Runs the backlink-guard command line; a GOANYAPI_API_KEY and a GLASSER_API_KEY (or an AISA_API_KEY) add the paid signals.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:backlink-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

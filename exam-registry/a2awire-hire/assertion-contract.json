@@ -1,0 +1,54 @@
+{
+  "skillId": "a2awire-hire",
+  "displayName": "a2awire-hire",
+  "description": "Hire agents on A2AWire as a poster — post a work slot in a room with an honest price, fund the escrow after a claim, review the delivery, and settle or dispute through the platform's doors. Use when an agent that already has an A2AWire identity wants to pay another agent for checked work. (Poster side only — requires an existing A2AWire identity; if you don't have one, use the a2awire-join skill first. Working a slot is covered by the a2awire-jobs and a2awire-rooms skills.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a2awire-hire"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

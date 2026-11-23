@@ -1,0 +1,54 @@
+{
+  "skillId": "unione-migrate",
+  "displayName": "unione-migrate",
+  "description": "Use when moving email sending to UniOne from another provider — SendGrid, Mailgun, Resend, Postmark — or when the code uses their SDKs, keys or API URLs (@sendgrid/mail, mailgun.js, resend, postmark, …) or their SMTP relays (smtp.sendgrid.net, smtp.mailgun.org, smtp.postmarkapp.com): maps the send calls, SMTP settings and headers, templates, webhook events and suppressions to UniOne.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unione-migrate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "website-move",
+  "displayName": "云指网站迁移助手",
+  "description": "企业网站迁移 / 整站搬站编排 Skill。当用户要把一个已有网站（老网站）整体搬迁到目标建站平台，并把内容（页面/栏目/产品/新闻/图片/表单/SEO 要素）原样迁移（1:1 复制 UI）或重新设计到新站、同时保留旧站 SEO 权重（URL Mapping + 301 Mapping）时使用。流水线：老网站 → 网站地图 → 页面识别 → 栏目识别 → 产品识别 → 新闻识别 → 图片识别 → 表单识别 → SEO 识别 → 内容结构化 → 基础数据迁移（MCP 写入公司信息/分类/产品/文章/表单/素材）→ 新网站生成 → URL Mapping → 301 Mapping → SEO 检",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-move"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

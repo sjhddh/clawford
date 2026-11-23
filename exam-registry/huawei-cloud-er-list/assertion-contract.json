@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-er-list",
+  "displayName": "huawei-cloud-er-list",
+  "description": "1. Read-only inventory of Huawei Cloud Enterprise Router (ER) resources through KooCLI: enterprise routers (hcloud ER ListEnterpriseRouters — GET /v3/{project_id}/enterprise-router/instances), VPC attachments (hcloud ER ListVpcAttachments — GET /v3/{project_id}/enterprise-router/{er_id}/vpc-attachments), route tables (hcloud ER ListRouteTables — GET /v3/{project_id}/enterprise-router/{er_id}/route-tables) and single-ER detail (hcloud ER ShowEnterpriseRouter — GET /v3/{project_id}/enterprise-router/instances/{er_id}), with an automatic fallback to the official huaweicloudsdker v3 SDK when hcloud is missing. 2. `--resource {er,attachment,route-table,detail}` selects the view (default `er`); attachment / route-table / detail require `--er-id`. 3. Output modes: compact list (default), fixed-column table (`--table`: ER 8 columns / VPC attachment 6 columns / route table 6 columns) and `--json` (raw response fields). 4. Non-`available` enterprise routers / attachments are rendered in a separate, explicitly flagged `[!]` / `[异常]` section instead of being mixed with healthy resources. 5. Filters: local `--name` (exact) and `--fuzzy` (case-insensitive), plus server-side `--er-id` / `--state` / `--owned-by-self` / `--enterprise-project-id` / `--vpc-id` / `--sort-key` / `--sort-dir`; region defaults to `cn-north-4`; `--page-size`/`--limit` is 1–2000 with automatic `page_info.next_marker` paging. 6. Built-in write-intent guard: Create / Delete / Update / Associate / Disassociate / Enable / Disable / Accept / Reject and any non-whitelisted operation are rejected before execution (exit 1) — this skill is strictly read-only. 7. Explicit hints for empty lists, 403 / insufficient IAM permission, missing or invalid AK/SK, missing project_id on the SDK fallback, invalid `--er-id` (not found), network failures and hcloud not installed. 8. Triggers include: \"list enterprise routers\", \"er list\", \"企业路由器列表\", \"查询企业路由器\", \"ER 实例列表\", \"VPC 连接列表\", \"ER VPC 连接\", \"ER 路由表\", \"企业路由器详情\", \"er inventory\", \"list vpc attachments\", \"list route tables\", \"华为云 ER\", \"企业路由器下钻\". 9. Offline unit tests (mocked hcloud subprocess + fake SDK) cover output modes, filters, paging, error scenarios, SDK fallback, abnormal-state separation and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-er-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

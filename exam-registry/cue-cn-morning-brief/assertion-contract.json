@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-morning-brief",
+  "displayName": "晨会纪要·数据槽与覆盖率（盘前早报）",
+  "description": "A股盘前晨会纪要·时点驱动的两段式：市场层五槽（隔夜外盘、汇率与商品、利率与流动性、指数与成交、两融余额）与标的层三槽（标的隔夜公告标题、标的今日事件、今日披露与解禁），逐槽挂来源与检索日；头部申报已填槽/总槽并与槽表逐行对账，缺口逐槽点名，判断位一律[待人工]。Do NOT use for: 涨跌预测、买卖建议、评级目标价、单份公告逐字精读。 Triggers: 晨会纪要 / 盘前早报 / 隔夜要闻 / 盘前数据槽 / 隔夜外盘与汇率 / 今日解禁与披露",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-morning-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

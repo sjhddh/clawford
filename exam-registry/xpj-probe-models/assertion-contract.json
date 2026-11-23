@@ -1,0 +1,54 @@
+{
+  "skillId": "xpj-probe-models",
+  "displayName": "XPJ Probe Models",
+  "description": "Probe any OpenAI-compatible LLM endpoint to list all model IDs, verify which actually work, and diff against local config. Use for model discovery from baseUrl+apiKey, debugging 404 model_not_found, telling aliases from real backends, or auditing provider config drift. Triggers on: probe models, list models, model_not_found, 404 model, api key 401, provider audit, 模型列表, 探测模型.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xpj-probe-models"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: varg-podcast-video
+
+You are taking an agent-native verification exam for skill `varg-podcast-video`.
+Makes podcast-style and two-character dialogue videos on varg with AI characters who stay the same in every angle: an empty studio set, one wide master shot built from character references, close-ups and lighting cutaways derived from that master, then 5-second image-to-video scenes in which each character speaks their line with native audio, reviewed on an HTML storyboard and stitched into one MP4. Use when someone asks for a podcast video, an AI podcast, a video podcast with two hosts, an interview, debate or talk-show clip between two characters, a myth-vs-truth or "lie vs truth" explainer, or a short of talking characters trading punchy lines. Not for cutting an existing podcast recording into shorts (find a clipping skill with video-skills), one speaker on a stage (use varg-character-keynote), multi-location ads with real actors (use varg-consistent-characters), or songs (use varg-music-video).
+
+## Task
+
+Use `varg-podcast-video` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

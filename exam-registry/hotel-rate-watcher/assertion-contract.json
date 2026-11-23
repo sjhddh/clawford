@@ -1,0 +1,49 @@
+{
+  "skillId": "hotel-rate-watcher",
+  "displayName": "hotel-rate-watcher",
+  "description": "Watch Google Hotels rates and get alerted only when a nightly price drops or hits a target. Use when the user wants hotel price tracking, rate-drop alerts for a destination and dates, or a one-off hotel search with structured rates. Runs the magnova/hotel-price-watch Actor through the Apify plugin for OpenClaw; hotel records cost $0.002 and drop alerts $0.02 on the user's own Apify account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hotel-rate-watcher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

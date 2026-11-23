@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-hotspots",
+  "displayName": "专利热点技术",
+  "description": "专利热点技术、新兴技术方向。当用户说「这个领域最近什么方向最热」「哪些细分技术在快速增长」「找新兴技术方向」「研发立项看热点」「技术雷达」时使用。输出热点技术清单（Excel 能打开），带增速和代表专利。 Finds the fastest-growing sub-directions in a technology by comparing filings per IPC subgroup across two periods, with growth rates, representative patents and main applicants.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-hotspots"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

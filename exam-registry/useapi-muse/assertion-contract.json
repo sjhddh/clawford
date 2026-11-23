@@ -1,0 +1,54 @@
+{
+  "skillId": "useapi-muse",
+  "displayName": "Meta Muse AI video, image and talking photo (useapi.net)",
+  "description": "Make Meta Muse AI images and 10-second videos with sound and spoken dialogue (muse.ai, Meta's AI agent) on your own Muse account, the free plan included, through the useapi.net Muse API, a third-party paid API not affiliated with Meta. Text to image, combine up to 9 photos into one picture, edit an image, restore and colorize an old photo, image to video that makes a photo talk, and video to video such as swapping a person in a clip. Saves the .webp or .mp4. Use when the user asks for a Muse or Meta Muse image or video, a talking photo, an old photo restored or animated, or a person swapped in a video. Needs bash, curl, jq and USEAPI_TOKEN.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:useapi-muse"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

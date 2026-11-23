@@ -1,0 +1,54 @@
+{
+  "skillId": "huly",
+  "displayName": "huly",
+  "description": "Drive a self-hosted Huly workspace through the `huly` CLI when the user names a Huly-specific entity or action — tracker issue, project, channel, DM, calendar event, planner action/todo, time entry, notification, or approval. Use it for project tracking, time management, and workspace automation against a self-hosted Huly instance. Do not invoke on unconfirmed intent; if the user is ambiguous about whether to persist, ASK first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huly"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "taplio-linkedin-smart-comment-writer",
+  "displayName": "Taplio LinkedIn Smart Comment Writer",
+  "description": "Write a LinkedIn comment that gets noticed by the post author and the audience, save it as a Taplio comment draft, and, only on the user's explicit go, schedule it to post under their name. Avoids the generic great-post trap : 3 options on one angle (add, disagree, story, framework, question), ranked by likelihood of being pinned or replied to, written after reading what the thread already says. Use after the user has a post in mind, a pick from the Comment Opportunity Finder, or a LinkedIn post url. Requires the Taplio MCP to read the post and its thread, save the draft, commit it, and confirm it went live.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taplio-linkedin-smart-comment-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

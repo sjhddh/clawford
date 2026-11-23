@@ -1,0 +1,54 @@
+{
+  "skillId": "fabrica-design-md",
+  "displayName": "fabrica-design-md",
+  "description": "Use when someone asks to build a brand design system file, extract their visual identity, or create a DESIGN.md. Dispara con \"hazme mi DESIGN.md\", \"arma mi sistema visual\", \"extrae mi identidad de marca\", \"quiero que todo lo que haga con IA se vea mío\", \"mis diseños salen genéricos\", \"define mi paleta y mi tipografía\", \"crea el archivo de marca\", \"design system para mi negocio\". EXTRAE el sistema de las piezas que ya le funcionan a la persona (capturas, código de su web, o entrevista si no tiene archivos) en vez de inventarlo o copiar el de otra marca. Mide el contraste en vez de estimarlo, entrega el DESIGN.md y una página de prueba con el sistema aplicado y medida en móvil. NO usar para diseñar una pieza suelta ni para auditar accesibilidad de una página ya hecha.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fabrica-design-md"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

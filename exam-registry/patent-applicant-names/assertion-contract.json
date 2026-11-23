@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-applicant-names",
+  "displayName": "专利申请人查询",
+  "description": "专利申请人查询、公司专利名称写法。当用户说「这家公司在专利里叫什么」「查全一家公司的专利要写哪些名字」「子公司的专利也要算」「英文申请人名称」「为什么我查到的专利数比实际少」时使用。输出申请人名称表（Excel 能打开）和一条完整的申请人检索式。 Finds every name a company uses on patents, including subsidiaries, full- and half-width brackets, English case variants and former names, with counts, and builds one complete applicant query.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-applicant-names"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "embedded-code-reviewer",
+  "displayName": "Embedded C/C++ Code Reviewer",
+  "description": "嵌入式C/C++代码静态审查工具，28条规则。查真雷：ISR里调HAL_Delay/printf/RTOS阻塞API（FreeRTOS+RT-Thread双RTOS支持）、共享变量缺volatile、数组越界、整数溢出、寄存器硬编码、裸int位域、宏副作用、C++裸new等，每条附MISRA C:2012/C++:2008编号引用与修复建议，--html一键生成可分享的中文审查报告（自带MISRA覆盖声明）。判据经170,991个真实嵌入式文件语料校准（抽样400实测0错误），120项测试断言。当用户需要review嵌入式C代码、检查ISR安全、代码审查、找bug、查代码问题、程序跑飞/HardFault/随机死机排查、偶发疑难bug定位、毕设课程代码自查、接手老工程摸底体检、MISRA检查、CI代码质量门禁、RT-Thread/FreeRTOS用法检查时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:embedded-code-reviewer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

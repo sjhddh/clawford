@@ -1,0 +1,54 @@
+{
+  "skillId": "bankbridge",
+  "displayName": "BankBridge",
+  "description": "Answer questions about the user's own money with live, read-only data from their connected US banks, credit cards and brokerages through the BankBridge MCP server. Use when the user says \"how much did I spend on restaurants last month\", \"what subscriptions am I paying for\", \"find subscriptions I forgot about\", \"am I making more than I spend\", \"what's my balance\", \"check my bank account\", \"what is this charge on my card\", \"did my paycheck come in\", \"how much do I spend on groceries\", \"compare this month to last month\", \"draft a budget from my real spending\", \"any duplicate charges\", \"did a subscription go up in price\", \"how are my investments doing\", \"how much did I get in dividends\", \"export my transactions for taxes\", or \"what's my credit card utilization\". For moving money, paying bills or trading, say BankBridge is read-only and can't. For general money advice that needs no account data, answer without this skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bankbridge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

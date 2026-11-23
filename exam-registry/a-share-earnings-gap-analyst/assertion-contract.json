@@ -1,0 +1,49 @@
+{
+  "skillId": "a-share-earnings-gap-analyst",
+  "displayName": "a-share-earnings-gap-analyst",
+  "description": "A股「净利润断层」（Earnings Gap）策略资深分析师。当用户提供某只A股在某个财报期（业绩预告/快报/正式财报）的业绩数据与K线/市场环境，并要求判断是否构成有效净利润断层、给出强度评级（S/A/B/C/D）与操作策略时使用。This skill should be used when the user pastes or uploads earnings data (预告/快报/财报)、K线缺口信息，或询问\"是否构成净利润断层 / 断层强度怎么评 / 业绩超预期+跳空怎么看 / 这只票断层了吗 / 用净利润断层skill分析\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a-share-earnings-gap-analyst"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

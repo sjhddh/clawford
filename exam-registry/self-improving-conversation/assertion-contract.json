@@ -1,0 +1,49 @@
+{
+  "skillId": "self-improving-conversation",
+  "displayName": "self-improving-conversation",
+  "description": "Captures dialogue learnings, tone mismatches, escalation failures, and conversation quality issues. Logs redacted summaries to .learnings/. Optional project-scoped hooks use a narrow matcher. Promote to prompt files or extract skills only after explicit human review of a diff. Use when: (1) A user expresses frustration or confusion, (2) Tone mismatch is detected, (3) Context is lost mid-conversation, (4) Agent hallucinates, (5) User requests escalation, (6) Conversation is abandoned or rephrased repeatedly, (7) A missing conversational capability is identified.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:self-improving-conversation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

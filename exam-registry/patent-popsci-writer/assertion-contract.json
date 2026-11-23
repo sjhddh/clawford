@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-popsci-writer",
+  "displayName": "专利科普文案",
+  "description": "专利科普文案、专利写成公众号文章。当用户说「把这件专利写成科普文章」「公司新专利要发公众号」「写一篇小红书介绍我们的专利」「专利成果宣传稿」「视频口播稿讲讲这个专利」时使用。输出科普文章（Markdown），附专利出处。 Turns one or several patents into plain-language popular-science content, such as a WeChat article, a short social post or a video script, explaining the pain point and how it works, sourced from the patent text.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-popsci-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

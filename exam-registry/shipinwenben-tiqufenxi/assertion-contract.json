@@ -1,0 +1,54 @@
+{
+  "skillId": "shipinwenben-tiqufenxi",
+  "displayName": "视频文本提取分析",
+  "description": "把视频变成能直接用的文字。千问大模型驱动，粘贴链接或上传文件即可转写，自动过滤语气词、口误与重复内容，输出干净稿。无论是短视频二创改脚本、会议出纪要、课程拆知识点，还是直播复盘、采访整理，都能按你想要的风格一键成文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shipinwenben-tiqufenxi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

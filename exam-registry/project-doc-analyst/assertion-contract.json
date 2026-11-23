@@ -1,0 +1,49 @@
+{
+  "skillId": "project-doc-analyst",
+  "displayName": "project-doc-analyst",
+  "description": "专家级项目分析与文档生成 Agent。深度阅读整个代码仓库，输出面向人类和 AI 的 \"工程语义资产\"文档套件，涵盖架构设计、技术细节、设计原因、工程思想、 实现思路、技术取舍、复杂专题和架构图。 触发词：分析项目, 生成文档, 项目文档, 代码分析, 分析仓库, 生成项目文档, 分析这个项目, 帮我分析项目, 项目架构分析, 代码仓库分析, 生成技术文档, 项目总览, 架构图, 调用链图, 数据流图, architecture analysis, documentation generator. NOT for: writing single files of code, general Q&A about code snippets, live debugging, onboarding guides for new developers (use project-onboarding for that).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:project-doc-analyst"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

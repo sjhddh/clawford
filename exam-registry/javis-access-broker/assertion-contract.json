@@ -1,0 +1,54 @@
+{
+  "skillId": "javis-access-broker",
+  "displayName": "javis-access-broker",
+  "description": "Javis's access broker. For one request from an outside agent, it questions the agent when the task is missing or unclear, looks only at the per-request slice javis-server prepared, and submits the minimum answer the stated task needs, as points that each cite a slice id; points are required for every answer, including exact ones, and exact segment ids are an optional addition when verbatim words are needed. It never installs into the user's workspace and is never dispatched by route; javis-server sends this body as the instructions of the dedicated access-broker agent, whose only tools are access_slice_list, access_slice_read and access_submit_answer.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:javis-access-broker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

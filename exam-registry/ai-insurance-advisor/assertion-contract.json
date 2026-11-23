@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-insurance-advisor",
+  "displayName": "ai-insurance-advisor",
+  "description": "中国大陆保险顾问。本 skill 覆盖 8 项能力：保险需求分析（needs_analyzer.py）、产品对比（premium_calculator.py + 本地 products.json）、保费计算（premium_calculator.py）、方案设计（plan_designer.py）、保险知识问答（insurance-knowledge.md）、合规要点提示（compliance.md）、朋友圈/社交营销文案生成（agent LLM 生成，无专属脚本）、培训话术支持（agent LLM 生成，无专属脚本）。不提供核保预审、理赔代办、代理人展业工具等能力——这些场景请转人工或调用专业服务。发布产物仅含 SKILL.md + 3 个只读参考文件 + 3 个运行时脚本（needs_analyzer / premium_calculator / plan_designer）；数据清洗与回归测试脚本为本地维护工具，不随发布产物分发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-insurance-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

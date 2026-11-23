@@ -1,0 +1,49 @@
+{
+  "skillId": "bilibili-video-analysis",
+  "displayName": "bilibili-video-analysis",
+  "description": "从主题搜索、B站当前热门或热搜、给定视频的关联推荐或具体视频开始，把视频正文、画面、弹幕、评论和回复转化为可回查的学习与研究结果。适用于查找和比较B站视频、总结教程与观点、拆解视觉表达、分析观众反馈，以及用户明确提出的产品或市场研究；Skill 按目标获取最小证据，并在数据不足时明确降级。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilibili-video-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

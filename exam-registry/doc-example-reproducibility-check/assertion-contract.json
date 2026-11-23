@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-example-reproducibility-check",
+  "displayName": "doc-example-reproducibility-check",
+  "description": "Verify that example commands and their documented outputs in a technical document, tutorial, README, or skill package are actually reproducible. Use this when a doc contains runnable command examples, before publishing a doc or package whose examples must be trustworthy, when you need to change sample data inside a document (e.g. de-identify real birth dates, account numbers, or customer names) without introducing false claims, or when a document claims a script emits specific fields/values and you need to confirm it does. Covers: extracting every runnable example, separating mutable sample data from immutable factual tables, re-deriving every claimed value by actually running the tool instead of computing it by hand, bulk replacement with a change-count audit trail, and a per-example PASS/FAIL regression run. Trigger phrases: 'verify the examples in this doc', 'are these commands still correct', 'check the doc examples', 'replace the sample data in the docs', 'the docs claim X, does it really output X'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-example-reproducibility-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

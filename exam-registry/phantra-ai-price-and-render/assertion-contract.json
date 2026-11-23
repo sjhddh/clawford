@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-price-and-render",
+  "displayName": "Phantra AI: Price And Render",
+  "description": "Prices a Phantra scene or still in credits, starts it on the person's yes, and reports where it stands. Every spend is quoted first, approved by the person in the chat, started with `approve` (a scene) or `generate_image` (one still), and read back with `job`. Use when someone says render it, make the clip or how much will it cost, or asks whether a scene is done. NOT for writing the scene (write-scene), an effect on something already made (effects) or credits in general (credits-and-limits).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-price-and-render"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

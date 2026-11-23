@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-version-diff",
+  "displayName": "专利版本对比",
+  "description": "专利版本对比、权利要求修改对照、说明书版本差异。当用户提供旧稿和新稿，希望定位文字变化并追溯原文时使用；不替代不同专利的技术比对或修改合法性判断。 Compare two supplied versions of patent-related text and export a source-linked change table and offline HTML view; report textual edits without inferring legal scope or amendment support.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-version-diff"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

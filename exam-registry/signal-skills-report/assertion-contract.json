@@ -1,0 +1,49 @@
+{
+  "skillId": "signal-skills-report",
+  "displayName": "Signal Skills: report",
+  "description": "Turn a pile of ranked research findings (from podcast mining, competitor audits, doc sweeps, whatever) into one prioritized Artifact report. Use as the reporting stage of any skill that has already done the extraction and just needs to present it as a shareable, ranked, reasoned page. Not a research method itself, and not a curation step.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:signal-skills-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

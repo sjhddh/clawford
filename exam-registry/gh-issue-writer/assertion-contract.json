@@ -1,0 +1,54 @@
+{
+  "skillId": "gh-issue-writer",
+  "displayName": "GitHub Issue Writer",
+  "description": "Draft well-structured GitHub issues from a description, error, or idea. Supports bug reports, feature requests, enhancements, and tasks. Optionally submits directly via the GitHub CLI or API. Use when someone says \"write a GitHub issue\", \"open an issue for\", \"file a bug\", \"create a feature request\", or describes a problem that needs to be tracked.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gh-issue-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

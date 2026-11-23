@@ -1,0 +1,54 @@
+{
+  "skillId": "cron-sentinel",
+  "displayName": "cron-sentinel",
+  "description": "Monitor scheduled/cron jobs and get alerted when one fails OR silently never runs. Use this skill when the goal is reliability or failure-detection for a recurring task the user already runs or is setting up - e.g. 'how would I even know if my cron job silently stopped,' 'my backup didn't run and nothing warned me,' 'monitor my scheduled jobs,' 'alert me when a job fails,' 'add retries and a dead-man's switch to my cron,' or 'is my nightly task still actually running.' It wraps a scheduled command so each run is recorded (exit code, duration, redacted output tail) with optional retries and a timeout, then a watchdog flags both crashed jobs and overdue jobs that silently never ran. Do NOT trigger on plain scheduling requests with no monitoring need ('remind me at 5,' 'run this once tomorrow'), or on general cron-syntax questions ('what does * * * * * mean') - only when reliability or silent-failure detection is the actual ask. Runs a local, standard-library-only Python tool that executes the user's own command directly (no shell), keeps an owner-only state file under ~/.cron-sentinel/, and prints crontab lines for the user to add themselves. It never edits a crontab, creates scheduled tasks, uses the network, or requires elevated privileges.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cron-sentinel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

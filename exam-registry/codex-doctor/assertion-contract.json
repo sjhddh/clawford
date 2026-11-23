@@ -1,0 +1,49 @@
+{
+  "skillId": "codex-doctor",
+  "displayName": "Ward Codex Doctor",
+  "description": "Analyze local Codex session telemetry and produce privacy-safe efficiency reports with actionable workflow recommendations. Use when the user asks to run Codex Doctor, inspect Codex productivity, diagnose context bloat, repository exploration, validation or retry patterns, compare recent sessions, or interpret a codex-efficiency-report HTML/JSON file. Default to local telemetry-only analysis; use the optional compact AI diagnosis only when the user explicitly requests AI interpretation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codex-doctor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

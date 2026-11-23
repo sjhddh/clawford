@@ -1,0 +1,54 @@
+{
+  "skillId": "hello-env",
+  "displayName": "hello-env",
+  "description": "Zero-dependency Bash environment health check for Linux, macOS, containers, and K8s pods. Reports OS, current user, Node.js, Python3, basic tools (git/curl/jq/make/docker) with paths and versions, network (hostname, IP, inferred subnet), container/K8s detection with a configurable env-var probe, workdir and git status, optional config-file check, and PVC remount detection (device-number plus watch-dir count snapshot diff to catch silent K8s PersistentVolume reattach to a fresh disk). Three-layer config — CLI flags override env vars override defaults. Trigger when user wants to check the environment, verify a dev box is healthy, detect container or K8s context, look up local IP or subnet, see Node and Python versions, list installed basic tools, or watch for silent PVC rotation in K8s pods. Also triggers on 检查我的环境, 环境自检, hello-env, 查看系统信息, 环境有没有问题, IP 是多少, 在什么环境, PVC 换卷了吗, 基础工具检查, node 版本, 当前用户是谁.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hello-env"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

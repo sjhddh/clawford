@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-bss-voucher-query",
+  "displayName": "huawei-cloud-bss-voucher-query",
+  "description": "Query Huawei Cloud BSS (费用中心) vouchers / coupons with enterprise-project (企业项目) filtering. Reads the account's coupon list via KooCLI `hcloud BSS ListSubCustomerCoupons` (read-only GET /v2/promotions/benefits/coupons, with SDK fallback). Supports listing by project ID (`--project-id`, attributed through the customer order => enterprise-project linkage because the coupon API carries no project_id), status (`--status available/used/expired`), name, coupon-id, coupon-type, near-expiry/expired views (`--expiring` / `--expired`) and a per-project usage-rate analysis (`--usage-analysis`). Strictly read-only. Triggers include: \"代金券盘点\", \"按项目查询代金券\", \"企业项目代金券\", \"查询代金券\", \"优惠券列表\", \"按项目ID筛选代金券\", \"代金券到期\", \"代金券使用率\", \"代金券余额\", \"费用管理\", \"list BSS coupons\", \"query vouchers by project\", \"coupon inventory\", \"voucher list by enterprise project\", \"enterprise project voucher query\", \"billing voucher query\", \"华为云代金券\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-bss-voucher-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "controlclaw-firewall",
+  "displayName": "ControlClaw firewall",
+  "description": "Install the open-source ControlClaw firewall for this OpenClaw, or connect this OpenClaw to a ControlClaw firewall the person already runs. Every request and MCP call then goes through the firewall, which checks it against rules written in plain English, keeps passwords and API keys off the agent, and holds risky actions for approval. One firewall can serve many OpenClaw agents, so passwords, integrations and model keys are set up once. Use when the person asks for a firewall, wants to see or limit what OpenClaw sends to the internet, mentions ControlClaw, or gives you a ControlClaw pairing code (like 4F7K-92QD-XM3P).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:controlclaw-firewall"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "seven-questions-test",
+  "displayName": "The Seven Questions Test",
+  "description": "Activate when: user says 'seven questions,' 'Zero to One test,' 'Thiel checklist,' 'should I start this business,' 'is this startup idea any good,' or 'stress-test my startup idea'; a business idea, pivot, product line, or funding decision is about to proceed on enthusiasm rather than evidence; a pitch or plan is strong on one dimension (usually technology or market size) and silent on the others; the user wants a structured go/no-go gate before committing capital, time, or reputation to a venture. Do NOT activate when: the venture is already running and the question is a single-dimension diagnosis (pricing, one channel, one hire) — use the specific skill for that dimension instead; the decision is a small reversible experiment where a full seven-question gate is heavier than the bet itself; the user asked only to polish pitch wording, not to test whether the underlying business should exist. More: deciqai.com/c/seven-questions-test",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seven-questions-test"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

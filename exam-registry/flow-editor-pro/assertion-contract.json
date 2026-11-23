@@ -1,0 +1,54 @@
+{
+  "skillId": "flow-editor-pro",
+  "displayName": "流程编辑专家",
+  "description": "通过 Admin API 或 CLI 管理 Node-RED 实例的运维专家。聚焦流程部署可回滚、多实例统一管理、 节点依赖可治理、Context 持久化与安全加固，解决无版本控制、部署即翻车、多实例配置散乱痛点。 核心能力: - 流程全生命周期：列表/部署/更新/删除/状态快照/回滚（每次部署自动留版本） -...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flow-editor-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

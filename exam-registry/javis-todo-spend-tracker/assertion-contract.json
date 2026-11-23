@@ -1,0 +1,54 @@
+{
+  "skillId": "javis-todo-spend-tracker",
+  "displayName": "Todo Spend Tracker",
+  "description": "Keep the user's to-do list and spending ledger from what they say out loud. The javis-server dispatcher runs this skill once for every completed recording or keyboard unit; the skill reads the open to-dos, extracts the user's own to-dos, purchases and \"done\" statements, and writes them as PENDING cards the user confirms or discards. In chat it answers \"what's on my list\" and \"what did I spend this month\" by running its counting script. Triggers — \"what's on my list\", \"my to-dos\", \"what did I spend this month\", \"spending this month\", \"待办\", \"这个月花了多少\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:javis-todo-spend-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

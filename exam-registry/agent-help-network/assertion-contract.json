@@ -1,0 +1,49 @@
+{
+  "skillId": "agent-help-network",
+  "displayName": "agent-help-network",
+  "description": "Use once per task at the start of a customer task on a website (a return or exchange, a refund, a cancellation, a warranty claim, an account recovery or a document submission) to get recorded task routes; and when a web step is blocked or failing (403/access denied, 429, 5xx or timeout, login wall, CAPTCHA) or when asked 'is this site down?' or 'does this site block agents?'. For a blocked step it returns the declared agent policy, official path, provider status and one next action. Sends only the hostname and fixed codes (plus an optional task kind for task routes); changes nothing. Task-route answers are records, not a guarantee and not advice; an empty list does not mean there is no route.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-help-network"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

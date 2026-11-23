@@ -1,0 +1,54 @@
+{
+  "skillId": "b-profile",
+  "displayName": "b-profile",
+  "description": "B站UP主主页投稿采集工具。当用户需要采集某个 B站 UP主/博主主页下的投稿视频列表——标题、简介、播放量、弹幕、评论数、封面、发布时间、视频链接，导出投稿 CSV（Excel 直开），或提到\"B站主页采集/UP主投稿/博主作品列表/达人稿件盘点\"时使用本 skill。提交 space.bilibili.com/<数字ID> 主页链接，由内网浏览器节点真人翻页采集，按页计费（一页约 42 条 = 1 点数，注册送 10 点）。适合竞品/达人内容盘点、选题调研、UP主更新监测、投放选号等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:b-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

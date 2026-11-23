@@ -1,0 +1,54 @@
+{
+  "skillId": "warehouse-storage-fee-check-free",
+  "displayName": "仓储费与库龄结算核对（免费版）",
+  "description": "仓储费结算单与库龄明细表逐项核对（仓储费逐行复算、库龄天数−免租期=计费天数、超期附加费复算、合计行勾稽、重复与空缺检测），每条结论都带原文行号。本免费版执行 6 项免费检查。触发词包括 仓储费对不上、仓储费结算单核对、库龄明细表核对、免租期没扣、仓储费多算天数。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:warehouse-storage-fee-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

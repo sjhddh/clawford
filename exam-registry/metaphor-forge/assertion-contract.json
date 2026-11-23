@@ -1,0 +1,54 @@
+{
+  "skillId": "metaphor-forge",
+  "displayName": "metaphor-forge",
+  "description": "把抽象概念、产品卖点、复杂问题或情绪状态锻造成可理解、可传播、可检查的跨领域隐喻。强触发词为“锻喻”“锻喻一下”“隐喻锻造”。当用户说这些词，或要求“想个比喻”“换个说法”“讲人话”“用故事解释”“给产品一个隐喻”时使用。输出必须包含结构抽取、3 个隐喻、映射表、误用边界和一句话表达。内置禁止词语、非法标语、违法违规内容与合规红线处理规则。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:metaphor-forge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

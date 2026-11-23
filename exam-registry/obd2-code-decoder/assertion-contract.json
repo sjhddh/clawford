@@ -1,0 +1,49 @@
+{
+  "skillId": "obd2-code-decoder",
+  "displayName": "OBD2 Code Decoder",
+  "description": "Use when a check-engine light is on, an OBD2 scan returns P0xxx/P2xxx/B/C/U codes, or you need to know if the car is safe to drive, what the code means in plain language, likely causes with fix cost bands, and DIY difficulty. Decodes 70+ generic codes, detects multi-code patterns (lean-both-banks, misfire+catalyst chains), and gives a STOP-DRIVING / SOON / MONITOR verdict per code.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:obd2-code-decoder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

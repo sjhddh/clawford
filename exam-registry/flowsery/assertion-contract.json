@@ -1,0 +1,54 @@
+{
+  "skillId": "flowsery",
+  "displayName": "Openclaw Flowsery",
+  "description": "Query web analytics data from Flowsery Analytics, a privacy-first web analytics platform. Retrieve real-time visitors, time series, breakdowns (device, page, country, referrer, campaign, channel, exit link, and 25 dimensions total), visitor profiles with activity timelines, and the bugs, broken flows and UX problems the AI found in session recordings. Only after explicit user confirmation, it can also create goal and payment records and permanently delete goal events and payment records. Visitor profiles and payments include personal data (email, name, location, revenue), so handle them as PII. Use when the user wants to check their website traffic, analyze visitor behavior, view revenue data, track conversions, or manage goal/payment records on their Flowsery-tracked sites.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flowsery"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

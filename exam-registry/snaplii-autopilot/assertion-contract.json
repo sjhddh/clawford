@@ -1,0 +1,49 @@
+{
+  "skillId": "snaplii-autopilot",
+  "displayName": "snaplii-autopilot",
+  "description": "End-to-end Agent-to-Merchant autopilot: buy a Snaplii gift card with cashback, then drive the browser to redeem it on the merchant/delivery site and place the order — all in one flow. Use when the user wants the agent to actually complete a purchase or food/delivery order (e.g. 'order me a coffee on Uber Eats and pay with Snaplii'), not just get a gift card. Requires a browser-automation tool in the session.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:snaplii-autopilot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

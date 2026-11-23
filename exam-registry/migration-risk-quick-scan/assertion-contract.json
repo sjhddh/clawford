@@ -1,0 +1,54 @@
+{
+  "skillId": "migration-risk-quick-scan",
+  "displayName": "migration-risk-quick-scan",
+  "description": "Quick-scan raw PostgreSQL SQL migration files for the top-10 dangerous patterns (dropped tables/columns, unscoped UPDATE/DELETE, NOT NULL without default, non-concurrent index builds, renames, type narrowing). Use when the user asks to \"quickly check this SQL migration\", \"scan this .sql migration for risks\", or wants a fast safety verdict on PostgreSQL migration files before deploying. Free edition: raw SQL (PostgreSQL) only, detection only — no rewrites, no rollback plans.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:migration-risk-quick-scan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

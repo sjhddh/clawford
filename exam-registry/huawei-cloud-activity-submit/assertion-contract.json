@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-activity-submit",
+  "displayName": "huawei-cloud-activity-submit",
+  "description": "直连华为云开放能力线上闯关挑战（activity_code=open-capability-2026-1024）的 Agent 提交接口（POST {base}/submit-activity-work），用 AK/SK 请求头（X-HW-AK / X-HW-SK / X-HW-Security-Token）把活动生成的作品链接/公网地址自动提交到“沙箱部署”（milestone=beginner）与“ECS 持久化部署”（milestone=intermediate）两步，并在成功后回报预计可得积分（以成长体系实际发放为准，仅发放一次）；沙箱部署（beginner）完成后**始终**询问用户是否（可选）将作品发布到开发者作品展览馆的闯关活动；若此时未发布则在 ECS（intermediate）完成后再询问一次，若已发布则 ECS 阶段不再询问（npx skills add ... publish-work-to-gallery）。Use when the user asks to 提交作品、提交闯关成果、自动提交活动成果、提交沙箱链接/公网地址, or when a generated sandbox URL needs to be submitted for the 华为云开放能力闯关挑战。本 skill 固定使用**生产环境**（现网）接口，无需也**不要**切换环境。仅用于调用接口，不涉及任何页面/浏览器操作.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-activity-submit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-ecs-export-excel",
+  "displayName": "huawei-cloud-ecs-export-excel",
+  "description": "1. List the Huawei Cloud ECS (Elastic Cloud Server) instances of a tenant region through KooCLI (`hcloud ECS ListServersDetails`, the official read-only GET /v1/{project_id}/cloudservers/detail), with an automatic fallback to the official huaweicloudsdkecs v2 SDK (EcsClient.list_servers_details) when hcloud is not installed. 2. Export the instance list into a well-formed local `.xlsx` workbook via openpyxl (headers 名称 / ID / 状态 / 规格 / vCPU / 内存 / 可用区 / 私网IP / 公网IP, optional summary row) — strictly local file generation, nothing is ever written back to the cloud. `--output` sets the file path (default `ecs_instances_<region>_<timestamp>.xlsx`). 3. Three output modes: `--format xlsx` (default) / `table` / `json`. Region aware: `--region` (default cn-north-4). Optional `--status` / `--name` server-side filters and `--page-size` (default 100); paging follows the reported `count`. 4. Explicit error classification: missing AK/SK credentials (「缺少 AK/SK 凭证」), hcloud not installed (falls back to SDK, else a clear hint), invalid/insufficient credentials (403 / 401 → IAM hint), KooCLI usage errors, and generic API/network failures. Empty instance lists produce a friendly hint and never a corrupt .xlsx. 5. Built-in write-intent guard: any mutating intent (create / delete / update / rebuild / resize / reboot / start / stop / attach / detach …) or any operation other than the read-only ListServersDetails is rejected before execution — this skill is strictly read-only. 6. Triggers include: \"查询 ECS 生成 Excel\", \"ECS 实例列表导出 Excel\", \"ecs excel\", \"导出 ECS 实例为 Excel\", \"ECS 实例报表\", \"云服务器清单 Excel\", \"ECS instance list excel\", \"export ECS instances to excel\", \"ecs 报表\". 7. Offline unit tests (mocked hcloud subprocess) cover output modes, paging, xlsx format correctness, empty lists, error classification, SDK fallback, the extra-args injection position, and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-ecs-export-excel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

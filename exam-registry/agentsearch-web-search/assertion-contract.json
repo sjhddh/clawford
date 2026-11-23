@@ -1,0 +1,49 @@
+{
+  "skillId": "agentsearch-web-search",
+  "displayName": "AgentSearch Web Search (no API key, x402)",
+  "description": "Live web search, URL-to-markdown extract and JavaScript page render for agents via AgentSearch. Free tier with no API key or account (25 free searches per IP in total, small daily extract/render trials), then pay per call over x402 with USDC on Base (search $0.003). Use when a task needs current web results or the readable text of a URL.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentsearch-web-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

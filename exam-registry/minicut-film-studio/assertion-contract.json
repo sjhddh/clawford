@@ -1,0 +1,54 @@
+{
+  "skillId": "minicut-film-studio",
+  "displayName": "MiniCut film studio",
+  "description": "Turns Claude Code or Codex into an AI film studio with the MiniCut CLI. Idea or script to story, shot sheet, character and location pictures, video takes, voice lines, music and an edited cut in the MiniCut editor, on Seedance, Kling, Wan and other models. Checks every step and stops before every paid run with the price. Use when the user wants to make an AI short film, AI drama, AI series, trailer, ad, music video or multi-shot video, or says \"make a film\", \"make an episode\", \"storyboard this\", \"make a short drama\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:minicut-film-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

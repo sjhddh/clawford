@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-bf3-deployment",
+  "displayName": "doca-bf3-deployment",
+  "description": "Use this skill for BlueField-3 (BF3) day-1 platform bring-up via the classic RShim/BFB path: pushing a BlueField bundle (BFB) to the DPU over RShim with bfb-install from the host, the host-to-DPU TMFIFO management channel (tmfifo_net0, the 192.168.100.x convention), RShim daemon state and console-over-rshim, DPU mode selection (DPU/embedded-function vs separated-host/NIC mode) via mlxconfig, post-BFB recovery, a six-state BlueField-state classifier, and verifying the install (cat /etc/mlnx-release plus version checks). Trigger even when the user does not say \"BF3\" — typical phrasings include {push a BFB to my BlueField-3}, {bfb-install exited 0 but the DPU never came back}, {ping 192.168.100.2 works but ssh fails}, or {is DOCA on the host or the Arm side?}. BFB reflash, mlxconfig set, mode changes, and firmware burns are destructive: require explicit target-bound confirmation and load doca-hardware-safety. App launch, container deploy, env install, and the BF4 BMC-Redfish path route elsewhere.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-bf3-deployment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

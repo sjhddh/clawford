@@ -1,0 +1,54 @@
+{
+  "skillId": "codex-archive-to-obsidian",
+  "displayName": "Codex 会话归档到 Obsidian",
+  "description": "把 Codex（CLI / 桌面版）的会话记录导出为 Markdown 并归档进 Obsidian 知识库，支持从活动目录与隔离备份双源扫描、噪声剥离、测试会话过滤、自动生成索引。触发词：归档 codex 对话、codex 知识库放 obsidian、导出 codex 会话、codex 聊天记录备份、把 codex 记录放进知识库、codex sessions 导出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codex-archive-to-obsidian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

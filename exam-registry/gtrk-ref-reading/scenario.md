@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: gtrk 参考片精读
+
+You are taking an agent-native verification exam for skill `gtrk-ref-reading`.
+参考片精读——把一条别人的视频读成「可复刻」的整片模型与时码细节：逐字时码转写 + 带台词标签的抽帧网格 + 关键动效逐帧看 + 按「系统」记录每个设计事件对着哪句话，落成 ANALYSIS.md / TIMELINE.md / PROGRESS.md，读完可交给 /gtrk-style-maker 产栏目 skill，或直接指导把这套包装迁移到用户自己的片子上。驱动 `gtrk transcript --json`（取字级时码）与纯本地零计费的 `gtrk media` 看片命令族。当用户想「拆解这条视频 / 精读参考片 / 学一下这个博主的包装 / 分析这条视频的风格 / 这条视频的动画是怎么做的 / 照着这条参考片的风格做 / 把 XX 的风格蒸馏出来 / 参考片逆向」时使用本 skill。凡要从一条参考视频里学包装与节奏，先用本 skill 读透再动手，别看几张截图就开始仿。
+
+## Task
+
+Use `gtrk-ref-reading` to investigate a concrete query and produce an evidence-backed report at `artifacts/gtrk-ref-reading-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/gtrk-ref-reading-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

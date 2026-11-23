@@ -1,0 +1,54 @@
+{
+  "skillId": "shorts-reels",
+  "displayName": "shorts-reels",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai. Generate cheap vertical 9:16 drafts in one priced batch, pick a winner off the contact sheet, then re-render only that one. The cheap tier is the point — several times cheaper per second, so a whole set can cost less than one flagship clip. Use when a user wants Shorts/Reels/TikTok raw material rather than one finished video, e.g. \"give me 5 vertical clips to choose from\", \"a few Reels drafts for this product\", \"some cheap options before we commit\", or \"batch me some 9:16 takes\". Do not use when one finished clip is wanted — go straight to the scenario skill (seedance-ad-creative, ugc-ads, seedance-short-drama, seedance-product-video), which is also where this skill gets the prompt it drafts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shorts-reels"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

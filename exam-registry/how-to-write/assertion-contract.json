@@ -1,0 +1,54 @@
+{
+  "skillId": "how-to-write",
+  "displayName": "how-to-write",
+  "description": "怎样写作——从《怎样写作》（任仲然著，党建读物出版社）提炼的写作方法论技能库。当用户要起草公文、领导讲话稿、调研报告、述职报告、汇报发言、随笔杂文、自媒体文章，或修改润色文稿、训练写作能力时使用。Use when drafting official documents, speeches, research reports, duty reports, essays or any non-fiction writing task, or revising manuscripts, or referencing the book's frameworks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:how-to-write"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

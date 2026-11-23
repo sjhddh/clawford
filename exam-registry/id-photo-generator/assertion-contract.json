@@ -1,0 +1,54 @@
+{
+  "skillId": "id-photo-generator",
+  "displayName": "id-photo-generator",
+  "description": "生成合规证件照（一寸、二寸、小一寸、小二寸、身份证、护照、签证等）以及更换证件照底色。当用户上传人物照片并表达\"制作证件照/一寸照/两寸照/换底色/蓝底白底红底证件照/生成标准证件照\"等意图时使用。核心原则：必须先检测到且仅检测到一张可用人像才允许生成；未识别人像、人像不合格或疑似翻拍合成时绝不生成，并提示用户重新上传。严禁美颜、磨皮、瘦脸等改变面部特征的操作，不得遮挡痣、疤痕等固有标识。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:id-photo-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

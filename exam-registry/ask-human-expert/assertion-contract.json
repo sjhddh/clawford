@@ -1,0 +1,49 @@
+{
+  "skillId": "ask-human-expert",
+  "displayName": "ask-human-expert",
+  "description": "Ask real human experts a question through Instant Expert and get a written or voice answer or a short call. It finds executives, operators and domain specialists by description, or reaches one named person by name and company, LinkedIn URL or email, and sends each a paid ask. The buyer pays only if the person answers or books, and approves every live order first. Use when the agent or user needs first-hand knowledge that search can't give (how practitioners actually do something, an expert opinion, customer discovery or user interviews, feedback from a specific kind of professional), wants to reach a specific person, or wants to check replies to earlier asks. Starts in a free test mode with no account or card.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ask-human-expert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

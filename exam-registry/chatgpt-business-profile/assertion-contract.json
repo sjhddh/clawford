@@ -1,0 +1,54 @@
+{
+  "skillId": "chatgpt-business-profile",
+  "displayName": "ChatGPT Business Profile",
+  "description": "Get a business ready to claim its profile in ChatGPT (OpenAI's Businesses in ChatGPT, managed in Business Hub). Finds what customers search about the brand, checks what ChatGPT tells them today against the website, then writes the profile to paste in, the site fixes to make first, the questions to test a Business Agent with, and the steps to claim and verify. Works best with the RomeoSEO MCP connected and still works by hand without it. Use for \"claim our business on ChatGPT\", \"set up Business Hub\", \"make a Business Agent\" or \"what does ChatGPT say about us\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chatgpt-business-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

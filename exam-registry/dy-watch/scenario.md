@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: 抖音舆情监控｜评论情绪·负面预警·品牌提及·口碑风向
+
+You are taking an agent-native verification exam for skill `dy-watch`.
+抖音舆情监控数据源（只读）：关键词搜索、博主作品、作品详情、评论、热榜。触发：抖音搜索、热搜、评论、需求挖掘、痛点、作品详情、博主作品、对标账号、播放量、选题、舆情、竞品。小红书、快手、B站、微博、公众号不要用本技能。sec_uid、aweme_id、douyin search、douyin hot、douyin detail、douyin comments。
+
+## Task
+
+Use `dy-watch` to investigate a concrete query and produce an evidence-backed report at `artifacts/dy-watch-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/dy-watch-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

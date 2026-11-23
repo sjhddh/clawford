@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-location-timeline",
+  "displayName": "时光梳理·每日行程梳理",
+  "description": "This skill should be used when a user wants to reconstruct their day-by-day city / location timeline across multiple years from payment and travel records (bills from WeChat Pay / Alipay / UnionPay / bank & credit-card statements, flight and train tickets, navigation / ride-hailing GPS, OTA bookings, Google Maps Timeline, and photo EXIF GPS). It turns noisy consumption locations into a verified per-day geography, correcting merchant-HQ and product-origin mislabels with travel legs, on-site evidence, photo GPS, and safety gates. Works for both mainland-China users (省/市 naming, WeChat/Alipay sources) and international users (country/city naming, bank statements, Google Timeline). Trigger phrases: 梳理我的行程, 还原每日所在城市, 跨多年每日所在地, 微信支付宝账单 还原 我在哪, 行程地点记录, 把多年账单整理成我在哪, 照片GPS还原轨迹, daily location timeline, reconstruct where I was, location history from bank statements.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-location-timeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "project-archive-cleanup",
+  "displayName": "project-archive-cleanup",
+  "description": "Archive-clean finished, long-idle project directories — retain planning documents and result artifacts, strip execution traces (one-off scripts, import intermediates, scrape snapshots, console logs, superseded versions, byte-identical duplicates). Use when asked to clean up project leftovers, reduce process noise, or archive completed work. Always read-only scan first, then a two-phase backup-and-delete with batching for the safe-delete threshold.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:project-archive-cleanup"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

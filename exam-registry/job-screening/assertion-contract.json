@@ -1,0 +1,54 @@
+{
+  "skillId": "job-screening",
+  "displayName": "job-screening",
+  "description": "Job screening for campus recruiting and new-grad jobs: from one company's role list, pick the 1–3 jobs to apply for, identify the strongest fit, and explain every exclusion. Use when a student or new-grad candidate pastes, screenshots, or links a single employer's openings and asks which roles to apply to, or says \"which jobs should I apply for here\". First use builds a profile from the résumé and a short intake, and can also suggest other role directions. It checks eligibility and matches résumé evidence; it does not choose which companies to target, does not write the résumé unless the user asks later, and is not an employer tool for automated resume screening.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:job-screening"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

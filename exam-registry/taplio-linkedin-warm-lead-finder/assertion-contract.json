@@ -1,0 +1,54 @@
+{
+  "skillId": "taplio-linkedin-warm-lead-finder",
+  "displayName": "Taplio LinkedIn Warm Lead Finder",
+  "description": "Turn the comments under the user's own LinkedIn posts into a ranked warm-lead list. Reads the recent threads, matches each commenter's headline against the user's target audience, scores intent (a question about the method or offer, a shared situation, a repeat commenter, respectful pushback), and returns who is worth a conversation, what they said, the reply to send, and the next step (connection request, DM, or not yet). Use when the user asks who in my comments is worth talking to, wants leads from their content, or is preparing outreach. Requires the Taplio MCP to read who commented and what they wrote, and to save the replies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taplio-linkedin-warm-lead-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

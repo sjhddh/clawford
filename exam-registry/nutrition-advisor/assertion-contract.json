@@ -1,0 +1,54 @@
+{
+  "skillId": "nutrition-advisor",
+  "displayName": "nutrition-advisor",
+  "description": "提供中文日常营养支持，包括热量与宏量营养素估算、餐食规划、食物替换、外食估算，以及用户明确要求的饮食和饮水记录。仅在用户明确请求营养或饮食帮助时使用；不要因“吃什么”“减肥”“记录”等孤立通用词自动触发。不得用于医疗诊断、疾病治疗、孕期或进食障碍管理，也不得默认读写本地健康数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nutrition-advisor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "pet-asset-keying",
+  "displayName": "pet-asset-keying",
+  "description": "Cut pet (anthropomorphized character) assets to transparent PNG — single image or video frame sequences. Primary method is 'outline-cut': slice along the character's own outline so the boundary already sits on the line; do NOT hunt for edges inside the anti-aliasing blur band. No AI model required (no rembg / no torch / no onnx). Use for 'matting', 'remove background', 'transparent PNG', 'hair-edge cutout', 'video frame keying', 'batch cutout', 'gray halo or black edge on border', '抠图', '去背景', '透明底', '发丝边缘', '批量抠像'. Includes calibrated parameters, enclosed-space (crescent/irregular) handling, safety guardrails, a self-check report, and a 'tested backfires — do not retry' list.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pet-asset-keying"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

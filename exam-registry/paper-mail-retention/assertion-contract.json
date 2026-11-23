@@ -1,0 +1,49 @@
+{
+  "skillId": "paper-mail-retention",
+  "displayName": "paper-mail-retention",
+  "description": "Use when the paper pile takes over or before a shredding session — a 60+ item lookup of how long to keep each document type (tax 7yr, paystps until W-2 matches, warranties until expiry, utility bills 1yr, immunization records forever), destination routing (keep-file, shred, scan-then-shred, safe-deposit), a purge-mode triage flow, and year-digit shredding rules that keep the annual purge to 30 minutes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:paper-mail-retention"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

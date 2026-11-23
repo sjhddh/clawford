@@ -1,0 +1,49 @@
+{
+  "skillId": "altair-research",
+  "displayName": "altair-research",
+  "description": "Latest AI research on US stocks and ETFs from altairworld.com's free public MCP server. Covers about 70 tickers, including the SPY, QQQ, SOXX and XBI index ETFs (refreshed weekly) and stocks such as NVDA, AAPL, MSFT, TSLA, AVGO and META. Several Claude, GPT and Gemini models each run the same TradingAgents research pipeline; this skill returns every model's final rating, price target, confidence, horizon and summary, and where they disagree. Use when the user asks for the outlook, rating, price target, bull or bear case, or AI research view on a stock ticker or company, the broad market, Nasdaq, semiconductors or biotech. Not for live or real-time quotes, placing trades or brokerage actions, personal position sizing or buy/sell advice. For these, explain plugin limits without tools, web search, order steps, position sizes or personal questions; offer dated research only on request. No API key. Research for information only, not investment advice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:altair-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

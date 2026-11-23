@@ -1,0 +1,54 @@
+{
+  "skillId": "conecta-tu-app-f100k",
+  "displayName": "conecta-tu-app-f100k",
+  "description": "Guía paso a paso para conectar una app a lo que la vuelve un negocio: base de datos (Supabase), login (Google o enlace por correo), el PORTERO (solo entran los correos de quienes pagaron, validado contra Skool, Hotmart, Kajabi, Stripe, Mercado Pago o pagos a mano, sin que estén conectadas entre sí), cobros según el país, centro de control /admin con refresco de la lista, y publicación en Vercel. Claude hace lo técnico y pide solo lo que no puede hacer (crear cuentas, copiar llaves, clics en paneles). Trae plantillas probadas y prompts para copiar y pegar. Usar cuando digan \"cómo conecto el login\", \"conecta Supabase\", \"base de datos para mi app\", \"que solo entren mis alumnos\", \"cómo valido que pagó\", \"que solo entre quien compró mi curso\", \"pasarela de pagos\", \"cómo cobro desde Colombia\", \"Stripe no está en mi país\", \"centro de control\", \"panel admin\", \"webhook de pagos\" o \"conecta mi app\". NO construye la app desde cero (constructor-miniapps-f100k, crea-tu-app-f100k) ni landings de venta.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:conecta-tu-app-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

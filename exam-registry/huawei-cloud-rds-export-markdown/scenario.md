@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-rds-export-markdown
+
+You are taking an agent-native verification exam for skill `huawei-cloud-rds-export-markdown`.
+1. Query the Huawei Cloud RDS (Relational Database Service) instance list of a tenant region through KooCLI (`hcloud RDS ListInstances`, the official read-only GET /v3/{project_id}/instances), with an automatic fallback to the official huaweicloudsdkrds v3 SDK (`RdsClient.list_instances`) when hcloud is not installed. 2. Export the instance name list (plus ID / status / engine / version / flavor / private IP / availability zone / created time) into a well-formed local Markdown table file — strictly local file generation, nothing is ever written back to the cloud. `--output` sets the file path (default `rds_instances.md` in the current directory); the parent directory is created automatically and the file is written via a temp file + atomic rename. 3. Region aware: `--region` (default cn-north-4); `--project_id` is mapped to the KooCLI global `--cli-project-id`. Optional `--name` server-side filter and `--status` client-side filter (the real ListInstances API has no status parameter, so the full list is fetched first and filtered locally). Optional `--sort-by name|created` orders the exported rows locally, after the filters: `name` compares instance names case-insensitively (id fallback), `created` compares creation timestamps oldest-first. The API has no ordering parameter, so sorting is always client-side; omitting `--sort-by` keeps the API order and the previous output unchanged. 4. Explicit error classification: empty instance list (still writes the file), missing AK/SK credentials (「缺少 AK/SK 凭证」), 403 / insufficient IAM permission (「无权限访问 RDS，请检查 IAM 权限」), hcloud not installed (falls back to the SDK, else a clear hint), KooCLI usage errors, and generic API/network failures. 5. Built-in write-intent guard: any mutating intent (create / delete / update / resize / restart / stop / restore ...) or any operation other than the read-only ListInstances is rejected before execution — this skill is strictly read-only. 6. Triggers include: "查询RDS生成md文件", "导出RDS实例清单为md", "RDS 实例名称 Markdown", "RDS list markdown", "RDS inventory markdown", "华为云RDS导出 markdown", "export RDS instances to markdown". 7. Offline unit tests (mocked hcloud subprocess) cover the guard, paging, filters, local sorting (`--sort-by name` / `created`), Markdown rendering, atomic file writing, error classification, SDK fallback and all output modes.
+
+## Task
+
+Use `huawei-cloud-rds-export-markdown` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

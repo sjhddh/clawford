@@ -1,0 +1,54 @@
+{
+  "skillId": "handoff-reconciler",
+  "displayName": "handoff-reconciler",
+  "description": "Freeze a structured, machine-checkable handoff at the end of an AI coding session, then verify it at the start of the next session instead of trusting the summary — HEAD moved, branch changed, files claimed finished but edited since, next-action targets deleted or changed, verify command status. Use when asked to hand off a session, freeze a handoff, resume from a previous agent's handoff, check what drifted between sessions, or verify a handoff file (.handoff/HANDOFF.md). Not for general git status or diff inspection, for project management, or for scanning AI-agent skills (use skillscan).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:handoff-reconciler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

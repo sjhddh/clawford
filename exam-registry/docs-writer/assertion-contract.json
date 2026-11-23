@@ -1,0 +1,54 @@
+{
+  "skillId": "docs-writer",
+  "displayName": "docs-writer",
+  "description": "文档编写技能库：覆盖 README/项目文档生成、Changelog 与 Release Notes、API 文档（OpenAPI）、PlantUML/Mermaid 图表四类技术写作能力，并附 Markdown 死链/锚点与代码块标注的确定性检查脚本。 当用户说\"写 README\"、\"生成文档\"、\"Changelog\"、\"API 文档\"、\"架构图\"、\"Markdown 检查\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docs-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

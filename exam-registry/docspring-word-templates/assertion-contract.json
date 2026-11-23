@@ -1,0 +1,54 @@
+{
+  "skillId": "docspring-word-templates",
+  "displayName": "docspring-word-templates",
+  "description": "Creates and fixes DocSpring Word templates, Word documents (.docx) with Liquid tags that DocSpring fills in with submission data to make Word documents or PDFs. Covers tags (values, filters, conditions, loops over table rows, pictures, signatures, barcodes), the fields DocSpring adds from them, replacing the document, previews and output formats. Use when the user wants to turn a Word document into a DocSpring template, add or fix its tags, find out why a Word template's submission failed, or get Word documents or PDFs from one, or when a project has template_type \"docx\", output_format, tpl_ IDs or a docspring package. Not for Word files DocSpring doesn't fill in (use a general Word skill), HTML templates (docspring-html-templates), PDF templates (docspring-pdf-templates) or app code that calls the API (docspring-api-integration).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:docspring-word-templates"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

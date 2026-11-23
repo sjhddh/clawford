@@ -1,0 +1,54 @@
+{
+  "skillId": "property-tax-appeal-kit",
+  "displayName": "property-tax-appeal-kit",
+  "description": "Use when the annual assessment notice jumps, property taxes feel wrong, or before filing a tax appeal — equalization math (is your assessment ratio out of line vs the municipality's?), factual-error audit of the property record card (wrong square footage/baths is the cheapest win in appeals), comparable-sales evidence grading, dated appeal-window timeline from the notice date, and the hearing script with the three legal argument classes ranked by win rate.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:property-tax-appeal-kit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

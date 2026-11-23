@@ -1,0 +1,54 @@
+{
+  "skillId": "polderchain-adversarial-loop",
+  "displayName": "Polderchain adversarial loop",
+  "description": "Use when a hard decision should be argued out between several models (one proposes, others attack it, the result is rebuilt and a human gates the risky cases), when comparing a neutral answer with a Polderchain-guided one, or when an answer needs a record of where each of its claims came from. Local orchestration; nothing is sent to the hub unless you ask.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:polderchain-adversarial-loop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

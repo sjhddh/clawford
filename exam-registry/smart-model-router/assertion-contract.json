@@ -1,0 +1,54 @@
+{
+  "skillId": "smart-model-router",
+  "displayName": "TinkerClaw Model Router",
+  "description": "Stop sending 'format this JSON' to Opus. Stop sending 'cron job' to GPT. Billing-aware routing guide for choosing among the models already configured in your OpenClaw setup when assigning an agent, sub-agent or cron task — flat-rate first, metered only when justified, budget pressure respected. Not for picking models outside your configuration, and not a runtime proxy.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:smart-model-router"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

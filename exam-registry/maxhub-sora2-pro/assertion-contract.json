@@ -1,0 +1,54 @@
+{
+  "skillId": "maxhub-sora2-pro",
+  "displayName": "Sora2数据助手",
+  "description": "Sora2 内容创作与作品分析 skill，通过 MaxHub API 查询作品、用户、评论、回复、二创/Remix、下载/媒体信息，并支持上传图片、创建视频等创作相关写操作。适合 AI 视频创作工作流、作品复盘、二创传播分析和素材管理。属于 read_write skill；agent 对 create/upload/download 等非只读能力必须按 confirmation 规则确认，普通查询优先走 recipes 与字段流字典。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-sora2-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

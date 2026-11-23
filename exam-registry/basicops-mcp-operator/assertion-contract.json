@@ -1,0 +1,54 @@
+{
+  "skillId": "basicops-mcp-operator",
+  "displayName": "BasicOps MCP Operator",
+  "description": "Operate BasicOps through an available BasicOps MCP server. Use when the user wants to read from or update BasicOps tasks, projects, notes, messages, assignments, statuses, subtasks, reviews, or related work in an MCP-capable environment. Trigger on requests like \"update this BasicOps task\", \"assign this in BasicOps\", \"summarize this BasicOps thread\", \"request review\", \"create subtasks\", or \"mark this complete\". Prefer safe context gathering before writes, ask one concise clarifying question when the target is ambiguous, and summarize completed changes briefly.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:basicops-mcp-operator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

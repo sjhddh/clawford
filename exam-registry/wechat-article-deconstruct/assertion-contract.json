@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-article-deconstruct",
+  "displayName": "WeChat Article Deconstruct",
+  "description": "把一篇微信公众号文章拆成「作者怎么想」和「怎么证明」两套可复用方法。当用户发来公众号文章链接，要求「拆解 / 分析 / 这篇文章怎么写的 / 作者的思路 / 写作手法 / 举证方式 / 为什么这么写 / 提炼写作方法 / 拆文 / 复盘这篇爆文」时，必须使用本 skill。也适用于任何中文深度长文（知乎、公众号、行业观察稿）的写作机理分析。注意区分：本 skill 拆解的是「写作机理」（怎么想、怎么证），不是「爆文传播」（为什么火、怎么涨粉）；如果用户只想知道传播数据或标题套路，这不是最合适的工具。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-article-deconstruct"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "guaikei-video-content-extract",
+  "displayName": "guaikei视频内容转文稿提取",
+  "description": "视频转文字与结构化文案提取，仅处理可播放的完整视频文件或公网链接（本地文件、抖音、小红书等）。覆盖视频转稿、字幕提取、语音转写、视频总结、内容分析、采访整理、短视频二创等意图；不支持实时流与加密视频。转写自动剔除语气词口误，Prompt 可定制总结、改写、翻译等输出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guaikei-video-content-extract"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

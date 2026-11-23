@@ -1,0 +1,54 @@
+{
+  "skillId": "source-doc-slimming",
+  "displayName": "source-doc-slimming",
+  "description": "Slim down an oversized \"always-read\" source document — a single source of truth, a registry, a config, a published skill/README, or a rule document — without deleting any content. Use when a file that must be read under time pressure has grown so large that its load-bearing parts get skimmed past, when a review or incident concludes that something important was missed because of file volume, when a document accretes a new section after every incident, or when someone sets a size target for a file and you need to check whether that target is arithmetically reachable. Moves long narrative, chronology and incident history into a companion file, leaves an operating spine plus pointers inline, adds a shape guard so the file cannot silently re-inflate, and proves the move was lossless by replaying the original text line-by-line against the companion. Do not use for ordinary editing or for trimming prose that is genuinely dead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:source-doc-slimming"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

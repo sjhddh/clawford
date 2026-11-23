@@ -1,0 +1,54 @@
+{
+  "skillId": "movie-recap-voiceover",
+  "displayName": "Movie Recap Voiceover · Multi-Voice · Subtitles",
+  "description": "电影解说配音、短剧解说配音、影视解说配音技能：解说旁白（narrator）加多个角色台词，各用不同音色，一条命令生成整段 AI 配音 WAV、SRT 字幕和逐句时间轴 manifest.json，按时间轴在剪映 / CapCut / Premiere 里对画面。音色可用账号已有角色或参考音频声音克隆，打造解说号固定声线；语气标签和语速可调；改一句稿只重配一句。适合电影解说号、电视剧解说、短剧解说、动漫解说、纪录片旁白。配音由 Miragea 开放 API 完成，本地只需 Python 3.9+ 标准库、无需显卡，可 --dry-run 离线试跑。适用于 Claude Code、Codex、OpenClaw、Cursor、WorkBuddy。Movie recap AI voiceover, multi-voice narration, voice cloning, SRT subtitles.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:movie-recap-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

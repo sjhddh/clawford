@@ -1,0 +1,54 @@
+{
+  "skillId": "chrome-qa-agent",
+  "displayName": "chrome-qa-agent",
+  "description": "基于 chrome-devtools MCP 的对抗式 UI 测试。分析 git diff 只测改动部分，或探索整个应用找 bug。覆盖功能正确性、无障碍(a11y)、响应式布局与 UX 启发式。当用户要测试 UI 改动、QA 一个 PR、审计无障碍、或做探索式测试时使用。驱动真实本地 Chrome，本地与任意线上 URL 都适用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chrome-qa-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

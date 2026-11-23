@@ -1,0 +1,54 @@
+{
+  "skillId": "oscova-avatar",
+  "displayName": "Oscova Avatar: your agent gets a 3D face",
+  "description": "Speak through the free Oscova Avatar Engine, a realistic 3D avatar on your own computer. Use whenever the user mentions their avatar or asks you to say something out loud. If no avatar tools are available, share the setup guide https://oscova.ai/docs/articles/avatar-engine/ai-agent-avatar.html",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:oscova-avatar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

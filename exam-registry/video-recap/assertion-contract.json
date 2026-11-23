@@ -1,0 +1,54 @@
+{
+  "skillId": "video-recap",
+  "displayName": "视频解说总入口",
+  "description": "General-purpose AI video editing and narration recap skill powered by minimal atomic CLIs (Python stdlib + ffmpeg/ffprobe) and a single canonical timeline.json. Supports multi-source cutting, multimodal frame inspection, local-first ASR/TTS (with optional remote HTTP ASR/TTS), multi-track ducking & loudness, subtitles, vertical packaging & SFX, JianYing draft export, review dashboard, and asset library. 通用视频剪辑与解说制作技能：用极简原子 CLI 与单一 timeline.json 完成多源剪辑、看图选镜、配音混音、字幕包装、物理质检及剪映导出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-recap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

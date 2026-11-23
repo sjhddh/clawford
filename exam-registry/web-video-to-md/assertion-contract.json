@@ -1,0 +1,54 @@
+{
+  "skillId": "web-video-to-md",
+  "displayName": "平台视频转md",
+  "description": "从 B 站、YouTube 等视频网站下载视频或音频，再用 MarkItDown 在本机转写成 Markdown。当用户给出视频链接并提出“下载视频”“把视频/网课/会议录像/播客转成 md、文字稿、笔记”，或要批量整理在线课程时使用；不做媒体格式转码，也不代替网页搜索与研究。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:web-video-to-md"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

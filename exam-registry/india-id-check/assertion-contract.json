@@ -1,0 +1,54 @@
+{
+  "skillId": "india-id-check",
+  "displayName": "India ID Check (Aadhaar, PAN, IFSC, UPI & more)",
+  "description": "Validate, identify, mask and redact Indian identifiers offline - Aadhaar (Verhoeff check digit), PAN, GSTIN, TAN, IFSC, UPI ID, mobile, PIN code, vehicle number (incl. BH series and TG/TS), driving licence, passport, voter ID, CIN, LLPIN, Udyam and card numbers. Use when checking form inputs or KYC data, decoding what an Indian ID means, masking Aadhaar/PAN for display, or removing personal data from text before storing or sharing it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:india-id-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

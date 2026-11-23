@@ -1,0 +1,54 @@
+{
+  "skillId": "affogato-generate",
+  "displayName": "Affogato.ai — Generate Media",
+  "description": "Generate images, video and audio with Affogato (affogato.ai) from a coding agent — list models, quote the credit price, create a generation, wait for it and download the outputs — using an Affogato API key or the Affogato MCP server. Use when the user wants an AI image, video, voiceover, lipsync, headshot or product shot made with Affogato, or asks about Affogato models and prices.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:affogato-generate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

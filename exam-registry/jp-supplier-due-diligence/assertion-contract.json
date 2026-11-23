@@ -1,0 +1,54 @@
+{
+  "skillId": "jp-supplier-due-diligence",
+  "displayName": "jp-supplier-due-diligence",
+  "description": "Run a pre-payment supplier and counterparty check with JPVerify: combine Japanese corporate-number, qualified-invoice (T-number) and address evidence for a supplier, add FSA licence and EDINET checks when relevant. Covers Japanese suppliers only. Use when a task involves onboarding a vendor, approving an invoice for payment, checking a vendor master in bulk, or deciding whether a counterparty needs manual review. Paid per call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jp-supplier-due-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

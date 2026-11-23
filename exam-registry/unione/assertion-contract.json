@@ -1,0 +1,54 @@
+{
+  "skillId": "unione",
+  "displayName": "unione",
+  "description": "Use when working with the UniOne transactional email Web API — sending email (one call, up to 500 personalized recipients), templates and substitutions (simple, Velocity, Liquid), delivery webhooks, sending domains (DNS, DKIM), the sandbox domain and confirmed emails, suppressions and unsubscribes, event dumps, tags, projects and API keys, email validation, installing the UniOne SDK or a framework package, or sending through the UniOne SMTP relay (Nodemailer, Django, Laravel, PHPMailer, WordPress; options in the X-UNIONE header). Always use this skill when the user mentions UniOne, even for a simple \"send an email\" — it holds the gotchas (one-minute idempotence window, partial acceptance in failed_emails, MD5 webhook signature, sandbox limits) that break production integrations.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unione"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

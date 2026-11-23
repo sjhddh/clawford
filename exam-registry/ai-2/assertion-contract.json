@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-2",
+  "displayName": "Ai Desktop Researcher",
+  "description": "Use this skill when the user asks to research a market, industry, or competitive landscape. Also triggers on 行业调研, 竞品分析, 市场分析, 桌面调研, research this market, 调研一下, 帮我调研, 查一下XX市场. It enforces a structured credibility-scored research protocol (source tiering, cross-validation, graded conclusions) instead of ad-hoc web searching.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

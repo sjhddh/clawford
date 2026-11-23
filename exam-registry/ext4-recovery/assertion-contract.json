@@ -1,0 +1,54 @@
+{
+  "skillId": "ext4-recovery",
+  "displayName": "ext4-recovery",
+  "description": "从 ext4/ext3 文件系统恢复被误删的文件与目录树（rm -rf、rm、find -delete、GUI 删除等）。当现成工具 extundelete / ext4magic 报 “Loading journal descriptors ... 0 descriptors loaded”、只打印 Filesystem in use 而无任何输出、或恢复失败时，使用本技能直接解析 jbd2 日志环，从日志中重建元数据、并从原始磁盘取出尚未被复用的数据块。适用场景：误删源码目录/仓库元数据/配置文件、卸载清理后的紧急抢救、文件系统取证、判断“还能不能救回”以及能救回多少。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ext4-recovery"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

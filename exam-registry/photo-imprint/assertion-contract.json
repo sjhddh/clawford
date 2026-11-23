@@ -1,0 +1,54 @@
+{
+  "skillId": "photo-imprint",
+  "displayName": "Photo Imprint Skill",
+  "description": "Photo Imprint (印痕) — 留住那张照片，只换一种笔触去记。Use when turning photos into a consistent illustrated social-media carousel (including 照片转手绘轮播): keep silhouette/proportions/anchors, redraw in watercolor. EXIF ordering, source-specific briefs, plan+sample gate, clean-plate normalization, deterministic composition, typed revisions, two-level QA, verified packaging.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:photo-imprint"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

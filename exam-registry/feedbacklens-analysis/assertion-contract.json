@@ -1,0 +1,54 @@
+{
+  "skillId": "feedbacklens-analysis",
+  "displayName": "feedbacklens-analysis",
+  "description": "Automatically cluster a batch of user feedback (text/CSV/Excel), rank priorities with a quantitative \"frequency × severity × impact scope\" algorithm, produce actionable improvement suggestions, and generate a visual report. Built-in industry severity anchors (SaaS/E-commerce/Mobile App/Food Delivery",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feedbacklens-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

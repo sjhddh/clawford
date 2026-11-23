@@ -1,0 +1,49 @@
+{
+  "skillId": "cdf-autonomous-vehicle-dataset-generation",
+  "displayName": "cdf-autonomous-vehicle-dataset-generation",
+  "description": "Prepare payloads, run and monitor the Autonomous Vehicle Dataset Generation Airflow workflow, and inspect results for driving-clip retrieval and Cosmos3-Nano variants. Existing clips with no retrieval use cdf-video-data-augmentation; seed-image event or anomaly generation uses cdf-event-video-generation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cdf-autonomous-vehicle-dataset-generation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

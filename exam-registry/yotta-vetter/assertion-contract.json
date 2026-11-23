@@ -1,0 +1,54 @@
+{
+  "skillId": "yotta-vetter",
+  "displayName": "元审 yotta-vetter",
+  "description": "元审 —— 安装任何技能前的安全审查协议：四阶段 checklist（来源→代码→权限→风险）+ 轻量 checker，与元安联动深度扫描。触发：安装/评估任何技能前、从市场或 GitHub 获取技能、审查他人分享的技能、任何「要装未知代码」的场景；或用户说 审查/审查技能/vetting/技能安全审查/检查技能 等。边界：checker 只做初审与报告，结论需人工确认；绝不代替最终决策。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yotta-vetter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

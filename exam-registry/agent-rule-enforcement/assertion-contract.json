@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-rule-enforcement",
+  "displayName": "agent-rule-enforcement",
+  "description": "Audit whether an agent's written rules are actually enforceable: classify each rule as interception, exit gate, detection, or prompt-only, compute blocking coverage, and run behavioral checks over event logs. Use when a rulebook has grown, when someone asks whether rules are really followed, or after changing agent instructions. Tool-agnostic; works on Markdown rules and JSONL event logs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-rule-enforcement"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

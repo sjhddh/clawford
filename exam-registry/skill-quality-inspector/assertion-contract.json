@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-quality-inspector",
+  "displayName": "skill-quality-inspector",
+  "description": "技能质量检查官：检查技能仓库质量、修复技能矛盾点、评估技能风险、减少技能冗余、规范技能目录。 覆盖 superpower 五层结构校验、质量门禁（Q1–Q10/W1–W7）对账、断链与数字矛盾扫描、 安全/维护/合规三维风险评估、跨仓库重名与近重检测。 触发词：\"技能质量\"、\"质量门禁\"、\"矛盾修复\"、\"风险评估\"、\"技能冗余\"、\"目录规范\"、 \"skill audit\"、\"quality gate\"、\"skill lint\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-quality-inspector"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

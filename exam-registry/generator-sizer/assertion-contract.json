@@ -1,0 +1,54 @@
+{
+  "skillId": "generator-sizer",
+  "displayName": "generator-sizer",
+  "description": "Use when buying or running a backup generator during outages — builds an appliance-by-appliance load sheet with starting-surge multipliers (fridge 3x, well pump 3x), picks the right generator class (2k/3.5k/7.5k/13kW) from real surge math, computes gasoline/propane burn and storm-duration fuel needs, and flags CO/transfer-switch/backfeed safety before the power dies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:generator-sizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

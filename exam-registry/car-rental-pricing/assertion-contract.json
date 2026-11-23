@@ -1,0 +1,54 @@
+{
+  "skillId": "car-rental-pricing",
+  "displayName": "car-rental-pricing",
+  "description": "Price an exotic, luxury or Turo rental car against the real market: where a daily rate sits among published competitor rates for the same make and model in the same city, deposit and mileage norms, weekday, weekend and multi-day math, and Turo versus direct booking take-home. Triggers on \"how much should I charge\", \"price my Huracan\", \"turo calculator\", \"am I too expensive\". Not for a full market report (use car-rental-market-scan).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:car-rental-pricing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

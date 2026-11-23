@@ -1,0 +1,54 @@
+{
+  "skillId": "shipyard-review",
+  "displayName": "Shipyard review",
+  "description": "Review, fix and ship a whole web app with many helper agents: one reviewer per area, a skeptic that tries to disprove every finding, fixes in waves that never touch the same file, a dead-code sweep, a second review of the fixes, a local production check, a live microphone test, and stacked pull requests under the 150-file review limit. Works on apps Shipyard made and on any other app. Use for \"review the whole app\", \"full audit\", \"check everything another agent added\", \"audit, fix and clean\", \"release check\", \"is my app ready to ship\", or \"/shipyard:review\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shipyard-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

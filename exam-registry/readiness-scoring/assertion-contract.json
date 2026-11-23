@@ -1,0 +1,54 @@
+{
+  "skillId": "readiness-scoring",
+  "displayName": "readiness-scoring",
+  "description": "Keep a sales readiness score on every account that rises with each fresh signal and falls on its own as signals age: rounds, job postings, demo requests and any other account event land in Unify Account Events, each event decays with a half-life per signal type, the sum lands as a score on Unify Accounts every hour, and accounts crossing your line are posted to Slack once. Triggers: \"score accounts by recent engagement, older signals count less\", \"which accounts are ready to buy right now\", \"a lead score that decays over time\", \"signal decay\", \"tell me when an account heats up\". Cargo project, Cargo Signals, unifyAccountEvents, unifyAccounts, metric column, Slack. Skip when: tiering accounts against your ICP, which is account-scoring; scoring a list once, which is score-leads; a one-time look at who raised, which is track-funding-rounds.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:readiness-scoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

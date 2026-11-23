@@ -1,0 +1,54 @@
+{
+  "skillId": "engineering-build",
+  "displayName": "Engineering-Build",
+  "description": "把需求与设计转成可运行、可交付的工程产物。覆盖代码重构、测试工程、云与部署、应用开发、交互设计、原型与线框、视觉设计、分镜与提示词、视频剪辑、数据可视化、数据与自动化、安全与可观测性 共 12 域 57 项任务。触发词：开发、重构、测试、部署、原型、设计稿、分镜、剪辑、提示词、搭建、脚本、数据管道、可视化、自动化、meta-skill-system。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:engineering-build"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

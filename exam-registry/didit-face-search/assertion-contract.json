@@ -1,0 +1,49 @@
+{
+  "skillId": "didit-face-search",
+  "displayName": "didit-face-search",
+  "description": "Use when writing backend or API-key integration code for Didit Face Search (POST /v3/face-search/), a standalone 1:N search against every face enrolled in the application: verification sessions, saved standalone calls, faces uploaded to User profiles, face lists and retained biometric templates. Use when detecting duplicate accounts, checking whether a face already exists, preventing repeat registrations, screening a face against the face blocklist, or investigating fraud rings. Returns up to 5 ranked matches with similarity percentages, match source and session details, plus blocklist and duplicate-face warnings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-face-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "skryvo",
+  "displayName": "skryvo-api",
+  "description": "Plan a calendar, write, design pictures for, schedule, change, review, list, cancel and measure social media posts, including the person's own videos, plan, write and publish blog articles, and write marketing emails and product listings, through Skryvo's API with a Skryvo API key. Use in agents that run shell commands but have no Skryvo MCP connection (OpenClaw, Hermes, NanoClaw, Paperclip, Grok Bot, scripts) when the person asks to post or schedule for their brand, write a blog article, check what is scheduled, or see how posts performed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skryvo"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: make-a-woke-profile-with-chatgpt
+
+You are taking an agent-native verification exam for skill `make-a-woke-profile-with-chatgpt`.
+Turn one selfie into a satirical "I MADE ME WOKE" profile set with GPT Image 2.6, the image model in ChatGPT (aka Wokify): 11 woke versions of you (character sheet, woke friends photo, LinkedIn-style profile, DEI video call, protest TV interview, action figure, holographic trading card, woke cat, oat latte, "In this house" home, WOKEOPOLY), four as looping GIFs, in a 4:5 collage sized for X plus an MP4, and an optional HyperFrames presenter-mode video. One command on varg, about $0.78; the prompts also work pasted into ChatGPT. Use when someone wants to make themselves woke, wokify a photo or profile picture, a woke AI filter, the "I made me woke" trend, a ChatGPT image prompt pack for a selfie, an AI action figure or trading card of themselves, or a collage of AI versions of one person. Not for photos of others without consent, public figures, or mocking LGBTQ+ people themselves (the joke is on performative habits and brands).
+
+## Task
+
+Use `make-a-woke-profile-with-chatgpt` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

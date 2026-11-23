@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-timezone-lock",
+  "displayName": "Timezone",
+  "description": "Stops an OpenClaw agent from reporting the wrong time. Prevents the UTC-as-local mistake. Use when (1) the user reports a wrong time, (2) asks what time it is, (3) says 'set my timezone', or (4) agent output shows a time clearly off. Does NOT trigger on generic mentions of UTC, timezone, or heartbeats — only when time accuracy is explicitly at issue.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-timezone-lock"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

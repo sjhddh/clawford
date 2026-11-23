@@ -1,0 +1,54 @@
+{
+  "skillId": "aeo-answer-engine-optimization",
+  "displayName": "Answer Engine Optimization (AEO)",
+  "description": "Activate when: user says 'win the featured snippet', 'get the voice assistant to read our answer', 'AEO', 'answer engine optimization', 'structure our FAQ', asks 'how do we get our answer shown directly?', or needs to restructure content so a single passage can be lifted as the one direct answer to a question. Do NOT activate when: the goal is overall brand share in AI recommendations (use geo-generative-engine-optimization); the work is purely technical site SEO; the question has no definite answer (opinion or highly case-specific). More: deciqai.com/c/aeo-answer-engine-optimization",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aeo-answer-engine-optimization"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

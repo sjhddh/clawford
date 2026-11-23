@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-vpcep-list",
+  "displayName": "huawei-cloud-vpcep-list",
+  "description": "1. List Huawei Cloud VPCEP (VPC 终端节点服务) resources in a tenant through KooCLI — three read-only views: terminal endpoints (`VPCEP ListEndpoints`, GET /v1/{project_id}/vpc-endpoints), endpoint services owned by the account (`VPCEP ListEndpointService`, GET /v1/{project_id}/vpc-endpoint-services), and public endpoint services published by O&M (`VPCEP ListServicePublicDetails`, GET /v1/{project_id}/vpc-endpoint-services/public). Falls back to the official `huaweicloudsdkvpcep` SDK when hcloud is absent. 2. Three views: --view endpoint (default) / service / public; offset+limit paging until a short page; client-side filters --name / --fuzzy / --id / --vpc-id / --service-name / --status; --region override (default cn-north-4). 3. Output modes: concise name/status/service list (default), fixed-column --table (ID / 名称 / 状态 / 所属服务名 / 服务ID / 服务类型 / IP / VPC ID / 是否启用DNS / 是否启用白名单 / 创建时间 / region), raw --json, and --format md (fixed columns, '-' for missing fields, atomic write). 4. Non-available resources (creating / failed / deleting / rejected) are split into a separate highlighted section and never mixed with available rows; `--status failed` can list only abnormal endpoints. 5. Explicit Chinese hints for empty lists, invalid IDs, 403 / missing IAM permission, missing AK/SK credentials and KooCLI [USE_ERROR], with a non-zero exit code and no traceback. 6. Built-in write-intent guard: create / update / delete / batch-add / batch-remove / add-whitelist / remove-whitelist / accept / reject / bind / unbind intents are rejected before execution (exit 1); this skill is strictly read-only. 7. Triggers include: \"查询 VPCEP\", \"终端节点列表\", \"VPC 终端节点\", \"终端节点服务\", \"公共终端节点服务\", \"VPCEP endpoint inventory\", \"list vpc endpoints\", \"list endpoint services\", \"list public endpoint services\", \"华为云 VPCEP\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-vpcep-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "lygo-tv",
+  "displayName": "LYGO TV",
+  "description": "LYGO TV — the free TV player at https://chatagent.ca/sources/, plus the embed code that runs the same player on a website: Rumble room first, channels taken from the public LYGO catalog. Use when the request names LYGO TV or /lygo-tv, or explicitly asks for the LYGO TV player or its embed code. Not for general video or music requests, not for IPTV piracy or pirated playlists, and not for generic media widgets.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lygo-tv"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

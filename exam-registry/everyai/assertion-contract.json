@@ -1,0 +1,49 @@
+{
+  "skillId": "everyai",
+  "displayName": "EveryAI - OpenAI-Compatible Text API",
+  "description": "Use EveryInfra's OpenAI-compatible AI API through the everyinfra_chat MCP tool. Use for cleaning or labeling collected data, summarization, translation, classification, extraction, rewriting, and multi-turn text generation when the user asks to run the work through EveryInfra.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:everyai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

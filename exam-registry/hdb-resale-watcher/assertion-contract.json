@@ -1,0 +1,49 @@
+{
+  "skillId": "hdb-resale-watcher",
+  "displayName": "HDB Resale Watcher",
+  "description": "Watch Singapore HDB resale transactions and get alerted only when new sales are registered. Use when the user wants HDB resale tracking, new-transaction alerts for a town or flat type, or a one-off search of official HDB resale records. Runs the magnova/sg-hdb-resale-monitor Actor through the Apify plugin for OpenClaw; transaction records cost $0.002 and new-transaction alerts $0.01 on the user's own Apify account.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hdb-resale-watcher"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

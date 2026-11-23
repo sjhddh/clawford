@@ -1,0 +1,49 @@
+{
+  "skillId": "tech-content-review-panel",
+  "displayName": "tech-content-review-panel",
+  "description": "Reviews a tech/AI/industry research or in-depth analysis long-form article before publishing, via a fixed eight-role expert panel (target-reader reps, quality gatekeepers incl. fact+originality check, distribution gatekeeper) in an evaluate-then-optimize loop. Applies to tech/AI/data deep-dives, sector judgment and research pieces — not news, marketing, docs, tutorials, or short opinion posts. Trigger when the user asks to 会审/评审/review a finished deep-analysis draft or wants tech content 接近完美/可发布.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tech-content-review-panel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "supplement-stack-checker",
+  "displayName": "supplement-stack-checker",
+  "description": "Use when someone is taking multiple supplements/vitamins together, planning a new stack, or worried about interactions — checks 60+ ingredients for pair interactions (calcium-iron blocking, zinc-copper depletion, St. John's Wort drug clearing, vitamin K-warfarin), harmful dose flags vs ULs, redundant overlap (5 forms of the same thing), and builds a timed daily schedule that separates conflicting minerals by 2+ hours.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:supplement-stack-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

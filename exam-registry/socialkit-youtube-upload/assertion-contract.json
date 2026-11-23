@@ -1,0 +1,54 @@
+{
+  "skillId": "socialkit-youtube-upload",
+  "displayName": "SocialKit YouTube Upload",
+  "description": "Uploads an approved video to YouTube with the official Data API v3 - private by default, optional scheduled publish time, AI or synthetic content disclosure, and custom thumbnail - after the user approves the exact file and settings. Use when the user wants to upload, publish or schedule a YouTube video, or to connect their YouTube channel.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:socialkit-youtube-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

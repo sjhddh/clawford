@@ -1,0 +1,54 @@
+{
+  "skillId": "autopilot-guiones-f100k",
+  "displayName": "autopilot-guiones-f100k",
+  "description": "Módulo del Autopilot F100K que corre diariamente (Lun–Vie 8:30 AM Lima): busca las 3 noticias más relevantes de IA del día via Tavily, las convierte en 3 guiones listos para grabar usando el sistema de guionización F100K (pilar de valor + estructura de las 33 + gancho triple + CTA optimizado con priming triple), los entrega por Telegram y, si hay token, los guarda en Yapper. Usar cuando alguien diga: \"corre el autopilot de guiones\", \"dame los 3 guiones del día\", \"guiones de noticias de IA de hoy\", \"ejecutar autopilot guiones\", o cuando el schedule automático lo invoque.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:autopilot-guiones-f100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

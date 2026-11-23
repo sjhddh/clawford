@@ -1,0 +1,54 @@
+{
+  "skillId": "company-profile",
+  "displayName": "公司画像 · 任意公司结构化尽调卡",
+  "description": "输入任意公司名称，先做主体定位与歧义消解，再输出结构化公司画像（主营/次要业务线、近5个财年营业额、产品与品牌、所属国家、中国区员工数与投资情况），每项标注来源与数据截止时间，缺失项显式标注不臆测。当用户说「介绍一下XX公司」「XX公司是做什么的」「XX营收多少」「查一下XX这家公司」「XX在中国的员工和投资」「XX属于哪个国家」或只发来一个公司名时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:company-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "restaurant-meal-nutrition-planner",
+  "displayName": "restaurant-meal-nutrition-planner",
+  "description": "Build a restaurant meal that fits the user's calorie, protein, sodium and allergen goals. Totals calories, protein, carbs, fat and sodium from the restaurant's published nutrition figures, flags any item with a missing figure instead of guessing, checks listed allergens, and suggests swaps that close the gap. Uses the BJ's Restaurant & Brewhouse menu as the worked example. Use when someone asks what to order to stay under a calorie or sodium limit, how many calories or how much protein a restaurant meal has, or which menu items avoid an allergen.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:restaurant-meal-nutrition-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

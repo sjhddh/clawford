@@ -1,0 +1,54 @@
+{
+  "skillId": "atsprep-tailor-resume-to-job",
+  "displayName": "ATSPrep: Tailor a resume to a job",
+  "description": "Tailor a resume to a specific job posting with ATSPrep - rank the posting's keywords, show which are missing, and rewrite the user's own lines in the posting's wording without inventing anything. Use when someone shares a job link or job description with their resume and asks to tailor, target, match or optimise it for that role.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:atsprep-tailor-resume-to-job"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

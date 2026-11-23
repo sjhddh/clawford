@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-guild",
+  "displayName": "agent-guild",
+  "description": "智能体协会（agent-guild）— local-first shared memory and opt-in task handoff. 本机多个 AI agent 共享身份、规则与长期记忆；任务各有独立目录，支持 Markdown、JSON、脚本、图片与检查点。新对话不自动加载其他任务。 触发：身份/偏好、记住、回忆、加入协会、跨 agent 消息、换设备、整理协会； “我有哪些事没做完 / 待处理 / todos”只列元信息，用户选择后才恢复该任务。 实质工作保存任务检查点，验收闭环整包归档。会话隔离、版本检查防覆盖； 历史统一1GiB预算，维护先预览、确认后执行，不静默删除或上传记忆。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-guild"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

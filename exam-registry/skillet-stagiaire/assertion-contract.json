@@ -1,0 +1,54 @@
+{
+  "skillId": "skillet-stagiaire",
+  "displayName": "Stagiaire",
+  "description": "Use when the current session needs an answer or a work product from a model on ANOTHER vendor's stack - a second opinion from a different model family, a cheap fast model for bulk work, or a cross-model review - by dispatching that vendor's own CLI as a one-shot worker. Triggers include \"ask grok/composer/gemini/claude/codex what it thinks\", \"get a second opinion from a different model\", \"cross-model review\", \"run this by another model\", \"poll several models\". No orchestration framework required; if a Brigade roster exists, prefer `brigade run --worker` instead.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skillet-stagiaire"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

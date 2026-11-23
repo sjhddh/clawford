@@ -1,0 +1,49 @@
+{
+  "skillId": "genexxis-web-data",
+  "displayName": "Genexxis web data: read, search, tables, images, papers",
+  "description": "Web and content tools for agents, paid per call via x402 (USDC on Base, no API key): read any URL as clean markdown, web search with provider failover, extract HTML tables to JSON or CSV, prepare images for vision LLMs, fetch any public file as base64, validate email addresses (syntax, MX, disposable, role), Hacker News stories, comments and users, scholarly papers from OpenAlex, arXiv and Crossref with citations, and a recommender that says which x402 API to call for a task. Use when a task needs fresh web content you cannot fetch, parse or resize yourself.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:genexxis-web-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

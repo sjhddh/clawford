@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-announcement-daily-cn",
+  "displayName": "公告速览·A股",
+  "description": "A股公告速览：输入一家公司名／六位代码或一份自选清单，产出当日（或指定日期窗内）公告的逐条要点清单——每条带公告标题＋披露日期＋关键数逐字，同类事项自动串成前后两条对照，缺的点名「未检索到」。评级、目标价、走势判断一律 [待人工]，不预测、不代下单。Do NOT use for: 投资建议或买卖决策、未检索到的公告编造或补全、收益与风险承诺。Triggers: 今天有什么公告 / 当日公告 / 公告清单 / 公告速览 / 这周发了什么 / 自选清单公告； daily announcement digest / A-share filing list",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-announcement-daily-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

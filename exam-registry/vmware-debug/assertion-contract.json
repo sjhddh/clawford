@@ -1,0 +1,54 @@
+{
+  "skillId": "vmware-debug",
+  "displayName": "vmware-debug",
+  "description": "Use to diagnose VMware/vSphere/ESXi/NSX incidents: errors, log dumps, slow VMs, disconnected hosts, or an unexplained failure. Correlates companion-skill evidence into a timeline, ranks root-cause hypotheses, and recommends the next check. Trigger on \"diagnose this VMware issue\", \"why is my VM slow\", \"troubleshoot this vSphere error\" or \"what does this log mean\". Its CLI/MCP tools make no VMware API calls or repairs; optional Python host bindings call explicitly supplied companion MCP sessions; writes local case records and a separate audit trail. Default stdio is local; optional authenticated HTTPS uses caller tokens and TLS files. Route fixes to vmware-aiops (single action) or vmware-pilot (gated workflow), and routine inventory/health without an incident to vmware-monitor.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vmware-debug"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

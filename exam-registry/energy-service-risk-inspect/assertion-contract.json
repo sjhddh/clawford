@@ -1,0 +1,54 @@
+{
+  "skillId": "energy-service-risk-inspect",
+  "displayName": "energy-service-risk-inspect",
+  "description": "能源服务风险检查助理。输入 gitUrl、branch、specPrompt、reqId、odinNs、taskId、isTest、isPre、routeLabel，自动完成「获取克隆凭证 → 克隆代码 + mvn 编译 → 调用 spec 隐患检查（结构化输出）→ 上报结果（含 commitId）」全流程；隐患扫描结果固定上报，环境准备 / 编译失败也会把错误信息上报。触发：隐患扫描、代码隐患检查、spec 检查并上报、扫描某个 git 分支的隐患。运行配置支持同名入参覆盖（入参 > 环境变量 > prepare/env）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:energy-service-risk-inspect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "veevid",
+  "displayName": "Veevid Skill",
+  "description": "Veevid API for AI video, image and audio generation. Use when the user asks to generate or edit a video (text-to-video, image-to-video, reference-to-video), generate or edit an image, make speech (TTS), music or a transcript, or run a video tool: upscale, resize, extend, edit, lip-sync, motion control, character swap, virtual try-on. Covers Veo 3.1, Kling 3.0, Seedance, Wan, MiniMax H3, Nano Banana, GPT Image, Seedream, Eleven v4, Lyria and more; also quotes prices and checks credits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:veevid"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

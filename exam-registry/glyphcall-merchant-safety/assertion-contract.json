@@ -1,0 +1,54 @@
+{
+  "skillId": "glyphcall-merchant-safety",
+  "displayName": "Merchant Safety",
+  "description": "Decide whether a shop, seller or destination domain is safe to transact with. Combines a merchant trust verdict with a link-level phishing and redirect check, so an agent can vet a checkout or a seller before paying. USE FOR: - Checking a merchant or seller domain before an agent buys from it - Vetting a checkout or payment link for phishing and look-alike tricks - Getting a trust verdict with the evidence behind it TRIGGERS: - \"merchant trust\", \"is this shop safe\", \"seller reputation\" - \"checkout safety\", \"is this payment link safe\", \"merchant safety\" Sold as x402/MPP pay-per-call tools on Base and Solana; agents pay per successful call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:glyphcall-merchant-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

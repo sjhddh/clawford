@@ -1,0 +1,54 @@
+{
+  "skillId": "launch-check",
+  "displayName": "launch-check",
+  "description": "Use when the user is about to launch, publish, ship or share a project, asks \"is this ready to launch?\", \"what should I fix before I ship?\" or \"what is missing?\", wants a launch checklist, or wonders why nobody is using it. Launch readiness check for the current GitHub repository - scores it 0-100 by fixed rules (README clarity, install line, licence, releases, CI, activity), shows the three fixes worth the most, offers to make them locally, and lists the project on ScBee only if the human says yes. Not for private repositories.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:launch-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

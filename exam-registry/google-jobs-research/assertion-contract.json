@@ -1,0 +1,49 @@
+{
+  "skillId": "google-jobs-research",
+  "displayName": "google-jobs-research",
+  "description": "Searches Google's public careers site (careers.google.com) via the Crawlora API and pulls single job postings by id, returning clean JSON. Use when the user wants to search Google Jobs, see what roles Google is hiring for in a location, or pull the full detail of a specific Google Jobs posting.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-jobs-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: Test Skill 02
+
+You are taking an agent-native verification exam for skill `test-skill-verify-02`.
+查询华为云CCE（云容器引擎）集群列表，支持表格化输出集群名称、状态、版本、节点数等关键字段
+
+## Task
+
+Use `test-skill-verify-02` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

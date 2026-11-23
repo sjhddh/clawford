@@ -1,0 +1,49 @@
+{
+  "skillId": "compileiq-search-space",
+  "displayName": "compileiq-search-space",
+  "description": "Use when picking the search_space= argument for Search(). Covers the three provider classes (PtxasSearchSpace, NvccSearchSpace, LocalSearchSpaceBin), how to pin a version/variant/tag, the attention-focused 'att' variant for attention kernels (FlashAttention, GQA, MHA, MLA, FlashInfer Batch Decode), air-gapped mirroring via CIQ_SEARCH_SPACES_DIR, and custom user-defined search spaces built from compileiq.search_spaces.base primitives. Triggers on \"search space\", \"PtxasSearchSpace\", \"NvccSearchSpace\", \"air-gapped compileiq\", \"offline compileiq\", \"CIQ_SEARCH_SPACES_DIR\", \"attention variant\", \"ptxas att\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:compileiq-search-space"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

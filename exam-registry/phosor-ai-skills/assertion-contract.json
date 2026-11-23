@@ -1,0 +1,54 @@
+{
+  "skillId": "phosor-ai-skills",
+  "displayName": "Phosor AI",
+  "description": "Create videos with MiniMax H3 Standard or Turbo (text-to-video, image-to-video, and reference-to-video) through Phosor AI, then use the same skill for images, speech, LLM chat (Qwen3.8 27B, OpenAI-compatible), LoRA workflows, and e-commerce product or model photography. Use when the user wants to create H3 video from text, images, or references, compare Standard and Turbo, use the Phosor API, generate images or speech, chat with or call the Qwen3.8 27B LLM, use a custom LoRA, create e-commerce photography, or manage generation jobs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phosor-ai-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

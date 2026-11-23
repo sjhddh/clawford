@@ -1,0 +1,54 @@
+{
+  "skillId": "dist-deploy",
+  "displayName": "dist-deploy",
+  "description": "Deploy static build output (dist / build / any folder) to any SSH-reachable server: tar, scp, then atomic directory swap on the remote host, with automatic backup of the previous release, backup rotation, ownership fixup and a post-deploy hook. Nothing is hardcoded — server, port, path, key are all parameters. ｜ 通用前端/静态构建产物远程部署，支持任意服务器地址与端口、旧版本备份与回滚。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dist-deploy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

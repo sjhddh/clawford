@@ -1,0 +1,54 @@
+{
+  "skillId": "llm-wiki-expert",
+  "displayName": "llm-wiki-expert",
+  "description": "LLM Wiki 全流程专家：为个人与小团队设计、搭建和运营由 Agent 持续编译的 Markdown 知识库。 覆盖 Wiki 蓝图、来源摄取与溯源、概念/实体/解释页面编译、有据查询、增量维护、冲突与过期治理、 图谱/索引/引用质量审计及评测门禁。触发词：\"LLM Wiki\"、\"Karpathy Wiki\"、\"AI 知识库\"、 \"知识编译\"、\"Wiki ingest\"、\"Wiki lint\"、\"知识库维护\"、\"有据问答\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:llm-wiki-expert"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

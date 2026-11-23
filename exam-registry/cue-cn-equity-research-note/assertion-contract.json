@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-equity-research-note",
+  "displayName": "个股深度研究·逐条挂源（Equity Research · Citation）",
+  "description": "给一个代码或名称，产出未出财报期的个股研究初稿：业务拆解、竞争位、驱动因子、风险清单、关键数字表五节齐，数字与判断行末挂「」原句＋锚＋[S#]，来源行带 URL 与检索日；比率只认原句，自算须单列并交代分子分母出处；不出评级、目标价、股价预测与看好/看空。机检 check_note.py 五道：形制／原句与锚／红线／不得自算／边界，零网络。Do NOT use for: 已出财报的逐数点评（走 cn-earnings-note）、问题驱动多源速览（走 cn-research-brief）、搬研报结论。Triggers: 个股研究 / 业务拆解 / 竞争位 / 驱动因子 / 风险清单",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-equity-research-note"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "procurement-payable-pack-free",
+  "displayName": "采购与付款技能包（免费版）",
+  "description": "把采购与付款底稿按 14 项检查（供应商应付对账、应付账款账龄与付款计划核对、应付暂估与发票未到核对、应付账款保理与贴现核对、采购返利与阶梯核算核对、投标保证金收退核对、履约保证金与保函台账核对、中标结果与合同一致性核对、合同一致性AI核对、多份合同条款差异比对、三单匹配AI核对、报销单合规预检、预付卡消费核销核对、预收账款与收入确认核对）逐个对象核一遍，每个对象一行结论，结论都带原文文件与行号。完全本地运行，核对过程不需要联网、不需要 API Key、没有次数上限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:procurement-payable-pack-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "medical-consumable-markup-check-free",
+  "displayName": "医院耗材加成与零差率核对（免费版）",
+  "description": "医院/诊所每月结账与物价检查前的卫生耗材核对表逐项复算（结存数量 = 期初 + 入库 − 出库、结存金额 = 结存数量 × 采购单价、加成率 =（收费价 − 采购单价）÷ 采购单价、合计行勾稽、重复行与空缺检测），每条结论引用原文行号，第三方可用同一份输入复算。触发词包括 医院耗材加成与零差率核对、耗材进销存对不上、加成率算错、零差率、结存金额不符。本免费版只执行 7 项，即 结存数量勾稽、结存金额勾稽、加成率勾稽÷ 采购单价 = 加成率等。不执行 4 项判定，例如 零差率耗材被加价判定 —— 逐项给出单件价差与影响金额。详见 SKILL.md 的「这个免费版不包含」一节。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:medical-consumable-markup-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

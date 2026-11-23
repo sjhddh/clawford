@@ -1,0 +1,54 @@
+{
+  "skillId": "chord-swap",
+  "displayName": "chord-swap",
+  "description": "Swap tokens safely at the best route through Chord (getchord.xyz), a DEX aggregator, on Ethereum, Base, Arbitrum, BNB Chain, Avalanche, Monad, Robinhood Chain (tokenized stocks such as NVDA, TSLA) and Arc, plus Solana. Finds the right token, checks it for honeypots and taxes, quotes the best route, waits for the user's yes, then returns an UNSIGNED transaction with a simulation for the user's own wallet to sign. Use when the user wants to buy, sell, swap, trade or convert one token into another on these chains, or asks for a swap quote or the best price. Not for bridging between chains, transfers, perps or limit orders. No API key. Never handles private keys or moves funds.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chord-swap"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

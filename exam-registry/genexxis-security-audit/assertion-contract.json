@@ -1,0 +1,49 @@
+{
+  "skillId": "genexxis-security-audit",
+  "displayName": "Genexxis security checks: CVE, CI lint, domain audit, prompt injection",
+  "description": "Security checks for code, deployments and websites, paid per call via x402 (USDC on Base, no API key): CVE lookup, CISA Known Exploited Vulnerabilities, scan of up to 50 open-source packages against OSV, lint of GitHub Actions workflows, Dockerfiles and docker-compose files, HTTP security headers grade, TLS and certificate check, SPF, DKIM and DMARC email spoofing protection, full domain security audit, one-call website report (SEO, accessibility, security), and prompt-injection classification of untrusted text. Use when reviewing a repository, a deployment or a site, or before an agent reads content it does not trust.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:genexxis-security-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

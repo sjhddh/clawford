@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaozhi-order-creator",
+  "displayName": "Xiaozhi Recycle Order",
+  "description": "小智回收自助下单。用于通过小智回收开放平台 API 创建回收订单。当用户需要提交设备回收订单、小智回收下单、回收估价下单时触发此 skill。支持自定义填写回收设备信息（品牌、型号、品类）、联系人、上门地址等。支持设备品类和衣服品类。支持上传设备铭牌/合格证图片进行 OCR 识别， 自动提取设备名称、型号、SN 码并推断品牌/品类/型号后下单。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaozhi-order-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

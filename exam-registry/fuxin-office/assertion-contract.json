@@ -1,0 +1,54 @@
+{
+  "skillId": "fuxin-office",
+  "displayName": "福昕Office 助手",
+  "description": "福昕Office客户端的官方Skill，对Agent发送自然语言，即可通过福昕Office客户端处理本地Office文档（Word / Excel / PPT）。它的核心能力覆盖三大办公场景，直接帮助用户在Office文档内完成写作与分析：Word文档写作（自动生成标题、章节、表格与图片的结构化报告，统一术语与全文排版，支持高亮批注与清单审查）、Excel数据处理（按需抽取数据生成统计表，按数值/文本/日期条件批量高亮，批量创建柱状图、折线图、饼图等数据图表）、PPT演示文档设计（一句话生成带演讲者备注的汇报演示，支持删页、复制与套用版式）。可支持的Office文档操作任务，包括但不限于：写季",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fuxin-office"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

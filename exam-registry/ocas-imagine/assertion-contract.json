@@ -1,0 +1,54 @@
+{
+  "skillId": "ocas-imagine",
+  "displayName": "Imagine",
+  "description": "Art-direction engine for text-to-image generation. Separates Style from Content to keep aesthetic identity consistent across an image series. Use when generating, rendering, or illustrating images (especially across a series), capturing the style of a reference image for reuse, or producing an image in a named/saved style. Not for captioning, image analysis for decisions (use ocas-look), or photo editing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ocas-imagine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

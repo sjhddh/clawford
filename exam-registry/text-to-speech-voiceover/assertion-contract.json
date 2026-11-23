@@ -1,0 +1,54 @@
+{
+  "skillId": "text-to-speech-voiceover",
+  "displayName": "Text to Speech (TTS) · Speech Synthesis",
+  "description": "文字转语音、文本转语音、语音合成（TTS）技能：把一段文字、一篇文章、课件讲稿、通知播报或视频文案转成语音。短文本一条命令直接生成 mp3 / wav / flac / opus / aac / pcm；长文稿按行分句逐句合成，再拼成一条 WAV，并同时输出带时间轴的 SRT 字幕和逐句 manifest.json。音色可选账号已有角色，或用参考音频 + 对应文本声音克隆；生成模式 expressive / standard、语气标签、0.25–4 倍语速和停顿可控。由 Miragea 开放 API 合成，本地只需 Python 3.9+ 标准库、无需显卡，可 --dry-run 离线试跑；单句字数上限与计费以 capabilities 实时返回为准。适用于 Claude Code、Codex、OpenClaw、Cursor、WorkBuddy。Text to speech, TTS, speech synthesis, voice cloning, SRT.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-to-speech-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

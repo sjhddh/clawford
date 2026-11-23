@@ -1,0 +1,54 @@
+{
+  "skillId": "varg-video-editing",
+  "displayName": "varg-video-editing",
+  "description": "Which service to edit an existing video with, and how to edit it without breaking it. A routing guide for ten editing jobs: cut, trim, resize and join (FFmpeg, Rendi), talking-head cleanup (silence and filler cuts), long video to Shorts (OpusClip, or transcript + FFmpeg), captions and subtitles (ASS through FFmpeg, HyperFrames, Submagic), assembling from a timeline or template (HyperFrames, Shotstack), AI edits that restyle, swap people, relight or extend (varg Recast/Relight, Runway Aleph), dubbing and lip sync (HeyGen, ElevenLabs, Sync Labs), upscaling, slow motion and background removal (Topaz, Bria), finding moments and QA (Gemini, Twelve Labs), and handing off to Resolve, Premiere or Final Cut. Use when someone asks to edit, cut, trim, shorten, clip, reframe, caption, subtitle, translate, dub, lip-sync, upscale, restyle or clean up footage they already have, or asks which tool or API to edit video with. Not for making a video from a brief (varg-ai and the format skills).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:varg-video-editing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

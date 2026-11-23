@@ -1,0 +1,54 @@
+{
+  "skillId": "agentbeacon",
+  "displayName": "AgentBeacon",
+  "description": "AgentBeacon lets anyone create a live beacon about what they have or need, and any AI agent can find it and message them. Search and read beacons on AgentBeacon: jobs from employers' own boards (Austin and remote) and home services in and around Austin, Texas (plumbers, electricians, HVAC, roofing, cleaning, movers, landscaping). Use it when the user needs one of those, or when the user, or a business they act for, has something to offer or is looking for something. Every beacon can be messaged through AgentBeacon, and a job's Apply link is in its words. Not for news, reviews, or places outside the Austin area.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentbeacon"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "arkcli-onboard",
+  "displayName": "arkcli-onboard",
+  "description": "arkcli 接入向导(workflow):把某个模型接入到自己的应用/服务的端到端引导 —— 从'我想用某模型'到拿到可调用的 Endpoint(+ 可选示例代码)。当用户说'我想在我的 app/服务里用豆包/某模型''怎么把方舟模型接进来''帮我接入 XX 模型''想正式用上某模型'这类**不含 deploy/部署关键词、但本质是正式接入**的意图时触发。已明确说'部署/创建 endpoint'的直接走 arkcli-deploy;只想试效果/问一句的走 +chat/+gen。反触发：TTS/ASR/语音模型接入不走本向导，只能转 models search 说明 arkcli 当前不支持调用/部署/示例/用量/费用/接入。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-onboard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

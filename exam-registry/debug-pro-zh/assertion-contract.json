@@ -1,0 +1,49 @@
+{
+  "skillId": "debug-pro-zh",
+  "displayName": "debug-pro",
+  "description": "A language-agnostic 7-step debugging protocol (reproduce -> locate the layer -> minimize -> hypothesize -> verify -> fix -> regress) with a zero-dependency, offline toolchain that turns 'I reproduced it' into checkable evidence: triage extracts exception type, last stack frame, exit code, HTTP status and timestamps from raw logs; envsnap builds a paste-ready environment block with every key containing KEY/TOKEN/SECRET/PASS/CRED/AUTH/COOKIE redacted; reprocheck grades the five minimum elements of a reproduction report and names the missing ones. Ships a 10-case golden set with a re-executable runner, a real error-log demo, a layered symptom lookup, a 5-item pre-delivery self-check and degradation rules. Generic methodology tool - not a medical device, no clinical or efficacy claims. Triggers: debug, bug, error, exception, reproduce, root cause, minimal reproduction, regression, git bisect.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:debug-pro-zh"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

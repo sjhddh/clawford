@@ -1,0 +1,54 @@
+{
+  "skillId": "capability-pipeline-os",
+  "displayName": "Capability Pipeline OS",
+  "description": "通用能力管线操作系统。基于\"万物皆可单元化\"思想，将任意领域的任意任务分解为可执行、可组合的能力单元，通过管线编排完成。6大元操作集群（感知/认知/行动/组织/交互/守护）覆盖一切任务类型的原子操作，领域差异通过推导规则注入。触发词：能力单元、管线、Pipeline、任务分解、工作流、原子任务、单元化、编排、执行...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:capability-pipeline-os"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

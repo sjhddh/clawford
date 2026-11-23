@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-reviewer",
+  "displayName": "doc-reviewer",
+  "description": "文档评审专家子技能。当需要评审、审计、检查、交叉验证工程文档时使用：PRD/DESIGN/ADR/PROGRESS/RETRO/TECH/PERSONA/RUNBOOK/ROADMAP 的质量评审、文档与代码一致性核对、文档间交叉验证、现状/规范混淆检查、文档分层归位检查。触发词：评审文档、审查文档、检查文档、交叉验证、文档漂移、文档一致性、文档走查。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-reviewer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

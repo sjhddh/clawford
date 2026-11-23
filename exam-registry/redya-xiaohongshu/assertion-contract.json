@@ -1,0 +1,54 @@
+{
+  "skillId": "redya-xiaohongshu",
+  "displayName": "小红书图文与实况图·红鸦 AI",
+  "description": "使用红鸦 AI 创作普通图文、商品图文、爆文复刻和 Live 实况图文，支持一步出图、分步生成和批量创作。用户说「复刻这篇」「复刻爆文」并附上笔记链接或分享口令时，用红鸦 API 解析原文，进入爆文复刻模式；说「用商品图做种草笔记」或「把照片转成实况图」时，分别进入商品图文或实况图文模式。也可单独检测文案敏感词，或通过插件将已有作品同步到目标平台编辑器，由用户确认发布。用户问「怎么用」时，直接给出可复制的指令示例。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:redya-xiaohongshu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

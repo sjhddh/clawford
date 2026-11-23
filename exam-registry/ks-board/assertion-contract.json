@@ -1,0 +1,54 @@
+{
+  "skillId": "ks-board",
+  "displayName": "快手作品榜单｜爆款排行·高赞清单·热门博主·数据对比",
+  "description": "快手作品榜单数据源（只读）：关键词搜视频、博主作品与粉丝数据、视频评论，输出 JSON，不登录不发布。触发词：快手、Kuaishou、kwai、快手搜索、快手评论、快手博主。用户要查快手视频、评论、爆款选题、竞品监控、KOL 筛选或评论舆情时使用；抖音、小红书、B站、微博、公众号不要用本技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ks-board"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

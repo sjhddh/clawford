@@ -1,0 +1,54 @@
+{
+  "skillId": "genexxis-market-data",
+  "displayName": "Genexxis live market data: crypto, DeFi, odds, rates, FX",
+  "description": "Live market data for agents, paid per call via x402 (USDC on Base, no API key): median crypto spot prices, DEX price and liquidity by contract address, OHLCV candles, top movers, perpetual funding rates and open interest, order-book slippage, Korea premium, DeFi yields, pools and protocol TVL, gas fees and the cheapest chain for a transfer, Polymarket and Kalshi odds, crypto news, government bond yields and curves, central bank policy rates, official FX rates, currency conversion and carry. Use when a task needs current prices, rates or odds rather than training data.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:genexxis-market-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

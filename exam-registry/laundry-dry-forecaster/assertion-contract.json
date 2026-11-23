@@ -1,0 +1,54 @@
+{
+  "skillId": "laundry-dry-forecaster",
+  "displayName": "laundry-dry-forecaster",
+  "description": "Use when drying laundry on a rack indoors (or outdoors): computes hours-to-dry from vapor-pressure-deficit evaporation physics and spin-speed residual moisture, the kg of water the load dumps into your air, the room RH rise (condensation risk), and the cheapest drying method comparison (rack vs dehumidifier vs heated airer vs tumble dryer kWh).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:laundry-dry-forecaster"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

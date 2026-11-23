@@ -1,0 +1,54 @@
+{
+  "skillId": "wb-collect",
+  "displayName": "wb-collect",
+  "description": "微博主帖采集工具。当用户需要采集/查询某条微博的正文、作者、发布时间、转发数、评论数、点赞数，提交一批微博主帖链接一键批量采集、导出采集结果 CSV（Excel 直开），或提到\"微博采集/主帖采集/微博正文/转发数/评论数/点赞数/社媒指数\"时使用本 skill。适合微博投放结案、内容数据盘点、活动效果监测、爆款内容分析、达人微博分析等场景。支持 weibo.com/<用户ID>/<微博ID>、/detail/<mid> 直链与 t.cn 短链。收费服务（1 条微博 = 1 点数，注册送 10 点）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-collect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

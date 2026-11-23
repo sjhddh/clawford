@@ -1,0 +1,54 @@
+{
+  "skillId": "gigamail",
+  "displayName": "GigaMail",
+  "description": "Email and calendar for your OpenClaw agent through the GigaMail MCP server — read, search, draft, reply, schedule — with every destructive action (send, delete, calendar write) held for out-of-band human approval that the agent cannot grant itself. 给你的 OpenClaw 代理一个真实邮箱和日历：读信、搜索、起草自由，发送与删除必须由人带外批准，代理无法批准自己。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gigamail"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

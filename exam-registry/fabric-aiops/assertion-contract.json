@@ -1,0 +1,54 @@
+{
+  "skillId": "fabric-aiops",
+  "displayName": "fabric-aiops",
+  "description": "Use this skill whenever the user needs to operate a network fabric through a controller API — Cisco Meraki Dashboard (full read+write), Cisco Catalyst Center / DNA Center (read subset), Arista CloudVision Portal / CVP (read subset), or UniFi Network (self-hosted controller / UniFi OS console; read subset + device restart) — a one-shot fabric health overview; organization/site/container reads (list/get, licensing, admins, org-wide device statuses, API usage); network reads (list/get, VLANs, health alerts, traffic); device reads (inventory by model MX/MS/MR/MV/MG, status, uplinks, switch ports / interface stats, wireless SSIDs); client reads (list, detail, usage, connectivity); three flagship analyses — uplink loss & latency RCA (rank worst MX WAN uplinks + cause/action), network health score (composite per-network), and config template drift (settings drifted from a bound template); and eight guarded writes (reboot, blink LEDs, update device, update VLAN, claim/remove devices, bind/unbind a config template — Meraki-only except device restart, which unifi also maps; other unmapped writes return a teaching \"not supported yet\" error). Always use this skill for \"Meraki org overview\", \"which uplinks are worst\", \"uplink loss and latency\", \"WAN degradation RCA\", \"network health score\", \"config template drift\", \"list Meraki networks/devices/clients\", \"reboot a Meraki device\", \"blink device LEDs\", \"claim a device into a network\", \"bind a network to a template\", \"Catalyst Center site health / device health / issues\", \"DNA Center inventory\", \"CloudVision inventory / compliance / events\", \"UniFi site health / alarms / clients\", \"restart a UniFi AP or switch\" when the context is a controller-managed network fabric. Do NOT use when the target is OT / industrial equipment (Modbus, OPC-UA, PLCs — use industrial-aiops), a hypervisor, a storage appliance, a backup product, a container/cluster orchestrator, or device-level CLI/SSH network automation (negative routing hints only). Covers common controller fabric operations with a built-in governance harness (audit, policy, token budget, undo, risk-tiers). The test suite is mock-based; no platform has yet been exercised against a live controller (see docs/VERIFICATION.md).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fabric-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

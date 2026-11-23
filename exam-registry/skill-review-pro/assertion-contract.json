@@ -1,0 +1,49 @@
+{
+  "skillId": "skill-review-pro",
+  "displayName": "skill-review-pro",
+  "description": "AI Skill 质量评审系统。通过静态审查对 Skill 进行评分（100分制）， 输出专业的评审报告和改进建议。模块化架构：主控编排 + 类型策略 + 评分模型 + 修复执行。 AI Skill QA System. Evaluates Skills via static analysis, with 100-point scoring, modular architecture with type-aware policies. 触发词：评审 skill, 测评 skill, skill 评分, skill 质量检查, 审查 skill, 改进 skill, 完善技能, 验证修复意见, 稳定性测试, 全库体检, skill benchmark, 发布核验, 发布确认, review skill, evaluate skill, improve skill, validate fix, skill quality, repo audit, publish check, verify publish.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-review-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

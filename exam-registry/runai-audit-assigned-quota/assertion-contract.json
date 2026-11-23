@@ -1,0 +1,49 @@
+{
+  "skillId": "runai-audit-assigned-quota",
+  "displayName": "runai-audit-assigned-quota",
+  "description": "Audit GPU quota fairness across a Run:ai cluster — find which projects are starved and which are borrowing over their deserved quota in each node pool, and where GPUs can be reclaimed. Use when an admin asks \"who is over quota in node-pool X\", \"which projects are starved\", \"is the cluster shared fairly\", \"where can I reclaim GPUs\", \"show deserved vs allocated by project or department\", or when a team reports it can't get GPUs and you suspect unfair borrowing. This is the quota / fairness axis (deserved vs allocated). For idle-but-held GPUs use runai-get-utilization-overview; for a health/scheduling verdict use runai-get-cluster-health-summary.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:runai-audit-assigned-quota"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

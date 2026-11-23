@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-release-audit",
+  "displayName": "skill-release-audit",
+  "description": "Pre-publish quality and safety auditor for AI agent skills (SKILL.md + scripts/ + references/ format used by Claude Code, Cursor, OpenAI Codex, GitHub Copilot, OpenClaw, ClawHub, and compatible SkillHub registries). Six static-check modules (no LLM, no network by default): (1) syntax and logic correctness, (2) feature completeness, (3) edge-case and error handling, (4) data safety (detects files written inside the skill dir that would be lost on update), (5) dependency declaration vs code, (6) SKILL.md documentation standards. Per-registry rule profiles via `--target`. Pure reporter — never edits your files, never publishes. Use when publishing a skill, modifying an existing skill, or diagnosing why a skill behaves unexpectedly — run it as the last machine-checkable gate before release. Trigger phrases: \"skill release audit\", \"audit before publishing\", \"pre-release check\", \"release gate\", \"skill safety check\", \"发版前检查\", \"skill 发布检查\", \"审查这个 skill 能不能发版\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-release-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "init-hooks",
+  "displayName": "init-hooks",
+  "description": "管理 OpenClaw 容器启动时自动执行的脚本钩子。gateway 重启、pod 重启、pod 重建均不丢失（数据持久化在 workspace/.init-hooks/）。 支持 inline 命令、本地脚本（shell/python）、CDN URL（zip/tar.gz 自动下载解压）三种钩子类型。 用于：新增/查看/修改/禁用/删除启动钩子、立即测试运行、查看执行日志。 触发词：init-hooks、启动钩子、startup hook、重启初始化、pod重启执行、开机自启。 安装触发词：帮我安装 init-hooks、初始化 init-hooks、设置 init-hooks、执行 init-hooks 安装。 配置变更触发词：修改 openclaw.json、改 gateway 配置、改配置文件 → 执行后自动调用 sync_openclaw_config.py。 能力边界：不主动修改任何配置项，不预设默认值；只把用户明确给出的 patch 原样写入，并把配置复制到用户配置的持久化路径。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:init-hooks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

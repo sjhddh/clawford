@@ -1,0 +1,49 @@
+{
+  "skillId": "living-contract-diff",
+  "displayName": "living-contract-diff",
+  "description": "Detect drift between what an API actually returns and what its OpenAPI spec promises. Builds a statistics-only baseline from recorded traffic (a HAR file), then diffs it against an OpenAPI 3.x spec (JSON or YAML) to report required fields the API never sends, type mismatches, undocumented fields and enum growth. Use when asked to check API contract drift, compare a spec against real responses, audit an OpenAPI spec against recorded traffic, or gate API changes in CI. Not for generating an OpenAPI spec from scratch, for live API monitoring, or for testing API behaviour — this tool compares recorded traffic against an existing spec.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:living-contract-diff"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

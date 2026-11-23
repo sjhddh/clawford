@@ -1,0 +1,54 @@
+{
+  "skillId": "book-research",
+  "displayName": "book-research",
+  "description": "Researches books, authors, and audiobooks via the Crawlora API — Goodreads (books, authors, reviews, lists, quotes), Apple Books (books, audiobooks, series, reviews, charts), and Audible (audiobook catalog search, product detail, narrators/series, reviews, charts, editorial lists) — returning clean JSON. Use when the user wants a book's ratings/reviews, an author's bibliography, curated reading lists, or audiobook details and charts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:book-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-fashion-photos",
+  "displayName": "ai-fashion-photos",
+  "description": "Generate e-commerce fashion photos with Fashio (fashiolabs.com) through its hosted MCP server — put a garment on an AI model, virtual try-on, full catalog photoshoot packs, jewelry on model, flat lays, background removal, upscaling, reframing and short product videos. Use when someone wants on-model product photos from a clothing or jewelry photo, a consistent catalog look across products, or to batch-produce listing images for a store. Requires a Fashio API key; generations spend the account's credits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-fashion-photos"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "scribetoany",
+  "displayName": "ScribeToAny",
+  "description": "Transcribe local audio or video files (MP3, M4A, WAV, MP4, MOV, WEBM…) or public X, Twitch, Loom, Google Drive and Dropbox links into text, SRT or VTT subtitles with the ScribeToAny CLI, with timestamps and optional speaker labels. Use when the user asks to transcribe a recording, meeting, interview, podcast, lecture or video on their computer, turn speech into text, or make subtitles or captions for a media file; also for \"转写\", \"转文字\", \"做字幕\", \"语音转文字\". Not for editing existing subtitle files.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scribetoany"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

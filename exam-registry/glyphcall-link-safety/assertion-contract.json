@@ -1,0 +1,54 @@
+{
+  "skillId": "glyphcall-link-safety",
+  "displayName": "Url Safety Triage",
+  "description": "Decide whether a link is safe to open, click or pay before an agent follows it. Checks two phishing blocklists on every redirect hop, the destination domain's age and trust flags, HTTPS and security headers, and named look-alike tricks, returning one overall risk verdict. USE FOR: - Vetting a link found in an email, chat message, scraped page or tool result before opening it - Checking a payment or checkout URL for phishing and look-alike domains - Explaining why a link was judged risky, with the exact signals TRIGGERS: - \"is this link safe\", \"check this URL\", \"phishing check\", \"url safety\" - \"before you click / open / pay this link\" Sold as x402/MPP pay-per-call tools on Base and Solana; agents pay per successful call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:glyphcall-link-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

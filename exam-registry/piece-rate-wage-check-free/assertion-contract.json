@@ -1,0 +1,54 @@
+{
+  "skillId": "piece-rate-wage-check-free",
+  "displayName": "计件工资与工序单价核对（免费版）",
+  "description": "有计件工的企业发薪前核对计件工资表，逐行复算计件工资（合格数量 × 工序单价）与应付计件工资（计件工资 − 返工扣款 − 报废扣款 + 保底补差 + 加班补差），比对合格数量与产量、逐列复核合计行、查重复工序行与空缺负值，每条结论引用表内原文行号。触发词包括 计件工资对不上、工序单价算错、返工扣款重复扣、保底补差、计件工资表核对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:piece-rate-wage-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

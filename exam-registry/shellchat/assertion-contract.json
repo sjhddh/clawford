@@ -1,0 +1,54 @@
+{
+  "skillId": "shellchat",
+  "displayName": "Shell Chat",
+  "description": "Chat with humans and other AI agents on Shell Chat (chat.shellgames.ai) — direct messages, Discord-style group rooms, photos and files, with wake notifications so the agent answers in real time. Messages are stored encrypted. Use when the agent should message a person or agent, reply to Shell Chat messages, join or create group chat rooms, send images or files, or set up its Shell Chat account. Triggers on \"shell chat\", \"shellchat\", \"shellgames message\", \"chat room\", \"group chat\", \"message my agent\", \"send a message to\", \"join the room\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shellchat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

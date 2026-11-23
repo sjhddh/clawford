@@ -1,0 +1,54 @@
+{
+  "skillId": "signaling-games",
+  "displayName": "signaling-games",
+  "description": "Activate when: user asks 'how do we prove we're high quality when they can't verify it', 'what credential or signal would work here', 'why is everyone spending so much on brand advertising', 'how do we tell who's the real one among these candidates', 'cheap talk isn't working — we need something credible', or describes a market where one side can't verify the other's quality/intentions/type (hiring, fundraising, B2B procurement, branding, M&A due diligence). Do NOT activate when: information is fully symmetric and both parties already know the relevant facts; or the question is about game theory in general without an information asymmetry component. More: deciqai.com/c/signaling-games",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:signaling-games"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

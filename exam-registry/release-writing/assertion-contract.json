@@ -1,0 +1,54 @@
+{
+  "skillId": "release-writing",
+  "displayName": "发布写作",
+  "description": "ZenStory AI 的发布标准与发布流程：切版本、写 CHANGELOG 与 GitHub release notes、修订往期发布、仓库改名后清理失效链接。当有人说“发个 release”“切 0.x.y”“整理 CHANGELOG”“release notes 怎么写”“把往期发布说明改一下”时使用。它规定本组织的格式与发布动作顺序；条目本身的起草可以借助任何 changelog 生成器。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:release-writing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

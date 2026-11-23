@@ -1,0 +1,54 @@
+{
+  "skillId": "text-craft",
+  "displayName": "Text-Craft",
+  "description": "把素材、结论与约束转成可直接发布的文本。覆盖学术文稿、公文与告知文书、法律文书、会议纪要、工作汇报、演示与宣讲、商业文案、新媒体内容、小说创作、诗词歌词、剧本创作、技术文档与报告、商务沟通、翻译与本地化、销售与客户沟通、融资与招投标文书 共 16 域 78 项任务。触发词：写、撰写、起草、润色、改写、排版、文案、稿件、纪要、报告、翻译、本地化、邮件、提案、校译、meta-skill-system。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-craft"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

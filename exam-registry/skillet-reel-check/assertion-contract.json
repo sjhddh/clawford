@@ -1,0 +1,54 @@
+{
+  "skillId": "skillet-reel-check",
+  "displayName": "Reel Check",
+  "description": "Use before a rendered reel, screen-recording, demo video, or GIF goes public (social, YouTube, a landing page) to catch identity and infrastructure leaks burned into the frames. Also use when the user asks \"is this reel safe to post\", \"scrub this video\", or before a video-publishing pipeline ships an MP4. For plain prose use plate; for repos use publish-readiness.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skillet-reel-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

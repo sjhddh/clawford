@@ -1,0 +1,54 @@
+{
+  "skillId": "expert-workflow-composer",
+  "displayName": "Expert Workflow-Composer",
+  "description": "专家工作流编排：首次使用即扫描 WorkBuddy 专家市场与本地已装专家团并按逻辑分类排序展示，按用户需求编排专家协作链（单专家直调/多专家接力/专家团调度/混合编排），并主动生成跨专家组合灵感建议。触发词：专家组合、专家编排、专家团、多专家协作、expert-composer、meta-skill-system。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expert-workflow-composer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

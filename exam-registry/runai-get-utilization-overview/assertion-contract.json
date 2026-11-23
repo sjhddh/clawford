@@ -1,0 +1,54 @@
+{
+  "skillId": "runai-get-utilization-overview",
+  "displayName": "runai-get-utilization-overview",
+  "description": "GPU efficiency check for a Run:ai cluster: are the GPUs that projects, departments, and node pools hold actually computing? Classifies holders as WELL_UTILIZED, UNDER_UTILIZED, or IDLE from average and p95 GPU utilization over one window of any length (default 7 days), quantifies idle GPUs and GPU-hours, and names idle workloads. Use for \"which projects hold GPUs but aren't using them?\", \"GPU utilization by project or department\", \"where are we wasting GPU cycles?\", \"is llm-serving actually busy? its GPU memory is full\", \"is project X actually using its GPUs?\", \"which workloads in project X are idle?\", \"which node pool wastes the most GPUs?\", or \"idle GPU-hours per project last quarter\". For \"find the idle GPUs and stop them\" it answers the read part only. Not for quota fairness, cluster health or free capacity, one workload's status, comparing windows, forecasts, or prices.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:runai-get-utilization-overview"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

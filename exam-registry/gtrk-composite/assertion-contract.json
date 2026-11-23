@@ -1,0 +1,54 @@
+{
+  "skillId": "gtrk-composite",
+  "displayName": "gtrk 合成层包装",
+  "description": "合成层包装（合成颗粒）——粗剪、B-roll、字幕都定了之后，把选定时间窗做成「合成」：一段时间内的整个画面由一颗代码颗粒接管（画中画拼贴、逐句换画面、对照并排、并列卡片、字幕排版），讲者与 B-roll 作为槽位画进去。三种入口：整片铺满 / 让 AI 判定哪里值得做 / 用户指定区间；候选窗口显示在客户端大纲的 CP 行。当用户想「做合成 / 合成层 / 整片做一下合成包装 / 哪里适合做合成 / 这段做成画中画拼贴 / 11 秒到 32 秒做个合成 / 逐句换画面 / 把字幕排进画面里」时使用本 skill，驱动 `gtrk composite`（plan → review → scaffold → build → lint → lay → bake），别手搓 HTML 铺进工程。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtrk-composite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

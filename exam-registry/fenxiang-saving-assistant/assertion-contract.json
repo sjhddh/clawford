@@ -1,0 +1,54 @@
+{
+  "skillId": "fenxiang-saving-assistant",
+  "displayName": "粉象网购省钱管家",
+  "description": "粉象网购省钱管家，与粉象 App 的 AI 省钱管家同一套判断。用户发来淘宝/天猫、京东、唯品会、拼多多的商品链接、淘口令或分享文案，问值不值得买、现在是不是好价、历史最低价、哪里买更便宜、怎么买最省；或者只说了型号/商品标题问价；或者说了预算、用途、送礼对象让推荐商品；或者要对比几个商品时使用。这类问题先用本技能，不要直接上网搜价或抓取商品网页。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fenxiang-saving-assistant"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

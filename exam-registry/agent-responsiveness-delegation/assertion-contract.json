@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-responsiveness-delegation",
+  "displayName": "agent-responsiveness-delegation",
+  "description": "你给 AI 助手派了个重活，然后发现：发消息它不回、想插话只能排队、等十几分钟才回一句——等它抬头，需求早变了。根因不是模型慢，是主脑把重活放在前台跑，整个回合被占死。这个 Skill 把这套「重活外派 + 随时应答」机制做成可落地的东西：① 规则块（一页写清判级、派完立刻让出对话、工单四要素、只回收结论、自报≠事实、拍板留主脑、跨会话任务换机制）② 跨平台落地脚本 provision_agent_responsiveness.py：探测本机已有的 Agent 环境（Hermes 的 SOUL 置顶铁律块、Claude Code 的全局指令文件，这两条已实测），把规则块幂等写入（自动备份原文件、重复执行不重复写、绝不覆盖你已有内容）；其余平台（Codex / Cursor / WorkBuddy / 任意 Agent）则导出一份可直接粘贴的规则块 markdown，你粘到系统提示或自定义指令里就生效 ③ 体检脚本 audit_agent_responsiveness.py：逐项核对规则块是否存在、是否被后续改动覆盖、探测到哪些平台——没检测到就如实报「未检测到支持的平台」，不假报通过。纯标准库、零依赖、Windows/macOS/Linux 通用。触发词：AI不回话、等太久、插话卡住、助手响应慢、主脑被占住、重活外派、子代理、多智能体、响应速度、落地配置、系统提示。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-responsiveness-delegation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

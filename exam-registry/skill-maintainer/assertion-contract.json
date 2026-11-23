@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-maintainer",
+  "displayName": "skill-maintainer",
+  "description": "修改已经存在的技能，不负责打分。自检只使用随技能附带的评分档（trust.scan 不评）。任何含 SKILL.md 的目录都可以维护。信号可以来自评分档对照、某一版评测评语、session-retrospective 的复发日志，或中英文与安装树的结构检查。默认一次只提案一条缺口，确认前不写入。说「自动补到阈值」时一轮改一条，文档改不动的子项停下并列出。本仓库的 sync 脚本只在目标位于 skills/ 且脚本存在时可选运行，不发布。触发词：\"维护这个技能\"、\"按 TRACE 过一遍\"、\"按评测改技能\"、\"自动补到阈值\"、\"skill maintainer\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-maintainer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

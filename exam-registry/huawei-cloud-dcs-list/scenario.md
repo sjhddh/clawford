@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: huawei-cloud-dcs-list
+
+You are taking an agent-native verification exam for skill `huawei-cloud-dcs-list`.
+1. List Huawei Cloud DCS (Distributed Cache Service, Redis / Memcached) instances in a tenant region through KooCLI (hcloud DCS ListInstances — read-only GET /v2/{project_id}/instances), with an automatic fallback to the official huaweicloudsdkdcs v2 SDK when hcloud is not installed. 2. Default output is the compact instance-name list (名称列表, also available via --names-only); --table renders the full-field table (名称/ID/引擎/版本/容量/规格/状态/连接地址/端口/可用区), --json outputs the raw response array, --md / --format md prints a GitHub-flavored Markdown table with the same fixed ten columns as export-markdown 口径 (缺失字段渲染 `-`, `|` 转义为 `\|`, 换行转空格), and --csv / --format csv prints an RFC4180 CSV table with the same ten columns (缺失字段为空字符串, 逗号/双引号/换行由标准 csv 模块 转义, CRLF 行尾). --md-output <path> / --csv-output [<path>] 可把表格原子 落盘（内容与 stdout 一致）；--csv-output 省略路径或传目录时用默认文件名 dcs_instances_<region>_<timestamp>.csv；--csv-bom 输出 UTF-8 BOM. 3. Supports --name (server-side fuzzy query, plus --name-equal exact match), --instance-id / --ip / --status / --tags filtering (all real server-side ListInstances query parameters), region override, optional --sort-by name|created (client-side ascending order: case-insensitive instance name or created_at, missing values last, stable), and automatic limit/offset paging. 4. Explicit error hints for empty instance lists (「当前区域无 DCS 实例」), 403 / insufficient IAM permission (「无权限访问分布式缓存服务（DCS）」), missing or invalid AK/SK credentials, missing project_id on the SDK fallback, and hcloud not installed. 5. Built-in write-intent guard: any mutating intent (create / delete / update / resize / restart / flush / clear / restore / backup / freeze) or any operation other than ListInstances is rejected before execution — this skill is strictly read-only. 6. Triggers include: "list DCS instances", "DCS instance list", "查询 DCS 实例列表", "DCS 实例列表", "Redis 实例列表", "缓存实例列表", "查询缓存实例", "DCS inventory", "list cache instances", "华为云 DCS 列表", "DCS 实例 Markdown 表格", "导出 DCS 实例 Markdown", "DCS 实例表格输出", "DCS 实例 CSV", "导出 DCS CSV", "DCS CSV 输出", "导出 DCS 实例 CSV", "DCS csv export". 7. Offline unit tests (mocked hcloud subprocess) cover output modes (names / table / json / md / csv), filters, paging, error scenarios, SDK fallback, Markdown/CSV escaping + atomic file writing (incl. BOM), and the write-intent guard.
+
+## Task
+
+Use `huawei-cloud-dcs-list` to execute an API-oriented workflow and persist a reproducible artifact of request/response outcomes.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce workspace artifacts that demonstrate request intent, response validation, and final outcome.
+- Keep total runtime steps efficient.

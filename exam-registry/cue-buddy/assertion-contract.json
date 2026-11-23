@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-buddy",
+  "displayName": "Cue 搭子",
+  "description": "Use when the user wants to author / validate / debug / test / tune / pin-as-frequent a Cue 搭子(buddy) research template for a recurring scenario (corporate-credit pre-diligence, compliance snapshot, earnings review, private-fund DD, etc.) via natural conversation. 让业务专家在自己的 AI agent 里无需写代码，用自然语言起草、校验、调试、测试并提交 Cue 搭子模板：跨检查能力目录核验每个证据源、跑测试验证模板质量、按需调优，最终提交到 cuecue.cn 个人模板库供 cue-research 复用。Triggers: 创建搭子 / 做一个 X 搭子 / 调试模板 / 测试我的搭子 / 提交模板 / 设为常用 / design a buddy for X / mark template as frequent. Public-data tool surface only — refuse for private-data scenarios (real AML / medical diagnosis / internal accounting).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-buddy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

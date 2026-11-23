@@ -1,0 +1,54 @@
+{
+  "skillId": "ym-content-topic-planner",
+  "displayName": "ym-content-topic-planner",
+  "description": "按账号定位与已有内容规划一个周期的选题并做去重：避开已讲过的角度，按系列组织内容，标注每期目标与钩子。当用户说「下一步发什么」「选题规划」「内容排期」时使用。 也适用于「发什么内容」「选题去重」「content calendar」这类说法。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ym-content-topic-planner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "industry-insight-engine",
+  "displayName": "行业洞察引擎 (Industry Insight Engine)",
+  "description": "行业洞察引擎（industry-insight-engine）— 输入任意行业/品牌/话题 → 快速了解、拆解、分析、判断、预测并给出行动指南。假设驱动 4 步 + 外围扫描，中国市场原生适配，支持 --refresh 增量更新。 Deep 模式情报系统不可跳过。触发词：研究 XX / 分析 XX 行业 / 这个赛道怎么样 / XX 能赚吗 / 我要不要做 XX。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-insight-engine"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

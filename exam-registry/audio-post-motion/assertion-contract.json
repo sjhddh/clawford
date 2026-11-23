@@ -1,0 +1,54 @@
+{
+  "skillId": "audio-post-motion",
+  "displayName": "audio-post-motion",
+  "description": "Edición y post de audio para piezas de motion graphics. Úsala cuando el usuario pida \"poner música\", \"sincronizar al beat\", \"quitar el ruido de la voz\", \"normalizar el volumen\", \"que la música no tape la voz\", \"agregar sonidos de impacto\", \"elegir la música\", \"medir LUFS\", \"exportar con audio\", o cuando el audio de una pieza suene flojo, saturado o desincronizado. Incluye objetivos de loudness por plataforma, recetas ffmpeg (ducking, loudnorm, ebur128), detección de BPM, alineación de SFX al frame, y síntesis de score en WebAudio para que cada golpe caiga en el frame exacto.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:audio-post-motion"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

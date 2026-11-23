@@ -1,0 +1,54 @@
+{
+  "skillId": "manufacturing-ops-pack-free",
+  "displayName": "制造与生产技能包（免费版）",
+  "description": "把制造与生产底稿按 14 项检查（生产投入产出与报废率、材料成本差异分摊、材料领用与定额损耗、工时与人工成本分摊、BOM用量与损耗差异、委外加工费与损耗、模具与工装摊销、设备维保与备件领用费用、固定资产盘点账实、存货出入库与加权平均成本、分包结算与产值、安全生产费用提取与使用、仓库周转与呆滞库存、证照与特种设备年检到期台账）逐个对象核一遍，每个对象一行结论，结论都带原文文件与行号。完全本地运行，核对过程不需要联网、不需要 API Key、没有次数上限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:manufacturing-ops-pack-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "structure-check",
+  "displayName": "structure-check",
+  "description": "Stop trusting \"done.\" Structure Check mechanically verifies that everything the task required actually exists in the code — symbols defined, exports wired, functions actually called, no stub shells hiding behind a TODO. The agent writes a requirement checklist from the user's task, the tool checks every item, and the exit code decides (0 all pass / 1 something missing / 2 bad checklist). The agent may only quote the verdict, never overrule it. Zero dependencies, Node >= 18, comment-aware; full JS/TS support plus Python exists/notStub. Use after completing any coding task (trigger phrases - structure check, feature implemented, 触发词 - 结构检查, 功能是否实现, 实现核对, 检查代码结构, 交付核对).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:structure-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "flaghand",
+  "displayName": "flaghand",
+  "description": "Draft, check and schedule X, LinkedIn, Bluesky, TikTok, YouTube and Pinterest posts, and by-hand Patreon handoffs, through Flaghand. Use when the user asks to write, schedule or publish social content. Ordinary future social posts need no per-post approval. TikTok uploads and YouTube videos need owner confirmation for each schedule or change. Each Pinterest Pin, email campaign, by-hand post, unpicked option and a new workspace's first plan also need owner confirmation. Only the owner posts immediately; agents never approve or post right now.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:flaghand"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

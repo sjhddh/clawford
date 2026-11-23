@@ -1,0 +1,54 @@
+{
+  "skillId": "token-panel-ultimate",
+  "displayName": "TinkerClaw Token Panel",
+  "description": "Know exactly where your AI tokens go. Multi-provider tracking, budget alerts, and a local REST API—all in one dashboard. Provider credentials are supplied by you and sealed in the OS keychain, never passed on a command line; it reads no other application's credential store. Transcript parsing, live provider probing, and reading another tool's API-key variables are each opt-in and off by default. Only counts are stored — no prompts, no task titles. See Permissions, Data Flow & Consent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:token-panel-ultimate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "ab1-synth-skill",
+  "displayName": "ab1-synth-skill",
+  "description": "Generate a synthetic Sanger .ab1 chromatogram from a reference FASTA (ASV/consensus) plus raw FASTQ reads, with realistic peak spacing/height/width, baseline noise and minor peaks, and a Chromas-compatible ABIF container. Use when a user asks to turn an ASV, OTU, consensus or FASTA sequence into an .ab1/ABIF/峰图 file, or asks to visualize amplicon reads as a Sanger trace.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ab1-synth-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

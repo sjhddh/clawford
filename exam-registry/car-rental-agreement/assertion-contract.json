@@ -1,0 +1,54 @@
+{
+  "skillId": "car-rental-agreement",
+  "displayName": "car-rental-agreement",
+  "description": "Draft a car rental agreement for an exotic, luxury or small fleet rental business: renter and driver eligibility, security deposit, mileage, insurance, damage and loss of use, tolls and tickets, prohibited use, delivery, late return and cancellation, as a clean contract template with state-specific points flagged for a lawyer. Triggers on \"rental agreement template\", \"car rental contract\", \"update my rental terms\". Not for damage claims (use car-rental-damage-inspection).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:car-rental-agreement"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

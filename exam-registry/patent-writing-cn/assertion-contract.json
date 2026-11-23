@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-writing-cn",
+  "displayName": "专利撰写 · PatentMax",
+  "description": "专利初稿生成。当用户上传交底材料、研发报告、技术方案文档，要求写专利、写专利初稿、把材料写成专利，或说「帮我把这个写成专利」「生成专利初稿」「专利撰写」「写专利说明书」「写权利要求书」「专利申请文件」「这个项目能写几个专利」时使用；只有一个想法时也可以先出几个可申请的方向。所用模型全部国产，国外模型 0 使用。Use when the user wants a first patent draft, patent specification or claims (Word) from R&D materials, a technical write-up, or just an idea. All models are made in China; no foreign models are used.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-writing-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

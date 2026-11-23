@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-audit-opinion-cn",
+  "displayName": "审计意见与非标事项·逐条挂源",
+  "description": "A股审计报告逐项挂源：意见类型、形成意见的基础、关键审计事项、强调事项与持续经营段落、其他信息五项，每项挂「」原句与锚；意见类型只认在册六种写法，不许自己归纳成「非标」。机检五道，零网络。Do NOT use for: 财报逐数点评（走 cn-earnings-note）、处罚与担保扫描（走 event-risk-scan）、公开信息预尽调清单（走 dd-checklist）、造假认定、评级目标价。Triggers: 审计意见 / 非标意见 / 关键审计事项 / 保留意见 / 持续经营",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-audit-opinion-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

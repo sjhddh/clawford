@@ -1,0 +1,54 @@
+{
+  "skillId": "passport-expiry-radar",
+  "displayName": "passport-expiry-radar",
+  "description": "Use when a trip is being planned, a passport/ID/license/visa expiry is mentioned, or someone asks 'is my passport still valid for X'. Tracks whole-family travel document validity, applies destination entry rules (6-month / Schengen 3-month-beyond-exit), and back-plans renewal deadlines from real processing times so nobody is denied boarding.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:passport-expiry-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

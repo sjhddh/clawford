@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cloudrobo-model-adapt-workflow",
+  "displayName": "huawei-cloud-cloudrobo-model-adapt-workflow",
+  "description": "One-stop workflow for adapting models on the CloudRobo platform. Chains 4 sub-skills: huawei-cloud-cloudrobo-npu-patcher (PyTorch VLA → Ascend NPU adaptation), huawei-cloud-cloudrobo-weight-layout (standard checkpoint layout), huawei-cloud-cloudrobo-train-metrics (Octopus training metric reporting), and huawei-cloud-cloudrobo-inference-adapter (target-protocol inference interface adaptation), covering the full pipeline of \"model code → trainable on NPU → weights produced in standard layout → platform metric visualization → protocol-based inference service\". Use this skill when the user asks to adapt a VLA or robot foundation model end-to-end on the CloudRobo/Ascend platform, and the task involves two or more of: NPU migration, checkpoint conventions, training metric reporting, and inference protocol adaptation. Triggers include: \"platform model adaptation\", \"end-to-end adaptation\", \"adapt to CloudRobo and deploy\", \"run training + report metrics + wire up inference\", \"模型适配\", \"端到端适配\", \"模型迁移到NPU\", \"在云机器人平台部署模型\", \"训练并上报指标\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cloudrobo-model-adapt-workflow"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

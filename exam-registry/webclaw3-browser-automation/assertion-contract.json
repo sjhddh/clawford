@@ -1,0 +1,49 @@
+{
+  "skillId": "webclaw3-browser-automation",
+  "displayName": "浏览器自动化 · Browser Automation & Web Scraping — 用你自己的 Chrome 登录态干活",
+  "description": "浏览器自动化 & 网页抓取（Browser Automation & Web Scraping）——用你自己的 Chrome 和已登录状态干活：搜索、看网页、抓列表、导表格、下载内容、点按钮、填表单、发内容，必须登录才能看的页面也能抓。跑通一次即可提炼成零 token、可定时自动运行的本地 skill，网站改版本地修。English: browser automation & web scraping with your own logged-in Chrome — no re-login, no shared passwords. 中文：浏览器自动化工具 / 网页抓取 / 登录态 / 定时任务。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:webclaw3-browser-automation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

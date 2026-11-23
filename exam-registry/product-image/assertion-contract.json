@@ -1,0 +1,54 @@
+{
+  "skillId": "product-image",
+  "displayName": "product-image",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai. Produce a set of product images to choose between — several styles, backgrounds or treatments of one product, for a listing, a store page or an ad — and quote the whole set's cost before any of it is spent. From a real product photo it edits that photo once per style, so the item stays identical across the set; for a fictional or prototype product with no photo it generates from text instead, and says what that costs in accuracy. Delegates to ofox-image-core. Use when a user asks for several product images at once, e.g. \"give me 4 main images in different styles for this product\", \"a few background options for this photo\", \"some listing images for my shop\", or \"show this product on white, on wood, and in a lifestyle scene\". Do not use for a single change to a single image (see image-edit), for video from a product photo (see seedance-product-video), or for one plain text-to-image render (that is ofox-image-core's `generate`).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

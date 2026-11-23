@@ -1,0 +1,54 @@
+{
+  "skillId": "x402-pay-safely",
+  "displayName": "Pay x402 sellers safely",
+  "description": "Check an x402 seller before an agent pays it, and prove the payment after. Use before the first payment to a pay-to address the agent hasn't paid, when picking one seller from several that can do the task (up to 20 offers in one call, listed safest first), or after a paid call returned an error, an empty body or a price above the quote. $0.01 per call in USDC on Base over x402 or MPP; a call that can't check anything isn't charged, and free checks come first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:x402-pay-safely"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "geopolitics-intel",
+  "displayName": "geopolitics-intel",
+  "description": "用户询问国家、地区、海峡、港口或大宗商品相关的地缘政治问题时使用，含局势突变、冲突升级、制裁与航运受阻、供应链与运价、矿产与能源供给、外交关系变化。把新闻事实结构化成事件，生成含地图、时间轴与指标图的图文报告。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:geopolitics-intel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

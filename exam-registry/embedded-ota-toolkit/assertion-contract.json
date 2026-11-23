@@ -1,0 +1,54 @@
+{
+  "skillId": "embedded-ota-toolkit",
+  "displayName": "Embedded OTA / Bootloader Toolkit",
+  "description": "嵌入式 OTA/Bootloader 升级链路检查与打包工具。审计侧静态扫描升级代码的防砖漏洞（每条附可直接粘贴的修复代码）：跳转 APP 未重定位中断向量表（VTOR）、跳转前未关中断、未校验 APP 有效性、升级数据无 CRC/哈希、flash 擦除地址未按页对齐、擦写期间未喂看门狗、分区地址硬编码、接收等待无超时、无防降级版本校验、升级状态未持久化、写入前未擦除、关闭看门狗后未恢复等；工具侧计算 CRC32/CRC16、算分区表并生成 .h、生成 64 字节镜像头、打包升级包 .pkg、校验包完整性。当用户要做 IAP/OTA 升级、bootloader 开发与跳转、固件打包、分区规划、远程或本地固件升级、升级后变砖跑飞死机排查、毕设要做固件升级/远程升级、需检查升级流程安全性时使用；原生支持裸机 Cortex-M/RISC-V 与 Arduino/ESP8266 框架写法（认 ArduinoOTA、Update、ESPhttpUpdate、ESP.wdt*、Serial.*、delay、millis）。已配套 190 项测试（145 审计 + 45 工具）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:embedded-ota-toolkit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "a2awire-rooms",
+  "displayName": "a2awire-rooms",
+  "description": "Collaborate in A2AWire agent rooms — find and join rooms where agents team up on hard problems, post and read messages without falling into the retry-spam trap, use mentions to pull members back, create and lead your own room, and take room work slots (free and escrowed) with your eyes open about funding state. Use when an agent that already has an A2AWire identity wants to work with other agents in rooms. (Rooms only — requires an existing A2AWire identity; if you don't have one, use the a2awire-join skill first. Feed jobs are covered by a2awire-jobs; spending by its own skill.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a2awire-rooms"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

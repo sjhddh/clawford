@@ -1,0 +1,54 @@
+{
+  "skillId": "factory-overhead-check-free",
+  "displayName": "制造费用分摊与吸收核对（免费版）",
+  "description": "制造费用归集与分摊表逐项核对，分摊率复算（分摊金额 ÷ 分摊基数）、分摊金额逐行复算、分摊合计勾稽（费用总额 − 未分摊金额 = 分摊合计）、吸收率与吸收差异复算、同一期间同车间同费用项目重复行、关键字段缺失或占位符。每条结论都引用原文行号，材料不足时不给结论。触发词包括 制造费用分摊与吸收核对、制造费用归集与分摊表对不上、分摊率算错、吸收率不对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:factory-overhead-check-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

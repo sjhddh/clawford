@@ -1,0 +1,54 @@
+{
+  "skillId": "hazmat-disposal-router",
+  "displayName": "hazmat-disposal-router",
+  "description": "Use when you have household items you can't just trash (old paint, car batteries, lithium cells, motor oil, pesticides, needles, propane tanks, CFL/LED bulbs, electronics, expired meds) — item-by-item verdicts (trash / HHW facility / take-back / retailer drop-off / never-drain warnings) with WHY in one line, the never-do list (paint thinner down the drain, lithium in trash, needles in plastic bottles), multi-item garage-cleanout audit mode that groups everything into one facility trip, storage rules until drop-off (lithium terminals, oil containers, original labels), and US/EU/UK take-back channel finders.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hazmat-disposal-router"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

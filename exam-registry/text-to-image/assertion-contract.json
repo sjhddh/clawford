@@ -1,0 +1,54 @@
+{
+  "skillId": "text-to-image",
+  "displayName": "text-to-image",
+  "description": "Generate images from one text prompt or a whole list (CSV column, content calendar) with FLUX.2 Klein or FLUX Schnell and deliver one image URL per prompt with width, height and seed, up to 4 variations per prompt. Use when the user says \"text to image\", \"generate images from these prompts\", \"text to image API\", \"turn this list of prompts into images\", \"make a thumbnail for each article\", \"FLUX image generation in bulk\", or \"AI image generator without an API key\". Compares three ways to do it (Sherwood Bulk AI Image Generator on Apify, the OpenAI Images API or a direct fal.ai/Replicate call with the user's own key, a local Stable Diffusion or ComfyUI setup for people with a GPU) and picks one from volume, model preference, budget and hardware. Out of scope: editing an existing image (inpainting, style transfer), image-to-image, video generation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-to-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

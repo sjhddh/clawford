@@ -1,0 +1,54 @@
+{
+  "skillId": "cn-mirror-download",
+  "displayName": "CN Mirror Download",
+  "description": "国内（中国大陆网络环境）下载任何程序、依赖、镜像、模型、SDK 时的镜像优先策略与完整配置手册。 适用场景：pip / uv / conda 装包慢或超时、npm / pnpm / yarn install 卡住、go mod 拉不下来、cargo 编译失败、 docker pull 超时、apt / yum 更新慢、Gradle / Maven 依赖下载失败、Android SDK / Flutter / gradle 发行包卡住、 GitHub Release / git clone 龟速、HuggingFace 模型下不动、Playwright / Puppeteer / Electron / ChromeDriver 下载失败。 核心原则：默认先走国内镜像 → 失败再回退官方源 → 全程可验证（校验和 + 版本一致），不改动业务产物逻辑。 触发关键词：镜像、国内源、加速、下载慢、超时、timeout、连接失败、pip 慢、npm 慢、go proxy、goproxy、crates、apt 源、 docker registry、GitHub 加速、ghproxy、hf-mirror、清华源、阿里源、中科大源、腾讯源、华为源、tuna、npmmirror、rsproxy。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cn-mirror-download"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

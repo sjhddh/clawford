@@ -1,0 +1,54 @@
+{
+  "skillId": "adflow-infoflow-video",
+  "displayName": "带货广告视频自动出片（配音混剪全包）",
+  "description": "想投广告不会剪视频？给产品素材，它写文案、配音、混剪、加字幕，几分钟出 3 条能直接投的带货短视频。广告法禁词自动查，全程不用剪辑软件、不用 API key。触发词：信息流素材、电商投放素材、带货短视频、批量出片、裂变视频、广告混剪。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:adflow-infoflow-video"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

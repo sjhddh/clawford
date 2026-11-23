@@ -1,0 +1,54 @@
+{
+  "skillId": "orshot",
+  "displayName": "Orshot: image, PDF and video generation API and MCP server for templates (render, batch, Smart Resize, dynamic URLs, n8n, Make, Zapier)",
+  "description": "Image, PDF and video generation from Orshot templates, through the hosted MCP server (OAuth, no API key) or the REST API. Covers connecting, finding a template and its parameter keys, render options (formats, sizes, Smart Resize, batch, async), dynamic image URLs, utility templates (tweet and website screenshots, charts, mockups), posting a render to connected social accounts, wiring it into n8n, Make, Zapier or cron, and the gotchas that break renders (parameterId keys, page1@ prefixes, public image URLs). Use when: \"render my Orshot template\", \"connect Orshot to Claude\", \"call the Orshot API\", \"my modification is ignored\", \"automate this render in n8n\", \"screenshot this tweet\", \"move from Bannerbear to Orshot\". One job end to end: load its skill (orshot-blog-images, orshot-pdf-generator, orshot-video-generator, orshot-ad-creative, orshot-carousel, orshot-youtube-thumbnail, orshot-social-media-content or orshot-social-media-scheduler). NOT for template design craft (use orshot-design).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:orshot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

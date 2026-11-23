@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-lifecycle-steward",
+  "displayName": "skill-lifecycle-steward",
+  "description": "技能生命周期管家，统一处理技能的发现、评估、安装、升级、卸载与清理。当用户需要找/搜/推荐一个能干某事的 skill、安装或启用技能、查看已装技能与更新状态、升级或卸载技能、或评估候选技能的质量与安全性时使用。不处理已知确切安装命令的直接执行，也不处理 MCP/连接器需求。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-lifecycle-steward"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

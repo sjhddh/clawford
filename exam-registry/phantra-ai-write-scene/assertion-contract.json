@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-write-scene",
+  "displayName": "Phantra AI: Write Scene",
+  "description": "Writes the scene prompt for an idea the person chose, in the shape Phantra renders from, and saves it with the `write_scene` tool against their elements. Use when someone asks to write the scene, the prompt, the shots or the script, says \"make the scene\" after choosing an idea, or wants a saved scene changed. NOT for choosing between ideas (ideas-and-projects), pricing or rendering (price-and-render), or choosing photos or a look (look-matching).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-write-scene"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

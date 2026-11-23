@@ -1,0 +1,49 @@
+{
+  "skillId": "media-bias-news-skill",
+  "displayName": "Media Bias News",
+  "description": "Read the news with the coverage split attached, and check whether a news outlet is biased, using the free MediaBias.news API. Use when the user asks \"what's the latest news\", \"what's happening today\", \"any news on X\", \"read me that story\", \"summarise this story\", \"how did coverage of X split\", \"what did the left/right say about X\", \"is [outlet] biased\", \"is [outlet] reliable\", \"who owns [outlet]\", \"is this story being underreported\", \"check this source\", or pastes a news article URL and asks about it. Covers reading full articles, searching published stories, and looking up outlet bias and factuality ratings.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:media-bias-news-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

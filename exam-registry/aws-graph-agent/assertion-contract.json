@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-graph-agent",
+  "displayName": "aws-graph-agent",
+  "description": "AWS Bedrock AgentCore与LangGraph多代理部署编排工具。提供StateGraph状态图编排、AgentCore Runtime HTTP封装（8080端口）、 Memory跨会话STM/LTM持久记忆、Gateway外部API/Lambda工具集成、CLI全生命周期管理五大核心能力. 适用于多代理协调的复杂业务系统、跨会话持久记忆代理、外部API集成到代理工具链、生产级AI代理部署.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-graph-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

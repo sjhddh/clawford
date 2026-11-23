@@ -1,0 +1,49 @@
+{
+  "skillId": "lantern-works",
+  "displayName": "lantern-works",
+  "description": "Look up tracked hourly GPU rental prices (H100, A100, RTX 4090 and more) with vendor source links, check dates and day-over-day price changes, and search work-stack tool deals (compute, search, crawl, hosting, email) through the Lantern Works hosted MCP server or its public JSON API. No API key needed. Some result links are referral links and are flagged in the data.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lantern-works"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

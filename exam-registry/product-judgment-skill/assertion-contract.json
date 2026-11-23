@@ -1,0 +1,49 @@
+{
+  "skillId": "product-judgment-skill",
+  "displayName": "Product Judgment",
+  "description": "先判断需求，再写 PRD。\n\n我把《俞军产品方法论》中的核心产品判断方法，转化成了 Agent 可以直接执行的需求评审流程。\n\n核心是回答一个问题：这个需求到底值不值得做？\n\n这是一个 Agent Skill（SKILL.md），供产品经理和 AI Agent 在写 PRD 之前评审需求或产品想法；通过 npx skills add 安装，可用于 Claude Code、Codex 或其他支持 Skill 的 Agent 工作流。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:product-judgment-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

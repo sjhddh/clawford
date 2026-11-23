@@ -1,0 +1,54 @@
+{
+  "skillId": "us-sales-tax-precheck",
+  "displayName": "US Sales Tax Pre-Check",
+  "description": "US sales tax pre-check for cross-border sellers. Upload draft sales data and platform statements to check six high-frequency error categories: rate & sourcing, nexus, marketplace facilitator coverage, taxability & exemptions, filing frequency, shipping & refunds — outputs a structured risk report. Trigger words: US sales tax pre-check, sales tax check, economic nexus, Wayfair.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:us-sales-tax-precheck"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

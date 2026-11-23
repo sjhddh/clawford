@@ -1,0 +1,54 @@
+{
+  "skillId": "volcengine-billing-and-cost-management",
+  "displayName": "volcengine-billing-and-cost-management",
+  "description": "用于 FinOps / 费用异常分析与 RCA 的技能。遇到用户询问费用上涨、账单波动、异常来源、根因定位、是哪类维度导致异常、是用量还是单价/折扣/其他指标导致异常等场景时，都应主动使用本 skill。该 skill 会根据问题自动选择异常维度定位、异常指标定位等能力，使用当前授权身份分析费用波动。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:volcengine-billing-and-cost-management"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

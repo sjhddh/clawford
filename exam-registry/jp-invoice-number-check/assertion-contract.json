@@ -1,0 +1,54 @@
+{
+  "skillId": "jp-invoice-number-check",
+  "displayName": "jp-invoice-number-check",
+  "description": "Check Japanese qualified-invoice registration numbers (T-numbers, 適格請求書発行事業者登録番号, インボイス登録番号) against the National Tax Agency registry with JPVerify, check that a T-number belongs to the issuer name (and address) on an invoice and that the issuer was registered — not cancelled or expired — on the invoice date, and match an invoice to a supplier's expected T-number or corporate number from master data (AP / vendor checks). Use when a task involves verifying a T-number, confirming who issued a Japanese invoice and whether its registration covered the invoice date, or matching an invoice to supplier master data. Paid per call (API key credits or x402).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jp-invoice-number-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

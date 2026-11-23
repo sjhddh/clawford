@@ -1,0 +1,54 @@
+{
+  "skillId": "textbook-authoring-skill",
+  "displayName": "Textbook Authoring",
+  "description": "撰写或修订教材章节时使用(尤其是技术/计算机类)。让章节像国外优秀教材(如 OSTEP《操作系统导论》)那样由浅入深、循序渐进,而非生硬罗列概念。当用户要求\"写第 X 章/某个 小节\"\"把这段讲得更易懂\"\"按教材风格展开某主题\"时适用。注意:通常是写单个章节或小节,不是整本书。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:textbook-authoring-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

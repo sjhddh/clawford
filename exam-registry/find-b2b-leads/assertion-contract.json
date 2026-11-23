@@ -1,0 +1,54 @@
+{
+  "skillId": "find-b2b-leads",
+  "displayName": "find-b2b-leads",
+  "description": "Find B2B leads by job title, company, and keyword, and return them as a structured list, powered by Cargo. Triggers: \"find 50 VPs of Sales at fintech companies\", \"build me a list of leads\", \"who are the heads of engineering at Series B startups\", \"get me prospects matching this profile\", \"source leads for my outbound\", \"build a b2b lead list\", \"lead sourcing\". Providers: salesNavigator. Skip when: you need companies rather than people — use build-tam-list; or you already have the people and need contact details — use find-work-email.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:find-b2b-leads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "website-audit",
+  "displayName": "website-audit",
+  "description": "Audit a website across technical SEO, security headers, performance, accessibility, and content quality, and produce a prioritized report where every finding is backed by measured evidence. Use this skill whenever the user asks to audit, review, check, scan, or \"health check\" a website or URL, asks why a site is slow, not ranking, insecure, or inaccessible, or wants a technical SEO, Core Web Vitals, security header, or WCAG review, even if they only mention one of these areas. Also use it to compare a site before and after changes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

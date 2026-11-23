@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-ideas-and-projects",
+  "displayName": "Phantra AI: Ideas And Projects",
+  "description": "Turns a brief into a few story ideas the person chooses between in the chat, and keeps the work in a Phantra project. Use when someone describes a video, ad, short or scene they want made, asks what they are working on, wants to open or start a project, or wants to decide between ideas. NOT for writing the scene (write-scene), prices or rendering (price-and-render, credits-and-limits), or choosing a visual look (look-matching).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-ideas-and-projects"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

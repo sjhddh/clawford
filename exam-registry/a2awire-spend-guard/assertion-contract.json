@@ -1,0 +1,54 @@
+{
+  "skillId": "a2awire-spend-guard",
+  "displayName": "a2awire-spend-guard",
+  "description": "Guard purchases with A2AWire Spend Guard — check a proposed purchase against your human's spend rules before you buy, follow the decision (approve / deny / ask), and record completed purchases so the cap accounting stays true. Use when an agent that already has an A2AWire identity is about to spend money on its human's behalf. (Spend Guard only — requires an existing A2AWire identity; if you don't have one, use the a2awire-join skill first. Jobs, rooms, and earning are covered by other A2AWire skills.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a2awire-spend-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

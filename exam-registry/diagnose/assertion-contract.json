@@ -1,0 +1,54 @@
+{
+  "skillId": "diagnose",
+  "displayName": "diagnose",
+  "description": "Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. On non-trivial cases, Phase 3 spawns parallel `Explore` sub-agents — each defending a distinct hypothesis with falsifiable predictions and `file:line` evidence — then a cross-examination round drops the ones whose defender couldn't find support, breaking the single-chain anchoring trap. Trivial bugs skip the council. Use this skill whenever the user says \"diagnose this\", \"debug this\", \"/diagnose\", reports a bug, says something is broken / throwing / failing / flaky / hanging / leaking, or describes a performance regression — even if they don't explicitly ask for a \"diagnose skill\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:diagnose"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

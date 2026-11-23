@@ -1,0 +1,54 @@
+{
+  "skillId": "envrelay",
+  "displayName": "EnvRelay: Backup, Restore & Migrate Dev Environments",
+  "description": "Use when backing up or restoring a development environment, or when asked to migrate one to a new machine - a new Mac, laptop or Linux box. Carries dotfiles, config, SSH keys and cloud credentials, git repositories, AI coding agent state (Claude Code, Codex, Cursor and the rest), and installed software; also use when working with an .envrelay backup file. Covers what to carry, what to leave behind and rebuild, how to record it in a manifest, and how to replay it on the new machine (macOS and Linux). Once the user agrees, it installs the envrelay binary, which encrypts the backup, into ~/.local/bin.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:envrelay"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

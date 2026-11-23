@@ -1,0 +1,54 @@
+{
+  "skillId": "pmclite-daily-report",
+  "displayName": "车间日报",
+  "description": "轻排车间日报（广州轻排信息科技有限公司官方技能）- 汇总今天的开工、完工、报工量、异常与逾期情况，生成一段可直接发群的日报。当用户提到：今天生产怎么样、今天做了多少、车间日报、今天报了多少工、有哪些异常、哪些单逾期、帮我写个日报 时使用。不触发：月度经营分析、财务报表、人员考勤。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pmclite-daily-report"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

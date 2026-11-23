@@ -1,0 +1,49 @@
+{
+  "skillId": "feishu-external-group-fix",
+  "displayName": "feishu-external-group-fix",
+  "description": "诊断并修复飞书自建应用/智能体机器人无法加入外部群的问题。报错「不支持加入外部群」或群里搜不到机器人时：先用 API 自检（tenant_access_token→机器人能力→列群→发消息）定位缺什么，再走开放平台「创建版本→对外共享→允许被添加到外部群→申请发布（需管理员审核）」修复，或改用零审核的内部群快捷路径。Use when a Feishu custom app bot fails to join a group, shows \"不支持加入外部群\", is unsearchable in group bot list, or when configuring 对外共享/availability/publish version on the Feishu open platform.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feishu-external-group-fix"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

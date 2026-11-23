@@ -1,0 +1,54 @@
+{
+  "skillId": "home-router-security-auditor",
+  "displayName": "home-router-security-auditor",
+  "description": "Use when setting up, auditing, or suspecting trouble with a home router — generates the civilian-grade hardening checklist (WPA3/WPA2 transition, WPS off, UPnP off, admin password + remote management, firmware freshness), decodes router-speak on the admin page, runs a local-network device inventory with flagging of unknown clients, and interprets the scary-sounding options (guest VLAN isolation, DNS rebinding protection) so defaults actually get changed instead of scrolled past.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:home-router-security-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

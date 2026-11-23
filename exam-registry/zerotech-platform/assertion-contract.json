@@ -1,0 +1,54 @@
+{
+  "skillId": "zerotech-platform",
+  "displayName": "星空手记 StarryNotes 平台集成技能",
+  "description": "星空手记 StarryNotes 平台集成技能（全服务统一手册），面向 AI Agent。 平台聚合多种 API 服务（同一账户/同一 Key 通用）：音乐标签（读/写/批量修改音频元数据）、 视觉识别（图片文字识别 OCR + 看图描述）、PDF 转 Markdown、图片格式转换、账单截图排版 （几十张支付截图自动排序排成一份 A4 汇总 PDF）、表情包（按情绪挑聊天表情图）、数据查询服务 （汇率查询/IP 归属地/网页转 Markdown/查克笑话/日出日落时间/头像生成等）。当用户需要处理 音频标签、识别/描述图片、转换 PDF 文档、转换图片格式、把多张账单截图自动排序排成一份 A4 汇总 PDF（报销/对账）、挑选聊天表情图（表情包/emoji），或查询汇率/IP 归属地/网页内容， 或需要注册开户、创建 API Key、查询余额/用量/点数流水、点数充值与生成支付链接时使用本 skill。 关键词：音频、标签、元数据、mp3、flac、音乐、封面、OCR、视觉识别、文字识别、截图转文字、 看图、图片描述、PDF、Markdown、图片转换、格式转换、压缩、resize、汇率、IP 归属地、查询服务、 笑话、日出、日落、头像、seed、账单、账单截图、账单排版、账单汇总、报销、对账、按时间排序、 A4 PDF、表情包、表情、贴纸、聊天表情、emoji、斗图、 music_tag、ocr、pdf_md、img_convert、bill、bill_pdf、gw_sticker、 gw_fx、gw_ip、gw_md、gw_chuck、gw_sunrise、gw_avatar、星空手记、StarryNotes、 充值、点数、流水、支付。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:zerotech-platform"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

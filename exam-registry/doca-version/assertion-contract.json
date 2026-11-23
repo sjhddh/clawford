@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-version",
+  "displayName": "doca-version",
+  "description": "DOCA version handling: detect the installed release and validate the four-way match across pkg-config doca-common, applications/VERSION, doca_caps --version, and bfver/mlnx-release on BlueField; reason about NGC tags; look up whether a capability exists on this release; diagnose build-vs-runtime drift. Use this skill alongside doca-debug when a symptom smells of version skew: \"built but nothing on the wire\", \"undefined reference to a symbol the docs claim exists\", \"DOCA_ERROR_NOT_SUPPORTED at runtime\", \"what does latest mean for this tag\", or \"is my LTS still supported\". Once all four sources match, the component's build / run workflow belongs to its own library, service or tool skill. Refuse install / package choice (doca-setup), per-library API questions (matching library skill), DOCA_ERROR_* taxonomy (doca-programming-guide), and the general debug ladder (doca-debug).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-version"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-ecs-shutdown-experiment",
+  "displayName": "huawei-cloud-ecs-shutdown-experiment",
+  "description": "Full lifecycle ECS shutdown fault injection experiment for Huawei Cloud chaos engineering: prepare → execute → analyze. Phase 1 discovers target ECS instances, validates compatibility, generates experiment configuration. Phase 2 executes BatchStopServers shutdown, polls status, holds for duration, rolls back via BatchStartServers, verifies recovery, generates execution report. Phase 3 collects CES monitoring metrics and LTS application logs, analyzes error patterns, generates analysis report. Key safety: --dry-run, --auto-rollback, mandatory --yes confirmation, independent emergency rollback script. Triggers: ECS故障演练, ECS关机实验, chaos engineering, 故障注入, ECS shutdown experiment, 演练准备, 执行实验, 运行实验, 启动演练, 执行 ECS 关机故障演练, 分析应用日志, 查看应用表现, 应用日志分析, 故障影响分析, experiment prepare, experiment execute, analyze app logs, log analysis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-ecs-shutdown-experiment"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

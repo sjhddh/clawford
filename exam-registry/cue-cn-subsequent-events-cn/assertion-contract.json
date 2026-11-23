@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-subsequent-events-cn",
+  "displayName": "资产负债表日后事项·逐条挂源",
+  "description": "给一份财报或公告，把资产负债表日后事项读成每条都能回到原句的登记表：日后事项概况、调整事项、非调整事项、对财务报表的影响、持续经营与审计意见，逐条挂「」原句＋〔锚〕＋[S#]。调整事项与非调整事项只认披露原句，两者会计处理相反；影响金额照抄原句，本件不自算。Do NOT use for: 买卖建议、损益预测、评级与目标价、事项性质的推断。Triggers: 日后事项 / 期后事项 / 调整事项 / 非调整事项 / 资产负债表日后事项",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-subsequent-events-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "sim3d-webgl-training",
+  "displayName": "3D虚拟仿真实训系统生成器",
+  "description": "3D虚拟仿真实训系统制作技能。当用户需要为职业教育/职业培训制作 3D 虚拟仿真实训页面（单文件 HTML）时使用。触发场景：内燃机/无人机/新能源汽车/民航机务/安检/客舱乘务/空港管理等设备或岗位的\"3D 结构拆解、原理仿真、实操培训、考核系统\"。产出对标已验证的 9 个高逼真样本（特斯拉 Model Y、四冲程内燃机、A320/B747 客舱、大疆无人机、民航安检/机务/空港）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sim3d-webgl-training"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-mgmt",
+  "displayName": "doca-mgmt",
+  "description": "Use this skill when the user is doing hands-on DOCA Management programming against BlueField / ConnectX devices — standing up a management or representor context (doca_mgmt_dev_ctx / doca_mgmt_dev_rep_ctx), querying device caps (data-direct, caps-general), toggling congestion-control global status, modifying diagnostics-data, setting ICM quotas, or issuing a raw firmware command via doca_mgmt_raw_cmd with the right scope (CONFIGURATION / DEBUG_READ_ONLY / DEBUG_WRITE / DEBUG_WRITE_FULL). Trigger even when the user does not say \"DOCA Management\" — typical implicit phrasings include \"fleet tool that walks every BlueField and reads device state\", \"toggle data-direct on a VF\", \"set an ICM quota per representor\", \"send a raw firmware command from C\", \"DOCA_ERROR_IO_FAILED from raw_cmd\", or \"fwctl ioctl is failing\". Refuse and route elsewhere for mlxconfig direct operation, BFB / firmware reflash, streaming telemetry, doca_caps CLI snapshots, or DOCA install itself — those belong to other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-mgmt"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

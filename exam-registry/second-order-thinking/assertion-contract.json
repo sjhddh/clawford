@@ -1,0 +1,54 @@
+{
+  "skillId": "second-order-thinking",
+  "displayName": "Second-Order Thinking",
+  "description": "Activate when: user says 'and then what?', 'what are the second-order effects?', 'what could go wrong downstream?', 'what happens once everyone does this?', or brings a decision where the immediate effect is clear but downstream effects are not, or says 'everyone agrees this is good.' Do NOT activate when: the decision is genuinely low-stakes and reversible (e.g., a variable rename), or the user lacks a causal model and needs to build understanding first before tracing consequences. More: deciqai.com/c/second-order-thinking",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:second-order-thinking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

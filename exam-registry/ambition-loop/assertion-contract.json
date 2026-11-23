@@ -1,0 +1,54 @@
+{
+  "skillId": "ambition-loop",
+  "displayName": "ambition-loop",
+  "description": "For work tasks (code, data, analysis, research, docs, decks, prompts). Use whenever the user asks you to be ambitious or more ambitious, think bigger, aim higher, go deeper, raise the bar, not settle for the minimal version, do what a top expert would do, or find the goal behind the goal, even when the task looks small (a speed-up, a bug fix, a summary, a prompt to improve). It applies altitude (goal behind the goal), depth (raw material, expert instruments) and range (methods from other fields), states a hard measurable target before executing, proves it with an outside judge (never self-grading), and reports asked vs ambitious vs achieved. Also use when a substantial work task plainly feeds a meeting or decision, recurs, or rests on digested summaries. Never for personal goals, career goals or plans, life plans, resolutions, self-improvement or motivational writing, even when the user says ambitious. Not for trivial asks, lookups, tone edits, urgent hotfixes, or explicitly minimal scope.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ambition-loop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

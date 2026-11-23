@@ -1,0 +1,49 @@
+{
+  "skillId": "shorty-summarizing-sources",
+  "displayName": "Summarizing Sources",
+  "description": "Summarizes a YouTube video, web page, article, pasted text, or a file already in Shorty by starting a Shorty summary job after the user confirms, then reads back the finished summary. Use when the user asks to 'summarize this YouTube video', 'give me the key points of this article', 'TL;DR this link', 'digest this page', 'summarize these notes', 'what does this video say', or wants an AI video or article summarizer. Uses Shorty plan quota.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shorty-summarizing-sources"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

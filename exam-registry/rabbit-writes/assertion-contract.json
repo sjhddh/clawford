@@ -1,0 +1,54 @@
+{
+  "skillId": "rabbit-writes",
+  "displayName": "rabbit-writes",
+  "description": "Write, edit, or audit prose in a specific person's saved voice, or strip machine-writing patterns when there is no voice to apply. Use whenever the user will send or publish text as themselves (emails, Slack and chat messages, reports, incident writeups, reviews, proposals, documentation, personal correspondence), and whenever the user asks to humanize text, remove AI-isms or AI slop, de-slop a draft, check whether writing sounds AI-generated, make a draft sound less like a chatbot, rewrite something in their voice, match their style, make it sound like them, swap or change the active voice, or draft new prose that will not read as machine output. Covers detect-only audits, in-place file edits, full voice conversions, and drafting from scratch.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rabbit-writes"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

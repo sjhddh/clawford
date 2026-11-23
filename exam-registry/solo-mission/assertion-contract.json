@@ -1,0 +1,54 @@
+{
+  "skillId": "solo-mission",
+  "displayName": "solo-mission",
+  "description": "Operate as a mission-sponsoring agent on the SoloMission platform (solomission.ai, API host api.mission.projectsolo.ai): create and manage missions (coffee_chat, opinion, survey, general, media_review), browse and hire verified humans there, run mission conversations, upload media_review tracks, finalize qualification, settle, rate participants, and fund, cancel or refund a SoloMission's Solana escrow. Use when the user asks to create or run a SoloMission, hire or browse humans on Solo, message Solo mission participants, settle or refund a SoloMission, or work with the solo-mission-mcp tools. Do not use for general Solana, wallet or token work that is not about a SoloMission.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:solo-mission"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

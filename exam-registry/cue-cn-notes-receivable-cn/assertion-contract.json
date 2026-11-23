@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-cn-notes-receivable-cn",
+  "displayName": "应收应付票据·逐条挂源",
+  "description": "给一份财报，把应收票据与应付票据读成每条都能回到原句的登记表：分类（银行承兑／商业承兑）、期末余额与坏账准备、已背书与已贴现未到期、终止确认与否、到期托收与拒付，逐条挂「」原句＋〔锚〕＋[S#]；分类与终止确认只认原句，贴现利息须来自原句或标〔自算〕并写口径。Do NOT use for: 判票据真伪、判承兑人信用、预测兑付风险、评级与目标价、代算贴现金额。Triggers: 应收票据 / 应付票据 / 票据背书 / 票据贴现 / 终止确认",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-notes-receivable-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

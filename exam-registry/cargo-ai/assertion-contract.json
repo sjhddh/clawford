@@ -1,0 +1,54 @@
+{
+  "skillId": "cargo-ai",
+  "displayName": "cargo-ai",
+  "description": "Builds Cargo AI agents that work on GTM data: picks the model, writes the prompt, attaches docs for retrieval (RAG), connects MCP tools, manages memories, and deploys releases. Triggers: \"create an agent\", \"make an agent that\", \"give the agent our docs\", \"attach this knowledge base\", \"attach this library to the agent\", \"add resources to the agent release\", \"connect an MCP server\", \"expose our tools as an MCP server\", \"use Cargo from Claude Desktop or ChatGPT\", \"change the agent model\", \"what does the agent remember\", \"deploy the agent\", \"the agent is answering wrong\". Skip when: uploading the knowledge files themselves, use cargo-content; sending the agent a message or running it over records, use cargo-orchestration.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cargo-ai"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

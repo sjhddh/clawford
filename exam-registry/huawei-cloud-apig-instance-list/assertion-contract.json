@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-apig-instance-list",
+  "displayName": "huawei-cloud-apig-instance-list",
+  "description": "1. List Huawei Cloud APIG dedicated instances in a tenant region through KooCLI (hcloud APIG ListInstancesV2 — read-only GET /v2/{project_id}/apigw/instances), with an automatic fallback to the official huaweicloudsdkapig v2 SDK when hcloud is not installed. 2. Drill down into one instance's API inventory with --instance-id (hcloud APIG ListApisV2 — read-only GET /v2/{project_id}/apigw/instances/{instance_id}/apis); an unknown instance id is reported explicitly with a non-zero exit code. 3. Three output modes: compact list (default — instance name / id / status), --table (实例ID/名称/状态/规格/版本/可用区/EIP/VPC/创建时间), and --json (raw response records). 4. Client-side filters --name (--fuzzy for substring match), --instance-id and --status; --region override (default cn-north-4); --limit 1-100 with automatic offset/limit paging. 5. Explicit error hints for empty instance lists, 403 / insufficient IAM permission, missing or invalid AK/SK credentials, [USE_ERROR] parameter errors, and a non-existent instance id. 6. Built-in write-intent guard: any mutating intent (create / delete / update / publish / offline / bind-eip / unbind-eip / ...) is rejected before execution — this skill is strictly read-only. 7. Triggers include: \"list APIG instances\", \"APIG 实例列表\", \"查询APIG实例\", \"APIG 专享版实例\", \"apig instance inventory\", \"查询实例API列表\", \"APIG API 列表\", \"apig gateway list\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-apig-instance-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

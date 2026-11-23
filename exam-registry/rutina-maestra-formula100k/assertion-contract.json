@@ -1,0 +1,54 @@
+{
+  "skillId": "rutina-maestra-formula100k",
+  "displayName": "rutina-maestra-formula100k",
+  "description": "Configuración inicial del Autopilot F100K en un agente OpenClaw. Usar cuando alguien diga: \"configura mi autopilot\", \"quiero activar mi radar de contenido\", \"configurar rutina diaria\", \"activar mis tareas programadas\", \"setup autopilot F100K\", \"quiero recibir ideas de contenido cada mañana\", o cualquier intención de automatizar su rutina de contenido. Hace las preguntas de personalización (nicho, keywords, horario, voz) por Telegram, guarda la config en cerebro/f100k-config.json y programa los módulos elegidos como automatizaciones que entregan por Telegram. También sirve para reconfigurar o ver la config actual.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rutina-maestra-formula100k"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

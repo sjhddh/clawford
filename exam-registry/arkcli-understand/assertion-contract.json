@@ -1,0 +1,54 @@
+{
+  "skillId": "arkcli-understand",
+  "displayName": "arkcli-understand",
+  "description": "arkcli +understand：基于 Responses API 的 12 个多模态专项理解配方，支持临时 API Key/Base URL/Endpoint 执行与无副作用 dry-run。用户只给 Endpoint 时先用 resources resolve；转写、抽取、字幕、定位等明确产出走本 skill，开放式对话走 +chat，生成走 +gen。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-understand"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

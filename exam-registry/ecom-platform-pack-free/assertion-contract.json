@@ -1,0 +1,54 @@
+{
+  "skillId": "ecom-platform-pack-free",
+  "displayName": "电商与平台结算技能包（免费版）",
+  "description": "把电商与平台结算材料按 14 项检查（电商平台结算核对、退货退款与货款结算核对、平台账期与在途资金核对、直播佣金与坑位费结算核对、OTA佣金与净结算核对、商场联营抽成与保底核对、加盟抽成与最低保底核对、连锁加盟门店结算核对、会员积分与储值卡核销核对、促销补贴与核销核对、采购返利与阶梯核算核对、整车厂返利与商务政策核对、寄售代销结算核对、餐饮门店日营业款核对）逐客户核一遍，每个客户一行结论，结论都带原文文件与行号。完全本地运行，核对过程不需要联网、不需要 API Key、没有次数上限。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ecom-platform-pack-free"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

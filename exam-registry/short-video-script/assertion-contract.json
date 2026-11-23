@@ -1,0 +1,54 @@
+{
+  "skillId": "short-video-script",
+  "displayName": "short-video-script",
+  "description": "This skill should be used when the user provides a product or topic and wants short-video content scripts. Trigger phrases include '短视频脚本', '分镜头脚本', '口播文案', '抖音脚本', '视频号脚本', '批量生成脚本'. It outputs complete batches of short-video scripts, each with shot breakdown, spoken narration, on-screen captions, hook, and platform-specific pacing notes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:short-video-script"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

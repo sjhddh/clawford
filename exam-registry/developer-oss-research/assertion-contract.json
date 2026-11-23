@@ -1,0 +1,49 @@
+{
+  "skillId": "developer-oss-research",
+  "displayName": "developer-oss-research",
+  "description": "Researches GitHub repos/users/orgs and Chrome Web Store extensions via the Crawlora API — search, profiles, contributors, releases, trending, and extension detail/reviews/permissions — returning clean JSON. Use when the user wants a repo or developer's GitHub profile/stats, what's trending on GitHub, or a Chrome extension's details, permissions, or reviews.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:developer-oss-research"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

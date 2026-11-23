@@ -1,0 +1,49 @@
+{
+  "skillId": "bilibili-video-monitoring",
+  "displayName": "Bilibili 视频监控",
+  "description": "运行 B站每周播报脚本，读取生成的报告文件，将内容整理成文字，并通过双通道推送给用户（默认 UID 请在脚本中配置）。触发场景：用户请求\"查看B站播报\"、\"运行播报脚本\"、\"生成本周投稿报告\"、或类似表达。也适用于自动化定时任务执行完毕后读取报告内容并推送。脚本路径：`bibili_weekly.js`；报告文件路径：`./bilibili_report.txt`；Cookie 文件路径：`./bilibili_cookie.txt`（需自行创建，切勿提交真实 Cookie）。推送通道1：调用 @skill://微信 PC 端自动控制 发送到配置的微信联系人；推送通道2：调用 @skill://agently-mail（Agent Mail）发送报告到配置的邮箱地址（两阶段确认：发信前展示摘要，用户确认后发出）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilibili-video-monitoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

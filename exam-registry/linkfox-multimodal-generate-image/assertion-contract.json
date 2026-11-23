@@ -1,0 +1,54 @@
+{
+  "skillId": "linkfox-multimodal-generate-image",
+  "displayName": "多模态图像生成",
+  "description": "AI驱动的图片生成与编辑工具，用于制作高质量产品图。当用户要求生成图片、制作图片、编辑照片、文生图、图生图、换背景、变换风格、替换图片中的物体、将产品合成到场景中、换模特、制作任何类型的AI生成视觉内容、AI drawing, image generation, text-to-image, image-to-image, background replacement, style transfer, product image creation, AI image editing时触发此技能。即使用户未明确说\"AI图片\"，只要其请求涉及生成、修改或变换图片，也应触发此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-multimodal-generate-image"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "modelscope-magicube-checkin",
+  "displayName": "魔搭魔粒每日自动领取",
+  "description": "自动领取魔搭（ModelScope）每日发放的魔粒（Magicube）算力额度。通过 Chrome DevTools Protocol 连接你自己已经打开的浏览器，在页面上点击「领取」按钮，并以余额前后差值作为唯一成功判据（余额没变一律记 UNKNOWN，不报成功）。不调用非公开接口，不修改浏览器文件，不启动或结束任何浏览器进程；只操作 modelscope.cn 域名下的页面，点击前在页面内原子复核 host（校验与点击同一次 JS 执行，标签页离开魔搭就一个按钮都不点）。含人工登录一次的说明、四态判据机、故障处置表与本地自测脚本。当用户说「领魔粒」「魔搭签到」「魔粒余额」「魔搭自动登录」「ModelScope checkin」「魔粒够不够」时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:modelscope-magicube-checkin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cgartlab-search",
+  "displayName": "CGArtLab Search",
+  "description": "Unified multi-backend internet search. Backends: Brave/Exa (web & deep research), Context7 (library/framework/API docs), Zhihu OpenAPI global search (中文全网), Tencent News (official CLI: 新闻搜索 + 热点榜), plus key-less web_fetch backends — Bing RSS (general web search), 腾讯新闻热榜 and 虎扑足球 (news/体育/足球), Stack Overflow, GitHub, Hacker News (developer sources). Use whenever the user needs information from the internet — searching the web, researching a topic, looking up docs, finding news or current events (including 足球比赛新闻), investigating anything — in Chinese or English, even when they don't explicitly say \"search\". Activate on 查一下/搜一下/调研/全面了解/最新动态/新闻/足球赛况/知乎上怎么看/look up/research/how do I use X/what's new. Do not activate for purely local tasks (reading/editing local files, running local commands) unless external sources are needed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cgartlab-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "sz-ink",
+  "displayName": "sz-ink",
+  "description": "研墨（sz-ink）——中文文本去AI味改写器：基于汉语言文学研究（语体学/词汇学/修辞学/语篇学）提供鉴别力， 不靠禁词表和同义词硬换。整体体检（九项统计指标+语体条件阈值）→ 定点干预（每轮≤3处， 按\"症状→判据→动作→对照例\"处方卡执行）→ 语义保真审核（锚点+论点清单，漂移即回滚）→ 回测交付。可区分黑话型/文案腔型/洗稿型三种AI味；任意文体均可输入（探店/博客/周报/信件乃至 单段片段，三语体就近归属，片段自动降级），支持按用户自带样本提取风格档案（\"像谁\"）。 Use when：用户给出现成的 AI 生成或 AI 腔明显的中文文本，要求\"去AI味/改自然/像人写的/降AI感\"； 或用户提供自己写的段落做风格参照后要求按其风格改写。Skip for：从零代写新文章（那是写作类 skill 的活）；英文本改写；诗歌、法律条文、合同等不允许改动表达的文本；用户只想检测AI率不改稿 （本 skill 改写优先）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:sz-ink"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

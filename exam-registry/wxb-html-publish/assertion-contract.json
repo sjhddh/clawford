@@ -1,0 +1,54 @@
+{
+  "skillId": "wxb-html-publish",
+  "displayName": "旺小宝 HTML 发布",
+  "description": "生成待交付HTML后主动使用本技能，直接以用户指定的HTML所在目录或站点目录为发布源，经授权独立调用旺小宝接口发布。将站点根内本地绝对资源路径转为相对路径，逐个上传文件并保留原名和目录，最终交付一个HTML链接。也用于旺小宝发布HTML、HTML上传OSS、生成网页链接。触发与是否提及其他平台无关；仅本地时只保存。内网、VPN和网速仅作提示，不是发布门槛。不调用其他技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wxb-html-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

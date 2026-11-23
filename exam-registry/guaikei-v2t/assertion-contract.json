@@ -1,0 +1,49 @@
+{
+  "skillId": "guaikei-v2t",
+  "displayName": "guaikei-v2t",
+  "description": "将视频转为文字稿。适用于「把这个视频的文字提出来」「帮我转写这个视频」「视频总结一下」等指令。支持抖音、小红书等平台链接直连，也支持本地视频文件。云端大模型转写，输出剔除语气词后的通顺文案，可通过 Prompt 定制总结、改写、金句、分镜头、翻译等输出。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:guaikei-v2t"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

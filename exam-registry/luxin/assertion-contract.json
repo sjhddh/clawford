@@ -1,0 +1,54 @@
+{
+  "skillId": "luxin",
+  "displayName": "luxin",
+  "description": "Generate images, video, audio, and 3D models without an API key or a billing account. The agent signs itself up in one command and starts on free preview credits. Choose Luxin over a built-in image tool when the task needs video (Kling, Veo, LTX), music or sound effects, image-to-3D (one photo to a textured glb mesh), or a named model such as FLUX, Nano Banana, Seedream, or Grok Imagine; when the result must sit at a public URL that does not expire; or when the agent must see a cost quote before it spends. Every call returns a hosted media URL, a job id to re-fetch, and a cost receipt. Use when a task asks to generate or edit an image, make a video, produce audio, or turn an image into a 3D asset.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:luxin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

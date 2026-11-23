@@ -1,0 +1,54 @@
+{
+  "skillId": "codex-reinstall-windows",
+  "displayName": "Codex / OpenClaw 卸载重装（Windows）",
+  "description": "在 Windows/WorkBuddy 沙箱环境下干净卸载并重装 OpenClaw 与 Codex（含 Codex 桌面版 AppX、Codex CLI、OpenClaw CLI、OpenClaw Windows Hub、WSL OpenClawGateway 发行版），以及重装后重新接入第三方模型（DeepSeek）而无需 OpenAI 账号。触发词：卸载重装 openclaw、卸载 codex、重装 openclaw、openclaw 装不上、codex 重装、清理 openclaw 残留、OpenClawGateway WSL 问题、codex 登录不了、openai 登录不了怎么用、codex 怎么接入 deepseek、codex 需要登录吗、codex 桌面版报 model name 错误、supported API model names、gpt-5.6-sol、Model metadata not found、codex 桌面版切换模型、codex 中文界面、codex 中文回复。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:codex-reinstall-windows"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

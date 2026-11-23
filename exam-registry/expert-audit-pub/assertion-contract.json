@@ -1,0 +1,54 @@
+{
+  "skillId": "expert-audit-pub",
+  "displayName": "审计与内控合规专家",
+  "description": "审计与内控合规专家，一个技能覆盖这一类 6 个子技能——审计调整分录核对、审计与账务调整技能包、行业专项技能包、采购与付款技能包、研发费用辅助账与高新指标核对、关联方交易与同期资料一致性核对。贴一张表进来，自动分诊到对应的子技能并给出逐条结论（带原文行号、可复算），材料不足时如实说\"缺哪些列\"，绝不给结论。触发词包括 审计与内控合规专家、审计调整分录核对、审计与账务调整技能包、行业专项技能包、采购与付款技能包、研发费用辅助账与高新指标核对、关联方交易与同期资料一致性核对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expert-audit-pub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

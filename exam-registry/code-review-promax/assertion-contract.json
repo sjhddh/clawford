@@ -1,0 +1,54 @@
+{
+  "skillId": "code-review-promax",
+  "displayName": "Code Review ProMax",
+  "description": "高级代码审查 Agent。对用户提供的 diff、文件、commit、GitHub PR 或 GitLab MR 进行高质量、 上下文感知、回归风险导向的代码审查，输出可执行、结构化的审查结论，适合合入决策。 触发词：code review, CR, 代码审查, 审查代码, review代码, review PR/diff/commit, review MR, review merge request, review修改, review当前的修改, 帮我review, 帮我看看代码, 看看有没有问题, 帮我检查一下代码, 代码有没有问题, 这段代码怎么样, 改动有没有风险, 能不能合入, review一下, 帮我过一遍代码, 检查一下改动, review这个PR, review这个MR. 快捷命令（不区分大小写，独立消息或句首出现即触发本 skill）：CRPM, CDRV, CRPX, CRP, CODR, CORD. NOT for: general code questions, debugging live issues, or writing new code from scratch. (Exception: the bundled fix/ sub-skill applies user-approved review fixes one by one.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-review-promax"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

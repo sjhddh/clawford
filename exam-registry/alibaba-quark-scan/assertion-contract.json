@@ -1,0 +1,54 @@
+{
+  "skillId": "alibaba-quark-scan",
+  "displayName": "文档扫描增强",
+  "description": "文档高清扫描增强工具，通过扫描服务API对图片进行画质优化、瑕疵去除和视觉增强. 支持13种场景：考试增强、画质增强、证件票据增强、去手写、去水印、去阴影、去屏纹、 去底色、裁剪矫正、素描速写、提取线稿、扫描合同、扫描文件。适用于独立开发者、 企业团队和自动化工作流场景。不适用于视频处理和实时摄像头流.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:alibaba-quark-scan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

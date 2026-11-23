@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-bcs-manage",
+  "displayName": "huawei-cloud-bcs-manage",
+  "description": "Query and manage Huawei Cloud BCS (Blockchain Service, 区块链服务) from one entry point. Read-only: list blockchain instances with status/version/charging details, instance detail, organization/peer nodes, channels, union members and invitations, specifications, quotas, creation/deployment status, asynchronous operation records, alerts and monitoring metrics. Write: download certificates and Fabric SDK configuration, create/freeze/unfreeze user certificates, create/delete channels, add/remove peers and organizations, create/update/delete instances, and handle union member invitations. Uses the huaweicloudsdkbcs Python SDK (KooCLI only exposes BCS when its local metadata cache holds the BCS service template, so this skill does not depend on KooCLI). Read-only commands never prompt; every write prints an impact preview and requires --confirm, and asynchronous results are reported through ListOpRecord. Never queries or modifies chaincode lifecycle (no BCS OpenAPI; use the console). Use when the user wants to list/inspect BCS instances, channels, organizations, peers, members, quotas, alerts or metrics (inventory, daily inspection, troubleshooting, cost review), or to change BCS resources: create or delete an instance, manage channels/peers/organizations, issue or revoke certificates, download SDK config, or accept/reject union invitations. Triggers include: \"BCS\", \"blockchain service\", \"区块链\", \"区块链服务\", \"BCS 实例\", \"blockchain instance\", \"BCS channel\", \"通道\", \"联盟成员\", \"BCS 配额\", \"BCS 告警\", \"BCS 监控\", \"BCS 监控指标\", \"list BCS\", \"query blockchain\", \"查看区块链实例\", \"查询区块链通道\", \"查询链码 SDK 配置\", \"how many blockchain instances\", \"创建区块链实例\", \"删除区块链实例\", \"BCS channel management\", \"创建通道\", \"删除通道\", \"添加节点\", \"移除组织\", \"下载证书\", \"下载SDK配置\", \"冻结证书\", \"联盟邀请\", \"BCS manage\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-bcs-manage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

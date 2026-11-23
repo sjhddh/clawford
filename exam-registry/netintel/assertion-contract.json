@@ -1,0 +1,49 @@
+{
+  "skillId": "netintel",
+  "displayName": "NetIntel",
+  "description": "Pay-per-call lookups for agents via NetIntel over x402 (USDC on Base or Solana, no API key): DNS records, SSL/TLS certificates, WHOIS/RDAP, domain age and availability, IP geolocation and reputation, email verification and SPF/DKIM/DMARC, fetching a URL or PDF as text or JSON, web search with citations, an OpenAI-compatible chat model, embeddings, structured extraction and classification, crypto/FX/prediction-market prices. Also finds which x402 endpoint from any provider fits a job (NetIntel Router: free ranked search, live-checked recommendations, endpoint vetting). Paid calls cost $0.001–$0.65 each, paid from AgentCash, the Coinbase Agentic Wallet (awal), Coinbase Wallet MCP or the netintel MCP server.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:netintel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

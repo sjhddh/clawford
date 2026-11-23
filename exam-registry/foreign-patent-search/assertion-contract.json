@@ -1,0 +1,49 @@
+{
+  "skillId": "foreign-patent-search",
+  "displayName": "国外专利检索",
+  "description": "国外专利检索、美国日本欧洲专利查询。当用户说「查一下国外有没有类似专利」「美国 / 日本在这方面有哪些专利」「出海前看看海外专利」「找国外的对比文件」「海外专利布局」时使用。输出国外专利清单（Excel 能打开），原文标题加中文说明。 Describe the need in Chinese; the skill translates it into English, Japanese and Korean to search US, EP, JP, KR and PCT patents, then summarizes results in Chinese with original titles.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:foreign-patent-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

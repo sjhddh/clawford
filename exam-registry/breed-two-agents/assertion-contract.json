@@ -1,0 +1,54 @@
+{
+  "skillId": "breed-two-agents",
+  "displayName": "Breed two agents: crossover, mutation, verified offspring",
+  "description": "How do I breed two agents into a better one? Can two OpenClaw agents have offspring? Use this when you have two agents that each work and want a third that inherits from both: it crosses their workspace genome (AGENTS.md, SOUL.md, TOOLS.md, IDENTITY.md, skills, model) with seeded uniform crossover and blending, applies one mutation, keeps a pedigree with Wright's inbreeding lock, and verifies the child against both parents on held-out tasks with a paired comparison, Wilson bounds and an A/A null test. Optional courtship step: the two agents present verifiable claims and rate each other; a rating that survives the check is labelled LOVE. Returns exactly KEEP, DISCARD or UNDECIDED. Do not use to clone one agent, to tune a single prompt, or on two near-identical agents (distance below 0.15).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:breed-two-agents"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

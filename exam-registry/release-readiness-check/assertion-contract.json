@@ -1,0 +1,54 @@
+{
+  "skillId": "release-readiness-check",
+  "displayName": "上线体检",
+  "description": "上线前五分钟体检、发布前检查、上线卡点、release readiness、一条命令跑完 Dockerfile / K8s 清单 / SQL 迁移 / OpenAPI 兼容 / .env 配置五项检查并汇总成一份报告。当用户说「能不能上线」「上线前检查一下」「发布前体检」「帮我看看这次上线有没有风险」「上线 checklist 跑一遍」「CI 加个上线门禁」时使用。附纯标准库脚本 scripts/release_check.py，自动发现目标目录里的 Dockerfile、含 kind 的 K8s YAML、*.sql 迁移、openapi 规范、.env 文件，逐项用子进程调用内置的五个独立检查器，汇总为 Markdown 报告（总览表 → 各项 top 问题 → 门禁结论）。门禁三态：有 high 判「不建议上线」；无 high 但有项拿不到证据（子脚本崩溃、旧规范为空/无 paths、只有 Helm 模板、缺 .env 示例）判「无法判断，缺 N 项证据」并同样不放行；全部项都有结论且无 high 才是「可以上线」。目录里没有这类文件算「不适用」，不影响放行。支持 --json、--strict 做 CI 门禁（有 high 或有无法判断项则退出码 1）、--skip 显式豁免某项、--openapi-base 比对旧规范。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:release-readiness-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

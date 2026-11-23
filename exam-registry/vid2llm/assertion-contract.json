@@ -1,0 +1,54 @@
+{
+  "skillId": "vid2llm",
+  "displayName": "vid2llm",
+  "description": "Read public videos as text. Turns a TikTok, YouTube (incl. Shorts), Instagram Reel, X video or other public video link into the author, description, stats and a timestamped transcript. Use when the user shares a video link and wants you to work with what is in it, or asks what a video says. Paid per video in USDC via x402 (about one cent for a short clip); needs a funded wallet key in VID2LLM_PRIVATE_KEY.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vid2llm"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

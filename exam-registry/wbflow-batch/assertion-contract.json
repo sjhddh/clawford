@@ -1,0 +1,54 @@
+{
+  "skillId": "wbflow-batch",
+  "displayName": "WBFlow·批量工厂总控（调度层）",
+  "description": "批量工厂总控——在 wbflow-pipeline 之上做条目级编排：给定一份清单（batch.json），逐条驱动整套 8 环流水线、各自独立工作目录、统一落盘、断点续跑，并支持 WB automation 定时触发（\"定时收菜\"）。（WBFlow 由 10 个 skill 组成：wbflow-pipeline 总控 + story/script/storyboard/prompt/char/image/video/assemble 八环 + 本批量层，须全套配套安装，单独安装无法运行。）",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wbflow-batch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

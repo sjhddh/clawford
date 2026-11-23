@@ -1,0 +1,54 @@
+{
+  "skillId": "best-price-finder",
+  "displayName": "购物比价查询最低价格",
+  "description": "一键查商品全平台最低价并给出优惠购买链接。输入商品关键词，输出 Top N 最低价商品清单（商品名称、平台、店铺、券后价、优惠券、月销、可点击购买链接），覆盖淘宝/天猫/京东/拼多多/苏宁/唯品会/抖音/快手。当用户问\"哪里买最便宜/全网最低价/帮我比价/买 XX 多少钱/给个购买链接\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:best-price-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

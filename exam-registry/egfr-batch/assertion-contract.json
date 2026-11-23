@@ -1,0 +1,49 @@
+{
+  "skillId": "egfr-batch",
+  "displayName": "eGFR Batch",
+  "description": "Batch-compute eGFR with the published CKD-EPI 2021 equations from a CSV of age, sex and creatinine, with the creatinine unit (mg/dL or umol/L) declared explicitly — the tool refuses to guess it. Optionally adds cystatin-C eGFR, Cockcroft-Gault and de-indexed values. Use when asked to calculate eGFR for a cohort or CSV file, run one CKD-EPI calculation, or convert creatinine units for eGFR. Not for general lab-unit conversion (use labunits), child growth z-scores (use growthz), de-identification checks (use safeharbor-check), or randomisation lists (use blockrandom). Research/educational only; not a medical device.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:egfr-batch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

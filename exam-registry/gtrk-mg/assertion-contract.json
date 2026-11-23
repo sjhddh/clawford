@@ -1,0 +1,54 @@
+{
+  "skillId": "gtrk-mg",
+  "displayName": "gtrk MG 动态图铺轨",
+  "description": "MG 动态图颗粒铺轨器——成片 SOP 第 ⑤ 步（**最后叠上**），在 B-roll 底轨三源（影视素材 / 本地素材 / AI 情景片段）全部铺齐、且 ④ 全局抽帧检查构图通过之后，把栏目的 html-particle 动态图颗粒（透明叠加 / 满屏底层）叠铺到已定稿的底轨之上。先由栏目 MG 生产 skill 按派单各槽位产颗粒，再驱动 `gtrk mg` 命令 lint + 铺进 `.gtrk` 工程的 beat_track。当用户想「铺 MG 颗粒 / 上动态图 / 铺动效 / 给这段配动画铺进工程 / 把 MG 派单铺轨 / 消费 dispatch.mg」时使用本 skill。凡涉及把 MG 动态图颗粒铺进已剪好的成片工程，优先用本 skill 驱动 gtrk CLI，别让用户自己去终端敲 `gtrk mg`。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtrk-mg"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

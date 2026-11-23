@@ -1,0 +1,54 @@
+{
+  "skillId": "wiro-agents",
+  "displayName": "Wiro AI Agents",
+  "description": "Choose, price, deploy, set up, message, schedule and manage Wiro AI agents, the assistants that keep running on Wiro with skills such as social posting, ad reports, review replies or a phone receptionist, through the Wiro MCP tools or the REST API. Use when the user wants an agent that works on its own or on a schedule, asks what agent templates or plans cost, or wants to connect, configure, message, upgrade or remove a Wiro agent.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wiro-agents"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

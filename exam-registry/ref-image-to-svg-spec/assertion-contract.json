@@ -1,0 +1,54 @@
+{
+  "skillId": "ref-image-to-svg-spec",
+  "displayName": "栅格参考图转SVG规格",
+  "description": "把一张栅格参考图（图标表、牌面表、UI 截图、设计稿切图）复刻成 SVG / Canvas 手绘图形时，用像素级测量代替目测：自动切分网格、按色系采样真色、连通域量出每个元素的位置尺寸并换算成 viewBox 坐标，最后生成「参考图 vs 本项目」并排对照页验证，再用结构计数断言（n 个点 = n 个圆）把结果钉死。当用户说「按这张图的图案改」「照着这个图做图标」「复刻这套牌面 / 表情 / 图标」「颜色不对，按参考图调」，或给出的参考图是低分辨率截图（有压缩噪点）时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ref-image-to-svg-spec"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

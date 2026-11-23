@@ -1,0 +1,49 @@
+{
+  "skillId": "text-to-infographic",
+  "displayName": "Text to Infographic · 文字转信息图",
+  "description": "将文章/笔记/对话内容转化为结构化信息图 plan（JSON），经布局语义与数值一致性校验后，用内置渲染器产出自包含静态 HTML 信息图，可选导出 PNG（用本机已有浏览器截图，不安装任何东西）。校验结果带稳定规则码的机器回执（--json）与中文诊断（--explain），支持 --fail-on-warn 严格模式。支持文本→plan 自动构建（analyze 布局推荐）、8 种风格 preset 与 accent/ink/paper/muted 色彩 token。十种 chart_family 布局：飞轮/鱼骨/桑基/金字塔/时间线/仪表盘/对比双栏/2×2矩阵/流程步骤/韦恩图。仅在用户明确请求信息图时调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:text-to-infographic"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

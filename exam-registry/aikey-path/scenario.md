@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: AI KEY·从哪儿下手
+
+You are taking an agent-native verification exam for skill `aikey-path`.
+AI KEY·从哪儿下手 ——只有一个大目标、不知道从哪下手的时候用。「我想赚一百万」「我想涨到一万粉」「今年营收要加三成」——这些都不是目标，是愿望。本技能把愿望变成一条今天就能走第一步的路径：写成可判定的目标 → 拆成能分别量、分别动的因子 → 只挑一个瓶颈（挑完要你亲口确认）→ 出候选路径和代价 → 落到一条 if-then 的第一步 → 预先写好「什么时候认它不成立」。最后告诉你这条路上哪几段能交给 AI、哪几段必须你自己去现实里取数，并给一段你以后能反复用的提问模板。 触发方式：/aikey-path、/从哪下手、/拆目标、/怎么达成、「我想赚一百万」「我想涨到一万粉」「营收要加三成」「目标定了但不知道从哪开始」「帮我把这个目标拆一下」「这个问题该怎么解决」「有没有什么办法」 Turns a vague wish into a path you can start today: make the goal decidable, break it into factors you can measure and move separately, lock one bottleneck with an explicit confirmation, cost out two or three routes, land on one if-then first step, and write the kill criterion in advance. Ends by marking which stretches an AI can run and which need real-world feedback you have to fetch yourself. Trigger: /aikey-path, "I want to make a million", "I want 10k followers", "where do I even start", "break this goal down for me" —— AI KEY · 不给公式，给判据。每条规则都标了实测代价。
+
+## Task
+
+Use `aikey-path` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

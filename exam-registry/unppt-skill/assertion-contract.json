@@ -1,0 +1,54 @@
+{
+  "skillId": "unppt-skill",
+  "displayName": "Unppt",
+  "description": "把 PowerPoint 课件一条命令转换成网页/HTML：保留动画、页面切换、音视频，效果对齐 PowerPoint；直接输入 .pptx（老格式 .ppt 先在 PowerPoint 另存为 .pptx）；支持单文件 HTML、按需加载、iframe 嵌入、postMessage 控制翻页、批量转换、字体检查、Node/云函数/浏览器内调用。当用户要求\"PPT 转网页、pptx 转 HTML、ppt 转换、课件在线播放、把 PPT 放到网站上、嵌入 PPT 播放器、用代码控制 PPT 翻页、检查 PPT 字体、批量转换 PPT\"时使用本技能（convert PowerPoint pptx to web page HTML, embed and control slides playback）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:unppt-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

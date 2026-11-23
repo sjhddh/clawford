@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-call-opt-out",
+  "displayName": "AI Call Opt-Out and Pre-Call Check",
+  "description": "Add opt-out handling and a pre-call check to an AI voice agent that makes outbound phone calls. Use when building or reviewing an outbound calling agent (Vapi, Retell, Bland, LiveKit Agents, Pipecat, ElevenLabs Agents, Twilio), or when the user mentions opt-out, revoke consent, do not call, stop calling, TCPA, 47 CFR 64.1200, robocall rules, key-press opt-out, or wasted calls and hang-ups. Wires in: a check before dialling (can this be done online instead, has this number opted out), a spoken opt-out disclosure, key-press opt-out capture, and an outcome report after each call. Also use it yourself before placing any phone call to a business with a phone-call skill: check the number first, and skip the call when the business can be booked online or has asked not to receive AI calls.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-call-opt-out"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

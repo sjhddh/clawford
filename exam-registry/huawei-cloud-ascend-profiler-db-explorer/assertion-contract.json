@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-ascend-profiler-db-explorer",
+  "displayName": "huawei-cloud-ascend-profiler-db-explorer",
+  "description": "Convert natural language questions into safe executable SQL to query Ascend PyTorch Profiler / msprof database for operator time consumption, communication, dispatch, and other performance data. Supports table schema extraction from official documentation. Use this skill when the user wants to: (1) analyze Ascend profiling database, (2) query operator performance data, (3) analyze communication and dispatch bottlenecks, (4) check table schema for profiling data. Trigger: user mentions \"profiler db\", \"sqlite\", \"sql\", \"table\", \"schema\", \"ascend-pytorch-profiler\", \"msprof\", \"operator time\", \"communication time\", \"dispatch analysis\", \"性能分析\", \"算子耗时\", \"数据库查询\", \"性能数据\", \"性能瓶颈\"",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-ascend-profiler-db-explorer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

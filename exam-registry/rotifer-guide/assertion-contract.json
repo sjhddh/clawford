@@ -1,0 +1,54 @@
+{
+  "skillId": "rotifer-guide",
+  "displayName": "rotifer-guide",
+  "description": "Entry point for Rotifer Protocol. Onboards a user to Rotifer Genes, scaffolds a Gene from a description, diagnoses a Gene's F(g) score or compile failure, searches the Rotifer Gene registry, upgrades a Gene's fidelity from Wrapped to Native, and submits a Gene to the Arena and follows its ranking. It works by proposing `rotifer` CLI commands; the ones that install software, send work to Rotifer's servers, publish a Gene or overwrite files wait for the user's approval. Meant to be invoked explicitly when working with Rotifer, or when unsure which Rotifer capability fits. Its scope is Rotifer Genes and the Rotifer CLI; onboarding, tutorials, troubleshooting or search for anything else are outside it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rotifer-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

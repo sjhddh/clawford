@@ -1,0 +1,54 @@
+{
+  "skillId": "dmp-bulk-integration-segmentation",
+  "displayName": "明日dmp批量打通圈包",
+  "description": "基于明日DMP OPEN API 的“人群打通服务”，批量创建打通人群任务。支持分批创建（每批最多5个、同批串行、批间等待本批计算完成）、状态追踪，并在执行结束输出人群名称与人群ID汇总。支持两种参数输入方式：1）上传Excel/CSV导入；2）对话框一次性输入完整参数（单条或多条）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dmp-bulk-integration-segmentation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

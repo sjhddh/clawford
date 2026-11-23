@@ -1,0 +1,49 @@
+{
+  "skillId": "apple-icloud-mcp",
+  "displayName": "apple-icloud-mcp",
+  "description": "This skill should be used when the user asks about Apple Music, their Apple Music playlists or library, iCloud Calendar, iCloud Contacts, iCloud Mail, Apple Maps directions or places, the weather (WeatherKit), podcasts, or iTunes/App Store search — from any OS, via Apple's web services. Unofficial; not affiliated with Apple. Triggers on phrases like \"make an Apple Music playlist\", \"add this song to my playlist\", \"what's on my calendar\", \"schedule a meeting\", \"find free time\", \"what's Jane's number\", \"check my iCloud email\", \"directions to\", \"how long to drive\", \"will it rain\", \"top charts\", \"find a podcast\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:apple-icloud-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

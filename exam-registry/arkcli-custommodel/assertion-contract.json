@@ -1,0 +1,54 @@
+{
+  "skillId": "arkcli-custommodel",
+  "displayName": "arkcli-custommodel",
+  "description": "arkcli 自定义模型仓库管理：从 TOS 导入自定义模型、查询/筛选自定义模型、查看详情、改名、删除、查询可用量化模式、量化已就绪的模型。任何提到自定义模型 ID（`cm-*`）的管理、部署准备，或要求用 `cm-*` 直接对话/推理/试效果的边界判断，都必须使用本 skill。注意：查询火山**公共基础模型**（doubao 等 foundation models）走 arkcli-models；本 skill 只管账号下的自定义模型仓库。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-custommodel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

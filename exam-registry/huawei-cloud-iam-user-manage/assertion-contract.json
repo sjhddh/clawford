@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-iam-user-manage",
+  "displayName": "huawei-cloud-iam-user-manage",
+  "description": "1. Creates Huawei Cloud IAM users and authorizes them through the IAM v5 OpenAPI: create a user (name / description / enabled), create or reuse a user group, add the user to the group, and attach identity policies. 2. Execution order: KooCLI (`hcloud IAM <Operation>`) first, then the official `huaweicloudsdkiam` v5 Python SDK as a transparent fallback. Read-only lookups (list users / groups / policies) support name-to-id resolution. 3. Idempotent by design: an existing user/group is reused and an already-existing membership or attachment is reported instead of failing. 4. Explicitly OUT OF SCOPE: deleting or disabling users, deleting groups, AK/SK rotation, password policy, MFA, agencies/delegation. 5. Triggers include: \"创建IAM用户\", \"IAM用户授权\", \"给用户授权\", \"关联用户组\", \"绑定权限策略\", \"IAM user create\", \"create IAM user\", \"authorize IAM user\", \"add user to group\", \"attach policy to user\", \"iam user manage\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-iam-user-manage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

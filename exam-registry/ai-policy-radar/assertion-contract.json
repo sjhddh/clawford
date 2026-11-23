@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-policy-radar",
+  "displayName": "ai-policy-radar",
+  "description": "当用户说『最近AI出了什么新规』『EU AI Act/脆监会/NMPA有没有新动作』『法规更新我得跟上』『帮我盯AI政策』，或要持续跟踪 AI 监管动态（EU AI Act / 中国 NMPA / 美国 FDA / GDPR 等）时使用。扫描法规库/更新日志，按主题（风险分级/透明度/数据/准入）归类变动并留痕（有证），输出「本月新增了什么、对你有何影响」。可运行脚本（policy_radar 扫描器）。理论根基：LGD 三律之有证（法规变动留痕可溯）。与 eu-ai-act-companion 互补（它管单法导航，本技能管跨法动态监测）。触发词：AI法规、政策雷达、监管动态、EU AI Act更新、合规追踪、policy radar、法规监测。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-policy-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-file-organizer",
+  "displayName": "微信文件自动归类",
+  "description": "微信文件自动归类（无头版）——扫描微信接收文件目录，按类型/月份归类、去重、生成报告；支持 JSON 规则自定义归类（按文件名/路径/扩展名）与单文件 HTML 可视化报告（内嵌 CSS+SVG，无外部依赖）。零依赖、默认只读（dry-run）；清理源文件优先移入系统回收站/废纸篓，不提供永久删除选项。扫描逻辑与 GUI 应用 wechat-file-organizer-gui（main.py）同步。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-file-organizer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

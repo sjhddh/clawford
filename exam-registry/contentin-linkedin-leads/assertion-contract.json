@@ -1,0 +1,54 @@
+{
+  "skillId": "contentin-linkedin-leads",
+  "displayName": "ContentIn LinkedIn Leads",
+  "description": "Work the people who engaged with the user's LinkedIn posts through ContentIn (Agent Pro or Pro plan). Use when the user asks who is engaging with them, which engagers fit their ideal customer, who to follow up with, or wants a comment reply or a connection note drafted for a specific person. Reads list_leads and list_my_comments, drafts text the user approves, never sends anything.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:contentin-linkedin-leads"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

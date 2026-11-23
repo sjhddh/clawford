@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-spreadsheets",
+  "displayName": "TutorGPT AI Spreadsheets",
+  "description": "Create, improve, or analyze spreadsheets according to the user's requirements, always generating a deliverable file in the requested format. When no format is specified, asks the user to choose among a visual report (.html), spreadsheet (.xlsx), or another format — multiple formats can be selected. If HTML is chosen, produces an easy-to-understand visual insight report with professional charts. Trigger keywords: create spreadsheet, make spreadsheet, build a spreadsheet, create xlsx, make an Excel file, improve spreadsheet, analyze spreadsheet, spreadsheet report. Activate when the user asks to create, modify, or analyze spreadsheet data and wants a file output.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-spreadsheets"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "qa-quality-metrics",
+  "displayName": "qa-quality-metrics",
+  "description": "当管理层问\"质量到底怎么样\"、需要量化质量数据来做决策、或者想建立质量看板来跟踪趋势时使用此技能。从过程质量（需求评审通过率/用例覆盖度）、结果质量（Bug 密度/线上事故数）、效率（测试周期/回归耗时）和健康度（自动化通过率/环境稳定性）四个维度设计度量指标。⚠️ 度量的目的不是打分，是发现问题趋势——如果只报喜不报忧，度量就没用了。 触发场景：质量度量、质量指标、怎么量化质量、质量看板、质量数据、趋势分析、向管理层展示质量数据时。 Use when the user asks about: test quality metrics and dashboards — process, result, efficiency, and health indicators for management reporting.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qa-quality-metrics"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

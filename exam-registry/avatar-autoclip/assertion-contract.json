@@ -1,0 +1,54 @@
+{
+  "skillId": "avatar-autoclip",
+  "displayName": "三剪客 · 数字人自动剪辑",
+  "description": "只要一张参考图 + 一段文字，一条命令出成品短视频：参考生图（1 张参考图派生多张同风格人物图，保住同一张脸）→ 文案转配音 → 语音识别取字级时间轴做逐字字幕 → 图片数字人口播 → 智能剪辑套模板成片，含自动 AI 首帧封面。覆盖 nano_banana 参考生图、voice_tts 合成与识别、pic_lipsync 图片数字人、smart_clip 智能剪辑（模板列表/模板详情/真人口播混剪/素材混剪/新闻体视频）与通用任务查询，共 15 个命令。补上了上游缺的四处：本地预检（素材时长/分辨率/地址重名/字幕边界，不花点数就拦下）、提交前 dry-run、任务刚 completed 时结果为空的竞态兜底、人格权授权硬门禁。零依赖仅标准库，实测端到端出片成功（真实 mp4，1080x1920，含 AI 生成水印）。包内含完整操作文档与零依赖客户端（`SKILL.md` + `references/`）。需要自备 api.a7w.cn 的 API Key，注册领 Key 见 https://api.a7w.cn/ 。★ 算力接口已锁定：只能访问 api.a7w.cn，改地址会被就地拒绝并说明原因（不会一路报含糊的网络错）。遇到问题可加技术微信 9872659。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:avatar-autoclip"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

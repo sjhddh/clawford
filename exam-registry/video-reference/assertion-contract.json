@@ -1,0 +1,54 @@
+{
+  "skillId": "video-reference",
+  "displayName": "成片参考分析",
+  "description": "Analyze a finished reference video locally to extract shot rhythm, loudness/audio density, and contact sheets, then distill reusable editing and storytelling patterns into plain Markdown REFERENCE_NOTES.md without leaking source plot details. 按需拆解优秀成片：本地实测镜头节奏、响度密度并抽帧拼图，提炼脱敏的可迁移剪辑参考笔记 REFERENCE_NOTES.md。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-reference"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

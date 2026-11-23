@@ -1,0 +1,54 @@
+{
+  "skillId": "global-proposal",
+  "displayName": "global proposal",
+  "description": "Create Arabic (.docx) Word documents with proper right-to-left (RTL) layout, correct font splitting (Arabic script font for Arabic text + Latin font for English text), Arabic-Indic numerals (٠-٩), working table of contents, and verified formatting. Use this skill whenever the user wants to create, generate, or build an Arabic Word document, Arabic report, Arabic thesis/proposal/research, Arabic letter, or any RTL document that must look correct in Microsoft Word — even if they don't explicitly say \"Arabic docx\" but the content is clearly Arabic. Also use it when the user asks to fix Arabic font issues, convert numbers to Arabic numerals (٠-٩), or configure RTL page numbers in an existing docx.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:global-proposal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

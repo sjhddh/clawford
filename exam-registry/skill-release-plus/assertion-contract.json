@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-release-plus",
+  "displayName": "skill-release-plus",
+  "description": "Multi-hub skill publisher. Sign → Audit (placeholder) → Pack (clean tar.gz with exclude rules) → Publish to clawhub.com, skillhub.cn (Tencent Cloud), or GitHub Releases, all in one command. Pluggable adapter framework — add your own hub via a user-hook script (subprocess + JSON envelope). Single source of truth: one exclude.json, one signing pass, one package, fan out to N targets. Default target: clawhub only. Use --target all for all three real hubs, or --target user-hook:./my-script.sh for custom destinations. Triggers on: publish skill, release skill, push to skill hub, ship skill to multiple hubs, 发布 skill, 上传到 clawhub, 发布到 skillhub.cn, package only, 打包不发布.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-release-plus"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "industry-radar",
+  "displayName": "行业雷达",
+  "description": "行业雷达（Industry Radar）——可本地部署的「行业 × 技术」情报简报生成引擎（FastAPI 后端 + Vue Web 界面 + REST API），围绕「行业词 × 技术词」完成多源 RSS 采集、全文抽取、simhash 去重、相关性打分、主题聚类、LLM 摘要（未配置 LLM 自动降级），产出编辑精选式结构化简报。仅当用户点名本产品（「行业雷达」「Industry Radar」「IndustryRadar」「智汇简报」），或明确要求「用行业 × 技术关键词组合生成多源 RSS 情报简报 / 周报」时使用。触发必须先命中产品名或「行业词 × 技术词 × RSS 采集生成简报」这一复合意图；仅出现泛化的周期报告、监控、订阅管理、RSS 等词汇时不触发——用户写工作总结、做通用信息聚合、询问 RSS/Atom 概念、或搭建其他监控系统时不要使用本 Skill。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:industry-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

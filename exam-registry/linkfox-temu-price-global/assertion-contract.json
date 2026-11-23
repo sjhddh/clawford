@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-temu-price-global",
+  "displayName": "Temu全球站-定价",
+  "description": "Temu 全球站（非 US/EU）价格/供货价 API，经 LinkFox 网关转发 5 个接口（定价单、推荐价、SKU 供货价列表、批量改价等），默认 site=global。当用户提到 Temu Global 价格、全球站定价单、priceorder query、sku list price、查 SKU 供货价、改供货价、recommendedprice、baseprice recommend 时触发。美国站用 linkfox-temu-price-us；欧洲站用 linkfox-temu-price-eu；商品管理用 linkfox-temu-manage-product-global。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-temu-price-global"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

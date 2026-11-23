@@ -1,0 +1,54 @@
+{
+  "skillId": "ucloud-cli",
+  "displayName": "UCloud CLI",
+  "description": "当用户需要通过官方 UCloud CLI 进行真实 UCloud 资源操作时使用，包括查看、创建、更新或删除云主机、网络、EIP、负载均衡器和数据库。当用户想要在 UCloud 上部署 WEB 应用或将服务上线时也使用此技能，即使用户描述的是部署任务而非明确指定云产品。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ucloud-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "wb-buddy-checkin",
+  "displayName": "wb-buddy-checkin",
+  "description": "自动完成 WorkBuddy 桌面客户端「Buddy 加油站」每日签到与「派猫猫旅行」积分领取。API 直连方案（推荐）：读本机登录态直调官方接口，兼容 5.6.2+ 加密登录态（AES-256-GCM 信封自动解密）；GUI 坐标点击方案兜底（纯 ctypes 窗口置前 + 坐标点击 + 截图灰度校验，零第三方依赖）。猫猫旅行支持只读状态展示与先领后派全自动闭环（写操作需显式 --auto）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-buddy-checkin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

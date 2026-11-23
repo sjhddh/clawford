@@ -1,0 +1,54 @@
+{
+  "skillId": "daily-points-claim",
+  "displayName": "每日签到自动领取",
+  "description": "每日自动领取积分、签到打卡的执行器。当用户要配置、新增、运行、调试「每日签到」「自动领积分」「打卡领奖励」「每日任务领取」类任务，或要检查今天是否已领取、积分是否到账、Cookie 是否过期时使用。支持多站点、模板变量、以及灵活的成功/已领判定规则，可挂定时任务每天自动执行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:daily-points-claim"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "heyyumi",
+  "displayName": "heyyumi",
+  "description": "Find real Korean restaurants, cafes and bars, and hair salons, nail, lash and waxing shops and skin care, and send a reservation request the venue answers in the same chat, in whatever language the user speaks. Uses HeyYumi's hosted MCP server (560,000+ verified venues across Seoul, Gyeonggi, Busan, Jeju, Incheon, Daejeon, Sejong and North/South Chungcheong, re-checked daily). Triggers on \"find a restaurant in Seoul\", \"book a table in Hongdae\", \"Korean BBQ near Gangnam tonight\", \"맛집 추천\", \"오늘 뭐 먹지\", \"머리 자르러 갈까\", \"네일 예약\", \"예약해줘\", or any request to eat, drink, get a haircut, nails, lashes or waxing, or book in Korea.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:heyyumi"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "questionnaire-quality-checker",
+  "displayName": "questionnaire-quality-checker",
+  "description": "对心理学问卷数据进行可复现的数据质量筛查，检查缺失比例、非法或超范围值、量表内直线作答和极端作答模式，并生成逐样本标记报告。当用户说“检查问卷数据质量”“筛查无效问卷”“检查直线作答”“检查异常作答”“questionnaire quality check”“screen invalid responses”或要求对多个不同计分范围的量表进行基础质量控制时使用。适用于 CSV 格式的心理学问卷数据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:questionnaire-quality-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

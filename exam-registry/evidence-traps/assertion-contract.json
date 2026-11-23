@@ -1,0 +1,54 @@
+{
+  "skillId": "evidence-traps",
+  "displayName": "evidence-traps",
+  "description": "Use before you trust a zero, an empty result, an exit 0 or a passing check that came from a shell pipeline, grep/rg sweep, curl/jq fetch, API count, test run or gate. Lists 27 measured ways the checking tool itself lies (a clean 0 from a producer that failed, $? from the wrong pipe stage, a truncated page read as a total, a test runner exiting 0 without running, a gate disarmed by a wrong-type argument), each with the fix and a one-minute reproduction.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:evidence-traps"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "creative-media",
+  "displayName": "creative-media",
+  "description": "One runtime for image generation, image editing, video, audio, and image-to-3D, with no API key to obtain first. The agent signs itself up once and runs all five through two calls, create and edit, on one identity and one credit balance: no provider account to open, no billing to set up. Every result returns a hosted media URL with no signature or expiry, a job id the agent can re-fetch, and a receipt for what the call cost. Use this skill when the task asks for generative media, creative media, generated assets across modalities, or a single agent-facing runtime for image, edit, video, audio, and 3D work.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:creative-media"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

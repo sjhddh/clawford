@@ -1,0 +1,54 @@
+{
+  "skillId": "npmscan-incident-response",
+  "displayName": "npmscan incident response",
+  "description": "Turn a flagged npm supply-chain finding — or just a vague, non-technical description of one (\"this package looks sketchy,\" \"someone said we got hacked,\" \"npm install did something weird\") — into concrete remediation steps. Use whenever the user wants to know what to actually do about a suspicious/compromised/flagged package, however precisely or vaguely they describe it — not for the initial trust/vulnerability investigation itself (see package-trust-check/dependency-audit for that).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:npmscan-incident-response"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

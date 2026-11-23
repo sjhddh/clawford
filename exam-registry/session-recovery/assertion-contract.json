@@ -1,0 +1,54 @@
+{
+  "skillId": "session-recovery",
+  "displayName": "session-recovery",
+  "description": "Recover lost agent session content and file changes from on-disk conversation logs. Streaming and OOM-safe on 700MB+ daily JSONL. Two commands: search.py for keyword search across recent sessions (with hit snippets, file-op listing, JSON for agent consumption); extract.py for pulling full write/edit content from a single session by ID prefix, with optional replay-rebuild for pure-edit sequences and safe restore-to-disk (refuses silent overwrites without --yes). Multi-agent aware via --agent main|all|a,b. Configurable data root via --root flag or SESSION_RECOVERY_ROOT env var (default ~/.openclaw/agents/). Trigger when user wants to find lost session content, recover files written by an agent, locate which session modified a file, search session history by keyword, or rebuild a file from an edit replay. Also triggers on 找回会话, 会话被覆盖, 历史会话搜索, 文件被删了, session 丢了, 找回某个文件, 重放编辑.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:session-recovery"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

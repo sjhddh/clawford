@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-token-efficient-execution",
+  "displayName": "tao-token-efficient-execution",
+  "description": "Token-efficient execution kit for repeated TAO agentic workflows. Compiles a skill into stage cards once (with a strong model), then executes them forever in fresh, small headless sessions coordinated by a bash driver — measured 67-91% token reduction and 3-5x lower peak context vs one long conversation. Use when a TAO workflow will be run repeatedly, when token cost matters, when the target model has a small context window, or on trigger phrases like \"token efficient\", \"reduce token cost\", \"card pack\", \"stage cards\", \"run this workflow on a small model\", \"compile this skill into cards\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-token-efficient-execution"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

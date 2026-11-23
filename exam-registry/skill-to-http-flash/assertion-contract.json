@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-to-http-flash",
+  "displayName": "skill-to-http-flash",
+  "description": "把单个 Skill 编译成独立 HTTP REST API 微服务（v2.0 subprocess 直执行）。当用户说「skill 暴露成 HTTP 接口」「flash 一个 skill」「skill 起 API 服务」「skill 输入输出结构化」「standalone 跑 skill」 「skill-to-http-flash」时使用。JSON → Python 入口 → 统一 envelope（success/exit_code/data|output/stderr）。 毫秒冷启，运行期不依赖 Gateway/LLM，多 agent runtime 通用（OpenClaw/Claude Code/Cursor）。默认 HTTP，按需 HTTPS。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-to-http-flash"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cli-butler",
+  "displayName": "CLI Butler",
+  "description": "Manage local CLI tools through any agent — inventory every installed CLI across package managers (brew, npm, pipx, uv, cargo, gem, apt), install/upgrade/uninstall with provenance routing, trace a CLI's full reference chain (symlinks, PATH lines, launchd, config files, last-used), and enumerate what a CLI can do. Use when the user asks to install, uninstall, upgrade or list CLI tools, asks \"what CLI tools are installed\", wants to know where a CLI comes from or what references it, or wants to know a command's capabilities. Zero third-party dependencies, macOS/Linux.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cli-butler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

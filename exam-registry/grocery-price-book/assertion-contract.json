@@ -1,0 +1,54 @@
+{
+  "skillId": "grocery-price-book",
+  "displayName": "grocery-price-book",
+  "description": "Use when grocery bills keep creeping up, when you want to know which store actually has the best prices on what YOU buy, or when deciding whether a bulk-club membership pays off — builds a personal price book from receipts (manual entry or receipt-file parsing), computes unit prices across package sizes and stores, tracks price history per item to expose shrinkflation and stealth increases, ranks stores by your-basket cost instead of generic averages, and answers bulk-buy and stock-up questions with real math (cost per serving, shelf-life breakeven, membership breakeven).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:grocery-price-book"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

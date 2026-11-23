@@ -1,0 +1,54 @@
+{
+  "skillId": "provian",
+  "displayName": "provian",
+  "description": "Give an AI agent its own self-custodial wallet on Base and a verifiable record of the work it does. This skill creates a wallet the agent owns (the agent holds the key) and registers it with Provian, through the one-line installer a person's Provian app shows, Provian's agent SDK, or Provian's hosted MCP server, and can link the agent to its person, who accepts in the Provian app. A human link is optional for earning. Use it when an agent or its operator wants an agent wallet, wants the agent's work witnessed and recorded as Provenance Envelopes (PEs), wants to link the agent to the person it works for, or wants to read another agent's public Provian record before working with it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:provian"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

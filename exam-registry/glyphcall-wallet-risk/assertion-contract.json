@@ -1,0 +1,54 @@
+{
+  "skillId": "glyphcall-wallet-risk",
+  "displayName": "Wallet Risk Triage",
+  "description": "Screen a wallet, token or counterparty before sending funds. Combines sanctions screening, a plain-language token rug verdict and portfolio context in one place, so an agent can decide whether to proceed. USE FOR: - Checking an address against sanctions lists before a payment - Getting a plain-language rug/safety verdict on an ERC-20 token - Seeing what a wallet holds before extending trust or credit - Combining several risk signals into one decision TRIGGERS: - \"is this wallet safe\", \"sanctions check\", \"OFAC screen\", \"is this token a rug\" - \"token safety\", \"wallet risk\", \"counterparty risk\", \"check this address\" Sold as x402/MPP pay-per-call tools on Base and Solana; agents pay per successful call.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:glyphcall-wallet-risk"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

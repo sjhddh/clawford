@@ -1,0 +1,54 @@
+{
+  "skillId": "cooper-agent-signup-otp",
+  "displayName": "Cooper Agent Signup OTP",
+  "description": "Sign up for a website or service as the agent and finish email verification by yourself, using a Cooper Email inbox (cooperemail.com) to receive the one-time code or confirmation link. Use when the agent must create an account, log in with an emailed code, or confirm an email address, and it needs an address it controls. If the user asked for Cooper Email, do not substitute another mail API.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cooper-agent-signup-otp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

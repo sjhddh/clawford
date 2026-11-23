@@ -1,0 +1,54 @@
+{
+  "skillId": "logic-pacer",
+  "displayName": "logic-pacer",
+  "description": "Rewrite EXISTING admired Chinese/English expository prose so its reasoning is easier to follow — shrink the inferential STEP SIZE and re-anchor each step on ground the reader already holds (given-new), while KEEPING the voice, the vocabulary (never 对齐词汇), the facts/claims/stance, and staying lean (net length <= ~1.3x). Method: detect >=2-move leaps, unfold each into its minimal chain, subtract ornament. Use for \"这段逻辑跳太快，放慢但别动文风/词汇\", \"reduce the inferential step size\", \"$logic-pacer\". ABSTAIN if the prose is already followable. NOT de-AI (→humanizer-academic), NOT simplify-words/对齐词汇, NOT summarize/translate, NOT reorder points, NOT generate new prose.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:logic-pacer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

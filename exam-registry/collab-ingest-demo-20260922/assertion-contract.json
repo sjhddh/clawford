@@ -1,0 +1,54 @@
+{
+  "skillId": "collab-ingest-demo-20260922",
+  "displayName": "Collab Ingest Demo",
+  "description": "可复现的协作入库演示：用 workflow-structurer 把模糊流程结构化为 handoff，再按 demo-asset-ingest 规范打包，最终通过 clawhub 发布到资源中心。本资产即一次真实入库的产物，DESCRIPTION.md 为上游流程梳理结果。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:collab-ingest-demo-20260922"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

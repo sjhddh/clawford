@@ -1,0 +1,54 @@
+{
+  "skillId": "abracadabra",
+  "displayName": "Abra",
+  "description": "Operate the abracadabra local secrets vault (abra CLI, abra serve, abra MCP) only when the user names abracadabra or abra, the abracadabra MCP is registered, or ABRA_KEY is already set for this project. Covers discovering key names, reading secrets the human has scoped to this agent (issued abra key or Touch ID grant), key issue/scope/revoke, health checks, keygen/connectors, USB/LAN sync, cartridge checkpoints, and treasury USDC payments (Touch ID). Do not use for generic env var, API token, wallet, or SSH key questions, or for other vaults or .env files. Never print secret values in chat.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:abracadabra"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

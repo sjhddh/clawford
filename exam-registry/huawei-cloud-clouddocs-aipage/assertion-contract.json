@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-clouddocs-aipage",
+  "displayName": "huawei-cloud-clouddocs-aipage",
+  "description": "最基础的「基于内容创建在线 page 文档」技能：用户提供内容（主题/文本/要点），模型生成 markdown，经 clouddocs-cli page +create 一次创建在线 page 文档并交付链接，再用 clouddocs-cli file +export 导出为 docx 存到本地，全程 clouddocs-cli、不开编辑器。用于把一段内容变成一篇可分享的在线文档，并保留一份本地 Word 副本。Trigger: 生成一篇在线文档, 创建page文档, 根据内容生成文档, 把我的内容变成云文档, 创建在线page, 生成云文档, 把要点整理成文档, 创建一篇page。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-clouddocs-aipage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

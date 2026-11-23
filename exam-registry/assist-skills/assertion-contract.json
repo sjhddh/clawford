@@ -1,0 +1,54 @@
+{
+  "skillId": "assist-skills",
+  "displayName": "assist-skills",
+  "description": "AI开发助手项目接入技能。功能：(1)内置 deploy.cmd/deploy.ps1/deploy.sh，支持双击、右键\"发送到\"、命令行、以及 -Vendor 把技能包内嵌进项目供团队分发，一键把参考资料包部署到目标项目并自动落地各工具规则 (2)配置Trae/CodeBuddy/Claude Code/opencode四款工具规则 (3)生成需求/设计/测试/审查标准模板 (4)10个快捷指令Workflow覆盖全流程 (5)1WEEK/3DAY/1DAY三级任务复杂度分级。当用户需要在项目中接入AI辅助开发流程、把技能包/参考资料包部署或拷贝到工程目录、让团队其他成员也能直接用上AI开发助手、配置AI工具规则、生成标准化模板时使用此技能。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:assist-skills"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

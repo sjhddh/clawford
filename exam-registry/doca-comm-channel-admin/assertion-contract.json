@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-comm-channel-admin",
+  "displayName": "doca-comm-channel-admin",
+  "description": "Use this skill to enumerate host↔DPU DOCA comch (formerly Comm Channel) servers and connections via the shipped doca_comm_channel_admin binary — listing comch-capable devices and decoding the per-device server / connection table (server name, PID, in-use / max, PCIe address). The shipped binary is a SINGLE-SHOT SCAN-AND-PRINT tool with no registered arguments — NO list / inspect / drain / restart subcommands; one inventory pass over every comch-capable doca_dev on this side. Channel reset / drain / restart go to doca-comch (program side), doca-setup / doca-hardware-safety (driver reload), or BFB / RShim — NOT to this binary. Trigger on phrasings like \"list comch servers\", \"which channels are active on this BlueField\", or \"verify admin tool sees same channel as program.\" Refuse and route elsewhere for the comch programming API, library install, protocol design, channel reset, or general orientation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-comm-channel-admin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

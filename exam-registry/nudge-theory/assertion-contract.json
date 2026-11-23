@@ -1,0 +1,54 @@
+{
+  "skillId": "nudge-theory",
+  "displayName": "nudge-theory",
+  "description": "Activate when: user says 'nudge,' 'default,' 'opt-in vs opt-out,' 'choice architecture,' or 'why do people know they should but don't?'; user has a behavior gap between intent and action; user is designing product onboarding, policy enrollment, or public health interventions and wants to change behavior without mandates or incentives. Do NOT activate when: the gap is informational (people genuinely don't know what to do — education precedes nudging); the designer's goal is to serve their own interests rather than the chooser's (that is a dark pattern, not a nudge). More: deciqai.com/c/nudge-theory",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nudge-theory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

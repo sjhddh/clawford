@@ -1,0 +1,54 @@
+{
+  "skillId": "lgd-change-gate",
+  "displayName": "LGD Change Gate（医械 AI 变更判定）",
+  "description": "Decide whether a change to a medical-device AI or ML function needs formal change control, and return a pass, hold or reject verdict with auditable reasons. Medical-device AI/ML change-control judgment per the LGD three laws (有籍 Recorded / 有证 Evidenced / 有门禁 Gated). Trigger when the user asks whether a device-software or algorithm change requires change control, asks for a risk verdict (pass/hold/reject), asks for change-level classification (minor/major/critical), or asks for an LGD-theory judgment with auditable reasons. Applies to regulated environments (FDA 510(k)/PMA, EU MDR, ISO 13485) and other AI/ML medical-device change evaluations.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lgd-change-gate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

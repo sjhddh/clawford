@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-phone-receptionist",
+  "displayName": "AI Receptionist",
+  "description": "Give a business a phone number that an AI answers: a greeting that says it is an AI, opening hours, messages taken with a full transcript, and follow-up by ticket or email. Use when the person wants an AI receptionist, a virtual receptionist, a phone answering line or missed calls handled. Runs on Conecto, a paid service: numbers from $2.00 a month and $0.25 per started minute, on credit the owner bought. US and Canada numbers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-phone-receptionist"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

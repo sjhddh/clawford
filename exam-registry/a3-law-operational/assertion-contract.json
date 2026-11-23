@@ -1,0 +1,54 @@
+{
+  "skillId": "a3-law-operational",
+  "displayName": "a3-law-operational",
+  "description": "把「A³ 法则（AI 造 AI 三定律）」从原则落成可执行的工程规矩：① 触发阈值（什么动作算\"造/改 AI\"或\"重大自主行动\"，须进入 A³ 评审）；② 事前评估清单（意图/影响/可逆性/监督）；③ 事后复盘与升级/拒绝条件。配触发判定树与评分卡，让任何 AI 在动\"造/改另一个 AI\"或高影响动作前先过三关。触发词：A³法则、AI造AI三定律、AI自主造AI、触发阈值、自我修改、自主行动评估、AI三定律、造AI评审。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a3-law-operational"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

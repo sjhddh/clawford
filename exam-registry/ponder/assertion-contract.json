@@ -1,0 +1,54 @@
+{
+  "skillId": "ponder",
+  "displayName": "ponder",
+  "description": "Convergent multi-pass deliberation and code review ledger that enumerates units, grades every unit against a lens rubric, runs four-perspective deliberation (Skeptic, Builder, Dreamer, Empath), records append-only finding deltas, verifies phantom-unit removals across all historical paths, and enforces 1.00 coverage and zero-churn convergence before stopping. Use when the user says \"ponder <anything>\" (\"ponder the UI\", \"ponder our error handling\", \"ponder this PR\"), \"run a ponder audit\", \"grade every unit with the ponder ledger\", \"run four-voice Skeptic/Builder/Dreamer/Empath deliberation\", or asks for a coverage-gated multi-pass lens audit across files or screens where stopping early would miss units. Also use to resume or recover a ponder session in flight - \"where were we in the ponder\", \"carry on pondering\", or an existing .ponder/ directory - by running ponder status rather than starting over.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ponder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

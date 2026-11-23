@@ -1,0 +1,54 @@
+{
+  "skillId": "medxpert-doc-toolchain",
+  "displayName": "MedXpert 文档模板工具链",
+  "description": "Document template toolchain for MedXpert-style deliverables: it holds reusable templates and generates filled-in documents from user-supplied content, keeping headings, structure and formatting consistent across a batch. MedXpert 名片风格文档模板工具链：模板生成、收尾流水线（水印/暗纹/溯源/解锁）、PDF/DOCX 导出、台账编号、审批流、电子签名、中英对照、乐享托管，覆盖医疗器械/ISO13485 文档全生命周期。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:medxpert-doc-toolchain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

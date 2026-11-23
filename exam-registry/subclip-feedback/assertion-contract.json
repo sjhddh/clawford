@@ -1,0 +1,54 @@
+{
+  "skillId": "subclip-feedback",
+  "displayName": "subclip-feedback",
+  "description": "Tell the Subclip team when something is broken, missing or worth improving, through report_bug, request_feature and submit_feedback. Use when a tool fails in a way you cannot work around, when the user's request cannot be done with the available tools, when the user asks you to report a problem or suggest a feature, or to pass on feedback. Text only; never send screenshots or private content.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:subclip-feedback"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

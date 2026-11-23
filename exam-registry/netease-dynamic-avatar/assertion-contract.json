@@ -1,0 +1,54 @@
+{
+  "skillId": "netease-dynamic-avatar",
+  "displayName": "网易云动态头像",
+  "description": "网易云音乐网页版设置「动态头像」（GIF/动图头像）的完整可复现流程。破解了网页版「更换头像」必走 /upload/img/op 服务端裁切导致动图被压成静态 JPEG 的问题，改为跳过裁切、直传 NOS 原始动画 WebP 字节再用原始 docId 设头像。包含 GIF→动画 WebP 转换、NOS 直传、风控 checkToken、逐帧验证与失败排查。触发词：网易云动态头像、网易云头像动图、网易云头像不动、music.163 动态头像、更换网易云头像、GIF 头像、webp 头像、动态头像失效。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:netease-dynamic-avatar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

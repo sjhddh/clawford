@@ -1,0 +1,54 @@
+{
+  "skillId": "rd-project-patent-survey",
+  "displayName": "研发立项调研",
+  "description": "研发立项调研、项目立项专利、研发前专利调研。当用户说「这个研发项目值不值得做」「立项前看看别人有哪些方案」「帮研发团队列技术路线和验证问题」时使用，交付立项专利参考表，不作查新或侵权结论。 Survey patents for an R&D project by mapping requirements to existing technical approaches, evidence and validation questions in a project decision table.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rd-project-patent-survey"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

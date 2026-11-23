@@ -1,0 +1,54 @@
+{
+  "skillId": "rockdesk",
+  "displayName": "RockDesk Remote Control",
+  "description": "Control a remote computer with the RockDesk command line `rds`, by its 9-digit ID: shell, files (copy / sync / mount), screenshots, mouse and keyboard, clipboard, port / serial / USB forwarding, 内网穿透 (VPN). Needs the RockDesk app on both machines: if `rds` is missing, send the user to https://rockdesk.io/#download first. Triggers: \"RockDesk\", \"rds\" with a 9-digit ID, \"剪贴板历史\", \"内网穿透\", \"挂目录\", \"screenshot the remote\", a 9-digit ID plus an action, or any request to operate another machine.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rockdesk"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

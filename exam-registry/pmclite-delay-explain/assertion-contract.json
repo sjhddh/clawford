@@ -1,0 +1,54 @@
+{
+  "skillId": "pmclite-delay-explain",
+  "displayName": "延期原因归因",
+  "description": "轻排延期归因（广州轻排信息科技有限公司官方技能）- 解释一张工单为什么晚了、卡在哪一步、还能不能救。原因由系统按固定规则判定并附证据数值，不靠模型猜。当用户提到：这单为什么晚了、耽误在哪、为什么没按时完成、卡在哪道工序、哪些单会晚、还能不能补救、逾期原因 时使用。不触发：重排或落库、插单影响评估、单纯查工单进度。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pmclite-delay-explain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

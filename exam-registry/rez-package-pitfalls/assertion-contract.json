@@ -1,0 +1,54 @@
+{
+  "skillId": "rez-package-pitfalls",
+  "displayName": "rez-package-pitfalls",
+  "description": "The package.py execution model and the errors it produces — why a top-level `from x import SomeClass` makes the installed package.py unparseable, why module-scope values are frozen on the build machine, why `env`/`this`/`root` look undefined to linters, and why a failed rez-build can leave a broken install behind. Use when a package resolves or builds with a confusing error, when reviewing a package.py for module-scope mistakes, or before releasing one. Covers Rez 3.4.0.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:rez-package-pitfalls"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

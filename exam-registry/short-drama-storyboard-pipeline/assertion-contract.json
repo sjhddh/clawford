@@ -1,0 +1,54 @@
+{
+  "skillId": "short-drama-storyboard-pipeline",
+  "displayName": "Short Drama Storyboard Pipeline · 短剧分镜提示词流水线",
+  "description": "短剧/漫剧分镜提示词流水线：把剧本片段或分镜表批量转成首帧图提示词与图生视频提示词 （I2V 首帧驱动 / FL2V 首尾帧），适配即梦、可灵、海螺 H3、Seedance、Vidu、Runway 六类模型方言，内置角色一致性锚点、竖屏 9:16 镜头语言与 CSV/JSON 批量导出。 Use when the user wants to batch-generate storyboard image prompts or image-to-video prompts for AI short drama / comic drama (短剧、漫剧、AI 短剧、分镜、图生视频、首尾帧、 角色一致性), or needs model-specific prompt dialects (Jimeng, Kling, Hailuo H3, Seedance, Vidu, Runway). Not for single standalone clips, video editing, or full film assembly.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:short-drama-storyboard-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

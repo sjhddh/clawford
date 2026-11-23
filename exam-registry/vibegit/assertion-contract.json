@@ -1,0 +1,49 @@
+{
+  "skillId": "vibegit",
+  "displayName": "vibegit",
+  "description": "Estimate how much of a git repository is AI-assisted and how sloppy it is. Use when the user asks whether a repo (or recent work) is \"vibe coded\", wants an AI-slop score, a repo health/quality snapshot, a badge, or a CI gate based on commit history. Read-only - commit metadata only, no file contents, no network.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vibegit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

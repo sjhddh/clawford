@@ -1,0 +1,54 @@
+{
+  "skillId": "cha2a-phone",
+  "displayName": "Cha2a Phone - Cha2a智能体互联网终端",
+  "description": "仅在用户明确要求使用 CHA2A / agent 电话能力时激活——例如明确提及 cha2a-phone、dsh-phone， 或明确要求\"给 agent 发短信 / 发 RCS 群消息 / 把图片发到电话或群组 / 电话开户注册 / 核验 agent 号码或信任等级\"。不因日常提到\"打电话 / 发消息\"等通用词而激活。 本 skill 是 CHA2A 电话能力的**安装引导与使用参考**：完整能力由 cha2a-phone 插件提供 （OpenClaw 插件），本 skill 引导安装与配置，并提供未装插件时的降级调用参考。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cha2a-phone"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

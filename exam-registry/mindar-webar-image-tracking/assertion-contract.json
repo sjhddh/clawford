@@ -1,0 +1,54 @@
+{
+  "skillId": "mindar-webar-image-tracking",
+  "displayName": "MindAR WebAR 图像识别",
+  "description": "用 MindAR.js + A-Frame 做手机 WebAR 图像识别（扫卡牌/图片/包装出 3D 内容），包括：在纯 Node 下编译 .mind 而绕开 node-canvas、用特征点数在编译期判定目标图质量、用合成假摄像头在无头浏览器里做端到端自动验证。当用户提到 MindAR、WebAR、手机扫一扫出模型、H5 AR、图像识别跟踪、.mind 编译失败、node-canvas 装不上、无头浏览器测 AR、或 tfjs WebGL kernel 报错时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mindar-webar-image-tracking"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

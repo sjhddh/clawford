@@ -1,0 +1,54 @@
+{
+  "skillId": "shipyard-design",
+  "displayName": "Shipyard design",
+  "description": "Choose or change how an app looks: colours, fonts, layout, homepage style, dark mode, icons. Use for \"design\", \"how my app looks\", \"change the look\", \"change the colours\", \"change the fonts\", \"copy this website's style\", \"make it look like\", \"3 directions\", \"/shipyard:design\", or the sentences \"Shipyard: use the <name> look\" and \"Shipyard: use direction <A|B|C> for <app>\". If the folder has no .shipyard-app.json, do not stop: follow the new-app upgrade guide and do the full standard, including a proposed look.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shipyard-design"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

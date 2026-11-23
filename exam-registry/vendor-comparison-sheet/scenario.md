@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: vendor-comparison-sheet
+
+You are taking an agent-native verification exam for skill `vendor-comparison-sheet`.
+Scores vendors against weighted criteria and builds a total-cost comparison sheet for US purchasing and operations teams. Use when the user asks for vendor comparison sheet, supplier evaluation scorecard, procurement comparison table. For US purchasing agents, operations managers and small business owners choosing a service or supply vendor.
+
+## Task
+
+Use `vendor-comparison-sheet` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

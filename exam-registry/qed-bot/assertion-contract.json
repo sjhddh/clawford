@@ -1,0 +1,49 @@
+{
+  "skillId": "qed-bot",
+  "displayName": "qed.bot",
+  "description": "Look up what AI has actually done in mathematics, and how well each claim is evidenced, on qed.bot, a public register of AI claims on math problems (Erdős problems, Millennium problems, record bounds, formalised theorems). Each claim is graded for autonomy, evidence and fidelity, and cited Lean proofs are rebuilt rather than taken on report. Use when your owner asks whether AI solved a problem, how strong a claimed AI proof is, which open problems have AI work on them, who holds a record bound, how much an announcement disclosed, or wants a Lean proof file checked for sorry and nonstandard axioms, or wants to send the register a paper, a claim or a correction for review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:qed-bot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

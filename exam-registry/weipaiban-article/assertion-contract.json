@@ -1,0 +1,54 @@
+{
+  "skillId": "weipaiban-article",
+  "displayName": "微排版公众号文章排版",
+  "description": "微排版官方技能，用于把主题或稿件排成微信公众号文章并发布到微排版。正文可以滚动阅读，套用主题的配色、标题和分割；需要时再插入章节配图、轮播图集、横向滑动、点击切换和点击弹窗。图片默认来自微排版 AI 素材库，也可以自行提供，或点名自己的生图技能。当用户要做公众号排版、公众号文章、微信图文、文章美化，或说微排版文章、给出主题或稿件时使用。整篇视差、答题或二选一互动用技能 weipaiban。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:weipaiban-article"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

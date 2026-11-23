@@ -1,0 +1,49 @@
+{
+  "skillId": "star-search",
+  "displayName": "star-search",
+  "description": "Use when asked to search the web, find online information, research topics, get news, look up Chinese content, or check finance / tech news. **v20.42 - LangChain + Dify + 5 分钟安装体验**: 新增 LangChain Tool 适配器 (`integrations/langchain/star_search_tool.py`) + Dify plugin (`integrations/dify/manifest.yaml`), 一键安装脚本 `install.sh`, `.env.example` 模板, 5 分钟快速开始. **v20.41 基础**: English coverage + open scholarly sources (pure-English queries auto-route to Bing HTTP backend; OpenAlex + CrossRef merge). 16 plus engines, intent understanding, observable per-call metrics. The public service exposes standard MCP (4 tools) plus JSON-RPC and SSE. v20 series highlights: sub-second SSE streaming, multi-turn dialog, 4 output formats, Prometheus monitoring, semantic search, AI orchestration layer (intent classification, entity card, cross-source verification), bot-protection workarounds, and a 4-stage end-to-end pipeline that defaults to LLM answer + auto-fetched snippets. 16 plus engines, intent understanding, and observable per-call metrics.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:star-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

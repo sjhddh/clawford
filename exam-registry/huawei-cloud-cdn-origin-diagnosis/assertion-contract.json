@@ -1,0 +1,49 @@
+{
+  "skillId": "huawei-cloud-cdn-origin-diagnosis",
+  "displayName": "huawei-cloud-cdn-origin-diagnosis",
+  "description": "Diagnose CDN origin server reachability and back-to-source failures using hcloud CLI. Query the origin configuration (origin_addr, origin_type, http_port, https_port, origin_protocol) of a CDN domain via ShowDomainFullConfig/v2, then probe origin server connectivity using the Python probe script (scripts/origin_probe.py) to identify the root cause of back-to-source failures, origin unreachable errors, and abnormal responses. Use when the user wants to: (1) diagnose CDN back-to-source failures, (2) check why origin server is unreachable, (3) troubleshoot origin configuration issues, (4) verify origin connectivity from the network perspective, (5) investigate abnormal HTTP responses from the origin. Triggers include: '源站诊断', '源站不可达', '回源失败', 'origin diagnosis', 'origin unreachable', '回源异常', '源站配置' Do NOT use this skill for configuration changes, cache refresh/preheat, domain lifecycle management, or billing operations — this skill is strictly read-only diagnosis.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cdn-origin-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

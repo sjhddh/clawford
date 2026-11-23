@@ -1,0 +1,54 @@
+{
+  "skillId": "wechat-article-beautify",
+  "displayName": "wechat-article-beautify",
+  "description": "微信公众号文章美化编排。将一篇已完成的文章（Markdown/纯文本/HTML）套用 7 套内置行业排版模板（商务咨询/教育培训/金融理财/美食生活/医疗健康/文学情感/科技互联网）生成微信公众号编辑器可直接粘贴的成品 HTML，支持单模板套用、全部模板批量套用与多版本并排对比预览。此技能应在以下场景触发：(1) 用户说「美化文章」「文章排版」「套模板」「重排文章」「公众号排版」等；(2) 用户提供一篇文章并要求按模板重新编排、生成多版本对比；(3) 用户要求生成微信编辑器可用（全内联样式）的文章页面。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wechat-article-beautify"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

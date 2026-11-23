@@ -1,0 +1,54 @@
+{
+  "skillId": "shelbys-speech",
+  "displayName": "shelbys-speech",
+  "description": "把「谢尔比的记忆」档案库（含完整记忆系统：记忆库+重要md+日志+项目档案）按主题识别，一篇篇生成博士水平、SCI 格式的技术论文（中英文双语、自动检查修复 Word、问答式修改、确认后输出 PDF）。可识别多个主题→多篇论文，每篇先询问用户。选题明确后开放完整记忆系统访问权限（只读），素材更全。作者默认<用户名> & 谢尔比，可随时按用户要求修改。用户说写论文/技术论文/博士论文/SCI/投稿/演讲/分享/总结成文时使用。关键词：论文、SCI、博士论文、投稿、英文论文、PDF、演讲、分享、提炼总结、多主题、shelbys speech、完整记忆。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shelbys-speech"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

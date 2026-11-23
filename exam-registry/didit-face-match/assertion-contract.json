@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-face-match",
+  "displayName": "didit-face-match",
+  "description": "Use when writing backend or API-key integration code for Didit Face Match (POST /v3/face-match/), the standalone API that compares two face images 1:1. Use when checking that a selfie matches an ID document portrait or a previously enrolled photo, verifying that two photos show the same person, or adding selfie-to-document biometric comparison. Returns a 0-100 similarity score and an Approved/Declined status against a configurable decline threshold (default 30), with optional image rotation. Does not enroll faces or run blocklist or duplicate checks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-face-match"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

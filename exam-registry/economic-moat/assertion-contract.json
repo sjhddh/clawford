@@ -1,0 +1,54 @@
+{
+  "skillId": "economic-moat",
+  "displayName": "economic-moat",
+  "description": "Activate when: user asks 'does this business have a moat', 'what stops competitors from copying us', 'how defensible is this company', 'is this advantage durable', evaluating a company for investment or acquisition, designing startup strategy for long-term defensibility, reviewing an investor pitch's competitive-advantage claims. Do NOT activate when: time horizon is under 1 year (moat is multi-year); question is about immediate execution tactics or a single-quarter decision. More: deciqai.com/c/economic-moat",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:economic-moat"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

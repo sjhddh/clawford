@@ -1,0 +1,49 @@
+{
+  "skillId": "reka-batch",
+  "displayName": "reka-batch",
+  "description": "Run large, non-urgent LLM jobs on Reka's Batch API at 50% of live token prices, with results within 24 hours. Use this whenever the user wants the same kind of prompt run over many items - labelling or enriching a CSV or dataset, generating content or test cases in bulk, translating many strings, summarising a folder of documents, or reviewing or transforming many files overnight - or mentions batch, bulk, overnight, \"cheaper\", or /reka-batch, even if they never say \"batch\". Not for chat, single questions, or multi-step agent loops.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:reka-batch"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

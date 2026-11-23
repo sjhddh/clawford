@@ -1,0 +1,54 @@
+{
+  "skillId": "map-is-not-the-territory",
+  "displayName": "Map Is Not the Territory",
+  "description": "Activate when: a metric is improving but customers or employees are signaling problems; a strategy or process hasn't been reviewed in over a planning cycle; a team keeps disagreeing and can't resolve it with data; someone says 'the model shows...' or 'the data doesn't show any problems'; a plan is being followed because 'that's how we do it.' Do NOT activate when: the map is demonstrably current and freshly validated against the territory; the decision is so low-stakes that map imprecision doesn't matter. More: deciqai.com/c/map-is-not-the-territory",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:map-is-not-the-territory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

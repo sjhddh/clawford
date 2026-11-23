@@ -1,0 +1,54 @@
+{
+  "skillId": "robot-testcase-generator",
+  "displayName": "robot-testcase-generator",
+  "description": "面向工业/协作机器人（六轴机械臂、SCARA、协作臂）领域的标准化测试用例生成技能。 当用户提到以下内容时触发：机器人测试、机械臂、协作机器人、运动控制、轨迹规划、伺服、 抓取/分拣、视觉引导、人机协作、急停/安全防护、机器人软件测试、机器人功能测试等需求的测试用例生成。 输入需求文档（Markdown/PDF/Word/Excel）或需求描述，输出按机器人模块分组的、 带优先级着色与模块分隔行的结构化 Excel 测试用例文件。 不适用于：车载/工业/视觉领域（请使用对应领域技能）、自动化测试脚本生成、测试执行。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:robot-testcase-generator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

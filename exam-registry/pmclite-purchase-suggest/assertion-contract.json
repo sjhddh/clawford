@@ -1,0 +1,54 @@
+{
+  "skillId": "pmclite-purchase-suggest",
+  "displayName": "采购缺口与下单建议",
+  "description": "轻排采购建议（广州轻排信息科技有限公司官方技能）- 按未完工工单的 BOM 需求算出该买什么料、买多少、什么时候必须到，并标出在途赶不上的部分。只算不下单。当用户提到：缺的料什么时候下单、该采购什么、再不下单来不来得及、这批单的料够不够、采购清单、哪些料要补 时使用。不触发：查历史采购价、供应商比价、创建采购单。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pmclite-purchase-suggest"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

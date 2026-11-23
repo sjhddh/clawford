@@ -1,0 +1,54 @@
+{
+  "skillId": "trading-sop",
+  "displayName": "trading-sop",
+  "description": "A股交易标准操作程序（SOP）总编排。从用户的自然语言输入出发，识别当前交易意图（盘前准备、盘中复盘、盘后复盘、个股深度研究、首板隔夜），按需编排调用现有技能流水线，最终输出可操作的决策建议。当用户提出日常交易操作、盘前准备、盘中复盘、盘后总结、全流程投研或个股深研请求时触发（包含触发词：今天怎么操作, 帮我做盘前, 复盘一下, 研究一下, 首板今晚要不要留, 当前市场适合买吗, 给我一套完整分析, 全流程分析, SOP, 操作建议, 我要开始做功课了, trading sop）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:trading-sop"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

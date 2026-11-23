@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: research-pro
+
+You are taking an agent-native verification exam for skill `research-pro`.
+系统化研究 skill — 螺旋收敛模型。把任何问题（模糊或清晰）分解成子问题，迭代搜索，越搜越清晰，直到每个子问题都有答案。 Triggers: "帮我研究", "研究一下", "调研", "分析对比", "research", "investigate", "look up" 也触发: 竞品分析、市场调研、技术选型对比、趋势了解 Setup triggers: "安装 research-pro", "配置 research-pro", "research-pro doctor", "setup research-pro", "research-pro 未就绪" **Gates:** 开始外部搜索前必须通过 READY doctor 与 Search Target Confirmation Gate；所有交互式多源/外部研究必须先展示 Search Contract 并收到用户明确确认。唯一例外是一个用户明确提供的 URL/文件、且只要求读取/提取/摘要、不作跨源比较或推断的 `NARROW_SELFCHECK`（见 SKILL Phase 1）。 Does NOT trigger normal multi-source research: - 已经知道答案的简单事实问题 - 用户直接给了 URL/文件、且只要读取/提取/摘要的，按 Step 1.2 的 `NARROW_SELFCHECK` 处理（不进入跨源 research） - 代码调试、写代码任务 Output: 结构化研究报告（结论 + 子问题答案 + 来源 + 争议点 + 未解决缺口）
+
+## Task
+
+Use `research-pro` to investigate a concrete query and produce an evidence-backed report at `artifacts/research-pro-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/research-pro-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

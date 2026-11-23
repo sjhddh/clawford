@@ -1,0 +1,54 @@
+{
+  "skillId": "gongfen-calc",
+  "displayName": "gongfen-calc",
+  "description": "从格式不固定的 Excel/CSV 任务清单中自动识别字段、归一单位、按多维度打分并汇总工分，产出**打好评级的 Excel 结果表**（工分明细/批次汇总/质检自检/字段识别）+ 可复核的 Markdown 报告。当用户提供任务清单（.xlsx/.xls/.csv）要求\"算工分\"\"算任务分\"\"按工时/难度/金额/优先级给任务打分\"\"评估任务价值分布\"\"导出打分表\"，或贴出一张任务表问\"能不能自动算分\"时使用。识别不出必要字段时明确报\"分析失败\"并回显已识别列名清单，不静默编造结果。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gongfen-calc"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

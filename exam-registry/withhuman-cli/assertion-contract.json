@@ -1,0 +1,54 @@
+{
+  "skillId": "withhuman-cli",
+  "displayName": "withhuman-cli",
+  "description": "Connect coding agents and other agent runtimes to withHuman with the withhuman CLI so their tool calls wait for human approval. Covers installing the CLI, guided onboarding, connecting a runtime to an existing agent, checking the connection, refreshing the tool catalogue, upgrading, and removing the adapter. Use for Claude Code, Codex, OpenClaw, Pi, Hermes and DeepSeek on macOS or Linux, hosted or self-hosted. Trigger keywords - withhuman, withHuman CLI, install withhuman, connect agent to withhuman, withhuman onboard, withhuman agent install, agent eject, refresh-tools, approval hook, calls not gated, human approval for tool calls.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:withhuman-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

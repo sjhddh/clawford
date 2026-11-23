@@ -1,0 +1,54 @@
+{
+  "skillId": "feedback-loops",
+  "displayName": "feedback-loops",
+  "description": "Activate when: user says \"we keep overshooting/undershooting\", \"the cure is causing the disease\", \"we're stuck in a loop\", \"why does this keep happening?\", \"the system keeps fighting back\", \"bullwhip effect\", \"death spiral\", \"growth flywheel\"; system shows oscillation or sudden collapse; user is planning an intervention in an org/market/supply chain and wants to predict how it will respond. Do NOT activate when: the decision is a one-shot linear choice with no feedback to future decisions, or an exogenous shock so large it dominates all internal dynamics is the obvious explanation. More: deciqai.com/c/feedback-loops",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:feedback-loops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

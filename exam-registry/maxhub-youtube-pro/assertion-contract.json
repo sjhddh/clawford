@@ -1,0 +1,49 @@
+{
+  "skillId": "maxhub-youtube-pro",
+  "displayName": "Youtube数据助手",
+  "description": "YouTube 公开视频与频道数据分析 skill，通过 MaxHub API 查询视频详情、评论、字幕、播放/流信息、频道资料、频道视频/Shorts/帖子、搜索、趋势和相关视频。适合海外视频研究、频道画像、字幕语料、评论分析、内容选题和竞品监控。默认 read-only；播放/下载相关信息需遵守版权与平台规则，agent 应优先走 recipes 并按 video_id/channel_id/keyword 字段流链式调用。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-youtube-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "title-structure-analyzer",
+  "displayName": "Title Structure Analyzer - 标题结构分析",
+  "description": "分析学术论文标题的结构类型，判断是否符合学术规范。 用于：识别标题结构类型（概念型/关系型/发现型/问题型/方法型/综述型）、评估结构是否合适。 触发场景：\"分析标题结构\"、\"这个标题是什么类型\"、\"标题结构是否合适\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:title-structure-analyzer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

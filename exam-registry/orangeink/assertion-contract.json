@@ -1,0 +1,54 @@
+{
+  "skillId": "orangeink",
+  "displayName": "orangeink",
+  "description": "橙墨（orangeink）公众号排版 skill。两种用法：① 按橙墨写作规范产出/审阅公众号 Markdown 文稿；② 把 Markdown 一键转成可直接发布微信公众号的内容——纯净合规 HTML（API 用）、一键复制页（浏览器打开→复制→粘贴）、公众号草稿箱 API 请求体 JSON，输出自带静态合规自检。触发词：橙墨排版、公众号排版、oimd、orangeink。不适用于一般写作、翻译、或知乎/头条等非公众号平台排版。本 skill 面向中文微信公众号场景，输出为简体中文。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:orangeink"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

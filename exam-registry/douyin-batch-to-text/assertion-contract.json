@@ -1,0 +1,49 @@
+{
+  "skillId": "douyin-batch-to-text",
+  "displayName": "抖音批量视频转文字 Douyin batch to text",
+  "description": "抖音批量视频转文字 / Douyin batch video to text. 用户要把一个博主的一整套抖音视频、或一批抖音链接，逐条提取口播文案（逐字稿）并各存成一个 Markdown 文件时使用：对标账号整理、选题库、口播稿备份、喂给 AI 写稿。默认只要口播文案（最省的读法），可改成带画面文字的完整读取。附一张索引表（标题、作者、发布日期、点赞、文件名）。不登录抖音、不要 Cookie。需要 LinkDigest API Key（注册送 10 积分，不用绑卡）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:douyin-batch-to-text"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "shopify-audit-pro",
+  "displayName": "shopify-audit-pro",
+  "description": "Read-only Shopify store audits and reporting for OpenClaw. Safety first: it cannot write to your store (mutations are refused in code and the app holds read_* scopes only), your token goes only to your own *.myshopify.com store (no relay, no third-party plugin), secrets are never typed in chat, and a PII-free audit log records every call. Then the audit power: pre-opening store audits, catalog, shipping, theme, policy and discount checks, orders, customers, inventory, bulk exports and sales/ops briefs via the Admin GraphQL API. Need to make changes too? Use shopify-admin-pro.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shopify-audit-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

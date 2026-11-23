@@ -1,0 +1,54 @@
+{
+  "skillId": "backup-3-2-1-auditor",
+  "displayName": "Backup 3-2-1 Auditor",
+  "description": "Use when you realize your photos/code/documents exist in exactly one place (or your 'backup' is a external drive in the same room as the computer) — audits your actual data-loss risk against the 3-2-1 rule (3 copies, 2 media, 1 offsite) asset by asset, scores blast radius (ransomware encrypts synced copies too), prices honest recovery (professional recovery lab $300-3000 vs $0), generates the minimum-cost redundancy plan for YOUR asset list, and produces a restore-test drill because an untested backup is a hope, not a backup.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:backup-3-2-1-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

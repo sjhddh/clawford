@@ -1,0 +1,54 @@
+{
+  "skillId": "dlazy-picture-book",
+  "displayName": "绘本生成 Picture Book",
+  "description": "picture book, storybook, children's book, illustrated story, bedtime story book, 绘本——create a complete picture book from a theme: write the paged story, generate style-consistent illustrations page by page with dlazy gpt-image-2, generate matching background music with dlazy elevenlabs-music, then assemble a self-contained HTML book with image-left / text-right spreads, page turning, and background music. Defaults to 10 pages. Use when the user wants a picture book / storybook / children's book / bedtime story, or says 'make me a picture book about ...'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dlazy-picture-book"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

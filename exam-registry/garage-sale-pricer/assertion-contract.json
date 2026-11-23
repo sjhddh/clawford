@@ -1,0 +1,54 @@
+{
+  "skillId": "garage-sale-pricer",
+  "displayName": "garage-sale-pricer",
+  "description": "Use when preparing a garage/yard/tag sale — pricing items, building the inventory with printable price tags, planning change float, signage, timing, and routing leftovers to donation/consignment/curb. Encodes what garage-sale items actually sell for (furniture 10-15% of retail, clothes $1-5) with condition multipliers and day-2 half-off ladders, so sellers stop guessing and buyers stop lowballing.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:garage-sale-pricer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "team-memory",
+  "displayName": "team-memory",
+  "description": "管理者的团队长期记忆。自动保存相关沟通原话、成员与公司资料、事件、反馈、判断、待办及摘要，支持可追溯查询、1:1、周报、绩效材料和团队看板；独立JSON记忆库通过Notion在Amoo、OpenClaw等设备间合并同步，提供旧记忆导入、导出恢复及安全升级。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:team-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

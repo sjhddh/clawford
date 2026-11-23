@@ -1,0 +1,54 @@
+{
+  "skillId": "agentsmd",
+  "displayName": "Agentsmd Skill",
+  "description": "Distill session lessons into a lean AGENTS.md (create or update), following the open agents.md spec: collect lessons, distill them into one-line rules, organically merge, verify every command, and write only after user approval. Adapts to coding and work (non-code collaboration directory) scenarios; syncs project memory and progress/status records; collects scattered docs and data (fixed buckets for coding, work-type-fitted taxonomy for work). Trigger on requests like \"write the lessons into AGENTS.md\", \"solidify this session's pitfalls into project rules\", \"update project guidelines\", \"organize project docs and data\" — 中文触发词：「总结经验/教训写进 AGENTS.md」「把这次踩的坑固化成项目规则」「更新项目规范」「整理项目文档与数据」「沉淀项目协作规范」「文档归档到 docs」。All file changes require user confirmation first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agentsmd"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

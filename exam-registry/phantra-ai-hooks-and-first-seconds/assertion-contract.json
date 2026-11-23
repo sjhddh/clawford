@@ -1,0 +1,54 @@
+{
+  "skillId": "phantra-ai-hooks-and-first-seconds",
+  "displayName": "Phantra AI: Hooks And First Seconds",
+  "description": "Writes the first shot of a Phantra scene so it holds attention (an arresting image, a turn or a reveal in the first seconds) and puts it into the scene's first timed shot, reading `what_works` and `score_caption` as evidence rather than verdicts. Use when someone asks for a hook, says the opening is slow, wants the first seconds rewritten, or asks for a caption. NOT for the whole scene's shape (write-scene), the cover image (thumbnails) or the platform's shape and length (platform-delivery).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:phantra-ai-hooks-and-first-seconds"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

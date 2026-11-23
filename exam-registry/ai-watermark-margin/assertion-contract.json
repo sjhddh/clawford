@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-watermark-margin",
+  "displayName": "AI Watermark Margin",
+  "description": "Drop the in-image watermark/signature that an AI image editor stamps on YOUR OWN ai-generated or ai-edited pictures, deterministically — by adding a blank margin before the edit and cropping it off after. No inpainting, no ML model, no third-party copyright watermark removal. Use when: 'AI edit leaves a watermark', 'remove AI signature', 'AI 修图水印', '去AI生成签名', '图片下方有水印', 'generator watermark'. Two tiny Pillow scripts: add_margin.py pads the canvas with whitespace (or black) so the generator's mark lands outside the content; crop_margin.py detects that uniform border and crops it away. Includes an ethics/compliance note: this only removes the generator's own visual stamp; you still disclose AI use per platform rules.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-watermark-margin"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

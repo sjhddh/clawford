@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-podcast-voiceover",
+  "displayName": "AI Podcast · Solo or Two-Host Episode Voiceover",
+  "description": "AI播客、播客配音、双人对谈播客技能：把文章、读书笔记、公众号文章或写好的对谈稿，整理成适合“听”的播客稿，单人主播或两位主持人各用一个音色，逐句配音并拼成整期节目 WAV，同时输出 SRT 字幕和逐句时间轴；再用 shownotes.py 根据稿件里的 `## 章节` 自动生成带时间戳的节目章节（chapters.txt / chapters.json）和完整文字稿 shownotes.md，可直接贴到小宇宙、喜马拉雅、Apple Podcasts 等平台的节目简介。改一句只重配一句。可用账号里的角色或本人授权的参考音频声音。由 Miragea 开放 API 生成语音，本地只需 Python 3.9+ 标准库、无需显卡，可 --dry-run 离线试跑；计费与限额以 capabilities 实时返回为准。适用于 Claude Code、Codex、OpenClaw、Cursor、WorkBuddy。AI podcast, podcast voiceover, two-host dialogue, show notes, chapters.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-podcast-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

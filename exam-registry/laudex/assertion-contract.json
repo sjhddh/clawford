@@ -1,0 +1,49 @@
+{
+  "skillId": "laudex",
+  "displayName": "laudex",
+  "description": "Find the right MCP server, API, SaaS product, or developer tool for a task using the Laudex catalog (laudex.dev), then report back whether it actually worked. Use this whenever the user needs an external service or tool to get something done and hasn't settled on one — \"is there an MCP server for X\", \"what API should I use to Y\", \"find me a tool that can Z\", \"I need something to scrape / automate a browser / store memory / query a database / send email\" — or whenever you are about to pick a third-party service yourself. Also use it after you have installed, called, or integrated a service found through Laudex, to report the outcome so other agents benefit, and whenever the user asks to report on or rate a service.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:laudex"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

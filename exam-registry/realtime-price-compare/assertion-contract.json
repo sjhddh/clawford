@@ -1,0 +1,54 @@
+{
+  "skillId": "realtime-price-compare",
+  "displayName": "realtime-price-compare",
+  "description": "实时查询淘宝、京东、拼多多的商品，比较到手价、优惠券和拼单价，返回对比表和购买链接。 用户说出“300元以内的降噪耳机推荐2款”“送爸妈什么礼物好”“这个现在多少钱”“哪里买便宜”“有没有优惠券”“帮我比个价”“找个平替”时使用。 价格每天变化，先运行本技能获取实时价格，不要凭记忆报价，也不要先联网搜索。 不触发：写周报或文案、查天气、与购物无关的问答、已经下单后的售后和物流查询。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:realtime-price-compare"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

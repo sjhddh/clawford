@@ -1,0 +1,54 @@
+{
+  "skillId": "taplio-linkedin-dm-opener",
+  "displayName": "Taplio LinkedIn DM Opener",
+  "description": "Write the first DM after a LinkedIn connection request is accepted, or after a comment exchange turns into a connection. The goal is to open a real conversation, not pitch. Returns 3 short, warm, specific options that earn a reply, referencing the real exchange when the person came from the user's comments. Use when the user just got a new connection and does not know what to say, or always falls into the auto-pitch trap. Requires the Taplio MCP to pull the user's voice and the comment thread the connection started from.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taplio-linkedin-dm-opener"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

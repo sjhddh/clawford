@@ -1,0 +1,54 @@
+{
+  "skillId": "candor-agent-ui",
+  "displayName": "Candor Agent UI",
+  "description": "Design fundamentals for screens where an AI agent acts - a chat with an AI agent, tool calls, approvals and permission prompts, plans, runs, diffs, audit logs and the pages around them. Use when building or reviewing any agent UI, approval flow or tool-call display, in any framework and with any design system; Candor UI is not required. Covers the nine honesty rules with examples, approval ergonomics, the status vocabulary and the states of a tool call, when to fold turns, what to show while an agent works and when it finishes while the person is away, blast radius and undo, AI disclosure, accessibility, and a review checklist to run after each screen.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:candor-agent-ui"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

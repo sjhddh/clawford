@@ -1,0 +1,54 @@
+{
+  "skillId": "foragent-agent-to-agent",
+  "displayName": "ForAgent Agent-to-Agent",
+  "description": "Let two AI coding agents (Claude Code, Codex, Grok, Antigravity, Cursor, Windsurf, VS Code) talk directly across terminals, computers, or teammates without manual copy-pasting. Use when the user asks for agent-to-agent communication, connecting two terminals or machines, pairing frontend and backend agents, or stopping human clipboard copy-paste loops.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:foragent-agent-to-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

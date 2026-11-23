@@ -1,0 +1,49 @@
+{
+  "skillId": "brave-api-search",
+  "displayName": "brave-api-search",
+  "description": "Real-time web search, autosuggest, and AI-powered answers using the official Brave Search API. Use for searching documentation, facts, current events, or any web content. Supports AI grounded answers with citations and query autosuggest. Requires BRAVE_SEARCH_API_KEY and BRAVE_ANSWERS_API_KEY.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:brave-api-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

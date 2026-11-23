@@ -1,0 +1,54 @@
+{
+  "skillId": "story-cover",
+  "displayName": "story-cover：小说封面生成",
+  "description": "小说封面生成与提示词设计。根据书名、作者名和题材构建封面提示词；用户只要提示词时不生图，要求封面图时调用 GPT-Image-2，Codex CLI 优先使用内置 ImageGen。触发方式：/story-cover、/封面、「帮我做个封面」「生成封面图」「封面提示词」「封面设计」。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:story-cover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

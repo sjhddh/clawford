@@ -1,0 +1,54 @@
+{
+  "skillId": "windows-app-cwd-launch-fix",
+  "displayName": "Windows CWD Launch Fix",
+  "description": "Diagnose and fix Windows packaged apps that crash on launch because relative resource paths (res/xxx) resolve against the process working directory. Includes a four-step elimination method (line endings / start inheritance / file truly missing / CWD attribution), an A/B reproduction, and a self-checking hardened launcher template. Use for 'app crashes on double-click', 'PyInstaller exe crash', 'FileNotFoundError res path', 'CWD wrong', 'works in one folder but not another', '打包给客户跑不起来'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:windows-app-cwd-launch-fix"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

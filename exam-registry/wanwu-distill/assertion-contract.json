@@ -1,0 +1,54 @@
+{
+  "skillId": "wanwu-distill",
+  "displayName": "把书和大佬的方法蒸成AI技能",
+  "description": "把任何东西变成能装的 AI 技能：一本书、一个大佬的方法论、你自己的复盘。蒸出来的是能拦你犯错的清单和照着走的步骤（不是人设卡片）；不知道蒸什么？给它目标，它像招聘一样帮你挑最值得蒸的源。触发词：万物蒸馏、蒸馏一本书、把这个人做成skill、蒸自己。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wanwu-distill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

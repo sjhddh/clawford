@@ -1,0 +1,54 @@
+{
+  "skillId": "crew",
+  "displayName": "crew",
+  "description": "在 iTerm2 里给当前会话分屏，新开一个跑在 tmux 里的 agent（codex / agy / claude，可指定模型和 effort），组员之间用 tmux 互发消息；还能把整组保存到项目目录并一键恢复窗口、模型、effort 和历史对话。用户运行 /crew，或要求\"新开一个 agent / 分屏起个 codex / 保存 agent 组 / 恢复 agent 组 / 给 design 发消息\"时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:crew"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "okdata-transcripts",
+  "displayName": "视频字幕转文字 okdata",
+  "description": "What does this video say? Gets the transcript of each video by its link, as one table: link, language and full text. One paid call per video. Use when the user asks this about TikTok, YouTube, Instagram, Reddit. 这条视频讲了什么？按链接取每条视频的字幕，排成一张表：链接、语言和全文。每条视频一次计费调用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:okdata-transcripts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

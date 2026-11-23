@@ -1,0 +1,54 @@
+{
+  "skillId": "intrinsic-drive",
+  "displayName": "intrinsic-drive",
+  "description": "Activate when: user says 'I've lost motivation', 'I'm burning out', 'the excitement is gone', 'I keep starting things but can't sustain them', 'I'm going through the motions', 'I don't know what drives me anymore', or describes a flat feeling after achieving a major goal. Do NOT activate when: person shows signs of clinical depression or burnout requiring professional treatment; or external constraints (no resources, structural barriers) are blocking execution rather than motivation. More: deciqai.com/c/intrinsic-drive",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:intrinsic-drive"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

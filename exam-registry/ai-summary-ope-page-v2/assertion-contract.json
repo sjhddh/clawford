@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-summary-ope-page-v2",
+  "displayName": "AI Summary Ope Page V2",
+  "description": "Одностраничное резюме на русском языке PDF-отчёта или документа Word (DOCX)  (A4, ключевые выводы и открытые вопросы для обсуждения). Определяет сектор отчёта и выписывает факты по отраслевым правилам; иностранные отчёты пересказывает по-русски языком профессионального переводчика",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-summary-ope-page-v2"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

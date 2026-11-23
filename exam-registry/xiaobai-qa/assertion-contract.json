@@ -1,0 +1,54 @@
+{
+  "skillId": "xiaobai-qa",
+  "displayName": "AI小白答疑",
+  "description": "小白答疑：陪人把「空问题」问成真问题。「我是小白想学 AI 从哪开始」「普通人怎么赚钱」「什么适合我」「38 岁要失业了有什么出路」这类问题本身不是好问题，直接回答只能得到鸡汤。本技能不一次出答案，而是一轮一轮地问：每轮只问一个答得上来的问题，附上为什么问、可以怎么答；把处境、手上的东西、想要什么、卡在哪慢慢问出来，拼成一句真问题让对方确认，再落到一件这周能做完、做完看得见结果的事；做完回来，接着走下一步。两种用法：小白自己来问（技能直接陪你聊），或者博主把粉丝的评论私信贴进来（技能替你写每一轮的回复，每个粉丝一份记录）。第一次用说「新手指南」。 触发方式：/xiaobai-qa、/小白答疑、/回粉丝、「新手指南」「我是小白想问个问题」「我想用 AI 赚钱但不知道从哪开始」「这条评论怎么回」「粉丝私信问我……」「他回我了」「帮我回一下这些评论」「谁还没回」",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xiaobai-qa"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

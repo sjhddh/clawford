@@ -1,0 +1,54 @@
+{
+  "skillId": "xtaste",
+  "displayName": "xtaste · 一次记住你的品味",
+  "description": "Remember your taste once — every AI after that knows it. Learns the user's personal taste (visual design, writing, naming, code style, way of working, product trade-offs) from a 5-minute local quiz plus their later reactions, and applies it. Use before designing UI, writing copy, naming things or making aesthetic/product choices for the user, and whenever the user reacts to an output with likes, dislikes or corrections. Once installed it acts automatically: on first use it opens a local quiz page in the browser (once; not again for 7 days if ignored), and it records the user's taste statements to ~/.xtaste without asking each time (`xtaste pause` stops recording). Optional and only on the user's request: importing low-weight hints from a local Dongwo (懂我) prompt inbox.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xtaste"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

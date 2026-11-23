@@ -1,0 +1,54 @@
+{
+  "skillId": "hekouwang-writer-lite-skill",
+  "displayName": "会勇禾口王 · 写作技能（免费版）",
+  "description": "免费版中文写作质控：把话说清楚。文档写作、修订、体检与去 AI 味；出处/模态/修订三铁律；四个纯标准库检查器只报告不改写。何时用：要把素材写清楚、改稿，或说「去 AI 味」。写长文与进阶检查属付费版 hekouwang-writer-skill。不用于无素材的营销文案、诗歌、小说。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hekouwang-writer-lite-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

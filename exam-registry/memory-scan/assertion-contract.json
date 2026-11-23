@@ -1,0 +1,54 @@
+{
+  "skillId": "memory-scan",
+  "displayName": "记忆安全扫描",
+  "description": "面向AI Agent记忆文件与工作区配置的安全扫描工具，检测恶意指令、Prompt注入、凭证泄漏、数据外泄、护栏绕过、行为操纵、权限提升七大威胁类别. 提供五级安全分级、本地模式与可选远程LLM分析、隔离与恢复、定时监控集成、心跳任务集成五大核心能力. 适用于Agent记忆日常安全审计、凭证泄漏排查、引入外部数据...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:memory-scan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

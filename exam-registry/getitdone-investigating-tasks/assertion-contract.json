@@ -1,0 +1,49 @@
+{
+  "skillId": "getitdone-investigating-tasks",
+  "displayName": "Investigating Tasks",
+  "description": "Explains a single GetItDone task in full: its content, status, dependencies, attachments, and what an attached video or screen recording shows. Use when the user asks to 'open T-123', 'why can't this task start', 'what is this task waiting on', 'what's in this task', 'what does the screen recording on this task show', or wants a deep dive on one task. Read-only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:getitdone-investigating-tasks"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

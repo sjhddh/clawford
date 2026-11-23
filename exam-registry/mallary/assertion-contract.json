@@ -1,0 +1,54 @@
+{
+  "skillId": "mallary",
+  "displayName": "Mallary Openclaw Skill",
+  "description": "Use this skill only when the user explicitly asks to inspect, set up, or act through Mallary, the Mallary CLI, the Mallary API, Mallary MCP, or an existing Mallary workflow. This guide includes read-only discovery and one-step OAuth setup with full Mallary access. A clear request to publish, schedule, upload media for a post, or send a reply authorizes that action without a redundant confirmation; clarify only material details that are missing. Executable write syntax is intentionally omitted.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mallary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

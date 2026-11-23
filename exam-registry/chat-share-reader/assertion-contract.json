@@ -1,0 +1,49 @@
+{
+  "skillId": "chat-share-reader",
+  "displayName": "AI Chat Export to Markdown",
+  "description": "Export, backup, or archive AI chat conversations to markdown. Two inputs: public share links (ChatGPT, Claude, Gemini, Grok, Perplexity, DeepSeek, Kimi, Qwen, WorkBuddy, biji.com) and 15 local agent session stores (Claude Code, Codex, Cursor, opencode, Cline, Gemini CLI and more). Use when the user asks to save a shared conversation, export the chat they are in now (no args), search past sessions, filter by directory, batch export a site, read a compressed .jsonl.zst archive, or feed a session into another agent. Bulk mode exports your own accounts' history through the browser session you are already signed in to. Tokens are always masked, home paths by default, emails with --redact strict. Also exports biji.com voice notes and transcripts. 导出、备份、归档 AI 对话为 markdown，支持分享链接与本机 15 种 agent 会话记录；不传参数导当前会话，可搜索、筛选、批量导出、读压缩归档、喂给另一个 agent；令牌一律遮，家目录默认遮；另可导出得到笔记录音与逐字稿。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chat-share-reader"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

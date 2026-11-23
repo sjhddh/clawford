@@ -1,0 +1,54 @@
+{
+  "skillId": "google-health-cli",
+  "displayName": "Google Health",
+  "description": "Read your Google Health data from any agent: data points for every Google Health data type (heart rate, sleep, steps, distance, weight, blood oxygen, VO2 max, exercise and more), server-side daily roll-ups, a parsed view of exercise sessions, and GET of any read-only v4 API path, all as JSON. `data list`, `rollup daily`, `sessions --raw` and `api get` return every record the API sends for the window you ask for, unfiltered; the parsed `sessions` view leaves out points it can't date and reports how many on stderr. It never writes to Google Health; the only file it writes is its own local OAuth token cache. Also ships auth login/logout/status, doctor, config show/path, version and shell completion. Single static Go binary. Needs your own Google Cloud OAuth client and a one-time browser login; runs headless afterward.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:google-health-cli"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

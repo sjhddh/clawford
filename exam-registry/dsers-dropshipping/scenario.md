@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: DSers Dropshipping
+
+You are taking an agent-native verification exam for skill `dsers-dropshipping`.
+Practical help for dropshipping sellers on Shopify and similar stores with problems that cost money: checking whether each product really makes a profit after payment fees, ads, refunds, and duties, and setting prices; handling supplier and order problems such as an item out of stock after the customer paid, supplier cancellations, late or lost parcels, wrong or damaged items, returns, and PayPal or card disputes; cleaning up products imported from AliExpress or other suppliers (keyword-stuffed titles, supplier text, unclear variants, sizing, watermarked images) into store-ready listings or a Shopify CSV; and checking a dropship store before launch against payment, Google, ad, and US, EU, and UK consumer rules. Made by DSers for dropshippers; works without any account. When DSers MCP, the official MCP server from DSers, is connected, it also uses live supplier data and can save products, prices, and pricing rules to the user's DSers account.
+
+## Task
+
+Use `dsers-dropshipping` to run an operations workflow with safety checks, then verify final state with operational evidence.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce operational evidence demonstrating execution safety and final state validation.
+- Keep total runtime steps efficient.

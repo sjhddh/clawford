@@ -1,0 +1,54 @@
+{
+  "skillId": "hub-oss-file-upload",
+  "displayName": "hub-oss-file-upload",
+  "description": "对用户只说简体中文短句。用户要拿到工作区里已有的文件，或要一个能在外面下载、打开、转发给别人的地址时触发。包括：要文件、把文件给我、发我一份、传给我、附件给我、文件地址、文件链接、下载、帮我下载、下载链接、下载地址、给我链接、分享这个文件、发个链接、外链、公网地址、访问地址、打开地址、OSS 链接、传到 OSS、上传一下给我地址。文件刚生成且同时要求给我或给地址时，写完再调 upload-file.sh。把 ossUrl 原文写进回复。禁止手写 curl，禁止 hub-artifact，禁止 send_to_user。不要调用：只生成不给、只问内容、问的是工作区路径、要从网上把文件下进工作区、",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hub-oss-file-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

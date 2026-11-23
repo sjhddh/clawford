@@ -1,0 +1,54 @@
+{
+  "skillId": "schengen-clock",
+  "displayName": "schengen-clock",
+  "description": "Use when you travel (or plan travel) to Europe on a non-EU passport and must respect the Schengen 90/180 rule — a rolling window where any 180-day stretch allows at most 90 days of presence. Parses passport stamps / stay history, computes presence per rolling window, finds the current maximum allowed stay on any entry date, projects forward (can I add this trip?), flags the classic overstay traps (5-day overstay from poor counting, back-to-back long stays, the day-of-entry-counts rule), and generates a border-interview-ready itinerary letter. For tourists/visitors — doesn't handle residence permits, long-stay visas, or working-holiday schemes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:schengen-clock"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

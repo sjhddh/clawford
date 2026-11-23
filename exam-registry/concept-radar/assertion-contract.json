@@ -1,0 +1,49 @@
+{
+  "skillId": "concept-radar",
+  "displayName": "概念雷达 Concept Radar",
+  "description": "概念雷达——从一个链接或一批作者里，把「值得跟进的新概念」捞出来：去重、给证据、打分、可导出。治的是信息焦虑：不追热点，只留能落地的概念。Discovers, deduplicates, evaluates, and exports evidence-backed concepts from one URL or an author pool. Use when the user wants to track a field, mine an author's idea pool, or run recurring concept research; publishing is optional. Not a news feed — output is evidence-graded concepts, not breaking headlines.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:concept-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

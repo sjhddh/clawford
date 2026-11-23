@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-voucher-send",
+  "displayName": "huawei-cloud-voucher-send",
+  "description": "1. Issue (发放) new Huawei Cloud BSS (费用中心) vouchers / coupons to sub-customers / partners through KooCLI (hcloud BSS CreatePartnerCoupons — mutating POST /v2/promotions/benefits/partner-coupons), with an automatic fallback to the official huaweicloudsdkbss v2 SDK when hcloud is not installed. 2. Zero-config operation: the invocation path is chosen automatically (CLI first, SDK fallback); credentials are loaded only from the hcloud profile or the standard Huawei Cloud environment variables. 3. Batch-aware: one call issues coupons to many sub-customer accounts (repeatable --customer-id / comma --customer-ids / --customers-file). 4. Idempotent: a per-customer natural key is remembered in a local ledger, so retrying a partially failed batch never double-issues an already-issued customer; --force overrides, --no-idempotency disables. 5. Safe by default for a money-moving, irreversible operation: a live send requires the explicit --confirm flag; --dry-run previews the exact request without issuing anything. 6. Graded errors: ConfigError (missing/invalid parameters or credentials) / AuthError (401/403 / insufficient IAM permission) / ApiError (unexpected API or network failure), each with an actionable hint. 7. Offline unit tests (mocked hcloud subprocess) cover validation, batch construction, idempotency, error grading, SDK fallback and all CLI modes. 8. Triggers include: \"发放代金券\", \"给子客户发券\", \"发放优惠券给子客户\", \"合作伙伴发券\", \"send voucher\", \"issue coupon\", \"create partner coupons\", \"华为云代金券发放\", \"BSS coupon issue\". 9. Write-intent guard: only the issue-coupon operation ever executes; reclaim / transfer / freeze / individually-issued-coupon mutation operations are rejected — this skill issues new coupons only.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-voucher-send"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

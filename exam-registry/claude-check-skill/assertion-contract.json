@@ -1,0 +1,54 @@
+{
+  "skillId": "claude-check-skill",
+  "displayName": "Claude Environment Check",
+  "description": "Claude 环境体检：出口 IP 所在地区（对照 Anthropic 官方支持地区名单）、IP 类型（机房 / 代理）、IP 时区与本机时区是否一致、系统语言、配置与登录排查，以及 KYC 查询、浏览器扩展、网络诊断、会话查找与修复。用户询问身份验证、担心封号、遇到登录/组织停用/代理/证书报错，或要求检查 IP、IPv4/IPv6/WebRTC、查找 Claude 本地对话、清理站点数据和卸载重装时使用。出口 IP 检查默认执行；不预测封号。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:claude-check-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

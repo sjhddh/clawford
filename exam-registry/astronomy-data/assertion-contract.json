@@ -1,0 +1,49 @@
+{
+  "skillId": "astronomy-data",
+  "displayName": "astronomy-data",
+  "description": "Research-grade astronomical data from NASA/JPL DE440 through the Astro Agents API: sunrise, sunset and twilight, altitude and azimuth, observation windows, Moon phase and distance, the day's sky for a place, planet positions, eclipses with local circumstances, planetary phenomena, seasons, celestial event calendars, longitude time series, time scales and coordinate conversion, for any date 1800-2200. Use it when a task needs exact astronomical times, positions or events instead of estimating them: every result is computed (no LLM) and SHA-256 verifiable.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:astronomy-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "imagegen-swarm",
+  "displayName": "imagegen-swarm",
+  "description": "AI image generation for stills and video (text-to-image, text-to-video, image-to-video, and image edits) by pooling leftover quotas from multiple engines into a single batch. Use when the user asks to generate or edit an image, draw, use reference images, make a video, or run text-to-image, text-to-video, or image-to-video, or mentions Codex, Grok, Grok Imagine, Gemini, nano banana, Antigravity, Jimeng, Dreamina, Muse, Lovart, gpt-image, or a pay-per-image API. Enabled engines start together on one queue and keep running if one runs out of quota. Jimeng and Grok can generate video; Jimeng also does image-to-video from the first reference and edits with up to 10 reference images; Antigravity Gemini edits with up to 3. An optional paid OpenAI or Gemini API line runs only when a job specifies api, or when no enabled subscription engine can take that job. For a shared character, brand, mascot, or cover series, ask before enabling series mode. Not for ordinary local crop, resize, or convert tasks.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:imagegen-swarm"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

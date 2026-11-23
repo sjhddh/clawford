@@ -1,0 +1,49 @@
+{
+  "skillId": "win-loss-analysis",
+  "displayName": "Win-Loss Analysis",
+  "description": "Tallies the reasons US deals were won or lost from CRM notes, so the real pattern shows up instead of one anecdote at a time. Use when the user asks for win loss analysis template, deal loss reasons, sales win loss review. For US sales leadership and RevOps teams running win-loss reviews.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:win-loss-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

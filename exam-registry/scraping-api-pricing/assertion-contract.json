@@ -1,0 +1,49 @@
+{
+  "skillId": "scraping-api-pricing",
+  "displayName": "Scraping API pricing",
+  "description": "Compare web scraping API, SERP API and headless browser plans by monthly cost and conditions. Use when the user asks which scraping, crawling, search results (SERP), proxy or browser API plan fits a workload or a budget, for example \"cheapest plan for 100k JavaScript pages a month\", \"SERP API for 20k Google searches in Germany under $100\", \"are failed requests billed\", \"compare Firecrawl and ZenRows\". Covers Firecrawl, ScrapingBee, ZenRows, Bright Data, Oxylabs, Zyte, Scrapfly, ScrapingAnt, Scrapingdog, SerpApi, Serper, DataForSEO, SearchCans, Brave Search API, Tavily, Apify and Spider. Each answer carries the sentence from the official pricing page and its check date; a term the page does not state is reported as unknown, not guessed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scraping-api-pricing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

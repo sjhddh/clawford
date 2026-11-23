@@ -1,0 +1,54 @@
+{
+  "skillId": "margin-of-safety",
+  "displayName": "Margin of Safety",
+  "description": "Activate when: user asks how much buffer to build into a budget, timeline, or investment; someone says 'I might be wrong on my estimate — how much cushion do I need?'; a project or position is running lean and someone wonders if there's enough runway; user mentions Ben Graham, value investing, or 'buying a dollar for fifty cents'; someone is deciding how much to raise or reserve before committing. Do NOT activate when: the domain is fully deterministic with no estimation error; the user is using margin as an excuse to avoid committing to anything (perpetual deferral, not safety). More: deciqai.com/c/margin-of-safety",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:margin-of-safety"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

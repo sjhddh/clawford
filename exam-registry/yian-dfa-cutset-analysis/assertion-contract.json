@@ -1,0 +1,49 @@
+{
+  "skillId": "yian-dfa-cutset-analysis",
+  "displayName": "毅安DFA割集分析",
+  "description": "DFA 割集分析更新 skill。当用户要求对 Excel 工作包中的割集进行 DFA（Dependent Failure Analysis）分析或更新时触发，例如\"帮我进行割集 DFA 的分析/更新\"。自动读取包含 \"Cut-Set List\" 关键字的源 sheet（若存在多个，优先选不含 old 的最新清单，如 _new），只处理 Order 为 2 或 3 的割集，按割集名合并同类项，将结果更新到包含 \"DFA Analysis-CutSet\" 关键字的目标 sheet：A/B/C/D/E 自动同步，新增 7 行块的 D 列标红色、废弃割集加删除线；新增块逐格复制已有正常块的边框/字体/对齐/填充/行高做到格式完全一致，并按组件自动填写 G..O 草稿（已有块的人工内容保持不动）。适用于 EPS 全冗余平台 FTA 割集变更后的 DFA 同步。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:yian-dfa-cutset-analysis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

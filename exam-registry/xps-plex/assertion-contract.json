@@ -1,0 +1,54 @@
+{
+  "skillId": "xps-plex",
+  "displayName": "xps-plex",
+  "description": "Project a web page fullscreen onto the second laptop (ssh host `xps`) over SSH: start the v2rayN proxy if it is down, launch Firefox or Brave on a dedicated proxy profile, park the proxy GUI on its own workspace, fullscreen the page. Also carries the follow-up diagnosis when the page arrives mute: the three audio layers, and the wtype keyboard shortcut that unmutes a player that has no clickable pointer path. Use when the user asks to put a page, a stream, or Plex live TV on the other machine's screen, asks whether that machine's proxy is up, asks what is open on it, or says there is no sound, it is muted, or a speaker icon shows a cross.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:xps-plex"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

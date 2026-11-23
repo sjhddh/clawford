@@ -1,0 +1,54 @@
+{
+  "skillId": "petco-product-data",
+  "displayName": "Petco Product Data API - Prices, Repeat Delivery, Store Stock",
+  "description": "Petco product data as structured JSON - search petco.com or list any category with price, list price and Repeat Delivery (autoship) price, rating, review count, fulfillment flags and every size or flavor variation, read one product with every variant's UPC, prices, first-autoship price, ingredients and guaranteed analysis, find Petco stores near a ZIP, and check units on hand for up to 10 products at one store. 5 endpoints, 1 credit each.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:petco-product-data"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

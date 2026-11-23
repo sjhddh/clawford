@@ -1,0 +1,54 @@
+{
+  "skillId": "mt-paotui-for-client",
+  "displayName": "美团跑腿",
+  "description": "美团跑腿下单助手。支持场景：① 帮取送（A地取件送到B地，支持品类：餐饮、文件、生鲜、蛋糕、鲜花、数码、服饰、快递、五金、汽配等）② 帮买（代购商品）③ 帮取号（餐厅取号、医院挂号、其他取号）④ 帮搬装/帮扔杂物/其他帮忙（骑手到指定地址帮忙）。触发词：跑腿、下跑腿单、美团跑腿、同城配送、取号、挂号、排号、排队、帮搬、帮买、帮扔、帮忙、扔垃圾、寄文件、叫骑手、骑手帮忙、送东西、帮取、配送、帮送、买东西。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mt-paotui-for-client"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

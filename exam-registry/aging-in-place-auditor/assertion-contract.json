@@ -1,0 +1,54 @@
+{
+  "skillId": "aging-in-place-auditor",
+  "displayName": "Aging-in-Place Auditor",
+  "description": "Use when an older parent or relative is staying in their home, after a fall or near-fall, when visiting and noticing trip hazards, or when the family asks 'is the house safe for grandma / can dad keep living here'. Room-by-room fall-risk audit with scored hazards, prioritized fixes priced in cost bands, and the weekend top-5 action list.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aging-in-place-auditor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

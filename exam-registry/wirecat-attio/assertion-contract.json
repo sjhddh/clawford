@@ -1,0 +1,54 @@
+{
+  "skillId": "wirecat-attio",
+  "displayName": "Attio Cli",
+  "description": "Use attio to read an Attio workspace's CRM - deals with their stage, owner, amount, company and people, the deal pipeline and its stages, people, companies, workspace members and the workspace's own attributes - with the owner's profile and JSON answers; deals are synced into the local WireCat store. Use when a question could be answered from the owner's Attio sales data (how a deal stands, what is open, who a client is, what changed), or to call an Attio API operation.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wirecat-attio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

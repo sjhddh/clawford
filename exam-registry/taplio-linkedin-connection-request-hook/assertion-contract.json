@@ -1,0 +1,54 @@
+{
+  "skillId": "taplio-linkedin-connection-request-hook",
+  "displayName": "Taplio LinkedIn Connection Request Hook",
+  "description": "Write the note of a LinkedIn connection request that gets accepted and noticed. Adapts to the context : cold outreach, after a comment exchange, after an event, after the person engaged with the user's content, or through a mutual contact. Returns 3 options under 300 characters ranked by acceptance likelihood. Use when the user wants to connect with someone they do not know yet, or with a warm lead from their comments. Requires the Taplio MCP to pull the user's voice and, for warm leads, the exact comment the person left on the user's post.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taplio-linkedin-connection-request-hook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "workbuddy-model-capability-flags",
+  "displayName": "WorkBuddy 自定义模型能力位排查（读图/工具/推理）",
+  "description": "排查并修复 WorkBuddy 里自定义模型「不支持读图 / 不调用工具 / 不能推理」的能力位标错问题，以及新增自定义模型（OpenCode Zen、自建或其他厂商的 OpenAI 兼容端点）时一次性探测能力位并生成配置。当用户说「为什么说不支持读图」「模型读不了图片」「附件发不进去」「custom-local 模型能力不对」，或问「加新模型要测什么」「怎么知道这个模型支持读图/思考强度」时使用。含通用探测器 probe_model.py（一条命令测出读图/工具调用/effort 档位）、能力位定位法、直连端点自证法、以及「改完必须重启」这一必踩的坑。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:workbuddy-model-capability-flags"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

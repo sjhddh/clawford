@@ -1,0 +1,54 @@
+{
+  "skillId": "code-review",
+  "displayName": "code-review",
+  "description": "Production-readiness code review at either scope — the uncommitted working tree (default) or a committed branch grouped per `#NNN` task (references/branch-review.md). Hunts DRY violations, dead code, leaky abstractions, missing error handling; auto-detects and runs the project's tests and build; findings categorized `blocking`/`suggestion`/`question`/`nit`/`praise`, and never edits code without permission — report first, ask, then fix. Non-trivial diffs get a lens council: parallel Explore sub-agents (correctness/design/security/tests/production-readiness) plus an adversarial critique round; small diffs skip it. Use this skill whenever the user says \"code review\", \"review my code\", \"review the diff\", \"review my PR\", \"review my branch\", \"check my uncommitted changes\", \"is this production ready\", \"DRY check\", or \"/code-review\" — even if they don't explicitly say \"code review skill\". Dirty tree → working-tree scope; \"branch\"/\"PR\" or clean tree with branch commits → branch scope.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:code-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

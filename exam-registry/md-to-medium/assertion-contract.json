@@ -1,0 +1,54 @@
+{
+  "skillId": "md-to-medium",
+  "displayName": "md-to-medium",
+  "description": "Convert a Markdown article into an HTML fragment Medium's story editor accepts on paste. Medium deletes any image whose source is a data: URI, silently, so this converter never inlines bytes: every image is pointed at a public URL and the script refuses to pass until those images are pushed. Tables become hosted PNGs, because Medium draws no table. The article's H1 is dropped for the Title field. Use when the user wants to publish a markdown draft to Medium, asks for Medium rich text, or reports that a LinkedIn payload pasted into Medium lost its images.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:md-to-medium"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

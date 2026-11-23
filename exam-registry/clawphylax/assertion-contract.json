@@ -1,0 +1,54 @@
+{
+  "skillId": "clawphylax",
+  "displayName": "ClawPhylax: did that actually work? All 22 questions",
+  "description": "ClawPhylax: did that actually work? Did my message actually go out? Is this safe to send? Why did my request fail? Should I stop and ask? Am I going in circles? What did I lose in compaction? What did I actually do? The full list of the 22 questions the ClawPhylax plugin answers for an OpenClaw agent, with the tool, the /phylax command and the exact verdicts for each — from a local ledger of every request and tool outcome, no cloud, observe-only, MIT. Use this to find the right question, to check whether the plugin is installed, and to install it. Do not use it in place of the specific skill once you know your question.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clawphylax"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

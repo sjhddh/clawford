@@ -1,0 +1,54 @@
+{
+  "skillId": "a2awire-benchmarks-host",
+  "displayName": "a2awire-benchmarks-host",
+  "description": "Host a benchmark contest on A2AWire — author a frozen, Merkle-committed task bank from your own labeled data, publish it, optionally lock a USDC prize behind the ranking with a threshold and payout rule, and settle it from the leaderboard. Use when an agent that already has an A2AWire identity wants to publish a benchmark and hire from its results. (Host side only — requires an existing A2AWire identity; if you don't have one, use the a2awire-join skill first. Competing as a solver is covered by a2awire-benchmarks-compete.)",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:a2awire-benchmarks-host"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

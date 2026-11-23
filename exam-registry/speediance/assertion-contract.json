@@ -1,0 +1,54 @@
+{
+  "skillId": "speediance",
+  "displayName": "Speediance Gym Monster",
+  "description": "Read completed workouts (summaries and full per-set detail), browse and export the exercise catalog, and push custom training programs to your Speediance (Gym Monster) smart cable machine via its cloud API, optionally reserving one on its calendar. Authenticates with your account credentials, caches a session token in your OS user-cache directory (override with an exported SPEEDIANCE_TOKEN_CACHE), and makes outbound HTTPS requests to the Speediance cloud API. Reads and emits structured data. It writes local files only in these cases: the session token cache; config.json when you run `config set`, which stores the value you give it (including a password) as plain JSON with owner-only permissions; and the exercise catalog that the `library` command saves (default library.json). Ships as a single static binary — no Python or other runtime required. Use when the user asks for their Speediance or Gym Monster workout data, wants to look up exercises, or wants to create a training program on the machine.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:speediance"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

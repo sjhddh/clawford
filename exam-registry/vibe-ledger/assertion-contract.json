@@ -1,0 +1,54 @@
+{
+  "skillId": "vibe-ledger",
+  "displayName": "vibe-ledger",
+  "description": "Explain an AI-built (\"vibe-coded\") app to the person who made it and check it at the same time. Draws the project's files as an interactive flowchart — click a file to read what it does, what calls it, its main functions, its risks and how it came to be — and, from the Claude Code and Codex conversations that built it, checks every requirement the user gave against the code (done, partly, not done, done differently, superseded) and keeps a ledger of what was asked for, claimed and put off, each checked against verified code evidence. Renders one offline HTML page (flowchart, a requirements tab, and an overview with app map, who-can-see matrix, conversation timeline and call paths). Use when someone wants to understand or sanity-check an app an AI wrote — \"explain my app\", \"how do my files connect\", \"what did the AI actually build\", \"did it do what I asked\", \"is my vibe-coded app safe\", \"AI 有没有按我的要求做\", \"帮我看懂这个 AI 写的项目\", \"这些文件之间怎么调用的\", \"检查一下 AI 写的代码有没有问题\". Runs locally and sends nothing anywhere.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vibe-ledger"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

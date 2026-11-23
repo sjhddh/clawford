@@ -1,0 +1,49 @@
+{
+  "skillId": "ocas-genie",
+  "displayName": "Genie",
+  "description": "Safely audits and reclaims VPS/Linux disk space, investigates root-filesystem growth, and enforces backup retention when disk usage is high or maintenance is requested; use keywords disk cleanup, disk full, disk usage, snapshots, backups, stale repos, or disk spike. NOT for database maintenance beyond read-only analysis, logrotate configuration, or real-time monitoring.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ocas-genie"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-skill-creator",
+  "displayName": "huawei-cloud-skill-creator",
+  "description": "1. Six-phase pipeline for creating Huawei Cloud skills — Socratic requirements gathering, CLI→SDK→API research, MD generation, test preparation, detailed testing, and final cleanup & compliance check 2. Phase-chained dependency: each phase builds on the previous phase's output, no phase may be skipped 3. Supports CLI, SDK, and REST API execution modes with automatic fallback detection 4. Generates complete skill directory structure with SKILL.md, references/, scripts/, templates/ 5. Validates against the Huawei Cloud Skill Specification (华为云Skill检查规范) Triggers include: \"创建华为云Skill\",\"新建华为云Skill\",\"华为云skill创建器\",\"创建 Skill\",\"新建 Skill\",\"skill 创建器\",\"create skill\",\"build skill\",\"new skill\",\"skill creator\",\"scaffold a Huawei Cloud skill\",\"wrap CLI or OpenAPI into a skill\",\"package cloud operations into a skill\",\"帮我创建华为云Skill\",\"帮我新建一个Skill\",\"封装华为云CLI为Skill\",\"华为云Skill脚手架\",\"帮我创建一个skill\",\"我需要一个skill\",\"建一个skill\",\"生成skill\",\"帮我建一个华为云skill\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-skill-creator"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "bionemo-drug-discovery-pipeline",
+  "displayName": "drug-discovery-pipeline",
+  "description": "NOTE: molecule and target inputs and your NGC_API_KEY are transmitted to external NVIDIA-hosted API endpoints on every call. Use local NIM containers for confidential or proprietary data. Run a complete computational drug discovery pipeline using NVIDIA BioNeMo NIMs: generate drug-like molecules with GenMol, dock them to a protein target with DiffDock, then predict binding affinity with Boltz2. Use this skill whenever the user wants to generate and screen small molecule drug candidates, perform hit discovery, optimize leads against a protein target, or do virtual screening combining molecule generation, docking, and affinity prediction. Triggers on: drug discovery pipeline, hit discovery, lead optimization, virtual screening, molecule generation, molecular docking, binding affinity, GenMol, DiffDock, Boltz2, SMILES, SAFE notation, NIM microservice. This is a multi-step pipeline composing three BioNeMo NIMs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bionemo-drug-discovery-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

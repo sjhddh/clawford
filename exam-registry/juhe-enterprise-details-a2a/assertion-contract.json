@@ -1,0 +1,54 @@
+{
+  "skillId": "juhe-enterprise-details-a2a",
+  "displayName": "企业信息精确查询(AI付) - 聚合数据",
+  "description": "基于聚合数据企业信息精确查询 API，根据企业全名、注册号或统一社会信用代码查询企业详细工商信息，包括法人、注册资本、经营范围、股东、主要人员、分支机构、变更记录、经营异常等。本技能使用无需用户注册聚合数据平台，安装后即可按实际查询付费使用。 企业信息精确查询技能是根据用户提供的企业名称或注册号，提供企业工商详细信息的支付宝 AI 付付费技能，基于 A2M（HTTP 402）收单协议。买家通过本 Skill 向卖家服务端发起请求，完成支付后获取相关结果。 调用过程仅上传查询用的企业名称或注册号至聚合数据服务端，无需提供手机号、身份证等其他个人隐私。 适用于用户查询企业工商档案、股东结构、变更记录、经营异常等场景。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:juhe-enterprise-details-a2a"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

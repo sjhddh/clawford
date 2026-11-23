@@ -1,0 +1,54 @@
+{
+  "skillId": "replica-protocol",
+  "displayName": "复刻协议",
+  "description": "复刻任意应用、工具或小程序，并确保复刻品是自己能站住的产品而不是盗版。当用户说\"复刻这个\"\"仿一个\"\"抄一个\"\"照着做一个\"\"把这个 App 拆解\"\"换个皮做我的产品\"\"逆向分析这个产品\"\"扒一下这个界面\"，或者提供截图/链接/产品描述要求做出同类产品时，使用本技能。输出五张结构化表格（信息架构、核心机制、状态流、数据结构、视觉 token）、承重墙判定结论、换皮执行清单、四维自检评分。不要在没有判定级别和承重墙结论的情况下直接开始写代码或画原型。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:replica-protocol"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

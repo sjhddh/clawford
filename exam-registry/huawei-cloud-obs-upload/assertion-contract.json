@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-upload",
+  "displayName": "huawei-cloud-obs-upload",
+  "description": "Upload a local file or directory to a specified Huawei Cloud OBS (Object Storage Service) bucket with obsutil, and set up a scheduled/periodic upload task (crontab) that syncs a local directory to an OBS bucket. Also lists OBS buckets with storage capacity and object count. Use this skill when the user wants to: (1) upload a specific local file or directory to a named OBS bucket, (2) set up a scheduled/periodic upload task that automatically syncs a local directory to a named OBS bucket, (3) list their OBS buckets and check capacity and object count. Triggers include: user mentions \"upload to OBS bucket\", \"上传文件到OBS\", \"上传目录到OBS\", \"定时上传到OBS\", \"目录同步到OBS桶\", \"OBS scheduled upload\", \"OBS周期上传\", \"OBS bucket capacity check\", \"OBS桶容量查询\". Generic phrases such as \"object storage\", \"upload file\" or \"upload directory\" alone are NOT sufficient to trigger this skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-upload"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

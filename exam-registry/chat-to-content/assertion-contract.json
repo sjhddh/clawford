@@ -1,0 +1,54 @@
+{
+  "skillId": "chat-to-content",
+  "displayName": "chat-to-content",
+  "description": "把对话转文章和贴图——把当前会话里用户与智能体的真实交互过程，整理成可直接发布的自媒体总结文章（.md）或竖版分享贴图（.png/.jpg）。当用户说\"总结本次对话\"\"总结会话\"\"转成文章\"\"生成贴图\"\"生成分享卡片\"时使用。要求会话已有可读取的历史对话记录，否则不启动并说明原因。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:chat-to-content"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

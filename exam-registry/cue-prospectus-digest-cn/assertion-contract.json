@@ -1,0 +1,49 @@
+{
+  "skillId": "cue-prospectus-digest-cn",
+  "displayName": "招股书速览",
+  "description": "招股书速览：输入一份A股招股说明书（正文或 PDF 定位均可），产出八项逐字速览卡——发行与上市安排、主营业务与收入结构、募集资金投向、客户与供应商集中度、研发与核心技术、主要风险因素、股权结构与实际控制人、财务口径（营收、净利、毛利率，期间与单位照原文）。每项挂原句＋页码锚，自称与最高级那句另标「发行人自述」，缺的点名「未检索到」。估值、打新、涨跌与「风险大不大」一律挂 [待人工]。Do NOT use for: 投资建议或申购决策、未检索到的内容编造或补写、把前瞻表述当既成事实转述、收益与风险承诺。Triggers: 招股书 / 打新前读什么 / 募资投向 / 客户集中度 / 实控人",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-prospectus-digest-cn"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

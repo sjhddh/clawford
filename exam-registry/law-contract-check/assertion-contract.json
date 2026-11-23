@@ -1,0 +1,54 @@
+{
+  "skillId": "law-contract-check",
+  "displayName": "合同风险自检台",
+  "description": "普通人签合同只看金额和期限，容易漏掉付款条件、违约、管辖、解约这些真正会吃亏的条款。 输入：合同类型（租赁/服务/采购/劳动/合作）、条款文本或要点、你的身份（甲方/乙方/劳动者/承租方）。输出：①风险条款清单（按高/中/低）②每条的通俗解释（这条在保护谁）③建议改法（可直接跟对方提的措辞）④必须补上的缺失条款 ⑤签字前 5 项检查。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:law-contract-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

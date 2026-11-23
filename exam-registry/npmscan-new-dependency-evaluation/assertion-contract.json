@@ -1,0 +1,54 @@
+{
+  "skillId": "npmscan-new-dependency-evaluation",
+  "displayName": "npmscan new dependency evaluation",
+  "description": "Help decide what to add as a NEW npm dependency — comparing 2-5 named candidates for the same job, evaluating one named candidate against its real peers, or shortlisting candidates from a described need, before anything is installed. Use for \"which should we use for X,\" \"axios vs got vs node-fetch,\" \"is X a good pick for Y,\" \"what should we use to do Z,\" \"should we add X or is there something better.\" Not for auditing packages already in the project (see dependency-audit), not for a deep single-package compromise/trust investigation (see package-trust-check), and not for a plain factual question with no choice being made (\"what does X do\").",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:npmscan-new-dependency-evaluation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "hallucination-guard",
+  "displayName": "hallucination-guard",
+  "description": "Detect and prevent AI agent hallucinations during task execution. Use when: (1) an agent claims to have created files, commits, or artifacts — verify them, (2) an agent produces data reports or numbers — audit against source, (3) running long multi-step tasks where fabrication risk is high, (4) you need cross-model verification of critical outputs. Provides 4-layer defense: L0 context hygiene, L1 claim-evidence protocol, L2 cross-model audit, L3 drift detection. NOT for: simple Q&A, opinion-based tasks, or conversations where factual accuracy is not critical.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hallucination-guard"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

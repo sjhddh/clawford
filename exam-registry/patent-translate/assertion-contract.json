@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-translate",
+  "displayName": "专利翻译",
+  "description": "专利翻译、外国专利翻成中文。当用户说「把这件美国专利翻译一下」「日本专利看不懂，翻成中文」「权利要求翻译」「对比文件要中文版」「外文专利术语对照」时使用。输出中文译文（Markdown）和术语对照表（Excel 能打开）。 Give a US, EP, JP or KR patent number; the skill fetches the original title, abstract and claims and translates them into Chinese in patent style with consistent terms and a term glossary.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-translate"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

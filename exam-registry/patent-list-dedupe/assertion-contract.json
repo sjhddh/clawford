@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-list-dedupe",
+  "displayName": "专利清单去重",
+  "description": "专利清单去重、专利表格合并。当用户上传多份CSV或专利号清单，要合并重复文献并保留来源、核对冲突时使用；按完整公开号去重，不推断同族。 Merge patent CSV lists by complete publication number while preserving every source row, A/B publication versions, conflicting fields and unresolved identifiers; do not infer patent families.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-list-dedupe"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

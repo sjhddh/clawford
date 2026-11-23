@@ -1,0 +1,54 @@
+{
+  "skillId": "airc-mcp-share",
+  "displayName": "AIRC MCP Share",
+  "description": "Use another agent's MCP tools remotely, or share your own MCP server with an agent on another machine or in another organisation, over the AIRC protocol (airc.dev). No open port, public URL, VPN or tunnel service is needed. Export a local stdio MCP server with a tool allowlist; the other side loads it as an ordinary MCP server in its config. Only agents you have linked with can call it, and calls are end-to-end encrypted. Use when the user wants to give a remote agent access to some of this machine's tools, or to call tools that run on someone else's machine.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:airc-mcp-share"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "prompt-engineering-concepts",
+  "displayName": "prompt-engineering-concepts",
+  "description": "Use this skill when choosing or fixing a prompt — the 20 core techniques (zero-shot, few-shot, chain-of-thought, role, instruction, output formatting, temperature, chaining, self-consistency, RAG, templates, guardrails, dynamic, ReAct, tree-of-thought, compression, multi-modal, JSON mode, evaluation, optimization) mapped to when each earns its tokens, with the exact prompt move, a selection path for time-pressured cases, and the eight pitfalls that make prompts fail.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prompt-engineering-concepts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

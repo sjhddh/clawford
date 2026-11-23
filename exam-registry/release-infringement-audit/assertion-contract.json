@@ -1,0 +1,54 @@
+{
+  "skillId": "release-infringement-audit",
+  "displayName": "发布前侵权审核 Release Infringement Audit",
+  "description": "发布前侵权/法律风险审核。当用户说「发布前审一下」「有没有侵权风险」「能发到 npm/ClawHub/GitHub 吗」「release audit」时使用。扫描开源许可证兼容性（GPL 传染/CC-NC）、复制的第三方代码、文档图片字体素材、商标冲突、密钥泄漏五大类，输出结构化分级报告。判定锚定 SPDX 与 FSF/CC 官方分类。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:release-infringement-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

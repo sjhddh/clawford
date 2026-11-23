@@ -1,0 +1,54 @@
+{
+  "skillId": "keelwright",
+  "displayName": "keelwright",
+  "description": "Engine for vibe-coders and loop-coders who ship AI-generated code they can't read line by line. Covers 28 known failure modes: SQL injection, hardcoded secrets, hallucinated packages (slopsquatting), reward hacking (AI deletes tests to pass), doom loops (runaway token burn), false reports, missing auth, business logic bypasses, over-engineering, and more. Most modes have a machine-enforced detector (run a tool, check on disk) plus a discipline rule the agent must follow — a few (style consistency, sycophancy-as-trait) are discipline-only, not machine-checked. Autonomy dial (Autopilot/Checkpoint/ Copilot) lets you approve what matters; AI handles the rest. Self-learning loop with circuit-breaker limits and Phoenix restart. Plain-language reports for non-developers. Proven by adversarial A/B testing: Keelwright Score (KDS) up to 83/100 on strong models (SWE-bench 78%). Load before any loop/agent coding session, autonomous run, or commit.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:keelwright"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

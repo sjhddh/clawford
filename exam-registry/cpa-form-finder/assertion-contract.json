@@ -1,0 +1,54 @@
+{
+  "skillId": "cpa-form-finder",
+  "displayName": "CPA — Form Finder",
+  "description": "Activate when: scoping or quoting a new tax engagement; a client describes a transaction and you need to place it; building a document request list; sanity-checking that a return has the schedules its facts imply; user says 'what forms does this need', 'which schedule', 'what do I file for', 'is there a form for', 'what filings am I forgetting?'. Do NOT activate when: the forms are known and the question is how to complete a line; the return is already prepared and the question is whether it is right (use cpa-return-review instead); the question is a threshold, limit, rate, or filing date — those are not in this skill and must come from current guidance. More: deciqai.com/c/cpa-form-finder",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cpa-form-finder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

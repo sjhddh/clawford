@@ -1,0 +1,54 @@
+{
+  "skillId": "mercator-entity-evidence",
+  "displayName": "MERCATOR Entity Evidence",
+  "description": "Company facts with the receipts attached. Ask for legal name, headquarters, founded year, employee count, executives or funding for a domain and get each field back with the URL its evidence is attributed to, a span copied byte for byte out of the document that was fetched, when it was retrieved, and n-of-m source agreement. Conflicting sources are returned, not hidden. A field that cannot be evidenced comes back UNKNOWN rather than guessed. $0.10 USDC per call over x402 on Base, charged once and only when at least one thing you asked for is verified. Every other answer - the company unresolved, only your own identifier handed back, or sources that disagree with no settled value - is returned in full as HTTP 404, and THIS ONE HOLDS: the x402 middleware cancels settlement on any status of 400 or above, so nothing is captured for it. You pay from your own wallet — see \"Who pays\" below. Triggers: \"what is the legal name of X\", \"verify this company\", \"enrich this domain with sources\", \"who runs X and where is it based\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:mercator-entity-evidence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

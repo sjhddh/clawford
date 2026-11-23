@@ -1,0 +1,49 @@
+{
+  "skillId": "bilibili-video-to-text",
+  "displayName": "B站视频转文字 Bilibili video to text",
+  "description": "B站视频转文字 / Bilibili video to text. 用户发来 bilibili.com/video/BV… 或 b23.tv 短链，要提取视频文案、做笔记、总结 UP 主讲了什么、整理课程或评测内容时使用。返回口播逐字稿（分段带时间）、画面上的字、标题简介、要点和互动数据。不登录 B 站、不要 Cookie、不下载视频。1 分钟视频 2 积分（约 ¥0.29），读不了不扣费；需要 LinkDigest API Key（注册送 10 积分，不用绑卡）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bilibili-video-to-text"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

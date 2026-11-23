@@ -1,0 +1,54 @@
+{
+  "skillId": "dialog-tree",
+  "displayName": "dialog-tree",
+  "description": "Maintain a visual \"dialog tree\" — a data file plus a self-contained HTML viewer in the project repo that map the branches of a long conversation (user questions → the steps/variants of the answers) as an interactive tree with resolve/delete marks and a \"built up to\" marker for incremental updates. Use whenever the user asks to \"create/set up a dialog tree\", \"update the tree\", \"add this to the tree\", \"show open branches\", or mentions dialog-tree.html — and proactively offer it when a deep-dive discussion branches enough that the user risks losing track of unexplored side-threads.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dialog-tree"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

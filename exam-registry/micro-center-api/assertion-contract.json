@@ -1,0 +1,54 @@
+{
+  "skillId": "micro-center-api",
+  "displayName": "Micro Center API - Store Stock, Open Box, Prices",
+  "description": "Micro Center product data as structured JSON at the store you choose - search by keyword or category with price, original price and that store's stock count (capped at 25+), open-box units and price, read one product with specs, UPC, recent reviews, the store's open-box units and which stores have it, and list every Micro Center store id. 3 endpoints; search and product 2 credits, stores 1.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:micro-center-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

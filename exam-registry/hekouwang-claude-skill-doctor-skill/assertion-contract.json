@@ -1,0 +1,49 @@
+{
+  "skillId": "hekouwang-claude-skill-doctor-skill",
+  "displayName": "Claude Skill 体检器（SKILL.md Doctor）",
+  "description": "体检 Agent Skill：默认 check.py 评 SKILL.md 触发/篇幅/渐进披露/可移植/安全；可选套件可检查项目说明文档与本机开发环境；可选 SkillSpector 深度扫描与 trigger_eval（会把 query/description 发给外部模型）；给评分卡并可代重构",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hekouwang-claude-skill-doctor-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

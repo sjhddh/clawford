@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-refactor",
+  "displayName": "Skill Refactor",
+  "description": "技能改造方法。核心能力：评估技能是否需要存在（领域消除评估）→ 如果需要存在则重构技能内容（工作流重构）。十一步法：边界识别→存在理由分析→消除可行性评估→独立存在必要性判断→决策输出→组成部分识别→组成部分存在理由分析→补偿层消除→重整→重构验证→改造形态选择。覆盖从技能领域评估、存在必要性判断、技能内容重构到...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-refactor"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

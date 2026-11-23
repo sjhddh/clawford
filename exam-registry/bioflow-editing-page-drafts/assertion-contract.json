@@ -1,0 +1,54 @@
+{
+  "skillId": "bioflow-editing-page-drafts",
+  "displayName": "Editing Page Drafts",
+  "description": "Edits the draft of a BioFlow link-in-bio page: adds, changes, removes, or reorders links, images, products, newsletter signups, booking embeds, and other blocks, renames a page, or creates a new page. Use when the user asks to 'add a link to my YouTube channel', 'update my bio link page', 'rename my page title', 'move the newsletter block to the top', 'remove this link', 'create a new link in bio page', or edit their creator landing page. Changes the draft only; never publishes.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:bioflow-editing-page-drafts"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "cue-cn-resume-jd-fit",
+  "displayName": "简历 × JD 双向核对·逐条挂原话",
+  "description": "简历 × JD 双向核对起草：输入是两份文档（本地文件或解析通道取回的正文），产出四节报告——一句话结论（只说匹配到哪一层）、逐条对齐（每条要求一句、证据一句，各挂 [S#]，两句都须逐字）、缺口两栏（JD 有要求而简历无证据的、简历有内容而 JD 不关心的）、来源（文件:行号 或 URL ＋ 解析日）。机检 check_fit.py 五道：形制与条数带／双锚与定位／两侧逐字回原文／缺口点名／录用与排序断言零命中，零网络。适合岗位对照、转岗材料整理。Do NOT use for: 人评排序、打分、推荐录用或淘汰、批量筛简历。Triggers: 简历对 JD / 岗位匹配核对",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cue-cn-resume-jd-fit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

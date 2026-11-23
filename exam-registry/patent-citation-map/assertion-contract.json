@@ -1,0 +1,49 @@
+{
+  "skillId": "patent-citation-map",
+  "displayName": "专利引证分析",
+  "description": "专利引证分析、引用和被引用。当用户说「这件专利引用了哪些专利」「谁引用了这件专利」「这个技术是从哪发展来的」「哪些公司在跟进这个技术」「做一下引证分析」时使用。输出引证分析表（Excel 能打开）：前向、后向引证和相似专利。 Citation analysis for a patent. Lists backward citations (where the technology came from) and forward citations (who followed), filling gaps with later similar patents clearly labeled as such.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-citation-map"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

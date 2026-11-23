@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-pilot-to-scale",
+  "displayName": "AI Pilot to Scale",
+  "description": "Activate when: user says 'our AI pilot is done but nobody uses it', 'the demo was great, how do we roll it out?', 'how do we get this POC into daily operations?', 'should we scale or kill this pilot?', 'the pilot keeps getting extended', or is about to launch an AI/agent pilot. Do NOT activate when: still deciding whether to build, buy or partner for the capability (use build-buy-partner-ai); deciding whether the project is worth funding at all (use ai-roi-business-case); pure model selection or prompt/parameter tuning; an explicitly labeled learning experiment with no commitment to go live. More: deciqai.com/c/ai-pilot-to-scale",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-pilot-to-scale"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

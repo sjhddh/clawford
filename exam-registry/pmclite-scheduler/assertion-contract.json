@@ -1,0 +1,54 @@
+{
+  "skillId": "pmclite-scheduler",
+  "displayName": "轻排生产排产",
+  "description": "通过 MCP 工具操作轻排桌面程序（MRP-PMC），完成生产排产、排程预演与落库、交期评审、插单评估、物料齐套检查、报工与生产看板查询。 用户说出“帮我排产”“排一下明天的产”“这单能不能接”“交期来得及吗”“查一下工单”“齐套了吗”“缺什么料”“插个单行不行”“报工 50 件”“今天生产怎么样”“最近有哪些异常”时使用。 不触发：新建物料/产品/BOM 等基础资料录入、财务报表、采购下单、与轻排程序无关的通用排产理论问答。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pmclite-scheduler"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

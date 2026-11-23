@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-pipeline-language-developer-tools",
+  "displayName": "doca-pipeline-language-developer-tools",
+  "description": "Use this skill when the operator is driving the DOCA Pipeline Language (DPL) Developer Tools to inspect or debug DPL programs on a BlueField DPU — DPL Nspect for runtime state such as tables, keys, and counters, DPL Debugger for packet flow, DPL Admin for dynamic configuration changes in the DPL Runtime Daemon, P4 Runtime Shell as a P4Runtime control plane manager, or DPL Runtime Controller SDK for custom P4Runtime applications and DPL shared memory APIs. Trigger even when the user does not explicitly mention \"DPL Developer Tools\" — implicit phrasings include \"inspect the DPL tables on the DPU\", \"why can't I start a DPL debug session\", \"change a dpl_rtd configuration item without restarting\", \"build my own P4Runtime app for DPL\", or \"visualize packet flow through my DPL program\". Refuse and route elsewhere: authoring, compiling and deploying DPL programs to the DOCA Pipeline Language Service Guide, DOCA install/bring-up to doca-setup, and hardware or firmware state changes to doca-hardware-safety.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-pipeline-language-developer-tools"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

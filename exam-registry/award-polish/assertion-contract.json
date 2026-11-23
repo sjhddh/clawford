@@ -1,0 +1,54 @@
+{
+  "skillId": "award-polish",
+  "displayName": "award-polish",
+  "description": "Polish a website, landing page, web app, portfolio, or other browser UI toward award-winning, Awwwards-level quality. Use when the user sets Awwwards websites or award-winning web design as the bar, asks to polish or redesign a landing page, or needs to finish a timed take-home, portfolio website, or hackathon web project. Two independent reviewers score each batch and compare it against the best version so far. An optional helper can split polish changes into reviewable commits. Not for prose, documents, or non-web work, and not for writing award-submission essays.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:award-polish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

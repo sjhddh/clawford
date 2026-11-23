@@ -1,0 +1,54 @@
+{
+  "skillId": "aep-session-evidence",
+  "displayName": "AEP Session Evidence (过程存证)",
+  "description": "AEP 会话过程存证——让 AI 助手感知当前会话，在开始/里程碑/结束时把\"确实发生过这样一个创作过程\"固化成可独立验证的证据链。当用户提到\"过程存证/会话存证/记录过程/结束存证/收工存证\"，或检测到会话即将结束（用户说收工/就这样/告一段落、上下文接近压缩、任务交付）时使用。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aep-session-evidence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

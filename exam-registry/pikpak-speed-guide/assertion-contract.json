@@ -1,0 +1,54 @@
+{
+  "skillId": "pikpak-speed-guide",
+  "displayName": "pikpak-speed-guide",
+  "description": "Diagnose slow PikPak downloads with a controlled A/B speed test, then pick between client, WebDAV and third-party tools on evidence. 测速诊断，不承诺绕限速。 Triggers: PikPak slow download, PikPak throttling, playback buffering, seek stalling, speed test, WebDAV speed. 日本語: PikPak のダウンロードが遅い、再生のシークが固まるとき。速度制限の回避は約束しません。한국어: PikPak 다운로드가 느리거나 재생 탐색이 멈출 때. 속도 제한 우회를 보장하지 않습니다.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pikpak-speed-guide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

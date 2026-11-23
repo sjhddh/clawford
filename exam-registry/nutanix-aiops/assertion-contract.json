@@ -1,0 +1,54 @@
+{
+  "skillId": "nutanix-aiops",
+  "displayName": "nutanix-aiops",
+  "description": "Use this skill whenever the user needs to operate a Nutanix estate through Prism Central (v4 REST API) — an estate/cluster health overview, cluster & host inventory and utilization, VM lifecycle across AHV and ESXi (list/get/power/create/update/clone/delete/migrate), storage containers, subnets/network, images & categories, data protection / DR (snapshots, recovery points, protection domains, VM protect, failover), alerts & events with alert RCA (analyze_alert), LCM firmware/software upgrades, capacity runway forecasting, and read-only diagnostics/RCA over the whole estate (cluster_health_rca, alert_triage_rca). Always use this skill for \"Nutanix\", \"Prism Central\", \"AHV\", \"cluster health\", \"list VMs\", \"power on/off a VM\", \"clone/migrate a VM\", \"delete a VM\", \"snapshot\", \"recovery point\", \"protection domain\", \"failover\", \"why did this alert fire\" / \"root cause this alert\", \"LCM upgrade / firmware\", \"days until storage is full\" / \"capacity runway\", \"what's wrong with my cluster\" / \"diagnose the estate\", \"triage my alerts\", when the context is a Nutanix cluster or Prism Central. Do NOT use when the target is a non-Nutanix platform — those belong to their own AIops-tools sibling; this skill is Prism Central v4 only. Governed Nutanix Prism Central operations with a built-in governance harness (audit, token budget, undo, descriptive risk-tier labels).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nutanix-aiops"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

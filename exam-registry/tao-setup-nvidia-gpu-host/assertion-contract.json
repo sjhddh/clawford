@@ -1,0 +1,54 @@
+{
+  "skillId": "tao-setup-nvidia-gpu-host",
+  "displayName": "tao-setup-nvidia-gpu-host",
+  "description": "Host setup for TAO GPU backends. Checks and, after user approval, installs minimum-compatible NVIDIA driver, CUDA Toolkit, and NVIDIA Container Toolkit versions for Docker/local-Docker and Kubernetes GPU worker hosts. TAO-wide defaults can be overridden by the selected model's runtime profile. The `--check-only` path works on any Linux distribution; `--install` automates debian-family (Ubuntu/Debian/Pop!_OS/Mint/Zorin/Raspbian), rhel-family (Fedora/RHEL/Rocky/AlmaLinux), and suse-family (openSUSE/SLES) hosts, and prints actionable manual-install steps for everything else. Use when the user asks to \"set up an NVIDIA GPU host\", \"check TAO Docker GPU runtime\", or prepare a Kubernetes GPU worker for TAO.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tao-setup-nvidia-gpu-host"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

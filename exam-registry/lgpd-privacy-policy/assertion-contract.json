@@ -1,0 +1,54 @@
+{
+  "skillId": "lgpd-privacy-policy",
+  "displayName": "lgpd-privacy-policy",
+  "description": "Draft, version, and review a privacy policy compliant with LGPD Art. 9 (seven mandatory elements), Resolução CD/ANPD nº 18/2024 (DPO disclosure) or ATPP channel, international transfer transparency (Res. 19/2024 and Res. 32/2026), and ECA Digital when applicable. Run AFTER consolidating ROPA so the notice matches real data flows. CHECKPOINT skill — requires legal review before publication.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lgpd-privacy-policy"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

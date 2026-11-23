@@ -1,0 +1,54 @@
+{
+  "skillId": "action-com-api",
+  "displayName": "Action.com Store API - Weekly Deals, Prices by Country, Stores",
+  "description": "Action API for Action (action.com), the European non-food discount store - this week's Action deals on any of its 19 storefronts in 16 countries with Action's validity dates and week id (deals run Wednesday to Tuesday, e.g. Promo2026Week47, 2026-11-18 to 2026-11-24), the deal price next to the regular price, Belgium's Action Plus loyalty-card deals, and the same article number priced in each market in its own currency (EUR, CHF, PLN, CZK, RON; prices differ per market, even inside the euro zone), up to 60 article numbers per call; keyword search, category, brand, new-arrival and seasonal collection lists (Black Friday, Christmas), 24 per page with total and pages, sorted by price or newest and filtered by department, price band, brand or new; one product in full with specifications and the store aisle; the 20 Action stores nearest a city, postcode or point (they may cross a border) and one store with 7 dated days of opening hours; reviews on the Dutch, German, French and Polish storefronts (local or international, no reviewer names); the category tree, Action's own brands and search suggestions; the Action webshop (shop.action.com, Netherlands and Belgium) with EAN, online stock level, order limit and shipping cost. Data in each storefront's language. 16 endpoints, 1 credit per call. Action does not publish store stock; no price history, leaflets or checkout.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:action-com-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "clarify-before-acting",
+  "displayName": "clarify-before-acting",
+  "description": "在处理复杂、模糊或高成本请求前，先解决方向性歧义：自己做功课、检查记忆中已回答的问题、逐个处理问题队列、绝不猜测方向。跳过琐碎、机械、低风险的任务。触发词：\"确认需求\"、\"先澄清再做\"、\"方向不确定\"、\"clarify before acting\"、\"ask before doing\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:clarify-before-acting"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "vss-search-archive",
+  "displayName": "vss-search-archive",
+  "description": "Use this skill to search archived VSS video or indexed live RTSP camera streams already registered in a configured deployment — by natural-language, similarity, attribute, object-ID, or lexical tag query — and for follow-up questions about displayed search results or their verification. For fresh clip Q&A use vss-ask-video; for full-recording summaries use vss-summarize-video; for source ingestion/deletion use vss-manage-video-io-storage; for deployment use vss-build-vision-ai. Route those requests to the named workflow without loading this skill, including when media, the CLI, or the deployment is unavailable. Not for live captioning.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vss-search-archive"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "useapi-gemini-notebook",
+  "displayName": "Gemini Notebook / NotebookLM: podcast, Video Overview, slides (useapi.net)",
+  "description": "Turn web pages, YouTube videos, pasted text or local files (PDF, Word, PowerPoint, EPUB, audio) into a Gemini Notebook (NotebookLM) Audio Overview podcast (.m4a), Video Overview (.mp4) or slide deck (.pdf and .pptx) on your own Google account, through the useapi.net Gemini Notebook API (NotebookLM API), a third-party paid API not affiliated with Google. Google renamed NotebookLM to Gemini Notebook. Use when the user asks for a NotebookLM or Gemini Notebook podcast, Audio Overview, Video Overview, explainer video or slides, or to turn articles or documents into a podcast or deck. Needs bash, curl, jq and USEAPI_TOKEN.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:useapi-gemini-notebook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

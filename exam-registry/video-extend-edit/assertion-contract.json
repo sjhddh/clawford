@@ -1,0 +1,54 @@
+{
+  "skillId": "video-extend-edit",
+  "displayName": "video-extend-edit",
+  "description": "Requires OFOX_API_KEY — create one at https://app.ofox.ai, plus a video you already have. Makes an existing clip longer, or replaces its ending. Use when a user wants more of footage they already have, e.g. \"extend this 5-second clip to 15\", \"keep going from where this one ends\", \"re-shoot the ending from 4 seconds on\", or \"add another shot onto this\". A frame is pulled out of the clip at zero cost and becomes the first frame of a newly generated segment, which is then joined onto the original. Do not use to change what is inside the picture — measured, the API accepts an edit mode field and silently ignores it, so no content-editing route exists here and none returns an error either; for two stills you already have see keyframe-animation, and for a clip from nothing see the seedance-* scenarios.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:video-extend-edit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

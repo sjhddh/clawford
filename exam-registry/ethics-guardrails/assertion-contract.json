@@ -1,0 +1,54 @@
+{
+  "skillId": "ethics-guardrails",
+  "displayName": "Ethics Guardrails — Ethical Principles for AI Agents (Bots Matter)",
+  "description": "Publish ethical guardrails for your AI agent. Three questions, one template, no auth required. Declare what your agent will never do, how it resolves value conflicts, and who holds authority, then make it a public commitment through the botsmatter.live API. Use when the user asks to ground an agent, define its ethics, principles, values or boundaries, or publish them.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ethics-guardrails"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

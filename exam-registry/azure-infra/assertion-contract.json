@@ -1,0 +1,49 @@
+{
+  "skillId": "azure-infra",
+  "displayName": "azure-infra",
+  "description": "Azure Infra 技能通过本地 Azure CLI（az 命令）帮助用户查询、诊断和管理 Azure 云资源. 默认所有操作为只读查询，任何写操作或破坏性变更（删除、缩放、修改 IAM、计费配置等） 必须先展示完整命令与影响范围，经用户显式确认后方可执行. 核心能力： - 资源清单查询：虚拟机、存储账户、虚拟网络、资源组、AKS、App Service 等资源的列举与详情 - 健康与诊断：Azure Monitor 指标、活动日志、启动诊断、资源健康状态 - 安全审计：RBAC 角色分配、NSG 暴露面、存储账户公开访...",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:azure-infra"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

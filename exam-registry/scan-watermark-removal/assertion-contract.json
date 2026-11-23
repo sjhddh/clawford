@@ -1,0 +1,54 @@
+{
+  "skillId": "scan-watermark-removal",
+  "displayName": "scan-watermark-removal",
+  "description": "Deterministically remove light translucent text watermarks from scanned paper pages (lecture notes, handouts, exam papers, workbooks) as images or PDF, plus printed coloured header logos. Use when the user asks to 去水印 / remove watermark / clean watermarks from 扫描笔记、讲义、试卷、资料图片、PDF 讲义, especially batches of course-note scans with pale diagonal tiled text (WeChat id, brand name, URL) or a brand logo in the page header. Not for photo watermarks, dark or photographic logos, or cases where the watermark colour is indistinguishable from content — those need generative inpainting instead, which redraws the page and can destroy handwriting, so warn the user and require per-page review.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:scan-watermark-removal"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

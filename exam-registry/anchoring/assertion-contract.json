@@ -1,0 +1,54 @@
+{
+  "skillId": "anchoring",
+  "displayName": "anchoring",
+  "description": "Activate when: user says 'what's a fair price / starting number / ballpark'; counterparty just opened with a number; user is about to negotiate salary, valuation, or deal terms; user is making a forecast and a number has already been floated; user asks about 'first offer', 'framing effect', or 'being anchored'. Do NOT activate when: the number in question is a verifiable data point (audited financials, confirmed comparable) and is genuinely informative; or the decision is so trivial that the economic impact of anchoring is negligible. More: deciqai.com/c/anchoring",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:anchoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

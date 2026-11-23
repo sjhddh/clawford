@@ -1,0 +1,54 @@
+{
+  "skillId": "dodomain-connecting-customer-domains",
+  "displayName": "Connecting Customer Domains",
+  "description": "Starts and follows a doDomain connect session that points a customer's own domain at one of the user's apps, returns the DNS records the customer must add, and verifies them. Use when the user asks to 'start a connect session for shop.acme.com on my app', 'connect my customer's custom domain', 'onboard a customer domain', 'what DNS records does my customer need', 'have the records landed yet', or 'verify the domain'. Creating a session uses monthly connection quota and is confirmed first.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dodomain-connecting-customer-domains"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

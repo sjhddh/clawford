@@ -1,0 +1,54 @@
+{
+  "skillId": "apify-bulk-image-pipeline",
+  "displayName": "apify-bulk-image-pipeline",
+  "description": "Turn a list of prompts, image URLs or another Actor's dataset into finished visuals in bulk — generate images with FLUX (text to image), upscale them 2x/4x or to 4K with SeedVR2 super-resolution, remove backgrounds into transparent cutouts, and animate images into short mp4 clips with MiniMax Hailuo — each step one Apify Actor call, chainable by datasetId, billed per delivered result with failures free and no model API key. Use when the user says \"generate images in bulk from prompts\", \"turn this CSV / Google Sheet of prompts into images\", \"upscale a folder or list of images\", \"enhance image quality / increase resolution\", \"upscale to 4K\", \"remove backgrounds in bulk\", \"animate these product photos\", \"turn photos into videos\", \"image to video API\", \"make thumbnails for my content calendar\", or wants a generate → upscale → cutout → video pipeline without managing fal, FLUX, SeedVR2 or MiniMax accounts.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:apify-bulk-image-pipeline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

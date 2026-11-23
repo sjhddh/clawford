@@ -1,0 +1,54 @@
+{
+  "skillId": "youtube-skill",
+  "displayName": "YouTube Skill",
+  "description": "YouTube skill: get a finished video found on YouTube, then upload it. Transcribes it (free local faster-whisper, your own Groq or OpenAI key, or an existing SRT/VTT), finds the phrases people actually type into YouTube search (free autocomplete, optional free YouTube Data API key), writes 10 titles, a description whose first lines work in search, chapters, tags and hashtags, checks every field against YouTube's limits, renders thumbnail options from the video's own frames and previews them at feed size, writes clean captions, then uploads to YouTube with WoopSocial after you say yes, plus a YouTube Studio checklist. Works on Mac, Windows and Linux with ffmpeg and Pillow; no paid API required. Use when someone says \"upload to youtube,\" \"youtube seo,\" \"youtube title,\" \"youtube description,\" \"youtube tags,\" \"youtube chapters,\" \"youtube thumbnail,\" \"publish my video,\" or \"youtube with Claude Code.\" Never promises what the video doesn't deliver, confirms before anything posts. Standalone: needs no other skills.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:youtube-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

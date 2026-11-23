@@ -1,0 +1,54 @@
+{
+  "skillId": "funding-fit-diagnosis",
+  "displayName": "funding-fit-diagnosis",
+  "description": "项目想融资，卡住的往往不是不会写 BP，而是不知道够不够格、该找谁、还缺什么、多久能到钱——问 AI 只得到\"建议加强团队\"这类正确的废话。这套引擎把它拆成可执行的四步：①10 问项目画像采集（缺关键项就先追问，不猜）②双轨评分：市场化 VC 适配分与政府基金适配分**分开算、各自判定**（≥75 强匹配 / 60-74 可争取 / 45-59 需补短板 / <45 暂不建议，低分不许只说\"不行\"，要给替代路径）③点名机构：按赛道/阶段/地域从 23 家头部 VC 与产业资本(CVC)、21 家政府基金的卡片里逐条对照\"匹配信号/劝退信号\"，每家写清\"为什么是你、你还缺什么、材料怎么准备、递送路径\"，并单列\"不建议碰\"的机构省时间④差距清单（差距｜补齐动作｜耗时｜难度｜优先级，只挑 3 个月内能推动的）+ 三线找钱路线图（市场化 / 政府 / 替代路径）+ 时间预期与现金流提醒。包内另附 30 个真实融资案例对标、TS 条款红线、估值倍数参考、BP 制作铁律，以及零依赖离线评分脚本（纯标准库、不联网、不调大模型 API）。输入：项目情况（照着 10 问答即可）；输出：一份研判报告（评分 + 优先接触名单 + 差距清单 + 路线图 + 风险提示），脚本侧可另出 JSON 评分结果。评分是适配度不是成功率，不承诺融资结果。触发词：融资、找投资、融资研判、能不能融到钱、找哪家风投、风险投资、VC、产业资本、CVC、政府引导基金、政府基金申报、产业基金、招商返投、项目申报、补贴申报、商业计划书、BP、路演、估值、股权稀释、TS 条款、对赌、回购、FA、财务顾问、找钱、融资渠道、天使轮、Pre-A、A轮。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:funding-fit-diagnosis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

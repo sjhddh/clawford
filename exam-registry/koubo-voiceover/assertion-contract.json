@@ -1,0 +1,54 @@
+{
+  "skillId": "koubo-voiceover",
+  "displayName": "Talking-Head Voiceover · Voice Cloning · Subtitles",
+  "description": "口播配音、口播视频 AI 配音、口播稿配音技能：用你自己的参考音频（声音克隆 / 声音复刻）或账号里已有的口播角色，把口播稿一键生成配音 WAV、竖屏 SRT 字幕和逐句时间轴 manifest.json；说错一句只改一行重新生成，不用对着镜头反复录。适合抖音、视频号、小红书、快手、B站的知识口播、财经口播、情感口播、职场口播博主和 MCN 批量更新；可用语气标签和语速控制口播节奏。配音由 Miragea 开放 API 完成，本地只需 Python 3.9+ 标准库、无需显卡，可 --dry-run 离线试跑。适用于 Claude Code、Codex、OpenClaw、Cursor、WorkBuddy。Talking-head AI voiceover, voice cloning, SRT subtitles.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:koubo-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

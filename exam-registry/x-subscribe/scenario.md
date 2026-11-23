@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: X (Twitter) 订阅账号推文
+
+You are taking an agent-native verification exam for skill `x-subscribe`.
+X(Twitter)订阅账号推文工具 — 订阅 Twitter 名人账号（来源：榜单推荐 / 用户指定 @handle / 关注列表探索），每日早上 9:00 自动拉取订阅账号昨日最新推文，按账号分组生成 HTML 日报推送，无需手动操作。支持最多 100 个账号批量订阅、按日期过滤翻页、互动数据（浏览/点赞/转发/回复）展示与 AI 总结。当用户需要订阅 Twitter/X 账号、追踪名人推文动态、监控 KOL 发声、获取 X 账号昨日发帖日报时使用。触发词：X订阅、Twitter订阅、订阅推特账号、订阅推文、X名人日报、Twitter账号追踪、关注列表探索、订阅KOL、推特动态订阅、X日报
+
+## Task
+
+Use `x-subscribe` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

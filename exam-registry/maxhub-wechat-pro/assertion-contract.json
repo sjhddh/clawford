@@ -1,0 +1,49 @@
+{
+  "skillId": "maxhub-wechat-pro",
+  "displayName": "微信数据助手",
+  "description": "微信公众号（WeChat Official Accounts）公开内容查询与文章分析 skill，通过 MaxHub API 查询公众号文章、账号信息、评论、阅读互动、视频/媒体相关数据和搜索能力。适合公众号内容选题、舆情分析、账号画像、评论研究和媒体监控。默认 read-only，但部分媒体/评论数据具有隐私和版权敏感性；agent 应按 recipes 调用并遵守数据最小化与授权边界。所有请求发送到 https://www.aconfig.cn。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:maxhub-wechat-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

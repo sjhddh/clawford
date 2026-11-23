@@ -1,0 +1,49 @@
+{
+  "skillId": "account-scoring",
+  "displayName": "account-scoring",
+  "description": "Score every account against your ICP on a schedule: a deployed agent tiers each company in a Cargo model (tam-building's, or your CRM companies) A / B / C / disqualified against the ICP and rubric in workspace context, and the tier, a two-sentence reason and evidence are written onto the row and, optionally, the matching HubSpot or Salesforce company. New companies are tiered hourly; the book is re-scored weekly or on any window set. Triggers: \"score our TAM\", \"tier the market we just sourced\", \"which accounts should the team work first\", \"why is this account tier A\", \"keep our accounts tiered as they arrive\", \"our lead scoring is a spreadsheet nobody trusts\". Cargo project, defineAgent, webSearch, context, tam_companies, tier segments. Skip when: someone hands you a list and wants it scored once, which is score-leads; or there is no account universe yet, which is tam-building.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:account-scoring"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

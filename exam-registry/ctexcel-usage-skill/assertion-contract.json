@@ -1,0 +1,49 @@
+{
+  "skillId": "ctexcel-usage-skill",
+  "displayName": "ctexcel-usage-skill",
+  "description": "Check remaining CTExcel (UK) data, voice, and SMS allowances for an eSIM or physical SIM using the local ctexcel-usage CLI. Use when the user asks how much data is left, when a bundle expires, or wants a periodic balance summary. The CLI logs in with an SMS verification code and stores only the session cookie; this skill guides the code hand-off, interprets the JSON output, and explains what to do when the session expires.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ctexcel-usage-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

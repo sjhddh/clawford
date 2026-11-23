@@ -1,0 +1,54 @@
+{
+  "skillId": "didit-kyc-onboarding",
+  "displayName": "didit-kyc-onboarding",
+  "description": "Use when writing backend or API-key integration code for end-to-end KYC (Know Your Customer) onboarding of real users through a hosted Didit verification link. Use when someone needs to perform KYC, onboard users with ID scan + selfie + face match, create a KYC workflow or a verification session for a user, add AML screening, NFC chip reading, phone or email verification, active liveness, non-document lookup or digital ID wallets to the flow, poll or receive the decision, or approve, decline or request resubmission of a session. Creates the workflow, generates the verification URL and reads the decision.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:didit-kyc-onboarding"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

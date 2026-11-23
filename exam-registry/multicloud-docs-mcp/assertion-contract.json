@@ -1,0 +1,49 @@
+{
+  "skillId": "multicloud-docs-mcp",
+  "displayName": "Multi-cloud Docs",
+  "description": "Agent skill for official cloud and AI documentation via MCP. Covers Microsoft Learn, AWS, Google Cloud, Cloudflare, OpenAI and Anthropic. Use for service limits, APIs, SDKs, CLI commands, regional availability or explicit documentation verification. One HTTP call per lookup; no API key except Google.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:multicloud-docs-mcp"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

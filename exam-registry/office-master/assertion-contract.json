@@ -1,0 +1,54 @@
+{
+  "skillId": "office-master",
+  "displayName": "office-master",
+  "description": "办公效率技能库：覆盖 Office/PDF 与 Markdown 双向转换、专业演示设计与 PPT 编程自动化四大能力，并附文档样式与演示大纲的确定性检查脚本；另提供办公品牌与模板上下文记忆，让多次产出保持统一版式。 当用户说\"Word 转 Markdown\"、\"Markdown 转 PPT\"、\"文档转换\"、\"演示设计\"、\"PPT 自动化\"、\"样式检查\"、\"记住品牌与模板偏好\"、\"办公上下文\"时触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:office-master"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "artworklady-digitizing",
+  "displayName": "artworklady-digitizing",
+  "description": "Artwork Lady embroidery-digitizing intake adapter — post a digitizing job into the Art work Lady portal (https://www.artworklady.com), which has no API. A Playwright driver logs in, opens the \"Embroidery Digitizing\" tab on the /placeorder form, fills the fields (job reference, turnaround, file type, color scheme, message), attaches 1–3 files, and — only when told to — clicks Send and confirms the job posted by watching the real order_form_submit response. Use when a decoration needs to be sent out for digitizing: \"send this decoration to Artwork Lady\", \"post the digitizing job\", \"submit to the digitizer\". It is a THIN PORTAL ADAPTER and touches no ERP: give it a job reference, the field values, and local file paths, and it returns a structured result. Pair it with a routine that polls Odoo `digitize.demand` (or `decoration`), downloads the attachments to disk, calls this skill, and updates the record on success. Submitting is gated behind `confirm: true`; the default is a dry run that fills and validates the form but posts nothing. A `fetch` command also downloads the FINISHED files back from `/orders` by job reference (the return leg), returning the DST path — by scraping our own order row so a job-number collision can't fetch the wrong file.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:artworklady-digitizing"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

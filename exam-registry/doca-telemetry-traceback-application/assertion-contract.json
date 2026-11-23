@@ -1,0 +1,49 @@
+{
+  "skillId": "doca-telemetry-traceback-application",
+  "displayName": "doca-telemetry-traceback-application",
+  "description": "Use this skill when the operator is driving the DOCA Telemetry Traceback application to monitor telemetry data locally on a BlueField DPU or ConnectX NIC, detect long-term trends and threshold breaches with user-defined rules, and capture pre-event history plus active-event data to a log file. Trigger even when the user does not explicitly mention \"DOCA Telemetry Traceback\" — typical implicit phrasings include \"monitor telemetry trends on the DPU without streaming all raw data\", \"log the samples before and after a threshold breach\", \"set up a rule that triggers when rx bytes/s exceeds 1M\", \"differential greater than rule on a data ID\", \"circular buffer of telemetry samples\", or \"traceback event log\". Refuse and route elsewhere: the DOCA Telemetry Diag programming API and raw counter reads to doca-telemetry, DOCA install/bring-up to doca-setup, and version questions to doca-version.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-telemetry-traceback-application"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

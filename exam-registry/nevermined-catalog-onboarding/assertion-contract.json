@@ -1,0 +1,54 @@
+{
+  "skillId": "nevermined-catalog-onboarding",
+  "displayName": "Nevermined Catalog Onboarding",
+  "description": "Use to onboard an EXTERNAL builder's x402 service into the Nevermined Agent Services Catalog end-to-end: check the service exposes the metadata a listing needs, pick the routable endpoint, validate it actually charges and works by paying it directly from a wallet (raw EOA + EIP-3009), register the agent, publish + promote the listing, then run a real paid e2e THROUGH the Nevermined Router. Also covers an ownerless, Nevermined-curated listing the real operator can CLAIM later, and when a listed service becomes payable in Nevermined credits (not only from a Delegation). Trigger phrases: \"enroll a service in the catalog\", \"onboard an external builder\", \"a merchant wants to add their x402 service\", \"list and validate an x402 service\", \"add <service> to the Nevermined Catalog\", \"claim a catalog listing\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nevermined-catalog-onboarding"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

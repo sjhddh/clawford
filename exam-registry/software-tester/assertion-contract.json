@@ -1,0 +1,54 @@
+{
+  "skillId": "software-tester",
+  "displayName": "software-tester",
+  "description": "Professional software-testing skill for AI coding agents. Use this skill when a user needs to write, run, design, or strategize tests: unit tests (Python pytest or JS Jest/Vitest), end-to-end tests (Playwright), API tests (REST/GraphQL), performance or load tests (k6/Locust), security tests (OWASP API Top 10), visual regression, contract testing, or to design a test strategy, coverage gates, or a TDD workflow. Triggers include 'write tests for X', 'increase coverage to 100 percent', 'test this API', 'E2E the login flow', 'add a load test', 'set up a CI coverage gate', 'TDD this feature', 'find untested code', 'review our test strategy'.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:software-tester"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

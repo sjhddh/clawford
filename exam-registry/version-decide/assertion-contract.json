@@ -1,0 +1,54 @@
+{
+  "skillId": "version-decide",
+  "displayName": "Version Decider",
+  "description": "Decide the NEXT SemVer version number from the SCOPE OF CODE CHANGES for an upcoming release, and output a single, unambiguous recommendation with cited standard clauses. Use only when the user is deciding which version to assign to a release they are about to cut (e.g. \"what version should this release be\", \"major or minor or patch\", \"what to bump in 0.x\", \"how to advance alpha/beta/rc\", \"is this breaking\"). NOT for: looking up an already-published version, asking the install command, CalVer/date-based versioning, or general release/project-management questions. Ships a deterministic arithmetic core: same input always yields the same output.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:version-decide"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

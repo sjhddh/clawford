@@ -1,0 +1,54 @@
+{
+  "skillId": "seo-checker",
+  "displayName": "TutorGPT SEO Checker",
+  "description": "Check SEO compliance of any domain page based on internal SEO standards and page launch checklist, generating a visual HTML report. Automatically extracts domain from URL, supports production and test environments. Trigger keywords: check SEO, SEO check, check page SEO, page SEO compliance, SEO report. Activate when user provides a page URL and requests SEO compliance check.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seo-checker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

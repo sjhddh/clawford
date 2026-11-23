@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-vpn-connection-list",
+  "displayName": "huawei-cloud-vpn-connection-list",
+  "description": "1. Inventory Huawei Cloud VPN gateways and their IPSec connections in one region through KooCLI (hcloud VPN ListVgws — read-only GET /v5/{project_id}/vpn-gateways, and hcloud VPN ListVpnConnections — read-only GET /v5/{project_id}/vpn-connection), with an automatic fallback to the official huaweicloudsdkvpn v5 SDK when hcloud is not installed. 2. Three output modes: a compact per-gateway list (default) that renders every non-UP connection in a dedicated troubleshooting section, --table (two tables: 9 gateway columns and 7 connection columns, non-UP connections split into their own table), and --json. 3. Filters: --name (+ --fuzzy) on gateway or connection names, --gateway-id drilldown (also sent server-side as vgw_id), client-side --status on connection state (e.g. --status DOWN), and --region (default cn-north-4). 4. limit (1-100) plus automatic page_info.next_marker paging for ListVpnConnections; ListVgws is a single unpaged call. 5. Built-in write-intent guard: every mutating intent (create / update / delete a gateway or connection, reset a connection, update the PSK, tag changes, SSL VPN server or user management) is rejected before execution — this skill is strictly read-only. PSK material is never read, printed or persisted. 6. Triggers include: \"vpn connection list\", \"list vpn connections\", \"VPN网关列表\", \"查询VPN连接\", \"哪些VPN连接DOWN\", \"ipsec connection status\", \"VPN 隧道未协商\", \"vpn gateway inventory\". 7. Offline unit tests (mocked hcloud subprocess + fake SDK client) cover output modes, filters, marker paging, error classification, the SDK fallback, PSK stripping and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-vpn-connection-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

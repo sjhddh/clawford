@@ -1,0 +1,54 @@
+{
+  "skillId": "gtrk-cover",
+  "displayName": "gtrk 封面工作台",
+  "description": "封面工作台——把一期视频的封面从「设计诊断 + 文生图 Prompt」到「H5 排字工作台一键导出多尺寸 PNG」两阶段做完。阶段一产诊断与三尺寸中英双版 Prompt（用户拿去 Midjourney / Flux / SDXL / Nano Banana / 即梦 / 可灵 / 通义万相 等任意文生图平台抽图），阶段二收齐背景图后产可拖拽排字的单文件 H5 工作台、浏览器里导出原分辨率 PNG。这是**纯创作 skill、无 gtrk 命令**（抽图在外部平台、排字在用户浏览器，同 /gtrk-ai-drama）。当用户想「做封面 / 出封面 / 封面 prompt / 封面排版 / 封面工作台 / cover」时使用本 skill。通用封面工艺（两阶段交付 / T1 字数布局路由 / Prompt 槽位 / 工作台引擎）由本 skill 自持；栏目封面审美（色板 / 字体 / 意象体系 / T1 样本）从栏目配置 style.skills 里 produces==\"cover\" 的条目解析注入，绝不硬编某栏目风格。凡给成片配封面，优先用本 skill，别手搓 prompt、别让用户裸排版。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:gtrk-cover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

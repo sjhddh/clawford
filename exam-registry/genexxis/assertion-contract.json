@@ -1,0 +1,54 @@
+{
+  "skillId": "genexxis",
+  "displayName": "Genexxis pay-per-call data APIs",
+  "description": "Pay-per-call data APIs for AI agents, no API key or account: each call is paid in USDC on Base via x402 (AgentCash CLI, any x402 client, MCP, or prepaid credit). Use when a task needs live data or a check you cannot do locally: crypto wallet sanctions screening (OFAC, EU, UK, UN), token honeypot, tax and scam-risk checks, crypto and DEX prices, perp funding, DeFi yields, gas, Polymarket and Kalshi odds, SEC EDGAR filings and XBRL financials, Federal Register, company profile by domain, web page to markdown, web search, HTML tables to JSON, images for vision LLMs, email validation, CVE and package vulnerability scans, GitHub Actions and Dockerfile lint, domain security and SEO audits, prompt-injection checks, government yields, policy rates and FX. 109 endpoints from $0.002 per call, with exact URLs, prices and runnable examples.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:genexxis"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

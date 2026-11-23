@@ -1,0 +1,54 @@
+{
+  "skillId": "lgpd-incident-response",
+  "displayName": "lgpd-incident-response",
+  "description": "Execute the LGPD security incident response runbook (Art. 48 LGPD + Resolução CD/ANPD nº 15/2024). Trigger IMMEDIATELY in emergency mode when user reports \"tivemos um incidente\", \"vazamento de dados\", \"data breach\", \"invadiram o banco\", or \"preciso comunicar a ANPD\"; or run in preparatory mode during an audit pipeline. Encodes the 3-business-day deadline (6 for eligible ATPPs), the 12 mandatory ANPD items, the 7 data-subject items, and the 5-year incident log under Art. 10.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:lgpd-incident-response"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

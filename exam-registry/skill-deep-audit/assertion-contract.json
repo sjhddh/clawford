@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-deep-audit",
+  "displayName": "skill-deep-audit",
+  "description": "Generic skill-quality auditor for any agent skill (Claude, OpenClaw, Cursor, etc.). Runs a 7-dimension static analysis (D1 process closure & idempotency, D2 tool/command conventions, D3 portability & defense, D4 skill usability, D5 security & op risk, D6 code & doc quality, D7 dependency & footprint) with explicit ERR / WARN severity, 120-point scoring (pass line 90 + zero ERR), and an opt-in `--fix` workflow that always backs up first. Two depths: L1 static (~2 min) and L2 dryRun (~5 min, read-only hub + reachability checks). Strict red lines — read-only by default, never executes the audited skill's writes. Use when the user asks to \"audit a skill\", \"check skill quality\", \"is this skill ready to ship\", \"lint my skill\", or runs this tool by name. Triggers also: \"审计这个 Skill\"、\"检查 Skill 质量\"、\"Skill 能上线吗\"、 \"skill-deep-audit\"、\"审一下 xxx skill\"。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-deep-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "measurement-verification",
+  "displayName": "measurement-verification",
+  "description": "度量与校验体系维护——三判据口径（预判命中/想法落地/能力证据）、consistency_check.py 一致性检查、三道防线（蒸馏⑥优化后/收工⑧/22:30 保底自动化）、扩展指引（新增检查组/改措辞必同步关键词）。触发词：度量口径、一致性检查、口径漂移、consistency check、度量体系、收工保底、三判据。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:measurement-verification"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

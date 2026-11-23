@@ -1,0 +1,54 @@
+{
+  "skillId": "nodo-reddit-buyer-radar",
+  "displayName": "Reddit Buyer Radar",
+  "description": "Every morning, find fresh Reddit threads where people ask for what the user sells, and draft a helpful reply for each one to approve. Use when the user wants customers from Reddit, asks \"where are people asking for a product like mine\", or wants community marketing that runs daily instead of once. Runs on Nodo (always-on computer, logged-in browser) over MCP; new workspaces get 5,000 free credits.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:nodo-reddit-buyer-radar"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

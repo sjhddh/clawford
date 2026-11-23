@@ -1,0 +1,54 @@
+{
+  "skillId": "proxq",
+  "displayName": "proxq",
+  "description": "Go, Redis-backed async HTTP proxy queue (built on asynq). POST any HTTP request (any method, any path, any body) to a configured upstream, get a job ID back instantly (202), a worker forwards it later, you poll GET /__jobs/{id} for status (queued/running/completed/failed) and GET /__jobs/{id}/content for the replayed upstream response (status/headers/body). DELETE /__jobs/{id} cancels. Path-prefix routing to multiple upstreams, per-upstream timeout/retries/pathFilter, optional response caching (memory or Redis LRU), automatic direct-proxy bypass for WebSocket/chunked/large-body requests. No built-in auth. Use when the user wants to turn a slow/unreliable backend into a fire-and-forget async API, decouple a client from upstream latency, relay webhooks with retries, or queue heavy uploads/processing jobs behind short-timeout reverse proxies.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:proxq"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

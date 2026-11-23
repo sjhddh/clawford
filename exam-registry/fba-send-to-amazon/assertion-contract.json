@@ -1,0 +1,54 @@
+{
+  "skillId": "fba-send-to-amazon",
+  "displayName": "FBA Send to Amazon",
+  "description": "Create FBA inbound plans (Send to Amazon) via SP-API v2024-03-20 — identical-box packing for an even multi-warehouse split and $0 placement fee, carrier booking (Amazon SEND, partnered or your own), box-label download and square-sticker formatting. Use when asked to send inventory to FBA, create an inbound plan/shipment, book a freight carrier for an inbound, or print box labels. Triggers, send to amazon, STA, inbound plan, FBA shipment, box label, placement fee, Amazon SEND, partnered carrier, FBA发货, 创建入库计划, 箱唛.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:fba-send-to-amazon"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "tender-bid-tracker",
+  "displayName": "招投标项目追踪｜招标中标标讯进度查询",
+  "description": "追踪具体招投标项目进度：从项目标题、公告链接或ID查询招标、中标与合同等阶段标讯，梳理变更、候选人和最终结果，核实关键日期、采购方及来源。适用于项目时间线查询和多阶段记录核对；不自动持续监控，不替代标书编写或完整投标决策。基于知了标讯API，需平台Key及积分。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tender-bid-tracker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

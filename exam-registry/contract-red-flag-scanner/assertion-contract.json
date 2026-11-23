@@ -1,0 +1,54 @@
+{
+  "skillId": "contract-red-flag-scanner",
+  "displayName": "contract-red-flag-scanner",
+  "description": "Use when signing or reviewing any contract you haven't fully read — apartment lease, employment offer, Terms of Service, gym/phone subscription, freelancer agreement — and before paying a lawyer for a first pass: scans plain-text contract text for 20+ high-risk clause patterns (auto-renewal traps, arbitration and class-action waivers, one-sided termination penalties, liability caps, unilateral amendment rights, non-competes, fee schedules), infers the contract type, produces a risk-ranked findings report with plain-language explanations and the exact questions to ask the other side, plus a missing-clause checklist of protections that SHOULD be present but aren't.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:contract-red-flag-scanner"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

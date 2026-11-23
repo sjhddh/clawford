@@ -1,0 +1,54 @@
+{
+  "skillId": "circuit-breaker-manager",
+  "displayName": "circuit-breaker-manager",
+  "description": "MCP依赖图与熔断器管理器v1.0,注册MCP依赖关系并拓扑排序,管理熔断器状态机(closed/open/half_open)与Bulkhead隔离舱,自动失败计数与恢复探测。触发:依赖注册/熔断检查/状态查询/熔断重置/级联故障分析/部署后验证",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:circuit-breaker-manager"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

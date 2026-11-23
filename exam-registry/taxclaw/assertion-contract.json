@@ -1,0 +1,54 @@
+{
+  "skillId": "taxclaw",
+  "displayName": "taxclaw",
+  "description": "Turn tax documents (W-2, 1099-NEC/INT/DIV/B/MISC/OID/R/G/K, 1099-DA, K-1, consolidated 1099s; PDF or image) into structured JSON/CSV for accountants and tax software, locally by default. Use when the user wants to extract, read, parse or export the data on a tax form, find fields that need review, or choose a model for that. Does not prepare or file returns and is not tax advice.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taxclaw"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

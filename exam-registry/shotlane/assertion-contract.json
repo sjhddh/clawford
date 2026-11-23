@@ -1,0 +1,49 @@
+{
+  "skillId": "shotlane",
+  "displayName": "shotlane",
+  "description": "Screenshot any public web page, read pages as clean Markdown (JavaScript rendered), and render HTML or URLs to PDF using the Shotlane API. Use when the user wants to see what a website looks like, check a deployed page or layout on desktop/mobile, capture a page or element as an image, extract an article or docs page as text for analysis, or produce a PDF (invoices, reports) from HTML.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:shotlane"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "taskflow-clawhub-upload-runbook",
+  "displayName": "TaskFlow ClawHub Upload Runbook",
+  "description": "Step-by-step runbook for pairing TaskFlow (business process orchestration) with ClawHub (skill registry ingestion) to publish a digital skill artifact to the ClawHub resource center. Use when you need a repeatable, auditable process-to-upload pipeline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:taskflow-clawhub-upload-runbook"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

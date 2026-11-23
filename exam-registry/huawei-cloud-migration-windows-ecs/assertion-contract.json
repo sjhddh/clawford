@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-migration-windows-ecs",
+  "displayName": "huawei-cloud-migration-windows-ecs",
+  "description": "华为云 SMS（Server Migration Service）Windows 主机迁移到 ECS 的自动化编排 Skill。 支持 Windows Server 2008/2008R2/2012/2012R2/2016/2019/2022/2025 及 Win7/8.1/10/11（64位）。 公网/私网迁移模板与环境变量模板 + 前置任务提醒（未设置 Host_Information/migration_* 时 明确提示客户先配置环境变量再迁移）；双 CLI（unified_migrate.py 部署 Agent + sms_task.py 目标/迁移任务/同步/割接）+ 环境清理编排： KooCLI 7.2.x 实测兼容（BatchStartServers 等效割接、EVS 磁盘校验 fallback、sync/cutover 枚举不支持自动回退）、 批量迁移主机信息从环境变量 Host_Information（JSON 模板）读取（原 CSV 兼容回退）、 部署前必清源端（CleanupSourcePhase）、cleanup_environment.py（先打通 gost 再清源端/代理）、 私网 Squid/gost 代理（CONNECT 仅迁移端口）、资源属主体系（OwnerID 指纹）、71+ 安全规则（含红线 O1-O6）、 目标编排自动创建数据盘（1:1）、任务名 ≤16 防 SMS.7711。 触发词：Windows迁移、SMS迁移、迁移Windows服务器、Windows to ECS、migrate Windows、 Windows server migration、批量迁移、公网迁移、私网迁移、创建目标虚拟机、创建迁移任务、host-migration、清理环境",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-migration-windows-ecs"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

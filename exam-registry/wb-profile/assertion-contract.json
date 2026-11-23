@@ -1,0 +1,54 @@
+{
+  "skillId": "wb-profile",
+  "displayName": "wb-profile",
+  "description": "微博用户主页采集工具。当用户提供微博博主主页链接，需要采集该博主发布的微博列表——微博正文、转发数/评论数/点赞数、发布时间、微博链接（原创与转发都会采集并保留转发关系），导出结果 CSV（Excel 直开），或提到\"微博主页/博主微博/达人微博列表/微博账号采集\"时使用本 skill。适合达人筛选、博主内容盘点、竞品账号监测、KOL 背调等场景。支持 weibo.com/u/<用户ID>、/profile/<用户ID> 直链与 t.cn 短链。**一页（约 20 条）= 1 点数；预扣按页数、结算按实采量退差；零结果或失败全额返还（注册送 10 点）。**",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:wb-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

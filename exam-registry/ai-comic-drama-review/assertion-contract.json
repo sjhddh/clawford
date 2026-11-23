@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-comic-drama-review",
+  "displayName": "ai-comic-drama-review",
+  "description": "审核、评估、诊断、修改和复审 AI 漫剧、动态漫、漫画短剧、漫剧或短剧剧本，并生成 Markdown 与独立 HTML 审核报告。覆盖内容合规风险筛查、剧作质量、漫剧视觉化适配、分集节奏与钩子、角色与场景一致性、镜头可生成性及 AI 制作成本。用户提到“漫剧剧本审核”“剧本评估”“剧本诊断”“看看这个漫剧剧本”“过审风险”“AI 制作可行性”“漫剧修改意见”“复审报告”，或要求同时输出剧本审核 MD/HTML 时使用；也适用于用户提供分集大纲、人物小传、分场剧本或分镜表后的综合评审。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-comic-drama-review"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

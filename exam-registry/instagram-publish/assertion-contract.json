@@ -1,0 +1,54 @@
+{
+  "skillId": "instagram-publish",
+  "displayName": "instagram-publish",
+  "description": "Use when publishing images to Instagram via the Graph API from a Creator or Business account. Triggers when the user wants to automate Instagram posting, push an image with caption to their account, set up Instagram API access for the first time, or troubleshoot Instagram Graph API errors like \"Media download has failed\" or \"Unsupported post request\". Assumes one-time Meta App setup is complete and an Access Token is available.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:instagram-publish"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "apify-local-business-audit",
+  "displayName": "apify-local-business-audit",
+  "description": "Audit the local businesses of an area to find the ones worth prospecting — list them from Google Maps with free listing verdicts (reputation, missing website, unclaimed listing, no online booking) and optional AI qualification (digital maturity, independent vs chain, size, price tier, fit with your ideal customer), pull their Google reviews, analyze the reviews per business (sentiment, praised and criticized themes, serious complaints, complaints left without a reply, 90-day trend), add emails and social profiles from each business's website, and deliver one scored CSV row per business. Use when the user says \"audit the restaurants / dentists / gyms in <city>\", \"which local businesses have bad reviews they never answer\", \"find shops without a website in <area>\", \"prospect list of independent businesses with no online booking\", \"analyze the Google reviews of these places\", \"reputation audit for local businesses\", or wants a Google Maps → reviews → review analysis → contacts pipeline with cost control.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:apify-local-business-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

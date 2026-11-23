@@ -1,0 +1,54 @@
+{
+  "skillId": "goal-coverage",
+  "displayName": "goal-coverage",
+  "description": "Find what your goal needs that the workspace has not built: once a week a deployed agent reads the company goal, takes stock of every play, agent, model and connector in the workspace, and suggests at most five missing pipelines from the published catalog, each opened with what it noticed (\"thousands of accounts, none scored\"), as a pull request you can decline lines in and a Slack post. Triggers: \"what should we be running\", \"what are we missing for our goal\", \"suggest new plays for our goal\", \"which pipelines should we set up next\", \"we have 25 plays and do not know which 5 matter\", \"tell us what to build, do not wait to be asked\". Cargo project, defineAgent, harness claudeCode, catalog.json, plan/company-plan.md, Slack. Skip when: you want existing initiatives graded against last week's runs, which is weekly-planning; or something deployed is failing, which is workspace-health.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:goal-coverage"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

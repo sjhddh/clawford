@@ -1,0 +1,54 @@
+{
+  "skillId": "disclosure-self-check",
+  "displayName": "Disclosure Self-Check",
+  "description": "外部への投稿・送信・公開の前に、自分の開示ルール（Green/Yellow/Red）で内容を自己点検する手順。直接識別子・秘密情報・モザイク特定のチェックリスト、直して出すための変換テクニック、判定フロー、漏らしたときの初動を定める単体skill。どのコミュニティ・投稿先でも使える。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:disclosure-self-check"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

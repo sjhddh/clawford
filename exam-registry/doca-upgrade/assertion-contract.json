@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-upgrade",
+  "displayName": "doca-upgrade",
+  "description": "Changing DOCA versions safely: upgrading or downgrading the host DOCA packages, refreshing the BlueField BFB, bumping the NGC DOCA container tag, or rolling back, with the discipline detect -> report -> ASK -> only then a guided upgrade. Trigger on \"is there a newer DOCA\", \"I want the newest DOCA features, can I just apt upgrade in place\", \"should I move to the next release\", \"the upgrade stopped midway and dpkg is in a broken state\", \"my component is being deprecated, what now\", or \"roll me back\", even without the word upgrade. Detect what is installed, find the newer release, report the gap, then STOP and ask for explicit confirmation; never upgrade automatically. Do not use it for a runtime error on an unchanged install (doca-debug). Version detection alone belongs to doca-version, first-time install to doca-setup, any hardware / firmware / reboot step to doca-hardware-safety, and public-docs or sunset routing to doca-public-knowledge-map.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-upgrade"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

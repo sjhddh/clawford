@@ -1,0 +1,54 @@
+{
+  "skillId": "read-everything-or-else",
+  "displayName": "read-everything-or-else",
+  "description": "Force exhaustive, verifiable reading of whatever the user points at, instead of skimming and pretending. Use when the user says to read the whole repo, the whole book, the whole doc set, every file, every section, one item at a time, with nothing skipped. Turns the vague act of reading into a checklist plus a ledger plus a coverage audit: scan.py enumerates every unit (file, line range, page, media item) into a manifest; each unit gets checked off with a verbatim quote that the script greps back against the source file, so paraphrased or invented quotes fail on the spot; audit.py blocks any claim of completion until coverage is 100 percent. Includes fourteen named skimming cheats with their countermeasures, rules for non-text material (images, video, PDF, web pages), and context-window discipline for material larger than one session.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:read-everything-or-else"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

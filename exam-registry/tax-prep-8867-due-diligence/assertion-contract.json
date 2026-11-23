@@ -1,0 +1,54 @@
+{
+  "skillId": "tax-prep-8867-due-diligence",
+  "displayName": "Tax Prep — Refundable-Credit Due-Diligence (Form 8867)",
+  "description": "Activate when: preparing any return claiming EITC, CTC/ACTC/ODC, AOTC, or Head-of-Household status; onboarding a paid-preparer workflow; a reviewer says 'did we document due diligence?', 'are we 8867-covered?', 'EITC audit risk.'. Do NOT activate when: no refundable credit / HOH is claimed; the return is self-prepared with no paid preparer; the question is purely tax-law calculation (use a calc tool, not this). More: deciqai.com/c/tax-prep-8867-due-diligence",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tax-prep-8867-due-diligence"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "skillId": "commerceai-shopping",
+  "displayName": "CommerceAI Shopping",
+  "description": "Search the US product catalog, compare products, and answer product questions through the CommerceAI MCP tool `shopping_agent`. Use when the user wants to find, compare, or ask about products to buy, such as \"earbuds under $50\" or \"compare these two\". Not for carts, orders, checkout, coupons, or markets other than US.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:commerceai-shopping"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

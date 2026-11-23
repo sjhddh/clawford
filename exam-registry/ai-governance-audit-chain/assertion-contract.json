@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-governance-audit-chain",
+  "displayName": "AI Governance Audit Chain（AI 留痕与门禁）",
+  "description": "Give your AI an identity, an evidence trail, and a gate. Every task gets a registry entry (who, what, on what authority), every step leaves a verifiable record (what changed, where the proof is, how to recompute it), and every high-risk action must pass a gate first. Use for AI overreach, runaway agents, unsourced AI conclusions, automation needing human approval, audit trails, accountability chains, and prompt-injection defense. 「AI 改了我的文件，怎么查是谁改的？」「AI 自动帮我发邮件、发帖，怎么拦住？」「让 AI 干活，怎么留痕？」 装上它，AI 会先给自己立三条规矩：每个任务建籍（谁在干、干什么、依据什么）、每步操作留证（改了什么、证据在哪、怎么复算）、 关键动作设门禁（对外发送、删除覆盖、付款下单之前先过闸）。适用于 AI 越权操作、智能体乱来、AI 结论没标来源、 自动化流程要人工审批、合规审计要留痕、事后追责要证据链、提示词注入防范、AI 可靠性提升。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-governance-audit-chain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

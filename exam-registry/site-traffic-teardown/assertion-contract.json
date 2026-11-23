@@ -1,0 +1,54 @@
+{
+  "skillId": "site-traffic-teardown",
+  "displayName": "site-traffic-teardown",
+  "description": "Competitor traffic and SEO teardown for any website, using AIsa data (Similarweb traffic and channel mix, Semrush keywords/backlinks/organic competitors, Ahrefs DR) for a few dollars instead of Ahrefs + Semrush subscriptions. Finds competitors, screens them by traffic, pulls a side-by-side table, then reads it into growth-engine types and 3 concrete opportunities. Use when the user asks to tear down / 拆解 competitors of a site, compare traffic of several sites, find out how a competitor gets traffic, \"竞品流量\", \"竞品 SEO\", \"谁在抢我的流量\", \"这个站流量从哪来\", or wants a cheap Ahrefs/Semrush-style competitor report. Needs the `aisa` CLI signed in (AISA_API_KEY).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:site-traffic-teardown"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

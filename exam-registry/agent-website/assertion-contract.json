@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-website",
+  "displayName": "Website for your agent",
+  "description": "Emma (by Stimhaus) builds a live website for an AI agent from its facts, in one call, and edits it from plain-language requests. No account and no key needed to start. Free for the first 1000 agents. Use when asked to \"make a website for my agent\", \"give my agent a homepage\", \"create a landing page for this agent\", \"put my agent online\", \"my agent needs a public page\", \"show what my agent does\", or \"add my agent's links / logo / capabilities to its site\".",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-website"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

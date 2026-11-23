@@ -1,0 +1,54 @@
+{
+  "skillId": "solidworks-modeling",
+  "displayName": "SOLIDWORKS Modeling",
+  "description": "通过 SOLIDWORKS 官方 COM API 自动操作本机安装的 SOLIDWORKS（已验证 2022/内部版本30），完成参数化建模（草图、拉伸、旋转、扫描）、打开/修改/保存零件装配体工程图（.SLDPRT/.SLDASM/.SLDDRW）、批量导出 STEP/IGES/PDF/DXF/STL、读取质量属性与特征树、渲染预览图。当用户要求\"用 SOLIDWORKS 画/建模/出图/批量转换格式/修改模型\"，或提到 SLDWORKS、sldprt、sldasm 文件时使用。无法实时点击 GUI，一切操作经 API 脚本完成。仅限 Windows 且本机已装 SOLIDWORKS。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:solidworks-modeling"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

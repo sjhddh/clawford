@@ -1,0 +1,49 @@
+{
+  "skillId": "dexio-wiki-query",
+  "displayName": "Wiki Query (Dexio)",
+  "description": "Answer a question from an LLM wiki: find and read the relevant pages, answer with the page paths you relied on, check anything mutable at its original source, say plainly what the wiki does not cover, and file substantial answers back as query pages so the research compounds. Use when a person asks something the wiki may cover, or after an answer took real research.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:dexio-wiki-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

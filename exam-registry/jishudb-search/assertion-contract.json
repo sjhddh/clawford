@@ -1,0 +1,49 @@
+{
+  "skillId": "jishudb-search",
+  "displayName": "JishuDB Knowledge Search / JishuDB知识库检索助手",
+  "description": "查询 JishuDB 知识库和内部资料，适用于“查知识库”、/kb、 “有哪些文件”“这份文档讲了什么”“导入完成了吗”，基于真实结果作答并标注来源。 / Search existing JishuDB knowledge bases and internal documents, list files, read document contents, and check import status. Use for knowledge-base questions or /kb requests; answer from retrieved evidence with citations,",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:jishudb-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

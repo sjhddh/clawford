@@ -1,0 +1,49 @@
+{
+  "skillId": "batch-query",
+  "displayName": "批量快递物流查询技能",
+  "description": "小递查查（xdccy.com）批量快递物流查询技能，面向客户开箱即用。当用户需要注册小递查查账号并批量查询快递、或已注册后批量查物流/导出报表时使用。内置「无障碍注册引导」（自动拉起浏览器、页面分步横幅、自动填表，仅需客户完成短信验证码与滑块两步安全校验），注册后自动获取 API Key 并写入凭据，立即进入并发批量查询、聚合统计与多格式导出（JSON/CSV/TXT）。遇到无法自动解决的问题，统一给出会话内的自助排查步骤。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:batch-query"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "skill-builder",
+  "displayName": "skill-builder",
+  "description": "制作、修改、优化或审查 Skill 的通用技能，跨平台、不绑定特定 AI 生态。当用户想「把重复工作流/想法做成 skill」「帮我做个 skill」「优化/审查一个 skill」「这个 skill 触发不了帮我看看」，或提到 skill 制作、skill 优化、skill 评分时使用。即使对方没有明确说「skill」这个词，只要在描述一个想固化下来的重复流程，也主动使用本技能。Build, modify, optimize, or review skills; use when the user wants to turn a repetitive workflow or idea into a skill, or to improve/review an existing skill.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skill-builder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

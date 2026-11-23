@@ -1,0 +1,54 @@
+{
+  "skillId": "aws-agent-orchestrator-pro",
+  "displayName": "AWS智能体编排专业版",
+  "description": "AWS智能体编排专业版面向团队与企业生产环境，在免费版单智能体能力之上解锁三大高级能力：Orchestrator委托模式支持多智能体协作与内联/独立部署Agent混合编排；Gateway工具链将Lambda/REST/协议三种transport统一封装为可调用工具并自动注入鉴权；LTM长期记忆跨会话、跨Agent沉淀事实与决策。含企业级场景指南、完整FAQ与性能优化策略，覆盖从POC到生产的全路径.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:aws-agent-orchestrator-pro"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "pasm-cs-agent",
+  "displayName": "pasm-cs-agent",
+  "description": "Customer-service agents built on the PASM cognitive engine. CustomerServiceAgent answers only from knowledge facts (entries carrying a source) and applies a relevance gate that requires the match to land on the entry's title or tags - so it refuses to answer instead of answering the wrong thing (measured: true hits score 6.0-24.5 while a bogus hit via one incidental word scored 2.29). Complaint phrases in four classes are detected and escalated into salience-5 memory that small talk can never evict, returning escalation context for your notifier. Knowledge is ingested incrementally with content-fingerprint de-duplication, and each agent gets its own KB directory so multiple tenants on one host cannot leak into each other. Optional vendor-neutral LLM with automatic fallback to KB answering. Keywords: pasm, customer service, knowledge base, FAQ, escalation, offline.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:pasm-cs-agent"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

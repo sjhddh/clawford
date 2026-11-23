@@ -1,0 +1,54 @@
+{
+  "skillId": "am-i-using-too-many-tokens",
+  "displayName": "Am I using too many tokens? Executing or deliberating",
+  "description": "Am I using too many tokens? Am I spending tokens to refute myself instead of executing? Am I overthinking? Use this every ten turns on a long task, when a good first idea seems to be drifting, when several text-only turns have passed without a tool call, or when the user asks why this is taking so long. Classifies this session's assistant turns from the transcript into act, gather, repeat and deliberate, attributes output tokens, finds deliberation streaks and repeated identical calls. Returns exactly EXECUTING, RETURN_TO_PLAN or STOP_REPEATING with the next call. No plugin ledger needed. Do not use in the first three turns.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:am-i-using-too-many-tokens"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

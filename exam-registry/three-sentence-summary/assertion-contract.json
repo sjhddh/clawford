@@ -1,0 +1,49 @@
+{
+  "skillId": "three-sentence-summary",
+  "displayName": "three-sentence-summary",
+  "description": "This skill should be used when the user wants long content compressed into an extremely short summary — including phrases like \"三句话总结\", \"一句话说清\", \"太长不看\", \"简单说说\", \"结论是什么\", \"TL;DR\", \"sum it up in three sentences\". It compresses any article, meeting, or transcript into exactly three sentences.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:three-sentence-summary"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

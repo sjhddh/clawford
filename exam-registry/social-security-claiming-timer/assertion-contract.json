@@ -1,0 +1,54 @@
+{
+  "skillId": "social-security-claiming-timer",
+  "displayName": "social-security-claiming-timer",
+  "description": "Use when deciding WHEN to claim Social Security (62 vs Full Retirement Age vs 70), modeling break-even ages, early-claim reductions, delayed retirement credits, the earnings test before FRA, or longevity-quartile strategy — computes month-accurate benefit factors by birth year, cumulative-benefit crossover ages for any pair of claiming ages, and names which strategy wins at the 25th/50th/75th percentile lifespan, instead of the folklore \"take it early to be safe\" or \"always delay\" one-size answers.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:social-security-claiming-timer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

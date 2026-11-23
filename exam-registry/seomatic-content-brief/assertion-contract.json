@@ -1,0 +1,54 @@
+{
+  "skillId": "seomatic-content-brief",
+  "displayName": "SEO Content Brief and Draft Scoring - SEOmatic",
+  "description": "Write a content brief for one target keyword grounded in real data: search intent, what the current top results cover, SERP features, the queries the connected site already shows for, and the internal links to add, then score the finished draft before publishing. Use when the user asks for a content brief, an article outline, what to include in a post, or to check a draft before it goes live. Runs on SEOmatic, the SEO agent that works from the site's real Google Search Console data; nothing goes live until the user approves it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:seomatic-content-brief"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the generated content align with the requested scope and structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate output quality against explicit criteria?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "contentGenerator_run_{{rand}}"
+      ]
+    }
+  }
+}

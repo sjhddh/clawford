@@ -1,0 +1,54 @@
+{
+  "skillId": "computer-control",
+  "displayName": "computer-control",
+  "description": "Control the computer like a human: take screenshots, move/click the mouse, type text, press hotkeys, scroll, launch apps, and run AppleScript — via the dependency-free `tarsx` CLI (zero config, no API keys). Click windows by app name (`clickwin`), no pixel guessing. Cross-platform core with auto-detected backends: macOS first (cliclick/osascript/screencapture), Linux (xdotool), Windows (PowerShell). Non-ASCII text (Cyrillic, emoji) works out of the box via clipboard paste. Use when the user asks to open/close an app, click or type somewhere, take a screenshot, automate a GUI application, fill a desktop form, check what is on screen, or any GUI automation that shell/browser tools cannot reach. Ukrainian triggers: \"відкрий/закрий програму\", \"натисни\", \"набери\", \"зроби скріншот\", \"керуй комп'ютером\". Inspired by Agent TARS (GUI-first computer use), implemented natively.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:computer-control"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

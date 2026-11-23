@@ -1,0 +1,54 @@
+{
+  "skillId": "socialkit-whatsapp-templates",
+  "displayName": "SocialKit WhatsApp Templates",
+  "description": "Drafts WhatsApp Business message templates (marketing, utility, authentication), validates them, and submits them to Meta for review through the official WhatsApp Cloud API after the user approves. Use when the user needs a WhatsApp template, wants to check template status or quality, or a broadcast needs a template that does not exist yet.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:socialkit-whatsapp-templates"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

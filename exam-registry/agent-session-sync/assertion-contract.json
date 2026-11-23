@@ -1,0 +1,54 @@
+{
+  "skillId": "agent-session-sync",
+  "displayName": "Session Sync 多Agent会话上下文搬家",
+  "description": "跨 Agent 会话同步（codex/hermes/dsh/zcode/workbuddy 等 agent → dsh 单向 + Markdown 归档）。当用户要\"同步会话 / 导入会话 / 迁移会话 / 把 X 的会话搬到 Y / 归档会话 / 在 dsh 里继续另一家的会话\"时使用。本目录即完整工具包：sync.py 为 CLI，AGENTS.md 为完整操作手册。 Cross-agent session sync — read chat history from 15+ AI coding agents (codex, Claude Code, openclaw, cursor, trae, Gemini CLI and more), import into dsh to continue conversations, plus Markdown archive export.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:agent-session-sync"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

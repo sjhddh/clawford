@@ -1,0 +1,49 @@
+{
+  "skillId": "linkfox-temu-order-global",
+  "displayName": "Temu全球站-订单",
+  "description": "Temu 全球站（非 US/EU）订单管理 API，经 LinkFox 网关转发 9 个 bg.order.* / temu.order.* / temu.local.order.* 接口，默认 site=global、tokenPurpose=order-shipping。当用户提到 Temu Global 订单、全球站订单列表、parentOrderSn、订单金额 V2、temu.order.amount.v2.query、合并发货、SN鉴真、verification upload 时触发。美国站用 linkfox-temu-order-us；欧洲站用 linkfox-temu-order-eu；商品用 linkfox-temu-manage-product-global；价格用 linkfox-temu-price-global。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:linkfox-temu-order-global"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

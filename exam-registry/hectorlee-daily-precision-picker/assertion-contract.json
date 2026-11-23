@@ -1,0 +1,54 @@
+{
+  "skillId": "hectorlee-daily-precision-picker",
+  "displayName": "hectorlee-daily-precision-picker",
+  "description": "每日精选1-3只股票的四层漏斗策略系统。从量价形态初筛池出发，依次通过量价二次过滤、基本面安全排雷、资金流向打分、板块与形态质量打分，最终输出精选股票，选不出则空仓。触发词：精选、每日优选、深度筛选、资金确认、精筛、4层漏斗。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hectorlee-daily-precision-picker"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

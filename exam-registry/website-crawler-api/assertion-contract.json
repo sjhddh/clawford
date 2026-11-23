@@ -1,0 +1,54 @@
+{
+  "skillId": "website-crawler-api",
+  "displayName": "Website Crawler API - Map, Crawl and Batch Extract to Markdown",
+  "description": "Crawl a whole website to clean Markdown, map every URL from its sitemap, or batch extract up to 1,000 URLs in one job. Crawl and batch run as jobs with a status URL or a signed webhook; map is 1 credit; each successful page is 1 credit (2 on ultra), failed pages are free. Robots.txt obeyed.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:website-crawler-api"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

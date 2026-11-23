@@ -1,0 +1,54 @@
+{
+  "skillId": "exotic-rental-cost",
+  "displayName": "exotic-rental-cost",
+  "description": "Work out what renting an exotic or luxury car really costs: the published daily rate plus deposit, mileage overage, insurance, delivery, taxes and fees, for your dates and route, compared with the market range for that model in that city. Triggers on \"how much to rent a Lamborghini for a day\", \"real cost of renting a Ferrari\", \"is $1,500 a day fair for a Cullinan\". Not for finding listings (use exotic-rental-finder).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:exotic-rental-cost"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

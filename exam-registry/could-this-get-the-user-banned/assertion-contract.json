@@ -1,0 +1,54 @@
+{
+  "skillId": "could-this-get-the-user-banned",
+  "displayName": "Could this get the user banned or charged?",
+  "description": "Could this get the user banned, charged, or exposed? Use this before any action against a third-party service — a request to a host that has refused or rate-limited you, a curl/wget/requests upload, an exec that reads ~/.ssh, .env or ~/.aws, a call to a per-request billed API (OpenAI, Anthropic, Twilio, SendGrid, Stripe, AWS), or a POST to a checkout, order, billing or subscribe path. Returns exactly OK, CAUTION or STOP with reasons; on STOP, ask the user before proceeding. Do not use for local file reads or GET requests to hosts that have been answering normally.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:could-this-get-the-user-banned"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

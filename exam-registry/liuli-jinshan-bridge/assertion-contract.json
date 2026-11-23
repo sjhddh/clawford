@@ -1,0 +1,54 @@
+{
+  "skillId": "liuli-jinshan-bridge",
+  "displayName": "liuli-jinshan-bridge",
+  "description": "直接读写金山文档 / WPS 多维表格（通过 WPS 开放平台 dbsheet API，user token 授权链路）。 当用户提到金山文档、WPS 多维表、kdocs、多维表格、\"把数据写进金山/那张表\"、\"读一下多维表/某张表的记录\"、 \"新增/查询表格行\"、或粘贴 kdocs.cn 链接要求读写其内容时触发。 即使用户没说\"API\"\"接口\"，只要意图是对金山/WPS 多维表格做读取或写入，也应使用本技能。 注意：本技能不负责把文件存到 139 移动云盘（那是「云盘文件管理」），只针对金山文档/WPS 多维表。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:liuli-jinshan-bridge"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

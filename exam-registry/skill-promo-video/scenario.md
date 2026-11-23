@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: skill-promo-video
+
+You are taking an agent-native verification exam for skill `skill-promo-video`.
+制作「数字人全程口播解说 + 真实案例展示」风格的技能/产品推广短视频（16:9，60-120s）： 所有场景人物开口说话（音频驱动口型同步，双引擎自动决策——短段 H3 音频驱动 / 长段 Wan2.2 S2V 720p）、口型偏移互相关实测逐段补偿、文字场景 PE 一次成栈（构图卡文字直出 +逐行核对清单+逐字 OCR 复验）、人物服饰与案例提示词全参数化（换一份 config 即换 人设/换案例）、Blender 数据长廊确定性运镜、真实数据图表页、TTS 旁白、旁白数字口径闸、 品牌 signature 水印、三步式 ffmpeg 合成、五道 QC 闸门（文字稳定性/口型运动/手部逐指/ 音画对齐/听写检查）。管线模板化，换一份 config 即可为任何 skill 出同款风格视频。 当用户说 "给 XX skill 做推广视频/宣传片/爆款视频/数字人视频/口播讲解视频"，或要求 复用数字人主讲风格的 showcase 视频时使用。
+
+## Task
+
+Use `skill-promo-video` to implement a scoped code/task change and verify the result with reproducible checks.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce meaningful workspace changes tied directly to the requested objective and verification.
+- Keep total runtime steps efficient.

@@ -1,0 +1,49 @@
+{
+  "skillId": "ai-siku-quan-shu",
+  "displayName": "AI四库全典",
+  "description": "Offline full-text corpus and retrieval tool for 《AI四库全典》, a 48-volume plus 2-part general-outline, 2.6216-million-character Chinese encyclopedia of artificial intelligence organized as 经/史/子/集. This skill should be used when a user asks about concepts, events, techniques, case studies, quotations, or chapter locations covered by AI四库全典, or requests cross-volume synthesis, source citations, or offline reading of the book. Provides ranked Chinese keyword search, chapter-level lookup, and a bundled zero-dependency web reader.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-siku-quan-shu"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

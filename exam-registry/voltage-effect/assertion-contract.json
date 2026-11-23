@@ -1,0 +1,54 @@
+{
+  "skillId": "voltage-effect",
+  "displayName": "voltage-effect",
+  "description": "Diagnoses whether a result that worked at small scale will keep working when scaled — by testing an idea against John List's five reasons ideas lose 'voltage' (false positives, unrepresentative population, unrepresentative situation, spillovers, and the supply-side cost trap) BEFORE committing to scale. Activate when: user says 'the pilot worked, let's roll it out', 'this crushed it in the beta', 'we're ready to scale', 'the unit economics will improve with volume', 'it worked in one city/market/segment', 'should we franchise / expand nationally', or wants to predict whether a promising early result will survive scaling. Do NOT activate when: the question is purely how to build scale infrastructure with no doubt the result generalizes (use economies-of-scale); the idea has already scaled and held, and you are optimizing a mature operation; or the decision has no scale step at all (a one-off, non-repeatable choice). More: deciqai.com/c/voltage-effect",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:voltage-effect"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

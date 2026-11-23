@@ -1,0 +1,54 @@
+{
+  "skillId": "tencent-news-hotspot",
+  "displayName": "实时新闻热点",
+  "description": "当用户要求按领域或频道汇总腾讯新闻热点精选内容时使用，例如「聚合近期财经股票热点新闻」「帮我汇总下今天的体育热点新闻」「整理下本周科技领域的重要新闻」。通过腾讯新闻 CLI 的 hotspot 命令按频道 pool_tag_id 拉取精选文章并整理输出；频道不支持、时间范围无法覆盖或无数据时如实说明。不用于实时比分、天气、早晚报、股票行情或事实核查。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:tencent-news-hotspot"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

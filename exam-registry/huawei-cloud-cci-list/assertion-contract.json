@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-cci-list",
+  "displayName": "huawei-cloud-cci-list",
+  "description": "1. List Huawei Cloud Cloud Container Instance (CCI) resources in a tenant region through KooCLI (hcloud CCI List* — read-only Kubernetes-style GET operations): namespaces (ListCoreV1Namespace, GET /api/v1/namespaces), pods / instances (ListCoreV1PodForAllNamespaces, GET /api/v1/pods; ListCoreV1NamespacedPod, GET /api/v1/namespaces/{namespace}/pods) and workloads (ListAppsV1DeploymentForAllNamespaces, GET /apis/apps/v1/deployments; ListAppsV1NamespacedDeployment, GET /apis/apps/v1/namespaces/{namespace}/deployments). 2. Three output modes: key-field table (default, 名称/命名空间/状态/副本/创建时间 等关键字段), --json (raw Kubernetes objects) and --names-only (compact namespace/name inventory). 3. Supports --resource namespace|pod|deployment, --namespace scoping, --name (client-side substring), --label-selector / --field-selector (real Kubernetes server-side query parameters), a region override and automatic continue-token paging. 4. Explicit error hints for empty resource lists (「当前区域无 CCI 资源」), 403 / insufficient IAM permission (「无权限访问云容器实例（CCI）」), missing or invalid AK/SK credentials, and hcloud not installed. 5. Built-in write-intent guard: any mutating intent (create / delete / patch / replace / apply / scale / restart / pod exec / ...) or any operation other than the five read-only List operations is rejected before execution — this skill is strictly read-only. 6. Triggers include: \"list CCI namespaces\", \"CCI 命名空间列表\", \"CCI Pod 列表\", \"CCI 实例列表\", \"query CCI resources\", \"CCI 日常巡检\", \"CCI 盘点\", \"list cci pods\", \"cloud container instance inventory\", \"华为云CCI列表\". 7. Offline unit tests (mocked hcloud subprocess) cover routing, output modes, filters, paging, error scenarios and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-cci-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

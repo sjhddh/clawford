@@ -1,0 +1,54 @@
+{
+  "skillId": "evidence-association-pitfalls",
+  "displayName": "evidence-association-pitfalls",
+  "description": "AI Agent \"关键信息关联缺失\"错误模式库。Agent 手握足以推导正确结论的信息， 却未建立关联，转而套用外部模板、惯性标签或默认常识。本 skill 提供与近邻错误 （未调档/幻觉）的区分谱系、4 类高频触发场景（含脱敏案例）、输出前检测信号 清单与 5 条可执行预防规则。适用于：AI agent 对话质量改进、错误模式归档、 多项目语境下的行为校准、给 agent 写系统提示词时的反模式参考。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:evidence-association-pitfalls"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

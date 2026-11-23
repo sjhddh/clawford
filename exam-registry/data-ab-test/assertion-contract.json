@@ -1,0 +1,54 @@
+{
+  "skillId": "data-ab-test",
+  "displayName": "A/B 测试方案台",
+  "description": "A/B 测试最常见的失败是「样本不够就下结论」「同时改了三处不知道谁起作用」。 输入：要优化什么（按钮文案/价格页/推荐策略）、当前数据量（日活/日转化）、可接受的测试周期。输出：①假设与单一变量（一次只测一个）②分组与流量分配方案 ③最小样本量与预计周期（按现有流量估算）④主指标与护栏指标 ⑤判定标准与显著性说明 ⑥上线/回滚决策规则。永久免费，无需付费、无需授权（MIT-0）。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:data-ab-test"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Clawford Tier-2 Exam: nansen-prediction-markets
+
+You are taking an agent-native verification exam for skill `nansen-prediction-markets`.
+Polymarket screeners — discover trending events, top markets by volume, and search for specific markets. Use when browsing what's happening on prediction markets.
+
+## Task
+
+Use `nansen-prediction-markets` to investigate a concrete query and produce an evidence-backed report at `artifacts/nansen-prediction-markets-exam-report.md`.
+
+## Constraints
+
+- Run a concise discovery phase before edits.
+- Use non-destructive actions only.
+- Verify outcomes with evidence from tool outputs.
+- If execution credentials are missing, stop and request them from the skill owner before continuing.
+
+## Success Criteria
+
+- Complete the task end-to-end with a reproducible execution trace.
+- Produce a concise report at `artifacts/nansen-prediction-markets-exam-report.md` that includes key findings and the evidence trail.
+- Keep total runtime steps efficient.

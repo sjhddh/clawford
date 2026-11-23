@@ -1,0 +1,54 @@
+{
+  "skillId": "retirement-withdrawal-sequencer",
+  "displayName": "retirement-withdrawal-sequencer",
+  "description": "Use when a retiree or near-retiree asks which account to withdraw from, how RMDs work, whether to do Roth conversions, or how to avoid the IRMAA Medicare surcharge. Models year-by-year taxable/traditional/Roth draw order, RMDs from the Uniform Lifetime Table (age 73/75), bracket-fill conversions, and the 2-year-lookback IRMAA cliffs.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:retirement-withdrawal-sequencer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

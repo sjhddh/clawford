@@ -1,0 +1,49 @@
+{
+  "skillId": "empiriolabs-search",
+  "displayName": "EmpirioLabs AI Search",
+  "description": "Search the web with EmpirioLabs AI and get current results, one answer with its sources, or a research report with citations. Use when the user asks to look something up online, to find recent news, documentation, or sources, to answer a question with citations, or to research a topic in depth. Runs a bundled Python script that picks a search model from the live catalog (or the one you name) and prints the results or saves them to the path you choose.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:empiriolabs-search"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

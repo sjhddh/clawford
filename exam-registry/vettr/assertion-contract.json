@@ -1,0 +1,49 @@
+{
+  "skillId": "vettr",
+  "displayName": "Skill Vettr",
+  "description": "Static analysis scanner for third-party OpenClaw skills. Parses JS/TS with tree-sitter to flag eval/exec/spawn and obfuscation, checks package.json dependencies and lifecycle scripts, checks manifest metadata for typosquatted or blocked names, matches prompt-injection and credential-path patterns in every scanned text file (code, Markdown, JSON, YAML, TXT; prompt-injection checks include code comments), and lists literal fetch() URLs. Optional autoVet (off by default) hooks skill:pre-install and can block an install or ask the user to approve it. Local scans need no network; /skill:vet-url downloads over HTTPS (public hosts only) and /skill:vet-clawhub runs the clawhub CLI. Use when vetting a skill before installing it.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:vettr"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

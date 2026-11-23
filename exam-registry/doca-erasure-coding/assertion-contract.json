@@ -1,0 +1,54 @@
+{
+  "skillId": "doca-erasure-coding",
+  "displayName": "doca-erasure-coding",
+  "description": "Hardware-offloaded erasure coding with DOCA Erasure Coding (Reed-Solomon, doca_ec) on a BlueField DPU, ConnectX NIC, or host: generating parity for data blocks, rebuilding lost blocks from the survivors, and refreshing parity after a change. Trigger on \"one data block changed, how do I refresh parity without re-encoding\", \"a disk failed and 2 parity blocks are gone, can I rebuild\", \"RAID-6 resilience across 12 disks\", \"my doca_ec_task_create returns NOT_PERMITTED\", or \"is this N+K layout still recoverable\", even without naming DOCA Erasure Coding. Covers bringing up a doca_ec context, the create / recover / update tasks, matrix type / N / K / block size, doca_ec_cap_* queries before sizing, doca_mmap src/dst permissions, and DOCA_ERROR_* from doca_ec_task_*. Refuse and route elsewhere for non-Reed-Solomon codes (fountain / LDPC / raptor), pure-replication designs, network FEC, or other DOCA accelerator libraries (SHA / Compress / AES-GCM / DMA).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doca-erasure-coding"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

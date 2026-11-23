@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-claim-compare",
+  "displayName": "专利比对",
+  "description": "专利比对、权利要求对比。当用户说「这两件专利有什么区别」「比一下这几件专利的权利要求」「我们的专利和对方的哪里不一样」「对比文件和本申请的区别特征」「特征比对表」时使用。输出技术特征比对表（Excel 能打开）。 Breaks the independent claims of 2 or 3 patents into technical features and compares them one by one, covering what is shared, what differs and whose scope is broader, as a feature comparison table.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-claim-compare"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

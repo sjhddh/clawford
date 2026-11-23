@@ -1,0 +1,54 @@
+{
+  "skillId": "arkcli-profile",
+  "displayName": "arkcli-profile",
+  "description": "arkcli profile 切面管理：列出、查看、新建、切换、删除、重命名 profile；管理 profile 内 API Key 列表；管理五类 profile 的默认资源与持久身份切面。也负责判断 Token 额度包/资源包应继续使用 platform profile 与 `/api/v3`，不能因「套餐」或价格字样误判为 Agent Plan/Coding Plan。临时 API Key/Base URL/Endpoint 调用不写回 profile，按 arkcli-shared 的 execution-context 契约执行。旧 config 子命令已 deprecated。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:arkcli-profile"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

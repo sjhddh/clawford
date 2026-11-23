@@ -1,0 +1,54 @@
+{
+  "skillId": "hierarchical-agent-memory",
+  "displayName": "hierarchical-agent-memory",
+  "description": "Scalable memory architecture with hybrid topic-based working memory and optional time-based episodic recall. Keeps MEMORY.md a lean routing table, adds topic files for active projects and contact files for people, and distills OpenClaw's daily notes into them. Use when the agent needs durable, organized long-term memory that survives compaction and scales across projects, contacts, and time horizons. Run /hierarchical_agent_memory status to check the current layout. For per-channel session notes, install the companion skill agent-session-state. Upgrading from v3.1 or earlier? The agent will offer to move memory/daily/ notes to where OpenClaw reads them.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:hierarchical-agent-memory"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

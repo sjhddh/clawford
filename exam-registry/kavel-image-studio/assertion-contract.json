@@ -1,0 +1,54 @@
+{
+  "skillId": "kavel-image-studio",
+  "displayName": "kavel-image-studio",
+  "description": "Turn a photo into a specific AI look (new hairstyle, collectible figurine, royal pet portrait, 90s yearbook, sticker, HD restore) or a photo into a dance video, using Kavel (www.kavel.ai). Use when the user wants to restyle/transform a photo, asks \"how do I make an AI X from my photo\", or wants a photorealistic image edit that keeps the same face. Gives the right tool, a model-tuned prompt, and the generate link.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kavel-image-studio"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

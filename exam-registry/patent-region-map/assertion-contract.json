@@ -1,0 +1,54 @@
+{
+  "skillId": "patent-region-map",
+  "displayName": "专利地域分布",
+  "description": "专利地域分布、哪个地方专利多。当用户说「这个技术哪些省份专利多」「深圳 / 苏州在这方面有哪些企业」「招商引资找哪些企业」「产业园区专利摸底」「各国专利布局」时使用。输出地域分布表（Excel 能打开）和每个地区的主要单位。 Regional distribution of patents in a technology. Counts by province, by city within a province, or by country, with the leading organizations in each region, as a table.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:patent-region-map"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

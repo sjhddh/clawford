@@ -1,0 +1,54 @@
+{
+  "skillId": "toddler-meltdown-decoder",
+  "displayName": "toddler-meltdown-decoder",
+  "description": "Use during or after a toddler meltdown (age ~1-4) — triages the trigger class from observed cues (hungry, tired, overstimulated, frustrated, sensory, connection-seeking, pain) with a ranked checklist, hands you the right de-escalation script per class and the words NOT to use mid-meltdown, flags pediatrician-level red flags (self-injury, breath-holding, total inconsolability), and keeps a pattern log that finds your child's time-of-day hotspots and recurring trigger chains so meltdowns get prevented, not just survived.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:toddler-meltdown-decoder"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "computer-automation",
+  "displayName": "computer-automation",
+  "description": "Run and create reusable browser and Windows desktop automations from an AI agent with AIVane (MCP): web scraping and data extraction to CSV, Excel or Google Sheets, form filling, signing in to portals and downloading reports or invoices, repeated price and stock checks, and Windows app steps. Use when the user wants to automate a repetitive computer task once and rerun it, run a saved AIVane automation, check or stop a run, read its outputs and files, or connect AIVane to Claude Code, Codex, Cursor, Hermes or OpenClaw. Do not use for writing Playwright, Selenium or Puppeteer code by hand, for one-off browsing you can do with your own browser tools, or for Android phone control over LAN (use the agent-android skill).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:computer-automation"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent execute the browser workflow deterministically with explicit checkpoints?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final browser state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "browserWorkflow_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "voice-cloning-voiceover",
+  "displayName": "Voice Cloning Voiceover · Clone Your Voice",
+  "description": "声音克隆、克隆声音配音、声音复刻技能：提供一段服务端可访问的本人参考音频 URL 和音频里实际说的话，直接用这个声音给任意文案配音；也可以使用账号里已经复刻好的角色（actor_id）。先单句试听对比 expressive / standard 两种生成模式，再整稿生成克隆声音配音 WAV、带时间轴 SRT 字幕和逐句 manifest.json；可加语气标签、调 0.25–4 倍语速。适合口播博主、解说号、讲师、播客和品牌固定声线。只克隆本人或已获授权的声音。由 Miragea 开放 API 生成，本地只需 Python 3.9+ 标准库、无需显卡，可 --dry-run 离线试跑；计费与限额以 capabilities 实时返回为准。适用于 Claude Code、Codex、OpenClaw、Cursor、WorkBuddy。Voice cloning, cloned voiceover, text to speech, SRT.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:voice-cloning-voiceover"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

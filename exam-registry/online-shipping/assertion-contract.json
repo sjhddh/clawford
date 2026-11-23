@@ -1,0 +1,54 @@
+{
+  "skillId": "online-shipping",
+  "displayName": "运费比价在线寄件快递上门取件",
+  "description": "寄件一条龙技能——登录 xdccy.com 后按发件/收件的省市区与重量，一次性列出多家快递公司的预估运费并比价；确认后可直接在线下单取件。支持把一整段「姓名+电话+地址」文本智能识别成省市区、详细地址与联系电话（对应官网 AddrRecognition 页）。还能查看「我的寄件」列表、查订单详情、取消未取件的寄件，以及提交与查看工单（含拦截转寄/退回），对应官网 DeliveryManage.aspx 与根目录 AddWorkPage/WorkOrderManage 页。支持单条与批量（CSV 输入输出），报价按价格升序展示并导出 JSON/CSV。地址支持口语化输入（\"广东 深圳 南山\"、",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:online-shipping"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

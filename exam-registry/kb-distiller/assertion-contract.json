@@ -1,0 +1,54 @@
+{
+  "skillId": "kb-distiller",
+  "displayName": "kb-distiller",
+  "description": "Use when the user wants to distill a programming domain into a reusable expert skill: 蒸馏/distill a domain knowledge base (e.g. /distill react, /distill vue), create or refresh a domain-expert skill, refine or backflow knowledge into an existing distilled skill, add a new domain config to the distiller, or run/extend the kb-distiller pipeline. Triggers: 蒸馏, distill, 知识库蒸馏, 领域 skill, skill 生成, kb-distiller, full-react-expert, 知识回流, refine.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:kb-distiller"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

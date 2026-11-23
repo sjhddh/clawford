@@ -1,0 +1,54 @@
+{
+  "skillId": "prove-it-works",
+  "displayName": "prove-it-works",
+  "description": "Before saying a coding task is done, fixed, working or passing, run the project's real tests, build, typecheck and lint, show the real output, and inspect the change for the quiet ways \"done\" is not done (skipped or weakened tests, test commands that cannot fail, swallowed errors, hardcoded results, files outside the task, broken project rules, debug leftovers, secrets, dependency and migration mistakes). Use it at the end of every coding task, before committing or opening a PR, and whenever someone asks \"did you test it?\", \"is it really done?\" or \"prove it\". Also use it when the person corrects a mistake (\"don't do that again\") to turn the correction into a rule checked on every later proof.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:prove-it-works"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

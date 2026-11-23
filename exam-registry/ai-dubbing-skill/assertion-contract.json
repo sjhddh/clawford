@@ -1,0 +1,54 @@
+{
+  "skillId": "ai-dubbing-skill",
+  "displayName": "AI Dubbing Skill",
+  "description": "AI dubbing for videos, made on the user's own computer by their AI agent: transcribes the speech, proofreads it, translates it for the ear and the clock, speaks it in another language with a free local voice (Kokoro or Piper: Spanish, Portuguese, French, Italian, German, Dutch, Polish, Hindi and more) or the user's own ElevenLabs key (any language, or their own cloned voice), fits every line into the time the speaker took, mixes it over the original sound, burns in captions in the new language, and posts each language to its own TikTok, Reels or Shorts account through WoopSocial after a yes, with the AI-voice label on. Use when someone says \"AI dubbing\", \"dub my video\", \"dub this into Spanish\", \"translate my video with voice\", \"video translator\", \"voice over in another language\", \"multilingual channel\", \"reach Spanish or Brazilian viewers\" or \"post my videos in other languages\". No paid API needed. Standalone.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:ai-dubbing-skill"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

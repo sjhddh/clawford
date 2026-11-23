@@ -1,0 +1,54 @@
+{
+  "skillId": "stranger-suite",
+  "displayName": "stranger-suite",
+  "description": "Test whether your documentation actually works for a stranger. Fresh-Eyes follows a project's README exactly, like a brand-new user, and reports the exact step where a real person would give up (missing dependency, missing file, wrong command). Stranger API gives an agent only your API docs and one job, and reports every place the docs alone were not enough. Use when asked to test a README, check getting-started or setup instructions, onboard-test a project, or verify API documentation is complete. Not for code review, security scanning (use skillscan for AI-agent skills), or performance and load testing — this suite tests instructions and documentation, not the code itself.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:stranger-suite"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

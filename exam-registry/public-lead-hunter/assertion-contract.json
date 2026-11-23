@@ -1,0 +1,49 @@
+{
+  "skillId": "public-lead-hunter",
+  "displayName": "公域线索猎手",
+  "description": "当用户需要执行以下任一操作时使用此技能：在抖音按关键词搜索视频并按点赞/时间/时长筛选、获取指定抖音创作者的全部公开作品列表、抓取某条抖音视频或图文的评论数据、获取抖音实时热搜榜单。输出结构化 JSON 数据，可直接用于销售线索跟进、竞品分析报表、热点营销决策。即使用户只提供了关键词或视频链接而未说明用途也应触发。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:public-lead-hunter"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent gather relevant evidence before concluding?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the final report trace conclusions back to observable evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 55"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "readOnlyResearch_run_{{rand}}"
+      ]
+    }
+  }
+}

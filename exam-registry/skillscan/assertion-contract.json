@@ -1,0 +1,54 @@
+{
+  "skillId": "skillscan",
+  "displayName": "SkillScan by RakTikoo",
+  "description": "Scan an AI-agent skill or MCP server folder for malicious or risky behaviour before installing it — credential and SSH key reads, data exfiltration, network sends, hidden instructions, obfuscation, and install-time tricks in code, scripts and manifests. Use when asked to scan, vet, audit or check a skill, plugin or MCP server before installing it, when a skill looks suspicious, or when reviewing a SKILL.md someone shared. Not for general security review of ordinary code projects, for checking CI workflow files (use ci-command-truth), or for checking package dependencies in a pull request (use phantomdep-pr-gate).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:skillscan"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

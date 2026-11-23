@@ -1,0 +1,54 @@
+{
+  "skillId": "doc-writer",
+  "displayName": "doc-writer",
+  "description": "文档编写专家子技能。当需要编写或创建工程文档时使用：五类核心 PRD/DESIGN/ADR/PROGRESS/RETRO + 知识笔记 TECH + 三种支撑文档 PERSONA/RUNBOOK/ROADMAP，以及 14 类扩展专业模板——需求规格 REQ-SPEC、用户故事 USER-STORY、API 契约、UI 规格、业务流程、DDD 领域设计、开发规范、逆向分析、测试计划/报告、部署指南、变更日志、交接单、交付摘要，共 23 个超详细专业模板。触发词：写文档、编写 PRD、写需求规格、写设计文档、记录架构决策、写 ADR、定义 API 契约、写测试计划、写部署文档、建模板、补充文档。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:doc-writer"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

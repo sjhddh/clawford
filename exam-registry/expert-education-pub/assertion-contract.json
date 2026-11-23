@@ -1,0 +1,54 @@
+{
+  "skillId": "expert-education-pub",
+  "displayName": "教育培训机构专家",
+  "description": "教育培训机构专家，一个技能覆盖这一类 4 个子技能——课时核销核对、课时消耗与教师课时费核对、教培课消与预收学费核对、学费与退费核对。贴一张表进来，自动分诊到对应的子技能并给出逐条结论（带原文行号、可复算），材料不足时如实说\"缺哪些列\"，绝不给结论。触发词包括 教育培训机构专家、课时核销核对、课时消耗与教师课时费核对、教培课消与预收学费核对、学费与退费核对。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:expert-education-pub"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent implement the requested change with minimal unrelated edits?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify behavior changes instead of relying on intuition?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "codeModifier_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "deep-research-discipline",
+  "displayName": "deep-research-discipline",
+  "description": "Evidence-first workflow for multi-source deep research: requires cited sources, three-state confidence labels, cross-validation, and an independent review gate. Use when asked to research a topic in depth, verify claims across several sources, compare options, or produce a cited report. Tool-agnostic; needs only search, page fetch, and file read/write. Not for quick lookups, single-source summaries, or real-time data.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:deep-research-discipline"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "leafather-report-audit",
+  "displayName": "Report Number Audit（数鉴-报告审计）",
+  "description": "数鉴-报告审计技能。做报告时就用：算数即记账，交付前对账。两条路产同一本账本——①有指标定义（ledger.yaml + indicators.yaml）→ rla_ledger 生成账本，模板里写 [[id]] 渲染，数字天生带出处、数据变了拒绝渲染；②有脚本跑数 → rla_report 录像自动记账。审计时把报告数字逐个追溯回账本，追不到即拦；覆盖率不足不许判定通过。适用三时机：出报告（算数记账）、改报告（改完拿现有账本重核，防只改一份漏其余）、查问题（数字对不上、客户质疑出处）。触发词：出数据报告、做报告、改报告、更新数据、数据补录、口径调整、重新生成报告、交付前检查、数字对不上、可追溯、审计报告。项目里已有 ledger.yaml / indicators.yaml 时，改动报告前后都应复核。产出四件套：audit.md 结论、audit.html 审计凭证、evidence.csv 证据清单、manifest.json 机检回执。不适用：改的是纯文字（不含数字）、或报告里没有需要追溯的指标。",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:leafather-report-audit"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent transform artifacts correctly and preserve important structure?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify transformed outputs before completion?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 60"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "fileTransformer_run_{{rand}}"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-obs-list-excel",
+  "displayName": "huawei-cloud-obs-list-excel",
+  "description": "1. List the OBS (Object Storage Service) buckets of a Huawei Cloud account through the KooCLI obsutil-backed OBS module (`hcloud OBS ls`, the read-only ListBuckets operation), with an automatic fallback to the official huaweicloudsdkobs v1 SDK (`ObsClient.list_buckets`) when hcloud is not installed. 2. Export the bucket list into a well-formed local `.xlsx` workbook via openpyxl (headers 桶名称 / 创建时间 / 区域 / 存储类别 / 桶策略, optional summary row) — strictly local file generation, nothing is ever written back to OBS. `--output` sets the file path (default `obs_buckets_<region>_<timestamp>.xlsx`). 3. Three output modes: `--format xlsx` (default) / `table` / `json`. Region aware: `--region` (default cn-north-4) selects the OBS endpoint; optional `--endpoint` overrides it. `--page-size` caps the returned count. 4. Explicit error classification: missing AK/SK credentials (「缺少 AK/SK 凭证」), hcloud not installed (falls back to SDK, else a clear hint), invalid/insufficient credentials (403 / InvalidAccessKeyId → IAM hint), and generic API/network failures. Empty bucket lists produce a friendly hint and never a corrupt .xlsx. 5. Built-in write-intent guard: any mutating intent (create / delete / upload / download / copy / remove / restore / sync / modify …) or any operation other than the read-only `ls` is rejected before execution — this skill is strictly read-only. 6. Triggers include: \"查询 OBS 生成 Excel\", \"OBS 桶列表导出 Excel\", \"obs excel\", \"导出 OBS 桶列表为 Excel\", \"桶列表报表\", \"桶清单 Excel\", \"OBS bucket list excel\", \"export OBS buckets to excel\", \"桶报表\". 7. Offline unit tests (mocked hcloud subprocess) cover output modes, parsing, xlsx format correctness, empty lists, error classification, SDK fallback, and the write-intent guard.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-obs-list-excel"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent validate API outcomes instead of assuming success?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent preserve evidence for request/response behavior and error handling?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 70"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "apiOperator_run_{{rand}}"
+      ]
+    }
+  }
+}

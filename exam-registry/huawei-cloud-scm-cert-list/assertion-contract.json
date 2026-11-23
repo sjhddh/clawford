@@ -1,0 +1,54 @@
+{
+  "skillId": "huawei-cloud-scm-cert-list",
+  "displayName": "huawei-cloud-scm-cert-list",
+  "description": "1. Inventory the Huawei Cloud SCM (SSL Certificate Manager / 云证书管理服务) certificates of the current account in one region, strictly read-only. Primary path: KooCLI `hcloud SCM ListCertificates` (read-only GET /v3/scm/certificates); when hcloud is unavailable or fails, fall back to the official `huaweicloudsdk` SCM SDK (huaweicloudsdkscm). 2. Output modes: a compact list of 证书名称 | 绑定域名 | 到期时间 (default), a full 8-column table with --table (证书ID / 名称 / 域名 / 类型 / 状态 / 到期时间 / 剩余天数 / region), and --json for the raw merged response body. 3. Filters: --content (certificate name / bound domain / SAN, server-side and client-side), --expiring N (client-side \"expires in at most N days\"), --expired-days-since N (server-side), --enterprise-project-id, --region (default cn-north-4). 4. Pagination: --limit 10/20/50 with automatic offset+limit paging until the whole certificate inventory is collected (--max-pages safety cap). 5. Built-in read-only guard: any mutating intent (create / delete / update / import / push / deploy / revoke / renew / buy ...) is rejected before execution with exit code 1 — this skill never writes to SCM. 6. Explicit error hints for an empty certificate list, 403 / missing `scm:cert:list` permission, missing credentials, missing hcloud, network failures and KooCLI [USE_ERROR] — always without a traceback. 7. Triggers include: \"list SSL certificates\", \"SSL 证书列表\", \"证书盘点\", \"查询证书\", \"哪些证书快到期\", \"证书到期巡检\", \"SCM 证书\", \"证书类型 DV OV EV\", \"ssl cert inventory\", \"list scm certificates\", \"华为云证书\". 8. Offline unit tests cover routing, pagination, output modes, filters, error classification and the write-intent guard (mock hcloud subprocess + fake SDK client).",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:huawei-cloud-scm-cert-list"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}

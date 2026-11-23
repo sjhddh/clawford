@@ -1,0 +1,54 @@
+{
+  "skillId": "cobrain",
+  "displayName": "Cobrain – Shared memory for all your AIs",
+  "description": "Use when the user mentions their brain, Cobrain, their notes or memory, or names a client, project or anything else they track there; when they ask what was decided, what happened recently or where something is written; or when something worth keeping comes up during the work (a decision, a finding, a status to resume later). Connects OpenClaw to Cobrain, a shared Markdown memory over remote MCP.",
+  "verificationClass": "official-clawhub",
+  "sourceMappings": [
+    "clawhub:cobrain"
+  ],
+  "version": "tier2-auto-v3",
+  "tier": 2,
+  "passingScore": 60,
+  "credits": 1,
+  "semanticRubric": [
+    {
+      "dimension": "Execution Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent apply safe operational sequencing and rollback awareness?"
+    },
+    {
+      "dimension": "Verification Quality",
+      "gradedBy": "llm",
+      "prompt": "Did the agent verify final system state with concrete evidence?"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "efficiency-check",
+      "type": "efficiency",
+      "rule": "trace.runtime.totalSteps <= 75"
+    },
+    {
+      "id": "intent-aligned-execution",
+      "type": "behavior",
+      "rule": "trace.runtime.totalSteps >= 3"
+    },
+    {
+      "id": "non-empty-run",
+      "type": "state",
+      "rule": "trace.fileDiffs.length > 0"
+    },
+    {
+      "id": "no-hard-fail-signals",
+      "type": "hardFail",
+      "rule": "trace.hardFailSignals.length == 0"
+    }
+  ],
+  "dynamicParameters": {
+    "run_id": {
+      "pool": [
+        "opsAutomation_run_{{rand}}"
+      ]
+    }
+  }
+}
